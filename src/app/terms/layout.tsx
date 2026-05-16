@@ -1,32 +1,27 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Terms of Service — TestCEFR',
+  title: 'Terms of Service',
   description:
-    'Review the terms of service for using the TestCEFR English proficiency assessment platform.',
+    'Read the TestCEFR Terms of Service to understand your rights and responsibilities when using our AI-powered English proficiency assessment platform.',
+  keywords: [
+    'terms of service',
+    'terms and conditions',
+    'user agreement',
+    'TestCEFR terms',
+    'legal terms',
+    'platform usage',
+  ],
   openGraph: {
-    title: 'Terms of Service — TestCEFR',
+    title: 'Terms of Service | TestCEFR',
     description:
-      'Review the terms of service for using the TestCEFR English proficiency assessment platform.',
-    url: 'https://www.testcefr.com/terms',
-    siteName: 'TestCEFR',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Terms of Service — TestCEFR',
-    description:
-      'Review the terms of service for using the TestCEFR English proficiency assessment platform.',
+      'Understand your rights and responsibilities when using the TestCEFR AI-powered English proficiency assessment platform.',
   },
   alternates: {
     canonical: 'https://www.testcefr.com/terms',
   },
 };
 
-export default function TermsLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function TermsLayout({ children }: { children: React.ReactNode }) {
   return children;
 }

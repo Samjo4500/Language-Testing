@@ -1,32 +1,27 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'About TestCEFR — AI-Powered English Assessment',
+  title: 'About TestCEFR',
   description:
-    'Learn about TestCEFR, the AI-powered English proficiency assessment platform aligned with the CEFR framework.',
+    'Learn about TestCEFR — democratizing English proficiency assessment through AI technology. Our mission is to make accurate, affordable CEFR certification accessible to everyone worldwide.',
+  keywords: [
+    'about TestCEFR',
+    'CEFR assessment platform',
+    'AI English test',
+    'English proficiency assessment',
+    'language testing technology',
+    'online English certification',
+  ],
   openGraph: {
-    title: 'About TestCEFR — AI-Powered English Assessment',
+    title: 'About TestCEFR',
     description:
-      'Learn about TestCEFR, the AI-powered English proficiency assessment platform aligned with the CEFR framework.',
-    url: 'https://www.testcefr.com/about',
-    siteName: 'TestCEFR',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'About TestCEFR — AI-Powered English Assessment',
-    description:
-      'Learn about TestCEFR, the AI-powered English proficiency assessment platform aligned with the CEFR framework.',
+      'Democratizing English proficiency assessment through AI technology. Make accurate, affordable CEFR certification accessible worldwide.',
   },
   alternates: {
     canonical: 'https://www.testcefr.com/about',
   },
 };
 
-export default function AboutLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AboutLayout({ children }: { children: React.ReactNode }) {
   return children;
 }

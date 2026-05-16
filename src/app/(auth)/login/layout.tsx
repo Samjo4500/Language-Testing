@@ -1,32 +1,30 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Login — TestCEFR',
+  title: 'Sign In',
   description:
-    'Sign in to your TestCEFR account to access your assessments and certificates.',
+    'Sign in to your TestCEFR account to continue your English proficiency journey. Access your assessments, certificates, and progress dashboard.',
+  keywords: [
+    'login',
+    'sign in',
+    'TestCEFR account',
+    'English test login',
+    'assessment login',
+  ],
   openGraph: {
-    title: 'Login — TestCEFR',
+    title: 'Sign In | TestCEFR',
     description:
-      'Sign in to your TestCEFR account to access your assessments and certificates.',
-    url: 'https://www.testcefr.com/login',
-    siteName: 'TestCEFR',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Login — TestCEFR',
-    description:
-      'Sign in to your TestCEFR account to access your assessments and certificates.',
+      'Sign in to your TestCEFR account to access your assessments, certificates, and progress dashboard.',
   },
   alternates: {
     canonical: 'https://www.testcefr.com/login',
   },
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
-export default function LoginLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function LoginLayout({ children }: { children: React.ReactNode }) {
   return children;
 }

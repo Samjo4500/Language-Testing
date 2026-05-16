@@ -1,32 +1,27 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Listening Assessment — TestCEFR',
+  title: 'English Listening Test',
   description:
-    'Assess your English listening comprehension with our AI-powered test. Understand conversations, lectures, and natural speech.',
+    'Sharpen your English listening comprehension with our AI-powered CEFR-aligned listening assessment. From casual conversations to academic lectures, get an accurate A1–C2 level rating.',
+  keywords: [
+    'English listening test',
+    'CEFR listening assessment',
+    'listening comprehension',
+    'English listening skills',
+    'online listening test',
+    'AI listening assessment',
+  ],
   openGraph: {
-    title: 'Listening Assessment — TestCEFR',
+    title: 'English Listening Test | TestCEFR',
     description:
-      'Assess your English listening comprehension with our AI-powered test. Understand conversations, lectures, and natural speech.',
-    url: 'https://www.testcefr.com/listening',
-    siteName: 'TestCEFR',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Listening Assessment — TestCEFR',
-    description:
-      'Assess your English listening comprehension with our AI-powered test. Understand conversations, lectures, and natural speech.',
+      'Sharpen your English listening comprehension with our AI-powered CEFR-aligned assessment. Get an accurate A1–C2 level rating.',
   },
   alternates: {
     canonical: 'https://www.testcefr.com/listening',
   },
 };
 
-export default function ListeningLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function ListeningLayout({ children }: { children: React.ReactNode }) {
   return children;
 }

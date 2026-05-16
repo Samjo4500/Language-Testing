@@ -1,32 +1,27 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy — TestCEFR',
+  title: 'Privacy Policy',
   description:
-    'Read our privacy policy to understand how TestCEFR handles your data and protects your privacy.',
+    'Read the TestCEFR Privacy Policy to understand how we collect, use, and protect your personal information. We are fully committed to GDPR compliance and data security.',
+  keywords: [
+    'privacy policy',
+    'data protection',
+    'GDPR compliance',
+    'TestCEFR privacy',
+    'data security',
+    'personal information',
+  ],
   openGraph: {
-    title: 'Privacy Policy — TestCEFR',
+    title: 'Privacy Policy | TestCEFR',
     description:
-      'Read our privacy policy to understand how TestCEFR handles your data and protects your privacy.',
-    url: 'https://www.testcefr.com/privacy',
-    siteName: 'TestCEFR',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Privacy Policy — TestCEFR',
-    description:
-      'Read our privacy policy to understand how TestCEFR handles your data and protects your privacy.',
+      'Understand how TestCEFR collects, uses, and protects your personal information. Fully GDPR compliant.',
   },
   alternates: {
     canonical: 'https://www.testcefr.com/privacy',
   },
 };
 
-export default function PrivacyLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function PrivacyLayout({ children }: { children: React.ReactNode }) {
   return children;
 }

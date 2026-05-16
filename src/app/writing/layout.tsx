@@ -1,32 +1,28 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Writing Assessment — TestCEFR',
+  title: 'English Writing Test',
   description:
-    'Test your English writing skills with AI evaluation. Receive detailed feedback on grammar, coherence, and vocabulary usage.',
+    'Excel in English writing with our AI-powered CEFR-aligned assessment. Evaluate coherence, grammar, vocabulary, and structure — get a precise A1–C2 rating with actionable feedback.',
+  keywords: [
+    'English writing test',
+    'CEFR writing assessment',
+    'writing skills',
+    'English writing evaluation',
+    'grammar check',
+    'AI writing assessment',
+    'English essay test',
+  ],
   openGraph: {
-    title: 'Writing Assessment — TestCEFR',
+    title: 'English Writing Test | TestCEFR',
     description:
-      'Test your English writing skills with AI evaluation. Receive detailed feedback on grammar, coherence, and vocabulary usage.',
-    url: 'https://www.testcefr.com/writing',
-    siteName: 'TestCEFR',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Writing Assessment — TestCEFR',
-    description:
-      'Test your English writing skills with AI evaluation. Receive detailed feedback on grammar, coherence, and vocabulary usage.',
+      'Excel in English writing with our AI-powered CEFR-aligned assessment. Evaluate coherence, grammar, vocabulary, and structure for an accurate A1–C2 rating.',
   },
   alternates: {
     canonical: 'https://www.testcefr.com/writing',
   },
 };
 
-export default function WritingLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function WritingLayout({ children }: { children: React.ReactNode }) {
   return children;
 }

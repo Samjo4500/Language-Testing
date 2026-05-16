@@ -1,32 +1,28 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Speaking Assessment — TestCEFR',
+  title: 'English Speaking Test',
   description:
-    'Evaluate your English speaking skills with AI-powered assessment. Get feedback on fluency, pronunciation, and coherence.',
+    'Perfect your English speaking skills with our AI-powered assessment using advanced speech recognition. Evaluate pronunciation, fluency, and coherence for an accurate CEFR A1–C2 level rating.',
+  keywords: [
+    'English speaking test',
+    'CEFR speaking assessment',
+    'speaking skills',
+    'pronunciation test',
+    'English fluency test',
+    'AI speaking assessment',
+    'speech recognition English',
+  ],
   openGraph: {
-    title: 'Speaking Assessment — TestCEFR',
+    title: 'English Speaking Test | TestCEFR',
     description:
-      'Evaluate your English speaking skills with AI-powered assessment. Get feedback on fluency, pronunciation, and coherence.',
-    url: 'https://www.testcefr.com/speaking',
-    siteName: 'TestCEFR',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Speaking Assessment — TestCEFR',
-    description:
-      'Evaluate your English speaking skills with AI-powered assessment. Get feedback on fluency, pronunciation, and coherence.',
+      'Perfect your English speaking skills with our AI-powered assessment using advanced speech recognition. Get an accurate CEFR A1–C2 level rating.',
   },
   alternates: {
     canonical: 'https://www.testcefr.com/speaking',
   },
 };
 
-export default function SpeakingLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function SpeakingLayout({ children }: { children: React.ReactNode }) {
   return children;
 }

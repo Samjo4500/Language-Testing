@@ -1,39 +1,27 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Sample Certificate - TestCEFR | CEFR Proficiency Certificate Preview',
+  title: 'Sample Certificate',
   description:
-    'Preview a sample CEFR proficiency certificate from TestCEFR. Our QR-verified certificates are trusted by employers and institutions worldwide.',
+    'Preview a sample CEFR proficiency certificate from TestCEFR. Each certificate includes a QR verification code, skill breakdown, and is shareable with employers and institutions worldwide.',
   keywords: [
     'CEFR certificate sample',
-    'English proficiency certificate',
+    'sample English certificate',
     'QR verified certificate',
-    'CEFR level certificate',
-    'language certification preview',
+    'CEFR proficiency certificate',
+    'English test certificate',
+    'language certification',
   ],
   openGraph: {
-    title: 'Sample Certificate - TestCEFR',
+    title: 'Sample Certificate | TestCEFR',
     description:
-      'Preview a QR-verified CEFR proficiency certificate trusted worldwide',
-    url: 'https://www.testcefr.com/sample-certificate',
-    siteName: 'TestCEFR',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Sample Certificate - TestCEFR',
-    description:
-      'Preview a QR-verified CEFR proficiency certificate trusted worldwide',
+      'Preview a sample CEFR proficiency certificate with QR verification, skill breakdown, and professional design.',
   },
   alternates: {
     canonical: 'https://www.testcefr.com/sample-certificate',
   },
 };
 
-export default function SampleCertificateLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function SampleCertificateLayout({ children }: { children: React.ReactNode }) {
   return children;
 }

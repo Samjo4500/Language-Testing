@@ -1,32 +1,30 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Dashboard — TestCEFR',
+  title: 'Dashboard',
   description:
-    'View your CEFR assessment results, certificates, and test history.',
+    'Manage your CEFR assessment, view certificates, and track your English proficiency progress from your TestCEFR dashboard.',
+  keywords: [
+    'CEFR dashboard',
+    'English test dashboard',
+    'assessment management',
+    'certificate management',
+    'proficiency tracking',
+  ],
   openGraph: {
-    title: 'Dashboard — TestCEFR',
+    title: 'Dashboard | TestCEFR',
     description:
-      'View your CEFR assessment results, certificates, and test history.',
-    url: 'https://www.testcefr.com/dashboard',
-    siteName: 'TestCEFR',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Dashboard — TestCEFR',
-    description:
-      'View your CEFR assessment results, certificates, and test history.',
+      'Manage your CEFR assessment, view certificates, and track your English proficiency progress.',
   },
   alternates: {
     canonical: 'https://www.testcefr.com/dashboard',
   },
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return children;
 }
