@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/lib/auth-store';
-import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { User, LogOut, CreditCard, Menu, Shield, X, Sparkles } from 'lucide-react';
+import { User, LogOut, CreditCard, Menu, Shield, X, ArrowRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 const NAV_LINKS = [
@@ -36,7 +35,6 @@ export function Navbar() {
     setMounted(true);
   }, []);
 
-  /* Use false for isAuthenticated until client mounts to avoid hydration mismatch */
   const isAuth = mounted && isAuthenticated;
 
   useEffect(() => {
@@ -105,7 +103,7 @@ export function Navbar() {
           {isAuth && (
             <Link
               href="/test"
-              className={`text-sm px-3 py-1.5 rounded-lg transition-all duration-300 text-white/60 hover:text-white hover:bg-white/5`}
+              className="text-sm px-3 py-1.5 rounded-lg transition-all duration-300 text-white/60 hover:text-white hover:bg-white/5"
             >
               Take Test
             </Link>
@@ -173,12 +171,19 @@ export function Navbar() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Link href="/login">
-              <button className="flex items-center gap-2 rounded-xl px-5 py-2 bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-white text-sm font-medium transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 cursor-pointer">
-                <Sparkles className="h-3.5 w-3.5" />
-                Sign In
-              </button>
-            </Link>
+            <>
+              <Link href="/login">
+                <button className="text-sm text-white/60 hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-white/5 cursor-pointer">
+                  Sign In
+                </button>
+              </Link>
+              <Link href="/register">
+                <button className="group flex items-center gap-1.5 rounded-xl px-5 py-2 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-sm font-medium transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 cursor-pointer">
+                  Get Started
+                  <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                </button>
+              </Link>
+            </>
           )}
         </div>
 
@@ -245,10 +250,15 @@ export function Navbar() {
               </div>
             </>
           ) : (
-            <div className="pt-3 mt-2 border-t border-white/10 px-4">
+            <div className="pt-3 mt-2 border-t border-white/10 px-4 space-y-2">
               <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
-                <button className="w-full rounded-xl py-2.5 bg-gradient-to-r from-purple-600 to-purple-500 text-white text-sm font-medium">
+                <button className="w-full rounded-xl py-2.5 glass-button text-white text-sm font-medium">
                   Sign In
+                </button>
+              </Link>
+              <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
+                <button className="w-full rounded-xl py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 text-white text-sm font-medium">
+                  Get Started
                 </button>
               </Link>
             </div>

@@ -7,11 +7,14 @@ import {
   Sparkles, Award, Clock, BarChart3, Shield, Globe,
   CheckCircle2, QrCode, Headphones, Mic, PenTool,
   ArrowRight, Zap, Star, BookOpen, Users, TrendingUp,
-  FileCheck, Heart, AudioWaveform, Activity, Brain,
-  MessageSquareText, CirclePlay, Cpu, ClipboardCheck,
-  Play, Volume2
+  FileCheck, AudioWaveform, Activity, Brain,
+  MessageSquareText, Cpu, ClipboardCheck,
+  Play, Volume2, ChevronDown, ChevronRight,
+  Building2, CreditCard, Mail, Phone, MapPin,
+  Twitter, Linkedin, Github, HelpCircle,
+  Circle, CircleDot, Settings
 } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
 /* ======================================================
    SCROLL ANIMATION HOOK
@@ -46,7 +49,7 @@ function AnimatedSection({ children, className = '', delay = 0 }: { children: Re
 }
 
 /* ======================================================
-   FLOATING BACKGROUND ORBS — richer with more layers
+   FLOATING BACKGROUND ORBS
    ====================================================== */
 function BackgroundOrbs() {
   return (
@@ -55,60 +58,16 @@ function BackgroundOrbs() {
       <div className="orb orb-pink w-[500px] h-[500px] top-1/4 -right-24 animate-float-reverse" />
       <div className="orb orb-blue w-[350px] h-[350px] bottom-10 left-1/4 animate-float" />
       <div className="orb orb-cyan w-[200px] h-[200px] top-2/3 right-1/3 animate-float-slow" style={{ animationDelay: '2s' }} />
-      {/* Star particles */}
       <div className="absolute top-[15%] left-[55%] w-1 h-1 rounded-full bg-purple-300/60 animate-float" style={{ animationDelay: '0.5s' }} />
       <div className="absolute top-[30%] right-[25%] w-1.5 h-1.5 rounded-full bg-pink-300/40 animate-float-reverse" style={{ animationDelay: '1.5s' }} />
       <div className="absolute bottom-[35%] left-[20%] w-1 h-1 rounded-full bg-blue-300/50 animate-float" style={{ animationDelay: '3s' }} />
       <div className="absolute top-[50%] left-[40%] w-0.5 h-0.5 rounded-full bg-white/40 animate-float-slow" style={{ animationDelay: '2s' }} />
-      <div className="absolute top-[70%] right-[15%] w-1 h-1 rounded-full bg-violet-300/40 animate-float" style={{ animationDelay: '4s' }} />
     </div>
   );
 }
 
 /* ======================================================
-   ROTATING TEXT
-   ====================================================== */
-const ROTATING_SKILLS = ['Listening', 'Speaking', 'Writing', 'Grammar', 'Vocabulary', 'Reading'];
-
-function RotatingSkillText() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [visible, setVisible] = useState(true);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    const interval = setInterval(() => {
-      setVisible(false);
-      setTimeout(() => {
-        setCurrentIndex((prev) => (prev + 1) % ROTATING_SKILLS.length);
-        setVisible(true);
-      }, 400);
-    }, 2000);
-    return () => clearInterval(interval);
-  }, []);
-
-  /* Render static text on server, animated on client — avoids hydration mismatch */
-  if (!mounted) {
-    return (
-      <span className="inline-block" style={{ minWidth: '180px' }}>
-        <span className="gradient-text">{ROTATING_SKILLS[0]}</span>
-      </span>
-    );
-  }
-
-  return (
-    <span
-      className={`inline-block transition-all duration-400 ${visible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 -translate-y-3 scale-95'}`}
-      style={{ minWidth: '180px' }}
-    >
-      <span className="gradient-text">{ROTATING_SKILLS[currentIndex]}</span>
-    </span>
-  );
-}
-
-/* ======================================================
    ANIMATED CEFR BADGE — borderless, floating, rotating levels
-   The signature visual element of the hero section
    ====================================================== */
 const CEFR_LEVEL_COLORS: Record<string, string> = {
   A1: '#3b82f6', A2: '#22c55e', B1: '#eab308', B2: '#f97316', C1: '#ef4444', C2: '#a855f7',
@@ -130,14 +89,13 @@ function AnimatedCEFRBadge() {
   const currentLevel = levels[activeLevel];
   const currentColor = CEFR_LEVEL_COLORS[currentLevel];
 
-  /* Static version for SSR */
   if (!mounted) {
     return (
-      <div className="relative flex items-center justify-center w-48 h-48 md:w-56 md:h-56">
+      <div className="relative flex items-center justify-center w-48 h-48 md:w-64 md:h-64">
         <div className="absolute inset-0 rounded-full opacity-20" style={{ background: `radial-gradient(circle, ${CEFR_LEVEL_COLORS.A1}40 0%, transparent 70%)` }} />
-        <div className="relative w-36 h-36 md:w-44 md:h-44 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(139,92,246,0.15) 0%, rgba(236,72,153,0.15) 100%)', boxShadow: '0 0 60px rgba(139,92,246,0.2), inset 0 0 30px rgba(139,92,246,0.1)' }}>
+        <div className="relative w-40 h-40 md:w-52 md:h-52 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(139,92,246,0.15) 0%, rgba(236,72,153,0.15) 100%)', boxShadow: '0 0 80px rgba(139,92,246,0.2), inset 0 0 40px rgba(139,92,246,0.1)' }}>
           <div className="text-center">
-            <div className="text-4xl md:text-5xl font-black" style={{ color: CEFR_LEVEL_COLORS.A1 }}>A1</div>
+            <div className="text-5xl md:text-6xl font-black" style={{ color: CEFR_LEVEL_COLORS.A1 }}>A1</div>
             <div className="text-[10px] text-white/40 mt-1 uppercase tracking-widest">CEFR Level</div>
           </div>
         </div>
@@ -146,11 +104,8 @@ function AnimatedCEFRBadge() {
   }
 
   return (
-    <div className="relative flex items-center justify-center w-48 h-48 md:w-56 md:h-56">
-      {/* Outer glow pulse */}
+    <div className="relative flex items-center justify-center w-48 h-48 md:w-64 md:h-64">
       <div className="absolute inset-0 rounded-full animate-pulse-slow" style={{ background: `radial-gradient(circle, ${currentColor}25 0%, transparent 70%)` }} />
-
-      {/* Rotating orbit ring */}
       <div className="absolute inset-2 rounded-full animate-spin-slow" style={{ border: `1px solid ${currentColor}20` }}>
         {levels.map((lvl, i) => {
           const angle = (i * 60 - 90) * (Math.PI / 180);
@@ -160,14 +115,14 @@ function AnimatedCEFRBadge() {
           return (
             <div
               key={lvl}
-              className="absolute w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-bold transition-all duration-500"
+              className="absolute w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold transition-all duration-500"
               style={{
                 left: `${x}%`,
                 top: `${y}%`,
                 transform: 'translate(-50%, -50%)',
                 background: i === activeLevel ? `${CEFR_LEVEL_COLORS[lvl]}30` : 'rgba(255,255,255,0.05)',
                 color: i === activeLevel ? CEFR_LEVEL_COLORS[lvl] : 'rgba(255,255,255,0.3)',
-                boxShadow: i === activeLevel ? `0 0 12px ${CEFR_LEVEL_COLORS[lvl]}40` : 'none',
+                boxShadow: i === activeLevel ? `0 0 16px ${CEFR_LEVEL_COLORS[lvl]}40` : 'none',
               }}
             >
               {lvl}
@@ -175,30 +130,22 @@ function AnimatedCEFRBadge() {
           );
         })}
       </div>
-
-      {/* Second orbit */}
       <div className="absolute inset-6 rounded-full animate-spin-reverse" style={{ border: `1px dashed ${currentColor}10` }} />
-
-      {/* Inner badge */}
       <div
-        className="relative w-36 h-36 md:w-44 md:h-44 rounded-full flex items-center justify-center transition-all duration-700"
+        className="relative w-40 h-40 md:w-52 md:h-52 rounded-full flex items-center justify-center transition-all duration-700"
         style={{
           background: `linear-gradient(135deg, ${currentColor}15 0%, rgba(236,72,153,0.1) 100%)`,
-          boxShadow: `0 0 60px ${currentColor}20, inset 0 0 30px ${currentColor}10`,
+          boxShadow: `0 0 80px ${currentColor}20, inset 0 0 40px ${currentColor}10`,
         }}
       >
-        {/* Animated rings */}
         <div className="absolute inset-1 rounded-full animate-ping-slow" style={{ border: `1px solid ${currentColor}15` }} />
-
         <div className="text-center transition-all duration-500">
-          <div className="text-4xl md:text-5xl font-black transition-all duration-500" style={{ color: currentColor }}>
+          <div className="text-5xl md:text-6xl font-black transition-all duration-500" style={{ color: currentColor }}>
             {currentLevel}
           </div>
           <div className="text-[10px] text-white/40 mt-1 uppercase tracking-widest">CEFR Level</div>
         </div>
       </div>
-
-      {/* Floating particles */}
       {[0, 1, 2, 3, 4].map((p) => (
         <div
           key={p}
@@ -217,206 +164,613 @@ function AnimatedCEFRBadge() {
 }
 
 /* ======================================================
-   HERO RECORDING ELEMENT — large, dramatic mic with waveform
-   Prominently featured right in the hero section
+   WAVEFORM PRE-COMPUTED VALUES (hydration-safe)
    ====================================================== */
-/* Pre-computed waveform values to avoid hydration mismatches */
 const WAVEFORM_HEIGHTS = Array.from({ length: 30 }, (_, i) =>
   `${(6 + Math.sin(i * 0.4) * 5 + 5).toFixed(2)}px`
 );
 const WAVEFORM_DELAYS = Array.from({ length: 30 }, (_, i) =>
   `${(i * 0.06).toFixed(2)}s`
 );
-const WAVEFORM_BG_HEIGHTS = Array.from({ length: 60 }, (_, i) =>
-  `${(3 + Math.sin(i * 0.35) * 10 + 10).toFixed(2)}px`
-);
 
-function HeroRecordingElement() {
+/* ======================================================
+   LIVE VOICE DEMO SECTION
+   ====================================================== */
+function LiveVoiceDemo() {
   const [isRecording, setIsRecording] = useState(false);
+  const [recordingTime, setRecordingTime] = useState(0);
+  const [inputLevel, setInputLevel] = useState<'low' | 'medium' | 'high'>('medium');
+  const [mounted, setMounted] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => { setMounted(true); }, []);
+
+  const startRecording = useCallback(() => {
+    setIsRecording(true);
+    setRecordingTime(0);
+    timerRef.current = setInterval(() => {
+      setRecordingTime(prev => prev + 1);
+    }, 1000);
+  }, []);
+
+  const stopRecording = useCallback(() => {
+    setIsRecording(false);
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, []);
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const dimensions = [
+    { letter: 'G', label: 'Grammar', color: 'from-purple-500 to-violet-500', score: isRecording ? 82 : 0 },
+    { letter: 'V', label: 'Vocabulary', color: 'from-pink-500 to-rose-500', score: isRecording ? 78 : 0 },
+    { letter: 'F', label: 'Fluency', color: 'from-blue-500 to-cyan-500', score: isRecording ? 87 : 0 },
+    { letter: 'P', label: 'Pronunciation', color: 'from-green-500 to-emerald-500', score: isRecording ? 91 : 0 },
+    { letter: 'C', label: 'Coherence', color: 'from-orange-500 to-amber-500', score: isRecording ? 75 : 0 },
+    { letter: 'I', label: 'Interaction', color: 'from-red-500 to-pink-500', score: isRecording ? 80 : 0 },
+  ];
+
+  return (
+    <section className="relative py-20 md:py-28 bg-[#0F0A1E] overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="orb orb-purple w-[500px] h-[500px] top-0 left-1/3 animate-float-slow" />
+        <div className="orb orb-pink w-[300px] h-[300px] bottom-0 right-1/4 animate-float-reverse" />
+      </div>
+
+      <div className="container relative mx-auto px-4">
+        <AnimatedSection>
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
+              <Mic className="h-3.5 w-3.5 text-purple-400" />
+              <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Live Voice Demo</span>
+            </div>
+            <h2 className="text-3xl md:text-5xl font-bold text-white leading-tight">
+              Interactive Speaking <span className="gradient-text-static">Assessment</span>
+            </h2>
+            <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
+              Experience our AI-powered speaking assessment with real-time feedback and analysis
+            </p>
+          </div>
+        </AnimatedSection>
+
+        <AnimatedSection delay={200}>
+          <div className="max-w-4xl mx-auto">
+            <div className="relative">
+              <div className="absolute -inset-[1px] rounded-3xl bg-gradient-to-br from-purple-500/40 via-pink-500/20 to-blue-500/40 animate-border-glow" />
+              <div className="relative glass-card-neon p-6 md:p-10 light-streak">
+                <div className="grid md:grid-cols-2 gap-8">
+                  {/* Left: Mic & Controls */}
+                  <div className="flex flex-col items-center">
+                    {/* Status indicator */}
+                    <div className="flex items-center gap-2 mb-6">
+                      {isRecording ? (
+                        <>
+                          <span className="w-2.5 h-2.5 rounded-full bg-red-400 animate-pulse" />
+                          <span className="text-sm text-red-300 font-medium">RECORDING</span>
+                          <span className="text-sm text-white/50 ml-2">{formatTime(recordingTime)}</span>
+                        </>
+                      ) : (
+                        <>
+                          <CircleDot className="h-3 w-3 text-green-400" />
+                          <span className="text-sm text-green-300 font-medium">READY</span>
+                          <span className="text-sm text-white/50 ml-2">00:00</span>
+                        </>
+                      )}
+                    </div>
+
+                    {/* Waveform */}
+                    <div className="flex items-center justify-center gap-[3px] h-16 mb-6">
+                      {Array.from({ length: 30 }).map((_, i) => (
+                        <div
+                          key={i}
+                          className={`waveform-bar ${isRecording ? (i % 2 === 0 ? 'active' : 'waveform-bar-alt active') : ''}`}
+                          style={{
+                            height: isRecording ? undefined : WAVEFORM_HEIGHTS[i],
+                            animationDelay: WAVEFORM_DELAYS[i],
+                            opacity: isRecording ? 1 : 0.25,
+                          }}
+                        />
+                      ))}
+                    </div>
+
+                    {/* Mic button */}
+                    <div className="relative mb-6">
+                      {isRecording && (
+                        <>
+                          <div className="absolute inset-[-8px] rounded-full border-2 border-red-400/30 animate-ripple" />
+                          <div className="absolute inset-[-8px] rounded-full border-2 border-red-400/20 animate-ripple" style={{ animationDelay: '0.5s' }} />
+                        </>
+                      )}
+                      <div className={`absolute -inset-6 rounded-full transition-all duration-500 ${isRecording ? 'bg-red-500/15 blur-2xl' : 'bg-purple-500/15 blur-2xl'}`} />
+                      <button
+                        onClick={isRecording ? stopRecording : startRecording}
+                        className={`relative w-20 h-20 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${
+                          isRecording
+                            ? 'bg-gradient-to-br from-red-500 to-red-600 shadow-2xl shadow-red-500/40 animate-recording-pulse'
+                            : 'bg-gradient-to-br from-purple-500 to-pink-500 shadow-2xl shadow-purple-500/40 hover:shadow-purple-500/60 hover:scale-110 animate-mic-glow'
+                        }`}
+                      >
+                        <Mic className={`h-8 w-8 text-white ${isRecording ? 'animate-pulse' : ''}`} />
+                      </button>
+                    </div>
+
+                    {/* Speaking prompt */}
+                    <div className="w-full mb-4">
+                      <p className="text-xs text-white/40 uppercase tracking-wider mb-2">Speaking Prompt</p>
+                      <div className="glass-card p-4">
+                        <p className="text-sm text-white/70 italic leading-relaxed">
+                          &ldquo;Describe a memorable experience from your life and why it shaped who you are.&rdquo;
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Input Level */}
+                    <div className="w-full">
+                      <p className="text-xs text-white/40 uppercase tracking-wider mb-2">Input Level</p>
+                      <div className="flex gap-2">
+                        {(['low', 'medium', 'high'] as const).map((level) => (
+                          <button
+                            key={level}
+                            onClick={() => setInputLevel(level)}
+                            className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all duration-300 cursor-pointer ${
+                              inputLevel === level
+                                ? 'bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-lg shadow-purple-500/25'
+                                : 'glass text-white/50 hover:text-white/80'
+                            }`}
+                          >
+                            {level.charAt(0).toUpperCase() + level.slice(1)}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <p className="text-xs text-white/30 mt-4 text-center">
+                      Click to start — mic permission required
+                    </p>
+                  </div>
+
+                  {/* Right: 6 Dimensions */}
+                  <div>
+                    <p className="text-xs text-white/40 uppercase tracking-wider mb-4">6 Dimensions</p>
+                    <div className="space-y-4">
+                      {dimensions.map((dim) => (
+                        <div key={dim.label} className="glass-card p-3">
+                          <div className="flex items-center gap-3 mb-2">
+                            <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br ${dim.color} text-white font-bold text-sm shadow-lg`}>
+                              {dim.letter}
+                            </div>
+                            <span className="text-sm font-medium text-white">{dim.label}</span>
+                            {isRecording && (
+                              <span className={`ml-auto text-sm font-bold bg-gradient-to-r ${dim.color} bg-clip-text text-transparent`}>
+                                {dim.score}%
+                              </span>
+                            )}
+                          </div>
+                          <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
+                            <div
+                              className={`h-full rounded-full bg-gradient-to-r ${dim.color} transition-all duration-1000`}
+                              style={{ width: isRecording ? `${dim.score}%` : '0%' }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-6 text-center">
+                  <p className="text-xs text-white/30">
+                    This is an interactive demo. Full speaking assessment with AI scoring available on Premium plans.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </AnimatedSection>
+      </div>
+    </section>
+  );
+}
+
+/* ======================================================
+   6 DIMENSIONS OF ENGLISH PROFICIENCY SECTION
+   ====================================================== */
+const DIMENSIONS_DATA = [
+  {
+    icon: <BookOpen className="h-6 w-6" />,
+    title: 'Reading',
+    level: 'A1–C2',
+    gradient: 'from-blue-500 to-cyan-500',
+    items: ['Main ideas and detailed comprehension', 'Understanding implicit meaning', 'Analyzing text structure', 'Vocabulary inference', 'Reading speed and accuracy'],
+  },
+  {
+    icon: <PenTool className="h-6 w-6" />,
+    title: 'Writing',
+    level: 'A1–C2',
+    gradient: 'from-violet-500 to-purple-500',
+    items: ['Cohesion and coherence', 'Grammatical accuracy', 'Lexical resource', 'Task achievement', 'Writing mechanics'],
+  },
+  {
+    icon: <Headphones className="h-6 w-6" />,
+    title: 'Listening',
+    level: 'A1–C2',
+    gradient: 'from-green-500 to-emerald-500',
+    items: ['Main ideas and details', 'Understanding speakers\' attitude', 'Following complex arguments', 'Multiple speaker comprehension', 'Accent familiarity'],
+  },
+  {
+    icon: <Mic className="h-6 w-6" />,
+    title: 'Speaking',
+    level: 'A1–C2',
+    gradient: 'from-orange-500 to-amber-500',
+    items: ['Fluency and coherence', 'Lexical resource', 'Grammatical range', 'Pronunciation clarity', 'Interactive communication'],
+  },
+  {
+    icon: <BarChart3 className="h-6 w-6" />,
+    title: 'Grammar',
+    level: 'A1–C2',
+    gradient: 'from-purple-500 to-indigo-500',
+    items: ['Sentence formation', 'Tense accuracy', 'Complex structures', 'Error patterns', 'Grammar application'],
+  },
+  {
+    icon: <Award className="h-6 w-6" />,
+    title: 'Vocabulary',
+    level: 'A1–C2',
+    gradient: 'from-pink-500 to-rose-500',
+    items: ['Word range', 'Precision', 'Collocations', 'Register awareness', 'Topic-specific vocabulary'],
+  },
+];
+
+/* ======================================================
+   INTERACTIVE CEFR LEVELS SECTION
+   ====================================================== */
+const CEFR_LEVELS = [
+  { level: 'A1', title: 'Beginner', percentage: 17, desc: 'Can understand and use familiar everyday expressions and very basic phrases. Can introduce themselves and others.', items: ['Basic greetings', 'Numbers & dates', 'Simple questions', 'Common words'], color: '#3b82f6' },
+  { level: 'A2', title: 'Elementary', percentage: 33, desc: 'Can communicate in simple and routine tasks requiring a direct exchange of information on familiar and routine matters.', items: ['Shopping & directions', 'Simple conversations', 'Basic descriptions', 'Routine situations'], color: '#22c55e' },
+  { level: 'B1', title: 'Intermediate', percentage: 50, desc: 'Can deal with most situations likely to arise while travelling in an area where the language is spoken. Can produce simple connected text on familiar topics.', items: ['Travel situations', 'Opinions & preferences', 'Past events', 'Future plans'], color: '#eab308' },
+  { level: 'B2', title: 'Upper Intermediate', percentage: 67, desc: 'Can interact with a degree of fluency and spontaneity that makes regular interaction with native speakers quite possible without strain for either party.', items: ['Complex discussions', 'Abstract topics', 'News & media', 'Professional contexts'], color: '#f97316' },
+  { level: 'C1', title: 'Advanced', percentage: 83, desc: 'Can express ideas fluently and spontaneously without much obvious searching for expressions. Can use language flexibly and effectively for social, academic, and professional purposes.', items: ['Academic writing', 'Implicit meaning', 'Cultural nuance', 'Extended discourse'], color: '#ef4444' },
+  { level: 'C2', title: 'Proficient', percentage: 100, desc: 'Can understand virtually everything heard or read with ease. Can express themselves spontaneously, very fluently, and precisely, differentiating finer shades of meaning.', items: ['Near-native fluency', 'Complex argumentation', 'Literary analysis', 'Complete mastery'], color: '#a855f7' },
+];
+
+function InteractiveCEFRLevels() {
+  const [activeTab, setActiveTab] = useState(0);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => { setMounted(true); }, []);
 
-  /* Render minimal placeholder on server, full content on client */
-  if (!mounted) {
-    return (
-      <div className="flex flex-col items-center gap-5">
-        {/* Waveform visualization — static placeholder */}
-        <div className="flex items-center justify-center gap-[3px] h-16">
-          {Array.from({ length: 30 }).map((_, i) => (
-            <div
-              key={i}
-              className="waveform-bar"
-              style={{
-                height: WAVEFORM_HEIGHTS[i],
-                animationDelay: WAVEFORM_DELAYS[i],
-                opacity: 0.25,
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Microphone button — static */}
-        <div className="relative">
-          <div className="absolute -inset-6 rounded-full bg-purple-500/15 blur-2xl" />
-          <button
-            onClick={() => setIsRecording(!isRecording)}
-            className="relative w-24 h-24 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer bg-gradient-to-br from-purple-500 to-pink-500 shadow-2xl shadow-purple-500/40 hover:shadow-purple-500/60 hover:scale-110 animate-mic-glow"
-          >
-            <Mic className="h-10 w-10 text-white" />
-          </button>
-        </div>
-
-        {/* Status text */}
-        <div className="text-center">
-          <span className="text-sm text-white/50">Tap the mic to try speaking</span>
-        </div>
-
-        {/* Simulated waveform background decoration */}
-        <div className="flex items-center justify-center gap-[2px] opacity-15 mt-2">
-          {Array.from({ length: 60 }).map((_, i) => (
-            <div
-              key={i}
-              className="w-[2px] rounded-full bg-gradient-to-t from-purple-500 to-pink-500"
-              style={{ height: WAVEFORM_BG_HEIGHTS[i] }}
-            />
-          ))}
-        </div>
-      </div>
-    );
-  }
+  const active = CEFR_LEVELS[activeTab];
 
   return (
-    <div className="flex flex-col items-center gap-5">
-      {/* Waveform visualization */}
-      <div className="flex items-center justify-center gap-[3px] h-16">
-        {Array.from({ length: 30 }).map((_, i) => (
-          <div
-            key={i}
-            className={`waveform-bar ${isRecording ? (i % 2 === 0 ? 'active' : 'waveform-bar-alt active') : ''}`}
-            style={{
-              height: isRecording ? undefined : WAVEFORM_HEIGHTS[i],
-              animationDelay: WAVEFORM_DELAYS[i],
-              opacity: isRecording ? 1 : 0.25,
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Microphone button — larger and more dramatic */}
-      <div className="relative">
-        {/* Outer ripple rings */}
-        {isRecording && (
-          <>
-            <div className="absolute inset-[-8px] rounded-full border-2 border-red-400/30 animate-ripple" />
-            <div className="absolute inset-[-8px] rounded-full border-2 border-red-400/20 animate-ripple" style={{ animationDelay: '0.5s' }} />
-            <div className="absolute inset-[-8px] rounded-full border border-red-400/10 animate-ripple" style={{ animationDelay: '1s' }} />
-          </>
-        )}
-
-        {/* Glow background */}
-        <div className={`absolute -inset-6 rounded-full transition-all duration-500 ${isRecording ? 'bg-red-500/15 blur-2xl' : 'bg-purple-500/15 blur-2xl'}`} />
-
-        <button
-          onClick={() => setIsRecording(!isRecording)}
-          className={`relative w-24 h-24 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${
-            isRecording
-              ? 'bg-gradient-to-br from-red-500 to-red-600 shadow-2xl shadow-red-500/40 animate-recording-pulse'
-              : 'bg-gradient-to-br from-purple-500 to-pink-500 shadow-2xl shadow-purple-500/40 hover:shadow-purple-500/60 hover:scale-110 animate-mic-glow'
-          }`}
-        >
-          <Mic className={`h-10 w-10 text-white ${isRecording ? 'animate-pulse' : ''}`} />
-        </button>
-      </div>
-
-      {/* Status text */}
-      <div className="text-center">
-        {isRecording ? (
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-red-400 animate-pulse" />
-            <span className="text-sm text-red-300 font-medium">Recording... Tap to stop</span>
-          </div>
-        ) : (
-          <span className="text-sm text-white/50">Tap the mic to try speaking</span>
-        )}
-      </div>
-
-      {/* Score preview cards */}
-      {isRecording && (
-        <div className="flex gap-3 animate-fade-in">
-          {[
-            { label: 'Fluency', score: '87', color: 'from-purple-500 to-violet-500' },
-            { label: 'Pronunciation', score: '92', color: 'from-pink-500 to-rose-500' },
-            { label: 'Accuracy', score: '84', color: 'from-blue-500 to-cyan-500' },
-          ].map((item) => (
-            <div key={item.label} className="glass-card px-4 py-2.5 text-center min-w-[85px]">
-              <div className={`text-lg font-bold bg-gradient-to-r ${item.color} bg-clip-text text-transparent`}>{item.score}%</div>
-              <div className="text-[10px] text-white/40">{item.label}</div>
+    <section className="relative py-20 md:py-28 dark-section-alt hero-pattern noise-overlay">
+      <div className="container relative mx-auto px-4">
+        <AnimatedSection>
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
+              <Globe className="h-3.5 w-3.5 text-purple-400" />
+              <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">CEFR Framework</span>
             </div>
-          ))}
+            <h2 className="text-3xl md:text-5xl font-bold text-white">
+              Interactive <span className="gradient-text-static">CEFR Levels</span>
+            </h2>
+            <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
+              Click on each level to see detailed progression from beginner to mastery.
+            </p>
+          </div>
+        </AnimatedSection>
+
+        <AnimatedSection delay={200}>
+          <div className="max-w-4xl mx-auto">
+            <div className="relative">
+              <div className="absolute -inset-[1px] rounded-3xl bg-gradient-to-br from-purple-500/30 via-pink-500/10 to-blue-500/30" />
+              <div className="relative glass-card-neon p-6 md:p-10">
+                {/* Level Tabs */}
+                <div className="flex flex-wrap gap-2 mb-8 justify-center">
+                  {CEFR_LEVELS.map((lvl, i) => (
+                    <button
+                      key={lvl.level}
+                      onClick={() => setActiveTab(i)}
+                      className={`px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 cursor-pointer ${
+                        activeTab === i
+                          ? 'text-white shadow-lg scale-105'
+                          : 'glass text-white/50 hover:text-white/80'
+                      }`}
+                      style={activeTab === i ? { background: `linear-gradient(135deg, ${lvl.color}40, ${lvl.color}20)`, boxShadow: `0 4px 20px ${lvl.color}30` } : {}}
+                    >
+                      {lvl.level}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Active Level Content */}
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div
+                        className="flex h-14 w-14 items-center justify-center rounded-xl text-white font-bold text-xl shadow-lg"
+                        style={{ background: `linear-gradient(135deg, ${active.color}60, ${active.color}30)` }}
+                      >
+                        {active.level}
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold text-white">{active.level} — {active.title}</h3>
+                        <p className="text-xs text-white/40">{active.percentage}% Complete</p>
+                      </div>
+                    </div>
+
+                    {/* Progress bar */}
+                    <div className="h-3 rounded-full bg-white/5 overflow-hidden mb-6">
+                      <div
+                        className="h-full rounded-full transition-all duration-700"
+                        style={{
+                          width: mounted ? `${active.percentage}%` : '0%',
+                          background: `linear-gradient(90deg, ${active.color}80, ${active.color})`,
+                        }}
+                      />
+                    </div>
+
+                    <p className="text-sm text-white/60 leading-relaxed">{active.desc}</p>
+                  </div>
+
+                  <div>
+                    <p className="text-xs text-white/40 uppercase tracking-wider mb-3">Key Capabilities</p>
+                    <div className="space-y-2">
+                      {active.items.map((item) => (
+                        <div key={item} className="flex items-center gap-2">
+                          <CheckCircle2 className="h-4 w-4 shrink-0" style={{ color: active.color }} />
+                          <span className="text-sm text-white/70">{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </AnimatedSection>
+      </div>
+    </section>
+  );
+}
+
+/* ======================================================
+   HOW IT WORKS SECTION
+   ====================================================== */
+const STEPS = [
+  { number: '1', title: 'Create Account', desc: 'Sign up in seconds with just your email. No lengthy registration required.', icon: <Users className="h-6 w-6" /> },
+  { number: '2', title: 'Take Assessment', desc: 'Complete the 6-skill test at your own pace. Each section takes about 10 minutes.', icon: <ClipboardCheck className="h-6 w-6" /> },
+  { number: '3', title: 'Get AI Results', desc: 'Receive instant CEFR scores with detailed AI feedback on all 6 core skills.', icon: <Brain className="h-6 w-6" /> },
+  { number: '4', title: 'Download Certificate', desc: 'Get your official CEFR certificate and detailed improvement report instantly.', icon: <FileCheck className="h-6 w-6" /> },
+];
+
+/* ======================================================
+   PRICING SECTION — Individual Plans
+   ====================================================== */
+const INDIVIDUAL_PLANS = [
+  {
+    name: 'Free',
+    desc: 'Perfect for getting started',
+    price: '$0',
+    priceNum: 0,
+    features: ['1 comprehensive assessment', 'Basic CEFR level result', 'Skill breakdown scores', 'Watermarked certificate'],
+    cta: 'Start Free',
+    ctaLink: '/register',
+    popular: false,
+  },
+  {
+    name: 'Single Test',
+    desc: 'Full assessment with detailed report',
+    price: '$12.99',
+    priceNum: 12.99,
+    features: ['Complete 6-skill assessment', 'Detailed CEFR score', 'AI-powered feedback', 'Downloadable PDF certificate'],
+    cta: 'Buy Test',
+    ctaLink: '/pricing',
+    popular: false,
+  },
+  {
+    name: 'Premium Pack',
+    desc: '3 tests — best value for learners',
+    price: '$29.99',
+    priceNum: 29.99,
+    features: ['3 full assessments', 'Progress tracking dashboard', 'Priority AI analysis', 'Unlimited certificate downloads', 'Email support'],
+    cta: 'Get Premium',
+    ctaLink: '/pricing',
+    popular: true,
+  },
+  {
+    name: 'Pro Pack',
+    desc: '6 tests — complete learning solution',
+    price: '$49.99',
+    priceNum: 49.99,
+    features: ['6 assessments', 'Full analytics suite', 'Detailed skill improvement tips', 'Comparison with peers', 'Priority support'],
+    cta: 'Go Pro',
+    ctaLink: '/pricing',
+    popular: false,
+  },
+];
+
+/* ======================================================
+   ORGANIZATION PLANS
+   ====================================================== */
+const ORG_PLANS = [
+  {
+    tier: 'Team',
+    desc: 'Up to 5 users',
+    subdesc: 'Perfect for small schools & tutors',
+    price: '$49',
+    period: '/month',
+    features: ['Up to 5 team members', 'Group dashboard & analytics', 'Export results as CSV', 'Shared question bank access', 'Email support'],
+    bestFor: 'Small schools, tutors, study groups',
+    cta: 'Start Team Trial',
+    ctaLink: '/contact',
+  },
+  {
+    tier: 'Business',
+    desc: 'Up to 25 users',
+    subdesc: 'For language schools & test centers',
+    price: '$199',
+    period: '/month',
+    features: ['Up to 25 team members', 'White-label certificates', 'API access for results', 'Bulk user import via CSV', 'Priority support'],
+    bestFor: 'Language schools, test prep centers',
+    cta: 'Start Business Trial',
+    ctaLink: '/contact',
+    popular: true,
+  },
+  {
+    tier: 'Enterprise',
+    desc: 'Unlimited users',
+    subdesc: 'For universities, corporations & government',
+    price: 'Custom',
+    period: '',
+    features: ['Unlimited users & assessments', 'SSO (Google, Microsoft, Okta)', 'Dedicated account manager', 'SLA guarantee', 'On-premise or dedicated cloud'],
+    bestFor: 'Universities, corporations, government',
+    cta: 'Contact Sales',
+    ctaLink: '/contact',
+  },
+];
+
+/* ======================================================
+   TESTIMONIALS
+   ====================================================== */
+const TESTIMONIALS = [
+  {
+    quote: 'CEFR Test helped me prepare for my university applications. The detailed feedback showed me exactly where to improve, and I jumped from A1 to B2 in just 3 months!',
+    name: 'Sarah Chen',
+    role: 'University Student',
+    location: 'Hanoi',
+    progress: 'A1 → B2',
+    initials: 'S',
+    color: 'from-blue-500 to-cyan-500',
+  },
+  {
+    quote: 'As a business professional, I needed to improve my English for presentations. The AI analysis identified my speaking patterns and gave me actionable tips that actually worked.',
+    name: 'Marcus Rodriguez',
+    role: 'Business Professional',
+    location: 'Mexico City',
+    progress: 'B1 → C1',
+    initials: 'M',
+    color: 'from-orange-500 to-amber-500',
+  },
+  {
+    quote: 'I use CEFR Test with my students to track their progress. The CEFR alignment is accurate, and the comprehensive reports help me tailor my lessons effectively.',
+    name: 'Yuki Tanaka',
+    role: 'English Teacher',
+    location: 'Tokyo',
+    progress: 'B2 → C2',
+    initials: 'Y',
+    color: 'from-pink-500 to-rose-500',
+  },
+  {
+    quote: 'We assessed over 800 students in a single semester. The bulk import and CSV export saved our department dozens of hours.',
+    name: 'Dr. Laura Pham',
+    role: 'Head of Language Dept, Hanoi University',
+    location: 'Hanoi',
+    progress: 'B2 → C1',
+    initials: 'L',
+    color: 'from-green-500 to-emerald-500',
+  },
+];
+
+/* ======================================================
+   ENTERPRISE SECTION
+   ====================================================== */
+const ENTERPRISE_STATS = [
+  { label: 'Most Common Level', value: 'B2+', icon: <BarChart3 className="h-5 w-5" /> },
+  { label: 'Avg. Test Time', value: '30m', icon: <Clock className="h-5 w-5" /> },
+  { label: 'Skills Assessed', value: '6', icon: <Brain className="h-5 w-5" /> },
+  { label: 'Certificate Format', value: 'PDF', icon: <FileCheck className="h-5 w-5" /> },
+  { label: 'Verification Code', value: 'QR', icon: <QrCode className="h-5 w-5" /> },
+  { label: 'Scoring Engine', value: 'AI', icon: <Cpu className="h-5 w-5" /> },
+];
+
+const ENTERPRISE_TESTIMONIALS = [
+  {
+    quote: 'We assessed over 800 students in a single semester. The bulk import and CSV export saved our department dozens of hours.',
+    name: 'Dr. Laura Pham',
+    role: 'Head of Language Dept, Hanoi University',
+    initials: 'DL',
+    color: 'from-green-500 to-emerald-500',
+  },
+  {
+    quote: 'White-label certificates with our academy logo made a huge difference. Our students trust the result because it feels professional.',
+    name: 'Ahmed Malik',
+    role: 'CEO, ProEnglish Academy',
+    initials: 'AM',
+    color: 'from-blue-500 to-cyan-500',
+  },
+  {
+    quote: 'The API integration let us automatically sync scores into our HR system. The Enterprise tier paid for itself in the first month.',
+    name: 'Sofia Tanner',
+    role: 'L&D Manager, Nexura Corp',
+    initials: 'ST',
+    color: 'from-purple-500 to-violet-500',
+  },
+];
+
+/* ======================================================
+   FAQ SECTION
+   ====================================================== */
+const FAQ_DATA = [
+  {
+    question: 'How does the AI scoring work?',
+    answer: 'Our AI scoring engine uses advanced natural language processing and machine learning models trained on thousands of CEFR-graded responses. For speaking assessments, it analyzes pronunciation, fluency, vocabulary range, and grammatical accuracy in real-time. For writing, it evaluates coherence, lexical resource, and task achievement. The system provides consistent, objective scoring aligned with CEFR descriptors.',
+  },
+  {
+    question: 'Is the certificate officially recognized?',
+    answer: 'Our certificates are aligned with the Common European Framework of Reference (CEFR), which is the international standard for language proficiency. While not issued by a government body, our certificates include QR verification codes that allow employers and institutions to validate results online. Many universities, employers, and immigration authorities accept CEFR-aligned assessments as evidence of language proficiency.',
+  },
+  {
+    question: 'How long does the assessment take?',
+    answer: 'The full assessment typically takes 30–45 minutes to complete. Each of the 6 skill sections takes approximately 5–10 minutes. You can pause and resume the test at any time — your progress is saved automatically. The speaking and listening sections require a microphone and speakers or headphones.',
+  },
+  {
+    question: 'Can I retake the test?',
+    answer: 'Yes! Free users get 1 assessment, Single Test purchasers get 1, Premium Pack users get 3, and Pro Pack users get 6 assessments. You can retake the test at any time if you have remaining credits. Additional credits can be purchased from your dashboard at any time.',
+  },
+  {
+    question: 'What payment methods do you accept?',
+    answer: 'We accept payments through PayPal, which supports credit cards, debit cards, and bank transfers from around the world. All transactions are encrypted and secure. PayPal\'s buyer protection covers every purchase, giving you peace of mind.',
+  },
+  {
+    question: 'Is my data secure?',
+    answer: 'Absolutely. We use industry-standard encryption (TLS 1.3) for all data in transit and AES-256 encryption for data at rest. Your audio recordings are processed in real-time and deleted after scoring — we never store your voice data. Personal information is handled in compliance with GDPR and other privacy regulations. You can request data deletion at any time.',
+  },
+];
+
+/* ======================================================
+   FAQ ITEM COMPONENT
+   ====================================================== */
+function FAQItem({ question, answer }: { question: string; answer: string }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="glass-card overflow-hidden">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center justify-between p-5 text-left cursor-pointer group"
+      >
+        <span className="text-base font-medium text-white group-hover:text-purple-300 transition-colors pr-4">{question}</span>
+        <ChevronDown className={`h-5 w-5 text-purple-400 shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+      {isOpen && (
+        <div className="px-5 pb-5 animate-slide-down">
+          <p className="text-sm text-white/60 leading-relaxed">{answer}</p>
         </div>
       )}
-
-      {/* Simulated waveform background decoration */}
-      <div className="flex items-center justify-center gap-[2px] opacity-15 mt-2">
-        {Array.from({ length: 60 }).map((_, i) => (
-          <div
-            key={i}
-            className="w-[2px] rounded-full bg-gradient-to-t from-purple-500 to-pink-500"
-            style={{ height: WAVEFORM_BG_HEIGHTS[i] }}
-          />
-        ))}
-      </div>
     </div>
   );
 }
-
-/* ======================================================
-   STAT ITEM
-   ====================================================== */
-function StatItem({ icon, value, label, delay }: { icon: React.ReactNode; value: string; label: string; delay: number }) {
-  return (
-    <AnimatedSection delay={delay}>
-      <div className="glass-card p-5 text-center group">
-        <div className="flex justify-center mb-2 text-purple-400 group-hover:text-purple-300 transition-colors">
-          {icon}
-        </div>
-        <div className="text-2xl font-bold text-white mb-1">{value}</div>
-        <div className="text-xs text-white/50">{label}</div>
-      </div>
-    </AnimatedSection>
-  );
-}
-
-/* ======================================================
-   DATA
-   ====================================================== */
-const SKILLS_DATA = [
-  { icon: <BarChart3 className="h-6 w-6" />, title: 'Grammar', desc: 'Our AI evaluates your understanding of sentence structure, verb tenses, and correct word usage across all CEFR levels from A1 to C2. The grammar module tests your ability to identify errors, construct complex sentences, and apply grammatical rules in context. Detailed feedback highlights your strengths and areas needing improvement.', gradient: 'from-purple-500 to-indigo-500' },
-  { icon: <Award className="h-6 w-6" />, title: 'Vocabulary', desc: 'Assess your word knowledge including synonyms, antonyms, collocations, and contextual word choice with AI precision. The vocabulary section measures both the breadth and depth of your word knowledge, from everyday expressions to academic and professional terminology.', gradient: 'from-pink-500 to-rose-500' },
-  { icon: <Globe className="h-6 w-6" />, title: 'Reading', desc: 'Test your comprehension of passages, understanding of main ideas, details, and inferences across academic and general texts. The reading module presents a variety of text types adapted to different proficiency levels.', gradient: 'from-blue-500 to-cyan-500' },
-  { icon: <Headphones className="h-6 w-6" />, title: 'Listening', desc: 'Evaluate your ability to understand spoken English in various contexts, conversations, and scenarios at natural speed. The listening section features authentic audio recordings including dialogues, interviews, lectures, and everyday conversations.', gradient: 'from-green-500 to-emerald-500' },
-  { icon: <Mic className="h-6 w-6" />, title: 'Speaking', desc: 'Get your pronunciation, fluency, and coherence assessed by our advanced AI speech recognition engine. The speaking module records your responses to prompts and analyzes them for accuracy, rhythm, intonation, and natural flow.', gradient: 'from-orange-500 to-amber-500' },
-  { icon: <PenTool className="h-6 w-6" />, title: 'Writing', desc: 'Have your written expression, coherence, and accuracy evaluated with AI-powered linguistic analysis tools. The writing section asks you to produce text in response to prompts, testing your ability to organize ideas and use appropriate vocabulary.', gradient: 'from-violet-500 to-purple-500' },
-];
-
-const CEFR_LEVELS = [
-  { level: 'A1', title: 'Beginner', desc: 'Can understand and use familiar everyday expressions and very basic phrases aimed at the satisfaction of needs of a concrete type.', color: 'from-blue-400 to-blue-600', badge: 'bg-blue-500/20 text-blue-300 border-blue-500/30' },
-  { level: 'A2', title: 'Elementary', desc: 'Can communicate in simple and routine tasks requiring a direct exchange of information on familiar and routine matters.', color: 'from-green-400 to-green-600', badge: 'bg-green-500/20 text-green-300 border-green-500/30' },
-  { level: 'B1', title: 'Intermediate', desc: 'Can deal with most situations likely to arise while travelling in an area where the language is spoken. Can produce simple connected text on familiar topics.', color: 'from-yellow-400 to-yellow-600', badge: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30' },
-  { level: 'B2', title: 'Upper Intermediate', desc: 'Can interact with a degree of fluency and spontaneity that makes regular interaction with native speakers quite possible without strain for either party.', color: 'from-orange-400 to-orange-600', badge: 'bg-orange-500/20 text-orange-300 border-orange-500/30' },
-  { level: 'C1', title: 'Advanced', desc: 'Can express ideas fluently and spontaneously without much obvious searching for expressions. Can use language flexibly and effectively for social, academic, and professional purposes.', color: 'from-red-400 to-red-600', badge: 'bg-red-500/20 text-red-300 border-red-500/30' },
-  { level: 'C2', title: 'Proficient', desc: 'Can understand virtually everything heard or read with ease. Can express themselves spontaneously, very fluently, and precisely, differentiating finer shades of meaning.', color: 'from-purple-400 to-purple-600', badge: 'bg-purple-500/20 text-purple-300 border-purple-500/30' },
-];
-
-const WHY_CHOOSE_DATA = [
-  { icon: <Award className="h-6 w-6" />, title: 'Certified Results', desc: 'Get a proficiency rating aligned with the internationally recognized CEFR framework. Each certificate is individually generated and includes a unique verification code that can be validated online by employers, universities, and immigration authorities.', gradient: 'from-amber-400 to-orange-500' },
-  { icon: <QrCode className="h-6 w-6" />, title: 'QR Verified Certificate', desc: 'Every certificate features a unique QR code that links directly to a public verification page. Employers and institutions can scan the code to instantly confirm your CEFR level, test date, and certificate authenticity.', gradient: 'from-purple-400 to-indigo-500' },
-  { icon: <Clock className="h-6 w-6" />, title: 'Quick Assessment', desc: 'Complete the full test in approximately 30-45 minutes from start to finish. Take the assessment from anywhere in the world at any time — all you need is a device with internet access and a microphone.', gradient: 'from-cyan-400 to-blue-500' },
-  { icon: <BarChart3 className="h-6 w-6" />, title: 'Detailed Analytics', desc: 'Receive a comprehensive breakdown of your performance across all six core skills. The analytics dashboard shows your strengths and weaknesses with percentile rankings and actionable improvement insights.', gradient: 'from-green-400 to-emerald-500' },
-  { icon: <Shield className="h-6 w-6" />, title: 'Secure Payment', desc: 'Pay securely via PayPal with full buyer protection on every transaction. Your payment information is never stored on our servers — all transactions are encrypted end-to-end using industry-standard TLS protocols.', gradient: 'from-pink-400 to-rose-500' },
-  { icon: <CheckCircle2 className="h-6 w-6" />, title: 'Instant Results', desc: 'Get your CEFR level immediately upon completing the test — no waiting days or weeks for results. Download your certificate as a professional PDF and share it with employers or institutions right away.', gradient: 'from-violet-400 to-purple-500' },
-];
 
 /* ======================================================
    MAIN PAGE
@@ -427,14 +781,13 @@ export default function Home() {
 
   useEffect(() => { setMounted(true); }, []);
 
-  /* Use false for isAuthenticated until client mounts to avoid hydration mismatch */
   const isAuth = mounted && isAuthenticated;
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
       <Navbar />
 
-      {/* ===== HERO SECTION WITH RECORDING ELEMENT ===== */}
+      {/* ===== HERO SECTION ===== */}
       <section className="relative overflow-hidden dark-section hero-pattern noise-overlay mesh-gradient">
         <BackgroundOrbs />
 
@@ -456,93 +809,49 @@ export default function Home() {
               <span className="gradient-text">With AI Precision</span>
             </h1>
 
-            {/* Rotating skill text */}
-            <div className="mt-5 text-2xl sm:text-3xl md:text-4xl font-semibold text-white/90 flex items-center justify-center gap-3 animate-fade-in">
-              <span>Master</span>
-              <RotatingSkillText />
-            </div>
-
             {/* Subheadline */}
-            <p className="mt-5 text-lg md:text-xl text-white/60 leading-relaxed max-w-2xl mx-auto animate-fade-in delay-300 text-center">
-              Get your CEFR-scored English proficiency results in minutes. Our AI evaluates 6 core skills — reading, writing, listening, speaking, grammar, and vocabulary — to give you an internationally recognized proficiency rating.
+            <p className="mt-6 text-lg md:text-xl text-white/60 leading-relaxed max-w-2xl mx-auto animate-fade-in delay-300 text-center">
+              Get your CEFR-scored English proficiency results in minutes. Our AI evaluates 6 core skills — reading, writing, listening, speaking, grammar, and vocabulary — with detailed feedback and actionable insights.
             </p>
-
-            {/* Animated CEFR Badge — signature visual */}
-            <div className="mt-8 flex justify-center animate-scale-in delay-400">
-              <AnimatedCEFRBadge />
-            </div>
 
             {/* CTA Buttons */}
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center animate-scale-in delay-500">
-              {isAuth ? (
-                user?.plan === 'premium' ? (
-                  <Link href="/test">
-                    <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
-                      Start Your Test
-                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </button>
-                  </Link>
-                ) : (
-                  <Link href="/pricing">
-                    <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
-                      Get Premium Access
-                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </button>
-                  </Link>
-                )
-              ) : (
-                <>
-                  <Link href="/register">
-                    <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
-                      Start Free Account
-                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </button>
-                  </Link>
-                  <Link href="/quick-tour">
-                    <button className="glass-button rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
-                      Quick Tour
-                    </button>
-                  </Link>
-                </>
-              )}
+              <Link href={isAuth ? '/dashboard' : '/register'}>
+                <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                  Start Free Assessment
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </button>
+              </Link>
+              <Link href="/pricing">
+                <button className="glass-button rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
+                  View Pricing
+                </button>
+              </Link>
             </div>
 
-            {/* ===== RECORDING ELEMENT — prominently in hero ===== */}
-            <div className="mt-14 max-w-lg mx-auto animate-scale-in delay-700">
-              <div className="relative">
-                {/* Animated gradient border wrapper */}
-                <div className="absolute -inset-[1px] rounded-3xl bg-gradient-to-b from-purple-500/50 via-pink-500/30 to-purple-500/50 animate-border-glow" />
-                <div className="relative glass-card-neon p-8 md:p-10 light-streak">
-                  <div className="text-center mb-4">
-                    <div className="inline-flex items-center gap-2 rounded-full glass px-3 py-1 mb-3">
-                      <Mic className="h-3 w-3 text-purple-400" />
-                      <span className="text-[10px] text-purple-300 font-medium uppercase tracking-wider">AI Speaking Assessment</span>
-                    </div>
-                    <h3 className="text-lg font-semibold text-white mb-1">Try Speaking Now</h3>
-                    <p className="text-xs text-white/40">Tap the microphone to see AI analysis in action</p>
-                  </div>
-
-                  <HeroRecordingElement />
-
-                  {/* CTA link to full speaking test */}
-                  <div className="mt-6 text-center">
-                    <Link href="/speaking">
-                      <button className="group inline-flex items-center gap-2 rounded-xl px-6 py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-purple-500/25 hover:-translate-y-0.5 cursor-pointer">
-                        Start Full Speaking Test
-                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                      </button>
-                    </Link>
-                  </div>
-                </div>
-              </div>
+            {/* Animated CEFR Badge */}
+            <div className="mt-10 flex justify-center animate-scale-in delay-400">
+              <AnimatedCEFRBadge />
             </div>
 
-            {/* Stats bar */}
+            {/* Stats bar — 4 glass cards */}
             <div className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-              <StatItem icon={<Users className="h-5 w-5" />} value="10K+" label="Tests Taken" delay={100} />
-              <StatItem icon={<Globe className="h-5 w-5" />} value="120+" label="Countries" delay={200} />
-              <StatItem icon={<Zap className="h-5 w-5" />} value="30 min" label="Avg. Time" delay={300} />
-              <StatItem icon={<Star className="h-5 w-5" />} value="98%" label="Accuracy" delay={400} />
+              {[
+                { value: 'A1–C2', label: 'All CEFR Levels', icon: <Globe className="h-5 w-5" /> },
+                { value: '6', label: 'Core Skills', icon: <Brain className="h-5 w-5" /> },
+                { value: 'AI', label: 'Powered Scoring', icon: <Cpu className="h-5 w-5" /> },
+                { value: 'Free', label: 'To Get Started', icon: <Zap className="h-5 w-5" /> },
+              ].map((stat, i) => (
+                <AnimatedSection key={stat.label} delay={i * 100}>
+                  <div className="glass-card p-5 text-center group">
+                    <div className="flex justify-center mb-2 text-purple-400 group-hover:text-purple-300 transition-colors">
+                      {stat.icon}
+                    </div>
+                    <div className="text-2xl font-bold text-white mb-1">{stat.value}</div>
+                    <div className="text-xs text-white/50">{stat.label}</div>
+                  </div>
+                </AnimatedSection>
+              ))}
             </div>
           </div>
         </div>
@@ -550,167 +859,52 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0F0A1E] to-transparent" />
       </section>
 
-      {/* ===== SPEAKING ASSESSMENT DETAILS ===== */}
+      {/* ===== LIVE VOICE DEMO ===== */}
+      <LiveVoiceDemo />
+
+      {/* ===== 6 DIMENSIONS OF ENGLISH PROFICIENCY ===== */}
       <section className="relative py-20 md:py-28 bg-[#0F0A1E] overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="orb orb-purple w-[500px] h-[500px] top-0 left-1/3 animate-float-slow" />
-          <div className="orb orb-pink w-[300px] h-[300px] bottom-0 right-1/4 animate-float-reverse" />
+          <div className="orb orb-blue w-[400px] h-[400px] top-1/4 right-0 animate-float-slow" />
         </div>
 
-        <div className="container relative mx-auto px-4">
-          <div className="grid gap-12 lg:grid-cols-2 items-center max-w-6xl mx-auto">
-            {/* Left: Description */}
-            <AnimatedSection>
-              <div>
-                <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                  <Volume2 className="h-3.5 w-3.5 text-purple-400" />
-                  <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">AI Speech Recognition</span>
-                </div>
-                <h2 className="text-3xl md:text-5xl font-bold text-white leading-tight">
-                  Speak Naturally.<br />
-                  <span className="gradient-text-static">Get Assessed Instantly.</span>
-                </h2>
-                <p className="mt-5 text-white/50 leading-relaxed text-base max-w-lg">
-                  Our advanced AI speech recognition engine evaluates your pronunciation, fluency, and coherence in real-time. Simply speak into your microphone and receive detailed feedback on every aspect of your spoken English — from individual phoneme accuracy to overall conversational flow.
-                </p>
-
-                <div className="mt-8 space-y-4">
-                  {[
-                    { icon: <AudioWaveform className="h-5 w-5" />, title: 'Real-Time Speech Analysis', desc: 'Neural networks transcribe and analyze your speech as you speak' },
-                    { icon: <Activity className="h-5 w-5" />, title: 'Pronunciation Scoring', desc: 'Precise scores for phonemes, word stress, and intonation' },
-                    { icon: <MessageSquareText className="h-5 w-5" />, title: 'Fluency & Coherence', desc: 'Measures speaking rate, pauses, hesitations, and natural rhythm' },
-                  ].map((feature) => (
-                    <div key={feature.title} className="flex items-start gap-3">
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-500/20 text-purple-400">
-                        {feature.icon}
-                      </div>
-                      <div>
-                        <h4 className="text-sm font-semibold text-white">{feature.title}</h4>
-                        <p className="text-xs text-white/40 mt-0.5">{feature.desc}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="mt-8 flex gap-3">
-                  <Link href="/speaking">
-                    <button className="group flex items-center gap-2 rounded-xl px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-purple-500/25 hover:-translate-y-0.5 cursor-pointer">
-                      Try Speaking Test
-                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </button>
-                  </Link>
-                  <Link href="/quick-tour">
-                    <button className="glass-button rounded-xl px-6 py-3 text-white font-medium text-sm cursor-pointer">
-                      See How It Works
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            </AnimatedSection>
-
-            {/* Right: Visual demo card with AI analysis preview */}
-            <AnimatedSection delay={200}>
-              <div className="relative">
-                {/* Animated gradient border */}
-                <div className="absolute -inset-[1px] rounded-3xl bg-gradient-to-br from-purple-500/40 via-pink-500/20 to-blue-500/40 animate-border-glow" />
-                <div className="relative glass-card-neon p-8 light-streak">
-                  <div className="text-center mb-6">
-                    <h3 className="text-base font-semibold text-white mb-1">AI Analysis Preview</h3>
-                    <p className="text-xs text-white/35">Sample results from a speaking assessment</p>
-                  </div>
-
-                  {/* Simulated score display */}
-                  <div className="space-y-4">
-                    {/* Overall score */}
-                    <div className="flex items-center justify-between glass-card p-4">
-                      <div className="flex items-center gap-3">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-white font-bold text-lg shadow-lg">B2</div>
-                        <div>
-                          <p className="text-sm font-semibold text-white">Overall Level</p>
-                          <p className="text-xs text-white/40">Upper Intermediate</p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-2xl font-bold gradient-text-static">78%</p>
-                        <p className="text-[10px] text-white/30">Overall Score</p>
-                      </div>
-                    </div>
-
-                    {/* Skill bars */}
-                    {[
-                      { label: 'Fluency', score: 87, color: 'from-purple-500 to-violet-500' },
-                      { label: 'Pronunciation', score: 92, color: 'from-pink-500 to-rose-500' },
-                      { label: 'Vocabulary Range', score: 75, color: 'from-blue-500 to-cyan-500' },
-                      { label: 'Grammar Accuracy', score: 68, color: 'from-orange-500 to-amber-500' },
-                      { label: 'Coherence', score: 81, color: 'from-green-500 to-emerald-500' },
-                    ].map((skill) => (
-                      <div key={skill.label} className="space-y-1.5">
-                        <div className="flex justify-between">
-                          <span className="text-xs text-white/60">{skill.label}</span>
-                          <span className="text-xs font-medium text-white/80">{skill.score}%</span>
-                        </div>
-                        <div className="h-2 rounded-full bg-white/5 overflow-hidden">
-                          <div
-                            className={`h-full rounded-full bg-gradient-to-r ${skill.color} transition-all duration-1000`}
-                            style={{ width: `${skill.score}%` }}
-                          />
-                        </div>
-                      </div>
-                    ))}
-
-                    {/* AI feedback snippet */}
-                    <div className="glass-card p-3 mt-2">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Cpu className="h-3.5 w-3.5 text-purple-400" />
-                        <span className="text-[10px] text-purple-300 font-medium uppercase tracking-wider">AI Feedback</span>
-                      </div>
-                      <p className="text-xs text-white/45 leading-relaxed">
-                        Strong pronunciation and natural rhythm. Focus on expanding vocabulary range and using more complex grammatical structures in spontaneous speech.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </AnimatedSection>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== 6 CORE SKILLS SECTION ===== */}
-      <section className="relative py-20 md:py-28 dark-section-alt hero-pattern noise-overlay">
         <div className="container relative mx-auto px-4">
           <AnimatedSection>
             <div className="text-center mb-14">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
                 <BookOpen className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Comprehensive Evaluation</span>
+                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Comprehensive Coverage</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-white">
-                6 Core Skills <span className="gradient-text-static">Assessed</span>
+              <h2 className="text-3xl md:text-5xl font-bold text-white">
+                6 Dimensions of <span className="gradient-text-static">English Proficiency</span>
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
-                Our comprehensive AI-powered evaluation measures your English proficiency across all key language competencies aligned with the CEFR framework.
+                Our AI evaluates every aspect of your English proficiency with granular precision.
               </p>
             </div>
           </AnimatedSection>
 
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto">
-            {SKILLS_DATA.map((skill, index) => (
+            {DIMENSIONS_DATA.map((skill, index) => (
               <AnimatedSection key={skill.title} delay={index * 100}>
-                <div className="relative">
-                  {/* Animated gradient border on hover */}
-                  <div className="absolute -inset-[1px] rounded-[21px] bg-gradient-to-br from-purple-500/0 via-pink-500/0 to-blue-500/0 group-hover:from-purple-500/30 group-hover:via-pink-500/20 group-hover:to-blue-500/30 transition-all duration-500" />
-                  <div className="relative glass-card p-6 h-full group">
-                    <div className="flex items-start gap-4">
-                      <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${skill.gradient} text-white shadow-lg shadow-black/20 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>
-                        {skill.icon}
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-semibold text-white mb-2">{skill.title}</h3>
-                        <p className="text-sm text-white/50 leading-relaxed">{skill.desc}</p>
-                      </div>
+                <div className="glass-card p-6 h-full group">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${skill.gradient} text-white shadow-lg shadow-black/20 transition-transform duration-300 group-hover:scale-110`}>
+                      {skill.icon}
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-white">{skill.title}</h3>
+                      <span className="text-xs text-white/40">{skill.level}</span>
                     </div>
                   </div>
+                  <ul className="space-y-2">
+                    {skill.items.map((item) => (
+                      <li key={item} className="flex items-center gap-2">
+                        <CheckCircle2 className="h-3.5 w-3.5 text-purple-400 shrink-0" />
+                        <span className="text-sm text-white/60">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </AnimatedSection>
             ))}
@@ -718,39 +912,47 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== HOW IT WORKS SECTION ===== */}
-      <section className="relative py-20 md:py-28 bg-[#0F0A1E]">
-        <div className="absolute inset-0 hero-pattern pointer-events-none" />
+      {/* ===== INTERACTIVE CEFR LEVELS ===== */}
+      <InteractiveCEFRLevels />
+
+      {/* ===== HOW IT WORKS ===== */}
+      <section className="relative py-20 md:py-28 bg-[#0F0A1E] overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="orb orb-pink w-[400px] h-[400px] bottom-0 left-0 animate-float-slow" />
+        </div>
+
         <div className="container relative mx-auto px-4">
           <AnimatedSection>
             <div className="text-center mb-14">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <Zap className="h-3.5 w-3.5 text-purple-400" />
+                <ClipboardCheck className="h-3.5 w-3.5 text-purple-400" />
                 <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Simple Process</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-white">
+              <h2 className="text-3xl md:text-5xl font-bold text-white">
                 How It <span className="gradient-text-static">Works</span>
               </h2>
+              <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
+                Get your CEFR score in just 4 simple steps.
+              </p>
             </div>
           </AnimatedSection>
 
-          <div className="grid gap-8 md:grid-cols-3 max-w-4xl mx-auto">
-            {[
-              { step: '01', title: 'Create Your Account', desc: 'Sign up for a free account in under 30 seconds. No credit card required — explore the platform and take a sample test before committing.', icon: <Users className="h-6 w-6" />, gradient: 'from-purple-500 to-indigo-500' },
-              { step: '02', title: 'Take the Assessment', desc: 'Complete the AI-powered test covering all six core skills. The adaptive engine adjusts question difficulty in real-time based on your responses.', icon: <FileCheck className="h-6 w-6" />, gradient: 'from-pink-500 to-rose-500' },
-              { step: '03', title: 'Get Certified', desc: 'Receive your CEFR level instantly along with a downloadable certificate featuring a QR verification code. Share your results with confidence.', icon: <Award className="h-6 w-6" />, gradient: 'from-cyan-500 to-blue-500' },
-            ].map((item, index) => (
-              <AnimatedSection key={item.step} delay={index * 150}>
-                <div className="relative">
-                  <div className="absolute -inset-[1px] rounded-[21px] bg-gradient-to-b from-purple-500/20 via-pink-500/10 to-blue-500/20" />
-                  <div className="relative glass-card-neon p-6 h-full text-center group">
-                    <div className="text-5xl font-black gradient-text-static opacity-20 mb-2">{item.step}</div>
-                    <div className={`inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br ${item.gradient} text-white shadow-lg shadow-black/20 mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>
-                      {item.icon}
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 max-w-5xl mx-auto">
+            {STEPS.map((step, index) => (
+              <AnimatedSection key={step.number} delay={index * 150}>
+                <div className="glass-card p-6 text-center h-full group">
+                  <div className="flex justify-center mb-4">
+                    <div className="relative">
+                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-500/20 text-purple-400 group-hover:border-purple-500/40 transition-all duration-300">
+                        {step.icon}
+                      </div>
+                      <div className="absolute -top-2 -right-2 flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-purple-600 to-pink-500 text-white text-xs font-bold shadow-lg">
+                        {step.number}
+                      </div>
                     </div>
-                    <h3 className="text-lg font-semibold text-white mb-2">{item.title}</h3>
-                    <p className="text-sm text-white/45 leading-relaxed">{item.desc}</p>
                   </div>
+                  <h3 className="text-lg font-semibold text-white mb-2">{step.title}</h3>
+                  <p className="text-sm text-white/50 leading-relaxed">{step.desc}</p>
                 </div>
               </AnimatedSection>
             ))}
@@ -758,67 +960,134 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== CEFR LEVELS SECTION ===== */}
-      <section className="relative py-20 md:py-28 dark-section-alt hero-pattern noise-overlay">
+      {/* ===== PRICING — Individual ===== */}
+      <section className="relative py-20 md:py-28 dark-section-alt hero-pattern noise-overlay" id="pricing">
         <div className="container relative mx-auto px-4">
           <AnimatedSection>
             <div className="text-center mb-14">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <TrendingUp className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Internationally Recognized</span>
+                <CreditCard className="h-3.5 w-3.5 text-purple-400" />
+                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Pricing</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-white">
-                CEFR Levels <span className="gradient-text-static">Explained</span>
+              <h2 className="text-3xl md:text-5xl font-bold text-white">
+                Flexible <span className="gradient-text-static">Pricing</span>
               </h2>
+              <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
+                Start free and upgrade as you grow. All plans include our AI-powered scoring engine.
+              </p>
             </div>
           </AnimatedSection>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto">
-            {CEFR_LEVELS.map((item, index) => (
-              <AnimatedSection key={item.level} delay={index * 80}>
-                <div className="glass-card p-5 h-full group">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className={`inline-flex items-center justify-center h-11 w-11 rounded-xl bg-gradient-to-br ${item.color} text-white text-sm font-bold shadow-lg shadow-black/20 transition-transform duration-300 group-hover:scale-110`}>
-                      {item.level}
-                    </span>
-                    <div>
-                      <h3 className="text-base font-semibold text-white">{item.title}</h3>
-                      <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium border ${item.badge}`}>Level {item.level}</span>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto">
+            {INDIVIDUAL_PLANS.map((plan, index) => (
+              <AnimatedSection key={plan.name} delay={index * 100}>
+                <div className={`relative glass-card p-6 h-full flex flex-col ${plan.popular ? 'ring-2 ring-purple-500/50' : ''}`}>
+                  {plan.popular && (
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                      <span className="bg-gradient-to-r from-purple-600 to-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                        Most Popular
+                      </span>
                     </div>
+                  )}
+                  <h3 className="text-lg font-semibold text-white">{plan.name}</h3>
+                  <p className="text-xs text-white/40 mt-1">{plan.desc}</p>
+                  <div className="mt-4 mb-6">
+                    <span className="text-3xl font-bold text-white">{plan.price}</span>
                   </div>
-                  <p className="text-sm text-white/45 leading-relaxed">{item.desc}</p>
+                  <ul className="space-y-2.5 flex-1">
+                    {plan.features.map((feature) => (
+                      <li key={feature} className="flex items-start gap-2">
+                        <CheckCircle2 className="h-4 w-4 text-purple-400 shrink-0 mt-0.5" />
+                        <span className="text-sm text-white/60">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link href={plan.ctaLink} className="mt-6 block">
+                    <button className={`w-full py-2.5 rounded-xl font-medium text-sm transition-all duration-300 cursor-pointer ${
+                      plan.popular
+                        ? 'bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white shadow-lg shadow-purple-500/25 hover:-translate-y-0.5'
+                        : plan.price === '$0'
+                          ? 'glass-button text-white'
+                          : 'glass-button text-white hover:bg-purple-500/20'
+                    }`}>
+                      {plan.cta}
+                    </button>
+                  </Link>
                 </div>
               </AnimatedSection>
             ))}
           </div>
+
+          <div className="text-center mt-8">
+            <Link href="/pricing" className="group inline-flex items-center gap-1 text-sm text-purple-400 hover:text-purple-300 transition-colors">
+              View all plans including Team & Enterprise
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* ===== WHY CHOOSE TESTCEFR ===== */}
-      <section className="relative py-20 md:py-28 bg-[#0F0A1E]">
-        <div className="absolute inset-0 hero-pattern pointer-events-none" />
+      {/* ===== FOR ORGANIZATIONS ===== */}
+      <section className="relative py-20 md:py-28 bg-[#0F0A1E] overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="orb orb-purple w-[500px] h-[500px] top-0 right-0 animate-float-slow" />
+          <div className="orb orb-cyan w-[300px] h-[300px] bottom-0 left-1/4 animate-float-reverse" />
+        </div>
+
         <div className="container relative mx-auto px-4">
           <AnimatedSection>
             <div className="text-center mb-14">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <Shield className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Trusted Platform</span>
+                <Building2 className="h-3.5 w-3.5 text-purple-400" />
+                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">For Organizations</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-white">
-                Why Choose <span className="gradient-text-static">TestCEFR</span>?
+              <h2 className="text-3xl md:text-5xl font-bold text-white">
+                Scale English Testing
+                <br />
+                <span className="gradient-text-static">Across Your Team</span>
               </h2>
+              <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
+                Purpose-built plans for schools, businesses, and institutions — with the tools your team actually needs.
+              </p>
             </div>
           </AnimatedSection>
 
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto">
-            {WHY_CHOOSE_DATA.map((feature, index) => (
-              <AnimatedSection key={feature.title} delay={index * 100}>
-                <div className="glass-card p-6 h-full group">
-                  <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${feature.gradient} text-white shadow-lg shadow-black/20 mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>
-                    {feature.icon}
+          <div className="grid gap-6 md:grid-cols-3 max-w-5xl mx-auto">
+            {ORG_PLANS.map((plan, index) => (
+              <AnimatedSection key={plan.tier} delay={index * 150}>
+                <div className={`relative glass-card p-6 h-full flex flex-col ${plan.popular ? 'ring-2 ring-purple-500/50' : ''}`}>
+                  {plan.popular && (
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                      <span className="bg-gradient-to-r from-purple-600 to-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                        Most Popular
+                      </span>
+                    </div>
+                  )}
+                  <h3 className="text-xl font-bold text-white">{plan.tier}</h3>
+                  <p className="text-xs text-white/40 mt-1">{plan.desc}</p>
+                  <p className="text-xs text-white/30 mt-0.5">{plan.subdesc}</p>
+                  <div className="mt-4 mb-6">
+                    <span className="text-3xl font-bold text-white">{plan.price}</span>
+                    {plan.period && <span className="text-sm text-white/40">{plan.period}</span>}
                   </div>
-                  <h3 className="text-lg font-semibold text-white mb-2">{feature.title}</h3>
-                  <p className="text-sm text-white/45 leading-relaxed">{feature.desc}</p>
+                  <ul className="space-y-2.5 flex-1">
+                    {plan.features.map((feature) => (
+                      <li key={feature} className="flex items-start gap-2">
+                        <CheckCircle2 className="h-4 w-4 text-purple-400 shrink-0 mt-0.5" />
+                        <span className="text-sm text-white/60">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="text-xs text-white/30 mt-4">Best for: {plan.bestFor}</p>
+                  <Link href={plan.ctaLink} className="mt-4 block">
+                    <button className={`w-full py-2.5 rounded-xl font-medium text-sm transition-all duration-300 cursor-pointer ${
+                      plan.popular
+                        ? 'bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white shadow-lg shadow-purple-500/25 hover:-translate-y-0.5'
+                        : 'glass-button text-white'
+                    }`}>
+                      {plan.cta}
+                    </button>
+                  </Link>
                 </div>
               </AnimatedSection>
             ))}
@@ -827,39 +1096,37 @@ export default function Home() {
       </section>
 
       {/* ===== TESTIMONIALS ===== */}
-      <section className="relative py-20 md:py-28 dark-section-alt hero-pattern noise-overlay">
+      <section className="relative py-20 md:py-28 dark-section-alt overflow-hidden">
         <div className="container relative mx-auto px-4">
           <AnimatedSection>
             <div className="text-center mb-14">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <Heart className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">What Learners Say</span>
+                <Star className="h-3.5 w-3.5 text-purple-400" />
+                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Success Stories</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-white">
-                Trusted by <span className="gradient-text-static">Thousands</span>
+              <h2 className="text-3xl md:text-5xl font-bold text-white">
+                Trusted by <span className="gradient-text-static">Thousands of Learners</span>
               </h2>
             </div>
           </AnimatedSection>
 
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto">
-            {[
-              { quote: 'I needed a CEFR certificate for my university application and TestCEFR delivered exactly what I needed. The test took less than 40 minutes, and I had my verified certificate the moment I finished!', name: 'Maria S.', role: 'University Applicant, Spain', level: 'B2' },
-              { quote: 'As an HR manager, I appreciate the QR verification feature. When candidates present their TestCEFR certificates, I can scan the code and verify their level instantly. Highly recommended for recruitment.', name: 'David K.', role: 'HR Manager, Germany', level: 'C1' },
-              { quote: 'The detailed analytics helped me understand exactly where I needed to improve. After three months of targeted study, I retook the test and moved from B1 to B2. The progress tracking is incredibly motivating!', name: 'Yuki T.', role: 'Software Engineer, Japan', level: 'B2' },
-            ].map((testimonial, index) => (
-              <AnimatedSection key={index} delay={index * 150}>
-                <div className="glass-card p-6 h-full group flex flex-col">
-                  <div className="flex items-center gap-1 mb-4">
-                    {[...Array(5)].map((_, i) => (<Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />))}
-                  </div>
-                  <p className="text-sm text-white/55 leading-relaxed flex-1 italic">&ldquo;{testimonial.quote}&rdquo;</p>
-                  <div className="mt-5 pt-4 border-t border-white/10 flex items-center gap-3">
-                    <div className="h-9 w-9 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-sm font-bold">{testimonial.name[0]}</div>
+          <div className="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto">
+            {TESTIMONIALS.map((testimonial, index) => (
+              <AnimatedSection key={testimonial.name} delay={index * 100}>
+                <div className="glass-card p-6 h-full">
+                  <p className="text-sm text-white/70 leading-relaxed mb-4 italic">&ldquo;{testimonial.quote}&rdquo;</p>
+                  <div className="flex items-center gap-3">
+                    <div className={`flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br ${testimonial.color} text-white font-bold text-sm shadow-lg`}>
+                      {testimonial.initials}
+                    </div>
                     <div className="flex-1">
-                      <p className="text-sm font-medium text-white">{testimonial.name}</p>
+                      <p className="text-sm font-semibold text-white">{testimonial.name}</p>
                       <p className="text-xs text-white/40">{testimonial.role}</p>
                     </div>
-                    <span className="text-xs font-bold gradient-text-static">{testimonial.level}</span>
+                    <div className="text-right">
+                      <p className="text-xs text-white/30">{testimonial.location}</p>
+                      <span className="text-xs font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">{testimonial.progress}</span>
+                    </div>
                   </div>
                 </div>
               </AnimatedSection>
@@ -868,41 +1135,120 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== CTA SECTION ===== */}
-      <section className="relative py-20 md:py-28 dark-section overflow-hidden mesh-gradient">
+      {/* ===== ENTERPRISE SECTION ===== */}
+      <section className="relative py-20 md:py-28 bg-[#0F0A1E] overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="orb orb-purple w-[500px] h-[500px] -top-32 right-1/4 animate-float-slow" />
-          <div className="orb orb-pink w-[350px] h-[350px] bottom-0 left-1/4 animate-float-reverse" />
+          <div className="orb orb-blue w-[500px] h-[500px] top-0 -left-24 animate-float-slow" />
         </div>
 
-        <div className="container relative mx-auto px-4 text-center">
+        <div className="container relative mx-auto px-4">
           <AnimatedSection>
-            <div className="max-w-3xl mx-auto">
-              <div className="glass-card-neon p-10 md:p-14 light-streak">
-                <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-6 animate-pulse-glow">
-                  <Sparkles className="h-4 w-4 text-purple-300" />
-                  <span className="text-sm text-purple-200 font-medium">Start Your Journey</span>
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
+                <Building2 className="h-3.5 w-3.5 text-purple-400" />
+                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Enterprise</span>
+              </div>
+              <h2 className="text-3xl md:text-5xl font-bold text-white">
+                Built for Teams and <span className="gradient-text-static">Organisations</span>
+              </h2>
+              <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
+                From universities to corporate training — CEFR Test scales to meet your team&apos;s English assessment needs.
+              </p>
+            </div>
+          </AnimatedSection>
+
+          {/* Stats grid */}
+          <AnimatedSection delay={100}>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-5xl mx-auto mb-14">
+              {ENTERPRISE_STATS.map((stat, i) => (
+                <div key={stat.label} className="glass-card p-4 text-center">
+                  <div className="flex justify-center mb-2 text-purple-400">{stat.icon}</div>
+                  <div className="text-lg font-bold text-white">{stat.value}</div>
+                  <div className="text-[10px] text-white/40">{stat.label}</div>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                  Ready to Discover Your <span className="gradient-text-static">English Level</span>?
-                </h2>
-                <p className="text-lg text-white/50 max-w-xl mx-auto mb-8">
-                  Join thousands of learners who have already discovered their CEFR level. Create your free account today.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link href="/register">
-                    <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
-                      Create Free Account
-                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </button>
-                  </Link>
-                  <Link href="/pricing">
-                    <button className="glass-button rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
-                      View Pricing
-                    </button>
-                  </Link>
+              ))}
+            </div>
+          </AnimatedSection>
+
+          {/* Enterprise testimonials */}
+          <div className="max-w-4xl mx-auto space-y-6">
+            {ENTERPRISE_TESTIMONIALS.map((testimonial, index) => (
+              <AnimatedSection key={testimonial.name} delay={index * 100}>
+                <div className="glass-card p-6">
+                  <div className="flex items-start gap-4">
+                    <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${testimonial.color} text-white font-bold text-sm shadow-lg`}>
+                      {testimonial.initials}
+                    </div>
+                    <div>
+                      <p className="text-sm text-white/70 leading-relaxed italic mb-3">&ldquo;{testimonial.quote}&rdquo;</p>
+                      <div>
+                        <p className="text-sm font-semibold text-white">{testimonial.name}</p>
+                        <p className="text-xs text-white/40">{testimonial.role}</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <p className="mt-6 text-xs text-white/30">No credit card required. Free account includes a sample test.</p>
+              </AnimatedSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== FAQ SECTION ===== */}
+      <section className="relative py-20 md:py-28 dark-section-alt overflow-hidden">
+        <div className="container relative mx-auto px-4">
+          <AnimatedSection>
+            <div className="text-center mb-14">
+              <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
+                <HelpCircle className="h-3.5 w-3.5 text-purple-400" />
+                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">FAQ</span>
+              </div>
+              <h2 className="text-3xl md:text-5xl font-bold text-white">
+                Frequently Asked <span className="gradient-text-static">Questions</span>
+              </h2>
+            </div>
+          </AnimatedSection>
+
+          <div className="max-w-3xl mx-auto space-y-4">
+            {FAQ_DATA.map((faq, index) => (
+              <AnimatedSection key={faq.question} delay={index * 50}>
+                <FAQItem question={faq.question} answer={faq.answer} />
+              </AnimatedSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== FINAL CTA SECTION ===== */}
+      <section className="relative py-20 md:py-28 bg-[#0F0A1E] overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="orb orb-purple w-[600px] h-[600px] top-1/4 left-1/4 animate-float-slow" />
+          <div className="orb orb-pink w-[400px] h-[400px] bottom-1/4 right-1/4 animate-float-reverse" />
+        </div>
+
+        <div className="container relative mx-auto px-4">
+          <AnimatedSection>
+            <div className="text-center max-w-3xl mx-auto">
+              <h2 className="text-3xl md:text-5xl font-bold text-white leading-tight">
+                Ready to Transform
+                <br />
+                <span className="gradient-text">Your English?</span>
+              </h2>
+              <p className="mt-6 text-lg text-white/50 leading-relaxed">
+                Get your official CEFR level in minutes — free to start, with detailed AI feedback on all 6 core skills.
+              </p>
+              <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+                <Link href={isAuth ? '/dashboard' : '/register'}>
+                  <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                    Get Started Free
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </button>
+                </Link>
+                <Link href="/pricing">
+                  <button className="glass-button rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
+                    View Pricing
+                  </button>
+                </Link>
               </div>
             </div>
           </AnimatedSection>
@@ -910,59 +1256,114 @@ export default function Home() {
       </section>
 
       {/* ===== FOOTER ===== */}
-      <footer className="relative bg-[#0A0618] border-t border-white/5 py-12 mt-auto">
-        <div className="container mx-auto px-4">
+      <footer className="relative border-t border-white/5 bg-[#0a0618]">
+        <div className="container mx-auto px-4 py-16">
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {/* Brand */}
             <div>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white font-bold text-sm shadow-lg shadow-purple-500/20">CE</div>
-                <div className="flex flex-col">
-                  <span className="text-white font-bold text-base">testcefr.com</span>
-                  <span className="text-white/30 text-[9px] uppercase tracking-[0.2em]">English Assessment</span>
+              <Link href="/" className="flex items-center gap-3 group mb-4">
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white font-bold text-sm shadow-lg">
+                  C
                 </div>
-              </div>
-              <p className="text-sm text-white/40 leading-relaxed mb-4">AI-powered English proficiency assessment aligned with the CEFR framework. Trusted by learners across 120+ countries.</p>
-              <div className="flex items-center gap-2">
-                <span className="flex h-2 w-2 rounded-full bg-green-400 animate-pulse" />
-                <span className="text-xs text-white/40">All systems operational</span>
-              </div>
-            </div>
-            <div>
-              <h4 className="text-white font-semibold text-sm mb-4">Assessments</h4>
-              <div className="space-y-2.5">
-                <Link href="/speaking" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Speaking Test</Link>
-                <Link href="/listening" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Listening Test</Link>
-                <Link href="/writing" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Writing Test</Link>
-                <Link href="/quick-tour" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Quick Tour</Link>
-                <Link href="/sample-certificate" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Sample Certificate</Link>
+                <div className="flex flex-col">
+                  <span className="text-white font-bold text-base tracking-tight leading-tight">CEFRTest</span>
+                  <span className="text-white/40 text-[9px] uppercase tracking-[0.2em] leading-tight">English Assessment</span>
+                </div>
+              </Link>
+              <p className="text-sm text-white/40 leading-relaxed mb-4">
+                AI-powered English proficiency assessment aligned with the Common European Framework of Reference.
+              </p>
+              <div className="flex gap-3">
+                <a href="#" className="text-white/30 hover:text-white/60 transition-colors"><Twitter className="h-4 w-4" /></a>
+                <a href="#" className="text-white/30 hover:text-white/60 transition-colors"><Linkedin className="h-4 w-4" /></a>
               </div>
             </div>
+
+            {/* Product */}
             <div>
-              <h4 className="text-white font-semibold text-sm mb-4">Company</h4>
-              <div className="space-y-2.5">
-                <Link href="/about" className="block text-sm text-white/40 hover:text-white/70 transition-colors">About</Link>
-                <Link href="/contact" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Contact</Link>
-                <Link href="/privacy" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Privacy Policy</Link>
-                <Link href="/terms" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Terms of Service</Link>
-              </div>
+              <h4 className="text-sm font-semibold text-white mb-4">Product</h4>
+              <ul className="space-y-2">
+                {[
+                  { href: '/', label: 'Home' },
+                  { href: '/pricing', label: 'Pricing' },
+                  { href: '/quick-tour', label: 'Quick Tour' },
+                  { href: '/sample-certificate', label: 'Sample Certificate' },
+                  { href: '/register', label: 'Get Started' },
+                ].map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className="text-sm text-white/40 hover:text-white/70 transition-colors">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
+
+            {/* Company */}
             <div>
-              <h4 className="text-white font-semibold text-sm mb-4">Account</h4>
-              <div className="space-y-2.5">
-                <Link href="/dashboard" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Dashboard</Link>
-                <Link href="/login" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Sign In</Link>
-                <Link href="/register" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Sign Up</Link>
-                <Link href="/pricing" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Pricing</Link>
+              <h4 className="text-sm font-semibold text-white mb-4">Company</h4>
+              <ul className="space-y-2">
+                {[
+                  { href: '/about', label: 'About' },
+                  { href: '/contact', label: 'Contact' },
+                  { href: '/privacy', label: 'Privacy' },
+                  { href: '/terms', label: 'Terms' },
+                  { href: '/verify', label: 'Verify Certificate' },
+                ].map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className="text-sm text-white/40 hover:text-white/70 transition-colors">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Account */}
+            <div>
+              <h4 className="text-sm font-semibold text-white mb-4">Account</h4>
+              <ul className="space-y-2">
+                {[
+                  { href: '/dashboard', label: 'Dashboard' },
+                  { href: '/login', label: 'Sign In' },
+                  { href: '/register', label: 'Sign Up' },
+                ].map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className="text-sm text-white/40 hover:text-white/70 transition-colors">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-6 pt-4 border-t border-white/5">
+                <h5 className="text-xs font-semibold text-white/60 mb-3">Trust & Security</h5>
+                <div className="flex items-center gap-2 text-white/30">
+                  <Shield className="h-4 w-4" />
+                  <span className="text-xs">Secure payments powered by PayPal</span>
+                </div>
               </div>
             </div>
           </div>
-          <div className="section-divider mt-10 mb-6" />
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-white/30">&copy; {new Date().getFullYear()} TestCEFR. All rights reserved.</p>
+
+          {/* Bottom bar */}
+          <div className="mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-xs text-white/30">
+              © {new Date().getFullYear()} CEFR Test. All rights reserved.
+            </p>
             <div className="flex items-center gap-4">
-              <Link href="/privacy" className="text-xs text-white/30 hover:text-white/50 transition-colors">Privacy</Link>
-              <Link href="/terms" className="text-xs text-white/30 hover:text-white/50 transition-colors">Terms</Link>
-              <Link href="/contact" className="text-xs text-white/30 hover:text-white/50 transition-colors">Contact</Link>
+              <Link href="/privacy" className="text-xs text-white/30 hover:text-white/50 transition-colors">
+                Privacy Policy
+              </Link>
+              <Link href="/terms" className="text-xs text-white/30 hover:text-white/50 transition-colors">
+                Terms of Service
+              </Link>
+              <Link href="/about" className="text-xs text-white/30 hover:text-white/50 transition-colors">
+                About
+              </Link>
+              <Link href="/verify" className="text-xs text-white/30 hover:text-white/50 transition-colors">
+                Verify Certificate
+              </Link>
             </div>
           </div>
         </div>
