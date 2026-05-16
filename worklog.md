@@ -189,3 +189,29 @@ Stage Summary:
 - DNS at GoDaddy needs to be updated: A record from 160.153.0.42 → 76.76.21.21
 - User must log into GoDaddy DNS management to make this change
 - Alternative: Change nameservers from GoDaddy to Vercel's
+---
+Task ID: 2-7
+Agent: Main Agent
+Task: Fix test page dark theme, implement 4 test types, 6-dim speaking, API keys, white-label, fix login
+
+Work Log:
+- Completely rewrote /test page with dark bg-[#0F0A1E] background matching all other pages
+- Added test selection landing with 4 glass-card test types: Reading, Listening, Writing, Speaking
+- Implemented Listening test with Web Speech API TTS (speechSynthesis) for reading passages aloud
+- Added 6 CEFR-level listening passages (A1-C2) with comprehension questions
+- Implemented Speaking test with 6-dimension AI scoring (Grammar, Vocabulary, Fluency, Pronunciation, Coherence, Interaction)
+- Updated speaking evaluate API to return 6 dimensions with per-dimension scores and feedback
+- Added API Key generation feature in Admin panel (new ApiKey Prisma model + routes)
+- Added White-Label configuration feature in Admin panel (new WhiteLabelSetting Prisma model + routes)
+- Enhanced Admin APIs tab with 3 sub-tabs: Service Health, API Keys, White-Label
+- Fixed login 500 error: stale DATABASE_URL in .env pointed to SQLite instead of PostgreSQL
+- Added fallback mechanism in db.ts to use POSTGRES_PRISMA_URL when DATABASE_URL is wrong protocol
+- Verified admin@testcefr.com login works with plan=premium, role=admin
+- Built and deployed to Vercel production at testcefr.com
+
+Stage Summary:
+- Test page now matches dark theme of all other pages
+- All 4 test types are listed and functional (Reading MCQ, Listening TTS, Writing AI, Speaking 6-dim)
+- Login 500 error fixed - admin@testcefr.com works as Premium super admin
+- Admin panel has API key generation and white-label features for enterprise
+- All changes deployed live at testcefr.com
