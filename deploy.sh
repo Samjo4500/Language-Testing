@@ -12,7 +12,7 @@ set -e
 cd "$(dirname "$0")"
 
 MSG="${1:-auto-save: $(date '+%Y-%m-%d %H:%M:%S')}"
-VERCEL_TOKEN="${VERCEL_TOKEN:-REDACTED}"
+VERCEL_TOKEN="${VERCEL_TOKEN:?Set VERCEL_TOKEN env var before running}"
 
 echo "=== Step 1: Saving to local git ==="
 git add -A
