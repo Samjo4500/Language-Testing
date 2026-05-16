@@ -48,6 +48,11 @@ import {
   ArrowUpRight,
   ArrowDownRight,
   Wifi,
+  Mail,
+  Code2,
+  FileText,
+  Timer,
+  Hash,
 } from 'lucide-react';
 import {
   AreaChart,
@@ -90,8 +95,10 @@ const CEFR_PIE_COLORS: Record<string, string> = {
 const TABS = [
   { id: 'overview', label: 'Overview', icon: BarChart3 },
   { id: 'users', label: 'Users', icon: Users },
-  { id: 'payments', label: 'Payments', icon: CreditCard },
-  { id: 'assessments', label: 'Assessments', icon: ClipboardList },
+  { id: 'payments', label: 'Financial', icon: CreditCard },
+  { id: 'assessments', label: 'Test Takers', icon: ClipboardList },
+  { id: 'emails', label: 'Emails', icon: Mail },
+  { id: 'apis', label: 'APIs', icon: Code2 },
   { id: 'questions', label: 'Question Bank', icon: BookOpen },
   { id: 'system', label: 'System', icon: Server },
 ] as const;
@@ -1437,6 +1444,20 @@ export default function AdminPage() {
                 </div>
               </div>
             </div>
+          )}
+
+          {/* ════════════════════════════════════════════════════════════
+              TAB: EMAILS
+              ════════════════════════════════════════════════════════════ */}
+          {activeTab === 'emails' && (
+            <EmailsTab accessToken={accessToken} />
+          )}
+
+          {/* ════════════════════════════════════════════════════════════
+              TAB: APIs
+              ════════════════════════════════════════════════════════════ */}
+          {activeTab === 'apis' && (
+            <APIsTab accessToken={accessToken} />
           )}
 
           {/* ════════════════════════════════════════════════════════════
