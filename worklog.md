@@ -79,3 +79,21 @@ Stage Summary:
 - Database: PostgreSQL (Neon) with Prisma ORM - schema includes User, Question, Payment, Assessment, AssessmentResponse, Certificate models
 - Stack: Next.js 16 + TypeScript + Tailwind CSS + shadcn/ui + Prisma + PayPal integration
 - Environment variables including DATABASE_URL, JWT_SECRET recovered from Vercel
+---
+Task ID: 1
+Agent: Main
+Task: Fix React hydration error in HeroRecordingElement waveform bars
+
+Work Log:
+- Read src/app/page.tsx and identified the hydration mismatch root causes
+- Issue 1: Math.sin() floating point values differ in precision between SSR and client (e.g., "6.24198963055242px" vs "6.24199px")
+- Issue 2: i * 0.06 produces "0.6599999999999999s" on client vs "0.66s" on server (animationDelay)
+- Issue 3: opacity: 0.25 (number) vs opacity: "0.25" (string) type mismatch
+- Created pre-computed WAVEFORM_HEIGHTS, WAVEFORM_DELAYS, WAVEFORM_BG_HEIGHTS arrays with .toFixed(2) to ensure consistent string output
+- Added `if (!mounted)` guard to render a static placeholder on server, matching what the client first renders
+- Applied same fix to both /home/z/my-project/src/app/page.tsx and /home/z/my-project/testcefr-app/src/app/page.tsx
+- Verified build succeeds: `npx next build` compiled successfully
+
+Stage Summary:
+- Hydration error fixed by: (1) pre-computing all dynamic values as deterministic strings, (2) using mounted guard for server/client split
+- Build passes with no errors

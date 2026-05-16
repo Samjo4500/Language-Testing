@@ -110,11 +110,71 @@ function RotatingSkillText() {
    HERO RECORDING ELEMENT — large, dramatic mic with waveform
    Prominently featured right in the hero section
    ====================================================== */
+/* Pre-computed waveform values to avoid hydration mismatches */
+const WAVEFORM_HEIGHTS = Array.from({ length: 30 }, (_, i) =>
+  `${(6 + Math.sin(i * 0.4) * 5 + 5).toFixed(2)}px`
+);
+const WAVEFORM_DELAYS = Array.from({ length: 30 }, (_, i) =>
+  `${(i * 0.06).toFixed(2)}s`
+);
+const WAVEFORM_BG_HEIGHTS = Array.from({ length: 60 }, (_, i) =>
+  `${(3 + Math.sin(i * 0.35) * 10 + 10).toFixed(2)}px`
+);
+
 function HeroRecordingElement() {
   const [isRecording, setIsRecording] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => { setMounted(true); }, []);
+
+  /* Render static placeholder on server, full content on client — avoids hydration mismatch */
+  if (!mounted) {
+    return (
+      <div className="flex flex-col items-center gap-5">
+        {/* Waveform visualization — static placeholder */}
+        <div className="flex items-center justify-center gap-[3px] h-16">
+          {Array.from({ length: 30 }).map((_, i) => (
+            <div
+              key={i}
+              className="waveform-bar"
+              style={{
+                height: WAVEFORM_HEIGHTS[i],
+                animationDelay: WAVEFORM_DELAYS[i],
+                opacity: 0.25,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Microphone button — static */}
+        <div className="relative">
+          <div className="absolute -inset-6 rounded-full bg-purple-500/15 blur-2xl" />
+          <button
+            onClick={() => setIsRecording(!isRecording)}
+            className="relative w-24 h-24 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer bg-gradient-to-br from-purple-500 to-pink-500 shadow-2xl shadow-purple-500/40 hover:shadow-purple-500/60 hover:scale-110 animate-mic-glow"
+          >
+            <Mic className="h-10 w-10 text-white" />
+          </button>
+        </div>
+
+        {/* Status text */}
+        <div className="text-center">
+          <span className="text-sm text-white/50">Tap the mic to try speaking</span>
+        </div>
+
+        {/* Simulated waveform background decoration */}
+        <div className="flex items-center justify-center gap-[2px] opacity-15 mt-2">
+          {Array.from({ length: 60 }).map((_, i) => (
+            <div
+              key={i}
+              className="w-[2px] rounded-full bg-gradient-to-t from-purple-500 to-pink-500"
+              style={{ height: WAVEFORM_BG_HEIGHTS[i] }}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center gap-5">
@@ -125,8 +185,8 @@ function HeroRecordingElement() {
             key={i}
             className={`waveform-bar ${isRecording ? (i % 2 === 0 ? 'active' : 'waveform-bar-alt active') : ''}`}
             style={{
-              height: isRecording ? undefined : `${6 + Math.sin(i * 0.4) * 5 + 5}px`,
-              animationDelay: `${i * 0.06}s`,
+              height: isRecording ? undefined : WAVEFORM_HEIGHTS[i],
+              animationDelay: WAVEFORM_DELAYS[i],
               opacity: isRecording ? 1 : 0.25,
             }}
           />
@@ -193,7 +253,7 @@ function HeroRecordingElement() {
           <div
             key={i}
             className="w-[2px] rounded-full bg-gradient-to-t from-purple-500 to-pink-500"
-            style={{ height: `${3 + Math.sin(i * 0.35) * 10 + 10}px` }}
+            style={{ height: WAVEFORM_BG_HEIGHTS[i] }}
           />
         ))}
       </div>
