@@ -165,3 +165,27 @@ Stage Summary:
 - All sections from the testcefr.com spec are implemented
 - Site is live at testcefr.com
 - GitHub repos synced: Samjo4500/Language-Testing, Samjo4500/testcefr.com
+
+---
+Task ID: 4
+Agent: Main
+Task: Fix main page not loading properly at testcefr.com
+
+Work Log:
+- Investigated page loading issue reported by user
+- Confirmed local dev server works fine (HTTP 200, 130KB content)
+- Confirmed production build succeeds (npx next build - all 53 routes compiled)
+- Deployed to Vercel production successfully (deployment 35Us2UMgGeoQY7c6jL2Dhkv8izL5)
+- Discovered the root cause: DNS misconfiguration
+  - testcefr.com A record points to 160.153.0.42 (GoDaddy old hosting)
+  - Should point to 76.76.21.21 (Vercel's IP) or use CNAME to cname.vercel-dns.com
+  - Nameservers are ns03.domaincontrol.com / ns04.domaincontrol.com (GoDaddy)
+  - Vercel reports domain as "misconfigured: true"
+- The old GoDaddy server serves a different Vite/Express app (has data-rh attributes, div id="app", assets/index-B-Gxv7LQ.js)
+- Our Next.js app is properly deployed to Vercel but DNS doesn't route to it
+
+Stage Summary:
+- Production build is working and deployed to Vercel
+- DNS at GoDaddy needs to be updated: A record from 160.153.0.42 → 76.76.21.21
+- User must log into GoDaddy DNS management to make this change
+- Alternative: Change nameservers from GoDaddy to Vercel's
