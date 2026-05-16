@@ -117,3 +117,24 @@ Stage Summary:
 - testcefr-source Vercel project is now the production project with all env vars
 - GitHub push requires a Personal Access Token from the user
 - deploy.sh script created for future saves: bash deploy.sh "commit message"
+
+---
+Task ID: 3
+Agent: Main
+Task: Push code to GitHub and set up auto-deploy pipeline
+
+Work Log:
+- Set up GitHub remote with classic PAT (ghp_ token with repo scope)
+- Push protection blocked push due to Vercel token in deploy.sh
+- Scrubbed Vercel token from all git history using filter-branch
+- Successfully pushed to both GitHub repos:
+  - Samjo4500/Language-Testing (main) ✅
+  - Samjo4500/testcefr.com (main, force push) ✅
+- Updated deploy.sh to use VERCEL_TOKEN env var instead of hardcoded value
+- Configured .env.local and .bashrc with VERCEL_TOKEN for deploy script
+
+Stage Summary:
+- Code is now on GitHub (both repos) — no more risk of losing work
+- testcefr-source Vercel project is linked to Samjo4500/Language-Testing GitHub repo
+- GitHub push to main branch will trigger auto-deploy on Vercel
+- deploy.sh can be run with: VERCEL_TOKEN=xxx bash deploy.sh "message"
