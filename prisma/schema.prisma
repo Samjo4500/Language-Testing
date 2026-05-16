@@ -25,6 +25,7 @@ model User {
   payments     Payment[]
   assessments  Assessment[]
   certificates Certificate[]
+  apiKeys      ApiKey[]
 }
 
 model Question {
@@ -109,4 +110,37 @@ model PageView {
   userId    String?  // if logged in
   userAgent String?  // browser info
   createdAt DateTime @default(now())
+}
+
+model ApiKey {
+  id          String    @id @default(cuid())
+  key         String    @unique // The actual API key (e.g., "tcefr_live_xxxxx")
+  name        String    // Label like "Production Key", "Staging Key"
+  userId      String    // Who created it
+  plan        String    @default("enterprise") // "enterprise" | "business" | "team"
+  type        String    @default("live") // "live" | "test"
+  permissions String    @default("read") // JSON array: ["read", "write", "admin"]
+  rateLimit   Int       @default(1000) // Requests per hour
+  isActive    Boolean   @default(true)
+  lastUsedAt  DateTime?
+  expiresAt   DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model WhiteLabelSetting {
+  id              String   @id @default(cuid())
+  companyName     String   @default("TestCEFR")
+  primaryColor    String   @default("#8B5CF6")
+  logoUrl         String?
+  domain          String?
+  supportEmail    String?
+  customCss       String?
+  features        String   @default("{}") // JSON: enabled features
+  isActive        Boolean  @default(false)
+  plan            String   @default("enterprise") // Required plan
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }

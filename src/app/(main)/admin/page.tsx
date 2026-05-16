@@ -53,6 +53,11 @@ import {
   FileText,
   Timer,
   Hash,
+  Copy,
+  Palette,
+  Trash2,
+  ToggleLeft,
+  ToggleRight,
 } from 'lucide-react';
 import {
   AreaChart,
@@ -462,7 +467,37 @@ function EmailsTab({ accessToken }: { accessToken: string | null }) {
 
 // ─── APIs Tab Component ────────────────────────────────────────────────────────
 
-function APIsTab({ accessToken }: { accessToken: string | null }) {
+interface ApiKeyItem {
+  id: string;
+  key: string;
+  name: string;
+  userId: string;
+  plan: string;
+  type: string;
+  permissions: string;
+  rateLimit: number;
+  isActive: boolean;
+  lastUsedAt: string | null;
+  expiresAt: string | null;
+  createdAt: string;
+  user: { id: string; email: string; name: string | null };
+}
+
+interface WhiteLabelData {
+  id?: string;
+  companyName: string;
+  primaryColor: string;
+  logoUrl: string;
+  domain: string;
+  supportEmail: string;
+  customCss: string;
+  features: string;
+  isActive: boolean;
+  plan: string;
+}
+
+function APIsTab({ accessToken, onToast }: { accessToken: string | null; onToast: (msg: string, type: 'success' | 'error') => void }) {
+  // ── API Service Health Data ──
   const [apisData, setApisData] = useState<{
     apiEndpoints: Array<{ path: string; method: string; description: string }>;
     topApiCalls: Array<{ path: string; count: number }>;
@@ -487,6 +522,37 @@ function APIsTab({ accessToken }: { accessToken: string | null }) {
   } | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // ── API Keys State ──
+  const [apiKeys, setApiKeys] = useState<ApiKeyItem[]>([]);
+  const [apiKeysLoading, setApiKeysLoading] = useState(true);
+  const [generateDialogOpen, setGenerateDialogOpen] = useState(false);
+  const [newKeyName, setNewKeyName] = useState('');
+  const [newKeyPlan, setNewKeyPlan] = useState('enterprise');
+  const [newKeyType, setNewKeyType] = useState('live');
+  const [newKeyPermissions, setNewKeyPermissions] = useState<string[]>(['read']);
+  const [newKeyRateLimit, setNewKeyRateLimit] = useState(1000);
+  const [generating, setGenerating] = useState(false);
+  const [newlyCreatedKey, setNewlyCreatedKey] = useState<string | null>(null);
+
+  // ── White-Label State ──
+  const [wlSettings, setWlSettings] = useState<WhiteLabelData>({
+    companyName: 'TestCEFR',
+    primaryColor: '#8B5CF6',
+    logoUrl: '',
+    domain: '',
+    supportEmail: '',
+    customCss: '',
+    features: '{}',
+    isActive: false,
+    plan: 'enterprise',
+  });
+  const [wlLoading, setWlLoading] = useState(true);
+  const [wlSaving, setWlSaving] = useState(false);
+
+  // ── Sub-tab ──
+  const [subTab, setSubTab] = useState<'health' | 'keys' | 'whitelabel'>('health');
+
+  // ── Fetch API Health ──
   const fetchAPIs = useCallback(async () => {
     if (!accessToken) return;
     setLoading(true);
@@ -497,7 +563,151 @@ function APIsTab({ accessToken }: { accessToken: string | null }) {
     finally { setLoading(false); }
   }, [accessToken]);
 
-  useEffect(() => { fetchAPIs(); }, [fetchAPIs]);
+  // ── Fetch API Keys ──
+  const fetchApiKeys = useCallback(async () => {
+    if (!accessToken) return;
+    setApiKeysLoading(true);
+    try {
+      const res = await fetch('/api/admin/api-keys', { headers: { Authorization: `Bearer ${accessToken}` } });
+      if (res.ok) {
+        const data = await res.json();
+        setApiKeys(data.apiKeys);
+      }
+    } catch (e) { console.error('API keys fetch error:', e); }
+    finally { setApiKeysLoading(false); }
+  }, [accessToken]);
+
+  // ── Fetch White-Label ──
+  const fetchWhiteLabel = useCallback(async () => {
+    if (!accessToken) return;
+    setWlLoading(true);
+    try {
+      const res = await fetch('/api/admin/white-label', { headers: { Authorization: `Bearer ${accessToken}` } });
+      if (res.ok) {
+        const data = await res.json();
+        setWlSettings(data.settings);
+      }
+    } catch (e) { console.error('White-label fetch error:', e); }
+    finally { setWlLoading(false); }
+  }, [accessToken]);
+
+  useEffect(() => { fetchAPIs(); fetchApiKeys(); fetchWhiteLabel(); }, [fetchAPIs, fetchApiKeys, fetchWhiteLabel]);
+
+  // ── Generate API Key ──
+  const handleGenerateKey = async () => {
+    if (!accessToken || !newKeyName.trim()) return;
+    setGenerating(true);
+    try {
+      const res = await fetch('/api/admin/api-keys', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: newKeyName.trim(),
+          plan: newKeyPlan,
+          type: newKeyType,
+          permissions: newKeyPermissions,
+          rateLimit: newKeyRateLimit,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setNewlyCreatedKey(data.apiKey.key);
+        onToast('API key generated successfully!', 'success');
+        fetchApiKeys();
+        setNewKeyName('');
+        setNewKeyPlan('enterprise');
+        setNewKeyType('live');
+        setNewKeyPermissions(['read']);
+        setNewKeyRateLimit(1000);
+      } else {
+        onToast(data.error || 'Failed to generate key', 'error');
+      }
+    } catch {
+      onToast('Failed to generate key', 'error');
+    } finally { setGenerating(false); }
+  };
+
+  // ── Toggle API Key Active ──
+  const handleToggleActive = async (id: string, currentActive: boolean) => {
+    if (!accessToken) return;
+    try {
+      const res = await fetch(`/api/admin/api-keys/${id}`, {
+        method: 'PATCH',
+        headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isActive: !currentActive }),
+      });
+      if (res.ok) {
+        onToast(`Key ${!currentActive ? 'activated' : 'deactivated'}`, 'success');
+        fetchApiKeys();
+      } else {
+        onToast('Failed to update key', 'error');
+      }
+    } catch {
+      onToast('Failed to update key', 'error');
+    }
+  };
+
+  // ── Revoke API Key ──
+  const handleRevokeKey = async (id: string) => {
+    if (!accessToken) return;
+    try {
+      const res = await fetch(`/api/admin/api-keys/${id}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      if (res.ok) {
+        onToast('API key revoked', 'success');
+        fetchApiKeys();
+      } else {
+        onToast('Failed to revoke key', 'error');
+      }
+    } catch {
+      onToast('Failed to revoke key', 'error');
+    }
+  };
+
+  // ── Copy to clipboard ──
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    onToast('Copied to clipboard', 'success');
+  };
+
+  // ── Save White-Label ──
+  const handleSaveWhiteLabel = async () => {
+    if (!accessToken) return;
+    setWlSaving(true);
+    try {
+      const res = await fetch('/api/admin/white-label', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify(wlSettings),
+      });
+      if (res.ok) {
+        onToast('White-label settings saved!', 'success');
+        fetchWhiteLabel();
+      } else {
+        onToast('Failed to save settings', 'error');
+      }
+    } catch {
+      onToast('Failed to save settings', 'error');
+    } finally { setWlSaving(false); }
+  };
+
+  // ── Reset White-Label ──
+  const handleResetWhiteLabel = () => {
+    setWlSettings({
+      companyName: 'TestCEFR',
+      primaryColor: '#8B5CF6',
+      logoUrl: '',
+      domain: '',
+      supportEmail: '',
+      customCss: '',
+      features: '{}',
+      isActive: false,
+      plan: 'enterprise',
+    });
+    onToast('Settings reset to defaults (not saved)', 'success');
+  };
 
   const statusColor = (status: string) => {
     if (status === 'healthy') return 'text-green-400';
@@ -505,225 +715,692 @@ function APIsTab({ accessToken }: { accessToken: string | null }) {
     return 'text-red-400';
   };
 
+  const maskKey = (key: string) => key.slice(0, 12) + '••••••••';
+
   return (
     <div className="space-y-6">
-      {/* Service Health Dashboard */}
-      <div className="glass-card p-5">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-white font-semibold flex items-center gap-2">
-            <Code2 className="h-4 w-4 text-purple-400" />
-            API & Service Health
-          </h3>
-          <button onClick={fetchAPIs} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs text-white/60 hover:text-white hover:bg-white/10 transition-colors">
-            <RefreshCw className="h-3.5 w-3.5" /> Refresh
-          </button>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {/* Database */}
-          <div className="glass-card p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <Database className="h-4 w-4 text-white/40" />
-              <span className="text-white/50 text-sm">Database</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className={statusColor(apisData?.services.database.status ?? 'unknown')}>
-                {apisData?.services.database.status === 'healthy' ? <CheckCircle2 className="h-4 w-4" /> : <AlertCircle className="h-4 w-4" />}
-              </span>
-              <span className={`text-sm font-medium ${statusColor(apisData?.services.database.status ?? 'unknown')}`}>
-                {apisData?.services.database.status ?? '...'}
-              </span>
-            </div>
-            <span className="text-white/30 text-xs">{apisData?.services.database.latencyMs ?? '—'}ms latency</span>
-          </div>
-
-          {/* Auth */}
-          <div className="glass-card p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <Shield className="h-4 w-4 text-white/40" />
-              <span className="text-white/50 text-sm">Authentication</span>
-            </div>
-            <div className="flex items-center gap-2">
-              {apisData?.services.auth.jwtSecretSet ? (
-                <><CheckCircle2 className="h-4 w-4 text-green-400" /><span className="text-green-400 text-sm font-medium">Active</span></>
-              ) : (
-                <><AlertCircle className="h-4 w-4 text-red-400" /><span className="text-red-400 text-sm font-medium">Missing</span></>
-              )}
-            </div>
-            <span className="text-white/30 text-xs">{apisData?.services.auth.provider}</span>
-          </div>
-
-          {/* Email */}
-          <div className="glass-card p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <Mail className="h-4 w-4 text-white/40" />
-              <span className="text-white/50 text-sm">Email ({apisData?.services.email.provider})</span>
-            </div>
-            <div className="flex items-center gap-2">
-              {apisData?.services.email.apiKeySet ? (
-                <><CheckCircle2 className="h-4 w-4 text-green-400" /><span className="text-green-400 text-sm font-medium">Configured</span></>
-              ) : (
-                <><AlertCircle className="h-4 w-4 text-yellow-400" /><span className="text-yellow-400 text-sm font-medium">Not Set</span></>
-              )}
-            </div>
-          </div>
-
-          {/* AI */}
-          <div className="glass-card p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <Cpu className="h-4 w-4 text-white/40" />
-              <span className="text-white/50 text-sm">AI ({apisData?.services.ai.provider})</span>
-            </div>
-            <div className="flex items-center gap-2">
-              {apisData?.services.ai.apiKeySet ? (
-                <><CheckCircle2 className="h-4 w-4 text-green-400" /><span className="text-green-400 text-sm font-medium">API Key Set</span></>
-              ) : (
-                <><AlertCircle className="h-4 w-4 text-red-400" /><span className="text-red-400 text-sm font-medium">Missing</span></>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* PayPal Status */}
-        <div className="mt-4 glass-card p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <CreditCard className="h-4 w-4 text-white/40" />
-            <span className="text-white/50 text-sm">Payment ({apisData?.services.payment.provider})</span>
-          </div>
-          <div className="flex items-center gap-4 flex-wrap">
-            <span className="text-white/60 text-xs">Mode: <span className="text-white font-medium">{apisData?.services.payment.mode}</span></span>
-            <span className="text-white/60 text-xs">Client ID: {apisData?.services.payment.clientIdSet ? <CheckCircle2 className="h-3 w-3 text-green-400 inline" /> : <XCircle className="h-3 w-3 text-red-400 inline" />}</span>
-            <span className="text-white/60 text-xs">Secret: {apisData?.services.payment.secretSet ? <CheckCircle2 className="h-3 w-3 text-green-400 inline" /> : <XCircle className="h-3 w-3 text-red-400 inline" />}</span>
-          </div>
-        </div>
+      {/* Sub-tab Navigation */}
+      <div className="flex gap-2">
+        {[
+          { id: 'health' as const, label: 'Service Health', icon: Activity },
+          { id: 'keys' as const, label: 'API Keys', icon: Key },
+          { id: 'whitelabel' as const, label: 'White-Label', icon: Palette },
+        ].map((tab) => {
+          const Icon = tab.icon;
+          const isActive = subTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setSubTab(tab.id)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-300 ${
+                isActive
+                  ? 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-white border border-purple-500/30 shadow-lg shadow-purple-500/10'
+                  : 'text-white/50 hover:text-white hover:bg-white/5 border border-transparent'
+              }`}
+            >
+              <Icon className="h-4 w-4" />
+              {tab.label}
+            </button>
+          );
+        })}
       </div>
 
-      {/* Assessment Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-        <StatCard icon={ClipboardList} label="Total Tests" value={apisData?.assessmentStats.totalAssessments ?? '—'} gradient="from-purple-500 to-indigo-600" />
-        <StatCard icon={CheckCircle2} label="Completed" value={apisData?.assessmentStats.completedAssessments ?? '—'} gradient="from-green-500 to-emerald-600" />
-        <StatCard icon={Clock} label="In Progress" value={apisData?.assessmentStats.inProgressAssessments ?? '—'} gradient="from-yellow-500 to-orange-600" />
-        <StatCard icon={Timer} label="Avg Time" value={apisData?.assessmentStats.avgCompletionMinutes ? `${apisData.assessmentStats.avgCompletionMinutes}m` : '—'} gradient="from-cyan-500 to-blue-600" />
-        <StatCard icon={TrendingUp} label="Today" value={apisData?.assessmentStats.todayAssessments ?? '—'} gradient="from-pink-500 to-rose-600" />
-      </div>
+      {/* ═══════════════════════════════════════════════════════════════
+          SUB-TAB: SERVICE HEALTH
+          ═══════════════════════════════════════════════════════════════ */}
+      {subTab === 'health' && (
+        <>
+          {/* Service Health Dashboard */}
+          <div className="glass-card p-5">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-white font-semibold flex items-center gap-2">
+                <Code2 className="h-4 w-4 text-purple-400" />
+                API & Service Health
+              </h3>
+              <button onClick={fetchAPIs} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs text-white/60 hover:text-white hover:bg-white/10 transition-colors">
+                <RefreshCw className="h-3.5 w-3.5" /> Refresh
+              </button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="glass-card p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Database className="h-4 w-4 text-white/40" />
+                  <span className="text-white/50 text-sm">Database</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className={statusColor(apisData?.services.database.status ?? 'unknown')}>
+                    {apisData?.services.database.status === 'healthy' ? <CheckCircle2 className="h-4 w-4" /> : <AlertCircle className="h-4 w-4" />}
+                  </span>
+                  <span className={`text-sm font-medium ${statusColor(apisData?.services.database.status ?? 'unknown')}`}>
+                    {apisData?.services.database.status ?? '...'}
+                  </span>
+                </div>
+                <span className="text-white/30 text-xs">{apisData?.services.database.latencyMs ?? '—'}ms latency</span>
+              </div>
 
-      {/* CEFR Distribution */}
-      {apisData?.assessmentStats.cefrDistribution && apisData.assessmentStats.cefrDistribution.length > 0 && (
-        <div className="glass-card p-5">
-          <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-            <TrendingUp className="h-4 w-4 text-pink-400" />
-            CEFR Level Distribution
-          </h3>
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={apisData.assessmentStats.cefrDistribution}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
-                <XAxis dataKey="level" tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.5)' }} />
-                <YAxis tick={{ fontSize: 11, fill: 'rgba(255,255,255,0.4)' }} />
-                <Tooltip content={<ChartTooltip />} />
-                <Bar dataKey="count" name="Assessments" radius={[6, 6, 0, 0]}>
-                  {apisData.assessmentStats.cefrDistribution.map((entry) => (
-                    <Cell key={entry.level} fill={CEFR_PIE_COLORS[entry.level] || '#6B7280'} />
+              <div className="glass-card p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Shield className="h-4 w-4 text-white/40" />
+                  <span className="text-white/50 text-sm">Authentication</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  {apisData?.services.auth.jwtSecretSet ? (
+                    <><CheckCircle2 className="h-4 w-4 text-green-400" /><span className="text-green-400 text-sm font-medium">Active</span></>
+                  ) : (
+                    <><AlertCircle className="h-4 w-4 text-red-400" /><span className="text-red-400 text-sm font-medium">Missing</span></>
+                  )}
+                </div>
+                <span className="text-white/30 text-xs">{apisData?.services.auth.provider}</span>
+              </div>
+
+              <div className="glass-card p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Mail className="h-4 w-4 text-white/40" />
+                  <span className="text-white/50 text-sm">Email ({apisData?.services.email.provider})</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  {apisData?.services.email.apiKeySet ? (
+                    <><CheckCircle2 className="h-4 w-4 text-green-400" /><span className="text-green-400 text-sm font-medium">Configured</span></>
+                  ) : (
+                    <><AlertCircle className="h-4 w-4 text-yellow-400" /><span className="text-yellow-400 text-sm font-medium">Not Set</span></>
+                  )}
+                </div>
+              </div>
+
+              <div className="glass-card p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Cpu className="h-4 w-4 text-white/40" />
+                  <span className="text-white/50 text-sm">AI ({apisData?.services.ai.provider})</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  {apisData?.services.ai.apiKeySet ? (
+                    <><CheckCircle2 className="h-4 w-4 text-green-400" /><span className="text-green-400 text-sm font-medium">API Key Set</span></>
+                  ) : (
+                    <><AlertCircle className="h-4 w-4 text-red-400" /><span className="text-red-400 text-sm font-medium">Missing</span></>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4 glass-card p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <CreditCard className="h-4 w-4 text-white/40" />
+                <span className="text-white/50 text-sm">Payment ({apisData?.services.payment.provider})</span>
+              </div>
+              <div className="flex items-center gap-4 flex-wrap">
+                <span className="text-white/60 text-xs">Mode: <span className="text-white font-medium">{apisData?.services.payment.mode}</span></span>
+                <span className="text-white/60 text-xs">Client ID: {apisData?.services.payment.clientIdSet ? <CheckCircle2 className="h-3 w-3 text-green-400 inline" /> : <XCircle className="h-3 w-3 text-red-400 inline" />}</span>
+                <span className="text-white/60 text-xs">Secret: {apisData?.services.payment.secretSet ? <CheckCircle2 className="h-3 w-3 text-green-400 inline" /> : <XCircle className="h-3 w-3 text-red-400 inline" />}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Assessment Stats */}
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+            <StatCard icon={ClipboardList} label="Total Tests" value={apisData?.assessmentStats.totalAssessments ?? '—'} gradient="from-purple-500 to-indigo-600" />
+            <StatCard icon={CheckCircle2} label="Completed" value={apisData?.assessmentStats.completedAssessments ?? '—'} gradient="from-green-500 to-emerald-600" />
+            <StatCard icon={Clock} label="In Progress" value={apisData?.assessmentStats.inProgressAssessments ?? '—'} gradient="from-yellow-500 to-orange-600" />
+            <StatCard icon={Timer} label="Avg Time" value={apisData?.assessmentStats.avgCompletionMinutes ? `${apisData.assessmentStats.avgCompletionMinutes}m` : '—'} gradient="from-cyan-500 to-blue-600" />
+            <StatCard icon={TrendingUp} label="Today" value={apisData?.assessmentStats.todayAssessments ?? '—'} gradient="from-pink-500 to-rose-600" />
+          </div>
+
+          {/* CEFR Distribution */}
+          {apisData?.assessmentStats.cefrDistribution && apisData.assessmentStats.cefrDistribution.length > 0 && (
+            <div className="glass-card p-5">
+              <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+                <TrendingUp className="h-4 w-4 text-pink-400" />
+                CEFR Level Distribution
+              </h3>
+              <div className="h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={apisData.assessmentStats.cefrDistribution}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
+                    <XAxis dataKey="level" tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.5)' }} />
+                    <YAxis tick={{ fontSize: 11, fill: 'rgba(255,255,255,0.4)' }} />
+                    <Tooltip content={<ChartTooltip />} />
+                    <Bar dataKey="count" name="Assessments" radius={[6, 6, 0, 0]}>
+                      {apisData.assessmentStats.cefrDistribution.map((entry) => (
+                        <Cell key={entry.level} fill={CEFR_PIE_COLORS[entry.level] || '#6B7280'} />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          )}
+
+          {/* API Endpoints Reference */}
+          <div className="glass-card p-5">
+            <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+              <Code2 className="h-4 w-4 text-green-400" />
+              API Endpoints
+            </h3>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-white/10">
+                    <th className="text-left text-white/40 py-3 px-2">Method</th>
+                    <th className="text-left text-white/40 py-3 px-2">Endpoint</th>
+                    <th className="text-left text-white/40 py-3 px-2">Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {apisData?.apiEndpoints.map((ep) => (
+                    <tr key={`${ep.method}-${ep.path}`} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                      <td className="py-2.5 px-2">
+                        <span className={`px-2 py-0.5 rounded text-xs font-mono font-bold ${
+                          ep.method === 'GET' ? 'bg-green-500/20 text-green-400' :
+                          ep.method === 'POST' ? 'bg-blue-500/20 text-blue-400' :
+                          ep.method === 'PATCH' ? 'bg-yellow-500/20 text-yellow-400' :
+                          'bg-white/10 text-white/60'
+                        }`}>{ep.method}</span>
+                      </td>
+                      <td className="py-2.5 px-2 text-white/70 font-mono text-xs">{ep.path}</td>
+                      <td className="py-2.5 px-2 text-white/50">{ep.description}</td>
+                    </tr>
                   ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* ═══════════════════════════════════════════════════════════════
+          SUB-TAB: API KEYS
+          ═══════════════════════════════════════════════════════════════ */}
+      {subTab === 'keys' && (
+        <>
+          {/* Stats */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <StatCard icon={Key} label="Total Keys" value={apiKeys.length} gradient="from-purple-500 to-indigo-600" />
+            <StatCard icon={CheckCircle2} label="Active" value={apiKeys.filter(k => k.isActive).length} gradient="from-green-500 to-emerald-600" />
+            <StatCard icon={XCircle} label="Inactive" value={apiKeys.filter(k => !k.isActive).length} gradient="from-red-500 to-rose-600" />
+            <StatCard icon={Zap} label="Live Keys" value={apiKeys.filter(k => k.type === 'live').length} gradient="from-yellow-500 to-orange-600" />
+          </div>
+
+          {/* Generate Button */}
+          <div className="flex items-center justify-between">
+            <h3 className="text-white font-semibold flex items-center gap-2">
+              <Key className="h-4 w-4 text-purple-400" />
+              API Keys
+            </h3>
+            <Button
+              onClick={() => { setGenerateDialogOpen(true); setNewlyCreatedKey(null); }}
+              className="bg-gradient-to-r from-purple-600 to-pink-500 text-white hover:from-purple-500 hover:to-pink-400 shadow-lg shadow-purple-500/20"
+            >
+              <Key className="h-4 w-4 mr-2" />
+              Generate API Key
+            </Button>
+          </div>
+
+          {/* Newly Created Key Alert */}
+          {newlyCreatedKey && (
+            <div className="glass-card p-5 border border-green-500/30">
+              <div className="flex items-start gap-3">
+                <CheckCircle2 className="h-5 w-5 text-green-400 shrink-0 mt-0.5" />
+                <div className="flex-1 min-w-0">
+                  <h4 className="text-green-400 font-semibold text-sm mb-2">API Key Generated Successfully</h4>
+                  <p className="text-white/50 text-xs mb-2">Make sure to copy your API key now. You won&apos;t be able to see it again!</p>
+                  <div className="flex items-center gap-2">
+                    <code className="flex-1 px-3 py-2 rounded-lg bg-black/30 text-green-300 text-sm font-mono break-all">{newlyCreatedKey}</code>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => copyToClipboard(newlyCreatedKey)}
+                      className="shrink-0 border-white/20 text-white/70 hover:text-white hover:bg-white/10"
+                    >
+                      <Copy className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+                <button onClick={() => setNewlyCreatedKey(null)} className="text-white/40 hover:text-white">
+                  <XCircle className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* API Keys Table */}
+          <div className="glass-card p-5">
+            {apiKeysLoading ? (
+              <Skeleton className="h-48 w-full bg-white/5" />
+            ) : apiKeys.length === 0 ? (
+              <div className="text-center py-12">
+                <Key className="h-12 w-12 text-white/10 mx-auto mb-3" />
+                <p className="text-white/30 text-sm">No API keys yet. Generate one to get started.</p>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-white/10">
+                      <th className="text-left text-white/40 py-3 px-2">Name</th>
+                      <th className="text-left text-white/40 py-3 px-2">Key</th>
+                      <th className="text-left text-white/40 py-3 px-2">Plan</th>
+                      <th className="text-left text-white/40 py-3 px-2">Type</th>
+                      <th className="text-left text-white/40 py-3 px-2">Status</th>
+                      <th className="text-left text-white/40 py-3 px-2">Rate Limit</th>
+                      <th className="text-left text-white/40 py-3 px-2">Last Used</th>
+                      <th className="text-left text-white/40 py-3 px-2">Created</th>
+                      <th className="text-left text-white/40 py-3 px-2">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {apiKeys.map((k) => (
+                      <tr key={k.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                        <td className="py-3 px-2">
+                          <span className="text-white/80 font-medium">{k.name}</span>
+                          {k.user && <span className="block text-white/40 text-xs">by {k.user.name || k.user.email}</span>}
+                        </td>
+                        <td className="py-3 px-2">
+                          <div className="flex items-center gap-1">
+                            <code className="text-white/60 font-mono text-xs">{maskKey(k.key)}</code>
+                            <button
+                              onClick={() => copyToClipboard(k.key)}
+                              className="p-1 rounded hover:bg-white/10 text-white/40 hover:text-white transition-colors"
+                              title="Copy masked key reference"
+                            >
+                              <Copy className="h-3 w-3" />
+                            </button>
+                          </div>
+                        </td>
+                        <td className="py-3 px-2">
+                          <span className={`px-2 py-0.5 rounded-full text-xs ${
+                            k.plan === 'enterprise' ? 'bg-purple-500/20 text-purple-400' :
+                            k.plan === 'business' ? 'bg-cyan-500/20 text-cyan-400' :
+                            'bg-green-500/20 text-green-400'
+                          }`}>{k.plan}</span>
+                        </td>
+                        <td className="py-3 px-2">
+                          <span className={`px-2 py-0.5 rounded-full text-xs ${
+                            k.type === 'live' ? 'bg-orange-500/20 text-orange-400' : 'bg-blue-500/20 text-blue-400'
+                          }`}>{k.type}</span>
+                        </td>
+                        <td className="py-3 px-2">
+                          {k.isActive ? (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 text-xs">Active</span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-red-500/20 text-red-400 text-xs">Revoked</span>
+                          )}
+                        </td>
+                        <td className="py-3 px-2 text-white/60 text-xs">{k.rateLimit}/hr</td>
+                        <td className="py-3 px-2 text-white/40 text-xs">{k.lastUsedAt ? new Date(k.lastUsedAt).toLocaleDateString() : '—'}</td>
+                        <td className="py-3 px-2 text-white/40 text-xs">{new Date(k.createdAt).toLocaleDateString()}</td>
+                        <td className="py-3 px-2">
+                          <div className="flex items-center gap-1">
+                            <button
+                              onClick={() => handleToggleActive(k.id, k.isActive)}
+                              className="p-1.5 rounded-lg hover:bg-white/10 text-white/40 hover:text-white transition-colors"
+                              title={k.isActive ? 'Deactivate' : 'Activate'}
+                            >
+                              {k.isActive ? <ToggleRight className="h-4 w-4 text-green-400" /> : <ToggleLeft className="h-4 w-4 text-red-400" />}
+                            </button>
+                            <button
+                              onClick={() => handleRevokeKey(k.id)}
+                              className="p-1.5 rounded-lg hover:bg-red-500/10 text-white/40 hover:text-red-400 transition-colors"
+                              title="Revoke key"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+
+          {/* Generate API Key Dialog */}
+          <Dialog open={generateDialogOpen} onOpenChange={setGenerateDialogOpen}>
+            <DialogContent className="bg-[#1a1035] border border-white/10 text-white max-w-lg">
+              <DialogHeader>
+                <DialogTitle className="text-white flex items-center gap-2">
+                  <Key className="h-5 w-5 text-purple-400" />
+                  Generate API Key
+                </DialogTitle>
+                <DialogDescription className="text-white/50">
+                  Create a new API key for external access to the TestCEFR platform.
+                </DialogDescription>
+              </DialogHeader>
+
+              <div className="space-y-4 mt-4">
+                {/* Key Name */}
+                <div className="space-y-2">
+                  <Label className="text-white/70 text-sm">Key Name</Label>
+                  <Input
+                    value={newKeyName}
+                    onChange={(e) => setNewKeyName(e.target.value)}
+                    placeholder="e.g., Production Key, Staging Key"
+                    className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-purple-500/50"
+                  />
+                </div>
+
+                {/* Plan & Type */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label className="text-white/70 text-sm">Plan</Label>
+                    <select
+                      value={newKeyPlan}
+                      onChange={(e) => setNewKeyPlan(e.target.value)}
+                      className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500/50"
+                    >
+                      <option value="enterprise" className="bg-[#1a1035]">Enterprise</option>
+                      <option value="business" className="bg-[#1a1035]">Business</option>
+                      <option value="team" className="bg-[#1a1035]">Team</option>
+                    </select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-white/70 text-sm">Type</Label>
+                    <select
+                      value={newKeyType}
+                      onChange={(e) => setNewKeyType(e.target.value)}
+                      className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500/50"
+                    >
+                      <option value="live" className="bg-[#1a1035]">Live</option>
+                      <option value="test" className="bg-[#1a1035]">Test</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Permissions */}
+                <div className="space-y-2">
+                  <Label className="text-white/70 text-sm">Permissions</Label>
+                  <div className="flex gap-4">
+                    {['read', 'write', 'admin'].map((perm) => (
+                      <label key={perm} className="flex items-center gap-2 cursor-pointer">
+                        <Checkbox
+                          checked={newKeyPermissions.includes(perm)}
+                          onCheckedChange={(checked) => {
+                            if (checked) {
+                              setNewKeyPermissions([...newKeyPermissions, perm]);
+                            } else {
+                              setNewKeyPermissions(newKeyPermissions.filter(p => p !== perm));
+                            }
+                          }}
+                          className="border-white/30 data-[state=checked]:bg-purple-500 data-[state=checked]:border-purple-500"
+                        />
+                        <span className="text-white/60 text-sm capitalize">{perm}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Rate Limit */}
+                <div className="space-y-2">
+                  <Label className="text-white/70 text-sm">Rate Limit (requests/hour)</Label>
+                  <Input
+                    type="number"
+                    value={newKeyRateLimit}
+                    onChange={(e) => setNewKeyRateLimit(Number(e.target.value))}
+                    min={1}
+                    max={100000}
+                    className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-purple-500/50"
+                  />
+                </div>
+
+                {/* Actions */}
+                <div className="flex justify-end gap-3 pt-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => setGenerateDialogOpen(false)}
+                    className="border-white/20 text-white/70 hover:text-white hover:bg-white/10"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={handleGenerateKey}
+                    disabled={generating || !newKeyName.trim()}
+                    className="bg-gradient-to-r from-purple-600 to-pink-500 text-white hover:from-purple-500 hover:to-pink-400"
+                  >
+                    {generating ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Key className="h-4 w-4 mr-2" />}
+                    Generate Key
+                  </Button>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </>
+      )}
+
+      {/* ═══════════════════════════════════════════════════════════════
+          SUB-TAB: WHITE-LABEL
+          ═══════════════════════════════════════════════════════════════ */}
+      {subTab === 'whitelabel' && (
+        <div className="grid lg:grid-cols-5 gap-6">
+          {/* Configuration Form */}
+          <div className="lg:col-span-3 space-y-6">
+            <div className="glass-card p-5">
+              <h3 className="text-white font-semibold flex items-center gap-2 mb-4">
+                <Palette className="h-4 w-4 text-purple-400" />
+                White-Label Configuration
+              </h3>
+
+              {wlLoading ? (
+                <Skeleton className="h-64 w-full bg-white/5" />
+              ) : (
+                <div className="space-y-4">
+                  {/* Company Name */}
+                  <div className="space-y-2">
+                    <Label className="text-white/70 text-sm">Company Name</Label>
+                    <Input
+                      value={wlSettings.companyName}
+                      onChange={(e) => setWlSettings({ ...wlSettings, companyName: e.target.value })}
+                      placeholder="Your Company Name"
+                      className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-purple-500/50"
+                    />
+                  </div>
+
+                  {/* Primary Color */}
+                  <div className="space-y-2">
+                    <Label className="text-white/70 text-sm">Primary Color</Label>
+                    <div className="flex items-center gap-3">
+                      <div className="relative">
+                        <input
+                          type="color"
+                          value={wlSettings.primaryColor}
+                          onChange={(e) => setWlSettings({ ...wlSettings, primaryColor: e.target.value })}
+                          className="w-10 h-10 rounded-lg border border-white/20 cursor-pointer bg-transparent"
+                        />
+                      </div>
+                      <Input
+                        value={wlSettings.primaryColor}
+                        onChange={(e) => setWlSettings({ ...wlSettings, primaryColor: e.target.value })}
+                        placeholder="#8B5CF6"
+                        className="flex-1 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-purple-500/50 font-mono"
+                      />
+                      <div
+                        className="w-10 h-10 rounded-lg border border-white/20 shrink-0"
+                        style={{ backgroundColor: wlSettings.primaryColor }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Logo URL */}
+                  <div className="space-y-2">
+                    <Label className="text-white/70 text-sm">Logo URL</Label>
+                    <Input
+                      value={wlSettings.logoUrl}
+                      onChange={(e) => setWlSettings({ ...wlSettings, logoUrl: e.target.value })}
+                      placeholder="https://example.com/logo.png"
+                      className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-purple-500/50"
+                    />
+                  </div>
+
+                  {/* Custom Domain */}
+                  <div className="space-y-2">
+                    <Label className="text-white/70 text-sm">Custom Domain</Label>
+                    <Input
+                      value={wlSettings.domain}
+                      onChange={(e) => setWlSettings({ ...wlSettings, domain: e.target.value })}
+                      placeholder="assessment.yourcompany.com"
+                      className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-purple-500/50"
+                    />
+                  </div>
+
+                  {/* Support Email */}
+                  <div className="space-y-2">
+                    <Label className="text-white/70 text-sm">Support Email</Label>
+                    <Input
+                      value={wlSettings.supportEmail}
+                      onChange={(e) => setWlSettings({ ...wlSettings, supportEmail: e.target.value })}
+                      placeholder="support@yourcompany.com"
+                      className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-purple-500/50"
+                    />
+                  </div>
+
+                  {/* Plan Requirement */}
+                  <div className="space-y-2">
+                    <Label className="text-white/70 text-sm">Required Plan</Label>
+                    <select
+                      value={wlSettings.plan}
+                      onChange={(e) => setWlSettings({ ...wlSettings, plan: e.target.value })}
+                      className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500/50"
+                    >
+                      <option value="enterprise" className="bg-[#1a1035]">Enterprise</option>
+                      <option value="business" className="bg-[#1a1035]">Business</option>
+                      <option value="team" className="bg-[#1a1035]">Team</option>
+                    </select>
+                  </div>
+
+                  {/* Active Toggle */}
+                  <div className="flex items-center justify-between py-2">
+                    <div>
+                      <Label className="text-white/70 text-sm">Enable White-Label</Label>
+                      <p className="text-white/40 text-xs mt-0.5">Activate the branded version for your domain</p>
+                    </div>
+                    <button
+                      onClick={() => setWlSettings({ ...wlSettings, isActive: !wlSettings.isActive })}
+                      className="p-1.5 rounded-lg hover:bg-white/10 transition-colors"
+                    >
+                      {wlSettings.isActive ? (
+                        <ToggleRight className="h-6 w-6 text-green-400" />
+                      ) : (
+                        <ToggleLeft className="h-6 w-6 text-white/40" />
+                      )}
+                    </button>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex justify-end gap-3 pt-4 border-t border-white/10">
+                    <Button
+                      variant="outline"
+                      onClick={handleResetWhiteLabel}
+                      className="border-white/20 text-white/70 hover:text-white hover:bg-white/10"
+                    >
+                      Reset to Default
+                    </Button>
+                    <Button
+                      onClick={handleSaveWhiteLabel}
+                      disabled={wlSaving}
+                      className="bg-gradient-to-r from-purple-600 to-pink-500 text-white hover:from-purple-500 hover:to-pink-400"
+                    >
+                      {wlSaving ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <CheckCircle2 className="h-4 w-4 mr-2" />}
+                      Save Configuration
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Preview Card */}
+          <div className="lg:col-span-2">
+            <div className="glass-card p-5 sticky top-6">
+              <h3 className="text-white font-semibold flex items-center gap-2 mb-4">
+                <Eye className="h-4 w-4 text-purple-400" />
+                Preview
+              </h3>
+              <div
+                className="rounded-xl overflow-hidden border border-white/10"
+                style={{ backgroundColor: '#0F0A1E' }}
+              >
+                {/* Preview Header */}
+                <div
+                  className="p-4 flex items-center gap-3"
+                  style={{ backgroundColor: `${wlSettings.primaryColor}20`, borderBottom: `1px solid ${wlSettings.primaryColor}40` }}
+                >
+                  {wlSettings.logoUrl ? (
+                    <img
+                      src={wlSettings.logoUrl}
+                      alt="Logo"
+                      className="h-8 w-8 rounded-lg object-cover"
+                      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                    />
+                  ) : (
+                    <div
+                      className="h-8 w-8 rounded-lg flex items-center justify-center text-white font-bold text-sm"
+                      style={{ backgroundColor: wlSettings.primaryColor }}
+                    >
+                      {wlSettings.companyName.charAt(0)}
+                    </div>
+                  )}
+                  <span className="text-white font-semibold text-sm">{wlSettings.companyName || 'TestCEFR'}</span>
+                </div>
+
+                {/* Preview Body */}
+                <div className="p-4 space-y-3">
+                  <div className="text-center py-4">
+                    <h4 className="text-white font-semibold text-lg">{wlSettings.companyName || 'TestCEFR'}</h4>
+                    <p className="text-white/50 text-sm mt-1">CEFR Assessment Platform</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <div
+                      className="h-10 rounded-lg flex items-center justify-center text-white text-sm font-medium"
+                      style={{ backgroundColor: wlSettings.primaryColor }}
+                    >
+                      Start Assessment
+                    </div>
+                    <div
+                      className="h-10 rounded-lg flex items-center justify-center text-sm font-medium border"
+                      style={{ color: wlSettings.primaryColor, borderColor: `${wlSettings.primaryColor}60` }}
+                    >
+                      View Results
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-2 mt-3">
+                    {['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].map((level) => (
+                      <div key={level} className="text-center p-1.5 rounded-lg bg-white/5">
+                        <span className="text-white/60 text-xs font-medium">{level}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {wlSettings.domain && (
+                    <p className="text-white/30 text-xs text-center mt-3">{wlSettings.domain}</p>
+                  )}
+                  {wlSettings.supportEmail && (
+                    <p className="text-white/30 text-xs text-center">{wlSettings.supportEmail}</p>
+                  )}
+                </div>
+
+                {/* Preview Footer */}
+                <div className="p-3 border-t border-white/10 text-center">
+                  <span className="text-white/20 text-xs">Powered by TestCEFR</span>
+                </div>
+              </div>
+
+              {/* Status */}
+              <div className="mt-4 flex items-center justify-between">
+                <span className="text-white/50 text-sm">White-Label Status</span>
+                {wlSettings.isActive ? (
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 text-xs">
+                    <CheckCircle2 className="h-3 w-3" /> Active
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/10 text-white/40 text-xs">
+                    <XCircle className="h-3 w-3" /> Inactive
+                  </span>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       )}
-
-      {/* Latest Test Takers */}
-      <div className="glass-card p-5">
-        <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-          <ClipboardList className="h-4 w-4 text-cyan-400" />
-          Latest Test Takers (Last 24h)
-        </h3>
-        {loading ? (
-          <Skeleton className="h-64 w-full bg-white/5" />
-        ) : apisData?.latestTestTakers && apisData.latestTestTakers.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-white/10">
-                  <th className="text-left text-white/40 py-3 px-2">User</th>
-                  <th className="text-left text-white/40 py-3 px-2">Plan</th>
-                  <th className="text-left text-white/40 py-3 px-2">Status</th>
-                  <th className="text-left text-white/40 py-3 px-2">CEFR Level</th>
-                  <th className="text-left text-white/40 py-3 px-2">Score</th>
-                  <th className="text-left text-white/40 py-3 px-2">Answers</th>
-                  <th className="text-left text-white/40 py-3 px-2">Started</th>
-                </tr>
-              </thead>
-              <tbody>
-                {apisData.latestTestTakers.map((a) => (
-                  <tr key={a.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                    <td className="py-3 px-2">
-                      <div>
-                        <span className="text-white/80">{a.user.name || '—'}</span>
-                        <span className="block text-white/40 text-xs">{a.user.email}</span>
-                      </div>
-                    </td>
-                    <td className="py-3 px-2"><span className="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-400 text-xs">{a.user.plan}</span></td>
-                    <td className="py-3 px-2">
-                      {a.status === 'completed' ? (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 text-xs">Completed</span>
-                      ) : a.status === 'in_progress' ? (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-yellow-500/20 text-yellow-400 text-xs">In Progress</span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/10 text-white/40 text-xs">{a.status}</span>
-                      )}
-                    </td>
-                    <td className="py-3 px-2">
-                      {a.cefrLevel ? (
-                        <span className={`px-2 py-0.5 rounded-full border text-xs ${CEFR_COLORS_DARK[a.cefrLevel] || 'bg-white/10 text-white/60'}`}>{a.cefrLevel}</span>
-                      ) : <span className="text-white/30">—</span>}
-                    </td>
-                    <td className="py-3 px-2 text-white/60">{a.score ?? '—'}</td>
-                    <td className="py-3 px-2 text-white/60">{a._count.responses}</td>
-                    <td className="py-3 px-2 text-white/40 text-xs">{a.startedAt ? new Date(a.startedAt).toLocaleString() : '—'}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <div className="text-white/30 text-sm text-center py-12">No test takers in the last 24 hours</div>
-        )}
-      </div>
-
-      {/* API Endpoints Reference */}
-      <div className="glass-card p-5">
-        <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-          <Code2 className="h-4 w-4 text-green-400" />
-          API Endpoints
-        </h3>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-white/10">
-                <th className="text-left text-white/40 py-3 px-2">Method</th>
-                <th className="text-left text-white/40 py-3 px-2">Endpoint</th>
-                <th className="text-left text-white/40 py-3 px-2">Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              {apisData?.apiEndpoints.map((ep) => (
-                <tr key={`${ep.method}-${ep.path}`} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                  <td className="py-2.5 px-2">
-                    <span className={`px-2 py-0.5 rounded text-xs font-mono font-bold ${
-                      ep.method === 'GET' ? 'bg-green-500/20 text-green-400' :
-                      ep.method === 'POST' ? 'bg-blue-500/20 text-blue-400' :
-                      ep.method === 'PATCH' ? 'bg-yellow-500/20 text-yellow-400' :
-                      'bg-white/10 text-white/60'
-                    }`}>{ep.method}</span>
-                  </td>
-                  <td className="py-2.5 px-2 text-white/70 font-mono text-xs">{ep.path}</td>
-                  <td className="py-2.5 px-2 text-white/50">{ep.description}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
     </div>
   );
 }
@@ -1870,7 +2547,7 @@ export default function AdminPage() {
               TAB: APIs
               ════════════════════════════════════════════════════════════ */}
           {activeTab === 'apis' && (
-            <APIsTab accessToken={accessToken} />
+            <APIsTab accessToken={accessToken} onToast={(msg, type) => setToast({ message: msg, type })} />
           )}
 
           {/* ════════════════════════════════════════════════════════════
