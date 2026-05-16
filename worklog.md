@@ -138,3 +138,30 @@ Stage Summary:
 - testcefr-source Vercel project is linked to Samjo4500/Language-Testing GitHub repo
 - GitHub push to main branch will trigger auto-deploy on Vercel
 - deploy.sh can be run with: VERCEL_TOKEN=xxx bash deploy.sh "message"
+---
+Task ID: 1
+Agent: Main
+Task: Rebuild landing page matching testcefr.com specification
+
+Work Log:
+- Read current page.tsx (972 lines), layout.tsx, navbar.tsx, globals.css, prisma schema
+- Analyzed user's detailed specification from testcefr.com
+- Completely rewrote page.tsx with all sections:
+  - Hero section with animated CEFR badge, stats bar (A1-C2, 6 Core Skills, AI Powered Scoring, Free)
+  - Live Voice Demo with timer, recording, speaking prompt, input level selector, 6 dimensions
+  - 6 Dimensions of English Proficiency with detailed sub-items per skill
+  - Interactive CEFR Levels with clickable tabs and progress bars
+  - How It Works (4-step process)
+  - Pricing (Individual: Free, $12.99, $29.99, $49.99 + Org: Team, Business, Enterprise)
+  - Testimonials (4 cards with progress indicators)
+  - Enterprise section with stats and testimonials
+  - FAQ with accordion
+  - Final CTA section
+  - Comprehensive footer with all links
+- Rewrote navbar.tsx with "Get Started →" button
+- Build succeeded, pushed to both GitHub repos, deployed to Vercel
+
+Stage Summary:
+- All sections from the testcefr.com spec are implemented
+- Site is live at testcefr.com
+- GitHub repos synced: Samjo4500/Language-Testing, Samjo4500/testcefr.com
