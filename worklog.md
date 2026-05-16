@@ -97,3 +97,23 @@ Work Log:
 Stage Summary:
 - Hydration error fixed by: (1) pre-computing all dynamic values as deterministic strings, (2) using mounted guard for server/client split
 - Build passes with no errors
+
+---
+Task ID: 2
+Agent: Main
+Task: Set up save & deploy pipeline to prevent code loss
+
+Work Log:
+- Found two Vercel projects: my-project (had testcefr.com domain, no GitHub link) and testcefr-source (linked to GitHub Samjo4500/Language-Testing)
+- Moved testcefr.com and www.testcefr.com domains from my-project to testcefr-source
+- Copied all 24 env vars from my-project to testcefr-source (PayPal, Google AI, JWT, Neon Postgres, etc.)
+- Deployed to Vercel production via CLI: testcefr.com is live with hydration fix
+- Created deploy.sh script for one-command save & deploy
+- Added GitHub remote (origin -> Samjo4500/Language-Testing) but can't push without GitHub PAT
+- All code is safely committed locally and deployed to Vercel
+
+Stage Summary:
+- testcefr.com is live with the hydration fix applied
+- testcefr-source Vercel project is now the production project with all env vars
+- GitHub push requires a Personal Access Token from the user
+- deploy.sh script created for future saves: bash deploy.sh "commit message"
