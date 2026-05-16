@@ -2,6 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { capturePayPalOrder, getPayPalMode } from '@/lib/paypal';
 import { getAuthUser } from '@/lib/auth-middleware';
 import { db } from '@/lib/db';
+import { sendPaymentConfirmation } from '@/lib/email';
+
+// Plan configuration: credits, expiry, display name
+const PLAN_CONFIG: Record<string, { credits: number; planName: string; expiryDays: number | null }> = {
+  single: { credits: 1, planName: 'Single Test', expiryDays: null },
+  premium: { credits: 3, planName: 'Premium', expiryDays: 90 },
+  pro: { credits: 6, planName: 'Pro', expiryDays: 90 },
+};
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,7 +22,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { orderID } = body;
+    const { orderID, planType: requestedPlanType } = body;
 
     if (!orderID) {
       return NextResponse.json(
@@ -24,7 +32,6 @@ export async function POST(request: NextRequest) {
     }
 
     // Capture the payment via PayPal API
-    // Backend dynamically switches Base URL based on PAYPAL_MODE
     const captureResult = await capturePayPalOrder(orderID);
 
     if (captureResult.status !== 'COMPLETED') {
@@ -40,6 +47,24 @@ export async function POST(request: NextRequest) {
     const amount = parseFloat(capture?.amount?.value || '0');
     const currency = capture?.amount?.currency_code || 'USD';
 
+    // Determine plan type from request body or from PayPal custom_id / reference_id
+    const planType = normalizePlanType(
+      requestedPlanType ||
+      captureResult.purchase_units[0]?.custom_id ||
+      captureResult.purchase_units[0]?.reference_id ||
+      'single'
+    );
+
+    const config = PLAN_CONFIG[planType] || PLAN_CONFIG.single;
+
+    // Calculate plan expiry
+    const planExpiresAt = config.expiryDays
+      ? new Date(Date.now() + config.expiryDays * 24 * 60 * 60 * 1000)
+      : null;
+
+    // Determine the user's new plan level
+    const planLevel = planType === 'pro' ? 'pro' : planType === 'premium' ? 'premium' : 'free';
+
     // Save payment to database
     const payment = await db.payment.create({
       data: {
@@ -49,15 +74,35 @@ export async function POST(request: NextRequest) {
         amount,
         currency,
         status: 'completed',
-        plan: 'premium',
+        plan: planLevel,
+        planType,
+        testsIncluded: config.credits,
       },
     });
 
-    // Upgrade user to premium
+    // Update user: upgrade plan, add test credits, set expiry
+    const dbUser = await db.user.findUnique({ where: { id: user.userId } });
+    const currentCredits = dbUser?.testCredits || 0;
+
     await db.user.update({
       where: { id: user.userId },
-      data: { plan: 'premium' },
+      data: {
+        plan: planLevel,
+        testCredits: currentCredits + config.credits,
+        ...(planExpiresAt ? { planExpiresAt } : {}),
+      },
     });
+
+    // Send payment confirmation email (fire-and-forget)
+    if (dbUser) {
+      sendPaymentConfirmation(
+        dbUser.name || dbUser.email.split('@')[0],
+        dbUser.email,
+        config.planName,
+        amount,
+        captureId || orderID
+      ).catch((err) => console.error('Payment confirmation email error:', err));
+    }
 
     return NextResponse.json({
       success: true,
@@ -67,8 +112,10 @@ export async function POST(request: NextRequest) {
         currency: payment.currency,
         status: payment.status,
         plan: payment.plan,
+        planType: payment.planType,
+        testsIncluded: payment.testsIncluded,
       },
-      message: 'Payment completed successfully! Your account has been upgraded to Premium.',
+      message: `Payment completed successfully! Your account has been upgraded to ${config.planName} with ${config.credits} test credit${config.credits > 1 ? 's' : ''}.`,
     });
   } catch (error) {
     console.error('Capture payment error:', error);
@@ -77,4 +124,15 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
+}
+
+/**
+ * Normalize the plan type string to one of: "single", "premium", "pro"
+ */
+function normalizePlanType(raw: string): string {
+  const lowered = raw.toLowerCase().trim();
+  if (lowered === 'pro') return 'pro';
+  if (lowered === 'premium') return 'premium';
+  // Default to single for any unknown value
+  return 'single';
 }

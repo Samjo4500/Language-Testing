@@ -107,6 +107,116 @@ function RotatingSkillText() {
 }
 
 /* ======================================================
+   ANIMATED CEFR BADGE — borderless, floating, rotating levels
+   The signature visual element of the hero section
+   ====================================================== */
+const CEFR_LEVEL_COLORS: Record<string, string> = {
+  A1: '#3b82f6', A2: '#22c55e', B1: '#eab308', B2: '#f97316', C1: '#ef4444', C2: '#a855f7',
+};
+
+function AnimatedCEFRBadge() {
+  const [activeLevel, setActiveLevel] = useState(0);
+  const [mounted, setMounted] = useState(false);
+  const levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+
+  useEffect(() => {
+    setMounted(true);
+    const interval = setInterval(() => {
+      setActiveLevel((prev) => (prev + 1) % levels.length);
+    }, 2500);
+    return () => clearInterval(interval);
+  }, []);
+
+  const currentLevel = levels[activeLevel];
+  const currentColor = CEFR_LEVEL_COLORS[currentLevel];
+
+  /* Static version for SSR */
+  if (!mounted) {
+    return (
+      <div className="relative flex items-center justify-center w-48 h-48 md:w-56 md:h-56">
+        <div className="absolute inset-0 rounded-full opacity-20" style={{ background: `radial-gradient(circle, ${CEFR_LEVEL_COLORS.A1}40 0%, transparent 70%)` }} />
+        <div className="relative w-36 h-36 md:w-44 md:h-44 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(139,92,246,0.15) 0%, rgba(236,72,153,0.15) 100%)', boxShadow: '0 0 60px rgba(139,92,246,0.2), inset 0 0 30px rgba(139,92,246,0.1)' }}>
+          <div className="text-center">
+            <div className="text-4xl md:text-5xl font-black" style={{ color: CEFR_LEVEL_COLORS.A1 }}>A1</div>
+            <div className="text-[10px] text-white/40 mt-1 uppercase tracking-widest">CEFR Level</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative flex items-center justify-center w-48 h-48 md:w-56 md:h-56">
+      {/* Outer glow pulse */}
+      <div className="absolute inset-0 rounded-full animate-pulse-slow" style={{ background: `radial-gradient(circle, ${currentColor}25 0%, transparent 70%)` }} />
+
+      {/* Rotating orbit ring */}
+      <div className="absolute inset-2 rounded-full animate-spin-slow" style={{ border: `1px solid ${currentColor}20` }}>
+        {levels.map((lvl, i) => {
+          const angle = (i * 60 - 90) * (Math.PI / 180);
+          const radius = 46;
+          const x = 50 + radius * Math.cos(angle);
+          const y = 50 + radius * Math.sin(angle);
+          return (
+            <div
+              key={lvl}
+              className="absolute w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-bold transition-all duration-500"
+              style={{
+                left: `${x}%`,
+                top: `${y}%`,
+                transform: 'translate(-50%, -50%)',
+                background: i === activeLevel ? `${CEFR_LEVEL_COLORS[lvl]}30` : 'rgba(255,255,255,0.05)',
+                color: i === activeLevel ? CEFR_LEVEL_COLORS[lvl] : 'rgba(255,255,255,0.3)',
+                boxShadow: i === activeLevel ? `0 0 12px ${CEFR_LEVEL_COLORS[lvl]}40` : 'none',
+              }}
+            >
+              {lvl}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Second orbit */}
+      <div className="absolute inset-6 rounded-full animate-spin-reverse" style={{ border: `1px dashed ${currentColor}10` }} />
+
+      {/* Inner badge */}
+      <div
+        className="relative w-36 h-36 md:w-44 md:h-44 rounded-full flex items-center justify-center transition-all duration-700"
+        style={{
+          background: `linear-gradient(135deg, ${currentColor}15 0%, rgba(236,72,153,0.1) 100%)`,
+          boxShadow: `0 0 60px ${currentColor}20, inset 0 0 30px ${currentColor}10`,
+        }}
+      >
+        {/* Animated rings */}
+        <div className="absolute inset-1 rounded-full animate-ping-slow" style={{ border: `1px solid ${currentColor}15` }} />
+
+        <div className="text-center transition-all duration-500">
+          <div className="text-4xl md:text-5xl font-black transition-all duration-500" style={{ color: currentColor }}>
+            {currentLevel}
+          </div>
+          <div className="text-[10px] text-white/40 mt-1 uppercase tracking-widest">CEFR Level</div>
+        </div>
+      </div>
+
+      {/* Floating particles */}
+      {[0, 1, 2, 3, 4].map((p) => (
+        <div
+          key={p}
+          className="absolute w-1 h-1 rounded-full animate-float"
+          style={{
+            background: currentColor,
+            opacity: 0.4,
+            top: `${20 + p * 15}%`,
+            left: `${10 + p * 18}%`,
+            animationDelay: `${p * 0.8}s`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+/* ======================================================
    HERO RECORDING ELEMENT — large, dramatic mic with waveform
    Prominently featured right in the hero section
    ====================================================== */
@@ -356,6 +466,11 @@ export default function Home() {
             <p className="mt-5 text-lg md:text-xl text-white/60 leading-relaxed max-w-2xl mx-auto animate-fade-in delay-300 text-center">
               Get your CEFR-scored English proficiency results in minutes. Our AI evaluates 6 core skills — reading, writing, listening, speaking, grammar, and vocabulary — to give you an internationally recognized proficiency rating.
             </p>
+
+            {/* Animated CEFR Badge — signature visual */}
+            <div className="mt-8 flex justify-center animate-scale-in delay-400">
+              <AnimatedCEFRBadge />
+            </div>
 
             {/* CTA Buttons */}
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center animate-scale-in delay-500">

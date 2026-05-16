@@ -9,16 +9,18 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
+  id            String     @id @default(cuid())
+  email         String     @unique
   name          String?
   passwordHash  String
-  plan          String    @default("free") // "free" | "premium"
-  role          String    @default("user")  // "user" | "admin"
-  isDemo        Boolean   @default(false) // true for auto-generated demo accounts
-  emailVerified Boolean   @default(false)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  plan          String     @default("free") // "free" | "premium" | "pro"
+  role          String     @default("user")  // "user" | "admin"
+  isDemo        Boolean    @default(false) // true for auto-generated demo accounts
+  emailVerified Boolean    @default(false)
+  testCredits   Int        @default(0) // number of tests remaining
+  planExpiresAt DateTime?  // when the plan expires (for subscriptions)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
 
   payments     Payment[]
   assessments  Assessment[]
@@ -46,6 +48,8 @@ model Payment {
   currency        String   @default("USD")
   status          String   @default("pending") // "pending" | "completed" | "failed" | "refunded"
   plan            String   @default("premium")
+  planType        String?  // "single" | "premium" | "pro"
+  testsIncluded   Int      @default(1) // how many tests this payment includes
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 

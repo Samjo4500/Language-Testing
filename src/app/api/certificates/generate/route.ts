@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { getAuthUser, requirePremium } from '@/lib/auth-middleware';
 import { v4 as uuidv4 } from 'uuid';
+import { sendCertificateReady } from '@/lib/email';
 
 export async function POST(request: NextRequest) {
   try {
@@ -99,6 +100,16 @@ export async function POST(request: NextRequest) {
         score: assessment.score,
       },
     });
+
+    // Send certificate ready email (fire-and-forget)
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://testcefr.com';
+    const certificateUrl = `${appUrl}/certificate/${certificate.verificationId}`;
+    sendCertificateReady(
+      user.name || user.email.split('@')[0],
+      user.email,
+      certificate.cefrLevel,
+      certificateUrl
+    ).catch((err) => console.error('Certificate ready email error:', err));
 
     return NextResponse.json({
       certificate: {

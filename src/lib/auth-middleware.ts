@@ -27,7 +27,7 @@ export function requireAuth(request: NextRequest): TokenPayload | NextResponse {
 }
 
 export function requirePremium(user: TokenPayload): NextResponse | null {
-  if (user.plan !== 'premium') {
+  if (user.plan !== 'premium' && user.plan !== 'pro') {
     return NextResponse.json(
       { error: 'Payment Required', message: 'You need a premium plan to access this feature. Please purchase a plan to continue.', code: 'PAYMENT_REQUIRED' },
       { status: 402 }

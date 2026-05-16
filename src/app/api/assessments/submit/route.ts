@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { getAuthUser, requirePremium } from '@/lib/auth-middleware';
+import { sendAssessmentComplete } from '@/lib/email';
 
 export async function POST(request: NextRequest) {
   try {
@@ -104,6 +105,16 @@ export async function POST(request: NextRequest) {
       },
       update: {},
     });
+
+    // Send assessment complete email (fire-and-forget)
+    if (user) {
+      sendAssessmentComplete(
+        user.name || user.email.split('@')[0],
+        user.email,
+        cefrLevel,
+        score
+      ).catch((err) => console.error('Assessment complete email error:', err));
+    }
 
     return NextResponse.json({
       assessment: {

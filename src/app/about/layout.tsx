@@ -1,29 +1,22 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'About TestCEFR | AI-Powered English Proficiency Assessment',
+  title: 'About TestCEFR — AI-Powered English Assessment',
   description:
-    'Learn about TestCEFR — our mission to make English proficiency assessment accessible, accurate, and affordable through cutting-edge AI technology and the CEFR framework.',
-  keywords: [
-    'about testcefr',
-    'English assessment platform',
-    'AI English test',
-    'CEFR assessment technology',
-    'language proficiency platform',
-  ],
+    'Learn about TestCEFR, the AI-powered English proficiency assessment platform aligned with the CEFR framework.',
   openGraph: {
-    title: 'About TestCEFR',
+    title: 'About TestCEFR — AI-Powered English Assessment',
     description:
-      'Our mission: accessible, accurate English proficiency assessment powered by AI',
+      'Learn about TestCEFR, the AI-powered English proficiency assessment platform aligned with the CEFR framework.',
     url: 'https://www.testcefr.com/about',
     siteName: 'TestCEFR',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'About TestCEFR',
+    title: 'About TestCEFR — AI-Powered English Assessment',
     description:
-      'Our mission: accessible, accurate English proficiency assessment powered by AI',
+      'Learn about TestCEFR, the AI-powered English proficiency assessment platform aligned with the CEFR framework.',
   },
   alternates: {
     canonical: 'https://www.testcefr.com/about',

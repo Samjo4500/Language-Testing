@@ -57,7 +57,12 @@ interface PayPalOrderResponse {
   links: Array<{ href: string; rel: string; method: string }>;
 }
 
-export async function createPayPalOrder(amount: number, currency: string = 'USD'): Promise<PayPalOrderResponse> {
+export async function createPayPalOrder(
+  amount: number,
+  currency: string = 'USD',
+  description: string = 'CEFR English Proficiency Test - Premium Plan',
+  planType: string = 'single'
+): Promise<PayPalOrderResponse> {
   const accessToken = await getPayPalAccessToken();
   const baseUrl = getPayPalBaseUrl();
 
@@ -75,7 +80,8 @@ export async function createPayPalOrder(amount: number, currency: string = 'USD'
             currency_code: currency,
             value: amount.toFixed(2),
           },
-          description: 'CEFR English Proficiency Test - Premium Plan',
+          description,
+          custom_id: planType, // Pass plan type via custom_id for retrieval on capture
         },
       ],
     }),
@@ -94,6 +100,8 @@ interface PayPalCaptureResponse {
   id: string;
   status: string;
   purchase_units: Array<{
+    custom_id?: string;
+    reference_id?: string;
     payments: {
       captures: Array<{
         id: string;

@@ -1,30 +1,22 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Speaking Assessment - TestCEFR | AI-Powered English Speaking Test',
+  title: 'Speaking Assessment — TestCEFR',
   description:
-    'Assess your English speaking skills with AI-powered speech recognition and pronunciation scoring. Get detailed fluency analysis and CEFR-aligned proficiency ratings.',
-  keywords: [
-    'English speaking test',
-    'CEFR speaking assessment',
-    'pronunciation test',
-    'English fluency',
-    'speaking evaluation',
-    'oral proficiency test',
-  ],
+    'Evaluate your English speaking skills with AI-powered assessment. Get feedback on fluency, pronunciation, and coherence.',
   openGraph: {
-    title: 'Speaking Assessment - TestCEFR',
+    title: 'Speaking Assessment — TestCEFR',
     description:
-      'AI-powered English speaking assessment with speech recognition and pronunciation scoring',
+      'Evaluate your English speaking skills with AI-powered assessment. Get feedback on fluency, pronunciation, and coherence.',
     url: 'https://www.testcefr.com/speaking',
     siteName: 'TestCEFR',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Speaking Assessment - TestCEFR',
+    title: 'Speaking Assessment — TestCEFR',
     description:
-      'AI-powered English speaking assessment with speech recognition and pronunciation scoring',
+      'Evaluate your English speaking skills with AI-powered assessment. Get feedback on fluency, pronunciation, and coherence.',
   },
   alternates: {
     canonical: 'https://www.testcefr.com/speaking',

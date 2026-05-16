@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { getAuthUser, requirePremium } from '@/lib/auth-middleware';
+import { getAuthUser } from '@/lib/auth-middleware';
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,10 +13,27 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Step 2: Check premium plan (returns 402 if not premium)
-    const premiumCheck = requirePremium(authResult);
-    if (premiumCheck) {
-      return premiumCheck;
+    // Step 2: Check test credits
+    const user = await db.user.findUnique({
+      where: { id: authResult.userId },
+    });
+
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Not Found', message: 'User not found.' },
+        { status: 404 }
+      );
+    }
+
+    if (user.testCredits <= 0) {
+      return NextResponse.json(
+        {
+          error: 'No Test Credits',
+          message: 'You have no test credits remaining. Please purchase a plan to continue.',
+          code: 'NO_CREDITS',
+        },
+        { status: 403 }
+      );
     }
 
     // Step 3: Check if user already has an in-progress assessment
@@ -38,7 +55,13 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Step 4: Create new assessment
+    // Step 4: Decrement test credits atomically
+    await db.user.update({
+      where: { id: authResult.userId },
+      data: { testCredits: { decrement: 1 } },
+    });
+
+    // Step 5: Create new assessment
     const assessment = await db.assessment.create({
       data: {
         userId: authResult.userId,
@@ -47,7 +70,7 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Step 5: Get questions from the Question Bank
+    // Step 6: Get questions from the Question Bank
     const questions = await getQuestionsFromBank();
 
     return NextResponse.json({
