@@ -1,0 +1,47 @@
+[
+  {
+    "url": "https://github.com/vercel/next.js",
+    "name": "vercel/next.js: The React Framework - GitHub",
+    "snippet": "Next.js enables you to create full-stack web applications by extending the latest React features, and integrating powerful Rust-based JavaScript tooling for ...",
+    "host_name": "github.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/topics/react-nextjs",
+    "name": "react-nextjs · GitHub Topics",
+    "snippet": "This is a template repository that sets up a modern web application project using Next JS , React for fast development, Redux Toolkit for state management, ...",
+    "host_name": "github.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/vercel/next.js/discussions/36042",
+    "name": "How to setup React Testing library with NextJS project that uses",
+    "snippet": "I am setting up test using Jest and React Testing Library in a nextjs app that uses absolute imports. I want wrap all tests with provider.",
+    "host_name": "github.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.reddit.com/r/nextjs/comments/tb7buh/nextjs_example_repositories_with_good_unit_and",
+    "name": "Next.js example repositories with good unit and integration tests?",
+    "snippet": "Do you know such repo examples on Github that have quality tests that can be used as a reference how to write real world tests properly?",
+    "host_name": "www.reddit.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/emanuelefavero/next-jest-testing-library",
+    "name": "This is a cheat sheet repo for Next.js + Jest + React Testing Library",
+    "snippet": "Create a new Next.js app with Jest and React Testing Library · make sure to remove the __tests__ folder if already there to clear the example tests · clear the ...",
+    "host_name": "github.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  }
+]

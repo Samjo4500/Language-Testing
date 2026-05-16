@@ -1,0 +1,65 @@
+[
+  {
+    "url": "https://vercel.com/docs/deployment-checks",
+    "name": "Deployment Checks - vercel.com",
+    "snippet": "To trigger a workflow in response to Vercel deployments using repository_dispatch, use the vercel/repository-dispatch/actions/status@v1 action to set a status on the commit for Vercel Deployment Checks.",
+    "host_name": "vercel.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://vercel.com/kb/guide/fixing-deployments-that-hang-after-the-build-step-succeeds",
+    "name": "Fixing deployments that hang after the build step succeeds",
+    "snippet": "Vercel deployment stuck in \"Building\" after the build succeeds, with checks and domain assignment pending? The cause is usually a Node.js process that does its work but never exits. This guide shows you how to unblock, diagnose, and resolve it.",
+    "host_name": "vercel.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://vercel.com/login",
+    "name": "Login – Vercel",
+    "snippet": "Continue with Google Continue with GitHub Continue with Apple Continue with SAML SSO",
+    "host_name": "vercel.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://community.vercel.com/t/github-push-events-not-triggering-deployments-need-assistance-vercel-staff/39087",
+    "name": "GitHub push events not triggering deployments, need",
+    "snippet": "2 168 February 2, 2026 GitHub to Vercel deployment issues Help 9 999 April 30, 2025 Push events to GitHub no longer triggering Production deploys (Vercel + GitHub App) Help 1 15 April 20, 2026 Vercel no longer re-deploying after git pushes Help 3 209 May 28, 2025 Vercel is not pulling latest updates from GitHub repository Help builds , github 2 ...",
+    "host_name": "community.vercel.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://community.vercel.com/t/automated-ai-testing-quality-assurance-for-vercel-deployments/32980",
+    "name": "Automated AI Testing & Quality Assurance for Vercel",
+    "snippet": "The result is faster releases, fewer bugs in production, and a more resilient deployment process that scales with application complexity. Curious to hear how others in the community are approaching AI-driven testing on Vercel—any tools or workflows you’d recommend?",
+    "host_name": "community.vercel.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://vercel.com/blog/behind-the-scenes-of-vercels-infrastructure",
+    "name": "Behind the scenes of Vercel's infrastructure: Achieving",
+    "snippet": "The newly created deployment is now ready to be served via the Vercel CDN. What happens when a user requests a website hosted on Vercel is part of the request phase.",
+    "host_name": "vercel.com",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://community.vercel.com/t/why-vercel-custom-domains-show-no-sni-vercel-infra-com-ssl-certificate-mismatch/38274",
+    "name": "Why Vercel custom domains show no-sni.vercel-infra.com SSL",
+    "snippet": "Hi all, Problem When I added my domain (https://www.jobbox.cc) inside Vercel Domain config, Vercel seems to add 64.29.17.1 as an IP as well (dnschecker.org). On the 64.29.17.1 IP, I’m seeing a no-sni.vercel-infra.com e&hellip;",
+    "host_name": "community.vercel.com",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  }
+]

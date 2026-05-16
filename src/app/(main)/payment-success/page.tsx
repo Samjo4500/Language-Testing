@@ -1,0 +1,72 @@
+'use client';
+
+import Link from 'next/link';
+import { useAuthStore } from '@/lib/auth-store';
+import { Navbar } from '@/components/navbar';
+import { CheckCircle2, ArrowRight, BookOpen, Sparkles } from 'lucide-react';
+
+export default function PaymentSuccessPage() {
+  const { user } = useAuthStore();
+
+  return (
+    <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
+      <Navbar />
+      <div className="flex-1 flex items-center justify-center px-4 py-12 relative">
+        {/* Background orbs */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="orb orb-purple w-[400px] h-[400px] top-1/4 -right-20 animate-float-slow" />
+          <div className="orb orb-pink w-[300px] h-[300px] bottom-0 left-1/4 animate-float" />
+        </div>
+
+        <div className="w-full max-w-md relative">
+          <div className="glass-card p-8 text-center">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-green-400 to-emerald-500 text-white mb-4 shadow-lg shadow-green-500/25 animate-pulse-glow">
+              <CheckCircle2 className="h-8 w-8" />
+            </div>
+            <h1 className="text-2xl font-bold text-white">Payment Successful!</h1>
+            <p className="text-sm text-white/50 mt-2">
+              Your account has been upgraded to Premium. You now have full access to the CEFR English proficiency assessment.
+            </p>
+
+            <div className="mt-6 rounded-xl bg-white/5 border border-white/5 p-4 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-white/50">Plan</span>
+                <span className="text-sm font-semibold text-green-400">Premium</span>
+              </div>
+              <div className="section-divider" />
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-white/50">Amount Paid</span>
+                <span className="text-sm text-white">$9.99 USD</span>
+              </div>
+              {user?.email && (
+                <>
+                  <div className="section-divider" />
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-white/50">Account</span>
+                    <span className="text-sm text-white/70">{user.email}</span>
+                  </div>
+                </>
+              )}
+            </div>
+
+            <div className="mt-6 space-y-3">
+              <Link href="/test" className="block">
+                <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 cursor-pointer">
+                  <BookOpen className="h-4 w-4" />
+                  Start Your CEFR Test
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </Link>
+
+              <Link href="/dashboard" className="block">
+                <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 glass-button text-white font-medium cursor-pointer">
+                  Go to Dashboard
+                </button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

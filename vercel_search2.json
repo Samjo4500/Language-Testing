@@ -1,0 +1,47 @@
+[
+  {
+    "url": "https://github.com/vercel/vercel",
+    "name": "GitHub - vercel/vercel: Develop. Preview. Ship.",
+    "snippet": "This project uses pnpm to install dependencies and run scripts. You can use the vercel script to run local changes as if you were invoking Vercel CLI.",
+    "host_name": "github.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://vercel.com/docs/git/vercel-for-github",
+    "name": "Deploying GitHub Projects with Vercel",
+    "snippet": "Vercel for GitHub automatically deploys your GitHub projects with Vercel, providing Preview Deployment URLs, and automatic Custom Domain updates.",
+    "host_name": "vercel.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/vercel/vercel/discussions/4589",
+    "name": "Vercel Github integration running tests? #4589",
+    "snippet": "The steps I followed were: Disconnect your vercel project from the github repository. This way we prevent any deployments whenever a github workflow fails.",
+    "host_name": "github.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://github.com/neherlab/test-vercel",
+    "name": "neherlab/test-vercel - GitHub",
+    "snippet": "The easiest way to deploy your Next.js app is to use the Vercel Platform from the creators of Next.js. Check out our Next.js deployment documentation for more ...",
+    "host_name": "github.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://stackoverflow.com/questions/69275058/cypress-test-runs-before-vercel-deployment-in-github-actions",
+    "name": "Cypress test runs before Vercel deployment in Github Actions",
+    "snippet": "What happens in your deploy: you push changes to your repo; vercel watches your repo, see there is a new commit; it sends the status pending ...",
+    "host_name": "stackoverflow.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  }
+]

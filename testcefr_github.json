@@ -1,0 +1,65 @@
+[
+  {
+    "url": "https://github.com/DevExpress/testcafe",
+    "name": "GitHub - DevExpress/testcafe: A Node.js tool to automate end",
+    "snippet": "Free and open source: TestCafe is free to use under the MIT license. Plugins provide custom reports, integration with other tools, launching tests from IDE, etc.",
+    "host_name": "github.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://grep.app",
+    "name": "Code Search | Grep by Vercel",
+    "snippet": "Effortlessly search for code, files, and paths across a million GitHub repositories.",
+    "host_name": "grep.app",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://sourcegraph.com/search",
+    "name": "Search Public Code - Sourcegraph",
+    "snippet": "Filter by...",
+    "host_name": "sourcegraph.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://opensourcecollection.com/blog/list-of-websites-to-explore-open-source-code-repositories",
+    "name": "List Of Websites To Explore Open-Source Code Repositories",
+    "snippet": "The websites that are focused on Github, the most popular open-source code repository, serve as the central hubs where developers, enthusiasts, and organizations can discover, contribute to, and collaborate on open-source projects.",
+    "host_name": "opensourcecollection.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://gopensource.com/use-these-tools-to-scan-public-and-private-github-repositories-7d9dcd9ab56d",
+    "name": "Use These Tools to Scan Public and Private GitHub Repositories",
+    "snippet": "Once you connect your Github account to WhiteSource Renovate, it will automatically start scanning all public and private repositories and open PRs to fix vulnerabilities.",
+    "host_name": "gopensource.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.freecodecamp.org/news/github-search-tips",
+    "name": "GitHub Search Tips – How to Search Issues, Repos, and More",
+    "snippet": "Listed below are some of the tricks that might help you out when you are using GitHub. One of the most common ways of finding projects to contribute to is by searching through issues and related PRs. Here are some tricks you can use to easily find reliable answers:",
+    "host_name": "www.freecodecamp.org",
+    "rank": 5,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.softwareheritage.org",
+    "name": "Home Page - Software Heritage",
+    "snippet": "You can archive seamlessly your research software artifacts, and add to your research articles precise references to specific versions of the source code, down to fragments of individual source files.",
+    "host_name": "www.softwareheritage.org",
+    "rank": 6,
+    "date": "",
+    "favicon": ""
+  }
+]

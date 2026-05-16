@@ -1,0 +1,47 @@
+[
+  {
+    "url": "https://github.com/search",
+    "name": "Search · GitHub",
+    "snippet": "GitHub is where people build software. More than 150 million people use GitHub to discover, fork, and contribute to over 420 million projects.",
+    "host_name": "github.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://practicetestgeeks.com/cefr-practice-test",
+    "name": "CEFR Practice Test 2026 May — Practice Questions",
+    "snippet": "Start with our free CEFR practice test to identify your strengths and areas for improvement. You will receive instant results, a detailed level breakdown, and expert explanations for every answer — all at no cost.",
+    "host_name": "practicetestgeeks.com",
+    "rank": 1,
+    "date": "May 12, 2026",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.checkops.com/testcafe",
+    "name": "TestCafe - checkops.com",
+    "snippet": "TestCafe is built on Node.js and utilizes JavaScript for scripting tests. This makes it accessible for web developers familiar with the language, enabling them to write tests in a way that is consistent with their development practices.",
+    "host_name": "www.checkops.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.cefrlevels.com/test/index.html",
+    "name": "CEFR English Test - Find your CEFR level",
+    "snippet": "loading...",
+    "host_name": "www.cefrlevels.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://huggingface.co/UniversalCEFR",
+    "name": "UniversalCEFR (UniversalCEFR) - Hugging Face",
+    "snippet": "A community initiative towards open multilingual language proficiency assessment, particularly using the CEFR framework.",
+    "host_name": "huggingface.co",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  }
+]
