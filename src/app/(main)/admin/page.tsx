@@ -315,6 +315,419 @@ function Toast({ message, type, onClose }: { message: string; type: 'success' | 
   );
 }
 
+// ─── Emails Tab Component ────────────────────────────────────────────────────────
+
+function EmailsTab({ accessToken }: { accessToken: string | null }) {
+  const [emailsData, setEmailsData] = useState<{
+    users: Array<{
+      id: string; email: string; name: string | null; emailVerified: boolean;
+      plan: string; role: string; createdAt: string;
+      payments: Array<{ id: string; amount: number; status: string; createdAt: string }>;
+      assessments: Array<{ id: string; cefrLevel: string | null; status: string; completedAt: string | null }>;
+    }>;
+    pagination: { page: number; limit: number; total: number; totalPages: number };
+    stats: { totalUsers: number; verifiedUsers: number; unverifiedUsers: number; premiumUsers: number; verificationRate: number };
+    emailConfig: { resendKeySet: boolean; appUrlSet: boolean; appUrl: string };
+  } | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState('all');
+
+  const fetchEmails = useCallback(async (page = 1) => {
+    if (!accessToken) return;
+    setLoading(true);
+    try {
+      const params = new URLSearchParams({ page: String(page), limit: '20', filter });
+      const res = await fetch(`/api/admin/emails?${params}`, { headers: { Authorization: `Bearer ${accessToken}` } });
+      if (res.ok) setEmailsData(await res.json());
+    } catch (e) { console.error('Emails fetch error:', e); }
+    finally { setLoading(false); }
+  }, [accessToken, filter]);
+
+  useEffect(() => { fetchEmails(); }, [fetchEmails]);
+
+  return (
+    <div className="space-y-6">
+      {/* Email Service Config */}
+      <div className="glass-card p-5">
+        <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+          <Mail className="h-4 w-4 text-purple-400" />
+          Email Service Configuration
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="glass-card p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <Key className="h-4 w-4 text-white/40" />
+              <span className="text-white/50 text-sm">Resend API Key</span>
+            </div>
+            <div className="flex items-center gap-2">
+              {emailsData?.emailConfig.resendKeySet ? (
+                <><CheckCircle2 className="h-4 w-4 text-green-400" /><span className="text-green-400 text-sm font-medium">Configured</span></>
+              ) : (
+                <><AlertCircle className="h-4 w-4 text-red-400" /><span className="text-red-400 text-sm font-medium">Not Set</span></>
+              )}
+            </div>
+          </div>
+          <div className="glass-card p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <Globe className="h-4 w-4 text-white/40" />
+              <span className="text-white/50 text-sm">App URL</span>
+            </div>
+            <span className="text-white text-sm">{emailsData?.emailConfig.appUrl || '—'}</span>
+          </div>
+          <div className="glass-card p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <Activity className="h-4 w-4 text-white/40" />
+              <span className="text-white/50 text-sm">Service Status</span>
+            </div>
+            <div className="flex items-center gap-2">
+              {emailsData?.emailConfig.resendKeySet ? (
+                <><Wifi className="h-4 w-4 text-green-400" /><span className="text-green-400 text-sm font-medium">Active</span></>
+              ) : (
+                <><XCircle className="h-4 w-4 text-red-400" /><span className="text-red-400 text-sm font-medium">Inactive</span></>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Email Stats */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard icon={Users} label="Total Users" value={emailsData?.stats.totalUsers ?? '—'} gradient="from-purple-500 to-indigo-600" />
+        <StatCard icon={CheckCircle2} label="Verified" value={emailsData?.stats.verifiedUsers ?? '—'} gradient="from-green-500 to-emerald-600" />
+        <StatCard icon={AlertCircle} label="Unverified" value={emailsData?.stats.unverifiedUsers ?? '—'} gradient="from-red-500 to-rose-600" />
+        <StatCard icon={Shield} label="Verify Rate" value={emailsData?.stats.verificationRate != null ? `${emailsData.stats.verificationRate}%` : '—'} gradient="from-blue-500 to-cyan-600" />
+      </div>
+
+      {/* Filter Buttons */}
+      <div className="flex gap-2">
+        {['all', 'verified', 'unverified'].map((f) => (
+          <button
+            key={f}
+            onClick={() => setFilter(f)}
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+              filter === f ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30' : 'text-white/50 hover:text-white hover:bg-white/5 border border-transparent'
+            }`}
+          >
+            {f.charAt(0).toUpperCase() + f.slice(1)}
+          </button>
+        ))}
+      </div>
+
+      {/* Users List */}
+      <div className="glass-card p-5">
+        <h3 className="text-white font-semibold mb-4">User Email Directory</h3>
+        {loading ? (
+          <Skeleton className="h-64 w-full bg-white/5" />
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-white/10">
+                  <th className="text-left text-white/40 py-3 px-2">Email</th>
+                  <th className="text-left text-white/40 py-3 px-2">Name</th>
+                  <th className="text-left text-white/40 py-3 px-2">Status</th>
+                  <th className="text-left text-white/40 py-3 px-2">Plan</th>
+                  <th className="text-left text-white/40 py-3 px-2">Last CEFR</th>
+                  <th className="text-left text-white/40 py-3 px-2">Joined</th>
+                </tr>
+              </thead>
+              <tbody>
+                {emailsData?.users.map((u) => (
+                  <tr key={u.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                    <td className="py-3 px-2 text-white/80">{u.email}</td>
+                    <td className="py-3 px-2 text-white/60">{u.name || '—'}</td>
+                    <td className="py-3 px-2">
+                      {u.emailVerified ? (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 text-xs"><CheckCircle2 className="h-3 w-3" />Verified</span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-red-500/20 text-red-400 text-xs"><AlertCircle className="h-3 w-3" />Unverified</span>
+                      )}
+                    </td>
+                    <td className="py-3 px-2"><span className="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-400 text-xs">{u.plan}</span></td>
+                    <td className="py-3 px-2 text-white/60">{u.assessments?.[0]?.cefrLevel || '—'}</td>
+                    <td className="py-3 px-2 text-white/40 text-xs">{new Date(u.createdAt).toLocaleDateString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {emailsData?.pagination && emailsData.pagination.totalPages > 1 && (
+              <Pagination page={emailsData.pagination.page} totalPages={emailsData.pagination.totalPages} onPageChange={(p) => fetchEmails(p)} />
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── APIs Tab Component ────────────────────────────────────────────────────────
+
+function APIsTab({ accessToken }: { accessToken: string | null }) {
+  const [apisData, setApisData] = useState<{
+    apiEndpoints: Array<{ path: string; method: string; description: string }>;
+    topApiCalls: Array<{ path: string; count: number }>;
+    assessmentStats: {
+      totalAssessments: number; completedAssessments: number; inProgressAssessments: number;
+      todayAssessments: number; avgCompletionMinutes: number;
+      cefrDistribution: Array<{ level: string; count: number }>;
+    };
+    latestTestTakers: Array<{
+      id: string; status: string; cefrLevel: string | null; score: number | null;
+      startedAt: string | null; completedAt: string | null; createdAt: string;
+      user: { id: string; email: string; name: string | null; plan: string };
+      _count: { responses: number };
+    }>;
+    services: {
+      database: { status: string; latencyMs: number; type: string };
+      auth: { jwtSecretSet: boolean; provider: string };
+      email: { provider: string; apiKeySet: boolean };
+      payment: { provider: string; mode: string; clientIdSet: boolean; secretSet: boolean };
+      ai: { provider: string; apiKeySet: boolean };
+    };
+  } | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const fetchAPIs = useCallback(async () => {
+    if (!accessToken) return;
+    setLoading(true);
+    try {
+      const res = await fetch('/api/admin/apis', { headers: { Authorization: `Bearer ${accessToken}` } });
+      if (res.ok) setApisData(await res.json());
+    } catch (e) { console.error('APIs fetch error:', e); }
+    finally { setLoading(false); }
+  }, [accessToken]);
+
+  useEffect(() => { fetchAPIs(); }, [fetchAPIs]);
+
+  const statusColor = (status: string) => {
+    if (status === 'healthy') return 'text-green-400';
+    if (status === 'degraded') return 'text-yellow-400';
+    return 'text-red-400';
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Service Health Dashboard */}
+      <div className="glass-card p-5">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-white font-semibold flex items-center gap-2">
+            <Code2 className="h-4 w-4 text-purple-400" />
+            API & Service Health
+          </h3>
+          <button onClick={fetchAPIs} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs text-white/60 hover:text-white hover:bg-white/10 transition-colors">
+            <RefreshCw className="h-3.5 w-3.5" /> Refresh
+          </button>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* Database */}
+          <div className="glass-card p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <Database className="h-4 w-4 text-white/40" />
+              <span className="text-white/50 text-sm">Database</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className={statusColor(apisData?.services.database.status ?? 'unknown')}>
+                {apisData?.services.database.status === 'healthy' ? <CheckCircle2 className="h-4 w-4" /> : <AlertCircle className="h-4 w-4" />}
+              </span>
+              <span className={`text-sm font-medium ${statusColor(apisData?.services.database.status ?? 'unknown')}`}>
+                {apisData?.services.database.status ?? '...'}
+              </span>
+            </div>
+            <span className="text-white/30 text-xs">{apisData?.services.database.latencyMs ?? '—'}ms latency</span>
+          </div>
+
+          {/* Auth */}
+          <div className="glass-card p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <Shield className="h-4 w-4 text-white/40" />
+              <span className="text-white/50 text-sm">Authentication</span>
+            </div>
+            <div className="flex items-center gap-2">
+              {apisData?.services.auth.jwtSecretSet ? (
+                <><CheckCircle2 className="h-4 w-4 text-green-400" /><span className="text-green-400 text-sm font-medium">Active</span></>
+              ) : (
+                <><AlertCircle className="h-4 w-4 text-red-400" /><span className="text-red-400 text-sm font-medium">Missing</span></>
+              )}
+            </div>
+            <span className="text-white/30 text-xs">{apisData?.services.auth.provider}</span>
+          </div>
+
+          {/* Email */}
+          <div className="glass-card p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <Mail className="h-4 w-4 text-white/40" />
+              <span className="text-white/50 text-sm">Email ({apisData?.services.email.provider})</span>
+            </div>
+            <div className="flex items-center gap-2">
+              {apisData?.services.email.apiKeySet ? (
+                <><CheckCircle2 className="h-4 w-4 text-green-400" /><span className="text-green-400 text-sm font-medium">Configured</span></>
+              ) : (
+                <><AlertCircle className="h-4 w-4 text-yellow-400" /><span className="text-yellow-400 text-sm font-medium">Not Set</span></>
+              )}
+            </div>
+          </div>
+
+          {/* AI */}
+          <div className="glass-card p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <Cpu className="h-4 w-4 text-white/40" />
+              <span className="text-white/50 text-sm">AI ({apisData?.services.ai.provider})</span>
+            </div>
+            <div className="flex items-center gap-2">
+              {apisData?.services.ai.apiKeySet ? (
+                <><CheckCircle2 className="h-4 w-4 text-green-400" /><span className="text-green-400 text-sm font-medium">API Key Set</span></>
+              ) : (
+                <><AlertCircle className="h-4 w-4 text-red-400" /><span className="text-red-400 text-sm font-medium">Missing</span></>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* PayPal Status */}
+        <div className="mt-4 glass-card p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <CreditCard className="h-4 w-4 text-white/40" />
+            <span className="text-white/50 text-sm">Payment ({apisData?.services.payment.provider})</span>
+          </div>
+          <div className="flex items-center gap-4 flex-wrap">
+            <span className="text-white/60 text-xs">Mode: <span className="text-white font-medium">{apisData?.services.payment.mode}</span></span>
+            <span className="text-white/60 text-xs">Client ID: {apisData?.services.payment.clientIdSet ? <CheckCircle2 className="h-3 w-3 text-green-400 inline" /> : <XCircle className="h-3 w-3 text-red-400 inline" />}</span>
+            <span className="text-white/60 text-xs">Secret: {apisData?.services.payment.secretSet ? <CheckCircle2 className="h-3 w-3 text-green-400 inline" /> : <XCircle className="h-3 w-3 text-red-400 inline" />}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Assessment Stats */}
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+        <StatCard icon={ClipboardList} label="Total Tests" value={apisData?.assessmentStats.totalAssessments ?? '—'} gradient="from-purple-500 to-indigo-600" />
+        <StatCard icon={CheckCircle2} label="Completed" value={apisData?.assessmentStats.completedAssessments ?? '—'} gradient="from-green-500 to-emerald-600" />
+        <StatCard icon={Clock} label="In Progress" value={apisData?.assessmentStats.inProgressAssessments ?? '—'} gradient="from-yellow-500 to-orange-600" />
+        <StatCard icon={Timer} label="Avg Time" value={apisData?.assessmentStats.avgCompletionMinutes ? `${apisData.assessmentStats.avgCompletionMinutes}m` : '—'} gradient="from-cyan-500 to-blue-600" />
+        <StatCard icon={TrendingUp} label="Today" value={apisData?.assessmentStats.todayAssessments ?? '—'} gradient="from-pink-500 to-rose-600" />
+      </div>
+
+      {/* CEFR Distribution */}
+      {apisData?.assessmentStats.cefrDistribution && apisData.assessmentStats.cefrDistribution.length > 0 && (
+        <div className="glass-card p-5">
+          <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+            <TrendingUp className="h-4 w-4 text-pink-400" />
+            CEFR Level Distribution
+          </h3>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={apisData.assessmentStats.cefrDistribution}>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
+                <XAxis dataKey="level" tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.5)' }} />
+                <YAxis tick={{ fontSize: 11, fill: 'rgba(255,255,255,0.4)' }} />
+                <Tooltip content={<ChartTooltip />} />
+                <Bar dataKey="count" name="Assessments" radius={[6, 6, 0, 0]}>
+                  {apisData.assessmentStats.cefrDistribution.map((entry) => (
+                    <Cell key={entry.level} fill={CEFR_PIE_COLORS[entry.level] || '#6B7280'} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      )}
+
+      {/* Latest Test Takers */}
+      <div className="glass-card p-5">
+        <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+          <ClipboardList className="h-4 w-4 text-cyan-400" />
+          Latest Test Takers (Last 24h)
+        </h3>
+        {loading ? (
+          <Skeleton className="h-64 w-full bg-white/5" />
+        ) : apisData?.latestTestTakers && apisData.latestTestTakers.length > 0 ? (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-white/10">
+                  <th className="text-left text-white/40 py-3 px-2">User</th>
+                  <th className="text-left text-white/40 py-3 px-2">Plan</th>
+                  <th className="text-left text-white/40 py-3 px-2">Status</th>
+                  <th className="text-left text-white/40 py-3 px-2">CEFR Level</th>
+                  <th className="text-left text-white/40 py-3 px-2">Score</th>
+                  <th className="text-left text-white/40 py-3 px-2">Answers</th>
+                  <th className="text-left text-white/40 py-3 px-2">Started</th>
+                </tr>
+              </thead>
+              <tbody>
+                {apisData.latestTestTakers.map((a) => (
+                  <tr key={a.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                    <td className="py-3 px-2">
+                      <div>
+                        <span className="text-white/80">{a.user.name || '—'}</span>
+                        <span className="block text-white/40 text-xs">{a.user.email}</span>
+                      </div>
+                    </td>
+                    <td className="py-3 px-2"><span className="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-400 text-xs">{a.user.plan}</span></td>
+                    <td className="py-3 px-2">
+                      {a.status === 'completed' ? (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 text-xs">Completed</span>
+                      ) : a.status === 'in_progress' ? (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-yellow-500/20 text-yellow-400 text-xs">In Progress</span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/10 text-white/40 text-xs">{a.status}</span>
+                      )}
+                    </td>
+                    <td className="py-3 px-2">
+                      {a.cefrLevel ? (
+                        <span className={`px-2 py-0.5 rounded-full border text-xs ${CEFR_COLORS_DARK[a.cefrLevel] || 'bg-white/10 text-white/60'}`}>{a.cefrLevel}</span>
+                      ) : <span className="text-white/30">—</span>}
+                    </td>
+                    <td className="py-3 px-2 text-white/60">{a.score ?? '—'}</td>
+                    <td className="py-3 px-2 text-white/60">{a._count.responses}</td>
+                    <td className="py-3 px-2 text-white/40 text-xs">{a.startedAt ? new Date(a.startedAt).toLocaleString() : '—'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="text-white/30 text-sm text-center py-12">No test takers in the last 24 hours</div>
+        )}
+      </div>
+
+      {/* API Endpoints Reference */}
+      <div className="glass-card p-5">
+        <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+          <Code2 className="h-4 w-4 text-green-400" />
+          API Endpoints
+        </h3>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-white/10">
+                <th className="text-left text-white/40 py-3 px-2">Method</th>
+                <th className="text-left text-white/40 py-3 px-2">Endpoint</th>
+                <th className="text-left text-white/40 py-3 px-2">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              {apisData?.apiEndpoints.map((ep) => (
+                <tr key={`${ep.method}-${ep.path}`} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                  <td className="py-2.5 px-2">
+                    <span className={`px-2 py-0.5 rounded text-xs font-mono font-bold ${
+                      ep.method === 'GET' ? 'bg-green-500/20 text-green-400' :
+                      ep.method === 'POST' ? 'bg-blue-500/20 text-blue-400' :
+                      ep.method === 'PATCH' ? 'bg-yellow-500/20 text-yellow-400' :
+                      'bg-white/10 text-white/60'
+                    }`}>{ep.method}</span>
+                  </td>
+                  <td className="py-2.5 px-2 text-white/70 font-mono text-xs">{ep.path}</td>
+                  <td className="py-2.5 px-2 text-white/50">{ep.description}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ═══════════════════════════════════════════════════════════════════════════════
 // MAIN ADMIN PAGE
 // ═══════════════════════════════════════════════════════════════════════════════
