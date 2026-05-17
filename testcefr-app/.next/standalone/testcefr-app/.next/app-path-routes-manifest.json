@@ -45,7 +45,7 @@
   "/privacy/page": "/privacy",
   "/quick-tour/page": "/quick-tour",
   "/report/[verificationId]/page": "/report/[verificationId]",
-  "/report/page": "/report",
+  "/reports/page": "/reports",
   "/sample-certificate/page": "/sample-certificate",
   "/speaking/page": "/speaking",
   "/terms/page": "/terms",

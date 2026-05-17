@@ -35,7 +35,7 @@ export function Footer() {
               <Link href="/" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Home</Link>
               <Link href="/pricing" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Pricing</Link>
               <Link href="/quick-tour" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Quick Tour</Link>
-              <Link href="/report" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Detailed Reports</Link>
+              <Link href="/reports" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Detailed Reports</Link>
               <Link href="/sample-certificate" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Sample Certificate</Link>
               <Link href="/register" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Get Started</Link>
             </div>

@@ -45,7 +45,7 @@
   "/privacy/page": "app/privacy/page.js",
   "/quick-tour/page": "app/quick-tour/page.js",
   "/report/[verificationId]/page": "app/report/[verificationId]/page.js",
-  "/report/page": "app/report/page.js",
+  "/reports/page": "app/reports/page.js",
   "/sample-certificate/page": "app/sample-certificate/page.js",
   "/speaking/page": "app/speaking/page.js",
   "/terms/page": "app/terms/page.js",
