@@ -47,3 +47,23 @@ Stage Summary:
 - "Failed to fetch" was likely caused by stale cached deployment or browser cache
 - Added better error messages for network-level errors on login page
 - Root cause of deployment issues: pushing to wrong git remote
+---
+Task ID: 1
+Agent: Main
+Task: Fix ERR_TOO_MANY_REDIRECTS on /dashboard at preview URL
+
+Work Log:
+- Investigated the redirect loop: no middleware.ts file exists, so the issue was client-side
+- Found that AuthProvider was calling logout() on network errors during hydration, which caused the dashboard to redirect to /login, and login would redirect back after auth
+- Fixed AuthProvider: when /api/auth/me fails with network error or 5xx, trust localStorage and keep the user authenticated instead of logging out
+- Fixed dashboard page: replaced router.replace('/login') redirect with a proper "Sign in to continue" UI component (prevents any redirect loops)
+- Fixed admin page: replaced router.push('/dashboard') redirect with an "Access Denied" UI component
+- Fixed login page: added useEffect to redirect already-authenticated users to dashboard
+- Added Link import to admin page for the new access-denied UI
+- Build succeeded and pushed to origin/main (Vercel auto-deploy)
+
+Stage Summary:
+- Root cause: AuthProvider's logout() on network errors + client-side redirects creating loops
+- Fix: No more client-side redirects from dashboard/admin pages; show proper UI instead
+- AuthProvider now trusts localStorage on network/server errors instead of logging out
+- All changes pushed to Vercel via origin/main
