@@ -15,9 +15,11 @@ import {
   Award,
   Sparkles,
   LogIn,
+  BarChart3,
 } from 'lucide-react';
 import QRCode from 'react-qr-code';
 import Link from 'next/link';
+import { Footer } from '@/components/footer';
 
 interface SkillBreakdown {
   reading?: number;
@@ -343,6 +345,12 @@ export default function CertificatePage() {
                 Download PDF
               </button>
             </a>
+            <Link href={`/report/${verificationId}`}>
+              <button className="flex items-center gap-2 rounded-xl px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 hover:-translate-y-0.5 cursor-pointer">
+                <BarChart3 className="h-4 w-4" />
+                View Detailed Report
+              </button>
+            </Link>
             <button
               onClick={handleShare}
               className="flex items-center gap-2 rounded-xl px-6 py-3 glass-button text-white font-semibold transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
@@ -359,6 +367,7 @@ export default function CertificatePage() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

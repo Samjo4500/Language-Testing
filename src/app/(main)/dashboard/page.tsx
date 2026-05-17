@@ -5,9 +5,10 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuthStore } from '@/lib/auth-store';
 import { Navbar } from '@/components/navbar';
+import { Footer } from '@/components/footer';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { CheckCircle2, CreditCard, ArrowRight, BookOpen, Award, Download, QrCode, Loader2, Sparkles, Shield, Zap, LogIn } from 'lucide-react';
+import { CheckCircle2, CreditCard, ArrowRight, BookOpen, Award, Download, QrCode, Loader2, Sparkles, Shield, Zap, LogIn, BarChart3 } from 'lucide-react';
 
 interface CertificateInfo {
   id: string;
@@ -275,6 +276,12 @@ export default function DashboardPage() {
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
+                        <Link href={`/report/${cert.verificationId}`}>
+                          <button className="flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-medium bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg cursor-pointer">
+                            <BarChart3 className="h-3 w-3" />
+                            Report
+                          </button>
+                        </Link>
                         <Link href={`/certificate/${cert.verificationId}`}>
                           <button className="flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-medium glass-button text-white cursor-pointer">
                             <Award className="h-3 w-3" />
@@ -321,6 +328,7 @@ export default function DashboardPage() {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
