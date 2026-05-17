@@ -31,7 +31,13 @@ export default function LoginPage() {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await response.json();
+      let data;
+      try {
+        data = await response.json();
+      } catch {
+        setError('Server returned an invalid response. Please refresh the page and try again.');
+        return;
+      }
 
       if (!response.ok) {
         setError(data.error || 'Login failed. Please try again.');
@@ -40,8 +46,13 @@ export default function LoginPage() {
 
       setAuth(data.user, data.accessToken, data.refreshToken);
       router.push('/dashboard');
-    } catch {
-      setError('An unexpected error occurred. Please try again.');
+    } catch (err) {
+      // Network-level error (Failed to fetch)
+      if (err instanceof TypeError && err.message === 'Failed to fetch') {
+        setError('Network error: Unable to reach the server. Please check your internet connection and try again. If the problem persists, try clearing your browser cache.');
+      } else {
+        setError('An unexpected error occurred. Please try again.');
+      }
     } finally {
       setIsSubmitting(false);
     }
