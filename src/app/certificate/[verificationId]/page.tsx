@@ -4,10 +4,18 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/auth-store';
 import { Navbar } from '@/components/navbar';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Download, Share2, ArrowLeft, Shield, CheckCircle2 } from 'lucide-react';
+import {
+  Download,
+  Share2,
+  ArrowLeft,
+  Shield,
+  CheckCircle2,
+  QrCode,
+  Award,
+  Sparkles,
+  LogIn,
+} from 'lucide-react';
 import QRCode from 'react-qr-code';
 import Link from 'next/link';
 
@@ -32,13 +40,13 @@ interface CertificateInfo {
   completedAt: string;
 }
 
-const CEFR_LEVELS: Record<string, { title: string; color: string; bgColor: string; accent: string }> = {
-  A1: { title: 'Beginner',          color: '#3b82f6', bgColor: 'rgba(59,130,246,0.15)',  accent: '#60a5fa' },
-  A2: { title: 'Elementary',        color: '#22c55e', bgColor: 'rgba(34,197,94,0.15)',   accent: '#4ade80' },
-  B1: { title: 'Intermediate',      color: '#eab308', bgColor: 'rgba(234,179,8,0.15)',   accent: '#facc15' },
-  B2: { title: 'Upper Intermediate', color: '#f97316', bgColor: 'rgba(249,115,22,0.15)',  accent: '#fb923c' },
-  C1: { title: 'Advanced',          color: '#ef4444', bgColor: 'rgba(239,68,68,0.15)',   accent: '#f87171' },
-  C2: { title: 'Proficient',        color: '#a855f7', bgColor: 'rgba(168,85,247,0.15)',  accent: '#c084fc' },
+const CEFR_LEVELS: Record<string, { title: string; gradient: string; textColor: string; barColor: string }> = {
+  A1: { title: 'Beginner',          gradient: 'from-blue-500 to-blue-600',     textColor: 'text-blue-400',   barColor: 'from-blue-400 to-cyan-500' },
+  A2: { title: 'Elementary',        gradient: 'from-green-500 to-green-600',   textColor: 'text-green-400',  barColor: 'from-green-400 to-emerald-500' },
+  B1: { title: 'Intermediate',      gradient: 'from-yellow-500 to-yellow-600', textColor: 'text-yellow-400', barColor: 'from-yellow-400 to-amber-500' },
+  B2: { title: 'Upper Intermediate', gradient: 'from-orange-500 to-orange-600', textColor: 'text-orange-400', barColor: 'from-orange-400 to-amber-500' },
+  C1: { title: 'Advanced',          gradient: 'from-red-500 to-red-600',       textColor: 'text-red-400',    barColor: 'from-red-400 to-rose-500' },
+  C2: { title: 'Proficient',        gradient: 'from-purple-500 to-purple-600', textColor: 'text-purple-400', barColor: 'from-purple-400 to-pink-500' },
 };
 
 const SKILL_LABELS: Record<string, string> = {
@@ -50,6 +58,15 @@ const SKILL_LABELS: Record<string, string> = {
   vocabulary: 'Vocabulary',
 };
 
+const SKILL_COLORS: Record<string, string> = {
+  reading: 'from-blue-400 to-cyan-500',
+  writing: 'from-violet-400 to-purple-500',
+  listening: 'from-green-400 to-emerald-500',
+  speaking: 'from-orange-400 to-amber-500',
+  grammar: 'from-purple-400 to-pink-500',
+  vocabulary: 'from-cyan-400 to-blue-500',
+};
+
 export default function CertificatePage() {
   const params = useParams();
   const router = useRouter();
@@ -59,19 +76,8 @@ export default function CertificatePage() {
   const [certificate, setCertificate] = useState<CertificateInfo | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [hasRedirected, setHasRedirected] = useState(false);
 
   useEffect(() => {
-    if (authIsLoading) return;
-
-    if (!isAuthenticated && !hasRedirected) {
-      setHasRedirected(true);
-      router.replace('/login');
-      return;
-    }
-
-    if (!isAuthenticated) return;
-
     const fetchCertificate = async () => {
       try {
         const response = await fetch(`/api/certificates/verify/${verificationId}`);
@@ -89,7 +95,7 @@ export default function CertificatePage() {
     };
 
     fetchCertificate();
-  }, [verificationId, isAuthenticated, authIsLoading, router]);
+  }, [verificationId]);
 
   const handleShare = async () => {
     const url = `${window.location.origin}/verify/${verificationId}`;
@@ -112,14 +118,14 @@ export default function CertificatePage() {
     ? `${window.location.origin}/verify/${verificationId}`
     : `https://testcefr.com/verify/${verificationId}`;
 
-  if (authIsLoading || loading) {
+  if (loading) {
     return (
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
         <Navbar />
         <div className="flex-1 py-8 px-4">
           <div className="container max-w-3xl mx-auto space-y-6">
-            <Skeleton className="h-8 w-48" />
-            <Skeleton className="h-96 w-full" />
+            <Skeleton className="h-8 w-48 bg-white/5" />
+            <Skeleton className="h-96 w-full bg-white/5" />
           </div>
         </div>
       </div>
@@ -128,22 +134,23 @@ export default function CertificatePage() {
 
   if (error || !certificate) {
     return (
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
         <Navbar />
-        <div className="flex-1 flex items-center justify-center px-4">
-          <Card className="w-full max-w-md">
-            <CardHeader className="text-center">
-              <CardTitle>Certificate Not Found</CardTitle>
-              <CardDescription>{error || 'The requested certificate could not be found.'}</CardDescription>
-            </CardHeader>
-            <CardContent>
+        <div className="flex-1 flex items-center justify-center px-4 py-12">
+          <div className="w-full max-w-md">
+            <div className="glass-card p-8 text-center">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-red-500/20 to-rose-500/20 border border-red-500/20 text-red-400 mb-4">
+                <Shield className="h-6 w-6" />
+              </div>
+              <h1 className="text-2xl font-bold text-white mb-2">Certificate Not Found</h1>
+              <p className="text-sm text-white/50 mb-6">{error || 'The requested certificate could not be found.'}</p>
               <Link href="/dashboard">
-                <Button variant="outline" className="w-full">
+                <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer">
                   Return to Dashboard
-                </Button>
+                </button>
               </Link>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -154,226 +161,200 @@ export default function CertificatePage() {
   const skillEntries = Object.entries(skills).filter(([_, v]) => v !== undefined);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
       <Navbar />
+
       <div className="flex-1 py-8 px-4">
         <div className="container max-w-4xl mx-auto space-y-6">
           {/* Back button */}
-          <Button variant="ghost" className="gap-2" onClick={() => router.push('/dashboard')}>
+          <button
+            onClick={() => router.push('/dashboard')}
+            className="flex items-center gap-2 text-white/50 hover:text-white transition-colors text-sm cursor-pointer"
+          >
             <ArrowLeft className="h-4 w-4" />
             Back to Dashboard
-          </Button>
+          </button>
 
-          {/* Certificate Card - Dark gradient design matching the original */}
-          <div className="rounded-2xl overflow-hidden shadow-2xl">
-            <div
-              className="relative"
-              style={{
-                background: 'linear-gradient(135deg, #2A9D8F 0%, #264653 100%)',
-                padding: '2px',
-                borderRadius: '1rem',
-              }}
-            >
-              {/* Orange accent lines at top and bottom */}
-              <div className="relative rounded-2xl overflow-hidden">
-                {/* Top accent line */}
-                <div className="h-1" style={{ background: 'linear-gradient(90deg, #F4A261, #E76F51, #F4A261)' }} />
+          {/* ── Certificate Card ── */}
+          <div className="glass-card p-2 md:p-3">
+            {/* Gradient border wrapper matching sample certificate */}
+            <div className="p-[2px] rounded-2xl bg-gradient-to-br from-[#2A9D8F] to-[#264653]">
+              {/* Inner certificate content */}
+              <div className="bg-[#0F0A1E] rounded-2xl p-6 md:p-8 space-y-6">
+                {/* Top header */}
+                <div className="text-center space-y-1">
+                  <p className="uppercase tracking-[0.25em] text-white/60 text-xs md:text-sm font-medium">
+                    Certificate of Proficiency
+                  </p>
+                </div>
 
-                <div className="px-6 py-8 sm:px-10 sm:py-10 space-y-6">
-                  {/* Header Row */}
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-3">
-                      <div
-                        className="flex h-10 w-10 items-center justify-center rounded-lg text-sm font-bold"
-                        style={{ backgroundColor: 'rgba(255,255,255,0.2)', color: '#fff' }}
-                      >
-                        C
-                      </div>
-                      <div>
-                        <p className="text-white font-bold text-lg tracking-tight">CEFR Test</p>
-                        <p className="text-xs" style={{ color: 'rgba(255,255,255,0.6)' }}>testcefr.com</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-xs tracking-widest uppercase" style={{ color: 'rgba(255,255,255,0.6)' }}>
-                        Certificate of Achievement
-                      </p>
-                      <p className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                        ID: {certificate.verificationId}
-                      </p>
-                    </div>
+                {/* Logo area - matching navbar logo */}
+                <div className="flex items-center justify-center gap-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white font-bold text-sm shadow-lg shadow-purple-500/25">
+                    CE
                   </div>
-
-                  {/* Certification Statement */}
-                  <div className="text-center space-y-3 pt-2">
-                    <p className="text-sm tracking-widest uppercase" style={{ color: 'rgba(255,255,255,0.6)' }}>
-                      This Certifies That
-                    </p>
-                    <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-wide">
-                      {certificate.userName}
-                    </h2>
-                    <p className="text-sm" style={{ color: 'rgba(255,255,255,0.7)' }}>
-                      has demonstrated English language proficiency at
-                    </p>
-                  </div>
-
-                  {/* CEFR Level Display */}
-                  <div className="flex items-center justify-center gap-4">
-                    <div
-                      className="flex items-center justify-center h-20 w-20 rounded-full border-2"
-                      style={{
-                        borderColor: levelInfo.accent,
-                        backgroundColor: levelInfo.bgColor,
-                      }}
-                    >
-                      <span className="text-2xl font-bold" style={{ color: levelInfo.accent }}>
-                        {certificate.cefrLevel}
-                      </span>
-                    </div>
-                    <div>
-                      <p className="text-2xl font-bold" style={{ color: levelInfo.accent }}>
-                        {certificate.cefrLevel}
-                      </p>
-                      <p className="text-sm" style={{ color: 'rgba(255,255,255,0.7)' }}>
-                        {levelInfo.title}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Score + Dates Row */}
-                  <div
-                    className="grid grid-cols-3 gap-4 rounded-xl p-4"
-                    style={{ backgroundColor: 'rgba(255,255,255,0.08)' }}
-                  >
-                    <div className="text-center">
-                      <p className="text-2xl sm:text-3xl font-bold" style={{ color: levelInfo.accent }}>
-                        {certificate.score}%
-                      </p>
-                      <p className="text-[10px] uppercase tracking-wider mt-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                        Score
-                      </p>
-                    </div>
-                    <div className="text-center">
-                      <p className="text-sm font-medium text-white">
-                        {new Date(certificate.issuedAt).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'short',
-                          day: 'numeric',
-                        })}
-                      </p>
-                      <p className="text-[10px] uppercase tracking-wider mt-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                        Completed
-                      </p>
-                    </div>
-                    <div className="text-center">
-                      <p className="text-sm font-medium text-white">
-                        {new Date(certificate.issuedAt).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'short',
-                          day: 'numeric',
-                        })}
-                      </p>
-                      <p className="text-[10px] uppercase tracking-wider mt-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                        Issued
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Skill Breakdown */}
-                  {skillEntries.length > 0 && (
-                    <div>
-                      <p className="text-xs tracking-widest uppercase text-center mb-4" style={{ color: 'rgba(255,255,255,0.6)' }}>
-                        Skill Breakdown
-                      </p>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                        {skillEntries.map(([skill, value]) => (
-                          <div
-                            key={skill}
-                            className="rounded-lg p-3"
-                            style={{ backgroundColor: 'rgba(255,255,255,0.08)' }}
-                          >
-                            <div className="flex items-center justify-between mb-2">
-                              <span className="text-xs text-white">{SKILL_LABELS[skill] || skill}</span>
-                              <span className="text-xs font-bold" style={{ color: levelInfo.accent }}>
-                                {value}%
-                              </span>
-                            </div>
-                            <div className="h-1.5 rounded-full" style={{ backgroundColor: 'rgba(255,255,255,0.1)' }}>
-                              <div
-                                className="h-full rounded-full transition-all"
-                                style={{
-                                  width: `${value}%`,
-                                  backgroundColor: levelInfo.accent,
-                                }}
-                              />
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Footer: QR + Verification */}
-                  <div className="flex items-end justify-between pt-2">
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-1.5">
-                        <CheckCircle2 className="h-3.5 w-3.5" style={{ color: '#2A9D8F' }} />
-                        <span className="text-xs" style={{ color: 'rgba(255,255,255,0.7)' }}>
-                          AI-Verified Assessment
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-xs" style={{ color: '#F4A261' }}>&#9733;</span>
-                        <span className="text-xs" style={{ color: 'rgba(255,255,255,0.7)' }}>
-                          CEFR Test — testcefr.com
-                        </span>
-                      </div>
-                      <p className="text-[10px]" style={{ color: 'rgba(255,255,255,0.4)' }}>
-                        Aligned with the Common European Framework of Reference for Languages
-                      </p>
-                    </div>
-
-                    {/* QR Code */}
-                    <div className="flex flex-col items-center gap-1.5">
-                      <div className="bg-white p-2 rounded-lg">
-                        <QRCode
-                          value={verifyUrl}
-                          size={80}
-                          level="M"
-                          fgColor="#264653"
-                          bgColor="#ffffff"
-                        />
-                      </div>
-                      <p className="text-[9px]" style={{ color: 'rgba(255,255,255,0.4)' }}>
-                        Scan to verify
-                      </p>
-                    </div>
+                  <div className="flex flex-col">
+                    <span className="text-white font-bold text-base tracking-tight leading-tight">
+                      testcefr.com
+                    </span>
+                    <span className="text-white/40 text-[9px] uppercase tracking-[0.2em] leading-tight">
+                      English Assessment
+                    </span>
                   </div>
                 </div>
 
-                {/* Bottom accent line */}
-                <div className="h-1" style={{ background: 'linear-gradient(90deg, #F4A261, #E76F51, #F4A261)' }} />
+                {/* Divider */}
+                <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+                {/* Certification text */}
+                <div className="text-center space-y-3">
+                  <p className="text-white/50 text-sm">This is to certify that</p>
+                  <p className="text-3xl md:text-4xl font-bold text-white tracking-wide">
+                    {certificate.userName}
+                  </p>
+                  <p className="text-white/50 text-sm">has achieved CEFR Level</p>
+                </div>
+
+                {/* Level circle */}
+                <div className="flex justify-center">
+                  <div className={`h-20 w-20 rounded-full bg-gradient-to-br ${levelInfo.gradient} flex items-center justify-center shadow-lg shadow-purple-500/30 animate-pulse-glow`}>
+                    <span className="text-white text-2xl font-bold">{certificate.cefrLevel}</span>
+                  </div>
+                </div>
+
+                {/* Level name */}
+                <p className={`text-center ${levelInfo.textColor} text-sm font-medium`}>
+                  {levelInfo.title}
+                </p>
+
+                {/* Divider */}
+                <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+                {/* Score + Dates Row */}
+                <div className="grid grid-cols-3 gap-4 rounded-xl p-4 bg-white/5 border border-white/5">
+                  <div className="text-center">
+                    <p className={`text-2xl sm:text-3xl font-bold ${levelInfo.textColor}`}>
+                      {certificate.score}%
+                    </p>
+                    <p className="text-[10px] uppercase tracking-wider mt-1 text-white/40">
+                      Score
+                    </p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-sm font-medium text-white">
+                      {new Date(certificate.completedAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                      })}
+                    </p>
+                    <p className="text-[10px] uppercase tracking-wider mt-1 text-white/40">
+                      Completed
+                    </p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-sm font-medium text-white">
+                      {new Date(certificate.issuedAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                      })}
+                    </p>
+                    <p className="text-[10px] uppercase tracking-wider mt-1 text-white/40">
+                      Issued
+                    </p>
+                  </div>
+                </div>
+
+                {/* Skill breakdown - matching sample certificate progress bars */}
+                {skillEntries.length > 0 && (
+                  <div className="space-y-3">
+                    <p className="text-white/40 text-xs uppercase tracking-widest font-medium text-center mb-4">
+                      Skill Breakdown
+                    </p>
+                    {skillEntries.map(([skill, value]) => (
+                      <div key={skill} className="space-y-1">
+                        <div className="flex justify-between text-sm">
+                          <span className="text-white/60">{SKILL_LABELS[skill] || skill}</span>
+                          <span className="text-white/80 font-medium">{value}%</span>
+                        </div>
+                        <div className="h-2 rounded-full bg-white/10 overflow-hidden">
+                          <div
+                            className={`h-full rounded-full bg-gradient-to-r ${SKILL_COLORS[skill] || levelInfo.barColor} transition-all duration-1000`}
+                            style={{ width: `${value}%` }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Divider */}
+                <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+                {/* QR Code & Info */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    {/* QR code */}
+                    <div className="h-16 w-16 rounded-lg border-2 border-white/20 flex items-center justify-center bg-white/5 overflow-hidden">
+                      <QRCode
+                        value={verifyUrl}
+                        size={56}
+                        level="M"
+                        fgColor="#a855f7"
+                        bgColor="transparent"
+                      />
+                    </div>
+                    <div>
+                      <p className="text-white/40 text-xs">Scan to verify</p>
+                      <div className="flex items-center gap-1 mt-1">
+                        <CheckCircle2 className="h-3 w-3 text-green-400" />
+                        <span className="text-green-400 text-xs font-medium">Verified</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="text-right space-y-1">
+                    <p className="text-white/40 text-xs">
+                      Issued: {new Date(certificate.issuedAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                      })}
+                    </p>
+                    <p className="text-white/60 text-xs font-mono">
+                      {certificate.verificationId}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Action Buttons */}
+          {/* Action Buttons - matching site design */}
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <a href={`/api/certificates/download/${verificationId}`} target="_blank" rel="noopener noreferrer">
-              <Button className="gap-2 w-full sm:w-auto">
+            <a
+              href={`/api/certificates/download/${verificationId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <button className="flex items-center gap-2 rounded-xl px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 cursor-pointer">
                 <Download className="h-4 w-4" />
-                Download PDF Certificate
-              </Button>
+                Download PDF
+              </button>
             </a>
-            <Button variant="outline" className="gap-2 w-full sm:w-auto" onClick={handleShare}>
+            <button
+              onClick={handleShare}
+              className="flex items-center gap-2 rounded-xl px-6 py-3 glass-button text-white font-semibold transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
+            >
               <Share2 className="h-4 w-4" />
               Share Certificate
-            </Button>
+            </button>
             <Link href={`/verify/${verificationId}`} target="_blank">
-              <Button variant="outline" className="gap-2 w-full sm:w-auto">
+              <button className="flex items-center gap-2 rounded-xl px-6 py-3 glass-button text-white font-semibold transition-all duration-300 hover:-translate-y-0.5 cursor-pointer">
                 <Shield className="h-4 w-4" />
                 Verification Page
-              </Button>
+              </button>
             </Link>
           </div>
         </div>

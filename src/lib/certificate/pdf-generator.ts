@@ -3,7 +3,7 @@ import QRCode from 'qrcode';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://testcefr.com';
 
-// CEFR level descriptions for the certificate
+// CEFR level descriptions
 const CEFR_DESCRIPTIONS: Record<string, string> = {
   A1: 'Beginner',
   A2: 'Elementary',
@@ -13,14 +13,24 @@ const CEFR_DESCRIPTIONS: Record<string, string> = {
   C2: 'Proficient',
 };
 
-// Colorized level colors (matching the website)
-const CEFR_COLORS: Record<string, { r: number; g: number; b: number; hex: string }> = {
-  A1: { r: 0.23, g: 0.51, b: 0.96, hex: '#3b82f6' },  // Blue
-  A2: { r: 0.13, g: 0.77, b: 0.37, hex: '#22c55e' },  // Green
-  B1: { r: 0.92, g: 0.70, b: 0.03, hex: '#eab308' },  // Yellow
-  B2: { r: 0.98, g: 0.45, b: 0.09, hex: '#f97316' },  // Orange
-  C1: { r: 0.94, g: 0.27, b: 0.27, hex: '#ef4444' },  // Red
-  C2: { r: 0.66, g: 0.33, b: 0.97, hex: '#a855f7' },  // Purple
+// CEFR level colors (matching the website gradient system)
+const CEFR_COLORS: Record<string, { r: number; g: number; b: number }> = {
+  A1: { r: 0.23, g: 0.51, b: 0.96 },  // Blue
+  A2: { r: 0.13, g: 0.77, b: 0.37 },  // Green
+  B1: { r: 0.92, g: 0.70, b: 0.03 },  // Yellow
+  B2: { r: 0.98, g: 0.45, b: 0.09 },  // Orange
+  C1: { r: 0.94, g: 0.27, b: 0.27 },  // Red
+  C2: { r: 0.66, g: 0.33, b: 0.97 },  // Purple
+};
+
+// Skill bar colors (matching the website)
+const SKILL_COLORS: Record<string, { r1: number; g1: number; b1: number; r2: number; g2: number; b2: number }> = {
+  reading:    { r1: 0.37, g1: 0.58, b1: 0.96, r2: 0.32, g2: 0.77, b2: 0.96 },   // blue to cyan
+  writing:    { r1: 0.55, g1: 0.30, b1: 0.96, r2: 0.60, g2: 0.22, b2: 0.96 },   // violet to purple
+  listening:  { r1: 0.37, g1: 0.77, b1: 0.45, r2: 0.30, g2: 0.77, b2: 0.45 },   // green to emerald
+  speaking:   { r1: 0.98, g1: 0.45, b1: 0.09, r2: 0.96, g2: 0.56, b2: 0.09 },   // orange to amber
+  grammar:    { r1: 0.55, g1: 0.30, b1: 0.96, r2: 0.96, g2: 0.22, b2: 0.55 },   // purple to pink
+  vocabulary: { r1: 0.32, g1: 0.77, b1: 0.96, r2: 0.37, g2: 0.58, b2: 0.96 },   // cyan to blue
 };
 
 interface SkillBreakdown {
@@ -41,14 +51,11 @@ interface CertificateData {
   skillBreakdown?: SkillBreakdown;
 }
 
-// Teal-to-navy gradient colors
-const TEAL  = rgb(0.17, 0.62, 0.56);   // #2A9D8F
-const NAVY  = rgb(0.15, 0.27, 0.33);   // #264653
-const ORANGE_ACCENT = rgb(0.96, 0.64, 0.38); // #F4A261
-const BURNT_ORANGE  = rgb(0.91, 0.44, 0.32); // #E76F51
-const WHITE = rgb(1, 1, 1);
-const SEMI_WHITE = rgb(1, 1, 1);  // for text
-const FAINT_WHITE = rgb(1, 1, 1); // for muted text
+// Color constants matching the website
+const DARK_BG     = rgb(0.06, 0.04, 0.12);   // #0F0A1E
+const TEAL_START  = rgb(0.17, 0.62, 0.56);   // #2A9D8F
+const TEAL_END    = rgb(0.15, 0.27, 0.33);   // #264653
+const WHITE       = rgb(1, 1, 1);
 
 export async function generateCertificatePDF(data: CertificateData): Promise<Buffer> {
   const pdfDoc = await PDFDocument.create();
@@ -58,161 +65,155 @@ export async function generateCertificatePDF(data: CertificateData): Promise<Buf
   const height = page.getHeight();
   const centerX = width / 2;
 
-  const levelColor = CEFR_COLORS[data.cefrLevel] || CEFR_COLORS.B1;
+  const levelColor = CEFR_COLORS[data.cefrLevel] || CEFR_COLORS.B2;
   const levelAccent = rgb(levelColor.r, levelColor.g, levelColor.b);
 
   // Embed standard fonts
   const fontRegular = await pdfDoc.embedFont(StandardFonts.Helvetica);
   const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-  const fontOblique = await pdfDoc.embedFont(StandardFonts.HelveticaOblique);
 
-  // ── Background: teal-to-navy gradient simulation (horizontal bands) ──
-  const gradientSteps = 40;
-  for (let i = 0; i < gradientSteps; i++) {
-    const t = i / gradientSteps;
-    const r = TEAL.red * (1 - t) + NAVY.red * t;
-    const g = TEAL.green * (1 - t) + NAVY.green * t;
-    const b = TEAL.blue * (1 - t) + NAVY.blue * t;
-    const bandHeight = height / gradientSteps;
-    page.drawRectangle({
-      x: 0,
-      y: height - (i + 1) * bandHeight,
-      width: width,
-      height: bandHeight + 1,
-      color: rgb(r, g, b),
-    });
-  }
-
-  // ── Top accent line (orange gradient) ──
-  page.drawRectangle({
-    x: 0,
-    y: height - 4,
-    width: width,
-    height: 4,
-    color: ORANGE_ACCENT,
-  });
-
-  // ── Bottom accent line (orange gradient) ──
+  // ── Background: dark (#0F0A1E) ──
   page.drawRectangle({
     x: 0,
     y: 0,
-    width: width,
-    height: 4,
-    color: ORANGE_ACCENT,
+    width,
+    height,
+    color: DARK_BG,
   });
 
-  // ── Header Row ──
+  // ── Gradient border frame (teal gradient, 2px wide) ──
+  const borderW = 2;
+  // Top border
+  const gradientSteps = 30;
+  for (let i = 0; i < gradientSteps; i++) {
+    const t = i / gradientSteps;
+    const r = TEAL_START.red * (1 - t) + TEAL_END.red * t;
+    const g = TEAL_START.green * (1 - t) + TEAL_END.green * t;
+    const b = TEAL_START.blue * (1 - t) + TEAL_END.blue * t;
+    const segW = width / gradientSteps;
+    page.drawRectangle({ x: i * segW, y: height - borderW, width: segW + 1, height: borderW, color: rgb(r, g, b) });
+    page.drawRectangle({ x: i * segW, y: 0, width: segW + 1, height: borderW, color: rgb(r, g, b) });
+  }
+  // Left border (teal)
+  page.drawRectangle({ x: 0, y: 0, width: borderW, height, color: TEAL_START });
+  // Right border (navy)
+  page.drawRectangle({ x: width - borderW, y: 0, width: borderW, height, color: TEAL_END });
+
+  const marginX = 50;
+  const contentWidth = width - 2 * marginX;
+
+  // ── "CERTIFICATE OF PROFICIENCY" ──
+  const certTitle = 'CERTIFICATE OF PROFICIENCY';
+  const certTitleWidth = fontRegular.widthOfTextAtSize(certTitle, 10);
+  page.drawText(certTitle, {
+    x: centerX - certTitleWidth / 2,
+    y: height - 35,
+    size: 10,
+    font: fontRegular,
+    color: rgb(1, 1, 1),
+    opacity: 0.6,
+    characterSpacing: 3,
+  });
+
+  // ── Logo area ──
+  const logoX = centerX - 60;
+  const logoY = height - 70;
   // Logo square
-  const logoX = 50;
-  const logoY = height - 52;
   page.drawRectangle({
     x: logoX,
     y: logoY,
-    width: 32,
-    height: 32,
-    color: rgb(1, 1, 1),
-    opacity: 0.2,
+    width: 24,
+    height: 24,
+    color: rgb(0.58, 0.22, 0.96),  // purple-500
   });
-  page.drawText('C', {
-    x: logoX + 9,
-    y: logoY + 9,
-    size: 16,
+  page.drawText('CE', {
+    x: logoX + 4,
+    y: logoY + 7,
+    size: 10,
     font: fontBold,
     color: WHITE,
   });
-
-  // "CEFR Test"
-  page.drawText('CEFR Test', {
-    x: logoX + 40,
-    y: logoY + 20,
-    size: 16,
-    font: fontBold,
-    color: WHITE,
-  });
-
-  // "testcefr.com"
+  // Brand text
   page.drawText('testcefr.com', {
-    x: logoX + 40,
-    y: logoY + 4,
-    size: 8,
-    font: fontRegular,
-    color: rgb(1, 1, 1),
-    opacity: 0.6,
+    x: logoX + 30,
+    y: logoY + 14,
+    size: 13,
+    font: fontBold,
+    color: WHITE,
   });
-
-  // Right: "CERTIFICATE OF ACHIEVEMENT"
-  const certTitle = 'CERTIFICATE OF ACHIEVEMENT';
-  const certTitleWidth = fontRegular.widthOfTextAtSize(certTitle, 8);
-  page.drawText(certTitle, {
-    x: width - 50 - certTitleWidth,
-    y: logoY + 20,
-    size: 8,
-    font: fontRegular,
-    color: rgb(1, 1, 1),
-    opacity: 0.6,
-    characterSpacing: 2,
-  });
-
-  // Certificate ID
-  const idText = `ID: ${data.verificationId}`;
-  const idWidth = fontRegular.widthOfTextAtSize(idText, 7);
-  page.drawText(idText, {
-    x: width - 50 - idWidth,
-    y: logoY + 6,
-    size: 7,
+  page.drawText('ENGLISH ASSESSMENT', {
+    x: logoX + 30,
+    y: logoY + 2,
+    size: 6,
     font: fontRegular,
     color: rgb(1, 1, 1),
     opacity: 0.4,
+    characterSpacing: 1.5,
   });
 
-  // ── "THIS CERTIFIES THAT" ──
-  const certifiesText = 'THIS CERTIFIES THAT';
-  const certifiesWidth = fontRegular.widthOfTextAtSize(certifiesText, 9);
-  page.drawText(certifiesText, {
-    x: centerX - certifiesWidth / 2,
-    y: height - 85,
-    size: 9,
+  // ── Divider line ──
+  const divY1 = logoY - 10;
+  for (let i = 0; i < gradientSteps; i++) {
+    const t = i / gradientSteps;
+    const opacity = t < 0.5 ? t * 2 * 0.15 : (1 - t) * 2 * 0.15;
+    const segW = contentWidth / gradientSteps;
+    page.drawRectangle({
+      x: marginX + i * segW,
+      y: divY1,
+      width: segW + 1,
+      height: 0.5,
+      color: WHITE,
+      opacity,
+    });
+  }
+
+  // ── "This is to certify that" ──
+  const certifyText = 'This is to certify that';
+  const certifyWidth = fontRegular.widthOfTextAtSize(certifyText, 11);
+  page.drawText(certifyText, {
+    x: centerX - certifyWidth / 2,
+    y: divY1 - 30,
+    size: 11,
     font: fontRegular,
     color: rgb(1, 1, 1),
-    opacity: 0.6,
-    characterSpacing: 2,
+    opacity: 0.5,
   });
 
   // ── User Name ──
-  const nameSize = 28;
+  const nameSize = 30;
   const nameWidth = fontBold.widthOfTextAtSize(data.userName, nameSize);
   page.drawText(data.userName, {
     x: centerX - nameWidth / 2,
-    y: height - 125,
+    y: divY1 - 70,
     size: nameSize,
     font: fontBold,
     color: WHITE,
   });
 
-  // ── "has demonstrated English language proficiency at" ──
-  const demonText = 'has demonstrated English language proficiency at';
-  const demonWidth = fontRegular.widthOfTextAtSize(demonText, 10);
-  page.drawText(demonText, {
-    x: centerX - demonWidth / 2,
-    y: height - 150,
-    size: 10,
+  // ── "has achieved CEFR Level" ──
+  const achievedText = 'has achieved CEFR Level';
+  const achievedWidth = fontRegular.widthOfTextAtSize(achievedText, 11);
+  page.drawText(achievedText, {
+    x: centerX - achievedWidth / 2,
+    y: divY1 - 95,
+    size: 11,
     font: fontRegular,
     color: rgb(1, 1, 1),
-    opacity: 0.7,
+    opacity: 0.5,
   });
 
   // ── CEFR Level Circle ──
-  const circleRadius = 38;
-  const circleCenterX = centerX - 40;
-  const circleCenterY = height - 215;
+  const circleCenterX = centerX;
+  const circleCenterY = divY1 - 150;
+  const circleRadius = 30;
 
-  // Circle background (level color with transparency)
+  // Circle background (level color with opacity)
   page.drawCircle({
     x: circleCenterX,
     y: circleCenterY,
     radius: circleRadius,
     color: levelAccent,
-    opacity: 0.15,
+    opacity: 0.2,
   });
   // Circle border
   page.drawCircle({
@@ -220,115 +221,131 @@ export async function generateCertificatePDF(data: CertificateData): Promise<Buf
     y: circleCenterY,
     radius: circleRadius,
     borderColor: levelAccent,
-    borderWidth: 2,
+    borderWidth: 1.5,
   });
-  // Level text in circle
-  const levelTextSize = 28;
-  const levelWidth = fontBold.widthOfTextAtSize(data.cefrLevel, levelTextSize);
+  // Level text
+  const lvlSize = 22;
+  const lvlWidth = fontBold.widthOfTextAtSize(data.cefrLevel, lvlSize);
   page.drawText(data.cefrLevel, {
-    x: circleCenterX - levelWidth / 2,
-    y: circleCenterY - 10,
-    size: levelTextSize,
+    x: circleCenterX - lvlWidth / 2,
+    y: circleCenterY - 8,
+    size: lvlSize,
     font: fontBold,
     color: levelAccent,
   });
 
-  // Level + Title to the right
-  const labelX = circleCenterX + circleRadius + 16;
-  page.drawText(data.cefrLevel, {
-    x: labelX,
-    y: circleCenterY + 8,
-    size: 24,
-    font: fontBold,
-    color: levelAccent,
-  });
-  page.drawText(CEFR_DESCRIPTIONS[data.cefrLevel] || '', {
-    x: labelX,
-    y: circleCenterY - 12,
+  // Level description
+  const levelDesc = CEFR_DESCRIPTIONS[data.cefrLevel] || '';
+  const levelDescWidth = fontRegular.widthOfTextAtSize(levelDesc, 10);
+  page.drawText(levelDesc, {
+    x: centerX - levelDescWidth / 2,
+    y: circleCenterY - circleRadius - 18,
     size: 10,
     font: fontRegular,
-    color: rgb(1, 1, 1),
-    opacity: 0.7,
+    color: levelAccent,
+    opacity: 0.8,
   });
 
-  // ── Score + Dates Row ──
-  const rowY = height - 295;
-  const rowHeight = 50;
-  const rowPadding = 60;
-  const rowWidth = width - 2 * rowPadding;
+  // ── Divider line 2 ──
+  const divY2 = circleCenterY - circleRadius - 30;
+  for (let i = 0; i < gradientSteps; i++) {
+    const t = i / gradientSteps;
+    const opacity = t < 0.5 ? t * 2 * 0.15 : (1 - t) * 2 * 0.15;
+    const segW = contentWidth / gradientSteps;
+    page.drawRectangle({
+      x: marginX + i * segW,
+      y: divY2,
+      width: segW + 1,
+      height: 0.5,
+      color: WHITE,
+      opacity,
+    });
+  }
 
-  // Row background
+  // ── Score + Dates Row ──
+  const rowY = divY2 - 15;
+  const rowHeight = 40;
   page.drawRectangle({
-    x: rowPadding,
-    y: rowY,
-    width: rowWidth,
+    x: marginX,
+    y: rowY - rowHeight,
+    width: contentWidth,
     height: rowHeight,
     color: WHITE,
-    opacity: 0.08,
+    opacity: 0.05,
+  });
+  // Thin border
+  page.drawRectangle({
+    x: marginX,
+    y: rowY - rowHeight,
+    width: contentWidth,
+    height: rowHeight,
+    borderColor: WHITE,
+    borderWidth: 0.5,
+    opacity: 0.1,
   });
 
   // Score
   const scoreText = `${data.score}%`;
-  const scoreWidth = fontBold.widthOfTextAtSize(scoreText, 28);
+  const scoreWidth = fontBold.widthOfTextAtSize(scoreText, 22);
   page.drawText(scoreText, {
-    x: rowPadding + rowWidth / 6 - scoreWidth / 2,
-    y: rowY + 18,
-    size: 28,
+    x: marginX + contentWidth / 6 - scoreWidth / 2,
+    y: rowY - 18,
+    size: 22,
     font: fontBold,
     color: levelAccent,
   });
   const scoreLabel = 'SCORE';
-  const scoreLabelWidth = fontRegular.widthOfTextAtSize(scoreLabel, 7);
+  const scoreLabelWidth = fontRegular.widthOfTextAtSize(scoreLabel, 6);
   page.drawText(scoreLabel, {
-    x: rowPadding + rowWidth / 6 - scoreLabelWidth / 2,
-    y: rowY + 6,
-    size: 7,
+    x: marginX + contentWidth / 6 - scoreLabelWidth / 2,
+    y: rowY - 32,
+    size: 6,
     font: fontRegular,
     color: rgb(1, 1, 1),
-    opacity: 0.5,
+    opacity: 0.4,
     characterSpacing: 1,
   });
 
   // Completed date
-  const dateStr = data.issuedAt.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-  const dateWidth = fontRegular.widthOfTextAtSize(dateStr, 11);
-  page.drawText(dateStr, {
-    x: rowPadding + rowWidth / 2 - dateWidth / 2,
-    y: rowY + 25,
-    size: 11,
+  const completedStr = data.issuedAt.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+  const completedWidth = fontRegular.widthOfTextAtSize(completedStr, 9);
+  page.drawText(completedStr, {
+    x: marginX + contentWidth / 2 - completedWidth / 2,
+    y: rowY - 15,
+    size: 9,
     font: fontRegular,
     color: WHITE,
   });
   const completedLabel = 'COMPLETED';
-  const completedLabelWidth = fontRegular.widthOfTextAtSize(completedLabel, 7);
+  const completedLabelWidth = fontRegular.widthOfTextAtSize(completedLabel, 6);
   page.drawText(completedLabel, {
-    x: rowPadding + rowWidth / 2 - completedLabelWidth / 2,
-    y: rowY + 6,
-    size: 7,
+    x: marginX + contentWidth / 2 - completedLabelWidth / 2,
+    y: rowY - 28,
+    size: 6,
     font: fontRegular,
     color: rgb(1, 1, 1),
-    opacity: 0.5,
+    opacity: 0.4,
     characterSpacing: 1,
   });
 
   // Issued date
-  const issuedWidth = fontRegular.widthOfTextAtSize(dateStr, 11);
-  page.drawText(dateStr, {
-    x: rowPadding + rowWidth * 5 / 6 - issuedWidth / 2,
-    y: rowY + 25,
-    size: 11,
+  const issuedWidth = fontRegular.widthOfTextAtSize(completedStr, 9);
+  page.drawText(completedStr, {
+    x: marginX + contentWidth * 5 / 6 - issuedWidth / 2,
+    y: rowY - 15,
+    size: 9,
     font: fontRegular,
     color: WHITE,
   });
   const issuedLabel = 'ISSUED';
-  const issuedLabelWidth = fontRegular.widthOfTextAtSize(issuedLabel, 7);
+  const issuedLabelWidth = fontRegular.widthOfTextAtSize(issuedLabel, 6);
   page.drawText(issuedLabel, {
-    x: rowPadding + rowWidth * 5 / 6 - issuedLabelWidth / 2,
-    y: rowY + 6,
-    size: 7,
+    x: marginX + contentWidth * 5 / 6 - issuedLabelWidth / 2,
+    y: rowY - 28,
+    size: 6,
     font: fontRegular,
     color: rgb(1, 1, 1),
-    opacity: 0.5,
+    opacity: 0.4,
     characterSpacing: 1,
   });
 
@@ -338,14 +355,14 @@ export async function generateCertificatePDF(data: CertificateData): Promise<Buf
 
   if (skillEntries.length > 0) {
     const skillLabel = 'SKILL BREAKDOWN';
-    const skillLabelWidth = fontRegular.widthOfTextAtSize(skillLabel, 8);
+    const skillLabelWidth = fontRegular.widthOfTextAtSize(skillLabel, 7);
     page.drawText(skillLabel, {
       x: centerX - skillLabelWidth / 2,
-      y: rowY - 25,
-      size: 8,
+      y: rowY - rowHeight - 20,
+      size: 7,
       font: fontRegular,
       color: rgb(1, 1, 1),
-      opacity: 0.6,
+      opacity: 0.4,
       characterSpacing: 2,
     });
 
@@ -358,73 +375,85 @@ export async function generateCertificatePDF(data: CertificateData): Promise<Buf
       vocabulary: 'Vocabulary',
     };
 
-    const skillStartY = rowY - 45;
-    const skillCardHeight = 40;
-    const skillGap = 10;
-    const cols = 3;
-    const cardPadding = 60;
-    const cardWidth = (width - 2 * cardPadding - (cols - 1) * skillGap) / cols;
+    const skillStartY = rowY - rowHeight - 35;
+    const barHeight = 6;
+    const barGap = 16;
+    const labelWidth = 70;
+    const barStartX = marginX + labelWidth;
+    const barMaxWidth = contentWidth - labelWidth - 40;
 
     skillEntries.forEach(([skill, value], index) => {
-      const col = index % cols;
-      const row = Math.floor(index / cols);
-      const x = cardPadding + col * (cardWidth + skillGap);
-      const y = skillStartY - row * (skillCardHeight + skillGap);
-
-      // Card background
-      page.drawRectangle({
-        x,
-        y,
-        width: cardWidth,
-        height: skillCardHeight,
-        color: WHITE,
-        opacity: 0.08,
-      });
+      const y = skillStartY - index * barGap;
 
       // Skill name
       page.drawText(skillLabels[skill] || skill, {
-        x: x + 10,
-        y: y + 26,
-        size: 9,
+        x: marginX,
+        y: y,
+        size: 8,
         font: fontRegular,
-        color: WHITE,
+        color: rgb(1, 1, 1),
+        opacity: 0.6,
       });
 
-      // Skill percentage
-      const pctText = `${value}%`;
-      const pctWidth = fontBold.widthOfTextAtSize(pctText, 9);
-      page.drawText(pctText, {
-        x: x + cardWidth - 10 - pctWidth,
-        y: y + 26,
-        size: 9,
-        font: fontBold,
-        color: levelAccent,
-      });
-
-      // Progress bar background
-      const barX = x + 10;
-      const barY = y + 10;
-      const barWidth = cardWidth - 20;
-      const barHeight = 5;
-
+      // Bar background
       page.drawRectangle({
-        x: barX,
-        y: barY,
-        width: barWidth,
+        x: barStartX,
+        y: y - 1,
+        width: barMaxWidth,
         height: barHeight,
         color: WHITE,
         opacity: 0.1,
       });
 
-      // Progress bar fill
-      const fillWidth = barWidth * (value / 100);
-      page.drawRectangle({
-        x: barX,
-        y: barY,
-        width: fillWidth,
-        height: barHeight,
-        color: levelAccent,
+      // Bar fill with skill-specific color
+      const fillWidth = barMaxWidth * (value / 100);
+      const skillColor = SKILL_COLORS[skill] || { r1: levelColor.r, g1: levelColor.g, b1: levelColor.b, r2: levelColor.r, g2: levelColor.g, b2: levelColor.b };
+      // Use gradient simulation for skill bars
+      const barSteps = 10;
+      for (let i = 0; i < barSteps; i++) {
+        const t = i / barSteps;
+        const r = skillColor.r1 * (1 - t) + skillColor.r2 * t;
+        const g = skillColor.g1 * (1 - t) + skillColor.g2 * t;
+        const b = skillColor.b1 * (1 - t) + skillColor.b2 * t;
+        const segWidth = fillWidth / barSteps;
+        page.drawRectangle({
+          x: barStartX + i * segWidth,
+          y: y - 1,
+          width: segWidth + 1,
+          height: barHeight,
+          color: rgb(r, g, b),
+        });
+      }
+
+      // Percentage text
+      const pctText = `${value}%`;
+      const pctWidth = fontBold.widthOfTextAtSize(pctText, 8);
+      page.drawText(pctText, {
+        x: barStartX + barMaxWidth + 5,
+        y: y,
+        size: 8,
+        font: fontBold,
+        color: rgb(1, 1, 1),
+        opacity: 0.8,
       });
+    });
+  }
+
+  // ── Divider line 3 ──
+  const divY3 = skillEntries.length > 0
+    ? rowY - rowHeight - 35 - skillEntries.length * 16 - 10
+    : rowY - rowHeight - 15;
+  for (let i = 0; i < gradientSteps; i++) {
+    const t = i / gradientSteps;
+    const opacity = t < 0.5 ? t * 2 * 0.15 : (1 - t) * 2 * 0.15;
+    const segW = contentWidth / gradientSteps;
+    page.drawRectangle({
+      x: marginX + i * segW,
+      y: divY3,
+      width: segW + 1,
+      height: 0.5,
+      color: WHITE,
+      opacity,
     });
   }
 
@@ -437,15 +466,27 @@ export async function generateCertificatePDF(data: CertificateData): Promise<Buf
     width: 200,
     margin: 1,
     color: {
-      dark: '#264653',
-      light: '#ffffff',
+      dark: '#a855f7',  // purple-500 matching site
+      light: '#0F0A1E', // dark bg
     },
   });
   const qrBase64 = qrDataUrl.split(',')[1];
   const qrImage = await pdfDoc.embedPng(Buffer.from(qrBase64, 'base64'));
-  const qrSize = 65;
-  const qrX = width - 50 - qrSize;
-  const qrY = footerY + 15;
+  const qrSize = 55;
+  const qrX = width - marginX - qrSize;
+  const qrY = footerY + 20;
+
+  // QR background
+  page.drawRectangle({
+    x: qrX - 4,
+    y: qrY - 4,
+    width: qrSize + 8,
+    height: qrSize + 8,
+    color: WHITE,
+    opacity: 0.1,
+    borderColor: WHITE,
+    borderWidth: 0.5,
+  });
 
   page.drawImage(qrImage, {
     x: qrX,
@@ -454,48 +495,47 @@ export async function generateCertificatePDF(data: CertificateData): Promise<Buf
     height: qrSize,
   });
 
-  // "Scan to verify" label
+  // "Scan to verify"
   const scanLabel = 'Scan to verify';
-  const scanLabelWidth = fontRegular.widthOfTextAtSize(scanLabel, 7);
+  const scanLabelWidth = fontRegular.widthOfTextAtSize(scanLabel, 6);
   page.drawText(scanLabel, {
     x: qrX + (qrSize - scanLabelWidth) / 2,
     y: qrY - 10,
-    size: 7,
+    size: 6,
     font: fontRegular,
     color: rgb(1, 1, 1),
     opacity: 0.4,
   });
 
-  // Footer text (left side)
-  // AI-Verified Assessment
+  // Verified badge
   page.drawText('AI-Verified Assessment', {
-    x: 50,
-    y: footerY + 55,
-    size: 8,
+    x: marginX,
+    y: footerY + 52,
+    size: 7,
     font: fontRegular,
     color: rgb(1, 1, 1),
-    opacity: 0.7,
+    opacity: 0.6,
   });
 
   // CEFR Test - testcefr.com
   page.drawText('CEFR Test — testcefr.com', {
-    x: 50,
-    y: footerY + 40,
-    size: 8,
+    x: marginX,
+    y: footerY + 38,
+    size: 7,
     font: fontRegular,
     color: rgb(1, 1, 1),
-    opacity: 0.7,
+    opacity: 0.6,
   });
 
   // CEFR alignment text
   const alignText = 'Aligned with the Common European Framework of Reference for Languages';
   page.drawText(alignText, {
-    x: 50,
+    x: marginX,
     y: footerY + 22,
-    size: 6,
+    size: 5,
     font: fontRegular,
     color: rgb(1, 1, 1),
-    opacity: 0.4,
+    opacity: 0.3,
   });
 
   // ── Save ──

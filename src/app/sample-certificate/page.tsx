@@ -13,17 +13,21 @@ import {
   Eye,
   Star,
 } from 'lucide-react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const SKILLS = [
-  { name: 'Grammar', value: 85, color: 'from-purple-500 to-pink-500' },
+  { name: 'Grammar', value: 85, color: 'from-purple-400 to-pink-500' },
   { name: 'Vocabulary', value: 78, color: 'from-cyan-400 to-blue-500' },
-  { name: 'Reading', value: 82, color: 'from-emerald-400 to-teal-500' },
-  { name: 'Listening', value: 75, color: 'from-amber-400 to-orange-500' },
+  { name: 'Reading', value: 82, color: 'from-blue-400 to-cyan-500' },
+  { name: 'Listening', value: 75, color: 'from-green-400 to-emerald-500' },
+  { name: 'Speaking', value: 70, color: 'from-orange-400 to-amber-500' },
+  { name: 'Writing', value: 80, color: 'from-violet-400 to-purple-500' },
 ];
 
 export default function SampleCertificatePage() {
   const scrollRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -118,7 +122,7 @@ export default function SampleCertificatePage() {
                   </div>
 
                   {/* Divider */}
-                  <div className="section-divider" />
+                  <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
                   {/* Certification text */}
                   <div className="text-center space-y-3">
@@ -137,12 +141,28 @@ export default function SampleCertificatePage() {
                   </div>
 
                   {/* Level name */}
-                  <p className="text-center text-white/70 text-sm font-medium">
+                  <p className="text-center text-orange-400 text-sm font-medium">
                     Upper Intermediate
                   </p>
 
                   {/* Divider */}
-                  <div className="section-divider" />
+                  <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+                  {/* Score + Dates Row */}
+                  <div className="grid grid-cols-3 gap-4 rounded-xl p-4 bg-white/5 border border-white/5">
+                    <div className="text-center">
+                      <p className="text-2xl sm:text-3xl font-bold text-orange-400">82%</p>
+                      <p className="text-[10px] uppercase tracking-wider mt-1 text-white/40">Score</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-sm font-medium text-white">Mar 4, 2025</p>
+                      <p className="text-[10px] uppercase tracking-wider mt-1 text-white/40">Completed</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-sm font-medium text-white">Mar 4, 2025</p>
+                      <p className="text-[10px] uppercase tracking-wider mt-1 text-white/40">Issued</p>
+                    </div>
+                  </div>
 
                   {/* Skill breakdown */}
                   <div className="space-y-3">
@@ -166,7 +186,7 @@ export default function SampleCertificatePage() {
                   </div>
 
                   {/* Divider */}
-                  <div className="section-divider" />
+                  <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
                   {/* QR Code & Info */}
                   <div className="flex items-center justify-between">
@@ -174,7 +194,7 @@ export default function SampleCertificatePage() {
                       {/* QR placeholder */}
                       <div className="h-16 w-16 rounded-lg border-2 border-white/20 flex items-center justify-center bg-white/5">
                         <div className="text-center">
-                          <QrCode className="h-6 w-6 text-white/40 mx-auto" />
+                          <QrCode className="h-6 w-6 text-purple-400 mx-auto" />
                           <span className="text-white/30 text-[8px] uppercase tracking-wider">
                             QR
                           </span>
