@@ -1,3 +1,0 @@
-{
-  "/api/certificates/download/[verificationId]/route": "app/api/certificates/download/[verificationId]/route.js"
-}
