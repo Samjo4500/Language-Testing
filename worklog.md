@@ -23,3 +23,27 @@ Stage Summary:
 - Background color matches site theme (#0F0A1E)
 - Admin API key generation and white-label features already existed in admin panel
 - Super admin already gets premium plan with 999 credits via seed endpoint
+
+---
+Task ID: 2
+Agent: Main Agent
+Task: Fix "Failed to fetch" login error and deploy /test page
+
+Work Log:
+- Investigated the "Failed to fetch" error on login page
+- Confirmed the login API endpoint (/api/auth/login) works correctly via curl - returns 200 with valid tokens
+- The admin user (admin@testcefr.com) exists in the database with correct credentials and premium plan
+- Discovered the root cause: git push went to wrong remote (testcefr.com repo instead of Language-Testing repo)
+- Vercel project is connected to Language-Testing repo (origin remote), not testcefr.com remote
+- Pushed to origin/main which triggered correct Vercel deployment
+- Verified /test page is now returning 200 on production
+- Improved login page error handling to give more helpful messages for "Failed to fetch" network errors
+- Verified all critical env vars are set on Vercel (DATABASE_URL, JWT_SECRET, GOOGLE_AI_API_KEY)
+- Confirmed latest deployment is READY
+
+Stage Summary:
+- /test page now returns 200 on testcefr.com
+- Login API works correctly (admin@testcefr.com / Admin@2026!)
+- "Failed to fetch" was likely caused by stale cached deployment or browser cache
+- Added better error messages for network-level errors on login page
+- Root cause of deployment issues: pushing to wrong git remote
