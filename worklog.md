@@ -1,28 +1,25 @@
 ---
 Task ID: 1
 Agent: Main Agent
-Task: Fix redirect loop and implement full CEFR test page with all sections
+Task: Fix 404 error on /test page and create complete CEFR test-taking interface
 
 Work Log:
-- Diagnosed ERR_TOO_MANY_REDIRECTS as infrastructure-level issue (not Next.js)
-- Local dev server confirmed working on all pages (200 OK)
-- Identified missing /test page - all test landing pages linked to /test but it didn't exist
-- Created comprehensive /test page with 6 CEFR test sections
-- Implemented Listening section with Web Speech API (SpeechSynthesis) for TTS
-- Implemented Speaking section with microphone recording + SpeechRecognition for transcription
-- Implemented Reading section with comprehension passages
-- Implemented Writing section with AI evaluation via Gemini
-- Implemented Speaking section with 6-dimension AI scoring (Grammar, Vocabulary, Fluency, Pronunciation, Coherence, Interaction)
-- Resolved route conflict between /test and /(main)/test
-- Created seed API endpoint for database population
-- Verified admin account updated with Premium plan and 999 test credits
-- Confirmed database already has 1450 questions
-- Verified all pages load correctly (/, /login, /test, /dashboard, /admin, /listening, /speaking, /writing)
+- Investigated project structure and found the /test route was referenced in 7+ places but had no corresponding page file
+- Created comprehensive /test page at src/app/test/page.tsx with all 4 CEFR skill sections
+- Reading: 6 passages (A1-C2) with comprehension questions
+- Listening: 6 audio items (A1-C2) using browser SpeechSynthesis API for TTS
+- Speaking: 6 prompts (A1-C2) with microphone input via Web Speech API, 6-dimension AI scoring (Grammar, Vocabulary, Fluency, Pronunciation, Coherence, Interaction)
+- Writing: 6 prompts (A1-C2) with text input and AI evaluation
+- Used consistent dark theme bg-[#0F0A1E] matching the rest of the site
+- Connected to existing API endpoints: /api/assessments/start, /api/assessments/submit, /api/assessments/speaking/evaluate, /api/assessments/writing/evaluate
+- Fixed .gitignore issue where blanket 'test' pattern was blocking src/app/test/ directory
+- Built and deployed successfully - pushed to GitHub for Vercel auto-deployment
 
 Stage Summary:
-- /test page created with full CEFR assessment flow
-- Listening uses browser SpeechSynthesis API (Google TTS in Chrome)
-- Speaking uses MediaRecorder API + Web Speech API for transcription
-- Admin panel already has API key generation and white-label features
-- All pages return HTTP 200
-- Key files: /src/app/test/page.tsx, /src/app/api/admin/seed/route.ts
+- Created /test page with full CEFR test-taking interface
+- All 4 skills populated with real content across A1-C2 levels
+- Listening uses Google TTS (SpeechSynthesis)
+- Speaking uses Web Speech API with 6-dimension AI scoring
+- Background color matches site theme (#0F0A1E)
+- Admin API key generation and white-label features already existed in admin panel
+- Super admin already gets premium plan with 999 credits via seed endpoint
