@@ -7,7 +7,7 @@ import {
   Mic, ArrowRight, Brain, AudioWaveform, MessageSquareText,
   Activity, CirclePlay, Cpu, ClipboardCheck, Sparkles
 } from 'lucide-react';
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 /* Scroll animation hook using IntersectionObserver */
 function useScrollAnimation() {
@@ -62,6 +62,9 @@ function BackgroundOrbs() {
 
 export default function SpeakingPage() {
   const { isAuthenticated, user } = useAuthStore();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+  const isAuth = mounted && isAuthenticated;
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
@@ -94,7 +97,7 @@ export default function SpeakingPage() {
 
             {/* CTA Buttons */}
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center animate-scale-in delay-500">
-              {isAuthenticated ? (
+              {isAuth ? (
                 user?.plan === 'premium' ? (
                   <Link href="/test">
                     <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">

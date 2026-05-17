@@ -2,13 +2,14 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useAuthStore } from '@/lib/auth-store';
 import { Navbar } from '@/components/navbar';
 import {
   Headphones, Mic, BookOpen, PenTool, Play, Square, Volume2,
   ChevronRight, ChevronLeft, Clock, AlertCircle, CheckCircle2,
   Loader2, ArrowRight, Award, Sparkles, RotateCcw, VolumeX,
-  MicOff, Send, X
+  MicOff, Send, X, LogIn
 } from 'lucide-react';
 
 /* ======================================================
@@ -319,14 +320,18 @@ export default function TestPage() {
   const [submitting, setSubmitting] = useState(false);
   const [results, setResults] = useState<any>(null);
 
-  // Redirect if not authenticated (with guard to prevent redirect loops)
-  const [hasRedirected, setHasRedirected] = useState(false);
+  // Warn user before leaving/refreshing during an active test
+  const isInActiveTest = phase !== 'select' && phase !== 'results';
   useEffect(() => {
-    if (!authIsLoading && !isAuthenticated && !hasRedirected) {
-      setHasRedirected(true);
-      router.replace('/login');
-    }
-  }, [authIsLoading, isAuthenticated, hasRedirected, router]);
+    if (!isInActiveTest) return;
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = 'Your test is in progress. Are you sure you want to leave?';
+      return e.returnValue;
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [isInActiveTest]);
 
   // Load voices for TTS
   useEffect(() => {
@@ -722,7 +727,38 @@ export default function TestPage() {
     );
   }
 
-  if (!isAuthenticated || !user) return null;
+  if (!isAuthenticated || !user) {
+    return (
+      <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
+        <Navbar />
+        <div className="flex-1 flex items-center justify-center px-4 py-12">
+          <div className="w-full max-w-md">
+            <div className="glass-card p-8 text-center">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 text-white mb-4 shadow-lg shadow-purple-500/25">
+                <LogIn className="h-6 w-6" />
+              </div>
+              <h1 className="text-2xl font-bold text-white mb-2">Sign in to take the test</h1>
+              <p className="text-sm text-white/50 mb-6">
+                You need to be signed in to start your CEFR assessment.
+              </p>
+              <Link href="/login">
+                <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer">
+                  <Sparkles className="h-4 w-4" />
+                  Sign in
+                </button>
+              </Link>
+              <p className="text-xs text-white/30 mt-4">
+                Don&apos;t have an account?{' '}
+                <Link href="/register" className="text-purple-400 hover:text-purple-300 transition-colors">
+                  Create one
+                </Link>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   /* ======================================================
      SKILL SELECT PHASE

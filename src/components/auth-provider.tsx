@@ -20,7 +20,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const userStr = localStorage.getItem('user');
 
         if (accessToken && refreshToken && userStr) {
-          // Validate the token by hitting /api/auth/me
+          // First, set auth from localStorage immediately to prevent flicker
+          try {
+            const user = JSON.parse(userStr);
+            // Set auth with existing tokens so the UI shows authenticated immediately
+            setAuth(user, accessToken, refreshToken);
+          } catch {
+            // Bad localStorage data
+            logout();
+            return;
+          }
+
+          // Then validate the token in the background
           try {
             const response = await fetch('/api/auth/me', {
               headers: {
@@ -29,10 +40,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             });
 
             if (response.ok) {
+              // Token is still valid - update user data from server
               const data = await response.json();
               setAuth(data.user, accessToken, refreshToken);
             } else if (response.status === 401) {
-              // Try refreshing the token
+              // Access token expired - try refreshing
               try {
                 const refreshResponse = await fetch('/api/auth/refresh', {
                   method: 'POST',
@@ -44,39 +56,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 if (refreshResponse.ok) {
                   const refreshData = await refreshResponse.json();
                   const user = JSON.parse(userStr);
-                  setAuth(user, refreshData.accessToken, refreshData.refreshToken);
-                } else {
-                  // Refresh token is also invalid - clear auth
+                  setAuth(user, refreshData.accessToken, refreshData.refreshToken || refreshToken);
+                } else if (refreshResponse.status === 401) {
+                  // Refresh token also expired - must re-login
                   logout();
                 }
+                // On 5xx from refresh, keep localStorage auth (server issue, not auth issue)
               } catch {
-                // Network error during refresh - trust localStorage, don't logout
-                // This prevents redirect loops when the API is temporarily unreachable
-                try {
-                  const user = JSON.parse(userStr);
-                  setAuth(user, accessToken, refreshToken);
-                } catch {
-                  logout();
-                }
-              }
-            } else {
-              // Server error (5xx) - trust localStorage, don't logout
-              try {
-                const user = JSON.parse(userStr);
-                setAuth(user, accessToken, refreshToken);
-              } catch {
-                logout();
+                // Network error during refresh - keep localStorage auth
               }
             }
+            // On 5xx from /me, keep localStorage auth (already set above)
           } catch {
-            // Network error (Failed to fetch) - trust localStorage, don't logout
-            // This is critical for preview URLs where the API might be unreachable
-            try {
-              const user = JSON.parse(userStr);
-              setAuth(user, accessToken, refreshToken);
-            } catch {
-              logout();
-            }
+            // Network error during /me validation - keep localStorage auth
           }
         } else {
           // No stored tokens, stop loading

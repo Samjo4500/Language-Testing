@@ -19,12 +19,17 @@ export default function LoginPage() {
   const router = useRouter();
   const { setAuth, isAuthenticated, isLoading: authIsLoading } = useAuthStore();
 
-  // Redirect to dashboard if already authenticated
+  // Redirect to dashboard if already authenticated (only after hydration completes)
+  const [hasCheckedAuth, setHasCheckedAuth] = useState(false);
   useEffect(() => {
-    if (!authIsLoading && isAuthenticated) {
+    if (authIsLoading) return;
+    setHasCheckedAuth(true);
+    // Only redirect if user navigated to login while already authenticated
+    // Don't redirect on initial mount to prevent flickering
+    if (isAuthenticated && hasCheckedAuth) {
       router.replace('/dashboard');
     }
-  }, [authIsLoading, isAuthenticated, router]);
+  }, [authIsLoading, isAuthenticated, hasCheckedAuth, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

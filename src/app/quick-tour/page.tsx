@@ -13,7 +13,7 @@ import {
   ArrowRight,
   Sparkles,
 } from 'lucide-react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 const steps = [
   {
@@ -68,6 +68,9 @@ const steps = [
 
 export default function QuickTourPage() {
   const { isAuthenticated } = useAuthStore();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+  const isAuth = mounted && isAuthenticated;
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -190,7 +193,7 @@ export default function QuickTourPage() {
               minute to create your free account.
             </p>
             <Link
-              href={isAuthenticated ? '/dashboard' : '/register'}
+              href={isAuth ? '/dashboard' : '/register'}
             >
               <button className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-base font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 cursor-pointer">
                 Create Free Account
