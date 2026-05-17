@@ -7,7 +7,7 @@ import { Navbar } from '@/components/navbar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Download, Share2, ArrowLeft, Shield, CheckCircle2 } from 'lucide-react';
+import { Download, Share2, ArrowLeft, Shield, CheckCircle2, BarChart3 } from 'lucide-react';
 import QRCode from 'react-qr-code';
 import Link from 'next/link';
 
@@ -355,6 +355,12 @@ export default function CertificatePage() {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link href={`/report/${verificationId}`}>
+              <Button className="gap-2 w-full sm:w-auto bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white shadow-lg shadow-amber-500/25">
+                <BarChart3 className="h-4 w-4" />
+                View Detailed Report
+              </Button>
+            </Link>
             <a href={`/api/certificates/download/${verificationId}`} target="_blank" rel="noopener noreferrer">
               <Button className="gap-2 w-full sm:w-auto">
                 <Download className="h-4 w-4" />

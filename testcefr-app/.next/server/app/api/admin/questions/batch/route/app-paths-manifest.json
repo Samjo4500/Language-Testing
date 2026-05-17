@@ -1,0 +1,3 @@
+{
+  "/api/admin/questions/batch/route": "app/api/admin/questions/batch/route.js"
+}

@@ -7,7 +7,7 @@ import { useAuthStore } from '@/lib/auth-store';
 import { Navbar } from '@/components/navbar';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { CheckCircle2, CreditCard, ArrowRight, BookOpen, Award, Download, QrCode, Loader2, Sparkles, Shield, Zap } from 'lucide-react';
+import { CheckCircle2, CreditCard, ArrowRight, BookOpen, Award, Download, QrCode, Loader2, Sparkles, Shield, Zap, BarChart3 } from 'lucide-react';
 
 interface CertificateInfo {
   id: string;
@@ -240,6 +240,12 @@ export default function DashboardPage() {
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
+                        <Link href={`/report/${cert.verificationId}`}>
+                          <button className="flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-medium bg-gradient-to-r from-amber-500/80 to-orange-500/80 text-white shadow-lg cursor-pointer hover:from-amber-400 hover:to-orange-400 transition-all">
+                            <BarChart3 className="h-3 w-3" />
+                            Report
+                          </button>
+                        </Link>
                         <Link href={`/certificate/${cert.verificationId}`}>
                           <button className="flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-medium glass-button text-white cursor-pointer">
                             <Award className="h-3 w-3" />

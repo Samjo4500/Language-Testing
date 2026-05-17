@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { Navbar } from '@/components/navbar';
+import { Footer } from '@/components/footer';
 import {
   Award,
   QrCode,
@@ -288,22 +289,7 @@ export default function SampleCertificatePage() {
         </div>
       </section>
 
-      {/* ── Footer ── */}
-      <footer className="bg-[#0A0618] border-t border-white/5 mt-auto">
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white font-bold text-xs">
-                CE
-              </div>
-              <span className="text-white/40 text-sm">testcefr.com</span>
-            </div>
-            <p className="text-white/30 text-sm">
-              &copy; {new Date().getFullYear()} TestCEFR. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

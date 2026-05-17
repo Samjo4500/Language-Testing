@@ -1,0 +1,3 @@
+module.exports=[27178,a=>{"use strict";let b=(0,a.i(28891).default)("clock",[["path",{d:"M12 6v6l4 2",key:"mmk7yg"}],["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}]]);a.s(["Clock",0,b],27178)},87250,a=>{"use strict";let b=(0,a.i(28891).default)("mail",[["path",{d:"m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7",key:"132q7q"}],["rect",{x:"2",y:"4",width:"20",height:"16",rx:"2",key:"izxlao"}]]);a.s(["Mail",0,b],87250)},13724,a=>{"use strict";let b=(0,a.i(28891).default)("message-square",[["path",{d:"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z",key:"1lielz"}]]);a.s(["MessageSquare",0,b],13724)}];
+
+//# sourceMappingURL=0msa_lucide-react_dist_esm_icons_0p_fh7p._.js.map
