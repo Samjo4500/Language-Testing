@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useAuthStore } from '@/lib/auth-store';
 import { Navbar } from '@/components/navbar';
 import { Button } from '@/components/ui/button';
@@ -1476,12 +1477,8 @@ export default function AdminPage() {
   const [creatingDemo, setCreatingDemo] = useState(false);
   const [demoResult, setDemoResult] = useState<{ message: string; credentials: Array<{ email: string; password: string; userId: string }> } | null>(null);
 
-  // ── Auth Check ────────────────────────────────────────────────────
-  useEffect(() => {
-    if (!authIsLoading && (!isAuthenticated || user?.role !== 'admin')) {
-      router.push('/dashboard');
-    }
-  }, [authIsLoading, isAuthenticated, user, router]);
+  // ── Auth Check (no redirect - prevents redirect loops) ────────────
+  // The admin page shows an access-denied state instead of redirecting
 
   // ── Helper: Auth Headers ──────────────────────────────────────────
   const authHeaders = useCallback(() => ({
@@ -1765,7 +1762,41 @@ export default function AdminPage() {
     );
   }
 
-  if (!user || user.role !== 'admin') return null;
+  if (!user || user.role !== 'admin') {
+    return (
+      <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
+        <Navbar />
+        <div className="flex-1 flex items-center justify-center px-4 py-12">
+          <div className="w-full max-w-md">
+            <div className="glass-card p-8 text-center">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-red-500 to-orange-500 text-white mb-5 shadow-lg shadow-red-500/25">
+                <Shield className="h-7 w-7" />
+              </div>
+              <h1 className="text-2xl font-bold text-white mb-2">Access Denied</h1>
+              <p className="text-sm text-white/50 mb-6">
+                {isAuthenticated
+                  ? 'You need admin privileges to access this page.'
+                  : 'Sign in with an admin account to access the admin panel.'}
+              </p>
+              {isAuthenticated ? (
+                <Link href="/dashboard">
+                  <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer">
+                    Go to Dashboard
+                  </button>
+                </Link>
+              ) : (
+                <Link href="/login">
+                  <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer">
+                    Sign in
+                  </button>
+                </Link>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // ═══════════════════════════════════════════════════════════════════
   // RENDER
