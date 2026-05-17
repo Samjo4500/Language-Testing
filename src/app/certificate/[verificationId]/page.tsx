@@ -59,14 +59,18 @@ export default function CertificatePage() {
   const [certificate, setCertificate] = useState<CertificateInfo | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [hasRedirected, setHasRedirected] = useState(false);
 
   useEffect(() => {
     if (authIsLoading) return;
 
-    if (!isAuthenticated) {
-      router.push('/login');
+    if (!isAuthenticated && !hasRedirected) {
+      setHasRedirected(true);
+      router.replace('/login');
       return;
     }
+
+    if (!isAuthenticated) return;
 
     const fetchCertificate = async () => {
       try {

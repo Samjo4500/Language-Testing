@@ -319,12 +319,14 @@ export default function TestPage() {
   const [submitting, setSubmitting] = useState(false);
   const [results, setResults] = useState<any>(null);
 
-  // Redirect if not authenticated
+  // Redirect if not authenticated (with guard to prevent redirect loops)
+  const [hasRedirected, setHasRedirected] = useState(false);
   useEffect(() => {
-    if (!authIsLoading && !isAuthenticated && typeof window !== 'undefined') {
-      router.push('/login');
+    if (!authIsLoading && !isAuthenticated && !hasRedirected) {
+      setHasRedirected(true);
+      router.replace('/login');
     }
-  }, [authIsLoading, isAuthenticated, router]);
+  }, [authIsLoading, isAuthenticated, hasRedirected, router]);
 
   // Load voices for TTS
   useEffect(() => {

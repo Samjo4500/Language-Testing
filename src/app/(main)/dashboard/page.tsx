@@ -34,10 +34,15 @@ export default function DashboardPage() {
   const { isAuthenticated, isLoading: authIsLoading, user, accessToken } = useAuthStore();
   const [certificates, setCertificates] = useState<CertificateInfo[]>([]);
   const [certificatesLoading, setCertificatesLoading] = useState(true);
+  const [hasRedirected, setHasRedirected] = useState(false);
 
-  if (!authIsLoading && !isAuthenticated && typeof window !== 'undefined') {
-    router.push('/login');
-  }
+  // Use useEffect for auth redirect to avoid render-phase side effects
+  useEffect(() => {
+    if (!authIsLoading && !isAuthenticated && !hasRedirected) {
+      setHasRedirected(true);
+      router.replace('/login');
+    }
+  }, [authIsLoading, isAuthenticated, hasRedirected, router]);
 
   useEffect(() => {
     if (authIsLoading || !isAuthenticated || !accessToken) return;
