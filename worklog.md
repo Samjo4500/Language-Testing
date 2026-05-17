@@ -1,52 +1,38 @@
 ---
 Task ID: 1
-Agent: Main Agent
-Task: Stabilize the CEFR test platform - fix login errors, test page screen changes, and routing issues
+Agent: Super Z (main)
+Task: Create detailed report page, shared Footer component, and update navigation
 
 Work Log:
-- Audited entire codebase structure and identified all routes, components, and auth flow
-- Identified root causes: 15-minute token expiry causing frequent logouts, auth state flickering during refresh, test page redirecting on auth flicker, no beforeunload warning during tests
-- Extended JWT access token expiry from 15m to 24h, refresh token from 7d to 30d
-- Rewrote auth-store.ts: added isRefreshing state, prevent logout on network errors, only logout on explicit 401
-- Rewrote auth-provider.tsx: hydrate from localStorage immediately to prevent UI flicker, then validate in background
-- Fixed test page: replaced redirect-to-login with sign-in prompt UI, added beforeunload warning during active test
-- Fixed login page: prevent premature redirect during hydration
-- Added mounted guard to listening/speaking/writing/quick-tour pages to prevent auth state flickering
-- Added (main)/layout.tsx for proper route group support
-- Verified build succeeds, all routes return 200, login API works
+- Explored codebase: found no footer component, no report page existed
+- Created shared Footer component at src/components/footer.tsx with:
+  - "Detailed Reports" link (/reports)
+  - "Sample Certificate" link (moved from navbar)
+  - 4-column layout: Brand, Product, Company, Account & Resources
+- Created report landing page at src/app/reports/page.tsx
+  - Explains report features, free vs premium comparison
+  - CTA buttons to sign up or go to dashboard
+- Created dynamic report page at src/app/report/[verificationId]/page.tsx
+  - CEFR level display with overall score
+  - Skill-by-skill breakdown with progress bars (weakest/strongest tags)
+  - Expandable improvement tips per skill (tiered: low/mid/high)
+  - Free users see 2 tips per skill, premium unlocks all tips + resources
+  - Path to next CEFR level with estimated study time
+  - Retest recommendation with CTA
+  - Premium upgrade CTA for free users (always visible)
+  - Quick actions: View Certificate, Download PDF, Share Report, Verify
+- Updated navbar: removed Sample Certificate link (moved to footer)
+- Updated certificate page: added "View Detailed Report" button (amber/orange)
+- Updated dashboard: added "Report" button to certificate rows (amber/orange)
+- Updated sample-certificate page to use shared Footer component
+- Added trailingSlash: true to next.config.ts
+- Created .gitignore and removed .next/ build artifacts from git tracking
+- All changes pushed to both origin and testcefr remotes
 
 Stage Summary:
-- All key routes verified working: /, /dashboard/, /login/, /test/, /admin/ all return 200
-- Login API returns tokens correctly with admin@testcefr.com / Admin@2026!
-- Pushed commit 5bae336 to origin/main (Vercel deployment)
-- 10 files changed across auth, pages, and components
----
-Task ID: 1
-Agent: Main Agent
-Task: Add detailed test report page, shared footer, move sample certificate to footer
-
-Work Log:
-- Created shared Footer component at /src/components/footer.tsx with Report and Sample Certificate links
-- Created detailed test report page at /src/app/report/[verificationId]/page.tsx with:
-  - Overall CEFR level and score summary card
-  - Level description with can-do statements
-  - Skill breakdown with visual progress bars and color coding
-  - Weakest/strongest skill identification
-  - Expandable per-skill improvement tips (3 tiers: Foundation/Development/Refinement)
-  - Recommended resources per skill
-  - Path to next level section
-  - Retest recommendation CTA
-  - Premium upgrade CTA with feature highlights
-  - Quick action buttons (Download PDF, View Certificate, Verification Page)
-- Removed "Sample Certificate" from main navbar navigation
-- Added "View Detailed Report" button on certificate page (amber/orange gradient)
-- Added "Report" button on dashboard certificate list items
-- Added shared Footer to dashboard, certificate, and sample certificate pages
-- Deployed to Vercel via git push
-
-Stage Summary:
-- Report page live at /report/[verificationId]/ returning 200
-- Sample Certificate moved from navbar to footer navigation
-- Certificate page has prominent "View Detailed Report" button
-- Dashboard has "Report" button next to each certificate
-- All changes deployed and accessible on testcefr.com
+- All code is built locally and passes `next build`
+- Code pushed to both GitHub remotes (origin + testcefr)
+- Vercel deployment may need manual redeploy from dashboard
+- New routes: /reports (landing), /report/[verificationId] (dynamic report)
+- New component: src/components/footer.tsx (shared Footer)
+- Key business logic: Free users get preview (2 tips/skill), Premium gets full report
