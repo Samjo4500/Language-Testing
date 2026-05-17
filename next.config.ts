@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   reactStrictMode: false,
+  // Allow trailing slashes to prevent redirect loops with reverse proxies
+  // that add trailing slashes (e.g. Z.ai preview proxy: /dashboard → /dashboard/)
+  // Without this, Next.js redirects /dashboard/ → /dashboard (308) creating an infinite loop
+  trailingSlash: true,
 };
 
 export default nextConfig;
