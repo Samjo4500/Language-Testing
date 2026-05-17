@@ -67,3 +67,25 @@ Stage Summary:
 - Fix: No more client-side redirects from dashboard/admin pages; show proper UI instead
 - AuthProvider now trusts localStorage on network/server errors instead of logging out
 - All changes pushed to Vercel via origin/main
+
+---
+Task ID: 2
+Agent: Main
+Task: Fix persistent ERR_TOO_MANY_REDIRECTS on preview URL
+
+Work Log:
+- Tested preview URL with curl - found the REAL root cause
+- Z.ai preview proxy sends: /dashboard → 301 → /dashboard/ (adds trailing slash)
+- Next.js (default) sends: /dashboard/ → 308 → /dashboard (removes trailing slash)
+- This creates an infinite 301↔308 redirect loop - NOTHING to do with auth/JS
+- Previous fix (AuthProvider, dashboard redirect) was addressing symptoms, not the root cause
+- Fixed by adding `trailingSlash: true` to next.config.ts
+- With trailingSlash: true, Next.js serves /dashboard/ with 200 instead of redirecting
+- This breaks the redirect loop entirely
+- Build succeeded, pushed to origin/main
+
+Stage Summary:
+- Root cause: Z.ai proxy adds trailing slash + Next.js removes it = infinite loop
+- Fix: trailingSlash: true in next.config.ts
+- Production site at testcefr.com will also benefit from this fix
+- Preview URL should work once Z.ai platform rebuilds
