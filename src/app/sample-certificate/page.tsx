@@ -43,7 +43,13 @@ export default function SampleCertificatePage() {
     );
 
     scrollRefs.current.forEach((ref) => {
-      if (ref) observer.observe(ref);
+      if (ref) {
+        observer.observe(ref);
+        // Immediately mark as visible if already in viewport on mount
+        if (ref.getBoundingClientRect().top < window.innerHeight) {
+          ref.classList.add('visible');
+        }
+      }
     });
 
     return () => observer.disconnect();

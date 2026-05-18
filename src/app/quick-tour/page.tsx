@@ -86,7 +86,13 @@ export default function QuickTourPage() {
     );
 
     const elements = document.querySelectorAll('.scroll-animate');
-    elements.forEach((el) => observer.observe(el));
+    elements.forEach((el) => {
+      observer.observe(el);
+      // Immediately mark as visible if already in viewport on mount
+      if (el.getBoundingClientRect().top < window.innerHeight) {
+        el.classList.add('visible');
+      }
+    });
 
     return () => observer.disconnect();
   }, []);
