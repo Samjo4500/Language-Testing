@@ -318,6 +318,143 @@ export default function ListeningPage() {
         </div>
       </section>
 
+      {/* ===== EXAMPLE QUESTIONS SECTION ===== */}
+      <section className="relative py-20 md:py-28 bg-[#0F0A1E]">
+        <div className="absolute inset-0 hero-pattern pointer-events-none" />
+        <div className="container relative mx-auto px-4">
+          <AnimatedSection>
+            <div className="text-center mb-14">
+              <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
+                <Ear className="h-3.5 w-3.5 text-purple-400" />
+                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Sample Questions</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-white">
+                Listening Practice <span className="gradient-text-static">Examples</span>
+              </h2>
+              <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
+                Preview the types of audio scenarios and comprehension questions you will encounter. From everyday conversations to academic lectures, each level challenges your listening skills in different ways.
+              </p>
+            </div>
+          </AnimatedSection>
+
+          <div className="grid gap-6 max-w-4xl mx-auto">
+            {/* A2 Example */}
+            <AnimatedSection delay={100}>
+              <div className="glass-card p-6 group">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-green-500/20 text-green-400 text-xs font-bold border border-green-500/30">A2</span>
+                  <h3 className="text-white font-semibold">At the Restaurant</h3>
+                </div>
+                <div className="rounded-xl bg-white/[0.03] border border-white/5 p-5 mb-4">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-500/20">
+                      <Headphones className="h-4 w-4 text-purple-400" />
+                    </div>
+                    <span className="text-white/50 text-xs">Audio clip: A conversation between a customer and a waiter</span>
+                  </div>
+                  <p className="text-white/70 text-sm leading-relaxed italic">
+                    &ldquo;Good evening! Table for two? Right this way. Here are your menus. Can I start you off with something to drink? &mdash; I&apos;ll have an iced tea, please. And for you, sir? &mdash; Just water for me, thanks. Actually, could we also order an appetizer? The bruschetta sounds great.&rdquo;
+                  </p>
+                </div>
+                <div className="space-y-3">
+                  <p className="text-white/50 text-sm font-medium">What drink does the first person order?</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {[
+                      { text: 'Water', correct: false },
+                      { text: 'Iced tea', correct: true },
+                      { text: 'Coffee', correct: false },
+                      { text: 'Lemonade', correct: false },
+                    ].map((opt, i) => (
+                      <div key={i} className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm ${opt.correct ? 'bg-green-500/10 border border-green-500/30 text-green-400' : 'bg-white/[0.03] border border-white/5 text-white/50'}`}>
+                        {opt.correct ? <CheckCircle2 className="h-4 w-4 shrink-0" /> : <div className="h-4 w-4 rounded-full border border-white/20 shrink-0" />}
+                        {opt.text}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </AnimatedSection>
+
+            {/* B2 Example */}
+            <AnimatedSection delay={200}>
+              <div className="glass-card p-6 group">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-orange-500/20 text-orange-400 text-xs font-bold border border-orange-500/30">B2</span>
+                  <h3 className="text-white font-semibold">Workplace Meeting</h3>
+                </div>
+                <div className="rounded-xl bg-white/[0.03] border border-white/5 p-5 mb-4">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-orange-500/20">
+                      <Headphones className="h-4 w-4 text-orange-400" />
+                    </div>
+                    <span className="text-white/50 text-xs">Audio clip: A project update meeting with multiple speakers</span>
+                  </div>
+                  <p className="text-white/70 text-sm leading-relaxed italic">
+                    &ldquo;So, looking at the Q3 figures, we&apos;re about 12% behind our revenue target. However, if we factor in the deferred contracts from last quarter, the actual shortfall is closer to 5%. I think the real concern isn&apos;t the top line &mdash; it&apos;s the margin compression we&apos;re seeing in the enterprise segment.&rdquo;
+                  </p>
+                </div>
+                <div className="space-y-3">
+                  <p className="text-white/50 text-sm font-medium">What does the speaker identify as the main concern?</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {[
+                      { text: 'Revenue being 12% behind target', correct: false },
+                      { text: 'Margin compression in the enterprise segment', correct: true },
+                      { text: 'Deferred contracts from last quarter', correct: false },
+                      { text: 'Missing Q3 deadlines', correct: false },
+                    ].map((opt, i) => (
+                      <div key={i} className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm ${opt.correct ? 'bg-green-500/10 border border-green-500/30 text-green-400' : 'bg-white/[0.03] border border-white/5 text-white/50'}`}>
+                        {opt.correct ? <CheckCircle2 className="h-4 w-4 shrink-0" /> : <div className="h-4 w-4 rounded-full border border-white/20 shrink-0" />}
+                        {opt.text}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </AnimatedSection>
+
+            {/* C1 Example */}
+            <AnimatedSection delay={300}>
+              <div className="glass-card p-6 group">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-red-500/20 text-red-400 text-xs font-bold border border-red-500/30">C1</span>
+                  <h3 className="text-white font-semibold">Academic Lecture</h3>
+                </div>
+                <div className="rounded-xl bg-white/[0.03] border border-white/5 p-5 mb-4">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-red-500/20">
+                      <Headphones className="h-4 w-4 text-red-400" />
+                    </div>
+                    <span className="text-white/50 text-xs">Audio clip: An excerpt from a university lecture on behavioral economics</span>
+                  </div>
+                  <p className="text-white/70 text-sm leading-relaxed italic">
+                    &ldquo;What&apos;s particularly intriguing about Kahneman&apos;s dual-process theory is not merely the distinction between System 1 and System 2 thinking, but rather the persistent illusion of rationality that System 2 generates. We don&apos;t just make suboptimal decisions &mdash; we construct elaborate post-hoc justifications for them, which paradoxically makes us more confident in our errors.&rdquo;
+                  </p>
+                </div>
+                <div className="space-y-3">
+                  <p className="text-white/50 text-sm font-medium">What paradox does the lecturer describe?</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {[
+                      { text: 'System 2 is slower but always correct', correct: false },
+                      { text: 'Post-hoc justifications increase confidence in wrong decisions', correct: true },
+                      { text: 'System 1 thinking is more reliable than System 2', correct: false },
+                      { text: 'Rational decisions require more cognitive effort', correct: false },
+                    ].map((opt, i) => (
+                      <div key={i} className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm ${opt.correct ? 'bg-green-500/10 border border-green-500/30 text-green-400' : 'bg-white/[0.03] border border-white/5 text-white/50'}`}>
+                        {opt.correct ? <CheckCircle2 className="h-4 w-4 shrink-0" /> : <div className="h-4 w-4 rounded-full border border-white/20 shrink-0" />}
+                        {opt.text}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </AnimatedSection>
+          </div>
+        </div>
+      </section>
+
+      {/* Section Divider */}
+      <div className="section-divider" />
+
       {/* ===== CTA SECTION ===== */}
       <section className="relative py-20 md:py-28 dark-section overflow-hidden">
         {/* Background orbs for CTA */}

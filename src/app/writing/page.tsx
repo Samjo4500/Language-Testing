@@ -296,6 +296,101 @@ export default function WritingPage() {
       {/* ===== SECTION DIVIDER ===== */}
       <div className="section-divider" />
 
+      {/* ===== EXAMPLE QUESTIONS SECTION ===== */}
+      <section className="relative py-20 md:py-28 bg-[#0F0A1E]">
+        <div className="absolute inset-0 hero-pattern pointer-events-none" />
+        <div className="container relative mx-auto px-4">
+          <AnimatedSection>
+            <div className="text-center mb-14">
+              <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
+                <PenTool className="h-3.5 w-3.5 text-purple-400" />
+                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Sample Prompts</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-white">
+                Practice Writing <span className="gradient-text-static">Examples</span>
+              </h2>
+              <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
+                Explore sample writing prompts at different CEFR levels. Each prompt is designed to elicit specific language competencies, from basic personal expression to sophisticated argumentation.
+              </p>
+            </div>
+          </AnimatedSection>
+
+          <div className="grid gap-6 max-w-4xl mx-auto">
+            {/* A2 Example */}
+            <AnimatedSection delay={100}>
+              <div className="glass-card p-6 group">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-green-500/20 text-green-400 text-xs font-bold border border-green-500/30">A2</span>
+                  <h3 className="text-white font-semibold">Personal Email</h3>
+                </div>
+                <div className="rounded-xl bg-white/[0.03] border border-white/5 p-5 mb-4">
+                  <p className="text-white/70 text-sm leading-relaxed">
+                    <span className="text-purple-400 font-medium">Prompt:</span> Write an email to your friend telling them about your weekend. Include what you did, who you were with, and how you felt about it. Write 80&ndash;120 words.
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-white/40 text-xs font-medium uppercase tracking-wider">What the AI evaluates:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {['Basic sentence structure', 'Past tense usage', 'Personal vocabulary', 'Email format conventions'].map((skill, i) => (
+                      <span key={i} className="px-2.5 py-1 rounded-lg bg-purple-500/10 text-purple-300 text-xs border border-purple-500/20">{skill}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </AnimatedSection>
+
+            {/* B2 Example */}
+            <AnimatedSection delay={200}>
+              <div className="glass-card p-6 group">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-orange-500/20 text-orange-400 text-xs font-bold border border-orange-500/30">B2</span>
+                  <h3 className="text-white font-semibold">Opinion Essay</h3>
+                </div>
+                <div className="rounded-xl bg-white/[0.03] border border-white/5 p-5 mb-4">
+                  <p className="text-white/70 text-sm leading-relaxed">
+                    <span className="text-purple-400 font-medium">Prompt:</span> Some people believe that remote work has improved work-life balance, while others argue it has blurred the boundaries between personal and professional life. Discuss both views and give your own opinion. Write 200&ndash;250 words.
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-white/40 text-xs font-medium uppercase tracking-wider">What the AI evaluates:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {['Balanced argumentation', 'Cohesive devices & transitions', 'Complex sentence structures', 'Lexical range & precision', 'Paragraph organization'].map((skill, i) => (
+                      <span key={i} className="px-2.5 py-1 rounded-lg bg-orange-500/10 text-orange-300 text-xs border border-orange-500/20">{skill}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </AnimatedSection>
+
+            {/* C1 Example */}
+            <AnimatedSection delay={300}>
+              <div className="glass-card p-6 group">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-red-500/20 text-red-400 text-xs font-bold border border-red-500/30">C1</span>
+                  <h3 className="text-white font-semibold">Critical Analysis</h3>
+                </div>
+                <div className="rounded-xl bg-white/[0.03] border border-white/5 p-5 mb-4">
+                  <p className="text-white/70 text-sm leading-relaxed">
+                    <span className="text-purple-400 font-medium">Prompt:</span> Critically evaluate the statement: &ldquo;Artificial intelligence will render human creativity obsolete within the next two decades.&rdquo; Discuss the implications for education, employment, and cultural production, supporting your arguments with specific examples. Write 300&ndash;400 words.
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-white/40 text-xs font-medium uppercase tracking-wider">What the AI evaluates:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {['Critical thinking & nuance', 'Sophisticated argumentation', 'Academic register & hedging', 'Advanced vocabulary & collocations', 'Thesis development & evidence', 'Rhetorical sophistication'].map((skill, i) => (
+                      <span key={i} className="px-2.5 py-1 rounded-lg bg-red-500/10 text-red-300 text-xs border border-red-500/20">{skill}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </AnimatedSection>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== SECTION DIVIDER ===== */}
+      <div className="section-divider" />
+
       {/* ===== CTA SECTION ===== */}
       <section className="relative py-20 md:py-28 dark-section overflow-hidden">
         {/* Background orbs for CTA */}

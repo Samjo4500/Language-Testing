@@ -279,6 +279,101 @@ export default function SpeakingPage() {
         </div>
       </section>
 
+      {/* ===== EXAMPLE QUESTIONS SECTION ===== */}
+      <section className="relative py-20 md:py-28 bg-[#0F0A1E]">
+        <div className="absolute inset-0 hero-pattern pointer-events-none" />
+        <div className="container relative mx-auto px-4">
+          <AnimatedSection>
+            <div className="text-center mb-14">
+              <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
+                <Mic className="h-3.5 w-3.5 text-purple-400" />
+                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Sample Prompts</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-white">
+                Speaking Practice <span className="gradient-text-static">Examples</span>
+              </h2>
+              <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
+                Preview the types of speaking tasks you will encounter during the assessment. Each prompt is designed to evaluate different aspects of your spoken English proficiency.
+              </p>
+            </div>
+          </AnimatedSection>
+
+          <div className="grid gap-6 max-w-4xl mx-auto">
+            {/* A2 Example */}
+            <AnimatedSection delay={100}>
+              <div className="glass-card p-6 group">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-green-500/20 text-green-400 text-xs font-bold border border-green-500/30">A2</span>
+                  <h3 className="text-white font-semibold">Introduce Yourself</h3>
+                </div>
+                <div className="rounded-xl bg-white/[0.03] border border-white/5 p-5 mb-4">
+                  <p className="text-white/70 text-sm leading-relaxed">
+                    <span className="text-purple-400 font-medium">Prompt:</span> Record yourself introducing who you are. Talk about your name, where you live, what you do, and one hobby you enjoy. Speak for 30&ndash;60 seconds.
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-white/40 text-xs font-medium uppercase tracking-wider">What the AI evaluates:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {['Basic pronunciation clarity', 'Simple sentence formation', 'Personal vocabulary', 'Speaking pace & rhythm'].map((skill, i) => (
+                      <span key={i} className="px-2.5 py-1 rounded-lg bg-green-500/10 text-green-300 text-xs border border-green-500/20">{skill}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </AnimatedSection>
+
+            {/* B2 Example */}
+            <AnimatedSection delay={200}>
+              <div className="glass-card p-6 group">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-orange-500/20 text-orange-400 text-xs font-bold border border-orange-500/30">B2</span>
+                  <h3 className="text-white font-semibold">Express &amp; Defend an Opinion</h3>
+                </div>
+                <div className="rounded-xl bg-white/[0.03] border border-white/5 p-5 mb-4">
+                  <p className="text-white/70 text-sm leading-relaxed">
+                    <span className="text-purple-400 font-medium">Prompt:</span> Some cities have banned cars from their city centers to reduce pollution and congestion. Do you think this is a good idea? Give reasons for your opinion and address potential counterarguments. Speak for 1&ndash;2 minutes.
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-white/40 text-xs font-medium uppercase tracking-wider">What the AI evaluates:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {['Argument coherence', 'Grammar accuracy in complex sentences', 'Natural intonation & stress', 'Hesitation & fillers', 'Vocabulary precision'].map((skill, i) => (
+                      <span key={i} className="px-2.5 py-1 rounded-lg bg-orange-500/10 text-orange-300 text-xs border border-orange-500/20">{skill}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </AnimatedSection>
+
+            {/* C1 Example */}
+            <AnimatedSection delay={300}>
+              <div className="glass-card p-6 group">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-red-500/20 text-red-400 text-xs font-bold border border-red-500/30">C1</span>
+                  <h3 className="text-white font-semibold">Abstract Topic Discussion</h3>
+                </div>
+                <div className="rounded-xl bg-white/[0.03] border border-white/5 p-5 mb-4">
+                  <p className="text-white/70 text-sm leading-relaxed">
+                    <span className="text-purple-400 font-medium">Prompt:</span> Discuss the following statement: &ldquo;The measure of a civilization is how it treats its most vulnerable members.&rdquo; Explore different interpretations of this idea, provide concrete examples from your knowledge, and explain whether you agree or disagree. Speak for 2&ndash;3 minutes.
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-white/40 text-xs font-medium uppercase tracking-wider">What the AI evaluates:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {['Sophisticated argumentation', 'Abstract vocabulary & idioms', 'Nuanced intonation & emphasis', 'Fluency with complex ideas', 'Rhetorical structure', 'Spontaneous cohesion'].map((skill, i) => (
+                      <span key={i} className="px-2.5 py-1 rounded-lg bg-red-500/10 text-red-300 text-xs border border-red-500/20">{skill}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </AnimatedSection>
+          </div>
+        </div>
+      </section>
+
+      {/* Section Divider */}
+      <div className="section-divider" />
+
       {/* ===== CTA SECTION ===== */}
       <section className="relative py-20 md:py-28 bg-[#0F0A1E] overflow-hidden">
         {/* Background orbs for CTA */}

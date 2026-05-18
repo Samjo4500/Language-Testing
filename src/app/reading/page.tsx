@@ -313,6 +313,125 @@ export default function ReadingPage() {
         </div>
       </section>
 
+      {/* ===== EXAMPLE QUESTIONS SECTION ===== */}
+      <section className="relative py-20 md:py-28 bg-[#0F0A1E]">
+        <div className="absolute inset-0 hero-pattern pointer-events-none" />
+        <div className="container relative mx-auto px-4">
+          <AnimatedSection>
+            <div className="text-center mb-14">
+              <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
+                <Eye className="h-3.5 w-3.5 text-purple-400" />
+                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Sample Questions</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-white">
+                See What to <span className="gradient-text-static">Expect</span>
+              </h2>
+              <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
+                Preview the types of reading passages and questions you will encounter during the assessment. Each level features progressively more complex texts and deeper comprehension challenges.
+              </p>
+            </div>
+          </AnimatedSection>
+
+          <div className="grid gap-6 max-w-4xl mx-auto">
+            {/* A2 Example */}
+            <AnimatedSection delay={100}>
+              <div className="glass-card p-6 group">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-green-500/20 text-green-400 text-xs font-bold border border-green-500/30">A2</span>
+                  <h3 className="text-white font-semibold">Everyday Communication</h3>
+                </div>
+                <div className="rounded-xl bg-white/[0.03] border border-white/5 p-5 mb-4">
+                  <p className="text-white/70 text-sm leading-relaxed italic">
+                    &ldquo;Dear Sarah, I wanted to let you know that our office holiday party will be held on Friday, December 15th, from 6 PM to 10 PM at the Grand Hotel downtown. Please bring a dish from your country to share. RSVP by December 10th. Looking forward to seeing you there! — Maria, HR Department&rdquo;
+                  </p>
+                </div>
+                <div className="space-y-3">
+                  <p className="text-white/50 text-sm font-medium">Where will the party take place?</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {[
+                      { text: 'At the office', correct: false },
+                      { text: 'At the Grand Hotel', correct: true },
+                      { text: 'At Maria\'s house', correct: false },
+                      { text: 'At a restaurant', correct: false },
+                    ].map((opt, i) => (
+                      <div key={i} className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm ${opt.correct ? 'bg-green-500/10 border border-green-500/30 text-green-400' : 'bg-white/[0.03] border border-white/5 text-white/50'}`}>
+                        {opt.correct ? <CheckCircle2 className="h-4 w-4 shrink-0" /> : <div className="h-4 w-4 rounded-full border border-white/20 shrink-0" />}
+                        {opt.text}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </AnimatedSection>
+
+            {/* B2 Example */}
+            <AnimatedSection delay={200}>
+              <div className="glass-card p-6 group">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-orange-500/20 text-orange-400 text-xs font-bold border border-orange-500/30">B2</span>
+                  <h3 className="text-white font-semibold">Analytical Comprehension</h3>
+                </div>
+                <div className="rounded-xl bg-white/[0.03] border border-white/5 p-5 mb-4">
+                  <p className="text-white/70 text-sm leading-relaxed italic">
+                    &ldquo;The rapid urbanization of the 21st century has created unprecedented challenges for city planners worldwide. By 2050, an estimated 68% of the global population will reside in urban areas, up from 55% today. This demographic shift demands innovative approaches to housing, transportation, and resource management. While some cities embrace vertical growth and smart infrastructure, others prioritize green spaces and community-centered design. The tension between density and livability remains a central debate in urban planning circles.&rdquo;
+                  </p>
+                </div>
+                <div className="space-y-3">
+                  <p className="text-white/50 text-sm font-medium">What is the main tension discussed in the passage?</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {[
+                      { text: 'Between urban and rural populations', correct: false },
+                      { text: 'Between density and livability', correct: true },
+                      { text: 'Between smart and traditional infrastructure', correct: false },
+                      { text: 'Between housing costs and wages', correct: false },
+                    ].map((opt, i) => (
+                      <div key={i} className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm ${opt.correct ? 'bg-green-500/10 border border-green-500/30 text-green-400' : 'bg-white/[0.03] border border-white/5 text-white/50'}`}>
+                        {opt.correct ? <CheckCircle2 className="h-4 w-4 shrink-0" /> : <div className="h-4 w-4 rounded-full border border-white/20 shrink-0" />}
+                        {opt.text}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </AnimatedSection>
+
+            {/* C1 Example */}
+            <AnimatedSection delay={300}>
+              <div className="glass-card p-6 group">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-red-500/20 text-red-400 text-xs font-bold border border-red-500/30">C1</span>
+                  <h3 className="text-white font-semibold">Inference &amp; Authorial Intent</h3>
+                </div>
+                <div className="rounded-xl bg-white/[0.03] border border-white/5 p-5 mb-4">
+                  <p className="text-white/70 text-sm leading-relaxed italic">
+                    &ldquo;It would be a profound mistake to interpret the author&rsquo;s restrained prose as detachment. Rather, the deliberate withholding of emotional commentary functions as a mirror, forcing the reader to supply their own moral framework. In this sense, silence becomes the most powerful rhetorical device — one that implicated the audience far more effectively than any explicit condemnation could.&rdquo;
+                  </p>
+                </div>
+                <div className="space-y-3">
+                  <p className="text-white/50 text-sm font-medium">What does the author suggest about the writer&rsquo;s &ldquo;restrained prose&rdquo;?</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {[
+                      { text: 'It shows a lack of engagement with the topic', correct: false },
+                      { text: 'It is a deliberate strategy to involve the reader', correct: true },
+                      { text: 'It reflects the writer\'s uncertainty', correct: false },
+                      { text: 'It makes the text inaccessible to most readers', correct: false },
+                    ].map((opt, i) => (
+                      <div key={i} className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm ${opt.correct ? 'bg-green-500/10 border border-green-500/30 text-green-400' : 'bg-white/[0.03] border border-white/5 text-white/50'}`}>
+                        {opt.correct ? <CheckCircle2 className="h-4 w-4 shrink-0" /> : <div className="h-4 w-4 rounded-full border border-white/20 shrink-0" />}
+                        {opt.text}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </AnimatedSection>
+          </div>
+        </div>
+      </section>
+
+      {/* Section Divider */}
+      <div className="section-divider" />
+
       {/* ===== CTA SECTION ===== */}
       <section className="relative py-20 md:py-28 dark-section overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
