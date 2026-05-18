@@ -63,17 +63,17 @@ export function Navbar() {
           : 'bg-[#1a1f36]/60 backdrop-blur-md border-b border-white/5 py-3'
       }`}
     >
-      <div className="container mx-auto flex h-14 items-center justify-between px-4">
+      <div className="container mx-auto flex h-16 items-center justify-between px-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 shrink-0 group">
+        <Link href="/" className="flex items-center gap-3.5 shrink-0 group">
           <div className="relative transition-transform duration-300 group-hover:scale-110">
-            <img src="/logo-icon.svg" alt="CEFR Test" className="h-9 w-9" />
+            <img src="/logo-icon.svg" alt="CEFR Test" className="h-12 w-12" />
           </div>
           <div className="flex flex-col">
-            <span className="text-white font-bold text-base tracking-tight leading-tight group-hover:text-purple-200 transition-colors">
+            <span className="text-white font-bold text-lg tracking-tight leading-tight group-hover:text-purple-200 transition-colors">
               test<span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">cefr</span><span className="text-purple-300">.com</span>
             </span>
-            <span className="text-white/40 text-[9px] uppercase tracking-[0.2em] leading-tight">
+            <span className="text-white/40 text-[10px] uppercase tracking-[0.2em] leading-tight">
               English Assessment
             </span>
           </div>
