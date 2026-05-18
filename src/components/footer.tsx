@@ -20,9 +20,9 @@ export function Footer() {
               AI-powered English proficiency assessment aligned with the Common European Framework of Reference.
             </p>
             <div className="flex items-center gap-3 text-white/30">
-              <span className="text-xs hover:text-white/60 transition-colors cursor-pointer">Twitter / X</span>
+              <a href="https://twitter.com/testcefr" target="_blank" rel="noopener noreferrer" className="text-xs hover:text-white/60 transition-colors cursor-pointer">Twitter / X</a>
               <span>&middot;</span>
-              <span className="text-xs hover:text-white/60 transition-colors cursor-pointer">LinkedIn</span>
+              <a href="https://linkedin.com/company/testcefr" target="_blank" rel="noopener noreferrer" className="text-xs hover:text-white/60 transition-colors cursor-pointer">LinkedIn</a>
             </div>
           </div>
 

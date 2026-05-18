@@ -129,7 +129,7 @@ function PayPalCheckoutButton({ accessToken, amount, description }: { accessToke
             throw new Error(errorData.error || 'Payment capture failed');
           }
           updatePlan('premium');
-          router.push('/payment-success');
+          router.push(`/payment-success?plan=${selectedPlan.id}`);
         } catch (err) {
           console.error('Capture error:', err);
           setError(err instanceof Error ? err.message : 'Payment failed. Please contact support.');

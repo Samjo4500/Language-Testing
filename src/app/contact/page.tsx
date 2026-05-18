@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
-import { Mail, MapPin, Clock, Send, Sparkles, MessageSquare, Phone } from 'lucide-react';
-import { useEffect, useRef } from 'react';
+import { Mail, MapPin, Clock, Send, Sparkles, MessageSquare, Phone, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 
 /* Scroll animation hook using IntersectionObserver */
 function useScrollAnimation() {
@@ -65,6 +65,51 @@ function BackgroundOrbs() {
 }
 
 export default function ContactPage() {
+  // ── Form State ──
+  const [formName, setFormName] = useState('');
+  const [formEmail, setFormEmail] = useState('');
+  const [formAccountType, setFormAccountType] = useState('individual');
+  const [formOrgName, setFormOrgName] = useState('');
+  const [formMessage, setFormMessage] = useState('');
+  const [formSubmitting, setFormSubmitting] = useState(false);
+  const [formSuccess, setFormSuccess] = useState(false);
+  const [formError, setFormError] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormError('');
+    setFormSubmitting(true);
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formName,
+          email: formEmail,
+          message: formMessage,
+          accountType: formAccountType,
+          organizationName: formOrgName || undefined,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setFormSuccess(true);
+        setFormName('');
+        setFormEmail('');
+        setFormAccountType('individual');
+        setFormOrgName('');
+        setFormMessage('');
+      } else {
+        setFormError(data.error || 'Something went wrong. Please try again.');
+      }
+    } catch {
+      setFormError('Network error. Please check your connection and try again.');
+    } finally {
+      setFormSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
       <Navbar />
@@ -178,15 +223,42 @@ export default function ContactPage() {
                   </div>
                 </div>
 
+                {/* Success State */}
+                {formSuccess ? (
+                  <div className="text-center py-10">
+                    <div className="flex h-16 w-16 mx-auto items-center justify-center rounded-2xl bg-green-500/20 border border-green-500/30 mb-5">
+                      <CheckCircle2 className="h-8 w-8 text-green-400" />
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">Message Sent!</h3>
+                    <p className="text-white/50 text-sm mb-6">Thank you for reaching out. We&apos;ll get back to you within 24 hours.</p>
+                    <button
+                      onClick={() => setFormSuccess(false)}
+                      className="text-purple-400 hover:text-purple-300 text-sm font-medium transition-colors"
+                    >
+                      Send another message
+                    </button>
+                  </div>
+                ) : (
                 <form
                   className="space-y-5"
-                  onSubmit={(e) => e.preventDefault()}
+                  onSubmit={handleSubmit}
                 >
+                  {/* Error Alert */}
+                  {formError && (
+                    <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
+                      <AlertCircle className="h-4 w-4 shrink-0" />
+                      {formError}
+                    </div>
+                  )}
+
                   {/* Name */}
                   <div>
                     <label className="block text-sm font-medium text-white/70 mb-2">Name</label>
                     <input
                       type="text"
+                      value={formName}
+                      onChange={(e) => setFormName(e.target.value)}
+                      required
                       className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none glow-input transition-all duration-300"
                       placeholder="Your name"
                     />
@@ -197,40 +269,89 @@ export default function ContactPage() {
                     <label className="block text-sm font-medium text-white/70 mb-2">Email</label>
                     <input
                       type="email"
+                      value={formEmail}
+                      onChange={(e) => setFormEmail(e.target.value)}
+                      required
                       className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none glow-input transition-all duration-300"
                       placeholder="your@email.com"
                     />
                   </div>
 
-                  {/* Subject */}
+                  {/* Account Type */}
                   <div>
-                    <label className="block text-sm font-medium text-white/70 mb-2">Subject</label>
-                    <input
-                      type="text"
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none glow-input transition-all duration-300"
-                      placeholder="How can we help?"
-                    />
+                    <label className="block text-sm font-medium text-white/70 mb-2">I am a...</label>
+                    <div className="grid grid-cols-3 gap-2">
+                      {[
+                        { value: 'individual', label: 'Individual' },
+                        { value: 'university', label: 'University' },
+                        { value: 'business', label: 'Business' },
+                      ].map((opt) => (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          onClick={() => setFormAccountType(opt.value)}
+                          className={`px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
+                            formAccountType === opt.value
+                              ? 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-white border border-purple-500/30 shadow-lg shadow-purple-500/10'
+                              : 'text-white/50 hover:text-white hover:bg-white/5 border border-white/10'
+                          }`}
+                        >
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
                   </div>
+
+                  {/* Organization Name (conditional) */}
+                  {(formAccountType === 'university' || formAccountType === 'business') && (
+                    <div>
+                      <label className="block text-sm font-medium text-white/70 mb-2">
+                        {formAccountType === 'university' ? 'University/College Name' : 'Company Name'}
+                      </label>
+                      <input
+                        type="text"
+                        value={formOrgName}
+                        onChange={(e) => setFormOrgName(e.target.value)}
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none glow-input transition-all duration-300"
+                        placeholder={formAccountType === 'university' ? 'e.g., Oxford University' : 'e.g., Acme Corp'}
+                      />
+                    </div>
+                  )}
 
                   {/* Message */}
                   <div>
                     <label className="block text-sm font-medium text-white/70 mb-2">Message</label>
                     <textarea
                       rows={5}
+                      value={formMessage}
+                      onChange={(e) => setFormMessage(e.target.value)}
+                      required
+                      minLength={10}
                       className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none glow-input transition-all duration-300 resize-none"
-                      placeholder="Tell us more about your inquiry..."
+                      placeholder="Tell us more about your inquiry... (min 10 characters)"
                     />
                   </div>
 
                   {/* Submit */}
                   <button
                     type="submit"
-                    className="group w-full flex items-center justify-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 cursor-pointer"
+                    disabled={formSubmitting}
+                    className="group w-full flex items-center justify-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                   >
-                    <Send className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-                    Send Message
+                    {formSubmitting ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                        Send Message
+                      </>
+                    )}
                   </button>
                 </form>
+                )}
               </div>
             </AnimatedSection>
           </div>

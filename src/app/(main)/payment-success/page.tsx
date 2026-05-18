@@ -4,9 +4,20 @@ import Link from 'next/link';
 import { useAuthStore } from '@/lib/auth-store';
 import { Navbar } from '@/components/navbar';
 import { CheckCircle2, ArrowRight, BookOpen, Sparkles } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
-export default function PaymentSuccessPage() {
+const PLAN_DETAILS: Record<string, { name: string; price: string }> = {
+  single: { name: 'Single Test', price: '$12.99 USD' },
+  premium: { name: 'Premium', price: '$29.99 USD' },
+  pro: { name: 'Pro', price: '$49.99 USD' },
+};
+
+function PaymentSuccessContent() {
   const { user } = useAuthStore();
+  const searchParams = useSearchParams();
+  const planParam = searchParams.get('plan') || 'premium';
+  const planDetails = PLAN_DETAILS[planParam] || PLAN_DETAILS.premium;
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
@@ -25,18 +36,18 @@ export default function PaymentSuccessPage() {
             </div>
             <h1 className="text-2xl font-bold text-white">Payment Successful!</h1>
             <p className="text-sm text-white/50 mt-2">
-              Your account has been upgraded to Premium. You now have full access to the CEFR English proficiency assessment.
+              Your account has been upgraded to {planDetails.name}. You now have full access to the CEFR English proficiency assessment.
             </p>
 
             <div className="mt-6 rounded-xl bg-white/5 border border-white/5 p-4 space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-white/50">Plan</span>
-                <span className="text-sm font-semibold text-green-400">Premium</span>
+                <span className="text-sm font-semibold text-green-400">{planDetails.name}</span>
               </div>
               <div className="section-divider" />
               <div className="flex items-center justify-between">
                 <span className="text-sm text-white/50">Amount Paid</span>
-                <span className="text-sm text-white">$9.99 USD</span>
+                <span className="text-sm text-white">{planDetails.price}</span>
               </div>
               {user?.email && (
                 <>
@@ -68,5 +79,13 @@ export default function PaymentSuccessPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function PaymentSuccessPage() {
+  return (
+    <Suspense>
+      <PaymentSuccessContent />
+    </Suspense>
   );
 }
