@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { Navbar } from '@/components/navbar';
+import { Footer } from '@/components/footer';
 import { useAuthStore } from '@/lib/auth-store';
 import {
   PenTool, ArrowRight, Sparkles, BookOpen, CheckCircle2,
@@ -331,86 +332,7 @@ export default function WritingPage() {
         </div>
       </section>
 
-      {/* ===== FOOTER ===== */}
-      <footer className="bg-[#0A0618] border-t border-white/5 py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {/* Brand */}
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white font-bold text-sm shadow-lg shadow-purple-500/20">
-                  CE
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-white font-bold text-base">testcefr.com</span>
-                  <span className="text-white/30 text-[9px] uppercase tracking-[0.2em]">English Assessment</span>
-                </div>
-              </div>
-              <p className="text-sm text-white/40 leading-relaxed">
-                AI-powered English proficiency assessment aligned with the CEFR framework. Trusted by learners worldwide.
-              </p>
-            </div>
-
-            {/* Quick Links */}
-            <div>
-              <h4 className="text-white font-semibold text-sm mb-4">Quick Links</h4>
-              <div className="space-y-2.5">
-                {[
-                  { href: '/listening', label: 'Listening Test' },
-                  { href: '/reading', label: 'Reading Test' },
-                  { href: '/speaking', label: 'Speaking Test' },
-                  { href: '/writing', label: 'Writing Test' },
-                  { href: '/quick-tour', label: 'Quick Tour' },
-                ].map((link) => (
-                  <Link key={link.href} href={link.href} className="block text-sm text-white/40 hover:text-white/80 transition-colors">
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            {/* Resources */}
-            <div>
-              <h4 className="text-white font-semibold text-sm mb-4">Resources</h4>
-              <div className="space-y-2.5">
-                {[
-                  { href: '/pricing', label: 'Pricing' },
-                  { href: '/sample-certificate', label: 'Sample Certificate' },
-                  { href: '/sample-report', label: 'Sample Report' },
-                  { href: '/contact', label: 'Contact Us' },
-                ].map((link) => (
-                  <Link key={link.href} href={link.href} className="block text-sm text-white/40 hover:text-white/80 transition-colors">
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            {/* Legal */}
-            <div>
-              <h4 className="text-white font-semibold text-sm mb-4">Legal</h4>
-              <div className="space-y-2.5">
-                <Link href="/privacy" className="block text-sm text-white/40 hover:text-white/80 transition-colors">Privacy Policy</Link>
-                <Link href="/terms" className="block text-sm text-white/40 hover:text-white/80 transition-colors">Terms of Service</Link>
-                <Link href="/verify" className="block text-sm text-white/40 hover:text-white/80 transition-colors">Verify Certificate</Link>
-                <span className="block text-sm text-white/40">Cookie Policy</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="section-divider mt-10 mb-6" />
-
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-white/30">
-              &copy; {new Date().getFullYear()} TestCEFR. All rights reserved.
-            </p>
-            <div className="flex items-center gap-1">
-              <span className="text-xs text-white/30">Powered by</span>
-              <span className="text-xs font-medium gradient-text-static">AI Precision</span>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

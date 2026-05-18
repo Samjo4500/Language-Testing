@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { Navbar } from '@/components/navbar';
+import { Footer } from '@/components/footer';
 import { useAuthStore } from '@/lib/auth-store';
 import {
   UserPlus,
@@ -204,15 +205,7 @@ export default function QuickTourPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-[#0A0618] border-t border-white/5 py-8 mt-auto">
-        <div className="container mx-auto px-4 text-center">
-          <p className="text-white/40 text-sm">
-            &copy; {new Date().getFullYear()} testcefr.com &mdash; AI-Powered
-            CEFR English Proficiency Testing
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

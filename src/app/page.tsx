@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useAuthStore } from '@/lib/auth-store';
 import { Navbar } from '@/components/navbar';
+import { Footer } from '@/components/footer';
 import {
   Sparkles, Award, Clock, BarChart3, Shield, Globe,
   CheckCircle2, QrCode, Headphones, Mic, PenTool,
@@ -1256,116 +1257,7 @@ export default function Home() {
       </section>
 
       {/* ===== FOOTER ===== */}
-      <footer className="relative border-t border-white/5 bg-[#0a0618]">
-        <div className="container mx-auto px-4 py-16">
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {/* Brand */}
-            <div>
-              <Link href="/" className="flex items-center gap-3 group mb-4">
-                <img src="/logo-icon.svg" alt="CEFR Test" className="h-9 w-9" />
-                <div className="flex flex-col">
-                  <span className="text-white font-bold text-base tracking-tight leading-tight">testcefr.com</span>
-                  <span className="text-white/40 text-[9px] uppercase tracking-[0.2em] leading-tight">English Assessment</span>
-                </div>
-              </Link>
-              <p className="text-sm text-white/40 leading-relaxed mb-4">
-                AI-powered English proficiency assessment aligned with the Common European Framework of Reference.
-              </p>
-              <div className="flex gap-3">
-                <a href="#" className="text-white/30 hover:text-white/60 transition-colors"><Twitter className="h-4 w-4" /></a>
-                <a href="#" className="text-white/30 hover:text-white/60 transition-colors"><Linkedin className="h-4 w-4" /></a>
-              </div>
-            </div>
-
-            {/* Product */}
-            <div>
-              <h4 className="text-sm font-semibold text-white mb-4">Product</h4>
-              <ul className="space-y-2">
-                {[
-                  { href: '/', label: 'Home' },
-                  { href: '/pricing', label: 'Pricing' },
-                  { href: '/quick-tour', label: 'Quick Tour' },
-                  { href: '/sample-certificate', label: 'Sample Certificate' },
-                  { href: '/register', label: 'Get Started' },
-                ].map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href} className="text-sm text-white/40 hover:text-white/70 transition-colors">
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Company */}
-            <div>
-              <h4 className="text-sm font-semibold text-white mb-4">Company</h4>
-              <ul className="space-y-2">
-                {[
-                  { href: '/about', label: 'About' },
-                  { href: '/contact', label: 'Contact' },
-                  { href: '/privacy', label: 'Privacy' },
-                  { href: '/terms', label: 'Terms' },
-                  { href: '/verify', label: 'Verify Certificate' },
-                ].map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href} className="text-sm text-white/40 hover:text-white/70 transition-colors">
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Account */}
-            <div>
-              <h4 className="text-sm font-semibold text-white mb-4">Account</h4>
-              <ul className="space-y-2">
-                {[
-                  { href: '/dashboard', label: 'Dashboard' },
-                  { href: '/login', label: 'Sign In' },
-                  { href: '/register', label: 'Sign Up' },
-                ].map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href} className="text-sm text-white/40 hover:text-white/70 transition-colors">
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="mt-6 pt-4 border-t border-white/5">
-                <h5 className="text-xs font-semibold text-white/60 mb-3">Trust & Security</h5>
-                <div className="flex items-center gap-2 text-white/30">
-                  <Shield className="h-4 w-4" />
-                  <span className="text-xs">Secure payments powered by PayPal</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom bar */}
-          <div className="mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-white/30">
-              © {new Date().getFullYear()} CEFR Test. All rights reserved.
-            </p>
-            <div className="flex items-center gap-4">
-              <Link href="/privacy" className="text-xs text-white/30 hover:text-white/50 transition-colors">
-                Privacy Policy
-              </Link>
-              <Link href="/terms" className="text-xs text-white/30 hover:text-white/50 transition-colors">
-                Terms of Service
-              </Link>
-              <Link href="/about" className="text-xs text-white/30 hover:text-white/50 transition-colors">
-                About
-              </Link>
-              <Link href="/verify" className="text-xs text-white/30 hover:text-white/50 transition-colors">
-                Verify Certificate
-              </Link>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
