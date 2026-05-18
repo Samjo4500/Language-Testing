@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import ZAI from 'z-ai-web-dev-sdk';
 
 const CEFR_SYSTEM_PROMPT = `You are the TestCEFR AI Assistant — a friendly, knowledgeable expert on the Common European Framework of Reference for Languages (CEFR) and the TestCEFR platform. Your role is to help users understand their English proficiency, navigate the platform, and answer questions about CEFR levels and assessments.
 
@@ -76,7 +75,7 @@ function getContextPrompt(currentPage: string): string {
     '/about': 'The user is on the About page. They want to learn more about TestCEFR and CEFR.',
     '/admin': 'The user is on the Admin Dashboard. Provide admin-specific guidance.',
     '/login': 'The user is on the Login page. Help with sign-in issues.',
-    '/register': 'The user is on the Registration page. Help with account creation.',
+    '/register': 'The user is on the Registration page. Help them with account creation.',
   };
 
   // Find the best matching context
@@ -90,6 +89,49 @@ function getContextPrompt(currentPage: string): string {
   return bestMatch
     ? `\n\n## Current Page Context\n${pageContexts[bestMatch]}`
     : '\n\n## Current Page Context\nThe user is browsing the TestCEFR platform.';
+}
+
+// Try z-ai-web-dev-sdk (works in dev environment)
+async function tryZaiSDK(messages: { role: string; content: string }[]): Promise<string | null> {
+  try {
+    const ZAI = (await import('z-ai-web-dev-sdk')).default;
+    const zai = await ZAI.create();
+    const completion = await zai.chat.completions.create({
+      messages: messages as { role: 'user' | 'assistant' | 'system'; content: string }[],
+      temperature: 0.7,
+      max_tokens: 500,
+    });
+    return completion.choices?.[0]?.message?.content || null;
+  } catch {
+    return null;
+  }
+}
+
+// Try Google Generative AI (works on Vercel with API key)
+async function tryGoogleAI(messages: { role: string; content: string }[]): Promise<string | null> {
+  const apiKey = process.env.GOOGLE_AI_API_KEY;
+  if (!apiKey) return null;
+  try {
+    const { GoogleGenerativeAI } = await import('@google/generative-ai');
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+
+    // Convert messages to Google AI format
+    const history = messages
+      .filter(m => m.role !== 'system')
+      .map(m => ({
+        role: m.role === 'assistant' ? 'model' as const : 'user' as const,
+        parts: [{ text: m.content }],
+      }));
+
+    const systemInstruction = messages.find(m => m.role === 'system')?.content || '';
+    const chat = model.startChat({ history, systemInstruction: systemInstruction || undefined });
+    const lastUserMsg = messages.filter(m => m.role === 'user').pop()?.content || '';
+    const result = await chat.sendMessage(lastUserMsg);
+    return result.response.text() || null;
+  } catch {
+    return null;
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -118,22 +160,25 @@ export async function POST(request: NextRequest) {
 
     // Format messages for the AI
     const formattedMessages = [
-      { role: 'system' as const, content: systemPrompt },
+      { role: 'system', content: systemPrompt },
       ...recentMessages.map((m) => ({
         role: m.role as 'user' | 'assistant',
         content: m.content,
       })),
     ];
 
-    // Call z-ai-web-dev-sdk
-    const zai = await ZAI.create();
-    const completion = await zai.chat.completions.create({
-      messages: formattedMessages,
-      temperature: 0.7,
-      max_tokens: 500,
-    });
+    // Try AI providers in order: z-ai-web-dev-sdk → Google AI
+    let reply = await tryZaiSDK(formattedMessages);
 
-    const reply = completion.choices?.[0]?.message?.content || 'I apologize, I was unable to generate a response. Please try again.';
+    if (!reply) {
+      reply = await tryGoogleAI(formattedMessages);
+    }
+
+    if (!reply) {
+      // No AI provider available — return a helpful fallback
+      const lastMessage = recentMessages.filter(m => m.role === 'user').pop()?.content?.toLowerCase() || '';
+      reply = getFallbackResponse(lastMessage);
+    }
 
     return NextResponse.json({ reply });
   } catch (error: unknown) {
@@ -144,4 +189,26 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
+}
+
+// Fallback responses when no AI provider is configured
+function getFallbackResponse(userMessage: string): string {
+  const lowerMsg = userMessage.toLowerCase();
+
+  if (lowerMsg.includes('price') || lowerMsg.includes('cost') || lowerMsg.includes('plan')) {
+    return "We offer **3 plans**: **Free** (1 practice test, basic results), **Premium** ($29 — full assessment, detailed breakdown, certificate), and **Pro** ($79 — unlimited tests, priority AI, API access). Visit our [Pricing page](/pricing/) for details!";
+  }
+  if (lowerMsg.includes('certificate') || lowerMsg.includes('cert')) {
+    return "Our certificates are **QR-verified** and recognized by institutions worldwide. After completing an assessment, you'll receive a digital certificate with your CEFR level (A1–C2) that you can share via a unique verification URL. Premium plan required.";
+  }
+  if (lowerMsg.includes('test') || lowerMsg.includes('assess') || lowerMsg.includes('level')) {
+    return "We offer **4 assessment types**: Reading, Writing, Listening, and Speaking. Each takes 15–25 minutes and provides an accurate A1–C2 CEFR level rating. You can start with a free practice test!";
+  }
+  if (lowerMsg.includes('hello') || lowerMsg.includes('hi') || lowerMsg.includes('hey')) {
+    return "Hello! 👋 Welcome to TestCEFR! I'm here to help you with anything about CEFR levels, our assessments, certificates, and pricing. What would you like to know?";
+  }
+  if (lowerMsg.includes('cefr') || lowerMsg.includes('level')) {
+    return "CEFR (Common European Framework of Reference) has **6 levels**: **A1** (Beginner), **A2** (Elementary), **B1** (Intermediate), **B2** (Upper Intermediate), **C1** (Advanced), **C2** (Proficient). Take our assessment to discover your level!";
+  }
+  return "I'm the TestCEFR assistant! I can help you with:\n\n- **CEFR levels** — What each level means\n- **Assessments** — Reading, Writing, Listening, Speaking tests\n- **Certificates** — QR-verified digital certificates\n- **Pricing** — Free, Premium, and Pro plans\n\nWhat would you like to know?";
 }
