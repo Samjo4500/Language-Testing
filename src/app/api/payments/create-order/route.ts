@@ -2,11 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createPayPalOrder } from '@/lib/paypal';
 import { getAuthUser } from '@/lib/auth-middleware';
 
-// Plan pricing configuration
-const PLAN_PRICES: Record<string, { amount: number; label: string }> = {
-  single: { amount: 9.99, label: 'CEFR English Proficiency Test — Single Test' },
-  premium: { amount: 19.99, label: 'CEFR English Proficiency Test — Premium Plan' },
-  pro: { amount: 29.99, label: 'CEFR English Proficiency Test — Pro Plan' },
+// Plan pricing configuration (must match pricing page display)
+const PLAN_PRICES: Record<string, { amount: number; label: string; testsIncluded: number }> = {
+  single: { amount: 12.99, label: 'CEFR English Proficiency Test — Single Test', testsIncluded: 1 },
+  premium: { amount: 29.99, label: 'CEFR English Proficiency Test — Premium Pack (3 tests)', testsIncluded: 3 },
+  pro: { amount: 49.99, label: 'CEFR English Proficiency Test — Pro Pack (6 tests)', testsIncluded: 6 },
 };
 
 export async function POST(request: NextRequest) {

@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { rateLimit, AUTH_LIMITS } from '@/lib/rate-limit';
 import { sendPasswordReset } from '@/lib/email';
 import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-change-me';
 
 export async function POST(request: NextRequest) {
+  // Rate limit: 5 forgot-password attempts per 15 minutes per IP
+  const rl = rateLimit(request, 'forgot-password', AUTH_LIMITS);
+  if (!rl.allowed) return rl.response!;
+
   try {
     const body = await request.json();
     const { email } = body;

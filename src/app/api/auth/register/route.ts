@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { rateLimit, AUTH_LIMITS } from '@/lib/rate-limit';
 import { hashPassword, generateTokens } from '@/lib/auth';
 import { sendWelcomeEmail, sendEmailVerification, sendAdminNewUser } from '@/lib/email';
 import jwt from 'jsonwebtoken';
@@ -7,6 +8,10 @@ import jwt from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-change-me';
 
 export async function POST(request: NextRequest) {
+  // Rate limit: 5 registrations per 15 minutes per IP
+  const rl = rateLimit(request, 'register', AUTH_LIMITS);
+  if (!rl.allowed) return rl.response!;
+
   try {
     const body = await request.json();
     const { email, password, name, accountType, organizationName } = body;
@@ -54,6 +59,7 @@ export async function POST(request: NextRequest) {
         role,
         accountType: sanitizedAccountType,
         organizationName: isB2B ? (organizationName || null) : null,
+        testCredits: 1, // Free tier gets 1 assessment as promised on homepage
       },
     });
 

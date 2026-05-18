@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendContactAutoReply, sendAdminEmail, emailShell } from '@/lib/email';
 import { db } from '@/lib/db';
+import { rateLimit, CONTACT_LIMITS } from '@/lib/rate-limit';
 
 export async function POST(request: NextRequest) {
+  // Rate limit: 3 submissions per hour per IP
+  const rl = rateLimit(request, 'contact', CONTACT_LIMITS);
+  if (!rl.allowed) return rl.response!;
+
   try {
     const body = await request.json();
     const { name, email, message, accountType, organizationName } = body;
