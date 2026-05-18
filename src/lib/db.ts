@@ -4,16 +4,12 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined
 }
 
-// Fix: Shell env may have a stale SQLite DATABASE_URL that overrides .env.local.
-// If the runtime DATABASE_URL is not a PostgreSQL URL, fall back to POSTGRES_PRISMA_URL.
+// On Vercel/production, DATABASE_URL should be set correctly.
+// Locally, the shell may have a stale SQLite DATABASE_URL that overrides .env.
+// If the runtime DATABASE_URL is not a PostgreSQL URL, fall back to DATABASE_URL_UNPOOLED.
 const effectiveUrl = process.env.DATABASE_URL?.startsWith('postgresql://')
   ? process.env.DATABASE_URL
-  : process.env.POSTGRES_PRISMA_URL;
-
-// Clear stale cached PrismaClient that may have been created with wrong URL
-if (globalForPrisma.prisma) {
-  globalForPrisma.prisma = undefined;
-}
+  : process.env.DATABASE_URL_UNPOOLED;
 
 export const db =
   globalForPrisma.prisma ??
