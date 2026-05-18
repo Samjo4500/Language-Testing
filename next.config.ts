@@ -6,9 +6,7 @@ const nextConfig: NextConfig = {
   },
   reactStrictMode: false,
   trailingSlash: true,
-  allowedDevOrigins: [
-    'preview-chat-055047de-0ae6-4cd4-b413-8915583557ac.space-z.ai',
-  ],
+  poweredByHeader: false,
 };
 
 export default nextConfig;
