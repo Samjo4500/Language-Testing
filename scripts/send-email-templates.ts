@@ -1,0 +1,220 @@
+/**
+ * Script to send all TestCEFR email templates as preview copies to a personal email.
+ * Run with: npx tsx scripts/send-email-templates.ts
+ */
+import { Resend } from 'resend';
+
+const RESEND_API_KEY = process.env.RESEND_API_KEY || 're_LZTDkM5t_7zU8QXwNG9EkS3qzMjKXUMEX';
+const TO_EMAIL = 'samjo4500@gmail.com';
+const APP_URL = 'https://testcefr.com';
+const FROM_EMAIL = 'TestCEFR <noreply@testcefr.com>';
+
+const resend = new Resend(RESEND_API_KEY);
+
+function emailShell(title: string, bodyHtml: string): string {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${title}</title>
+  <style>
+    body { margin:0; padding:0; background:#0a0a0a; font-family:Arial,sans-serif; }
+    .wrapper { width:100%; background:#0a0a0a; padding:40px 16px; }
+    .card { max-width:560px; margin:0 auto; background:linear-gradient(145deg,#1a1a2e,#16213e); border-radius:16px; border:1px solid rgba(139,92,246,0.2); overflow:hidden; }
+    .header { background:linear-gradient(135deg,#7c3aed,#db2777); padding:32px 40px; text-align:center; }
+    .header h1 { margin:0; color:#fff; font-size:22px; font-weight:700; }
+    .content { padding:32px 40px; color:#e2e8f0; }
+    .content p { margin:0 0 16px; line-height:1.7; font-size:15px; color:#cbd5e1; }
+    .greeting { font-size:18px; font-weight:600; color:#f1f5f9; margin-bottom:20px; }
+    .btn { display:inline-block; padding:14px 32px; background:linear-gradient(135deg,#7c3aed,#db2777); color:#fff !important; text-decoration:none; border-radius:10px; font-weight:600; font-size:15px; margin:8px 0 24px; }
+    .badge { display:inline-block; padding:8px 20px; background:linear-gradient(135deg,#7c3aed,#db2777); color:#fff; border-radius:8px; font-size:28px; font-weight:700; margin:8px 0 16px; }
+    .divider { border:none; border-top:1px solid rgba(139,92,246,0.15); margin:24px 0; }
+    .footer { padding:20px 40px 28px; text-align:center; }
+    .footer p { margin:0 0 6px; font-size:12px; color:#64748b; }
+    .detail-row { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid rgba(139,92,246,0.1); }
+    .detail-label { color:#94a3b8; font-size:14px; }
+    .detail-value { color:#f1f5f9; font-size:14px; font-weight:600; }
+    .preview-badge { display:inline-block; padding:4px 12px; background:#f59e0b; color:#000; border-radius:4px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:16px; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="card">
+      <div class="header"><h1>TestCEFR</h1></div>
+      ${bodyHtml}
+      <div class="footer">
+        <p>&copy; 2026 TestCEFR. All rights reserved.</p>
+        <p><a href="${APP_URL}" style="color:#a78bfa;">testcefr.com</a></p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>`;
+}
+
+const templates: { subject: string; html: string }[] = [];
+
+// 1. Welcome Email
+templates.push({
+  subject: 'Welcome to TestCEFR!',
+  html: emailShell('Welcome to TestCEFR!',
+    `<div class="content">
+      <div class="preview-badge">Email Template Preview</div>
+      <p class="greeting">Welcome, John!</p>
+      <p>Thank you for creating your account on <strong>TestCEFR</strong> — the modern platform for CEFR English proficiency assessment.</p>
+      <p>Here is what you can do next:</p>
+      <p>Take a free practice assessment, explore our pricing plans, and earn an internationally-recognised CEFR certificate.</p>
+      <a href="${APP_URL}/pricing" class="btn">Explore Plans</a>
+      <p>If you did not create this account, please ignore this email.</p>
+    </div>`)
+});
+
+// 2. Email Verification
+templates.push({
+  subject: 'Verify your email — TestCEFR',
+  html: emailShell('Verify your email',
+    `<div class="content">
+      <div class="preview-badge">Email Template Preview</div>
+      <p class="greeting">Hi John,</p>
+      <p>Please verify your email address to activate your TestCEFR account. Click the button below — it expires in 24 hours.</p>
+      <a href="${APP_URL}/verify-email?token=preview-token" class="btn">Verify Email Address</a>
+      <hr class="divider" />
+      <p style="font-size:13px; color:#64748b;">If the button does not work, copy and paste this link: <a href="${APP_URL}/verify-email?token=preview-token" style="color:#a78bfa;">${APP_URL}/verify-email?token=preview-token</a></p>
+    </div>`)
+});
+
+// 3. Password Reset
+templates.push({
+  subject: 'Reset your password — TestCEFR',
+  html: emailShell('Reset your password',
+    `<div class="content">
+      <div class="preview-badge">Email Template Preview</div>
+      <p class="greeting">Hi John,</p>
+      <p>We received a request to reset your password. Click below to choose a new one — this link expires in 1 hour.</p>
+      <a href="${APP_URL}/reset-password?token=preview-token" class="btn">Reset Password</a>
+      <hr class="divider" />
+      <p style="font-size:13px; color:#64748b;">If the button does not work: <a href="${APP_URL}/reset-password?token=preview-token" style="color:#a78bfa;">${APP_URL}/reset-password?token=preview-token</a></p>
+      <p>If you did not request this, you can safely ignore this email.</p>
+    </div>`)
+});
+
+// 4. Payment Confirmation
+templates.push({
+  subject: 'Payment confirmed — Premium plan',
+  html: emailShell('Payment confirmed',
+    `<div class="content">
+      <div class="preview-badge">Email Template Preview</div>
+      <p class="greeting">Hi John,</p>
+      <p>Your payment has been successfully processed. Thank you for choosing TestCEFR!</p>
+      <hr class="divider" />
+      <div class="detail-row"><span class="detail-label">Plan</span><span class="detail-value">Premium</span></div>
+      <div class="detail-row"><span class="detail-label">Amount</span><span class="detail-value">$29.99</span></div>
+      <div class="detail-row"><span class="detail-label">Transaction ID</span><span class="detail-value">PAYPAL-PREVIEW-TXN-001</span></div>
+      <hr class="divider" />
+      <a href="${APP_URL}/test" class="btn">Start Your Assessment</a>
+    </div>`)
+});
+
+// 5. Certificate Ready
+templates.push({
+  subject: 'Your B2 certificate is ready — TestCEFR',
+  html: emailShell('Your certificate is ready!',
+    `<div class="content">
+      <div class="preview-badge">Email Template Preview</div>
+      <p class="greeting">Congratulations, John!</p>
+      <p>Your CEFR proficiency certificate is ready. Here is your awarded level:</p>
+      <div style="text-align:center;"><span class="badge">B2</span></div>
+      <p>You can view, download, and share your verified certificate from your dashboard.</p>
+      <a href="${APP_URL}/dashboard" class="btn">View Certificate</a>
+    </div>`)
+});
+
+// 6. Assessment Complete
+templates.push({
+  subject: 'Assessment completed — Level B2',
+  html: emailShell('Assessment completed',
+    `<div class="content">
+      <div class="preview-badge">Email Template Preview</div>
+      <p class="greeting">Well done, John!</p>
+      <p>You have completed your CEFR English proficiency assessment. Here are your results:</p>
+      <div style="text-align:center;"><span class="badge">B2</span></div>
+      <div class="detail-row"><span class="detail-label">Overall Score</span><span class="detail-value">78/100</span></div>
+      <hr class="divider" />
+      <p>Your detailed skill breakdown and certificate are available on your dashboard.</p>
+      <a href="${APP_URL}/dashboard" class="btn">View Results</a>
+    </div>`)
+});
+
+// 7. Contact Auto-Reply
+templates.push({
+  subject: 'We received your message — TestCEFR',
+  html: emailShell('Message received',
+    `<div class="content">
+      <div class="preview-badge">Email Template Preview</div>
+      <p class="greeting">Hi John,</p>
+      <p>Thank you for contacting TestCEFR! We have received your message and will get back to you within 24 hours.</p>
+      <p>Account type: <strong>Individual</strong></p>
+      <hr class="divider" />
+      <p>In the meantime, feel free to explore our platform or start a free assessment.</p>
+      <a href="${APP_URL}/pricing" class="btn">Explore Plans</a>
+    </div>`)
+});
+
+// 8. Admin: New User Registration
+templates.push({
+  subject: 'New user registered: John Doe',
+  html: emailShell('New User Registration',
+    `<div class="content">
+      <div class="preview-badge">Email Template Preview</div>
+      <p class="greeting">New user signup</p>
+      <div class="detail-row"><span class="detail-label">Name</span><span class="detail-value">John Doe</span></div>
+      <div class="detail-row"><span class="detail-label">Email</span><span class="detail-value">john@example.com</span></div>
+      <div class="detail-row"><span class="detail-label">Account Type</span><span class="detail-value">Individual</span></div>
+      <hr class="divider" />
+      <a href="${APP_URL}/admin" class="btn">View in Admin</a>
+    </div>`)
+});
+
+// 9. Admin: New Payment
+templates.push({
+  subject: 'New payment: $29.99 — Premium plan',
+  html: emailShell('New Payment Received',
+    `<div class="content">
+      <div class="preview-badge">Email Template Preview</div>
+      <p class="greeting">Payment received!</p>
+      <div class="detail-row"><span class="detail-label">Customer</span><span class="detail-value">John Doe</span></div>
+      <div class="detail-row"><span class="detail-label">Email</span><span class="detail-value">john@example.com</span></div>
+      <div class="detail-row"><span class="detail-label">Plan</span><span class="detail-value">Premium</span></div>
+      <div class="detail-row"><span class="detail-label">Amount</span><span class="detail-value">$29.99</span></div>
+      <div class="detail-row"><span class="detail-label">Transaction ID</span><span class="detail-value">PAYPAL-PREVIEW-TXN-002</span></div>
+      <hr class="divider" />
+      <a href="${APP_URL}/admin" class="btn">View in Admin</a>
+    </div>`)
+});
+
+async function main() {
+  console.log(`Sending ${templates.length} email template previews to ${TO_EMAIL}...\n`);
+
+  for (let i = 0; i < templates.length; i++) {
+    const t = templates[i];
+    console.log(`[${i + 1}/${templates.length}] Sending: ${t.subject}`);
+    try {
+      const result = await resend.emails.send({
+        from: FROM_EMAIL,
+        to: TO_EMAIL,
+        subject: `[TEMPLATE PREVIEW] ${t.subject}`,
+        html: t.html,
+      });
+      console.log(`  ✓ Sent — ID: ${result.data?.id || 'ok'}`);
+    } catch (err: any) {
+      console.error(`  ✗ Failed: ${err.message || err}`);
+    }
+    // Small delay to avoid rate limiting
+    await new Promise(r => setTimeout(r, 500));
+  }
+
+  console.log(`\nDone! ${templates.length} template previews sent to ${TO_EMAIL}`);
+}
+
+main().catch(console.error);
