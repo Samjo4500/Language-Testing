@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { capturePayPalOrder, getPayPalMode } from '@/lib/paypal';
 import { getAuthUser } from '@/lib/auth-middleware';
 import { db } from '@/lib/db';
-import { sendPaymentConfirmation } from '@/lib/email';
+import { sendPaymentConfirmation, sendAdminNewPayment } from '@/lib/email';
 
 // Plan configuration: credits, expiry, display name
 const PLAN_CONFIG: Record<string, { credits: number; planName: string; expiryDays: number | null }> = {
@@ -100,8 +100,18 @@ export async function POST(request: NextRequest) {
         dbUser.email,
         config.planName,
         amount,
-        captureId || orderID
+        captureId || orderID,
+        dbUser.id
       ).catch((err) => console.error('Payment confirmation email error:', err));
+
+      // Notify admin of new payment (fire-and-forget)
+      sendAdminNewPayment(
+        dbUser.name || dbUser.email.split('@')[0],
+        dbUser.email,
+        config.planName,
+        amount,
+        captureId || orderID
+      ).catch((err) => console.error('Admin new payment email error:', err));
     }
 
     return NextResponse.json({

@@ -108,7 +108,8 @@ export async function POST(request: NextRequest) {
       user.name || user.email.split('@')[0],
       user.email,
       certificate.cefrLevel,
-      certificateUrl
+      certificateUrl,
+      user.id
     ).catch((err) => console.error('Certificate ready email error:', err));
 
     return NextResponse.json({

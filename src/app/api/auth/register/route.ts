@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { hashPassword, generateTokens } from '@/lib/auth';
-import { sendWelcomeEmail, sendEmailVerification } from '@/lib/email';
+import { sendWelcomeEmail, sendEmailVerification, sendAdminNewUser } from '@/lib/email';
 import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-change-me';
@@ -65,9 +65,17 @@ export async function POST(request: NextRequest) {
     });
 
     // Send welcome email (fire-and-forget)
-    sendWelcomeEmail(user.name || user.email.split('@')[0], user.email).catch((err) =>
+    sendWelcomeEmail(user.name || user.email.split('@')[0], user.email, user.id).catch((err) =>
       console.error('Welcome email send error:', err)
     );
+
+    // Notify admin of new user signup (fire-and-forget)
+    sendAdminNewUser(
+      user.name || user.email.split('@')[0],
+      user.email,
+      sanitizedAccountType,
+      user.organizationName || undefined
+    ).catch((err) => console.error('Admin new user email error:', err));
 
     // Generate email verification token (24-hour expiry)
     const verificationToken = jwt.sign(
@@ -83,7 +91,8 @@ export async function POST(request: NextRequest) {
     sendEmailVerification(
       user.name || user.email.split('@')[0],
       user.email,
-      verificationLink
+      verificationLink,
+      user.id
     ).catch((err) => console.error('Verification email send error:', err));
 
     return NextResponse.json({

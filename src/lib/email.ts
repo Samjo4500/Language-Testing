@@ -16,7 +16,7 @@ function getResend(): Resend | null {
 const FROM_EMAIL = 'TestCEFR <noreply@testcefr.com>';
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://testcefr.com';
 
-async function sendEmail(to: string, subject: string, html: string): Promise<void> {
+async function sendEmail(to: string, subject: string, html: string, type?: string, userId?: string): Promise<void> {
   const resend = getResend();
   if (!resend) {
     console.warn(`Resend not configured — skipping email to ${to}: ${subject}`);
@@ -24,8 +24,35 @@ async function sendEmail(to: string, subject: string, html: string): Promise<voi
   }
   try {
     await resend.emails.send({ from: FROM_EMAIL, to, subject, html });
+    // Log to database if type is provided
+    if (type) {
+      await db.emailLog.create({
+        data: {
+          to,
+          from: FROM_EMAIL,
+          subject,
+          type,
+          status: 'sent',
+          userId: userId || null,
+        },
+      }).catch(() => {});
+    }
   } catch (error) {
     console.error(`Failed to send email (${subject}):`, error);
+    // Log failed attempt
+    if (type) {
+      await db.emailLog.create({
+        data: {
+          to,
+          from: FROM_EMAIL,
+          subject,
+          type,
+          status: 'failed',
+          userId: userId || null,
+          error: error instanceof Error ? error.message : String(error),
+        },
+      }).catch(() => {});
+    }
   }
 }
 
@@ -70,7 +97,7 @@ export function emailShell(title: string, bodyHtml: string): string {
 </html>`;
 }
 
-export async function sendWelcomeEmail(name: string, email: string): Promise<void> {
+export async function sendWelcomeEmail(name: string, email: string, userId?: string): Promise<void> {
   const d = name || email.split('@')[0];
   await sendEmail(email, 'Welcome to TestCEFR!', emailShell('Welcome to TestCEFR!',
     `<div class="content">
@@ -80,10 +107,10 @@ export async function sendWelcomeEmail(name: string, email: string): Promise<voi
       <p>Take a free practice assessment, explore our pricing plans, and earn an internationally-recognised CEFR certificate.</p>
       <a href="${APP_URL}/pricing" class="btn">Explore Plans</a>
       <p>If you did not create this account, please ignore this email.</p>
-    </div>`));
+    </div>`), 'welcome', userId);
 }
 
-export async function sendEmailVerification(name: string, email: string, verificationLink: string): Promise<void> {
+export async function sendEmailVerification(name: string, email: string, verificationLink: string, userId?: string): Promise<void> {
   const d = name || email.split('@')[0];
   await sendEmail(email, 'Verify your email — TestCEFR', emailShell('Verify your email',
     `<div class="content">
@@ -92,7 +119,7 @@ export async function sendEmailVerification(name: string, email: string, verific
       <a href="${verificationLink}" class="btn">Verify Email Address</a>
       <hr class="divider" />
       <p style="font-size:13px; color:#64748b;">If the button does not work, copy and paste this link: <a href="${verificationLink}" style="color:#a78bfa;">${verificationLink}</a></p>
-    </div>`));
+    </div>`), 'verification', userId);
 }
 
 export async function sendPasswordReset(name: string, email: string, resetLink: string): Promise<void> {
@@ -105,10 +132,10 @@ export async function sendPasswordReset(name: string, email: string, resetLink: 
       <hr class="divider" />
       <p style="font-size:13px; color:#64748b;">If the button does not work: <a href="${resetLink}" style="color:#a78bfa;">${resetLink}</a></p>
       <p>If you did not request this, you can safely ignore this email.</p>
-    </div>`));
+    </div>`), 'password_reset');
 }
 
-export async function sendPaymentConfirmation(name: string, email: string, planName: string, amount: number, transactionId: string): Promise<void> {
+export async function sendPaymentConfirmation(name: string, email: string, planName: string, amount: number, transactionId: string, userId?: string): Promise<void> {
   const d = name || email.split('@')[0];
   const formatted = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
   await sendEmail(email, `Payment confirmed — ${planName} plan`, emailShell('Payment confirmed',
@@ -121,10 +148,10 @@ export async function sendPaymentConfirmation(name: string, email: string, planN
       <div class="detail-row"><span class="detail-label">Transaction ID</span><span class="detail-value">${transactionId}</span></div>
       <hr class="divider" />
       <a href="${APP_URL}/test" class="btn">Start Your Assessment</a>
-    </div>`));
+    </div>`), 'payment', userId);
 }
 
-export async function sendCertificateReady(name: string, email: string, cefrLevel: string, certificateUrl: string): Promise<void> {
+export async function sendCertificateReady(name: string, email: string, cefrLevel: string, certificateUrl: string, userId?: string): Promise<void> {
   const d = name || email.split('@')[0];
   await sendEmail(email, `Your ${cefrLevel} certificate is ready — TestCEFR`, emailShell('Your certificate is ready!',
     `<div class="content">
@@ -133,10 +160,10 @@ export async function sendCertificateReady(name: string, email: string, cefrLeve
       <div style="text-align:center;"><span class="badge">${cefrLevel}</span></div>
       <p>You can view, download, and share your verified certificate from your dashboard.</p>
       <a href="${certificateUrl}" class="btn">View Certificate</a>
-    </div>`));
+    </div>`), 'certificate', userId);
 }
 
-export async function sendAssessmentComplete(name: string, email: string, cefrLevel: string, score: number): Promise<void> {
+export async function sendAssessmentComplete(name: string, email: string, cefrLevel: string, score: number, userId?: string): Promise<void> {
   const d = name || email.split('@')[0];
   await sendEmail(email, `Assessment completed — Level ${cefrLevel}`, emailShell('Assessment completed',
     `<div class="content">
@@ -147,7 +174,7 @@ export async function sendAssessmentComplete(name: string, email: string, cefrLe
       <hr class="divider" />
       <p>Your detailed skill breakdown and certificate are available on your dashboard.</p>
       <a href="${APP_URL}/dashboard" class="btn">View Results</a>
-    </div>`));
+    </div>`), 'assessment', userId);
 }
 
 export async function sendContactAutoReply(name: string, email: string, accountType: string): Promise<void> {
@@ -161,7 +188,47 @@ export async function sendContactAutoReply(name: string, email: string, accountT
       <hr class="divider" />
       <p>In the meantime, feel free to explore our platform or start a free assessment.</p>
       <a href="${APP_URL}/pricing" class="btn">Explore Plans</a>
-    </div>`));
+    </div>`), 'contact_auto_reply');
+}
+
+export async function sendAdminNewUser(name: string, email: string, accountType: string, organizationName?: string): Promise<void> {
+  const typeLabel = accountType === 'university' ? 'University/College' : accountType === 'business' ? 'Business' : 'Individual';
+  const orgLine = organizationName
+    ? `<div class="detail-row"><span class="detail-label">Organization</span><span class="detail-value">${organizationName}</span></div>`
+    : '';
+  await sendAdminEmail(
+    `New user registered: ${name || email}`,
+    emailShell('New User Registration',
+      `<div class="content">
+        <p class="greeting">New user signup</p>
+        <div class="detail-row"><span class="detail-label">Name</span><span class="detail-value">${name || '—'}</span></div>
+        <div class="detail-row"><span class="detail-label">Email</span><span class="detail-value">${email}</span></div>
+        <div class="detail-row"><span class="detail-label">Account Type</span><span class="detail-value">${typeLabel}</span></div>
+        ${orgLine}
+        <hr class="divider" />
+        <a href="${APP_URL}/admin" class="btn">View in Admin</a>
+      </div>`),
+    'admin_new_user'
+  );
+}
+
+export async function sendAdminNewPayment(name: string, email: string, planName: string, amount: number, transactionId: string): Promise<void> {
+  const formatted = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+  await sendAdminEmail(
+    `New payment: ${formatted} — ${planName} plan`,
+    emailShell('New Payment Received',
+      `<div class="content">
+        <p class="greeting">Payment received!</p>
+        <div class="detail-row"><span class="detail-label">Customer</span><span class="detail-value">${name || '—'}</span></div>
+        <div class="detail-row"><span class="detail-label">Email</span><span class="detail-value">${email}</span></div>
+        <div class="detail-row"><span class="detail-label">Plan</span><span class="detail-value">${planName}</span></div>
+        <div class="detail-row"><span class="detail-label">Amount</span><span class="detail-value">${formatted}</span></div>
+        <div class="detail-row"><span class="detail-label">Transaction ID</span><span class="detail-value">${transactionId}</span></div>
+        <hr class="divider" />
+        <a href="${APP_URL}/admin" class="btn">View in Admin</a>
+      </div>`),
+    'admin_new_payment'
+  );
 }
 
 export async function sendAdminEmail(subject: string, html: string, type: string): Promise<void> {

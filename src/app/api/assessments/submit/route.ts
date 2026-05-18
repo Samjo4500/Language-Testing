@@ -112,7 +112,8 @@ export async function POST(request: NextRequest) {
         user.name || user.email.split('@')[0],
         user.email,
         cefrLevel,
-        score
+        score,
+        user.id
       ).catch((err) => console.error('Assessment complete email error:', err));
     }
 
