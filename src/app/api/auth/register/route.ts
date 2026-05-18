@@ -9,7 +9,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-change-me';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { email, password, name } = body;
+    const { email, password, name, accountType, organizationName } = body;
 
     if (!email || !password) {
       return NextResponse.json(
@@ -39,6 +39,12 @@ export async function POST(request: NextRequest) {
     const userCount = await db.user.count();
     const role = userCount === 0 ? 'admin' : 'user';
 
+    // Validate accountType if provided
+    const validAccountTypes = ['individual', 'university', 'business'];
+    const sanitizedAccountType = validAccountTypes.includes(accountType) ? accountType : 'individual';
+
+    const isB2B = sanitizedAccountType === 'university' || sanitizedAccountType === 'business';
+
     const user = await db.user.create({
       data: {
         email,
@@ -46,6 +52,8 @@ export async function POST(request: NextRequest) {
         passwordHash,
         plan: 'free',
         role,
+        accountType: sanitizedAccountType,
+        organizationName: isB2B ? (organizationName || null) : null,
       },
     });
 
@@ -85,6 +93,8 @@ export async function POST(request: NextRequest) {
         name: user.name,
         plan: user.plan,
         role: user.role,
+        accountType: user.accountType,
+        organizationName: user.organizationName,
       },
       accessToken: tokens.accessToken,
       refreshToken: tokens.refreshToken,

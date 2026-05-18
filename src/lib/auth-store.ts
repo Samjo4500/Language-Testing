@@ -8,6 +8,8 @@ interface User {
   name: string | null;
   plan: string;
   role?: string;
+  accountType?: string;
+  organizationName?: string | null;
 }
 
 interface AuthState {

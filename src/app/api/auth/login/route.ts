@@ -44,6 +44,8 @@ export async function POST(request: NextRequest) {
         name: user.name,
         plan: user.plan,
         role: user.role,
+        accountType: user.accountType,
+        organizationName: user.organizationName,
       },
       accessToken: tokens.accessToken,
       refreshToken: tokens.refreshToken,
