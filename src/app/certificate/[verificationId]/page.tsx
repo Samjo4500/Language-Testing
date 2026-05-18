@@ -197,7 +197,7 @@ export default function CertificatePage() {
                   </div>
                   <div className="flex flex-col">
                     <span className="text-white font-bold text-base tracking-tight leading-tight">
-                      testcefr.com
+                      test<span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">cefr</span><span className="text-purple-300">.com</span>
                     </span>
                     <span className="text-white/40 text-[9px] uppercase tracking-[0.2em] leading-tight">
                       English Assessment
