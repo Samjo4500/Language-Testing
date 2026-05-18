@@ -318,6 +318,7 @@ export default function ContactPage() {
               <div className="space-y-2.5">
                 {[
                   { href: '/listening', label: 'Listening Test' },
+                  { href: '/reading', label: 'Reading Test' },
                   { href: '/speaking', label: 'Speaking Test' },
                   { href: '/writing', label: 'Writing Test' },
                   { href: '/quick-tour', label: 'Quick Tour' },
@@ -336,6 +337,7 @@ export default function ContactPage() {
                 {[
                   { href: '/pricing', label: 'Pricing' },
                   { href: '/sample-certificate', label: 'Sample Certificate' },
+                  { href: '/sample-report', label: 'Sample Report' },
                   { href: '/contact', label: 'Contact Us' },
                   { href: '/about', label: 'About' },
                 ].map((link) => (
@@ -352,6 +354,7 @@ export default function ContactPage() {
               <div className="space-y-2.5">
                 <Link href="/privacy" className="block text-sm text-white/40 hover:text-white/80 transition-colors">Privacy Policy</Link>
                 <Link href="/terms" className="block text-sm text-white/40 hover:text-white/80 transition-colors">Terms of Service</Link>
+                <Link href="/verify" className="block text-sm text-white/40 hover:text-white/80 transition-colors">Verify Certificate</Link>
                 <span className="block text-sm text-white/40">Cookie Policy</span>
               </div>
             </div>

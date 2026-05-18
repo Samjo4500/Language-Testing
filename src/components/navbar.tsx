@@ -16,6 +16,7 @@ import { useState, useEffect } from 'react';
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
   { href: '/listening', label: 'Listening' },
+  { href: '/reading', label: 'Reading' },
   { href: '/speaking', label: 'Speaking' },
   { href: '/writing', label: 'Writing' },
   { href: '/quick-tour', label: 'Quick Tour' },

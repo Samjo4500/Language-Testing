@@ -4,8 +4,9 @@ import Link from 'next/link';
 import { Navbar } from '@/components/navbar';
 import { useAuthStore } from '@/lib/auth-store';
 import {
-  Mic, ArrowRight, Brain, AudioWaveform, MessageSquareText,
-  Activity, CirclePlay, Cpu, ClipboardCheck, Sparkles
+  BookOpen, Globe, FileText, BarChart3, ArrowRight,
+  Play, Eye, CheckCircle2, TrendingUp,
+  Sparkles, Users, Zap, Search, Languages
 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 
@@ -44,27 +45,76 @@ function AnimatedSection({ children, className = '', delay = 0 }: { children: Re
   );
 }
 
-/* Floating background orbs for hero */
+/* Floating background orbs */
 function BackgroundOrbs() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {/* Main purple orb */}
-      <div className="orb orb-purple w-[500px] h-[500px] -top-32 -left-32 animate-float-slow" />
-      {/* Pink orb */}
-      <div className="orb orb-pink w-[350px] h-[350px] top-1/4 -right-16 animate-float" />
-      {/* Small accent orbs */}
-      <div className="absolute top-1/3 left-2/3 w-2 h-2 rounded-full bg-purple-400/40 animate-float delay-300" />
-      <div className="absolute top-2/3 right-1/4 w-1.5 h-1.5 rounded-full bg-pink-400/30 animate-float-slow delay-500" />
-      <div className="absolute bottom-1/4 left-1/4 w-2.5 h-2.5 rounded-full bg-purple-300/25 animate-float delay-200" />
+      <div className="orb orb-purple w-[600px] h-[600px] -top-40 -left-40 animate-float-slow" />
+      <div className="orb orb-pink w-[400px] h-[400px] top-1/3 -right-20 animate-float-reverse" />
+      <div className="orb orb-blue w-[300px] h-[300px] bottom-20 left-1/4 animate-float" />
+      <div className="absolute top-1/4 left-1/2 w-2 h-2 rounded-full bg-purple-400/40 animate-float delay-200" />
+      <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 rounded-full bg-pink-400/30 animate-float-reverse delay-500" />
+      <div className="absolute bottom-1/3 left-1/3 w-2.5 h-2.5 rounded-full bg-blue-400/30 animate-float delay-300" />
     </div>
   );
 }
 
-export default function SpeakingPage() {
+export default function ReadingPage() {
   const { isAuthenticated, user } = useAuthStore();
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
   const isAuth = mounted && isAuthenticated;
+
+  const features = [
+    {
+      icon: <FileText className="h-6 w-6" />,
+      title: 'Diverse Text Types',
+      desc: 'Read everything from short emails and news headlines to academic papers and literary extracts — each text carefully selected to test specific comprehension skills at your level.',
+      gradient: 'from-purple-500 to-indigo-500',
+    },
+    {
+      icon: <Globe className="h-6 w-6" />,
+      title: 'Authentic Materials',
+      desc: 'Engage with real-world English texts drawn from newspapers, workplace documents, academic journals, and everyday communications to prepare you for real-life reading challenges.',
+      gradient: 'from-pink-500 to-rose-500',
+    },
+    {
+      icon: <Search className="h-6 w-6" />,
+      title: 'Skimming & Scanning',
+      desc: 'Develop essential reading strategies through exercises that test your ability to quickly locate key information, identify main ideas, and understand text structure efficiently.',
+      gradient: 'from-cyan-400 to-blue-500',
+    },
+    {
+      icon: <BarChart3 className="h-6 w-6" />,
+      title: 'Progressive Difficulty',
+      desc: 'Questions adapt from A1 beginner level through C2 mastery, automatically calibrating to challenge your current reading comprehension level with increasing text complexity.',
+      gradient: 'from-green-400 to-emerald-500',
+    },
+  ];
+
+  const steps = [
+    {
+      icon: <BookOpen className="h-7 w-7" />,
+      title: 'Read the Passage',
+      desc: 'Engage with carefully curated reading passages featuring authentic English texts. Each passage is designed to test specific comprehension skills at your CEFR level.',
+      step: '01',
+      gradient: 'from-purple-500 to-indigo-500',
+    },
+    {
+      icon: <Eye className="h-7 w-7" />,
+      title: 'Answer Questions',
+      desc: 'Respond to comprehension questions that evaluate your understanding of main ideas, specific details, inference, and the author\'s purpose and tone.',
+      step: '02',
+      gradient: 'from-pink-500 to-rose-500',
+    },
+    {
+      icon: <CheckCircle2 className="h-7 w-7" />,
+      title: 'Get Your Score',
+      desc: 'Receive an instant CEFR-aligned reading score with detailed analytics on your strengths, weaknesses, and personalized improvement recommendations.',
+      step: '03',
+      gradient: 'from-cyan-400 to-blue-500',
+    },
+  ];
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
@@ -76,23 +126,23 @@ export default function SpeakingPage() {
 
         <div className="container relative mx-auto px-4 py-24 md:py-36">
           <div className="mx-auto max-w-4xl text-center">
-            {/* Speaking Assessment Badge - floating animation */}
+            {/* Badge */}
             <div className="animate-float inline-flex items-center gap-2 rounded-full glass-light px-5 py-2 mb-8 animate-border-glow">
-              <Mic className="h-4 w-4 text-purple-300" />
-              <span className="text-sm text-purple-200 font-medium">Speaking Assessment</span>
+              <BookOpen className="h-4 w-4 text-purple-300" />
+              <span className="text-sm text-purple-200 font-medium">Reading Assessment</span>
               <span className="flex h-2 w-2 rounded-full bg-green-400 animate-pulse" />
             </div>
 
-            {/* Headline with gradient text */}
+            {/* Headline */}
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight text-white leading-[1.1] animate-slide-up">
-              Perfect Your English
+              Master English
               <br />
-              <span className="gradient-text">Speaking Skills</span>
+              <span className="gradient-text">Reading Skills</span>
             </h1>
 
-            {/* Subheadline */}
+            {/* Description */}
             <p className="mt-6 text-lg md:text-xl text-white/60 leading-relaxed max-w-2xl mx-auto animate-fade-in delay-300">
-              Our AI-powered speaking assessment uses advanced speech recognition to evaluate your pronunciation, fluency, and coherence. Speak naturally and receive instant, detailed feedback on your English speaking proficiency.
+              Strengthen your comprehension with AI-powered reading assessments. From short messages to complex academic texts, our adaptive system evaluates your ability to understand written English across all CEFR levels.
             </p>
 
             {/* CTA Buttons */}
@@ -101,7 +151,7 @@ export default function SpeakingPage() {
                 user?.plan === 'premium' ? (
                   <Link href="/test">
                     <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
-                      Start Speaking Test
+                      Start Reading Test
                       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </button>
                   </Link>
@@ -109,7 +159,7 @@ export default function SpeakingPage() {
                   <>
                     <Link href="/pricing">
                       <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
-                        Start Speaking Test
+                        Get Premium Access
                         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                       </button>
                     </Link>
@@ -124,7 +174,7 @@ export default function SpeakingPage() {
                 <>
                   <Link href="/register">
                     <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
-                      Start Speaking Test
+                      Start Reading Test
                       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </button>
                   </Link>
@@ -135,6 +185,37 @@ export default function SpeakingPage() {
                   </Link>
                 </>
               )}
+            </div>
+
+            {/* Quick stats */}
+            <div className="mt-16 grid grid-cols-3 gap-4 max-w-lg mx-auto">
+              <AnimatedSection delay={100}>
+                <div className="glass-card p-4 text-center group">
+                  <div className="flex justify-center mb-2 text-purple-400 group-hover:text-purple-300 transition-colors">
+                    <Users className="h-5 w-5" />
+                  </div>
+                  <div className="text-xl font-bold text-white">5K+</div>
+                  <div className="text-[11px] text-white/50">Tests Taken</div>
+                </div>
+              </AnimatedSection>
+              <AnimatedSection delay={200}>
+                <div className="glass-card p-4 text-center group">
+                  <div className="flex justify-center mb-2 text-purple-400 group-hover:text-purple-300 transition-colors">
+                    <Languages className="h-5 w-5" />
+                  </div>
+                  <div className="text-xl font-bold text-white">300+</div>
+                  <div className="text-[11px] text-white/50">Passages</div>
+                </div>
+              </AnimatedSection>
+              <AnimatedSection delay={300}>
+                <div className="glass-card p-4 text-center group">
+                  <div className="flex justify-center mb-2 text-purple-400 group-hover:text-purple-300 transition-colors">
+                    <Zap className="h-5 w-5" />
+                  </div>
+                  <div className="text-xl font-bold text-white">12 min</div>
+                  <div className="text-[11px] text-white/50">Avg. Time</div>
+                </div>
+              </AnimatedSection>
             </div>
           </div>
         </div>
@@ -150,45 +231,20 @@ export default function SpeakingPage() {
           <AnimatedSection>
             <div className="text-center mb-14">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <Brain className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Advanced AI Technology</span>
+                <FileText className="h-3.5 w-3.5 text-purple-400" />
+                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">What You&apos;ll Experience</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                Speaking Assessment <span className="gradient-text-static">Features</span>
+                Reading Features <span className="gradient-text-static">Built for You</span>
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
-                Our cutting-edge AI technology provides comprehensive speaking evaluation that goes beyond simple pronunciation checks.
+                Our AI-powered reading assessment is designed to mirror real-world English reading challenges, preparing you for success in any academic or professional environment.
               </p>
             </div>
           </AnimatedSection>
 
           <div className="grid gap-5 sm:grid-cols-2 max-w-4xl mx-auto">
-            {[
-              {
-                icon: <AudioWaveform className="h-6 w-6" />,
-                title: 'AI Speech Recognition',
-                desc: 'Advanced neural networks transcribe and analyze your speech in real-time, capturing every nuance of your pronunciation and intonation patterns.',
-                gradient: 'from-purple-500 to-indigo-500',
-              },
-              {
-                icon: <Mic className="h-6 w-6" />,
-                title: 'Pronunciation Scoring',
-                desc: 'Receive precise scores for individual phonemes, word stress, and sentence-level intonation, mapped to CEFR proficiency descriptors.',
-                gradient: 'from-pink-500 to-rose-500',
-              },
-              {
-                icon: <Activity className="h-6 w-6" />,
-                title: 'Fluency Analysis',
-                desc: 'Our AI measures speaking rate, pauses, hesitations, and self-corrections to assess your fluency and natural rhythm in English conversation.',
-                gradient: 'from-violet-500 to-purple-500',
-              },
-              {
-                icon: <MessageSquareText className="h-6 w-6" />,
-                title: 'Real-Time Feedback',
-                desc: 'Get instant visual and textual feedback as you speak, with highlighted areas for improvement and suggestions for more natural expression.',
-                gradient: 'from-fuchsia-500 to-pink-500',
-              },
-            ].map((feature, index) => (
+            {features.map((feature, index) => (
               <AnimatedSection key={index} delay={index * 100}>
                 <div className="glass-card p-6 h-full group">
                   <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${feature.gradient} text-white shadow-lg mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>
@@ -203,82 +259,59 @@ export default function SpeakingPage() {
         </div>
       </section>
 
+      {/* Section Divider */}
+      <div className="section-divider" />
+
       {/* ===== HOW IT WORKS SECTION ===== */}
-      <section className="relative py-20 md:py-28 dark-section hero-pattern noise-overlay">
+      <section className="relative py-20 md:py-28 dark-section-alt hero-pattern noise-overlay">
         <div className="container relative mx-auto px-4">
           <AnimatedSection>
             <div className="text-center mb-14">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <CirclePlay className="h-3.5 w-3.5 text-purple-400" />
+                <Play className="h-3.5 w-3.5 text-purple-400" />
                 <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Simple Process</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
                 How It <span className="gradient-text-static">Works</span>
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
-                Our speaking assessment is designed to be intuitive and straightforward. Follow three simple steps to receive your comprehensive evaluation.
+                Our streamlined assessment process gets you from reading to results in three simple steps.
               </p>
             </div>
           </AnimatedSection>
 
           <div className="grid gap-6 md:grid-cols-3 max-w-5xl mx-auto">
-            {[
-              {
-                step: '01',
-                icon: <Mic className="h-7 w-7" />,
-                title: 'Record Your Voice',
-                desc: 'Read prompts and answer questions using your microphone. Our interface guides you through various speaking tasks designed for your target CEFR level.',
-                gradient: 'from-purple-500 to-violet-500',
-              },
-              {
-                step: '02',
-                icon: <Cpu className="h-7 w-7" />,
-                title: 'AI Analyzes Speech',
-                desc: 'Our advanced AI processes your audio in real-time, evaluating pronunciation accuracy, fluency patterns, grammatical structures, and vocabulary usage.',
-                gradient: 'from-pink-500 to-rose-500',
-              },
-              {
-                step: '03',
-                icon: <ClipboardCheck className="h-7 w-7" />,
-                title: 'Get Detailed Feedback',
-                desc: 'Receive a comprehensive report with your CEFR speaking level, pronunciation scores, fluency metrics, and personalized recommendations for improvement.',
-                gradient: 'from-fuchsia-500 to-purple-500',
-              },
-            ].map((item, index) => (
+            {steps.map((step, index) => (
               <AnimatedSection key={index} delay={index * 150}>
                 <div className="glass-card p-6 h-full text-center group relative">
-                  {/* Step number */}
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className="inline-flex items-center justify-center h-7 w-7 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-white text-xs font-bold shadow-lg shadow-purple-500/30">
-                      {item.step}
-                    </span>
+                  <div className="absolute -top-3 -right-3 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-purple-600 to-pink-500 text-white text-xs font-bold shadow-lg shadow-purple-500/30">
+                    {step.step}
                   </div>
-
-                  {/* Icon */}
-                  <div className={`flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br ${item.gradient} text-white shadow-lg mx-auto mb-5 mt-3 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>
-                    {item.icon}
+                  <div className={`flex h-16 w-16 mx-auto items-center justify-center rounded-2xl bg-gradient-to-br ${step.gradient} text-white shadow-lg mb-5 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>
+                    {step.icon}
                   </div>
-
-                  <h3 className="text-lg font-semibold text-white mb-2">{item.title}</h3>
-                  <p className="text-sm text-white/45 leading-relaxed">{item.desc}</p>
-
-                  {/* Connector line for desktop */}
-                  {index < 2 && (
-                    <div className="hidden md:block absolute top-1/2 -right-3 w-6 h-px bg-gradient-to-r from-white/20 to-transparent" />
-                  )}
+                  <h3 className="text-lg font-semibold text-white mb-2">{step.title}</h3>
+                  <p className="text-sm text-white/45 leading-relaxed">{step.desc}</p>
                 </div>
               </AnimatedSection>
             ))}
+          </div>
+
+          {/* Connecting line visual (desktop only) */}
+          <div className="hidden md:flex justify-center mt-[-120px] mb-[80px] pointer-events-none">
+            <div className="flex items-center gap-0 max-w-md w-full">
+              <div className="flex-1 h-px bg-gradient-to-r from-purple-500/50 via-purple-400/30 to-pink-400/50" />
+              <div className="flex-1 h-px bg-gradient-to-r from-pink-400/50 via-purple-400/30 to-purple-500/50" />
+            </div>
           </div>
         </div>
       </section>
 
       {/* ===== CTA SECTION ===== */}
-      <section className="relative py-20 md:py-28 bg-[#0F0A1E] overflow-hidden">
-        {/* Background orbs for CTA */}
+      <section className="relative py-20 md:py-28 dark-section overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="orb orb-purple w-[400px] h-[400px] -top-20 right-1/4 animate-float-slow" />
-          <div className="orb orb-pink w-[300px] h-[300px] bottom-0 left-1/4 animate-float" />
+          <div className="orb orb-pink w-[300px] h-[300px] bottom-0 left-1/4 animate-float-reverse" />
         </div>
 
         <div className="container relative mx-auto px-4 text-center">
@@ -286,27 +319,54 @@ export default function SpeakingPage() {
             <div className="max-w-3xl mx-auto">
               <div className="glass-card p-10 md:p-14">
                 <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-6 animate-pulse-glow">
-                  <Sparkles className="h-4 w-4 text-purple-300" />
-                  <span className="text-sm text-purple-200 font-medium">Speaking Assessment</span>
+                  <BookOpen className="h-4 w-4 text-purple-300" />
+                  <span className="text-sm text-purple-200 font-medium">Reading Assessment</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                  Ready to Test Your <span className="gradient-text-static">Speaking</span>?
+                  Ready to Test Your <span className="gradient-text-static">Reading</span>?
                 </h2>
                 <p className="text-lg text-white/50 max-w-xl mx-auto mb-8">
-                  Discover your English speaking proficiency level with our AI-powered assessment. Get detailed feedback on pronunciation, fluency, and coherence in minutes.
+                  Discover how well you understand written English. Our AI-powered assessment adapts to your level and provides detailed feedback on your reading comprehension skills.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link href="/register">
-                    <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
-                      Start Speaking Test
-                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </button>
-                  </Link>
-                  <Link href="/quick-tour">
-                    <button className="glass-button rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
-                      Quick Tour
-                    </button>
-                  </Link>
+                  {isAuth ? (
+                    user?.plan === 'premium' ? (
+                      <Link href="/test">
+                        <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                          Start Reading Test
+                          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </button>
+                      </Link>
+                    ) : (
+                      <>
+                        <Link href="/pricing">
+                          <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                            Upgrade to Premium
+                            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                          </button>
+                        </Link>
+                        <Link href="/quick-tour">
+                          <button className="glass-button rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
+                            Quick Tour
+                          </button>
+                        </Link>
+                      </>
+                    )
+                  ) : (
+                    <>
+                      <Link href="/register">
+                        <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                          Create Free Account
+                          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </button>
+                      </Link>
+                      <Link href="/pricing">
+                        <button className="glass-button rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
+                          View Pricing
+                        </button>
+                      </Link>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -321,9 +381,7 @@ export default function SpeakingPage() {
             {/* Brand */}
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white font-bold text-sm shadow-lg shadow-purple-500/20">
-                  CE
-                </div>
+                <img src="/logo-icon.svg" alt="CEFR Test" className="h-9 w-9" />
                 <div className="flex flex-col">
                   <span className="text-white font-bold text-base">testcefr.com</span>
                   <span className="text-white/30 text-[9px] uppercase tracking-[0.2em]">English Assessment</span>
@@ -376,7 +434,6 @@ export default function SpeakingPage() {
                 <Link href="/privacy" className="block text-sm text-white/40 hover:text-white/80 transition-colors">Privacy Policy</Link>
                 <Link href="/terms" className="block text-sm text-white/40 hover:text-white/80 transition-colors">Terms of Service</Link>
                 <Link href="/verify" className="block text-sm text-white/40 hover:text-white/80 transition-colors">Verify Certificate</Link>
-                <span className="block text-sm text-white/40">Cookie Policy</span>
               </div>
             </div>
           </div>

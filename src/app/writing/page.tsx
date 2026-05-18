@@ -357,6 +357,7 @@ export default function WritingPage() {
               <div className="space-y-2.5">
                 {[
                   { href: '/listening', label: 'Listening Test' },
+                  { href: '/reading', label: 'Reading Test' },
                   { href: '/speaking', label: 'Speaking Test' },
                   { href: '/writing', label: 'Writing Test' },
                   { href: '/quick-tour', label: 'Quick Tour' },
@@ -375,6 +376,7 @@ export default function WritingPage() {
                 {[
                   { href: '/pricing', label: 'Pricing' },
                   { href: '/sample-certificate', label: 'Sample Certificate' },
+                  { href: '/sample-report', label: 'Sample Report' },
                   { href: '/contact', label: 'Contact Us' },
                 ].map((link) => (
                   <Link key={link.href} href={link.href} className="block text-sm text-white/40 hover:text-white/80 transition-colors">
@@ -388,8 +390,9 @@ export default function WritingPage() {
             <div>
               <h4 className="text-white font-semibold text-sm mb-4">Legal</h4>
               <div className="space-y-2.5">
-                <span className="block text-sm text-white/40">Privacy Policy</span>
-                <span className="block text-sm text-white/40">Terms of Service</span>
+                <Link href="/privacy" className="block text-sm text-white/40 hover:text-white/80 transition-colors">Privacy Policy</Link>
+                <Link href="/terms" className="block text-sm text-white/40 hover:text-white/80 transition-colors">Terms of Service</Link>
+                <Link href="/verify" className="block text-sm text-white/40 hover:text-white/80 transition-colors">Verify Certificate</Link>
                 <span className="block text-sm text-white/40">Cookie Policy</span>
               </div>
             </div>
