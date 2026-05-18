@@ -52,10 +52,10 @@ interface CertificateData {
 }
 
 // Color constants matching the website
-const DARK_BG     = rgb(0.06, 0.04, 0.12);   // #0F0A1E
-const TEAL_START  = rgb(0.17, 0.62, 0.56);   // #2A9D8F
-const TEAL_END    = rgb(0.15, 0.27, 0.33);   // #264653
-const WHITE       = rgb(1, 1, 1);
+const DARK_BG      = rgb(0.06, 0.04, 0.12);   // #0F0A1E
+const PURPLE_START = rgb(0.55, 0.36, 0.96);   // #8B5CF6 purple-500
+const PINK_END     = rgb(0.93, 0.28, 0.60);   // #EC4899 pink-500
+const WHITE        = rgb(1, 1, 1);
 
 export async function generateCertificatePDF(data: CertificateData): Promise<Buffer> {
   const pdfDoc = await PDFDocument.create();
@@ -81,23 +81,23 @@ export async function generateCertificatePDF(data: CertificateData): Promise<Buf
     color: DARK_BG,
   });
 
-  // ── Gradient border frame (teal gradient, 2px wide) ──
+  // ── Gradient border frame (purple-to-pink gradient, 2px wide) ──
   const borderW = 2;
   // Top border
   const gradientSteps = 30;
   for (let i = 0; i < gradientSteps; i++) {
     const t = i / gradientSteps;
-    const r = TEAL_START.red * (1 - t) + TEAL_END.red * t;
-    const g = TEAL_START.green * (1 - t) + TEAL_END.green * t;
-    const b = TEAL_START.blue * (1 - t) + TEAL_END.blue * t;
+    const r = PURPLE_START.red * (1 - t) + PINK_END.red * t;
+    const g = PURPLE_START.green * (1 - t) + PINK_END.green * t;
+    const b = PURPLE_START.blue * (1 - t) + PINK_END.blue * t;
     const segW = width / gradientSteps;
     page.drawRectangle({ x: i * segW, y: height - borderW, width: segW + 1, height: borderW, color: rgb(r, g, b) });
     page.drawRectangle({ x: i * segW, y: 0, width: segW + 1, height: borderW, color: rgb(r, g, b) });
   }
-  // Left border (teal)
-  page.drawRectangle({ x: 0, y: 0, width: borderW, height, color: TEAL_START });
-  // Right border (navy)
-  page.drawRectangle({ x: width - borderW, y: 0, width: borderW, height, color: TEAL_END });
+  // Left border (purple)
+  page.drawRectangle({ x: 0, y: 0, width: borderW, height, color: PURPLE_START });
+  // Right border (pink)
+  page.drawRectangle({ x: width - borderW, y: 0, width: borderW, height, color: PINK_END });
 
   const marginX = 50;
   const contentWidth = width - 2 * marginX;

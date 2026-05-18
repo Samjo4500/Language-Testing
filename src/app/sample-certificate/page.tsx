@@ -97,7 +97,7 @@ export default function SampleCertificatePage() {
           <div className="max-w-3xl mx-auto scroll-animate purple-glow" ref={addScrollRef(3)}>
             <div className="glass-card p-2 md:p-3">
               {/* Gradient border wrapper */}
-              <div className="p-[2px] rounded-2xl bg-gradient-to-br from-[#2A9D8F] to-[#264653]">
+              <div className="p-[2px] rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500">
                 {/* Inner certificate content */}
                 <div className="bg-[#0F0A1E] rounded-2xl p-6 md:p-8 space-y-6">
                   {/* Top header */}
