@@ -136,10 +136,11 @@ export async function POST(request: NextRequest) {
     const reply = completion.choices?.[0]?.message?.content || 'I apologize, I was unable to generate a response. Please try again.';
 
     return NextResponse.json({ reply });
-  } catch (error) {
-    console.error('Chat API error:', error);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    console.error('Chat API error:', message);
     return NextResponse.json(
-      { error: 'Failed to generate response' },
+      { error: 'Failed to generate response', details: message },
       { status: 500 }
     );
   }
