@@ -14,8 +14,10 @@ model User {
   name          String?
   passwordHash  String
   plan          String     @default("free") // "free" | "premium" | "pro"
-  role          String     @default("user")  // "user" | "admin"
-  isDemo        Boolean    @default(false) // true for auto-generated demo accounts
+  role             String     @default("user")  // "user" | "admin"
+  accountType      String     @default("individual") // "individual" | "university" | "business"
+  organizationName String?    // Name of university/company (for B2B accounts)
+  isDemo           Boolean    @default(false) // true for auto-generated demo accounts
   emailVerified Boolean    @default(false)
   testCredits   Int        @default(0) // number of tests remaining
   planExpiresAt DateTime?  // when the plan expires (for subscriptions)
@@ -26,6 +28,7 @@ model User {
   assessments  Assessment[]
   certificates Certificate[]
   apiKeys      ApiKey[]
+  emailLogs    EmailLog[]
 }
 
 model Question {
@@ -146,15 +149,22 @@ model WhiteLabelSetting {
 }
 
 model EmailLog {
-  id        String   @id @default(cuid())
-  to        String
-  from      String?
-  subject   String
-  type      String   @default("general") // contact_notification, b2b_notification, admin_new_user, admin_new_payment, admin_certificate, general
-  status    String   @default("sent") // sent, failed
-  isRead    Boolean  @default(false)
-  createdAt DateTime @default(now())
+  id         String   @id @default(cuid())
+  to         String   // Recipient email
+  from       String   // Sender email
+  subject    String   // Email subject
+  type       String   // "welcome" | "verification" | "password_reset" | "payment" | "certificate" | "assessment" | "contact_auto_reply" | "contact_notification" | "b2b_auto_reply" | "b2b_notification" | "admin_new_user" | "admin_new_payment" | "admin_certificate" | "general"
+  status     String   @default("sent") // "sent" | "failed"
+  isRead     Boolean  @default(false) // Whether admin has viewed this notification
+  userId     String?  // If email was sent to a registered user
+  error      String?  // Error message if failed
+  createdAt  DateTime @default(now())
 
-  @@index([isRead])
+  user User? @relation(fields: [userId], references: [id])
+
+  @@index([createdAt])
   @@index([type])
+  @@index([status])
+  @@index([to])
+  @@index([isRead])
 }
