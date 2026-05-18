@@ -1,4 +1,5 @@
 import { Resend } from 'resend';
+import { db } from './db';
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
@@ -17,7 +18,7 @@ async function sendEmail(to: string, subject: string, html: string): Promise<voi
   }
 }
 
-function emailShell(title: string, bodyHtml: string): string {
+export function emailShell(title: string, bodyHtml: string): string {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -136,4 +137,37 @@ export async function sendAssessmentComplete(name: string, email: string, cefrLe
       <p>Your detailed skill breakdown and certificate are available on your dashboard.</p>
       <a href="${APP_URL}/dashboard" class="btn">View Results</a>
     </div>`));
+}
+
+export async function sendContactAutoReply(name: string, email: string, accountType: string): Promise<void> {
+  const d = name || email.split('@')[0];
+  const typeLabel = accountType === 'university' ? 'University/College' : accountType === 'business' ? 'Business' : 'Individual';
+  await sendEmail(email, 'We received your message — TestCEFR', emailShell('Message received',
+    `<div class="content">
+      <p class="greeting">Hi ${d},</p>
+      <p>Thank you for contacting TestCEFR! We have received your message and will get back to you within 24 hours.</p>
+      <p>Account type: <strong>${typeLabel}</strong></p>
+      <hr class="divider" />
+      <p>In the meantime, feel free to explore our platform or start a free assessment.</p>
+      <a href="${APP_URL}/pricing" class="btn">Explore Plans</a>
+    </div>`));
+}
+
+export async function sendAdminEmail(subject: string, html: string, type: string): Promise<void> {
+  const adminEmail = 'admin@testcefr.com';
+  await sendEmail(adminEmail, subject, html);
+  // Log to database
+  try {
+    await db.emailLog.create({
+      data: {
+        to: adminEmail,
+        from: FROM_EMAIL,
+        subject,
+        type,
+        status: 'sent',
+      },
+    });
+  } catch (err) {
+    console.error('Failed to log admin email:', err);
+  }
 }

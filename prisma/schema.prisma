@@ -144,3 +144,17 @@ model WhiteLabelSetting {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
+
+model EmailLog {
+  id        String   @id @default(cuid())
+  to        String
+  from      String?
+  subject   String
+  type      String   @default("general") // contact_notification, b2b_notification, admin_new_user, admin_new_payment, admin_certificate, general
+  status    String   @default("sent") // sent, failed
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([isRead])
+  @@index([type])
+}
