@@ -155,7 +155,7 @@ export default function ListeningPage() {
               {isAuth ? (
                 user?.plan === 'premium' ? (
                   <Link href="/test">
-                    <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                    <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
                       Start Listening Test
                       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </button>
@@ -163,13 +163,13 @@ export default function ListeningPage() {
                 ) : (
                   <>
                     <Link href="/pricing">
-                      <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                      <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
                         Get Premium Access
                         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                       </button>
                     </Link>
                     <Link href="/quick-tour">
-                      <button className="glass-button rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
+                      <button className="glass-button w-full sm:w-auto rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
                         Quick Tour
                       </button>
                     </Link>
@@ -178,13 +178,13 @@ export default function ListeningPage() {
               ) : (
                 <>
                   <Link href="/register">
-                    <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                    <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
                       Start Listening Test
                       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </button>
                   </Link>
                   <Link href="/quick-tour">
-                    <button className="glass-button rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
+                    <button className="glass-button w-full sm:w-auto rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
                       Quick Tour
                     </button>
                   </Link>
@@ -193,13 +193,13 @@ export default function ListeningPage() {
             </div>
 
             {/* Quick stats */}
-            <div className="mt-16 grid grid-cols-3 gap-4 max-w-lg mx-auto">
+            <div className="mt-16 grid grid-cols-3 gap-2 sm:gap-4 max-w-lg mx-auto">
               <AnimatedSection delay={100}>
                 <div className="glass-card p-4 text-center group">
                   <div className="flex justify-center mb-2 text-purple-400 group-hover:text-purple-300 transition-colors">
                     <Users className="h-5 w-5" />
                   </div>
-                  <div className="text-xl font-bold text-white">5K+</div>
+                  <div className="text-lg sm:text-xl font-bold text-white">5K+</div>
                   <div className="text-[11px] text-white/50">Tests Taken</div>
                 </div>
               </AnimatedSection>
@@ -208,7 +208,7 @@ export default function ListeningPage() {
                   <div className="flex justify-center mb-2 text-purple-400 group-hover:text-purple-300 transition-colors">
                     <Music className="h-5 w-5" />
                   </div>
-                  <div className="text-xl font-bold text-white">200+</div>
+                  <div className="text-lg sm:text-xl font-bold text-white">200+</div>
                   <div className="text-[11px] text-white/50">Audio Clips</div>
                 </div>
               </AnimatedSection>
@@ -217,7 +217,7 @@ export default function ListeningPage() {
                   <div className="flex justify-center mb-2 text-purple-400 group-hover:text-purple-300 transition-colors">
                     <Zap className="h-5 w-5" />
                   </div>
-                  <div className="text-xl font-bold text-white">15 min</div>
+                  <div className="text-lg sm:text-xl font-bold text-white">15 min</div>
                   <div className="text-[11px] text-white/50">Avg. Time</div>
                 </div>
               </AnimatedSection>
@@ -339,7 +339,7 @@ export default function ListeningPage() {
                   {isAuth ? (
                     user?.plan === 'premium' ? (
                       <Link href="/test">
-                        <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                        <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
                           Start Listening Test
                           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </button>
@@ -347,13 +347,13 @@ export default function ListeningPage() {
                     ) : (
                       <>
                         <Link href="/pricing">
-                          <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                          <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
                             Upgrade to Premium
                             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                           </button>
                         </Link>
                         <Link href="/quick-tour">
-                          <button className="glass-button rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
+                          <button className="glass-button w-full sm:w-auto rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
                             Quick Tour
                           </button>
                         </Link>
@@ -362,13 +362,13 @@ export default function ListeningPage() {
                   ) : (
                     <>
                       <Link href="/register">
-                        <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                        <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
                           Create Free Account
                           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </button>
                       </Link>
                       <Link href="/pricing">
-                        <button className="glass-button rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
+                        <button className="glass-button w-full sm:w-auto rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
                           View Pricing
                         </button>
                       </Link>

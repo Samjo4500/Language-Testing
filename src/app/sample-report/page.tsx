@@ -220,26 +220,26 @@ function SkillDetailSection({ skill, score }: { skill: string; score: number }) 
     <div className="glass-card overflow-hidden">
       <button
         onClick={() => setExpanded(!expanded)}
-        className="w-full flex items-center justify-between p-5 cursor-pointer group"
+        className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between p-5 cursor-pointer group gap-3 sm:gap-0"
       >
-        <div className="flex items-center gap-4">
-          <div className={`flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br ${SKILL_COLORS[skill] || 'from-gray-400 to-gray-500'} text-white shadow-lg`}>
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className={`flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-gradient-to-br ${SKILL_COLORS[skill] || 'from-gray-400 to-gray-500'} text-white shadow-lg`}>
             {SKILL_ICONS[skill] || <BarChart3 className="h-5 w-5" />}
           </div>
           <div className="text-left">
-            <h3 className="text-base font-semibold text-white">{SKILL_LABELS[skill] || skill}</h3>
+            <h3 className="text-sm sm:text-base font-semibold text-white">{SKILL_LABELS[skill] || skill}</h3>
             <p className="text-xs text-white/40 mt-0.5">{tier} level recommendations</p>
           </div>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 sm:gap-4 ml-13 sm:ml-0">
           <div className="flex items-center gap-2">
-            <div className="w-24 h-2 rounded-full bg-white/10 overflow-hidden">
+            <div className="w-16 sm:w-24 h-2 rounded-full bg-white/10 overflow-hidden">
               <div
                 className={`h-full rounded-full bg-gradient-to-r ${SKILL_COLORS[skill] || 'from-gray-400 to-gray-500'} transition-all duration-700`}
                 style={{ width: `${score}%` }}
               />
             </div>
-            <span className={`text-sm font-bold ${score >= 70 ? 'text-green-400' : score >= 40 ? 'text-yellow-400' : 'text-red-400'}`}>
+            <span className={`text-xs sm:text-sm font-bold ${score >= 70 ? 'text-green-400' : score >= 40 ? 'text-yellow-400' : 'text-red-400'}`}>
               {score}%
             </span>
           </div>
@@ -312,11 +312,11 @@ export default function SampleReportPage() {
 
       {/* ── Sample Banner ── */}
       <div className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 border-b border-purple-500/20">
-        <div className="container mx-auto px-4 py-2.5 flex items-center justify-center gap-2">
+        <div className="container mx-auto px-4 py-2.5 flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
           <Eye className="h-4 w-4 text-purple-300" />
-          <span className="text-sm text-purple-200 font-medium">Sample Report Preview</span>
-          <span className="text-purple-300/50 mx-1">&mdash;</span>
-          <span className="text-sm text-white/50">This is a demo. <Link href="/register" className="text-purple-300 hover:text-purple-200 underline underline-offset-2">Create an account</Link> to get your own.</span>
+          <span className="text-xs sm:text-sm text-purple-200 font-medium">Sample Report Preview</span>
+          <span className="text-purple-300/50 mx-1 hidden sm:inline">&mdash;</span>
+          <span className="text-xs sm:text-sm text-white/50">This is a demo. <Link href="/register" className="text-purple-300 hover:text-purple-200 underline underline-offset-2">Create an account</Link> to get your own.</span>
         </div>
       </div>
 
@@ -332,7 +332,7 @@ export default function SampleReportPage() {
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <h1 className="text-2xl font-bold text-white">CEFR Assessment Report</h1>
+                    <h1 className="text-xl sm:text-2xl font-bold text-white">CEFR Assessment Report</h1>
                   </div>
                   <p className="text-white/50 text-sm">
                     {DEMO_CERT.userName} &middot; March 4, 2026
@@ -343,14 +343,14 @@ export default function SampleReportPage() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-4 sm:gap-6">
                 <div className="text-center">
-                  <p className={`text-3xl font-bold ${levelInfo.textColor}`}>{DEMO_CERT.score}%</p>
+                  <p className={`text-2xl sm:text-3xl font-bold ${levelInfo.textColor}`}>{DEMO_CERT.score}%</p>
                   <p className="text-[10px] uppercase tracking-wider text-white/40 mt-1">Overall Score</p>
                 </div>
                 <div className="h-10 w-px bg-white/10" />
                 <div className="text-center">
-                  <p className="text-3xl font-bold text-white">{DEMO_CERT.cefrLevel}</p>
+                  <p className="text-2xl sm:text-3xl font-bold text-white">{DEMO_CERT.cefrLevel}</p>
                   <p className="text-[10px] uppercase tracking-wider text-white/40 mt-1">CEFR Level</p>
                 </div>
               </div>
@@ -361,7 +361,7 @@ export default function SampleReportPage() {
           <div className="glass-card p-6 md:p-8">
             <div className="flex items-center gap-2 mb-4">
               <Award className="h-5 w-5 text-purple-400" />
-              <h2 className="text-lg font-semibold text-white">Your Level: {DEMO_CERT.cefrLevel} — {levelInfo.title}</h2>
+              <h2 className="text-base sm:text-lg font-semibold text-white">Your Level: {DEMO_CERT.cefrLevel} — {levelInfo.title}</h2>
             </div>
             <p className="text-white/60 text-sm leading-relaxed mb-5">
               {levelInfo.description}

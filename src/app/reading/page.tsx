@@ -189,7 +189,7 @@ export default function ReadingPage() {
             </div>
 
             {/* Quick stats */}
-            <div className="mt-16 grid grid-cols-3 gap-4 max-w-lg mx-auto">
+            <div className="mt-16 grid grid-cols-3 gap-2 sm:gap-4 max-w-lg mx-auto">
               <AnimatedSection delay={100}>
                 <div className="glass-card p-4 text-center group">
                   <div className="flex justify-center mb-2 text-purple-400 group-hover:text-purple-300 transition-colors">

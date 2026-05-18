@@ -45,6 +45,16 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [mobileMenuOpen]);
+
   const handleLogout = () => {
     logout();
     window.location.href = '/';
@@ -67,10 +77,10 @@ export function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3.5 shrink-0 group">
           <div className="relative transition-transform duration-300 group-hover:scale-110">
-            <img src="/logo-icon.svg" alt="CEFR Test" className="h-12 w-12" />
+            <img src="/logo-icon.svg" alt="CEFR Test" className="h-10 w-10 sm:h-12 sm:w-12" />
           </div>
           <div className="flex flex-col">
-            <span className="text-white font-bold text-lg tracking-tight leading-tight group-hover:text-purple-200 transition-colors">
+            <span className="text-white font-bold text-base sm:text-lg tracking-tight leading-tight group-hover:text-purple-200 transition-colors">
               test<span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">cefr</span><span className="text-purple-300">.com</span>
             </span>
             <span className="text-white/40 text-[10px] uppercase tracking-[0.2em] leading-tight">
@@ -193,9 +203,17 @@ export function Navbar() {
         </button>
       </div>
 
+      {/* Mobile backdrop overlay */}
+      {mobileMenuOpen && (
+        <div
+          className="lg:hidden fixed inset-0 top-16 bg-black/60 backdrop-blur-sm z-40"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
+
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
-        <div className="lg:hidden glass-nav border-t border-white/5 p-4 space-y-1 animate-slide-down">
+        <div className="lg:hidden glass-nav border-t border-white/5 p-4 space-y-1 animate-slide-down relative z-50">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}

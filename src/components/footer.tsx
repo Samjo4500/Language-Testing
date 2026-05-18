@@ -10,7 +10,7 @@ export function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-3.5 mb-4">
-              <img src="/logo-icon.svg" alt="CEFR Test" className="h-12 w-12" />
+              <img src="/logo-icon.svg" alt="CEFR Test" className="h-10 w-10 sm:h-12 sm:w-12" />
               <div className="flex flex-col">
                 <span className="text-white font-bold text-lg">testcefr.com</span>
                 <span className="text-white/30 text-[10px] uppercase tracking-[0.2em]">English Assessment</span>
