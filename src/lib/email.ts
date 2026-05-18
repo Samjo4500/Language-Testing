@@ -1,12 +1,23 @@
 import { Resend } from 'resend';
 import { db } from './db';
 
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
+// Lazy-initialize Resend to avoid running during build (Vercel build step)
+// The Resend SDK validates the API key as an HTTP header on construction,
+// which fails during Next.js static page data collection.
+let _resend: Resend | null | undefined = undefined;
+function getResend(): Resend | null {
+  if (_resend !== undefined) return _resend;
+  const key = process.env.RESEND_API_KEY?.trim();
+  if (!key) { _resend = null; return null; }
+  try { _resend = new Resend(key); } catch { _resend = null; }
+  return _resend;
+}
 
 const FROM_EMAIL = 'TestCEFR <noreply@testcefr.com>';
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://testcefr.com';
 
 async function sendEmail(to: string, subject: string, html: string): Promise<void> {
+  const resend = getResend();
   if (!resend) {
     console.warn(`Resend not configured — skipping email to ${to}: ${subject}`);
     return;
