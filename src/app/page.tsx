@@ -1262,11 +1262,9 @@ export default function Home() {
             {/* Brand */}
             <div>
               <Link href="/" className="flex items-center gap-3 group mb-4">
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white font-bold text-sm shadow-lg">
-                  C
-                </div>
+                <img src="/logo-icon.svg" alt="CEFR Test" className="h-9 w-9" />
                 <div className="flex flex-col">
-                  <span className="text-white font-bold text-base tracking-tight leading-tight">CEFRTest</span>
+                  <span className="text-white font-bold text-base tracking-tight leading-tight">testcefr.com</span>
                   <span className="text-white/40 text-[9px] uppercase tracking-[0.2em] leading-tight">English Assessment</span>
                 </div>
               </Link>

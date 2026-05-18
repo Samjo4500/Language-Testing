@@ -163,9 +163,7 @@ export default function VerifyCertificatePage() {
                   {/* Header Row */}
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white font-bold text-sm shadow-lg shadow-purple-500/25">
-                        CE
-                      </div>
+                      <img src="/logo-icon.svg" alt="CEFR Test" className="h-10 w-10" />
                       <div>
                         <p className="text-white font-bold text-lg tracking-tight">CEFR Test</p>
                         <p className="text-xs text-white/40">testcefr.com</p>

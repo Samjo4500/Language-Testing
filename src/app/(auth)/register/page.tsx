@@ -103,7 +103,7 @@ export default function RegisterPage() {
           {/* Left Panel - Benefits & Account Type */}
           <div className="hidden md:block pt-4">
             <div className="flex items-center gap-2 text-2xl font-bold text-white mb-6">
-              <GraduationCap className="h-8 w-8 text-purple-400" />
+              <img src="/logo-icon.svg" alt="CEFR Test" className="h-8 w-8" />
               <span>CEFR Test</span>
             </div>
             <h1 className="text-3xl font-bold text-white mb-4">Start your English journey</h1>
@@ -190,7 +190,7 @@ export default function RegisterPage() {
             {/* Mobile: Account type selector */}
             <div className="md:hidden flex flex-col items-center mb-6">
               <div className="flex items-center gap-2 text-xl font-bold text-white mb-4">
-                <GraduationCap className="h-6 w-6 text-purple-400" />
+                <img src="/logo-icon.svg" alt="CEFR Test" className="h-6 w-6" />
                 <span>CEFR Test</span>
               </div>
               <div className="flex gap-2 w-full">

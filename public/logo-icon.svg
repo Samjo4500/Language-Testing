@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none">
+  <defs>
+    <linearGradient id="brainGradMini" x1="8" y1="6" x2="32" y2="34" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#06B6D4"/>
+      <stop offset="100%" stop-color="#0E7490"/>
+    </linearGradient>
+    <linearGradient id="checkGradMini" x1="14" y1="24" x2="30" y2="14" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#22C55E"/>
+      <stop offset="100%" stop-color="#4ADE80"/>
+    </linearGradient>
+    <radialGradient id="glowMini" cx="20" cy="19" r="5" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#C084FC" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#7C3AED" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background rounded square -->
+  <rect x="1" y="1" width="38" height="38" rx="8" fill="#0F0A1E" stroke="rgba(139,92,246,0.3)" stroke-width="0.5"/>
+
+  <!-- Brain wireframe -->
+  <polygon points="14,8 10,18 18,16" fill="url(#brainGradMini)" fill-opacity="0.2" stroke="url(#brainGradMini)" stroke-width="1.2" stroke-linejoin="round"/>
+  <polygon points="14,8 18,16 22,10" fill="url(#brainGradMini)" fill-opacity="0.15" stroke="url(#brainGradMini)" stroke-width="1.2" stroke-linejoin="round"/>
+  <polygon points="22,10 18,16 26,17" fill="url(#brainGradMini)" fill-opacity="0.18" stroke="url(#brainGradMini)" stroke-width="1.2" stroke-linejoin="round"/>
+  <polygon points="10,18 9,26 16,24" fill="url(#brainGradMini)" fill-opacity="0.12" stroke="url(#brainGradMini)" stroke-width="1.2" stroke-linejoin="round"/>
+  <polygon points="10,18 16,24 18,16" fill="url(#brainGradMini)" fill-opacity="0.16" stroke="url(#brainGradMini)" stroke-width="1.2" stroke-linejoin="round"/>
+  <polygon points="18,16 16,24 24,22" fill="url(#brainGradMini)" fill-opacity="0.1" stroke="url(#brainGradMini)" stroke-width="1.2" stroke-linejoin="round"/>
+  <polygon points="18,16 24,22 26,17" fill="url(#brainGradMini)" fill-opacity="0.14" stroke="url(#brainGradMini)" stroke-width="1.2" stroke-linejoin="round"/>
+  <polygon points="26,17 24,22 31,20" fill="url(#brainGradMini)" fill-opacity="0.12" stroke="url(#brainGradMini)" stroke-width="1.2" stroke-linejoin="round"/>
+  <polygon points="26,17 31,20 30,13" fill="url(#brainGradMini)" fill-opacity="0.1" stroke="url(#brainGradMini)" stroke-width="1.2" stroke-linejoin="round"/>
+  <polygon points="26,17 30,13 22,10" fill="url(#brainGradMini)" fill-opacity="0.1" stroke="url(#brainGradMini)" stroke-width="1.2" stroke-linejoin="round"/>
+  <polygon points="31,20 29,27 24,22" fill="url(#brainGradMini)" fill-opacity="0.1" stroke="url(#brainGradMini)" stroke-width="1.2" stroke-linejoin="round"/>
+  <polygon points="24,22 29,27 22,29" fill="url(#brainGradMini)" fill-opacity="0.08" stroke="url(#brainGradMini)" stroke-width="1.2" stroke-linejoin="round"/>
+  <polygon points="16,24 24,22 22,29" fill="url(#brainGradMini)" fill-opacity="0.07" stroke="url(#brainGradMini)" stroke-width="1.2" stroke-linejoin="round"/>
+
+  <!-- Neural nodes -->
+  <circle cx="14" cy="8" r="1.2" fill="#06B6D4"/>
+  <circle cx="22" cy="10" r="1" fill="#0891B2"/>
+  <circle cx="30" cy="13" r="1" fill="#0891B2"/>
+  <circle cx="10" cy="18" r="1.2" fill="#06B6D4"/>
+  <circle cx="18" cy="16" r="0.8" fill="#0E7490"/>
+  <circle cx="26" cy="17" r="0.8" fill="#0E7490"/>
+  <circle cx="31" cy="20" r="1" fill="#0891B2"/>
+
+  <!-- Central purple glow -->
+  <circle cx="20" cy="19" r="5" fill="url(#glowMini)"/>
+  <circle cx="20" cy="19" r="2.5" fill="#C084FC" opacity="0.8"/>
+  <circle cx="20" cy="19" r="1.2" fill="#E9D5FF" opacity="0.7"/>
+
+  <!-- Checkmark -->
+  <polyline points="14,23 18,27 28,14" fill="none" stroke="url(#checkGradMini)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Outer arc accent -->
+  <path d="M 20 4 A 16 16 0 0 1 36 20" fill="none" stroke="#06B6D4" stroke-width="0.8" stroke-linecap="round" opacity="0.3"/>
+  <path d="M 36 20 A 16 16 0 0 1 28 35" fill="none" stroke="#C084FC" stroke-width="0.8" stroke-linecap="round" opacity="0.2"/>
+</svg>

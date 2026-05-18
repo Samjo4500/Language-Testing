@@ -10,9 +10,7 @@ export function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white font-bold text-sm shadow-lg shadow-purple-500/20">
-                CE
-              </div>
+              <img src="/logo-icon.svg" alt="CEFR Test" className="h-9 w-9" />
               <div className="flex flex-col">
                 <span className="text-white font-bold text-base">testcefr.com</span>
                 <span className="text-white/30 text-[9px] uppercase tracking-[0.2em]">English Assessment</span>
@@ -67,9 +65,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="mt-10 pt-6 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-gradient-to-br from-purple-500 to-pink-500 text-white font-bold text-[10px]">
-              CE
-            </div>
+            <img src="/logo-icon.svg" alt="CEFR Test" className="h-7 w-7" />
             <span className="text-white/30 text-sm">testcefr.com</span>
           </div>
           <p className="text-white/20 text-xs">

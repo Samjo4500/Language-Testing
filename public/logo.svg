@@ -1,29 +1,100 @@
-<?xml version="1.0" encoding="utf-8"?>
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 30 30" style="enable-background:new 0 0 30 30;" xml:space="preserve">
-<defs>
-  <style type="text/css">
-    .st194{fill:#2D2D2D;stroke:#FFFFFF;stroke-width:0.6317;stroke-miterlimit:10;}
-    .st23{fill:#FFFFFF;}
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <!-- Brain gradient (teal-to-cyan) -->
+    <linearGradient id="brainGrad" x1="80" y1="80" x2="380" y2="380" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#06B6D4"/>
+      <stop offset="40%" stop-color="#0891B2"/>
+      <stop offset="70%" stop-color="#0E7490"/>
+      <stop offset="100%" stop-color="#155E75"/>
+    </linearGradient>
+    <!-- Purple glow gradient -->
+    <radialGradient id="glowGrad" cx="256" cy="240" r="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#C084FC" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#A855F7" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#7C3AED" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Checkmark gradient (green) -->
+    <linearGradient id="checkGrad" x1="200" y1="320" x2="380" y2="180" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#22C55E"/>
+      <stop offset="100%" stop-color="#4ADE80"/>
+    </linearGradient>
+    <!-- Background gradient for dark mode -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0F0A1E"/>
+      <stop offset="100%" stop-color="#1A0F3E"/>
+    </linearGradient>
+    <!-- Glow filter -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
 
-    .z-breathe {
-      animation: breathe 2.5s ease-in-out infinite;
-    }
+  <!-- Background circle (subtle) -->
+  <circle cx="256" cy="256" r="230" fill="url(#bgGrad)" stroke="rgba(6,182,212,0.15)" stroke-width="1.5"/>
+  <circle cx="256" cy="256" r="200" stroke="rgba(255,255,255,0.04)" stroke-width="1" fill="none"/>
 
-    @keyframes breathe {
-      0%, 100% { opacity: 0.7; }
-      50% { opacity: 1; }
-    }
-  </style>
-</defs>
+  <!-- Geometric Brain Structure - Wireframe triangular facets -->
+  <!-- Left hemisphere -->
+  <polygon points="180,140 140,220 220,200" fill="url(#brainGrad)" fill-opacity="0.15" stroke="url(#brainGrad)" stroke-width="2" stroke-linejoin="round"/>
+  <polygon points="180,140 220,200 260,150" fill="url(#brainGrad)" fill-opacity="0.1" stroke="url(#brainGrad)" stroke-width="2" stroke-linejoin="round"/>
+  <polygon points="260,150 220,200 300,210" fill="url(#brainGrad)" fill-opacity="0.12" stroke="url(#brainGrad)" stroke-width="2" stroke-linejoin="round"/>
+  <polygon points="140,220 120,300 200,280" fill="url(#brainGrad)" fill-opacity="0.1" stroke="url(#brainGrad)" stroke-width="2" stroke-linejoin="round"/>
+  <polygon points="140,220 200,280 220,200" fill="url(#brainGrad)" fill-opacity="0.13" stroke="url(#brainGrad)" stroke-width="2" stroke-linejoin="round"/>
+  <polygon points="220,200 200,280 280,260" fill="url(#brainGrad)" fill-opacity="0.08" stroke="url(#brainGrad)" stroke-width="2" stroke-linejoin="round"/>
+  <polygon points="220,200 280,260 300,210" fill="url(#brainGrad)" fill-opacity="0.11" stroke="url(#brainGrad)" stroke-width="2" stroke-linejoin="round"/>
 
-<g>
-  <path class="st194" d="M24.51,28.51H5.49c-2.21,0-4-1.79-4-4V5.49c0-2.21,1.79-4,4-4h19.03c2.21,0,4,1.79,4,4v19.03
-    C28.51,26.72,26.72,28.51,24.51,28.51z"/>
-  <g class="z-breathe">
-    <path class="st23" d="M15.47,7.1l-1.3,1.85c-0.2,0.29-0.54,0.47-0.9,0.47h-7.1V7.09C6.16,7.1,15.47,7.1,15.47,7.1z"/>
-    <polygon class="st23" points="24.3,7.1 13.14,22.91 5.7,22.91 16.86,7.1"/>
-    <path class="st23" d="M14.53,22.91l1.31-1.86c0.2-0.29,0.54-0.47,0.9-0.47h7.09v2.33H14.53z"/>
-  </g>
-</g>
+  <!-- Right hemisphere -->
+  <polygon points="300,210 280,260 360,240" fill="url(#brainGrad)" fill-opacity="0.12" stroke="url(#brainGrad)" stroke-width="2" stroke-linejoin="round"/>
+  <polygon points="300,210 360,240 350,170" fill="url(#brainGrad)" fill-opacity="0.1" stroke="url(#brainGrad)" stroke-width="2" stroke-linejoin="round"/>
+  <polygon points="300,210 350,170 260,150" fill="url(#brainGrad)" fill-opacity="0.09" stroke="url(#brainGrad)" stroke-width="2" stroke-linejoin="round"/>
+  <polygon points="360,240 340,310 280,260" fill="url(#brainGrad)" fill-opacity="0.1" stroke="url(#brainGrad)" stroke-width="2" stroke-linejoin="round"/>
+  <polygon points="280,260 340,310 260,330" fill="url(#brainGrad)" fill-opacity="0.08" stroke="url(#brainGrad)" stroke-width="2" stroke-linejoin="round"/>
+  <polygon points="200,280 280,260 260,330" fill="url(#brainGrad)" fill-opacity="0.07" stroke="url(#brainGrad)" stroke-width="2" stroke-linejoin="round"/>
+  <polygon points="120,300 200,280 180,350" fill="url(#brainGrad)" fill-opacity="0.06" stroke="url(#brainGrad)" stroke-width="2" stroke-linejoin="round"/>
+  <polygon points="200,280 260,330 180,350" fill="url(#brainGrad)" fill-opacity="0.06" stroke="url(#brainGrad)" stroke-width="2" stroke-linejoin="round"/>
+
+  <!-- Neural connection lines (inner structure) -->
+  <line x1="180" y1="140" x2="220" y2="200" stroke="rgba(6,182,212,0.3)" stroke-width="1"/>
+  <line x1="220" y1="200" x2="280" y2="260" stroke="rgba(6,182,212,0.25)" stroke-width="1"/>
+  <line x1="280" y1="260" x2="350" y2="170" stroke="rgba(6,182,212,0.2)" stroke-width="1"/>
+  <line x1="140" y1="220" x2="200" y2="280" stroke="rgba(6,182,212,0.2)" stroke-width="1"/>
+  <line x1="200" y1="280" x2="300" y2="210" stroke="rgba(6,182,212,0.2)" stroke-width="1"/>
+  <line x1="300" y1="210" x2="360" y2="240" stroke="rgba(6,182,212,0.2)" stroke-width="1"/>
+
+  <!-- Vertex dots (neural nodes) -->
+  <circle cx="180" cy="140" r="4" fill="#06B6D4" filter="url(#softGlow)"/>
+  <circle cx="260" cy="150" r="3.5" fill="#0891B2" filter="url(#softGlow)"/>
+  <circle cx="350" cy="170" r="3.5" fill="#0891B2" filter="url(#softGlow)"/>
+  <circle cx="140" cy="220" r="4" fill="#06B6D4" filter="url(#softGlow)"/>
+  <circle cx="220" cy="200" r="3" fill="#0E7490"/>
+  <circle cx="300" cy="210" r="3" fill="#0E7490"/>
+  <circle cx="360" cy="240" r="3.5" fill="#0891B2" filter="url(#softGlow)"/>
+  <circle cx="120" cy="300" r="3" fill="#155E75"/>
+  <circle cx="200" cy="280" r="3" fill="#0E7490"/>
+  <circle cx="280" cy="260" r="3" fill="#0E7490"/>
+  <circle cx="340" cy="310" r="3" fill="#155E75"/>
+  <circle cx="180" cy="350" r="3" fill="#155E75"/>
+  <circle cx="260" cy="330" r="3" fill="#155E75"/>
+
+  <!-- Central purple glow dot -->
+  <circle cx="256" cy="240" r="50" fill="url(#glowGrad)"/>
+  <circle cx="256" cy="240" r="12" fill="#C084FC" filter="url(#glow)" opacity="0.9"/>
+  <circle cx="256" cy="240" r="6" fill="#E9D5FF" opacity="0.8"/>
+
+  <!-- Checkmark (green, intersecting the brain) -->
+  <polyline points="190,280 240,330 340,190" fill="none" stroke="url(#checkGrad)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" filter="url(#softGlow)"/>
+
+  <!-- Outer ring accent (partial arc, like a loading/analysis indicator) -->
+  <path d="M 256 36 A 220 220 0 1 1 80 120" fill="none" stroke="url(#brainGrad)" stroke-width="3" stroke-linecap="round" opacity="0.3"/>
+  <path d="M 432 120 A 220 220 0 0 1 460 300" fill="none" stroke="#C084FC" stroke-width="3" stroke-linecap="round" opacity="0.2"/>
+
+  <!-- Small accent dots on the arc -->
+  <circle cx="256" cy="36" r="3" fill="#06B6D4" opacity="0.5"/>
+  <circle cx="432" cy="120" r="2.5" fill="#A855F7" opacity="0.4"/>
+  <circle cx="460" cy="300" r="2" fill="#C084FC" opacity="0.3"/>
 </svg>
