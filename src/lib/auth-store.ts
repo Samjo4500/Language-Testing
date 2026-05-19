@@ -37,11 +37,13 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   isRefreshing: false,
 
   setAuth: (user, accessToken, refreshToken) => {
-    // Persist tokens to localStorage
+    // Persist tokens to localStorage and cookies
     if (typeof window !== 'undefined') {
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
       localStorage.setItem('user', JSON.stringify(user));
+      // Also set as cookie for server-side middleware access
+      document.cookie = `accessToken=${accessToken}; path=/; max-age=${60 * 60 * 24}; SameSite=Lax`;
     }
     set({
       user,
@@ -60,6 +62,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('user');
+      // Clear the cookie
+      document.cookie = 'accessToken=; path=/; max-age=0';
     }
     set({
       user: null,
@@ -130,6 +134,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         if (newRefreshToken) {
           localStorage.setItem('refreshToken', newRefreshToken);
         }
+        // Update cookie for middleware
+        document.cookie = `accessToken=${newAccessToken}; path=/; max-age=${60 * 60 * 24}; SameSite=Lax`;
       }
 
       set({ accessToken: newAccessToken, refreshToken: newRefreshToken || refreshToken, isRefreshing: false });
