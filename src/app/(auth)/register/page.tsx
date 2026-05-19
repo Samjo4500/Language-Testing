@@ -43,6 +43,16 @@ export default function RegisterPage() {
     e.preventDefault();
     setError('');
 
+    if (!name.trim()) {
+      setError('Please enter your full name.');
+      return;
+    }
+
+    if (name.trim().length < 2) {
+      setError('Name must be at least 2 characters long.');
+      return;
+    }
+
     if (password !== confirmPassword) {
       setError('Passwords do not match.');
       return;
@@ -239,6 +249,8 @@ export default function RegisterPage() {
                     placeholder="John Smith"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    required
+                    minLength={2}
                     autoComplete="name"
                     className="bg-white/5 border-white/10 text-white placeholder-white/30 rounded-xl glow-input focus:border-purple-500/50"
                   />

@@ -305,6 +305,7 @@ export default function TestPage() {
   const [isPrepTime, setIsPrepTime] = useState(false);
   const [prepTimeLeft, setPrepTimeLeft] = useState(0);
   const [speakingTranscript, setSpeakingTranscript] = useState('');
+  const [speechNotSupported, setSpeechNotSupported] = useState(false);
   const [speakingEvaluations, setSpeakingEvaluations] = useState<Record<string, SpeakingEvaluation>>({});
   const [evaluatingSpeaking, setEvaluatingSpeaking] = useState(false);
   const recognitionRef = useRef<any>(null);
@@ -481,35 +482,38 @@ export default function TestPage() {
 
     // Web Speech API for transcription
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    if (SpeechRecognition) {
-      const recognition = new SpeechRecognition();
-      recognition.continuous = true;
-      recognition.interimResults = true;
-      recognition.lang = 'en-US';
-
-      let finalTranscript = '';
-      recognition.onresult = (event: any) => {
-        let interim = '';
-        for (let i = event.resultIndex; i < event.results.length; i++) {
-          if (event.results[i].isFinal) {
-            finalTranscript += event.results[i][0].transcript + ' ';
-          } else {
-            interim += event.results[i][0].transcript;
-          }
-        }
-        setSpeakingTranscript(finalTranscript + interim);
-      };
-
-      recognition.onerror = (event: any) => {
-        console.error('Speech recognition error:', event.error);
-        if (event.error !== 'no-speech') {
-          stopRecording();
-        }
-      };
-
-      recognitionRef.current = recognition;
-      recognition.start();
+    if (!SpeechRecognition) {
+      setSpeechNotSupported(true);
+      return;
     }
+    setSpeechNotSupported(false);
+    const recognition = new SpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = 'en-US';
+
+    let finalTranscript = '';
+    recognition.onresult = (event: any) => {
+      let interim = '';
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        if (event.results[i].isFinal) {
+          finalTranscript += event.results[i][0].transcript + ' ';
+        } else {
+          interim += event.results[i][0].transcript;
+        }
+      }
+      setSpeakingTranscript(finalTranscript + interim);
+    };
+
+    recognition.onerror = (event: any) => {
+      console.error('Speech recognition error:', event.error);
+      if (event.error !== 'no-speech') {
+        stopRecording();
+      }
+    };
+
+    recognitionRef.current = recognition;
+    recognition.start();
 
     setIsRecording(true);
     timerRef.current = setInterval(() => {
@@ -1212,6 +1216,17 @@ export default function TestPage() {
             {/* Mic Controls */}
             {!hasEvaluation ? (
               <div className="glass-card p-6 mb-6">
+                {speechNotSupported && (
+                  <div className="mb-6 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
+                    <div className="flex items-start gap-3">
+                      <AlertCircle className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
+                      <div>
+                        <p className="text-amber-300 font-semibold text-sm">Browser Not Supported</p>
+                        <p className="text-white/60 text-xs mt-1">Your browser does not support speech recognition. Please use <strong>Google Chrome</strong> or <strong>Microsoft Edge</strong> for the speaking assessment, or skip to the next section.</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
                 <div className="flex flex-col items-center">
                   {/* Status */}
                   <div className="flex items-center gap-2 mb-6">

@@ -62,7 +62,7 @@ function usePayPalScript(clientId: string | null) {
 }
 
 /* PayPal button component — supports different amounts */
-function PayPalCheckoutButton({ accessToken, amount, description }: { accessToken: string | null; amount: number; description: string }) {
+function PayPalCheckoutButton({ accessToken, amount, description, planId }: { accessToken: string | null; amount: number; description: string; planId: string }) {
   const paypalContainerRef = useRef<HTMLDivElement>(null);
   const [paypalClientId, setPaypalClientId] = useState<string | null>(null);
   const [isFetchingClientId, setIsFetchingClientId] = useState(false);
@@ -129,7 +129,7 @@ function PayPalCheckoutButton({ accessToken, amount, description }: { accessToke
             throw new Error(errorData.error || 'Payment capture failed');
           }
           updatePlan('premium');
-          router.push(`/payment-success?plan=${selectedPlan.id}`);
+          router.push(`/payment-success?plan=${planId}`);
         } catch (err) {
           console.error('Capture error:', err);
           setError(err instanceof Error ? err.message : 'Payment failed. Please contact support.');
@@ -140,7 +140,7 @@ function PayPalCheckoutButton({ accessToken, amount, description }: { accessToke
         setError('Payment process encountered an error. Please try again.');
       },
     }).render(paypalContainerRef.current);
-  }, [isLoaded, accessToken, amount]);
+  }, [isLoaded, accessToken, amount, planId]);
 
   /* Always render the same structure on server and client to avoid hydration mismatch.
      PayPal content is only populated after mount via useEffect. */
@@ -518,7 +518,7 @@ export default function PricingPage() {
                       <span className="text-xs font-medium text-green-400">You already have Premium!</span>
                     </div>
                   ) : (
-                    <PayPalCheckoutButton accessToken={accessToken} amount={12.99} description="Single Test" />
+                    <PayPalCheckoutButton accessToken={accessToken} amount={12.99} description="Single Test" planId="single" />
                   )
                 ) : (
                   <Link href="/login" className="block">
@@ -569,7 +569,7 @@ export default function PricingPage() {
                         <span className="text-xs font-medium text-green-400">You already have Premium!</span>
                       </div>
                     ) : (
-                      <PayPalCheckoutButton accessToken={accessToken} amount={29.99} description="Premium Pack (3 tests)" />
+                      <PayPalCheckoutButton accessToken={accessToken} amount={29.99} description="Premium Pack (3 tests)" planId="premium" />
                     )
                   ) : (
                     <Link href="/login" className="block">
@@ -615,7 +615,7 @@ export default function PricingPage() {
                         <span className="text-xs font-medium text-green-400">You already have Premium!</span>
                       </div>
                     ) : (
-                      <PayPalCheckoutButton accessToken={accessToken} amount={49.99} description="Pro Pack (6 tests)" />
+                      <PayPalCheckoutButton accessToken={accessToken} amount={49.99} description="Pro Pack (6 tests)" planId="pro" />
                     )
                   ) : (
                     <Link href="/login" className="block">
