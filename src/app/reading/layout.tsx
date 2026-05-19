@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     'AI reading assessment',
   ],
   openGraph: {
+    images: ["https://www.testcefr.com/og-image.png"],
     title: 'English Reading Test | TestCEFR',
     description:
       'Improve your English reading comprehension with our AI-powered CEFR-aligned assessment. Get an accurate A1–C2 level rating.',

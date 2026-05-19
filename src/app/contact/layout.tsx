@@ -12,6 +12,7 @@ export const metadata: Metadata = {
     'English proficiency inquiry',
   ],
   openGraph: {
+    images: ["https://www.testcefr.com/og-image.png"],
     title: 'Contact Us | TestCEFR',
     description:
       'Get in touch with the TestCEFR team. Have questions about our AI-powered English assessment? We’re here to help.',
