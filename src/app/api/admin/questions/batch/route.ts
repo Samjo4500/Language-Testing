@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { getAuthUser, requireAdmin } from '@/lib/auth-middleware';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { generateAIJSON } from '@/lib/ai-provider';
 
 const CEFR_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 const SKILLS = ['grammar', 'vocabulary', 'reading', 'listening'];
@@ -11,14 +11,6 @@ interface GeneratedQuestion {
   options: string[];
   correctIndex: number;
   explanation?: string;
-}
-
-function getGenAI(): GoogleGenerativeAI {
-  const apiKey = process.env.GOOGLE_AI_API_KEY;
-  if (!apiKey) {
-    throw new Error('GOOGLE_AI_API_KEY is not configured.');
-  }
-  return new GoogleGenerativeAI(apiKey);
 }
 
 export async function POST(request: NextRequest) {
@@ -52,9 +44,6 @@ export async function POST(request: NextRequest) {
     let totalGenerated = 0;
     let totalSkipped = 0;
     let totalErrors = 0;
-
-    const genAI = getGenAI();
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
     let lastError: string | null = null;
 
     for (const level of validLevels) {
@@ -78,7 +67,7 @@ export async function POST(request: NextRequest) {
         for (let batch = 0; batch < batches; batch++) {
           const batchCount = Math.min(batchSize, needed - generated);
           try {
-            const questions = await generateQuestionsWithAI(model, level, skill, batchCount);
+            const questions = await generateQuestionsWithAI(level, skill, batchCount);
 
             for (const q of questions) {
               await db.question.create({
@@ -134,7 +123,6 @@ function sleep(ms: number): Promise<void> {
 }
 
 async function generateQuestionsWithAI(
-  model: any,
   level: string,
   skill: string,
   count: number
@@ -180,27 +168,8 @@ Important rules:
 - Vary question difficulty within the level range
 - Ensure diverse question types and topics`;
 
-  const result = await model.generateContent({
-    contents: [
-      {
-        role: 'user',
-        parts: [{ text: prompt }],
-      },
-    ],
-    generationConfig: {
-      temperature: 0.8,
-      maxOutputTokens: 4000,
-    },
-  });
+  const parsed = await generateAIJSON<any[]>(prompt, { temperature: 0.8, maxTokens: 4000 });
 
-  const content = result.response.text();
-
-  let cleanedContent = content.trim();
-  if (cleanedContent.startsWith('```')) {
-    cleanedContent = cleanedContent.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '');
-  }
-
-  const parsed = JSON.parse(cleanedContent);
   if (!Array.isArray(parsed)) {
     throw new Error('Response is not an array');
   }

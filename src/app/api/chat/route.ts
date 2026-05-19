@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { generateAIChat } from '@/lib/ai-provider';
 
 const CEFR_SYSTEM_PROMPT = `You are the TestCEFR AI Assistant — a friendly, knowledgeable expert on the Common European Framework of Reference for Languages (CEFR) and the TestCEFR platform. Your role is to help users understand their English proficiency, navigate the platform, and answer questions about CEFR levels and assessments.
 
@@ -91,49 +92,6 @@ function getContextPrompt(currentPage: string): string {
     : '\n\n## Current Page Context\nThe user is browsing the TestCEFR platform.';
 }
 
-// Try z-ai-web-dev-sdk (works in dev environment)
-async function tryZaiSDK(messages: { role: string; content: string }[]): Promise<string | null> {
-  try {
-    const ZAI = (await import('z-ai-web-dev-sdk')).default;
-    const zai = await ZAI.create();
-    const completion = await zai.chat.completions.create({
-      messages: messages as { role: 'user' | 'assistant' | 'system'; content: string }[],
-      temperature: 0.7,
-      max_tokens: 500,
-    });
-    return completion.choices?.[0]?.message?.content || null;
-  } catch {
-    return null;
-  }
-}
-
-// Try Google Generative AI (works on Vercel with API key)
-async function tryGoogleAI(messages: { role: string; content: string }[]): Promise<string | null> {
-  const apiKey = process.env.GOOGLE_AI_API_KEY;
-  if (!apiKey) return null;
-  try {
-    const { GoogleGenerativeAI } = await import('@google/generative-ai');
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
-
-    // Convert messages to Google AI format
-    const history = messages
-      .filter(m => m.role !== 'system')
-      .map(m => ({
-        role: m.role === 'assistant' ? 'model' as const : 'user' as const,
-        parts: [{ text: m.content }],
-      }));
-
-    const systemInstruction = messages.find(m => m.role === 'system')?.content || '';
-    const chat = model.startChat({ history, systemInstruction: systemInstruction || undefined });
-    const lastUserMsg = messages.filter(m => m.role === 'user').pop()?.content || '';
-    const result = await chat.sendMessage(lastUserMsg);
-    return result.response.text() || null;
-  } catch {
-    return null;
-  }
-}
-
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -167,11 +125,12 @@ export async function POST(request: NextRequest) {
       })),
     ];
 
-    // Try AI providers in order: z-ai-web-dev-sdk → Google AI
-    let reply = await tryZaiSDK(formattedMessages);
-
-    if (!reply) {
-      reply = await tryGoogleAI(formattedMessages);
+    // Try AI providers
+    let reply: string | null = null;
+    try {
+      reply = await generateAIChat(formattedMessages, { temperature: 0.7, maxTokens: 500 });
+    } catch {
+      // AI providers failed — use fallback
     }
 
     if (!reply) {
@@ -205,7 +164,7 @@ function getFallbackResponse(userMessage: string): string {
     return "We offer **4 assessment types**: Reading, Writing, Listening, and Speaking. Each takes 15–25 minutes and provides an accurate A1–C2 CEFR level rating. You can start with a free practice test!";
   }
   if (lowerMsg.includes('hello') || lowerMsg.includes('hi') || lowerMsg.includes('hey')) {
-    return "Hello! 👋 Welcome to TestCEFR! I'm here to help you with anything about CEFR levels, our assessments, certificates, and pricing. What would you like to know?";
+    return "Hello! Welcome to TestCEFR! I'm here to help you with anything about CEFR levels, our assessments, certificates, and pricing. What would you like to know?";
   }
   if (lowerMsg.includes('cefr') || lowerMsg.includes('level')) {
     return "CEFR (Common European Framework of Reference) has **6 levels**: **A1** (Beginner), **A2** (Elementary), **B1** (Intermediate), **B2** (Upper Intermediate), **C1** (Advanced), **C2** (Proficient). Take our assessment to discover your level!";

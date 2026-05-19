@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { generateAIJSON } from '@/lib/ai-provider';
 
 /**
  * POST /api/assessments/writing/evaluate
- * Evaluate a writing submission using Gemini AI.
+ * Evaluate a writing submission using AI.
  * Body: { text: string, prompt: string, level: string }
  * Evaluates 4 dimensions: Grammar accuracy, Vocabulary range, Coherence, Task achievement.
  * Returns: { cefrLevel, score (0-100), feedback, strengths[], improvements[] }
@@ -34,18 +34,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const apiKey = process.env.GOOGLE_AI_API_KEY;
-    if (!apiKey) {
-      console.error('GOOGLE_AI_API_KEY is not set');
-      return NextResponse.json(
-        { error: 'AI evaluation service is not configured.' },
-        { status: 503 }
-      );
-    }
-
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
-
     const evaluationPrompt = `You are an expert CEFR English language assessor. Evaluate the following writing submission.
 
 Target CEFR Level: ${level}
@@ -69,22 +57,14 @@ IMPORTANT: You must respond with ONLY valid JSON in exactly this format, no addi
   "improvements": ["Improvement 1", "Improvement 2", "Improvement 3"]
 }`;
 
-    const result = await model.generateContent(evaluationPrompt);
-    const response = result.response;
-    const responseText = response.text();
-
-    // Parse the JSON response from Gemini
     let evaluationResult;
     try {
-      // Try to extract JSON from the response (handle markdown code blocks)
-      const jsonMatch = responseText.match(/```(?:json)?\s*([\s\S]*?)```/);
-      const jsonStr = jsonMatch ? jsonMatch[1].trim() : responseText.trim();
-      evaluationResult = JSON.parse(jsonStr);
+      evaluationResult = await generateAIJSON(evaluationPrompt, { temperature: 0.3, maxTokens: 2000 });
     } catch {
-      console.error('Failed to parse Gemini response:', responseText);
+      console.error('AI evaluation failed');
       return NextResponse.json(
-        { error: 'Failed to parse AI evaluation result.' },
-        { status: 502 }
+        { error: 'AI evaluation service is temporarily unavailable. Please try again later.' },
+        { status: 503 }
       );
     }
 
