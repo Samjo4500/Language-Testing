@@ -33,3 +33,23 @@ Stage Summary:
 - Footer social links are clickable
 - .env removed from git (credentials no longer exposed in repo)
 - Remaining items needing user action: PayPal credentials, Google AI API key
+
+---
+Task ID: 3
+Agent: Main
+Task: Add admin notification bell to navbar
+
+Work Log:
+- Created `/src/lib/admin-notification-store.ts` — shared Zustand store for notification state
+- Created `/src/components/admin-notification-bell.tsx` — standalone notification bell component
+- Modified `/src/components/navbar.tsx` — added AdminNotificationBell for admin users (desktop + mobile)
+- Modified `/src/app/(main)/admin/page.tsx` — replaced local notification state with shared Zustand store
+- Bell shows unread count badge, animated icon, dropdown with notification list
+- 30s polling keeps notifications fresh across all pages
+- Mark all read works from both navbar bell and admin page
+- Build verified, committed, and pushed to GitHub
+
+Stage Summary:
+- Admin users now see notification bell in navbar on ALL pages, not just /admin
+- Shared Zustand store ensures admin page and navbar bell stay in sync
+- Deployment will trigger via Vercel auto-deploy from GitHub push
