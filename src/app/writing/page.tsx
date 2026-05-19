@@ -69,7 +69,7 @@ function BackgroundOrbs() {
 }
 
 export default function WritingPage() {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, user } = useAuthStore();
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
   const isAuth = mounted && isAuthenticated;
@@ -159,12 +159,28 @@ export default function WritingPage() {
             {/* CTA Buttons */}
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center animate-scale-in delay-500">
               {isAuth ? (
-                <Link href="/test">
-                  <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
-                    Start Writing Test
-                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </button>
-                </Link>
+                user?.plan === 'premium' ? (
+                  <Link href="/test">
+                    <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                      Start Writing Test
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </button>
+                  </Link>
+                ) : (
+                  <>
+                    <Link href="/pricing">
+                      <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                        Get Premium Access
+                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </button>
+                    </Link>
+                    <Link href="/quick-tour">
+                      <button className="glass-button w-full sm:w-auto rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
+                        Quick Tour
+                      </button>
+                    </Link>
+                  </>
+                )
               ) : (
                 <>
                   <Link href="/register">
@@ -414,17 +430,44 @@ export default function WritingPage() {
                   Discover your CEFR writing level with our AI-powered assessment. Get detailed feedback on coherence, grammar, vocabulary, and structure — and take your written English to the next level.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link href={isAuth ? '/test' : '/register'}>
-                    <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
-                      Start Writing Test
-                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </button>
-                  </Link>
-                  <Link href="/quick-tour">
-                    <button className="glass-button w-full sm:w-auto rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
-                      Quick Tour
-                    </button>
-                  </Link>
+                  {isAuth ? (
+                    user?.plan === 'premium' ? (
+                      <Link href="/test">
+                        <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                          Start Writing Test
+                          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </button>
+                      </Link>
+                    ) : (
+                      <>
+                        <Link href="/pricing">
+                          <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                            Upgrade to Premium
+                            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                          </button>
+                        </Link>
+                        <Link href="/quick-tour">
+                          <button className="glass-button w-full sm:w-auto rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
+                            Quick Tour
+                          </button>
+                        </Link>
+                      </>
+                    )
+                  ) : (
+                    <>
+                      <Link href="/register">
+                        <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                          Create Free Account
+                          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </button>
+                      </Link>
+                      <Link href="/pricing">
+                        <button className="glass-button w-full sm:w-auto rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
+                          View Pricing
+                        </button>
+                      </Link>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
