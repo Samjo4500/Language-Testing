@@ -4,9 +4,9 @@ import { getAuthUser } from '@/lib/auth-middleware';
 
 // Plan pricing configuration
 const PLAN_PRICES: Record<string, { amount: number; label: string }> = {
-  single: { amount: 9.99, label: 'CEFR English Proficiency Test — Single Test' },
-  premium: { amount: 19.99, label: 'CEFR English Proficiency Test — Premium Plan' },
-  pro: { amount: 29.99, label: 'CEFR English Proficiency Test — Pro Plan' },
+  single: { amount: 12.99, label: 'CEFR English Proficiency Test — Single Test' },
+  premium: { amount: 29.99, label: 'CEFR English Proficiency Test — Premium Plan' },
+  pro: { amount: 49.99, label: 'CEFR English Proficiency Test — Pro Plan' },
 };
 
 export async function POST(request: NextRequest) {

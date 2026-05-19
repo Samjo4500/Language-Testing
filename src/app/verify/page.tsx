@@ -54,7 +54,7 @@ export default function VerifyCertificatePage() {
                       type="text"
                       value={verificationId}
                       onChange={(e) => setVerificationId(e.target.value)}
-                      placeholder="e.g., cert-abc123def456"
+                      placeholder="e.g., TC-A1B2C3-D4E5F6"
                       className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 transition-all"
                     />
                   </div>

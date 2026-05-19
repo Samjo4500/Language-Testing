@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { getAuthUser, requirePremium } from '@/lib/auth-middleware';
+import { getAuthUser } from '@/lib/auth-middleware';
 import { sendAssessmentComplete } from '@/lib/email';
 
 export async function POST(request: NextRequest) {
@@ -14,11 +14,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Step 2: Check premium plan
-    const premiumCheck = requirePremium(authResult);
-    if (premiumCheck) {
-      return premiumCheck;
-    }
+    // Note: We removed requirePremium check here because:
+    // 1. Free users get 1 credit at signup and should be able to submit their test
+    // 2. Anyone who started an assessment (paid credit) should be able to submit it
+    // 3. The credit is already consumed at /start, blocking submit wastes it
 
     // Step 3: Get the request body
     const body = await request.json();
@@ -236,7 +235,9 @@ function calculateResults(responses: AssessmentResponse[]): {
       skillBreakdown[cat] = Math.round((catCorrect / catResponses.length) * 100);
     } else {
       // If no responses for a category, estimate based on overall score
-      skillBreakdown[cat] = Math.min(100, Math.max(0, score + Math.round((Math.random() - 0.5) * 20)));
+      // Use a deterministic offset based on category name instead of Math.random()
+      const catOffset: Record<string, number> = { reading: 5, writing: -3, listening: 8, speaking: -5, grammar: 2, vocabulary: -7 };
+      skillBreakdown[cat] = Math.min(100, Math.max(0, score + (catOffset[cat] || 0)));
     }
   }
 

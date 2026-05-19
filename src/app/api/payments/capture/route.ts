@@ -63,7 +63,8 @@ export async function POST(request: NextRequest) {
       : null;
 
     // Determine the user's new plan level
-    const planLevel = planType === 'pro' ? 'pro' : planType === 'premium' ? 'premium' : 'free';
+    // single → premium (paid plan with certificate access), premium → premium, pro → pro
+    const planLevel = planType === 'pro' ? 'pro' : 'premium';
 
     // Save payment to database
     const payment = await db.payment.create({

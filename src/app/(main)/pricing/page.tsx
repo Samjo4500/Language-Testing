@@ -62,14 +62,14 @@ function usePayPalScript(clientId: string | null) {
 }
 
 /* PayPal button component — supports different amounts */
-function PayPalCheckoutButton({ accessToken, amount, description }: { accessToken: string | null; amount: number; description: string }) {
+function PayPalCheckoutButton({ accessToken, amount, description, planId, planName }: { accessToken: string | null; amount: number; description: string; planId: string; planName: string }) {
   const paypalContainerRef = useRef<HTMLDivElement>(null);
   const [paypalClientId, setPaypalClientId] = useState<string | null>(null);
   const [isFetchingClientId, setIsFetchingClientId] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [error, setError] = useState('');
   const { isLoaded, isLoading: isScriptLoading } = usePayPalScript(paypalClientId);
-  const { updatePlan } = useAuthStore();
+  const { updatePlan, setUser } = useAuthStore();
   const router = useRouter();
   const renderedRef = useRef(false);
 
@@ -105,7 +105,7 @@ function PayPalCheckoutButton({ accessToken, amount, description }: { accessToke
           const response = await fetch('/api/payments/create-order', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${accessToken}` },
-            body: JSON.stringify({ amount, currency: 'USD' }),
+            body: JSON.stringify({ amount, currency: 'USD', planType: planId }),
           });
           if (!response.ok) throw new Error('Failed to create order');
           const data = await response.json();
@@ -128,8 +128,23 @@ function PayPalCheckoutButton({ accessToken, amount, description }: { accessToke
             const errorData = await response.json();
             throw new Error(errorData.error || 'Payment capture failed');
           }
-          updatePlan('premium');
-          router.push(`/payment-success?plan=${selectedPlan.id}`);
+          const captureData = await response.json();
+          // Update plan based on actual purchase
+          const newPlan = captureData.payment?.plan || planName;
+          updatePlan(newPlan);
+          // Refresh user data from server to get accurate credits/plan
+          try {
+            const meRes = await fetch('/api/auth/me', {
+              headers: { 'Authorization': `Bearer ${accessToken}` },
+            });
+            if (meRes.ok) {
+              const meData = await meRes.json();
+              if (meData.user) {
+                setUser(meData.user);
+              }
+            }
+          } catch {}
+          router.push(`/payment-success?plan=${planId}&credits=${captureData.payment?.testsIncluded || 1}`);
         } catch (err) {
           console.error('Capture error:', err);
           setError(err instanceof Error ? err.message : 'Payment failed. Please contact support.');
@@ -512,13 +527,13 @@ export default function PricingPage() {
                   ))}
                 </ul>
                 {isAuth ? (
-                  user?.plan === 'premium' ? (
+                  (user?.plan === 'premium' || user?.plan === 'pro') ? (
                     <div className="flex items-center gap-2 p-3 rounded-xl bg-green-500/10 border border-green-500/20">
                       <CheckCircle2 className="h-4 w-4 text-green-400" />
-                      <span className="text-xs font-medium text-green-400">You already have Premium!</span>
+                      <span className="text-xs font-medium text-green-400">You already have {user?.plan === 'pro' ? 'Pro' : 'Premium'}!</span>
                     </div>
                   ) : (
-                    <PayPalCheckoutButton accessToken={accessToken} amount={12.99} description="Single Test" />
+                    <PayPalCheckoutButton accessToken={accessToken} amount={12.99} description="Single Test" planId="single" planName="premium" />
                   )
                 ) : (
                   <Link href="/login" className="block">
@@ -563,13 +578,13 @@ export default function PricingPage() {
                     ))}
                   </ul>
                   {isAuth ? (
-                    user?.plan === 'premium' ? (
+                    (user?.plan === 'premium' || user?.plan === 'pro') ? (
                       <div className="flex items-center gap-2 p-3 rounded-xl bg-green-500/10 border border-green-500/20">
                         <CheckCircle2 className="h-4 w-4 text-green-400" />
-                        <span className="text-xs font-medium text-green-400">You already have Premium!</span>
+                        <span className="text-xs font-medium text-green-400">You already have {user?.plan === 'pro' ? 'Pro' : 'Premium'}!</span>
                       </div>
                     ) : (
-                      <PayPalCheckoutButton accessToken={accessToken} amount={29.99} description="Premium Pack (3 tests)" />
+                      <PayPalCheckoutButton accessToken={accessToken} amount={29.99} description="Premium Pack (3 tests)" planId="premium" planName="premium" />
                     )
                   ) : (
                     <Link href="/login" className="block">
@@ -609,13 +624,13 @@ export default function PricingPage() {
                     ))}
                   </ul>
                   {isAuth ? (
-                    user?.plan === 'premium' ? (
+                    (user?.plan === 'premium' || user?.plan === 'pro') ? (
                       <div className="flex items-center gap-2 p-3 rounded-xl bg-green-500/10 border border-green-500/20">
                         <CheckCircle2 className="h-4 w-4 text-green-400" />
-                        <span className="text-xs font-medium text-green-400">You already have Premium!</span>
+                        <span className="text-xs font-medium text-green-400">You already have {user?.plan === 'pro' ? 'Pro' : 'Premium'}!</span>
                       </div>
                     ) : (
-                      <PayPalCheckoutButton accessToken={accessToken} amount={49.99} description="Pro Pack (6 tests)" />
+                      <PayPalCheckoutButton accessToken={accessToken} amount={49.99} description="Pro Pack (6 tests)" planId="pro" planName="pro" />
                     )
                   ) : (
                     <Link href="/login" className="block">

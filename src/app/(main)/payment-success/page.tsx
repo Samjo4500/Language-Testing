@@ -17,6 +17,7 @@ function PaymentSuccessContent() {
   const { user } = useAuthStore();
   const searchParams = useSearchParams();
   const planParam = searchParams.get('plan') || 'premium';
+  const creditsParam = searchParams.get('credits');
   const planDetails = PLAN_DETAILS[planParam] || PLAN_DETAILS.premium;
 
   return (
@@ -49,6 +50,15 @@ function PaymentSuccessContent() {
                 <span className="text-sm text-white/50">Amount Paid</span>
                 <span className="text-sm text-white">{planDetails.price}</span>
               </div>
+              {creditsParam && (
+                <>
+                  <div className="section-divider" />
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-white/50">Test Credits Added</span>
+                    <span className="text-sm font-semibold text-purple-400">{creditsParam} credit{parseInt(creditsParam) > 1 ? 's' : ''}</span>
+                  </div>
+                </>
+              )}
               {user?.email && (
                 <>
                   <div className="section-divider" />

@@ -280,6 +280,31 @@ export default function TestPage() {
   const [assessmentId, setAssessmentId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [resumingAssessment, setResumingAssessment] = useState(false);
+
+  // Check for in-progress assessment on mount (resume capability)
+  useEffect(() => {
+    if (!isAuthenticated || !accessToken) return;
+    const checkForResumableAssessment = async () => {
+      try {
+        const res = await fetch('/api/assessments/start', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+          },
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.assessment && data.message?.includes('already have')) {
+            setAssessmentId(data.assessment.id);
+            setResumingAssessment(true);
+          }
+        }
+      } catch {}
+    };
+    checkForResumableAssessment();
+  }, [isAuthenticated, accessToken]);
 
   // Skill tracking
   const [skillStatuses, setSkillStatuses] = useState<Record<string, SkillStatus>>({
@@ -315,6 +340,13 @@ export default function TestPage() {
   const [writingTexts, setWritingTexts] = useState<Record<string, string>>({});
   const [writingEvaluations, setWritingEvaluations] = useState<Record<string, WritingEvaluation>>({});
   const [evaluatingWriting, setEvaluatingWriting] = useState(false);
+
+  // Browser speech recognition support (for speaking test warning)
+  const [speechSupported, setSpeechSupported] = useState(true);
+  useEffect(() => {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    setSpeechSupported(!!SpeechRecognition);
+  }, []);
 
   // Results state
   const [submitting, setSubmitting] = useState(false);
@@ -380,6 +412,7 @@ export default function TestPage() {
         return;
       }
       setAssessmentId(data.assessment.id);
+      setResumingAssessment(false);
       setLoading(false);
     } catch {
       setError('Failed to start assessment. Please try again.');
@@ -391,8 +424,12 @@ export default function TestPage() {
      SKILL SELECTION HANDLER
      ====================================================== */
   const startSkill = async (skill: TestPhase) => {
+    // If we already have an assessmentId (from resume or previous start), use it
     if (!assessmentId) {
       await startAssessment();
+      // Note: assessmentId will be set via setState, but it won't be available
+      // in this render cycle. We'll proceed anyway since submitAssessment
+      // checks assessmentId again.
     }
     setPhase(skill);
     setSkillStatuses(prev => ({ ...prev, [skill]: 'in_progress' }));
@@ -841,6 +878,36 @@ export default function TestPage() {
                 />
               </div>
             </div>
+
+            {/* Resume Assessment Banner */}
+            {resumingAssessment && (
+              <div className="glass-card p-4 mb-6 border-amber-500/30 bg-amber-500/5">
+                <div className="flex items-start gap-3">
+                  <RotateCcw className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-sm text-amber-300 font-medium">You have an assessment in progress</p>
+                    <p className="text-xs text-white/40 mt-1">
+                      It looks like you started a test but didn&apos;t finish. Complete all four skills below to submit your results.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Browser Compatibility Warning for Speaking */}
+            {!speechSupported && (
+              <div className="glass-card p-4 mb-6 border-amber-500/30 bg-amber-500/5">
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-sm text-amber-300 font-medium">Speaking test requires Chrome</p>
+                    <p className="text-xs text-white/40 mt-1">
+                      The speaking section uses speech recognition that is only supported in Google Chrome. Please use Chrome for the best experience.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Error */}
             {error && (

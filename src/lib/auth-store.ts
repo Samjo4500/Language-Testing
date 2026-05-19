@@ -22,6 +22,7 @@ interface AuthState {
 
   // Actions
   setAuth: (user: User, accessToken: string, refreshToken: string) => void;
+  setUser: (user: User) => void;
   setLoading: (loading: boolean) => void;
   logout: () => void;
   refreshAccessToken: () => Promise<string | null>;
@@ -42,6 +43,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
       localStorage.setItem('user', JSON.stringify(user));
+      // Also set cookies for middleware (server-side route protection)
+      document.cookie = `auth_token=${accessToken}; path=/; max-age=${30 * 24 * 60 * 60}; SameSite=Lax; Secure`;
+      document.cookie = `user_role=${user.role || 'user'}; path=/; max-age=${30 * 24 * 60 * 60}; SameSite=Lax; Secure`;
     }
     set({
       user,
@@ -53,6 +57,13 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     });
   },
 
+  setUser: (user) => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('user', JSON.stringify(user));
+    }
+    set({ user });
+  },
+
   setLoading: (loading) => set({ isLoading: loading }),
 
   logout: () => {
@@ -60,6 +71,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('user');
+      // Clear middleware cookies
+      document.cookie = 'auth_token=; path=/; max-age=0';
+      document.cookie = 'user_role=; path=/; max-age=0';
     }
     set({
       user: null,
@@ -133,6 +147,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       }
 
       set({ accessToken: newAccessToken, refreshToken: newRefreshToken || refreshToken, isRefreshing: false });
+
+      // Update middleware cookie with new access token
+      if (typeof window !== 'undefined') {
+        document.cookie = `auth_token=${newAccessToken}; path=/; max-age=${30 * 24 * 60 * 60}; SameSite=Lax; Secure`;
+      }
       return newAccessToken;
     } catch {
       // Network error - DON'T logout, keep existing auth
