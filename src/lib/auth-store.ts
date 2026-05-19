@@ -43,7 +43,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       localStorage.setItem('refreshToken', refreshToken);
       localStorage.setItem('user', JSON.stringify(user));
       // Also set as cookie for server-side middleware access
-      document.cookie = `accessToken=${accessToken}; path=/; max-age=${60 * 60 * 24}; SameSite=Lax`;
+      document.cookie = `accessToken=${accessToken}; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Lax; Secure`;
     }
     set({
       user,
@@ -135,7 +135,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
           localStorage.setItem('refreshToken', newRefreshToken);
         }
         // Update cookie for middleware
-        document.cookie = `accessToken=${newAccessToken}; path=/; max-age=${60 * 60 * 24}; SameSite=Lax`;
+        document.cookie = `accessToken=${newAccessToken}; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Lax; Secure`;
       }
 
       set({ accessToken: newAccessToken, refreshToken: newRefreshToken || refreshToken, isRefreshing: false });

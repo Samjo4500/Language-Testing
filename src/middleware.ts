@@ -3,9 +3,11 @@ import type { NextRequest } from 'next/server';
 import { verifyToken } from '@/lib/auth';
 
 // Routes that require authentication
-const PROTECTED_ROUTES = ['/dashboard', '/test', '/payment-success', '/admin'];
+const PROTECTED_ROUTES = ['/dashboard', '/test', '/payment-success'];
 
 // Routes that only admins can access
+// Note: Admin route auth is handled client-side to avoid middleware/JWT expiry
+// redirecting users who have valid refresh tokens
 const ADMIN_ROUTES = ['/admin'];
 
 // Routes that authenticated users should be redirected away from (e.g., to dashboard)

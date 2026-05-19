@@ -25,6 +25,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             const user = JSON.parse(userStr);
             // Set auth with existing tokens so the UI shows authenticated immediately
             setAuth(user, accessToken, refreshToken);
+            // Also refresh the cookie so middleware sees it with updated expiry
+            document.cookie = `accessToken=${accessToken}; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Lax; Secure`;
           } catch {
             // Bad localStorage data
             logout();
