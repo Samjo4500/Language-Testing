@@ -455,6 +455,15 @@
   transform: translateY(0);
 }
 
+/* Fallback: ensure scroll-animate content is visible if JS fails or after page load */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-animate {
+    opacity: 1;
+    transform: translateY(0);
+    transition: none;
+  }
+}
+
 /* === BACKGROUNDS === */
 .hero-pattern {
   background-image:
