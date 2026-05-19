@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuthStore } from '@/lib/auth-store';
+import { useAdminNotificationStore } from '@/lib/admin-notification-store';
 import { Navbar } from '@/components/navbar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -1503,14 +1504,21 @@ export default function AdminPage() {
   const [creatingDemo, setCreatingDemo] = useState(false);
   const [demoResult, setDemoResult] = useState<{ message: string; credentials: Array<{ email: string; password: string; userId: string }> } | null>(null);
 
-  // ── Notifications ────────────────────────────────────────────────
-  const [notifUnread, setNotifUnread] = useState(0);
-  const [notifList, setNotifList] = useState<Array<{
-    id: string; to: string; from: string; subject: string; type: string;
-    status: string; isRead: boolean; createdAt: string;
-  }>>([]);
-  const [notifOpen, setNotifOpen] = useState(false);
-  const [notifLoading, setNotifLoading] = useState(false);
+  // ── Notifications (shared Zustand store with navbar bell) ──────────
+  const {
+    unreadCount: notifUnread,
+    notifications: notifList,
+    isLoading: notifLoading,
+    isOpen: notifOpen,
+    fetchNotifications,
+    markAllRead: storeMarkAllRead,
+    setIsOpen: setNotifOpen,
+  } = useAdminNotificationStore();
+
+  const handleMarkAllRead = async () => {
+    await storeMarkAllRead(accessToken!);
+    setToast({ message: 'All notifications marked as read', type: 'success' });
+  };
 
   // ── Auth Check (no redirect - prevents redirect loops) ────────────
   // The admin page shows an access-denied state instead of redirecting
@@ -1622,39 +1630,8 @@ export default function AdminPage() {
     finally { setSystemLoading(false); }
   }, [accessToken]);
 
-  // ── Fetch Notifications ──────────────────────────────────────────
-  const fetchNotifications = useCallback(async () => {
-    if (!accessToken) return;
-    setNotifLoading(true);
-    try {
-      const res = await fetch('/api/admin/notifications', { headers: { Authorization: `Bearer ${accessToken}` } });
-      if (res.ok) {
-        const data = await res.json();
-        setNotifUnread(data.unreadCount || 0);
-        setNotifList(data.notifications || []);
-      }
-    } catch (e) { console.error('Notifications fetch error:', e); }
-    finally { setNotifLoading(false); }
-  }, [accessToken]);
-
-  // ── Mark notifications as read ───────────────────────────────────
-  const handleMarkAllRead = async () => {
-    if (!accessToken) return;
-    try {
-      const res = await fetch('/api/admin/notifications', {
-        method: 'PATCH',
-        headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ markAll: true }),
-      });
-      if (res.ok) {
-        setNotifUnread(0);
-        setNotifList((prev) => prev.map((n) => ({ ...n, isRead: true })));
-        setToast({ message: 'All notifications marked as read', type: 'success' });
-      }
-    } catch {
-      setToast({ message: 'Failed to mark notifications as read', type: 'error' });
-    }
-  };
+  // ── Notifications: fetch & mark-read come from shared Zustand store ─
+  // (useAdminNotificationStore handles polling, fetch, and mark-read)
 
   // ── Initial data fetch ────────────────────────────────────────────
   useEffect(() => {
@@ -1666,7 +1643,7 @@ export default function AdminPage() {
     fetchCertificates();
     fetchQuestionStats();
     fetchSystem();
-    fetchNotifications();
+    fetchNotifications(accessToken);
   }, [authIsLoading, isAuthenticated, accessToken, fetchAnalytics, fetchUsers, fetchPayments, fetchAssessments, fetchCertificates, fetchQuestionStats, fetchSystem, fetchNotifications]);
 
   // ── Tab change refresh ────────────────────────────────────────────
@@ -1682,12 +1659,8 @@ export default function AdminPage() {
     return () => clearTimeout(t);
   }, [usersSearch, accessToken, fetchUsers]);
 
-  // ── Notification polling (every 30s) ─────────────────────────────
-  useEffect(() => {
-    if (!accessToken || !isAuthenticated) return;
-    const interval = setInterval(fetchNotifications, 30000);
-    return () => clearInterval(interval);
-  }, [accessToken, isAuthenticated, fetchNotifications]);
+  // ── Notification polling handled by shared Zustand store ──────────
+  // (AdminNotificationBell component manages its own 30s polling)
 
   // ── Actions ───────────────────────────────────────────────────────
   const handlePromoteUser = async (email: string) => {
@@ -1899,7 +1872,7 @@ export default function AdminPage() {
               {/* Notification Bell */}
               <div className="relative">
                 <button
-                  onClick={() => { setNotifOpen(!notifOpen); if (!notifOpen) fetchNotifications(); }}
+                  onClick={() => { setNotifOpen(!notifOpen); if (!notifOpen) fetchNotifications(accessToken!); }}
                   className="relative flex items-center justify-center p-2 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-colors"
                   title="Notifications"
                 >
@@ -2018,7 +1991,7 @@ export default function AdminPage() {
               </div>
 
               <button
-                onClick={() => { fetchAnalytics(); fetchSystem(); fetchNotifications(); }}
+                onClick={() => { fetchAnalytics(); fetchSystem(); fetchNotifications(accessToken!); }}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs text-white/60 hover:text-white hover:bg-white/10 transition-colors"
               >
                 <RefreshCw className="h-3.5 w-3.5" /> Refresh
