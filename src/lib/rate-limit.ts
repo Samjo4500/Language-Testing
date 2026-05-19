@@ -25,6 +25,16 @@ const CONTACT_LIMITS: RateLimitOptions = {
   maxRequests: 3,             // 3 submissions per hour
 };
 
+const AI_LIMITS: RateLimitOptions = {
+  windowMs: 60 * 1000,        // 1 minute
+  maxRequests: 10,             // 10 AI requests per minute
+};
+
+const AI_EVAL_LIMITS: RateLimitOptions = {
+  windowMs: 60 * 1000,        // 1 minute
+  maxRequests: 5,              // 5 evaluation requests per minute
+};
+
 /**
  * Get client IP from request headers
  */
@@ -106,4 +116,4 @@ if (typeof setInterval !== 'undefined') {
   }, 5 * 60 * 1000);
 }
 
-export { AUTH_LIMITS, CONTACT_LIMITS };
+export { AUTH_LIMITS, CONTACT_LIMITS, AI_LIMITS, AI_EVAL_LIMITS };

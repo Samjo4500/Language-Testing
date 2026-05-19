@@ -5,7 +5,11 @@ import { hashPassword, generateTokens } from '@/lib/auth';
 import { sendWelcomeEmail, sendEmailVerification, sendAdminNewUser } from '@/lib/email';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-change-me';
+const JWT_SECRET = process.env.JWT_SECRET;
+const getJwtSecret = () => {
+  if (!JWT_SECRET) throw new Error('JWT_SECRET is not set');
+  return JWT_SECRET;
+};
 
 export async function POST(request: NextRequest) {
   // Rate limit: 5 registrations per 15 minutes per IP
@@ -86,7 +90,7 @@ export async function POST(request: NextRequest) {
     // Generate email verification token (24-hour expiry)
     const verificationToken = jwt.sign(
       { userId: user.id, purpose: 'email_verification' },
-      JWT_SECRET,
+      getJwtSecret(),
       { expiresIn: '24h' }
     );
 

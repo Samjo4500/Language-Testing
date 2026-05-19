@@ -236,7 +236,8 @@ function calculateResults(responses: AssessmentResponse[]): {
       skillBreakdown[cat] = Math.round((catCorrect / catResponses.length) * 100);
     } else {
       // If no responses for a category, estimate based on overall score
-      skillBreakdown[cat] = Math.min(100, Math.max(0, score + Math.round((Math.random() - 0.5) * 20)));
+      // This provides a reasonable approximation without random noise
+      skillBreakdown[cat] = score;
     }
   }
 

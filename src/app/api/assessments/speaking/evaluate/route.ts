@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateAIJSON } from '@/lib/ai-provider';
+import { rateLimit, AI_EVAL_LIMITS } from '@/lib/rate-limit';
 
 /**
  * POST /api/assessments/speaking/evaluate
@@ -9,6 +10,10 @@ import { generateAIJSON } from '@/lib/ai-provider';
  * Returns: { cefrLevel, score (0-100), feedback, strengths[], improvements[], dimensions }
  */
 export async function POST(request: NextRequest) {
+  // Rate limit: 5 evaluations per minute per IP
+  const rl = rateLimit(request, 'speaking-eval', AI_EVAL_LIMITS);
+  if (!rl.allowed) return rl.response!;
+
   try {
     const body = await request.json();
     const { transcript, prompt, level, inputLevel } = body;

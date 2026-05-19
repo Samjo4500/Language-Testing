@@ -105,7 +105,7 @@ function PayPalCheckoutButton({ accessToken, amount, description, planId }: { ac
           const response = await fetch('/api/payments/create-order', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${accessToken}` },
-            body: JSON.stringify({ amount, currency: 'USD' }),
+            body: JSON.stringify({ amount, currency: 'USD', planType: planId }),
           });
           if (!response.ok) throw new Error('Failed to create order');
           const data = await response.json();

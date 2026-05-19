@@ -2,7 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-change-me';
+const JWT_SECRET = process.env.JWT_SECRET;
+const getJwtSecret = () => {
+  if (!JWT_SECRET) throw new Error('JWT_SECRET is not set');
+  return JWT_SECRET;
+};
 
 interface VerifyTokenPayload {
   userId: string;
@@ -26,7 +30,7 @@ export async function POST(request: NextRequest) {
     // Verify the token
     let decoded: VerifyTokenPayload;
     try {
-      decoded = jwt.verify(token, JWT_SECRET) as VerifyTokenPayload;
+      decoded = jwt.verify(token, getJwtSecret()) as VerifyTokenPayload;
     } catch {
       return NextResponse.json(
         { error: 'Invalid or expired verification token. Please request a new one.' },

@@ -3,7 +3,11 @@ import { db } from '@/lib/db';
 import { hashPassword } from '@/lib/auth';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-change-me';
+const JWT_SECRET = process.env.JWT_SECRET;
+const getJwtSecret = () => {
+  if (!JWT_SECRET) throw new Error('JWT_SECRET is not set');
+  return JWT_SECRET;
+};
 
 interface ResetTokenPayload {
   userId: string;
@@ -34,7 +38,7 @@ export async function POST(request: NextRequest) {
     // Verify the reset token
     let decoded: ResetTokenPayload;
     try {
-      decoded = jwt.verify(token, JWT_SECRET) as ResetTokenPayload;
+      decoded = jwt.verify(token, getJwtSecret()) as ResetTokenPayload;
     } catch {
       return NextResponse.json(
         { error: 'Invalid or expired reset token. Please request a new one.' },
