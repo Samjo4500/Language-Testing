@@ -112,3 +112,31 @@ Stage Summary:
 - All 7 launch blockers fixed + certificate PDF overlap fixed
 - Build passes successfully
 - Files modified: create-order/route.ts, submit/route.ts, writing/evaluate/route.ts, speaking/evaluate/route.ts, chat/route.ts, middleware.ts, auth-store.ts, auth.ts, rate-limit.ts (new), start/route.ts, test/page.tsx, pdf-generator.ts, login/route.ts, register/route.ts, forgot-password/route.ts, verify-email/route.ts, reset-password/route.ts
+
+---
+Task ID: 9
+Agent: Main (Super Z)
+Task: Continue finding and fixing improvements — Phase 2 security hardening
+
+Work Log:
+- Deep-audited remaining 14 issues across 15 areas (3 Critical, 4 High, 4 Medium, 3 Low)
+- CRITICAL: Added PayPal amount verification in capture route — compares captured PayPal amount against expected PLAN_PRICES amount (±$0.02 tolerance). Prevents attackers from creating $0.01 PayPal orders and getting Pro plan.
+- CRITICAL: Created global-error.tsx — catches root layout crashes (AuthProvider, font loading) that would otherwise show blank white screen. Styled with purple/pink gradient theme.
+- CRITICAL: Created PayPal webhook endpoint (/api/payments/webhook) — handles PAYMENT.SALE.REFUNDED, PAYMENT.CAPTURE.REFUNDED, PAYMENT.DISPUTE.CREATED events. Verifies webhook signature using PayPal certificate. Downgrades users to free plan on full refund/dispute. Handles partial refunds separately.
+- HIGH: Capture route now returns new JWT tokens with updated plan after payment — user gets premium access immediately instead of waiting 24h for token expiry. Pricing page updated to use new tokens in auth store.
+- HIGH: Refresh token route now fetches current plan/role from database instead of using stale token data. Issues new refresh tokens (rotation) and returns updated user data. Auth store syncs user data on refresh.
+- HIGH: Added comprehensive security headers to middleware: X-Frame-Options (SAMEORIGIN), X-Content-Type-Options (nosniff), Referrer-Policy, HSTS (2yr, subdomains, preload), Permissions-Policy (camera=(), geolocation=(), microphone=(self)), Content-Security-Policy (production only, whitelists PayPal/Google AI).
+- HIGH: Password reset token now invalidated after use — added passwordResetAt field to User schema. After successful reset, timestamp is set. Older tokens (with iat before passwordResetAt) are rejected.
+- MEDIUM: Added rate limiting to contact form (3/minute) and verify-email endpoint (uses authLimiter 10/15min).
+- MEDIUM: Removed leaked error details from 3 API endpoints (admin/batch, admin/test-paypal, chat).
+- MEDIUM: Added safe JSON.parse with try/catch for certificate download skillBreakdown.
+- LOW: Generated OG image (1344x768) and added to layout.tsx metadata for social sharing previews.
+- Updated Prisma schema: added passwordResetAt field, restored country field.
+- Build passes, deployed to Vercel production, security headers verified live.
+
+Stage Summary:
+- All 3 Critical issues fixed (PayPal amount verification, global-error.tsx, PayPal webhook)
+- All 4 High issues fixed (JWT refresh after payment, DB-fresh token rotation, security headers, password reset invalidation)
+- All 4 Medium issues fixed (rate limiting, error leaks, safe JSON.parse)
+- 1 Low issue fixed (OG images)
+- Launch readiness: ~78% → ~90%
