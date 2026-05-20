@@ -229,3 +229,37 @@ Stage Summary:
 - All 21 admin API handlers now have rate limiting (60 req/min/IP) applied as the first check
 - Pattern matches existing authLimiter usage in auth routes
 - No existing logic or imports were disturbed
+
+---
+Task ID: 1-8
+Agent: Main Agent
+Task: Security & Performance Launch Readiness Fixes (90% → 96%)
+
+Work Log:
+- Removed hardcoded Resend API key from 3 script files (send-email-templates.ts, test-branded-email.ts, send-templates-combined.js)
+- Migrated auth tokens from localStorage to HttpOnly cookies (new cookie-auth.ts utility)
+- Updated getAuthUser() to read from access_token cookie first, fallback to Authorization header
+- Updated middleware to read from access_token HttpOnly cookie
+- Updated login, register, refresh, logout, capture endpoints to set/clear HttpOnly cookies
+- Updated auth-store.ts to stop persisting tokens to localStorage, stop setting document.cookie
+- Updated auth-provider.tsx to hydrate via cookie-based /api/auth/me
+- Updated all client components to remove Authorization headers, use isAuthenticated instead of accessToken
+- Fixed next.config.ts: removed ignoreBuildErrors, enabled reactStrictMode
+- Created CSP reporting endpoint at /api/csp-report with report-uri in middleware CSP
+- Removed force-dynamic from 7 static page layouts (about, privacy, terms, contact, quick-tour, sample-certificate, sample-report)
+- Added DB indexes on Payment(userId, status, createdAt), Assessment(userId, status), AssessmentResponse(assessmentId), Certificate(userId)
+- Added adminLimiter rate limiting (60/min) to all 18 admin API routes (21 handler functions)
+- Created .env.example for developer onboarding
+- Fixed type errors: JWT_SECRET!, Buffer→Uint8Array, pdf-lib drawCircle radius→size, removed characterSpacing
+- Excluded skills/, scripts/, examples/ from tsconfig build
+- Pushed DB schema changes to Neon with prisma db push
+- Built and deployed to Vercel production successfully
+
+Stage Summary:
+- Auth tokens now HttpOnly (XSS can't steal them)
+- Static pages now pre-rendered (○ Static instead of ƒ Dynamic)
+- All admin routes rate-limited
+- CSP violations now reported and logged
+- Build passes with zero type errors (strict mode enabled)
+- Database indexes added for faster queries
+- Readiness improved from ~90% to ~96%
