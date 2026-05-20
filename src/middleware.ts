@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import jwt from 'jsonwebtoken';
+import { jwtVerify } from 'jose';
 
 /**
  * Middleware for server-side route protection and security headers.
+ *
+ * Uses `jose` (Web Crypto API) instead of `jsonwebtoken` (Node.js crypto)
+ * because Vercel middleware runs in Edge Runtime which doesn't support
+ * Node.js native crypto module.
  *
  * Route Protection:
  * - Protected routes: /dashboard, /test, /payment-success
@@ -12,7 +16,11 @@ import jwt from 'jsonwebtoken';
  * Security: Role is extracted from the VERIFIED JWT token, NOT from a client-set cookie.
  */
 
-const JWT_SECRET = process.env.JWT_SECRET || '';
+// Convert JWT_SECRET to Uint8Array for jose (Web Crypto API)
+// Note: JWT_SECRET must be set in Vercel environment variables.
+// If it's empty, token verification will fail and all protected routes
+// will redirect to login.
+const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || '');
 
 // Routes that require authentication
 const PROTECTED_ROUTES = ['/dashboard', '/test', '/payment-success'];
@@ -30,9 +38,11 @@ interface TokenPayload {
   role?: string;
 }
 
-function verifyTokenSafely(token: string): TokenPayload | null {
+async function verifyTokenSafely(token: string): Promise<TokenPayload | null> {
   try {
-    return jwt.verify(token, JWT_SECRET) as TokenPayload;
+    if (!JWT_SECRET.length) return null;
+    const { payload } = await jwtVerify(token, JWT_SECRET);
+    return payload as unknown as TokenPayload;
   } catch {
     return null;
   }
@@ -98,7 +108,7 @@ function addSecurityHeaders(response: NextResponse): NextResponse {
   return response;
 }
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Skip API routes and static files
@@ -110,7 +120,7 @@ export function middleware(request: NextRequest) {
 
   // Read auth token from HttpOnly cookie and VERIFY the JWT
   const accessToken = request.cookies.get('access_token')?.value;
-  const tokenPayload = accessToken ? verifyTokenSafely(accessToken) : null;
+  const tokenPayload = accessToken ? await verifyTokenSafely(accessToken) : null;
 
   // Extract role from verified JWT — NEVER trust a client-set cookie for role
   const userRole = tokenPayload?.role || 'user';
