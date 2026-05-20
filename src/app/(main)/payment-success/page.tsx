@@ -6,12 +6,7 @@ import { Navbar } from '@/components/navbar';
 import { CheckCircle2, ArrowRight, BookOpen, Sparkles } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
-
-const PLAN_DETAILS: Record<string, { name: string; price: string }> = {
-  single: { name: 'Single Test', price: '$12.99 USD' },
-  premium: { name: 'Premium', price: '$29.99 USD' },
-  pro: { name: 'Pro', price: '$49.99 USD' },
-};
+import { PLAN_DETAILS } from '@/lib/plans';
 
 function PaymentSuccessContent() {
   const { user } = useAuthStore();

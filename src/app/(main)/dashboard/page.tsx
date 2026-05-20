@@ -8,7 +8,7 @@ import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { CheckCircle2, CreditCard, ArrowRight, BookOpen, Award, Download, QrCode, Loader2, Sparkles, Shield, Zap, LogIn, BarChart3 } from 'lucide-react';
+import { CheckCircle2, CreditCard, ArrowRight, BookOpen, Award, Download, QrCode, Loader2, Sparkles, Shield, Zap, LogIn, BarChart3, AlertCircle, RotateCcw } from 'lucide-react';
 import { isPaidPlan, getPlanLabel, getPlanBadgeClasses } from '@/lib/plan-utils';
 
 interface CertificateInfo {
@@ -36,6 +36,7 @@ export default function DashboardPage() {
   const { isAuthenticated, isLoading: authIsLoading, user } = useAuthStore();
   const [certificates, setCertificates] = useState<CertificateInfo[]>([]);
   const [certificatesLoading, setCertificatesLoading] = useState(true);
+  const [certificatesError, setCertificatesError] = useState<string | null>(null);
 
   useEffect(() => {
     if (authIsLoading || !isAuthenticated) return;
@@ -46,9 +47,12 @@ export default function DashboardPage() {
         if (response.ok) {
           const data = await response.json();
           setCertificates(data.certificates);
+        } else {
+          setCertificatesError('Failed to load certificates. Please try again later.');
         }
       } catch (error) {
         console.error('Failed to fetch certificates:', error);
+        setCertificatesError('Network error. Please check your connection and try again.');
       } finally {
         setCertificatesLoading(false);
       }
@@ -265,6 +269,18 @@ export default function DashboardPage() {
                 <div className="space-y-3">
                   <Skeleton className="h-20 w-full bg-white/5" />
                   <Skeleton className="h-20 w-full bg-white/5" />
+                </div>
+              ) : certificatesError ? (
+                <div className="text-center py-8 space-y-3">
+                  <AlertCircle className="h-12 w-12 text-red-400/50 mx-auto" />
+                  <p className="text-red-400/70 text-sm">{certificatesError}</p>
+                  <button
+                    className="mt-2 flex items-center gap-2 mx-auto rounded-xl px-6 py-2.5 glass-button text-white font-semibold text-sm cursor-pointer"
+                    onClick={() => { setCertificatesError(null); setCertificatesLoading(true); }}
+                  >
+                    <RotateCcw className="h-4 w-4" />
+                    Retry
+                  </button>
                 </div>
               ) : certificates.length === 0 ? (
                 <div className="text-center py-8 space-y-3">

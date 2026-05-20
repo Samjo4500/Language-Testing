@@ -1515,6 +1515,58 @@ export default function AdminPage() {
   // ── Auth Check (no redirect - prevents redirect loops) ────────────
   // The admin page shows an access-denied state instead of redirecting
 
+  // Show loading state while auth is being checked
+  if (authIsLoading) {
+    return (
+      <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
+        <Navbar />
+        <div className="flex-1 flex items-center justify-center">
+          <div className="flex flex-col items-center gap-4">
+            <div className="relative">
+              <div className="h-16 w-16 rounded-full border-4 border-purple-500/20" />
+              <div className="absolute inset-0 h-16 w-16 rounded-full border-4 border-transparent border-t-purple-500 animate-spin" />
+            </div>
+            <p className="text-sm text-white/40">Verifying access...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Not authenticated or not admin — show access denied
+  if (!isAuthenticated || !user || user.role !== 'admin') {
+    return (
+      <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
+        <Navbar />
+        <div className="flex-1 flex items-center justify-center px-4 py-12">
+          <div className="w-full max-w-md">
+            <div className="glass-card p-8 text-center">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-red-500/10 text-red-400 mb-6">
+                <Shield className="h-8 w-8" />
+              </div>
+              <h1 className="text-2xl font-bold text-white mb-2">Access Denied</h1>
+              <p className="text-sm text-white/50 mb-6">
+                You do not have permission to access the admin dashboard. This area is restricted to administrators.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Link href="/dashboard">
+                  <button className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 glass-button text-white font-semibold text-sm cursor-pointer">
+                    Go to Dashboard
+                  </button>
+                </Link>
+                <Link href="/">
+                  <button className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-500 text-white font-semibold text-sm cursor-pointer">
+                    Go Home
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // ── Helper: Auth Headers ──────────────────────────────────────────
   // With cookie-based auth, we only need Content-Type for JSON requests
   const jsonHeaders = useCallback(() => ({

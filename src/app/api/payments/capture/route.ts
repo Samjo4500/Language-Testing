@@ -5,13 +5,7 @@ import { db } from '@/lib/db';
 import { generateTokens } from '@/lib/auth';
 import { sendPaymentConfirmation, sendAdminNewPayment } from '@/lib/email';
 import { setAuthCookies } from '@/lib/cookie-auth';
-
-// Plan configuration: credits, expiry, display name, EXPECTED price
-const PLAN_CONFIG: Record<string, { credits: number; planName: string; expiryDays: number | null; expectedAmount: number }> = {
-  single: { credits: 1, planName: 'Single Test', expiryDays: null, expectedAmount: 12.99 },
-  premium: { credits: 3, planName: 'Premium', expiryDays: 90, expectedAmount: 29.99 },
-  pro: { credits: 6, planName: 'Pro', expiryDays: 90, expectedAmount: 49.99 },
-};
+import { PLAN_CONFIG } from '@/lib/plans';
 
 export async function POST(request: NextRequest) {
   try {

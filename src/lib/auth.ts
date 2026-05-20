@@ -3,15 +3,18 @@ import bcrypt from 'bcryptjs';
 
 // JWT_SECRET must be set in environment — fail hard if missing
 // Centralized getter: all routes should use this instead of reading process.env directly
+// Uses lazy evaluation so the env var is read at call time, not at module load time
+let _cachedSecret: string | undefined;
 export function getJwtSecret(): string {
-  const secret = process.env.JWT_SECRET;
-  if (!secret) {
-    console.error('FATAL: JWT_SECRET environment variable is not set. Authentication will not work.');
+  if (_cachedSecret === undefined) {
+    _cachedSecret = process.env.JWT_SECRET || '';
+    if (!_cachedSecret) {
+      console.error('FATAL: JWT_SECRET environment variable is not set. Authentication will not work.');
+    }
   }
-  return secret || '';
+  return _cachedSecret;
 }
 
-const JWT_SECRET = getJwtSecret();
 const ACCESS_TOKEN_EXPIRY = '24h';
 const REFRESH_TOKEN_EXPIRY = '30d';
 
@@ -32,16 +35,16 @@ export async function verifyPassword(password: string, hash: string): Promise<bo
 }
 
 export function generateAccessToken(payload: TokenPayload): string {
-  return jwt.sign(payload, JWT_SECRET!, { expiresIn: ACCESS_TOKEN_EXPIRY });
+  return jwt.sign(payload, getJwtSecret(), { expiresIn: ACCESS_TOKEN_EXPIRY });
 }
 
 export function generateRefreshToken(payload: TokenPayload): string {
-  return jwt.sign(payload, JWT_SECRET!, { expiresIn: REFRESH_TOKEN_EXPIRY });
+  return jwt.sign(payload, getJwtSecret(), { expiresIn: REFRESH_TOKEN_EXPIRY });
 }
 
 export function verifyToken(token: string): TokenPayload | null {
   try {
-    const decoded = jwt.verify(token, JWT_SECRET!) as TokenPayload;
+    const decoded = jwt.verify(token, getJwtSecret()) as TokenPayload;
     return decoded;
   } catch {
     return null;
