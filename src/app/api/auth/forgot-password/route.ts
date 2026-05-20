@@ -2,10 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { sendPasswordReset } from '@/lib/email';
 import { authLimiter } from '@/lib/rate-limit';
+import { getJwtSecret } from '@/lib/auth';
 import jwt from 'jsonwebtoken';
-
-// Use centralized JWT_SECRET — no fallback
-const getJwtSecret = () => process.env.JWT_SECRET || '';
 
 export async function POST(request: NextRequest) {
   // Rate limit: 10 password reset requests per 15 minutes per IP

@@ -103,13 +103,13 @@ IMPORTANT: You must respond with ONLY valid JSON in exactly this format, no addi
   }
 }`;
 
-    // 30-second timeout for AI calls
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 30000);
+    // 30-second timeout for AI calls using Promise.race
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new DOMException('AI evaluation timed out', 'AbortError')), 30000)
+    );
 
     try {
-      const result = await model.generateContent(evaluationPrompt);
-      clearTimeout(timeout);
+      const result = await Promise.race([model.generateContent(evaluationPrompt), timeoutPromise]);
       const response = result.response;
       const responseText = response.text();
 
@@ -178,7 +178,6 @@ IMPORTANT: You must respond with ONLY valid JSON in exactly this format, no addi
 
       return NextResponse.json(evaluationResult);
     } catch (error) {
-      clearTimeout(timeout);
       if (error instanceof DOMException && error.name === 'AbortError') {
         return NextResponse.json(
           { error: 'AI evaluation timed out. Please try again.' },

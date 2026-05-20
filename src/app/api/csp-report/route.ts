@@ -36,10 +36,10 @@ export async function POST(request: NextRequest) {
     // Log the CSP violation for monitoring in Vercel logs
     console.warn('[CSP Violation]', JSON.stringify(report, null, 2));
 
-    return NextResponse.json({ received: true }, { status: 204 });
+    return new NextResponse(null, { status: 204 });
   } catch (error) {
     // Don't fail on CSP report errors — they're best-effort
     console.error('[CSP Report Error]', error);
-    return NextResponse.json({ received: false }, { status: 204 });
+    return new NextResponse(null, { status: 204 });
   }
 }

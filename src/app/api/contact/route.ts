@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { sendContactAutoReply, sendAdminEmail, emailShell } from '@/lib/email';
+import { sendContactAutoReply, sendAdminEmail, emailShell, FROM_EMAIL } from '@/lib/email';
 import { db } from '@/lib/db';
 import { rateLimit } from '@/lib/rate-limit';
 
@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
       await db.emailLog.create({
         data: {
           to: email,
-          from: 'TestCEFR <noreply@testcefr.com>',
+          from: FROM_EMAIL,
           subject: 'We received your message — TestCEFR',
           type: 'contact_auto_reply',
           status: 'sent',

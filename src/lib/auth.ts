@@ -2,10 +2,16 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
 // JWT_SECRET must be set in environment — fail hard if missing
-const JWT_SECRET = process.env.JWT_SECRET;
-if (!JWT_SECRET) {
-  console.error('FATAL: JWT_SECRET environment variable is not set. Authentication will not work.');
+// Centralized getter: all routes should use this instead of reading process.env directly
+export function getJwtSecret(): string {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    console.error('FATAL: JWT_SECRET environment variable is not set. Authentication will not work.');
+  }
+  return secret || '';
 }
+
+const JWT_SECRET = getJwtSecret();
 const ACCESS_TOKEN_EXPIRY = '24h';
 const REFRESH_TOKEN_EXPIRY = '30d';
 

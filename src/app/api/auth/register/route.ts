@@ -1,13 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { hashPassword, generateTokens } from '@/lib/auth';
+import { hashPassword, generateTokens, getJwtSecret } from '@/lib/auth';
 import { sendWelcomeEmail, sendEmailVerification, sendAdminNewUser } from '@/lib/email';
 import { authLimiter } from '@/lib/rate-limit';
 import { setAuthCookies } from '@/lib/cookie-auth';
 import jwt from 'jsonwebtoken';
-
-// Use centralized JWT_SECRET — no fallback
-const getJwtSecret = () => process.env.JWT_SECRET || '';
 
 export async function POST(request: NextRequest) {
   // Rate limit: 10 registrations per 15 minutes per IP

@@ -125,10 +125,13 @@ export async function PATCH(request: NextRequest) {
     const passwordHash = await hashPassword(newPassword);
     await db.user.update({
       where: { id: userId },
-      data: { passwordHash },
+      data: {
+        passwordHash,
+        tokenVersion: { increment: 1 }, // Invalidate existing sessions
+      },
     });
 
-    return NextResponse.json({ message: 'Password reset successfully.' });
+    return NextResponse.json({ message: 'Password reset successfully. User will need to log in again.' });
   } catch (error) {
     console.error('Reset password error:', error);
     return NextResponse.json(

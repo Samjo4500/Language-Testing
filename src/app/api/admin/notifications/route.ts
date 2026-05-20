@@ -72,7 +72,7 @@ export async function GET(request: NextRequest) {
 /**
  * PATCH /api/admin/notifications
  * Mark notifications as read.
- * Body: { markAll?: boolean, id?: string }
+ * Body: { markAll?: boolean, id?: string, notificationIds?: string[] }
  */
 export async function PATCH(request: NextRequest) {
   // Rate limit: 60 requests per minute per IP
@@ -88,7 +88,7 @@ export async function PATCH(request: NextRequest) {
     if (adminCheck) return adminCheck;
 
     const body = await request.json();
-    const { markAll, id } = body;
+    const { markAll, id, notificationIds } = body;
 
     if (markAll) {
       await db.emailLog.updateMany({
@@ -98,15 +98,24 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ success: true, marked: 'all' });
     }
 
-    if (id) {
-      await db.emailLog.update({
-        where: { id },
-        data: { isRead: true },
-      });
-      return NextResponse.json({ success: true, marked: id });
+    // Support both single id and array of notificationIds
+    const idsToMark: string[] = [];
+    if (notificationIds && Array.isArray(notificationIds)) {
+      idsToMark.push(...notificationIds.filter((nid: unknown) => typeof nid === 'string'));
+    }
+    if (id && typeof id === 'string') {
+      idsToMark.push(id);
     }
 
-    return NextResponse.json({ error: 'Provide markAll or id' }, { status: 400 });
+    if (idsToMark.length > 0) {
+      await db.emailLog.updateMany({
+        where: { id: { in: idsToMark } },
+        data: { isRead: true },
+      });
+      return NextResponse.json({ success: true, marked: idsToMark });
+    }
+
+    return NextResponse.json({ error: 'Provide markAll, id, or notificationIds' }, { status: 400 });
   } catch (error) {
     console.error('Notifications update error:', error);
     return NextResponse.json(

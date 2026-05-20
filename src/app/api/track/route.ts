@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { rateLimit } from '@/lib/rate-limit';
+
+// Rate limit: 30 page view tracks per minute per IP
+const trackLimiter = rateLimit({ windowMs: 60 * 1000, maxRequests: 30 });
 
 /**
  * POST /api/track
@@ -8,6 +12,9 @@ import { db } from '@/lib/db';
  * Also captures IP from x-forwarded-for header and user-agent.
  */
 export async function POST(request: NextRequest) {
+  // Rate limit tracking to prevent analytics spam
+  const limitError = trackLimiter(request);
+  if (limitError) return limitError;
   try {
     const body = await request.json();
     const { path, referrer, userId } = body;

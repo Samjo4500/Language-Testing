@@ -15,8 +15,19 @@ function getResend(): Resend | null {
 
 // Use RESEND_FROM_EMAIL env var, or fall back to onboarding@resend.dev
 // until testcefr.com domain is verified on Resend dashboard.
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'TestCEFR <onboarding@resend.dev>';
+export const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'TestCEFR <onboarding@resend.dev>';
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://testcefr.com';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@testcefr.com';
+
+/** Escape HTML special characters to prevent XSS in email templates */
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
 
 async function sendEmail(to: string, subject: string, html: string, type?: string, userId?: string): Promise<void> {
   const resend = getResend();
@@ -100,7 +111,7 @@ export function emailShell(title: string, bodyHtml: string): string {
 }
 
 export async function sendWelcomeEmail(name: string, email: string, userId?: string): Promise<void> {
-  const d = name || email.split('@')[0];
+  const d = escapeHtml(name || email.split('@')[0]);
   await sendEmail(email, 'Welcome to TestCEFR!', emailShell('Welcome to TestCEFR!',
     `<div class="content">
       <p class="greeting">Welcome, ${d}!</p>
@@ -113,7 +124,7 @@ export async function sendWelcomeEmail(name: string, email: string, userId?: str
 }
 
 export async function sendEmailVerification(name: string, email: string, verificationLink: string, userId?: string): Promise<void> {
-  const d = name || email.split('@')[0];
+  const d = escapeHtml(name || email.split('@')[0]);
   await sendEmail(email, 'Verify your email — TestCEFR', emailShell('Verify your email',
     `<div class="content">
       <p class="greeting">Hi ${d},</p>
@@ -125,7 +136,7 @@ export async function sendEmailVerification(name: string, email: string, verific
 }
 
 export async function sendPasswordReset(name: string, email: string, resetLink: string): Promise<void> {
-  const d = name || email.split('@')[0];
+  const d = escapeHtml(name || email.split('@')[0]);
   await sendEmail(email, 'Reset your password — TestCEFR', emailShell('Reset your password',
     `<div class="content">
       <p class="greeting">Hi ${d},</p>
@@ -138,7 +149,7 @@ export async function sendPasswordReset(name: string, email: string, resetLink: 
 }
 
 export async function sendPaymentConfirmation(name: string, email: string, planName: string, amount: number, transactionId: string, userId?: string): Promise<void> {
-  const d = name || email.split('@')[0];
+  const d = escapeHtml(name || email.split('@')[0]);
   const formatted = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
   await sendEmail(email, `Payment confirmed — ${planName} plan`, emailShell('Payment confirmed',
     `<div class="content">
@@ -154,7 +165,7 @@ export async function sendPaymentConfirmation(name: string, email: string, planN
 }
 
 export async function sendCertificateReady(name: string, email: string, cefrLevel: string, certificateUrl: string, userId?: string): Promise<void> {
-  const d = name || email.split('@')[0];
+  const d = escapeHtml(name || email.split('@')[0]);
   await sendEmail(email, `Your ${cefrLevel} certificate is ready — TestCEFR`, emailShell('Your certificate is ready!',
     `<div class="content">
       <p class="greeting">Congratulations, ${d}!</p>
@@ -166,7 +177,7 @@ export async function sendCertificateReady(name: string, email: string, cefrLeve
 }
 
 export async function sendAssessmentComplete(name: string, email: string, cefrLevel: string, score: number, userId?: string): Promise<void> {
-  const d = name || email.split('@')[0];
+  const d = escapeHtml(name || email.split('@')[0]);
   await sendEmail(email, `Assessment completed — Level ${cefrLevel}`, emailShell('Assessment completed',
     `<div class="content">
       <p class="greeting">Well done, ${d}!</p>
@@ -180,7 +191,7 @@ export async function sendAssessmentComplete(name: string, email: string, cefrLe
 }
 
 export async function sendContactAutoReply(name: string, email: string, accountType: string): Promise<void> {
-  const d = name || email.split('@')[0];
+  const d = escapeHtml(name || email.split('@')[0]);
   const typeLabel = accountType === 'university' ? 'University/College' : accountType === 'business' ? 'Business' : 'Individual';
   await sendEmail(email, 'We received your message — TestCEFR', emailShell('Message received',
     `<div class="content">
@@ -234,13 +245,12 @@ export async function sendAdminNewPayment(name: string, email: string, planName:
 }
 
 export async function sendAdminEmail(subject: string, html: string, type: string): Promise<void> {
-  const adminEmail = 'admin@testcefr.com';
-  await sendEmail(adminEmail, subject, html);
+  await sendEmail(ADMIN_EMAIL, subject, html);
   // Log to database
   try {
     await db.emailLog.create({
       data: {
-        to: adminEmail,
+        to: ADMIN_EMAIL,
         from: FROM_EMAIL,
         subject,
         type,

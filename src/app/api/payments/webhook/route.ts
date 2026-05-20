@@ -33,9 +33,14 @@ async function verifyWebhookSignature(
   request: NextRequest,
   body: string,
 ): Promise<boolean> {
-  // If no webhook ID configured, skip verification (development mode)
+  // If no webhook ID configured, fail closed in production (security)
+  // Only skip verification in development mode
   if (!PAYPAL_WEBHOOK_ID) {
-    console.warn('PAYPAL_WEBHOOK_ID not set — skipping webhook signature verification');
+    if (process.env.NODE_ENV === 'production') {
+      console.error('PAYPAL_WEBHOOK_ID not set in production — rejecting webhook for security');
+      return false;
+    }
+    console.warn('PAYPAL_WEBHOOK_ID not set in development — skipping webhook signature verification');
     return true;
   }
 

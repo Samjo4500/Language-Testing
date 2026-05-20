@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { capturePayPalOrder, getPayPalMode } from '@/lib/paypal';
+import { capturePayPalOrder } from '@/lib/paypal';
 import { getAuthUser, verifyTokenVersion } from '@/lib/auth-middleware';
 import { db } from '@/lib/db';
 import { generateTokens } from '@/lib/auth';

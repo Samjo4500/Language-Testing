@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAuthUser } from '@/lib/auth-middleware';
+import { aiChatLimiter } from '@/lib/rate-limit';
 
 const CEFR_SYSTEM_PROMPT = `You are the TestCEFR AI Assistant — a friendly, knowledgeable expert on the Common European Framework of Reference for Languages (CEFR) and the TestCEFR platform. Your role is to help users understand their English proficiency, navigate the platform, and answer questions about CEFR levels and assessments.
 
@@ -137,6 +138,10 @@ async function tryGoogleAI(messages: { role: string; content: string }[]): Promi
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limit AI chat to prevent cost abuse
+    const limitError = aiChatLimiter(request);
+    if (limitError) return limitError;
+
     // Auth check — require login for chat to prevent unauthenticated AI abuse
     const authResult = getAuthUser(request);
     if (!authResult) {

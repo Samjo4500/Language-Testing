@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { hashPassword } from '@/lib/auth';
+import { hashPassword, getJwtSecret } from '@/lib/auth';
 import jwt from 'jsonwebtoken';
-
-const JWT_SECRET = process.env.JWT_SECRET || '';
 
 interface ResetTokenPayload {
   userId: string;
@@ -34,7 +32,7 @@ export async function POST(request: NextRequest) {
     // Verify the reset token
     let decoded: ResetTokenPayload;
     try {
-      decoded = jwt.verify(token, JWT_SECRET) as ResetTokenPayload;
+      decoded = jwt.verify(token, getJwtSecret()) as ResetTokenPayload;
     } catch {
       return NextResponse.json(
         { error: 'Invalid or expired reset token. Please request a new one.' },
