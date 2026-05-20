@@ -98,6 +98,8 @@ export function AdminNotificationBell() {
         onClick={handleToggle}
         className="relative flex items-center justify-center p-2 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-colors"
         title="Notifications"
+        aria-label={`Notifications${unreadCount > 0 ? `, ${unreadCount} unread` : ''}`}
+        aria-expanded={isOpen}
       >
         {unreadCount > 0 ? (
           <BellRing className="h-5 w-5 text-purple-400 animate-pulse" />
