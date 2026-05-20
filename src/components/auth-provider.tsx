@@ -41,9 +41,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               const refreshResponse = await fetch('/api/auth/refresh', { method: 'POST' });
               if (refreshResponse.ok) {
                 const refreshData = await refreshResponse.json();
-                setAuth(refreshData.user || JSON.parse(userStr || '{}'), '', '');
-                if (refreshData.user && typeof window !== 'undefined') {
-                  localStorage.setItem('user', JSON.stringify(refreshData.user));
+                const user = refreshData.user || (userStr ? JSON.parse(userStr) : null);
+                if (user) {
+                  setAuth(user, '', '');
+                  if (refreshData.user && typeof window !== 'undefined') {
+                    localStorage.setItem('user', JSON.stringify(refreshData.user));
+                  }
+                } else {
+                  logout();
                 }
               } else {
                 // Refresh also failed — clear auth

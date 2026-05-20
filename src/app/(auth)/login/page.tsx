@@ -20,17 +20,17 @@ export default function LoginPage() {
   const router = useRouter();
   const { setAuth, isAuthenticated, isLoading: authIsLoading } = useAuthStore();
 
-  // Redirect to dashboard if already authenticated (only after hydration completes)
-  const [hasCheckedAuth, setHasCheckedAuth] = useState(false);
+  // Redirect to dashboard if already authenticated (after auth hydration completes)
   useEffect(() => {
+    // Wait for auth hydration to finish before deciding whether to redirect
     if (authIsLoading) return;
-    setHasCheckedAuth(true);
-    // Only redirect if user navigated to login while already authenticated
-    // Don't redirect on initial mount to prevent flickering
-    if (isAuthenticated && hasCheckedAuth) {
-      router.replace('/dashboard');
+    if (isAuthenticated) {
+      // Use the redirect param if present, otherwise go to dashboard
+      const params = new URLSearchParams(window.location.search);
+      const redirectTo = params.get('redirect') || '/dashboard';
+      router.replace(redirectTo);
     }
-  }, [authIsLoading, isAuthenticated, hasCheckedAuth, router]);
+  }, [authIsLoading, isAuthenticated, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,6 +70,30 @@ export default function LoginPage() {
       setIsSubmitting(false);
     }
   };
+
+  // Show loading spinner while checking auth status to prevent form flash
+  if (authIsLoading) {
+    return (
+      <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
+        <Navbar />
+        <div className="flex-1 flex items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-purple-400" />
+        </div>
+      </div>
+    );
+  }
+
+  // If authenticated, show spinner while redirect happens
+  if (isAuthenticated) {
+    return (
+      <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
+        <Navbar />
+        <div className="flex-1 flex items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin text-purple-400" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0F0A1E]">

@@ -143,9 +143,10 @@ export function middleware(request: NextRequest) {
     return response;
   }
 
-  // Auth route with valid auth → redirect to dashboard
+  // Auth route with valid auth → redirect to dashboard (or the redirect param if present)
   if (isAuthRoute && tokenPayload) {
-    const response = NextResponse.redirect(new URL('/dashboard', request.url));
+    const redirectTo = request.nextUrl.searchParams.get('redirect') || '/dashboard';
+    const response = NextResponse.redirect(new URL(redirectTo, request.url));
     addSecurityHeaders(response);
     return response;
   }
