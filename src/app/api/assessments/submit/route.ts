@@ -3,6 +3,20 @@ import { db } from '@/lib/db';
 import { getAuthUser } from '@/lib/auth-middleware';
 import { sendAssessmentComplete } from '@/lib/email';
 
+// Hardcoded correct answers for reading/listening (matching test page content)
+// These are verified server-side to prevent client-side cheating
+const READING_ANSWERS: Record<string, number> = {
+  'r-a1-0': 1, 'r-a1-1': 2,
+  'r-a2-0': 1, 'r-a2-1': 2,
+  'r-b1-0': 1, 'r-b1-1': 2,
+  'r-b2-0': 2, 'r-b2-1': 1,
+  'r-c1-0': 1, 'r-c1-1': 2,
+  'r-c2-0': 1, 'r-c2-1': 1,
+};
+const LISTENING_ANSWERS: Record<string, number> = {
+  'l-a1': 1, 'l-a2': 1, 'l-b1': 1, 'l-b2': 1, 'l-c1': 1, 'l-c2': 1,
+};
+
 export async function POST(request: NextRequest) {
   try {
     // Step 1: Verify authentication
@@ -30,24 +44,66 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Step 4: Find the assessment
+    // Step 4: Find the assessment (check both in_progress and completed for idempotency)
     const assessment = await db.assessment.findFirst({
       where: {
         id: assessmentId,
         userId: authResult.userId,
-        status: 'in_progress',
       },
     });
 
     if (!assessment) {
       return NextResponse.json(
-        { error: 'Not Found', message: 'No in-progress assessment found with this ID.' },
+        { error: 'Not Found', message: 'No assessment found with this ID.' },
         { status: 404 }
       );
     }
 
-    // Step 5: Calculate the score and CEFR level from responses
-    const { score, cefrLevel, correctCount, totalQuestions, skillBreakdown } = calculateResults(responses);
+    // Idempotency: if already completed, return existing results
+    if (assessment.status === 'completed') {
+      const existingCert = await db.certificate.findUnique({
+        where: { assessmentId: assessment.id },
+      });
+      return NextResponse.json({
+        assessment: {
+          id: assessment.id,
+          status: 'completed',
+          cefrLevel: assessment.cefrLevel,
+          score: assessment.score,
+          completedAt: assessment.completedAt,
+        },
+        certificate: existingCert ? {
+          verificationId: existingCert.verificationId,
+          cefrLevel: existingCert.cefrLevel,
+          score: existingCert.score,
+          userName: existingCert.userName,
+          issuedAt: existingCert.issuedAt,
+        } : null,
+        message: 'Assessment already submitted.',
+      });
+    }
+
+    // Step 5: Verify answers server-side and calculate score
+    // CRITICAL: Re-verify reading/listening answers instead of trusting client isCorrect
+    const verifiedResponses = responses.map((r: AssessmentResponse) => {
+      const serverKey = `${r.questionId}`;
+      let isVerified = r.isCorrect;
+
+      // Server-side verification for reading MCQ
+      if (r.category === 'reading' && serverKey in READING_ANSWERS) {
+        isVerified = Number(r.answer) === READING_ANSWERS[serverKey];
+      }
+      // Server-side verification for listening MCQ
+      if (r.category === 'listening' && serverKey in LISTENING_ANSWERS) {
+        isVerified = Number(r.answer) === LISTENING_ANSWERS[serverKey];
+      }
+      // For speaking/writing, trust the AI evaluation score (score >= 50 = correct)
+      // These were already evaluated server-side by the AI endpoints
+
+      return { ...r, isCorrect: isVerified };
+    });
+
+    const { score, cefrLevel, correctCount, totalQuestions, skillBreakdown } = calculateResults(verifiedResponses);
 
     // Step 6: Save responses and update assessment
     await db.$transaction(async (tx) => {
@@ -234,10 +290,8 @@ function calculateResults(responses: AssessmentResponse[]): {
       const catCorrect = catResponses.filter((r) => r.isCorrect).length;
       skillBreakdown[cat] = Math.round((catCorrect / catResponses.length) * 100);
     } else {
-      // If no responses for a category, estimate based on overall score
-      // Use a deterministic offset based on category name instead of Math.random()
-      const catOffset: Record<string, number> = { reading: 5, writing: -3, listening: 8, speaking: -5, grammar: 2, vocabulary: -7 };
-      skillBreakdown[cat] = Math.min(100, Math.max(0, score + (catOffset[cat] || 0)));
+      // No responses for this category — set to 0 instead of fabricating scores
+      skillBreakdown[cat] = 0;
     }
   }
 

@@ -2,6 +2,32 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { getAuthUser } from '@/lib/auth-middleware';
 
+/**
+ * GET /api/assessments/start
+ * Check if the user has an in-progress assessment (does NOT consume a credit).
+ * This is a safe read-only check used by the test page on load.
+ */
+export async function GET(request: NextRequest) {
+  try {
+    const authResult = getAuthUser(request);
+    if (!authResult) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const existing = await db.assessment.findFirst({
+      where: { userId: authResult.userId, status: 'in_progress' },
+    });
+
+    return NextResponse.json({
+      hasInProgress: !!existing,
+      assessment: existing ? { id: existing.id, startedAt: existing.startedAt } : null,
+    });
+  } catch (error) {
+    console.error('Check in-progress assessment error:', error);
+    return NextResponse.json({ error: 'Internal server error.' }, { status: 500 });
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     // Step 1: Verify authentication

@@ -2,11 +2,17 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { hashPassword, generateTokens } from '@/lib/auth';
 import { sendWelcomeEmail, sendEmailVerification, sendAdminNewUser } from '@/lib/email';
+import { authLimiter } from '@/lib/rate-limit';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-change-me';
+// Use centralized JWT_SECRET — no fallback
+const getJwtSecret = () => process.env.JWT_SECRET || '';
 
 export async function POST(request: NextRequest) {
+  // Rate limit: 10 registrations per 15 minutes per IP
+  const limitError = authLimiter(request);
+  if (limitError) return limitError;
+
   try {
     const body = await request.json();
     const { email, password, name, accountType, organizationName } = body;
@@ -80,7 +86,7 @@ export async function POST(request: NextRequest) {
     // Generate email verification token (24-hour expiry)
     const verificationToken = jwt.sign(
       { userId: user.id, purpose: 'email_verification' },
-      JWT_SECRET,
+      getJwtSecret(),
       { expiresIn: '24h' }
     );
 

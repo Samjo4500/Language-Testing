@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getAuthUser } from '@/lib/auth-middleware';
 
 const CEFR_SYSTEM_PROMPT = `You are the TestCEFR AI Assistant — a friendly, knowledgeable expert on the Common European Framework of Reference for Languages (CEFR) and the TestCEFR platform. Your role is to help users understand their English proficiency, navigate the platform, and answer questions about CEFR levels and assessments.
 
@@ -136,6 +137,15 @@ async function tryGoogleAI(messages: { role: string; content: string }[]): Promi
 
 export async function POST(request: NextRequest) {
   try {
+    // Auth check — require login for chat to prevent unauthenticated AI abuse
+    const authResult = getAuthUser(request);
+    if (!authResult) {
+      return NextResponse.json(
+        { error: 'Please sign in to use the chat assistant.' },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
     const { messages, currentPage, userName } = body as {
       messages: { role: string; content: string }[];
@@ -196,7 +206,7 @@ function getFallbackResponse(userMessage: string): string {
   const lowerMsg = userMessage.toLowerCase();
 
   if (lowerMsg.includes('price') || lowerMsg.includes('cost') || lowerMsg.includes('plan')) {
-    return "We offer **3 plans**: **Free** (1 practice test, basic results), **Premium** ($29 — full assessment, detailed breakdown, certificate), and **Pro** ($79 — unlimited tests, priority AI, API access). Visit our [Pricing page](/pricing/) for details!";
+    return "We offer **3 plans**: **Free** (1 practice test, basic results), **Premium** ($29.99 — full assessment, detailed breakdown, certificate), and **Pro** ($49.99 — unlimited tests, priority AI, API access). Visit our [Pricing page](/pricing/) for details!";
   }
   if (lowerMsg.includes('certificate') || lowerMsg.includes('cert')) {
     return "Our certificates are **QR-verified** and recognized by institutions worldwide. After completing an assessment, you'll receive a digital certificate with your CEFR level (A1–C2) that you can share via a unique verification URL. Premium plan required.";

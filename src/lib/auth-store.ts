@@ -45,7 +45,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       localStorage.setItem('user', JSON.stringify(user));
       // Also set cookies for middleware (server-side route protection)
       document.cookie = `auth_token=${accessToken}; path=/; max-age=${30 * 24 * 60 * 60}; SameSite=Lax; Secure`;
-      document.cookie = `user_role=${user.role || 'user'}; path=/; max-age=${30 * 24 * 60 * 60}; SameSite=Lax; Secure`;
+      // Note: user_role cookie REMOVED — role is now extracted from verified JWT in middleware
     }
     set({
       user,
@@ -71,9 +71,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('user');
-      // Clear middleware cookies
+      // Clear middleware cookie
       document.cookie = 'auth_token=; path=/; max-age=0';
-      document.cookie = 'user_role=; path=/; max-age=0';
     }
     set({
       user: null,

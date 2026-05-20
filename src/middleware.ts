@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
+import jwt from 'jsonwebtoken';
 
 /**
  * Middleware for server-side route protection.
- * - Protected routes: /dashboard, /test, /admin, /payment-success, /pricing (authenticated only)
- * - Public routes: /, /login, /register, /forgot-password, /reset-password, /verify-email, /verify, /contact, /about, /privacy, /terms, /api/*
- * - Admin routes: /admin (requires admin role)
+ * - Protected routes: /dashboard, /test, /payment-success
+ * - Admin routes: /admin (requires admin role from VERIFIED JWT)
+ * - Auth routes: /login, /register (redirect to dashboard if authenticated)
+ *
+ * SECURITY: Role is extracted from the VERIFIED JWT token, NOT from a client-set cookie.
  */
+
+const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-change-me';
 
 // Routes that require authentication
 const PROTECTED_ROUTES = ['/dashboard', '/test', '/payment-success'];
@@ -16,6 +21,21 @@ const ADMIN_ROUTES = ['/admin'];
 // Routes that should redirect to dashboard if already authenticated
 const AUTH_ROUTES = ['/login', '/register'];
 
+interface TokenPayload {
+  userId: string;
+  email: string;
+  plan: string;
+  role?: string;
+}
+
+function verifyTokenSafely(token: string): TokenPayload | null {
+  try {
+    return jwt.verify(token, JWT_SECRET) as TokenPayload;
+  } catch {
+    return null;
+  }
+}
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -24,25 +44,28 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Read auth token from cookies (we set these during login for middleware use)
+  // Read auth token from cookie and VERIFY the JWT
   const accessToken = request.cookies.get('auth_token')?.value;
-  const userRole = request.cookies.get('user_role')?.value;
+  const tokenPayload = accessToken ? verifyTokenSafely(accessToken) : null;
+
+  // Extract role from verified JWT — NEVER trust a client-set cookie for role
+  const userRole = tokenPayload?.role || 'user';
 
   // Check if route requires authentication
   const isProtectedRoute = PROTECTED_ROUTES.some(route => pathname.startsWith(route));
   const isAdminRoute = ADMIN_ROUTES.some(route => pathname.startsWith(route));
   const isAuthRoute = AUTH_ROUTES.some(route => pathname.startsWith(route));
 
-  // Protected route without auth → redirect to login
-  if (isProtectedRoute && !accessToken) {
+  // Protected route without valid auth → redirect to login
+  if (isProtectedRoute && !tokenPayload) {
     const loginUrl = new URL('/login', request.url);
     loginUrl.searchParams.set('redirect', pathname);
     return NextResponse.redirect(loginUrl);
   }
 
   // Admin route without admin role → redirect to dashboard
-  if (isAdminRoute && (!accessToken || userRole !== 'admin')) {
-    if (!accessToken) {
+  if (isAdminRoute && (!tokenPayload || userRole !== 'admin')) {
+    if (!tokenPayload) {
       const loginUrl = new URL('/login', request.url);
       loginUrl.searchParams.set('redirect', pathname);
       return NextResponse.redirect(loginUrl);
@@ -51,7 +74,7 @@ export function middleware(request: NextRequest) {
   }
 
   // Auth route with valid auth → redirect to dashboard
-  if (isAuthRoute && accessToken) {
+  if (isAuthRoute && tokenPayload) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 

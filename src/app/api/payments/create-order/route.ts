@@ -20,19 +20,18 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { planType = 'single', amount: customAmount, currency = 'USD' } = body;
+    const { planType, currency = 'USD' } = body;
 
-    // Determine the amount from plan type, or use custom amount for backwards compat
+    // Amount is ALWAYS determined server-side from plan type — NEVER trust client amounts
     const planConfig = PLAN_PRICES[planType];
-    const amount = customAmount || (planConfig ? planConfig.amount : 9.99);
-    const description = planConfig ? planConfig.label : 'CEFR English Proficiency Test';
-
-    if (amount <= 0) {
+    if (!planConfig) {
       return NextResponse.json(
-        { error: 'Invalid amount.' },
+        { error: 'Invalid plan type. Choose from: single, premium, pro.' },
         { status: 400 }
       );
     }
+    const amount = planConfig.amount;
+    const description = planConfig.label;
 
     const order = await createPayPalOrder(amount, currency, description, planType);
 

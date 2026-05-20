@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { getAuthUser } from '@/lib/auth-middleware';
+
+const MAX_TRANSCRIPT_LENGTH = 5000;
 
 /**
  * POST /api/assessments/speaking/evaluate
@@ -10,12 +13,29 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
  */
 export async function POST(request: NextRequest) {
   try {
+    // Auth check — prevent unauthenticated AI abuse
+    const authResult = getAuthUser(request);
+    if (!authResult) {
+      return NextResponse.json(
+        { error: 'Unauthorized. You must be logged in to use AI evaluation.' },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
     const { transcript, prompt, level, inputLevel } = body;
 
     if (!transcript || typeof transcript !== 'string') {
       return NextResponse.json(
         { error: 'transcript is required and must be a string.' },
+        { status: 400 }
+      );
+    }
+
+    // Input length limit — prevent API abuse
+    if (transcript.length > MAX_TRANSCRIPT_LENGTH) {
+      return NextResponse.json(
+        { error: `Transcript too long. Maximum ${MAX_TRANSCRIPT_LENGTH.toLocaleString()} characters.` },
         { status: 400 }
       );
     }
@@ -83,74 +103,90 @@ IMPORTANT: You must respond with ONLY valid JSON in exactly this format, no addi
   }
 }`;
 
-    const result = await model.generateContent(evaluationPrompt);
-    const response = result.response;
-    const responseText = response.text();
+    // 30-second timeout for AI calls
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
 
-    // Parse the JSON response from Gemini
-    let evaluationResult;
     try {
-      // Try to extract JSON from the response (handle markdown code blocks)
-      const jsonMatch = responseText.match(/```(?:json)?\s*([\s\S]*?)```/);
-      const jsonStr = jsonMatch ? jsonMatch[1].trim() : responseText.trim();
-      evaluationResult = JSON.parse(jsonStr);
-    } catch {
-      console.error('Failed to parse Gemini response:', responseText);
-      return NextResponse.json(
-        { error: 'Failed to parse AI evaluation result.' },
-        { status: 502 }
-      );
-    }
+      const result = await model.generateContent(evaluationPrompt);
+      clearTimeout(timeout);
+      const response = result.response;
+      const responseText = response.text();
 
-    // Validate the result structure
-    const validLevels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
-    if (!evaluationResult.cefrLevel || !validLevels.includes(evaluationResult.cefrLevel)) {
-      evaluationResult.cefrLevel = level;
-    }
-    if (typeof evaluationResult.score !== 'number' || evaluationResult.score < 0 || evaluationResult.score > 100) {
-      evaluationResult.score = 50;
-    }
-    if (typeof evaluationResult.feedback !== 'string') {
-      evaluationResult.feedback = 'Evaluation completed.';
-    }
-    if (!Array.isArray(evaluationResult.strengths)) {
-      evaluationResult.strengths = [];
-    }
-    if (!Array.isArray(evaluationResult.improvements)) {
-      evaluationResult.improvements = [];
-    }
-
-    // Validate and ensure dimensions structure
-    const defaultDimensions = {
-      grammar: { score: evaluationResult.score, feedback: 'Assessment completed.' },
-      vocabulary: { score: evaluationResult.score, feedback: 'Assessment completed.' },
-      fluency: { score: evaluationResult.score, feedback: 'Assessment completed.' },
-      pronunciation: { score: evaluationResult.score, feedback: 'Assessment completed.' },
-      coherence: { score: evaluationResult.score, feedback: 'Assessment completed.' },
-      interaction: { score: evaluationResult.score, feedback: 'Assessment completed.' },
-    };
-
-    if (evaluationResult.dimensions && typeof evaluationResult.dimensions === 'object') {
-      // Validate each dimension
-      for (const key of Object.keys(defaultDimensions)) {
-        if (evaluationResult.dimensions[key]) {
-          if (typeof evaluationResult.dimensions[key].score !== 'number' ||
-              evaluationResult.dimensions[key].score < 0 ||
-              evaluationResult.dimensions[key].score > 100) {
-            evaluationResult.dimensions[key].score = evaluationResult.score;
-          }
-          if (typeof evaluationResult.dimensions[key].feedback !== 'string') {
-            evaluationResult.dimensions[key].feedback = 'Assessment completed.';
-          }
-        } else {
-          evaluationResult.dimensions[key] = defaultDimensions[key as keyof typeof defaultDimensions];
-        }
+      // Parse the JSON response from Gemini
+      let evaluationResult;
+      try {
+        // Try to extract JSON from the response (handle markdown code blocks)
+        const jsonMatch = responseText.match(/```(?:json)?\s*([\s\S]*?)```/);
+        const jsonStr = jsonMatch ? jsonMatch[1].trim() : responseText.trim();
+        evaluationResult = JSON.parse(jsonStr);
+      } catch {
+        console.error('Failed to parse Gemini response:', responseText);
+        return NextResponse.json(
+          { error: 'Failed to parse AI evaluation result.' },
+          { status: 502 }
+        );
       }
-    } else {
-      evaluationResult.dimensions = defaultDimensions;
-    }
 
-    return NextResponse.json(evaluationResult);
+      // Validate the result structure
+      const validLevels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+      if (!evaluationResult.cefrLevel || !validLevels.includes(evaluationResult.cefrLevel)) {
+        evaluationResult.cefrLevel = level;
+      }
+      if (typeof evaluationResult.score !== 'number' || evaluationResult.score < 0 || evaluationResult.score > 100) {
+        evaluationResult.score = 50;
+      }
+      if (typeof evaluationResult.feedback !== 'string') {
+        evaluationResult.feedback = 'Evaluation completed.';
+      }
+      if (!Array.isArray(evaluationResult.strengths)) {
+        evaluationResult.strengths = [];
+      }
+      if (!Array.isArray(evaluationResult.improvements)) {
+        evaluationResult.improvements = [];
+      }
+
+      // Validate and ensure dimensions structure
+      const defaultDimensions = {
+        grammar: { score: evaluationResult.score, feedback: 'Assessment completed.' },
+        vocabulary: { score: evaluationResult.score, feedback: 'Assessment completed.' },
+        fluency: { score: evaluationResult.score, feedback: 'Assessment completed.' },
+        pronunciation: { score: evaluationResult.score, feedback: 'Assessment completed.' },
+        coherence: { score: evaluationResult.score, feedback: 'Assessment completed.' },
+        interaction: { score: evaluationResult.score, feedback: 'Assessment completed.' },
+      };
+
+      if (evaluationResult.dimensions && typeof evaluationResult.dimensions === 'object') {
+        // Validate each dimension
+        for (const key of Object.keys(defaultDimensions)) {
+          if (evaluationResult.dimensions[key]) {
+            if (typeof evaluationResult.dimensions[key].score !== 'number' ||
+                evaluationResult.dimensions[key].score < 0 ||
+                evaluationResult.dimensions[key].score > 100) {
+              evaluationResult.dimensions[key].score = evaluationResult.score;
+            }
+            if (typeof evaluationResult.dimensions[key].feedback !== 'string') {
+              evaluationResult.dimensions[key].feedback = 'Assessment completed.';
+            }
+          } else {
+            evaluationResult.dimensions[key] = defaultDimensions[key as keyof typeof defaultDimensions];
+          }
+        }
+      } else {
+        evaluationResult.dimensions = defaultDimensions;
+      }
+
+      return NextResponse.json(evaluationResult);
+    } catch (error) {
+      clearTimeout(timeout);
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        return NextResponse.json(
+          { error: 'AI evaluation timed out. Please try again.' },
+          { status: 504 }
+        );
+      }
+      throw error;
+    }
   } catch (error) {
     console.error('Speaking evaluation error:', error);
     return NextResponse.json(

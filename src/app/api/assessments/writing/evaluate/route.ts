@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { getAuthUser } from '@/lib/auth-middleware';
+
+const MAX_TEXT_LENGTH = 10000;
 
 /**
  * POST /api/assessments/writing/evaluate
@@ -10,12 +13,29 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
  */
 export async function POST(request: NextRequest) {
   try {
+    // Auth check — prevent unauthenticated AI abuse
+    const authResult = getAuthUser(request);
+    if (!authResult) {
+      return NextResponse.json(
+        { error: 'Unauthorized. You must be logged in to use AI evaluation.' },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
     const { text, prompt, level } = body;
 
     if (!text || typeof text !== 'string') {
       return NextResponse.json(
         { error: 'text is required and must be a string.' },
+        { status: 400 }
+      );
+    }
+
+    // Input length limit — prevent API abuse
+    if (text.length > MAX_TEXT_LENGTH) {
+      return NextResponse.json(
+        { error: `Text too long. Maximum ${MAX_TEXT_LENGTH.toLocaleString()} characters.` },
         { status: 400 }
       );
     }
@@ -69,44 +89,60 @@ IMPORTANT: You must respond with ONLY valid JSON in exactly this format, no addi
   "improvements": ["Improvement 1", "Improvement 2", "Improvement 3"]
 }`;
 
-    const result = await model.generateContent(evaluationPrompt);
-    const response = result.response;
-    const responseText = response.text();
+    // 30-second timeout for AI calls
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
 
-    // Parse the JSON response from Gemini
-    let evaluationResult;
     try {
-      // Try to extract JSON from the response (handle markdown code blocks)
-      const jsonMatch = responseText.match(/```(?:json)?\s*([\s\S]*?)```/);
-      const jsonStr = jsonMatch ? jsonMatch[1].trim() : responseText.trim();
-      evaluationResult = JSON.parse(jsonStr);
-    } catch {
-      console.error('Failed to parse Gemini response:', responseText);
-      return NextResponse.json(
-        { error: 'Failed to parse AI evaluation result.' },
-        { status: 502 }
-      );
-    }
+      const result = await model.generateContent(evaluationPrompt);
+      clearTimeout(timeout);
+      const response = result.response;
+      const responseText = response.text();
 
-    // Validate the result structure
-    const validLevels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
-    if (!evaluationResult.cefrLevel || !validLevels.includes(evaluationResult.cefrLevel)) {
-      evaluationResult.cefrLevel = level;
-    }
-    if (typeof evaluationResult.score !== 'number' || evaluationResult.score < 0 || evaluationResult.score > 100) {
-      evaluationResult.score = 50;
-    }
-    if (typeof evaluationResult.feedback !== 'string') {
-      evaluationResult.feedback = 'Evaluation completed.';
-    }
-    if (!Array.isArray(evaluationResult.strengths)) {
-      evaluationResult.strengths = [];
-    }
-    if (!Array.isArray(evaluationResult.improvements)) {
-      evaluationResult.improvements = [];
-    }
+      // Parse the JSON response from Gemini
+      let evaluationResult;
+      try {
+        // Try to extract JSON from the response (handle markdown code blocks)
+        const jsonMatch = responseText.match(/```(?:json)?\s*([\s\S]*?)```/);
+        const jsonStr = jsonMatch ? jsonMatch[1].trim() : responseText.trim();
+        evaluationResult = JSON.parse(jsonStr);
+      } catch {
+        console.error('Failed to parse Gemini response:', responseText);
+        return NextResponse.json(
+          { error: 'Failed to parse AI evaluation result.' },
+          { status: 502 }
+        );
+      }
 
-    return NextResponse.json(evaluationResult);
+      // Validate the result structure
+      const validLevels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+      if (!evaluationResult.cefrLevel || !validLevels.includes(evaluationResult.cefrLevel)) {
+        evaluationResult.cefrLevel = level;
+      }
+      if (typeof evaluationResult.score !== 'number' || evaluationResult.score < 0 || evaluationResult.score > 100) {
+        evaluationResult.score = 50;
+      }
+      if (typeof evaluationResult.feedback !== 'string') {
+        evaluationResult.feedback = 'Evaluation completed.';
+      }
+      if (!Array.isArray(evaluationResult.strengths)) {
+        evaluationResult.strengths = [];
+      }
+      if (!Array.isArray(evaluationResult.improvements)) {
+        evaluationResult.improvements = [];
+      }
+
+      return NextResponse.json(evaluationResult);
+    } catch (error) {
+      clearTimeout(timeout);
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        return NextResponse.json(
+          { error: 'AI evaluation timed out. Please try again.' },
+          { status: 504 }
+        );
+      }
+      throw error;
+    }
   } catch (error) {
     console.error('Writing evaluation error:', error);
     return NextResponse.json(

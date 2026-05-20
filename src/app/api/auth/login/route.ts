@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { verifyPassword, generateTokens } from '@/lib/auth';
+import { authLimiter } from '@/lib/rate-limit';
 
 export async function POST(request: NextRequest) {
+  // Rate limit: 10 login attempts per 15 minutes per IP
+  const limitError = authLimiter(request);
+  if (limitError) return limitError;
+
   try {
     const body = await request.json();
     const { email, password } = body;

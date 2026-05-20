@@ -83,3 +83,32 @@ Stage Summary:
 - Register page redirect guard
 - Next.js 16 build errors resolved
 - All deployed to production
+
+---
+Task ID: 1-8
+Agent: Super Z (main)
+Task: Fix all 7 launch blockers + certificate PDF text overlapping
+
+Work Log:
+- Fixed PayPal amount override: removed customAmount from client, amount now strictly server-side from PLAN_PRICES
+- Fixed server-side answer verification: added READING_ANSWERS and LISTENING_ANSWERS lookup tables to verify isCorrect server-side instead of trusting client
+- Added duplicate submission protection: submit route checks if assessment already completed, returns existing results
+- Fixed fabricated skill breakdown: categories with no responses now show 0 instead of fake offset-based scores
+- Added auth to all 3 AI endpoints: writing/evaluate, speaking/evaluate, chat route now require Bearer token
+- Added input length limits: writing text max 10,000 chars, speaking transcript max 5,000 chars
+- Added 30-second timeout to AI evaluation calls with AbortController
+- Fixed middleware JWT verification: role now extracted from verified JWT, not from client-set user_role cookie
+- Removed insecure user_role cookie from auth-store setAuth/logout
+- Removed JWT_SECRET fallback 'fallback-secret-change-me' from all auth files
+- Created rate-limit.ts module with authLimiter, aiChatLimiter, aiEvalLimiter, assessmentLimiter
+- Applied rate limiting to: login, register, forgot-password routes (10 per 15 min)
+- Added GET endpoint to /api/assessments/start for read-only check without consuming credit
+- Changed test page resume check from POST to GET (no longer burns credit on page load)
+- Added sessionStorage persistence for test progress (answers, evaluations, phase, indices)
+- Fixed certificate PDF: rewrote with cursor-based vertical layout to prevent text overlapping, added dynamic name sizing
+- Fixed chat fallback pricing: $29→$29.99, $79→$49.99
+
+Stage Summary:
+- All 7 launch blockers fixed + certificate PDF overlap fixed
+- Build passes successfully
+- Files modified: create-order/route.ts, submit/route.ts, writing/evaluate/route.ts, speaking/evaluate/route.ts, chat/route.ts, middleware.ts, auth-store.ts, auth.ts, rate-limit.ts (new), start/route.ts, test/page.tsx, pdf-generator.ts, login/route.ts, register/route.ts, forgot-password/route.ts, verify-email/route.ts, reset-password/route.ts

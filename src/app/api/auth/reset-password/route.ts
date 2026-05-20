@@ -3,7 +3,7 @@ import { db } from '@/lib/db';
 import { hashPassword } from '@/lib/auth';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-change-me';
+const JWT_SECRET = process.env.JWT_SECRET || '';
 
 interface ResetTokenPayload {
   userId: string;

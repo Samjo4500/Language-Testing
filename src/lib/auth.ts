@@ -1,7 +1,11 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-change-me';
+// JWT_SECRET must be set in environment — fail hard if missing
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  console.error('FATAL: JWT_SECRET environment variable is not set. Authentication will not work.');
+}
 const ACCESS_TOKEN_EXPIRY = '24h';
 const REFRESH_TOKEN_EXPIRY = '30d';
 

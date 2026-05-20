@@ -1,11 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { sendPasswordReset } from '@/lib/email';
+import { authLimiter } from '@/lib/rate-limit';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-change-me';
+// Use centralized JWT_SECRET — no fallback
+const getJwtSecret = () => process.env.JWT_SECRET || '';
 
 export async function POST(request: NextRequest) {
+  // Rate limit: 10 password reset requests per 15 minutes per IP
+  const limitError = authLimiter(request);
+  if (limitError) return limitError;
+
   try {
     const body = await request.json();
     const { email } = body;
@@ -29,7 +35,7 @@ export async function POST(request: NextRequest) {
     // Generate a reset token (JWT with 1-hour expiry)
     const resetToken = jwt.sign(
       { userId: user.id, purpose: 'password_reset' },
-      JWT_SECRET,
+      getJwtSecret(),
       { expiresIn: '1h' }
     );
 

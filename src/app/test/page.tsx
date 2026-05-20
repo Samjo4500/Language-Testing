@@ -283,20 +283,20 @@ export default function TestPage() {
   const [resumingAssessment, setResumingAssessment] = useState(false);
 
   // Check for in-progress assessment on mount (resume capability)
+  // SECURITY: Use GET (read-only) instead of POST to avoid consuming a credit on page load
   useEffect(() => {
     if (!isAuthenticated || !accessToken) return;
     const checkForResumableAssessment = async () => {
       try {
         const res = await fetch('/api/assessments/start', {
-          method: 'POST',
+          method: 'GET',
           headers: {
-            'Content-Type': 'application/json',
             'Authorization': `Bearer ${accessToken}`,
           },
         });
         if (res.ok) {
           const data = await res.json();
-          if (data.assessment && data.message?.includes('already have')) {
+          if (data.hasInProgress && data.assessment) {
             setAssessmentId(data.assessment.id);
             setResumingAssessment(true);
           }
@@ -351,6 +351,47 @@ export default function TestPage() {
   // Results state
   const [submitting, setSubmitting] = useState(false);
   const [results, setResults] = useState<any>(null);
+
+  // ── Session persistence: save test progress to sessionStorage ──
+  const SESSION_KEY = assessmentId ? `test-progress-${assessmentId}` : null;
+
+  // Restore saved progress on mount
+  useEffect(() => {
+    if (!SESSION_KEY || typeof window === 'undefined') return;
+    try {
+      const saved = sessionStorage.getItem(SESSION_KEY);
+      if (saved) {
+        const state = JSON.parse(saved);
+        if (state.readingAnswers) setReadingAnswers(state.readingAnswers);
+        if (state.listeningAnswers) setListeningAnswers(state.listeningAnswers);
+        if (state.writingTexts) setWritingTexts(state.writingTexts);
+        if (state.speakingTranscript) setSpeakingTranscript(state.speakingTranscript);
+        if (state.speakingEvaluations) setSpeakingEvaluations(state.speakingEvaluations);
+        if (state.writingEvaluations) setWritingEvaluations(state.writingEvaluations);
+        if (state.skillStatuses) setSkillStatuses(state.skillStatuses);
+        if (state.phase && state.phase !== 'select') setPhase(state.phase);
+        if (state.readingIdx) setReadingIdx(state.readingIdx);
+        if (state.listeningIdx) setListeningIdx(state.listeningIdx);
+        if (state.speakingIdx) setSpeakingIdx(state.speakingIdx);
+        if (state.writingIdx) setWritingIdx(state.writingIdx);
+      }
+    } catch {}
+  }, [SESSION_KEY]);
+
+  // Save progress to sessionStorage whenever test state changes
+  useEffect(() => {
+    if (!SESSION_KEY || typeof window === 'undefined' || phase === 'select' || phase === 'results') return;
+    try {
+      const state = {
+        readingAnswers, listeningAnswers, writingTexts, speakingTranscript,
+        speakingEvaluations, writingEvaluations, skillStatuses, phase,
+        readingIdx, listeningIdx, speakingIdx, writingIdx,
+      };
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify(state));
+    } catch {}
+  }, [SESSION_KEY, readingAnswers, listeningAnswers, writingTexts, speakingTranscript,
+      speakingEvaluations, writingEvaluations, skillStatuses, phase,
+      readingIdx, listeningIdx, speakingIdx, writingIdx]);
 
   // Warn user before leaving/refreshing during an active test
   const isInActiveTest = phase !== 'select' && phase !== 'results';
