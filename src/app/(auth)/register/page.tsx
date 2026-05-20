@@ -50,6 +50,16 @@ export default function RegisterPage() {
     e.preventDefault();
     setError('');
 
+    if (!name.trim()) {
+      setError('Please enter your full name.');
+      return;
+    }
+
+    if (name.trim().length < 2) {
+      setError('Name must be at least 2 characters long.');
+      return;
+    }
+
     if (password !== confirmPassword) {
       setError('Passwords do not match.');
       return;
@@ -109,9 +119,9 @@ export default function RegisterPage() {
         <div className="relative w-full max-w-4xl grid md:grid-cols-2 gap-8 items-start">
           {/* Left Panel - Benefits & Account Type */}
           <div className="hidden md:block pt-4">
-            <div className="flex items-center gap-2 text-2xl font-bold text-white mb-6">
+            <div className="flex items-center gap-2.5 text-2xl font-bold text-white mb-6">
               <img src="/logo-icon.svg" alt="CEFR Test" className="h-8 w-8" />
-              <span>CEFR Test</span>
+              <span className="tracking-tight">test<span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">cefr</span><span className="text-purple-300">.com</span></span>
             </div>
             <h1 className="text-3xl font-bold text-white mb-4">Start your English journey</h1>
             <p className="text-white/50 mb-6">
@@ -196,9 +206,9 @@ export default function RegisterPage() {
           <div>
             {/* Mobile: Account type selector */}
             <div className="md:hidden flex flex-col items-center mb-6">
-              <div className="flex items-center gap-2 text-xl font-bold text-white mb-4">
+              <div className="flex items-center gap-2 text-lg font-bold text-white mb-4">
                 <img src="/logo-icon.svg" alt="CEFR Test" className="h-6 w-6" />
-                <span>CEFR Test</span>
+                <span className="tracking-tight">test<span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">cefr</span><span className="text-purple-300">.com</span></span>
               </div>
               <div className="flex gap-2 w-full">
                 {[
@@ -246,6 +256,8 @@ export default function RegisterPage() {
                     placeholder="John Smith"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    required
+                    minLength={2}
                     autoComplete="name"
                     className="bg-white/5 border-white/10 text-white placeholder-white/30 rounded-xl glow-input focus:border-purple-500/50"
                   />

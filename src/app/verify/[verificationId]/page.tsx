@@ -164,9 +164,9 @@ export default function VerifyCertificatePage() {
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
                       <img src="/logo-icon.svg" alt="CEFR Test" className="h-10 w-10" />
-                      <div>
-                        <p className="text-white font-bold text-lg tracking-tight">CEFR Test</p>
-                        <p className="text-xs text-white/40">testcefr.com</p>
+                      <div className="flex flex-col">
+                        <span className="text-white font-bold text-lg tracking-tight leading-tight">test<span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">cefr</span><span className="text-purple-300">.com</span></span>
+                        <span className="text-white/40 text-[10px] uppercase tracking-[0.2em] leading-tight">English Assessment</span>
                       </div>
                     </div>
                     <div className="text-right">

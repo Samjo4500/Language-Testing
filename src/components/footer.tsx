@@ -12,8 +12,10 @@ export function Footer() {
             <div className="flex items-center gap-3.5 mb-4">
               <img src="/logo-icon.svg" alt="CEFR Test" className="h-10 w-10 sm:h-12 sm:w-12" />
               <div className="flex flex-col">
-                <span className="text-white font-bold text-lg">testcefr.com</span>
-                <span className="text-white/30 text-[10px] uppercase tracking-[0.2em]">English Assessment</span>
+                <span className="text-white font-bold text-base sm:text-lg tracking-tight leading-tight">
+                  test<span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">cefr</span><span className="text-purple-300">.com</span>
+                </span>
+                <span className="text-white/40 text-[10px] uppercase tracking-[0.2em] leading-tight">English Assessment</span>
               </div>
             </div>
             <p className="text-sm text-white/40 leading-relaxed mb-4">
@@ -135,7 +137,9 @@ export function Footer() {
         <div className="mt-8 pt-6 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <img src="/logo-icon.svg" alt="CEFR Test" className="h-9 w-9" />
-            <span className="text-white/30 text-sm">testcefr.com</span>
+            <span className="text-white font-semibold text-sm">
+              test<span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">cefr</span><span className="text-purple-300">.com</span>
+            </span>
           </div>
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
             <p className="text-white/20 text-xs">

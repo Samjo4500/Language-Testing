@@ -1,99 +1,107 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAuthUser, requireAdmin } from '@/lib/auth-middleware';
 import { db } from '@/lib/db';
+import { getAuthUser, requireAdmin } from '@/lib/auth-middleware';
 
-const ADMIN_NOTIFICATION_TYPES = [
-  'contact_notification',
-  'b2b_notification',
-  'admin_new_user',
-  'admin_new_payment',
-  'admin_certificate',
-];
-
-// GET /api/admin/notifications — Returns unread count + 10 most recent admin-relevant email logs
+/**
+ * GET /api/admin/notifications
+ * Returns admin notifications (recent email logs) with unread count.
+ */
 export async function GET(request: NextRequest) {
   try {
-    const user = getAuthUser(request);
-    if (!user) {
+    const authResult = getAuthUser(request);
+    if (!authResult) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-
-    const adminCheck = requireAdmin(user);
+    const adminCheck = requireAdmin(authResult);
     if (adminCheck) return adminCheck;
 
-    const [unreadCount, notifications] = await Promise.all([
-      db.emailLog.count({
-        where: {
-          type: { in: ADMIN_NOTIFICATION_TYPES },
-          isRead: false,
-        },
-      }),
-      db.emailLog.findMany({
-        where: {
-          type: { in: ADMIN_NOTIFICATION_TYPES },
-        },
-        orderBy: { createdAt: 'desc' },
-        take: 10,
-      }),
-    ]);
+    // Get unread count
+    const unreadCount = await db.emailLog.count({
+      where: { isRead: false },
+    });
 
-    return NextResponse.json({ unreadCount, notifications });
+    // Get recent notifications (latest 50)
+    const notifications = await db.emailLog.findMany({
+      where: {
+        // Show admin-facing types and recent user emails
+        type: {
+          in: [
+            'admin_new_user',
+            'admin_new_payment',
+            'welcome',
+            'verification',
+            'password_reset',
+            'payment',
+            'certificate',
+            'assessment',
+            'contact_auto_reply',
+          ],
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+      take: 50,
+    });
+
+    return NextResponse.json({
+      unreadCount,
+      notifications: notifications.map((n) => ({
+        id: n.id,
+        to: n.to,
+        from: n.from,
+        subject: n.subject,
+        type: n.type,
+        status: n.status,
+        isRead: n.isRead,
+        createdAt: n.createdAt.toISOString(),
+      })),
+    });
   } catch (error) {
-    console.error('Admin notifications GET error:', error);
+    console.error('Notifications fetch error:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch notifications' },
+      { error: 'Failed to fetch notifications.' },
       { status: 500 }
     );
   }
 }
 
-// PATCH /api/admin/notifications — Mark notifications as read
+/**
+ * PATCH /api/admin/notifications
+ * Mark notifications as read.
+ * Body: { markAll?: boolean, id?: string }
+ */
 export async function PATCH(request: NextRequest) {
   try {
-    const user = getAuthUser(request);
-    if (!user) {
+    const authResult = getAuthUser(request);
+    if (!authResult) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-
-    const adminCheck = requireAdmin(user);
+    const adminCheck = requireAdmin(authResult);
     if (adminCheck) return adminCheck;
 
     const body = await request.json();
-    const { notificationIds, markAll } = body as {
-      notificationIds?: string[];
-      markAll?: boolean;
-    };
+    const { markAll, id } = body;
 
     if (markAll) {
       await db.emailLog.updateMany({
-        where: {
-          type: { in: ADMIN_NOTIFICATION_TYPES },
-          isRead: false,
-        },
+        where: { isRead: false },
         data: { isRead: true },
       });
-      return NextResponse.json({ success: true, message: 'All notifications marked as read' });
+      return NextResponse.json({ success: true, marked: 'all' });
     }
 
-    if (notificationIds && Array.isArray(notificationIds) && notificationIds.length > 0) {
-      await db.emailLog.updateMany({
-        where: {
-          id: { in: notificationIds },
-          type: { in: ADMIN_NOTIFICATION_TYPES },
-        },
+    if (id) {
+      await db.emailLog.update({
+        where: { id },
         data: { isRead: true },
       });
-      return NextResponse.json({ success: true, message: `${notificationIds.length} notification(s) marked as read` });
+      return NextResponse.json({ success: true, marked: id });
     }
 
-    return NextResponse.json(
-      { error: 'Provide notificationIds array or markAll: true' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'Provide markAll or id' }, { status: 400 });
   } catch (error) {
-    console.error('Admin notifications PATCH error:', error);
+    console.error('Notifications update error:', error);
     return NextResponse.json(
-      { error: 'Failed to update notifications' },
+      { error: 'Failed to update notifications.' },
       { status: 500 }
     );
   }

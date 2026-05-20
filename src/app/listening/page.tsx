@@ -6,8 +6,8 @@ import { Footer } from '@/components/footer';
 import { useAuthStore } from '@/lib/auth-store';
 import {
   Headphones, Globe, Volume2, BarChart3, ArrowRight,
-  Play, Ear, MessageCircle, TrendingUp, CheckCircle2,
-  Sparkles, Music, Users, Zap
+  Play, Ear, MessageCircle, CheckCircle2,
+  Music, Users, Zap
 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 

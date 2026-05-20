@@ -13,7 +13,9 @@ function getResend(): Resend | null {
   return _resend;
 }
 
-const FROM_EMAIL = 'TestCEFR <noreply@testcefr.com>';
+// Use RESEND_FROM_EMAIL env var, or fall back to onboarding@resend.dev
+// until testcefr.com domain is verified on Resend dashboard.
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'TestCEFR <onboarding@resend.dev>';
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://testcefr.com';
 
 async function sendEmail(to: string, subject: string, html: string, type?: string, userId?: string): Promise<void> {

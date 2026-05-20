@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { User, LogOut, CreditCard, Menu, Shield, X, ArrowRight } from 'lucide-react';
+import { AdminNotificationBell } from '@/components/admin-notification-bell';
 import { useState, useEffect } from 'react';
 
 const NAV_LINKS = [
@@ -128,6 +129,7 @@ export function Navbar() {
 
         {/* Auth Section */}
         <div className="hidden lg:flex items-center gap-3">
+          {isAuth && user?.role === 'admin' && <AdminNotificationBell />}
           {isAuth ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -245,14 +247,19 @@ export function Navbar() {
                 Dashboard
               </Link>
               {user?.role === 'admin' && (
-                <Link
-                  href="/admin"
-                  className="block text-sm text-orange-400 py-2.5 px-4 rounded-xl"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <Shield className="inline h-3.5 w-3.5 mr-1" />
-                  Admin
-                </Link>
+                <>
+                  <div className="py-2 px-4">
+                    <AdminNotificationBell />
+                  </div>
+                  <Link
+                    href="/admin"
+                    className="block text-sm text-orange-400 py-2.5 px-4 rounded-xl"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <Shield className="inline h-3.5 w-3.5 mr-1" />
+                    Admin
+                  </Link>
+                </>
               )}
               <div className="pt-3 mt-2 border-t border-white/10">
                 <p className="text-sm text-white/50 mb-2 px-4">{user?.email}</p>

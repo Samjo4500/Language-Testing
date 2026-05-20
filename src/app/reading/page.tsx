@@ -6,8 +6,8 @@ import { Footer } from '@/components/footer';
 import { useAuthStore } from '@/lib/auth-store';
 import {
   BookOpen, Globe, FileText, BarChart3, ArrowRight,
-  Play, Eye, CheckCircle2, TrendingUp,
-  Sparkles, Users, Zap, Search, Languages
+  Play, Eye, CheckCircle2,
+  Users, Zap, Search, Languages
 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 

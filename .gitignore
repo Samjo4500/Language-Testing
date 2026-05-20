@@ -54,3 +54,7 @@ server.log
 /skills/.env
 .env.local
 .env.production
+node_modules/
+.env
+.env.local
+upload/

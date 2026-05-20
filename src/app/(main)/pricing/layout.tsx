@@ -17,6 +17,7 @@ export const metadata: Metadata = {
     'business English testing',
   ],
   openGraph: {
+    images: ["https://www.testcefr.com/og-image.png"],
     title: 'Pricing | TestCEFR',
     description:
       'Choose the perfect plan for your English proficiency needs. Start free or upgrade to Premium for full CEFR assessments with QR-verified certificates.',
