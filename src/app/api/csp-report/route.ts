@@ -2,36 +2,44 @@ import { NextRequest, NextResponse } from 'next/server';
 
 /**
  * POST /api/csp-report
+ * Receives Content Security Policy violation reports from browsers.
+ * This endpoint is referenced in the CSP header's report-uri directive.
  *
- * Receives Content Security Policy violation reports from the browser.
- * These reports help identify:
- * - XSS attack attempts blocked by CSP
- * - Legitimate resources being blocked (false positives)
- * - Third-party scripts trying to load unexpected content
- *
- * The browser sends these reports automatically when a CSP directive is violated
- * and a `report-uri` or `report-to` directive is configured.
+ * In production, you could forward these to Sentry, a logging service,
+ * or store them in the database for monitoring. For now, we log them
+ * to the server console so they appear in Vercel logs.
  */
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const contentType = request.headers.get('content-type') || '';
 
-    // Log the CSP violation for monitoring
-    console.warn('[CSP Violation]', {
-      timestamp: new Date().toISOString(),
-      'document-uri': body['csp-report']?.['document-uri'] || 'unknown',
-      'violated-directive': body['csp-report']?.['violated-directive'] || 'unknown',
-      'blocked-uri': body['csp-report']?.['blocked-uri'] || 'unknown',
-      'source-file': body['csp-report']?.['source-file'] || 'unknown',
-      'line-number': body['csp-report']?.['line-number'] || 'unknown',
-    });
+    let report: unknown;
+    if (contentType.includes('application/csp-report')) {
+      const text = await request.text();
+      try {
+        report = JSON.parse(text);
+      } catch {
+        report = text;
+      }
+    } else if (contentType.includes('application/json')) {
+      report = await request.json();
+    } else {
+      // Some browsers send as text/plain
+      const text = await request.text();
+      try {
+        report = JSON.parse(text);
+      } catch {
+        report = text;
+      }
+    }
 
-    // In production, you could forward this to a monitoring service like Sentry
-    // or store in a database for analysis. For now, we just log it.
+    // Log the CSP violation for monitoring in Vercel logs
+    console.warn('[CSP Violation]', JSON.stringify(report, null, 2));
 
     return NextResponse.json({ received: true }, { status: 204 });
-  } catch {
-    // Malformed report — still acknowledge it
-    return NextResponse.json({ received: true }, { status: 204 });
+  } catch (error) {
+    // Don't fail on CSP report errors — they're best-effort
+    console.error('[CSP Report Error]', error);
+    return NextResponse.json({ received: false }, { status: 204 });
   }
 }

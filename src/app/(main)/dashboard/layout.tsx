@@ -1,8 +1,5 @@
 import type { Metadata } from 'next';
 
-// Force dynamic rendering to avoid prerender issues with client components
-export const dynamic = 'force-dynamic';
-
 export const metadata: Metadata = {
   title: 'Dashboard',
   description:
