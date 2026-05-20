@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { Navbar } from '@/components/navbar';
+import { Footer } from '@/components/footer';
 import {
   QrCode, Search, ArrowRight, Shield, CheckCircle2, FileCheck
 } from 'lucide-react';
@@ -115,6 +116,7 @@ export default function VerifyCertificatePage() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

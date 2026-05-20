@@ -5,7 +5,7 @@ import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import {
   Shield, Lock, Eye, Cookie, Server, Users,
-  Mail, CheckCircle2, AlertCircle, Globe, Fingerprint, Database
+  Mail, CheckCircle2, AlertCircle, Globe, Fingerprint, Database, Mic
 } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 
@@ -150,6 +150,23 @@ export default function PrivacyPage() {
                       <h3 className="text-lg font-semibold text-white mb-2">Assessment Data</h3>
                       <p className="text-sm text-white/50 leading-relaxed">
                         We collect your test responses, scores, and performance analytics across all six CEFR skills. This data powers your results and generates your personalized proficiency certificate.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </AnimatedSection>
+
+              {/* Voice & Audio Data */}
+              <AnimatedSection delay={250}>
+                <div className="glass-card p-6 h-full group">
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-red-400 to-rose-400 text-white shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                      <Mic className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-white mb-2">Voice & Audio Data</h3>
+                      <p className="text-sm text-white/50 leading-relaxed">
+                        During the speaking assessment, your voice is recorded and processed by our AI engine to evaluate pronunciation, fluency, and communication skills. Audio recordings are encrypted in transit and at rest, retained for 30 days for quality assurance, then permanently deleted. <strong className="text-white/70">We do not use your voice recordings for AI training, advertising, or any purpose beyond your assessment.</strong> You may request early deletion at any time by contacting privacy@testcefr.com.
                       </p>
                     </div>
                   </div>

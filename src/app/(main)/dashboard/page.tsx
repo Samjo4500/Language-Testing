@@ -164,22 +164,22 @@ export default function DashboardPage() {
 
           {/* Quick Actions */}
           <div className="grid gap-4 sm:grid-cols-2">
-            {user.plan === 'premium' ? (
-              <div className="glass-card p-5 cursor-pointer group" onClick={() => router.push('/test')}>
-                <div className="flex items-center gap-3">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-green-400 to-emerald-500 text-white shadow-lg transition-transform duration-300 group-hover:scale-110">
-                    <BookOpen className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-white">Take CEFR Test</h3>
-                    <p className="text-xs text-white/40">Start your English proficiency assessment</p>
-                  </div>
+            <div className="glass-card p-5 cursor-pointer group" onClick={() => router.push('/test')}>
+              <div className="flex items-center gap-3">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-green-400 to-emerald-500 text-white shadow-lg transition-transform duration-300 group-hover:scale-110">
+                  <BookOpen className="h-5 w-5" />
                 </div>
-                <div className="mt-3 flex items-center text-sm text-purple-400 font-medium">
-                  Start now <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                <div>
+                  <h3 className="font-semibold text-white">Take CEFR Test</h3>
+                  <p className="text-xs text-white/40">Start your English proficiency assessment</p>
                 </div>
               </div>
-            ) : (
+              <div className="mt-3 flex items-center text-sm text-purple-400 font-medium">
+                Start now <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </div>
+            </div>
+
+            {user.plan !== 'premium' && (
               <div className="glass-card p-5 cursor-pointer group" onClick={() => router.push('/pricing')}>
                 <div className="flex items-center gap-3">
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-lg transition-transform duration-300 group-hover:scale-110">
@@ -187,7 +187,7 @@ export default function DashboardPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-white">Get Premium Access</h3>
-                    <p className="text-xs text-white/40">Unlock the full CEFR assessment</p>
+                    <p className="text-xs text-white/40">Unlock certificates & detailed reports</p>
                   </div>
                 </div>
                 <div className="mt-3 flex items-center text-sm text-purple-400 font-medium">
@@ -196,21 +196,56 @@ export default function DashboardPage() {
               </div>
             )}
 
-            <div className="glass-card p-5 cursor-pointer group" onClick={() => router.push('/')}>
-              <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-purple-400 to-indigo-500 text-white shadow-lg transition-transform duration-300 group-hover:scale-110">
-                  <Award className="h-5 w-5" />
+            {user.plan === 'premium' && (
+              <div className="glass-card p-5 cursor-pointer group" onClick={() => router.push('/')}>
+                <div className="flex items-center gap-3">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-purple-400 to-indigo-500 text-white shadow-lg transition-transform duration-300 group-hover:scale-110">
+                    <Award className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-white">CEFR Levels Guide</h3>
+                    <p className="text-xs text-white/40">Learn about proficiency levels</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-white">CEFR Levels Guide</h3>
-                  <p className="text-xs text-white/40">Learn about proficiency levels</p>
+                <div className="mt-3 flex items-center text-sm text-purple-400 font-medium">
+                  Learn more <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </div>
               </div>
-              <div className="mt-3 flex items-center text-sm text-purple-400 font-medium">
-                Learn more <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            )}
+          </div>
+
+          {/* Getting Started Guide (for free users with no certificates) */}
+          {user.plan === 'free' && (
+            <div className="glass-card p-6">
+              <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                <Sparkles className="h-5 w-5 text-purple-400" />
+                Getting Started
+              </h2>
+              <div className="grid gap-4 sm:grid-cols-3">
+                <div className="text-center p-4 rounded-xl bg-white/5 border border-white/5">
+                  <div className="flex h-10 w-10 mx-auto items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg mb-3">
+                    <span className="font-bold text-sm">1</span>
+                  </div>
+                  <h3 className="text-sm font-semibold text-white mb-1">Take the Free Test</h3>
+                  <p className="text-xs text-white/40">Your account includes 1 free CEFR assessment covering all 6 skills.</p>
+                </div>
+                <div className="text-center p-4 rounded-xl bg-white/5 border border-white/5">
+                  <div className="flex h-10 w-10 mx-auto items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 text-white shadow-lg mb-3">
+                    <span className="font-bold text-sm">2</span>
+                  </div>
+                  <h3 className="text-sm font-semibold text-white mb-1">See Your Results</h3>
+                  <p className="text-xs text-white/40">Get instant results with your CEFR level and skill-by-skill breakdown.</p>
+                </div>
+                <div className="text-center p-4 rounded-xl bg-white/5 border border-white/5">
+                  <div className="flex h-10 w-10 mx-auto items-center justify-center rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 text-white shadow-lg mb-3">
+                    <span className="font-bold text-sm">3</span>
+                  </div>
+                  <h3 className="text-sm font-semibold text-white mb-1">Get Certified</h3>
+                  <p className="text-xs text-white/40">Upgrade to Premium for a PDF certificate with QR verification.</p>
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           {/* Certificates Section */}
           {user.plan === 'premium' && (

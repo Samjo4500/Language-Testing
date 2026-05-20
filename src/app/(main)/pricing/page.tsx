@@ -25,6 +25,11 @@ import {
   Rocket,
   BadgeCheck,
   Lock,
+  Award,
+  QrCode,
+  Download,
+  Shield,
+  BarChart3,
 } from 'lucide-react';
 
 /* PayPal script loader with loading state */
@@ -656,6 +661,121 @@ export default function PricingPage() {
           </div>
         </div>
       </section>
+
+      {/* ===== CERTIFICATE PREVIEW ===== */}
+      <section className="relative py-20 bg-[#0F0A1E]">
+        <div className="absolute inset-0 hero-pattern pointer-events-none" />
+        <div className="container relative mx-auto px-4">
+          <AnimatedSection>
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
+                <Award className="h-3.5 w-3.5 text-purple-400" />
+                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">What You Get</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-white">
+                Your <span className="gradient-text-static">Certificate</span> Preview
+              </h2>
+              <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
+                Every paid plan includes an official CEFR proficiency certificate with QR verification. Here&apos;s what yours will look like.
+              </p>
+            </div>
+          </AnimatedSection>
+
+          <div className="max-w-4xl mx-auto">
+            <div className="grid gap-8 md:grid-cols-2 items-center">
+              {/* Certificate mockup */}
+              <AnimatedSection delay={100}>
+                <div className="glass-card p-6 relative overflow-hidden">
+                  {/* Simulated certificate */}
+                  <div className="bg-gradient-to-br from-[#1a1a2e] to-[#16213e] rounded-xl p-6 border border-purple-500/20">
+                    <div className="text-center mb-4">
+                      <p className="text-xs text-white/40 uppercase tracking-widest mb-1">Certificate of Proficiency</p>
+                      <div className="flex items-center justify-center gap-2 mb-2">
+                        <img src="/logo-icon.svg" alt="" className="h-5 w-5" />
+                        <span className="text-sm font-bold text-white">test<span className="text-purple-400">cefr</span><span className="text-purple-300">.com</span></span>
+                      </div>
+                    </div>
+                    <div className="text-center mb-4">
+                      <p className="text-xs text-white/40">This certifies that</p>
+                      <p className="text-lg font-semibold text-white mt-1">John Smith</p>
+                    </div>
+                    <div className="flex items-center justify-center gap-3 mb-4">
+                      <div className="flex items-center justify-center h-16 w-16 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 text-white shadow-lg">
+                        <span className="text-2xl font-bold">B2</span>
+                      </div>
+                      <div className="text-left">
+                        <p className="text-xs text-white/40">CEFR Level</p>
+                        <p className="text-sm font-semibold text-white">Upper Intermediate</p>
+                        <p className="text-xs text-white/40 mt-1">Score: 78/100</p>
+                      </div>
+                    </div>
+                    {/* Skills breakdown bars */}
+                    <div className="space-y-2 mb-4">
+                      {[
+                        { skill: 'Grammar', score: 92, color: 'from-purple-500 to-indigo-500' },
+                        { skill: 'Vocabulary', score: 85, color: 'from-blue-500 to-cyan-500' },
+                        { skill: 'Reading', score: 80, color: 'from-green-500 to-emerald-500' },
+                        { skill: 'Listening', score: 72, color: 'from-yellow-500 to-amber-500' },
+                        { skill: 'Speaking', score: 68, color: 'from-orange-500 to-red-500' },
+                        { skill: 'Writing', score: 76, color: 'from-pink-500 to-rose-500' },
+                      ].map((item) => (
+                        <div key={item.skill} className="flex items-center gap-2">
+                          <span className="text-[10px] text-white/50 w-16 text-right">{item.skill}</span>
+                          <div className="flex-1 h-2 rounded-full bg-white/5 overflow-hidden">
+                            <div className={`h-full rounded-full bg-gradient-to-r ${item.color}`} style={{ width: `${item.score}%` }} />
+                          </div>
+                          <span className="text-[10px] text-white/40 w-6">{item.score}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex items-center justify-between pt-3 border-t border-white/5">
+                      <div className="flex items-center gap-1.5">
+                        <QrCode className="h-4 w-4 text-purple-400" />
+                        <span className="text-[10px] text-white/40">TC-B2SM1TH-2026XZ</span>
+                      </div>
+                      <span className="text-[10px] text-white/30">Issued: May 2026</span>
+                    </div>
+                  </div>
+                </div>
+              </AnimatedSection>
+
+              {/* What's included */}
+              <AnimatedSection delay={200}>
+                <div className="space-y-5">
+                  <h3 className="text-xl font-bold text-white">Everything included in your certificate</h3>
+                  <div className="space-y-3">
+                    {[
+                      { icon: <Award className="h-4 w-4" />, text: 'Official CEFR level classification (A1 through C2)' },
+                      { icon: <BarChart3 className="h-4 w-4" />, text: 'Detailed skill breakdown across 6 core competencies' },
+                      { icon: <QrCode className="h-4 w-4" />, text: 'QR code verification for instant authenticity checks' },
+                      { icon: <Download className="h-4 w-4" />, text: 'Downloadable PDF certificate for printing or sharing' },
+                      { icon: <Shield className="h-4 w-4" />, text: 'Permanent online verification page at testcefr.com/verify' },
+                      { icon: <Globe className="h-4 w-4" />, text: 'Shareable link for employers and institutions' },
+                    ].map((item, index) => (
+                      <div key={index} className="flex items-center gap-3">
+                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-purple-500/20 text-purple-400">
+                          {item.icon}
+                        </div>
+                        <span className="text-sm text-white/60">{item.text}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="pt-2">
+                    <Link href="/sample-certificate">
+                      <button className="group flex items-center gap-2 text-sm text-purple-400 hover:text-purple-300 font-medium transition-colors">
+                        See full certificate sample
+                        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </button>
+                    </Link>
+                  </div>
+                </div>
+              </AnimatedSection>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="section-divider max-w-4xl mx-auto" />
 
       {/* ===== B2B SECTION ===== */}
       <section className="relative py-20 md:py-28 dark-section-alt hero-pattern noise-overlay">
