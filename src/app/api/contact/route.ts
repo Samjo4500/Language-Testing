@@ -1,8 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendContactAutoReply, sendAdminEmail, emailShell } from '@/lib/email';
 import { db } from '@/lib/db';
+import { rateLimit } from '@/lib/rate-limit';
+
+// Rate limit: 3 contact form submissions per minute per IP
+const contactLimiter = rateLimit({ windowMs: 60 * 1000, maxRequests: 3 });
 
 export async function POST(request: NextRequest) {
+  // Rate limit contact form to prevent spam
+  const limitError = contactLimiter(request);
+  if (limitError) return limitError;
   try {
     const body = await request.json();
     const { name, email, message, accountType, organizationName } = body;

@@ -132,18 +132,42 @@ function PayPalCheckoutButton({ accessToken, amount, description, planId, planNa
           // Update plan based on actual purchase
           const newPlan = captureData.payment?.plan || planName;
           updatePlan(newPlan);
-          // Refresh user data from server to get accurate credits/plan
-          try {
-            const meRes = await fetch('/api/auth/me', {
-              headers: { 'Authorization': `Bearer ${accessToken}` },
-            });
-            if (meRes.ok) {
-              const meData = await meRes.json();
-              if (meData.user) {
-                setUser(meData.user);
+          // The capture endpoint now returns new JWT tokens with the updated plan.
+          // Use these to immediately grant premium access without waiting for refresh.
+          if (captureData.accessToken) {
+            // Update the auth store with new tokens and user data
+            const { setAuth } = useAuthStore.getState();
+            setAuth(
+              { userId: '', email: '', name: '', plan: newPlan, role: '' },
+              captureData.accessToken,
+              captureData.refreshToken
+            );
+            // Refresh full user data from server using the new token
+            try {
+              const meRes = await fetch('/api/auth/me', {
+                headers: { 'Authorization': `Bearer ${captureData.accessToken}` },
+              });
+              if (meRes.ok) {
+                const meData = await meRes.json();
+                if (meData.user) {
+                  setUser(meData.user);
+                }
               }
-            }
-          } catch {}
+            } catch {}
+          } else {
+            // Fallback: refresh user data using old token
+            try {
+              const meRes = await fetch('/api/auth/me', {
+                headers: { 'Authorization': `Bearer ${accessToken}` },
+              });
+              if (meRes.ok) {
+                const meData = await meRes.json();
+                if (meData.user) {
+                  setUser(meData.user);
+                }
+              }
+            } catch {}
+          }
           router.push(`/payment-success?plan=${planId}&credits=${captureData.payment?.testsIncluded || 1}`);
         } catch (err) {
           console.error('Capture error:', err);

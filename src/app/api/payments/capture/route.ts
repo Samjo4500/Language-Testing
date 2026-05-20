@@ -2,13 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 import { capturePayPalOrder, getPayPalMode } from '@/lib/paypal';
 import { getAuthUser } from '@/lib/auth-middleware';
 import { db } from '@/lib/db';
+import { generateTokens } from '@/lib/auth';
 import { sendPaymentConfirmation, sendAdminNewPayment } from '@/lib/email';
 
-// Plan configuration: credits, expiry, display name
-const PLAN_CONFIG: Record<string, { credits: number; planName: string; expiryDays: number | null }> = {
-  single: { credits: 1, planName: 'Single Test', expiryDays: null },
-  premium: { credits: 3, planName: 'Premium', expiryDays: 90 },
-  pro: { credits: 6, planName: 'Pro', expiryDays: 90 },
+// Plan configuration: credits, expiry, display name, EXPECTED price
+const PLAN_CONFIG: Record<string, { credits: number; planName: string; expiryDays: number | null; expectedAmount: number }> = {
+  single: { credits: 1, planName: 'Single Test', expiryDays: null, expectedAmount: 12.99 },
+  premium: { credits: 3, planName: 'Premium', expiryDays: 90, expectedAmount: 29.99 },
+  pro: { credits: 6, planName: 'Pro', expiryDays: 90, expectedAmount: 49.99 },
 };
 
 export async function POST(request: NextRequest) {
@@ -56,6 +57,17 @@ export async function POST(request: NextRequest) {
     );
 
     const config = PLAN_CONFIG[planType] || PLAN_CONFIG.single;
+
+    // SECURITY: Verify the captured amount matches the expected price for the plan
+    // This prevents attackers from creating a $0.01 PayPal order and capturing it with planType=pro
+    const expectedAmount = config.expectedAmount;
+    if (Math.abs(amount - expectedAmount) > 0.02) {
+      console.error(`Amount mismatch: expected $${expectedAmount} for ${planType}, captured $${amount}. OrderID: ${orderID}`);
+      return NextResponse.json(
+        { error: 'Payment amount does not match the selected plan. Please contact support.' },
+        { status: 400 }
+      );
+    }
 
     // Calculate plan expiry
     const planExpiresAt = config.expiryDays
@@ -115,6 +127,15 @@ export async function POST(request: NextRequest) {
       ).catch((err) => console.error('Admin new payment email error:', err));
     }
 
+    // Generate new JWT tokens with updated plan so user gets premium access immediately
+    // Without this, the old JWT still says plan='free' for up to 24 hours
+    const tokens = generateTokens({
+      userId: user.userId,
+      email: user.email,
+      plan: planLevel,
+      role: user.role,
+    });
+
     return NextResponse.json({
       success: true,
       payment: {
@@ -126,6 +147,8 @@ export async function POST(request: NextRequest) {
         planType: payment.planType,
         testsIncluded: payment.testsIncluded,
       },
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.refreshToken,
       message: `Payment completed successfully! Your account has been upgraded to ${config.planName} with ${config.credits} test credit${config.credits > 1 ? 's' : ''}.`,
     });
   } catch (error) {

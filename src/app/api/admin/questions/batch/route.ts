@@ -123,7 +123,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Batch question generation error:', error);
     return NextResponse.json(
-      { error: 'Internal server error during batch generation.', details: error instanceof Error ? error.message : undefined },
+      { error: 'Internal server error during batch generation.' },
       { status: 500 }
     );
   }

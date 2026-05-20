@@ -59,13 +59,29 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // SECURITY: Check if this token was issued BEFORE the last password reset.
+    // If the user already reset their password using a different/newer token,
+    // this old token should no longer be valid.
+    if (user.passwordResetAt) {
+      const tokenIssuedAt = new Date(decoded.iat * 1000);
+      if (tokenIssuedAt < user.passwordResetAt) {
+        return NextResponse.json(
+          { error: 'This reset token has already been used. Please request a new one.' },
+          { status: 400 }
+        );
+      }
+    }
+
     // Hash the new password
     const passwordHash = await hashPassword(newPassword);
 
-    // Update the user's password
+    // Update the user's password AND record the reset timestamp
     await db.user.update({
       where: { id: user.id },
-      data: { passwordHash },
+      data: {
+        passwordHash,
+        passwordResetAt: new Date(), // Invalidate any older reset tokens
+      },
     });
 
     return NextResponse.json({

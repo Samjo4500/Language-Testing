@@ -63,6 +63,14 @@ export const metadata: Metadata = {
     title: 'TestCEFR | AI-Powered English Proficiency Assessment',
     description:
       'Assess your English proficiency with our AI-powered CEFR-aligned test. Get accurate A1–C2 ratings with QR-verified certificates.',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1344,
+        height: 768,
+        alt: 'TestCEFR — AI-Powered English Proficiency Assessment',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
@@ -70,6 +78,7 @@ export const metadata: Metadata = {
     description:
       'Assess your English proficiency with our AI-powered CEFR-aligned test. Get accurate A1–C2 ratings with QR-verified certificates.',
     creator: '@testcefr',
+    images: ['/og-image.png'],
   },
   alternates: {
     canonical: siteUrl,

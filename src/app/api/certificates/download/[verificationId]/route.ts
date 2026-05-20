@@ -24,13 +24,21 @@ export async function GET(
     }
 
     // Generate the PDF
+    let skillBreakdown = {};
+    try {
+      skillBreakdown = JSON.parse(certificate.skillBreakdown || '{}');
+    } catch {
+      // If skillBreakdown contains malformed JSON, use empty object
+      console.warn(`Malformed skillBreakdown for certificate ${verificationId}`);
+    }
+
     const pdfBuffer = await generateCertificatePDF({
       userName: certificate.userName,
       cefrLevel: certificate.cefrLevel,
       score: certificate.score,
       verificationId: certificate.verificationId,
       issuedAt: certificate.issuedAt,
-      skillBreakdown: JSON.parse(certificate.skillBreakdown || '{}'),
+      skillBreakdown,
     });
 
     // Return PDF as download

@@ -145,7 +145,20 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         }
       }
 
-      set({ accessToken: newAccessToken, refreshToken: newRefreshToken || refreshToken, isRefreshing: false });
+      // If the refresh endpoint returns updated user data (plan/role), sync it
+      if (data.user) {
+        const currentUser = get().user;
+        const mergedUser = {
+          ...(currentUser || {}),
+          ...data.user,
+        };
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('user', JSON.stringify(mergedUser));
+        }
+        set({ accessToken: newAccessToken, refreshToken: newRefreshToken || refreshToken, user: mergedUser, isRefreshing: false });
+      } else {
+        set({ accessToken: newAccessToken, refreshToken: newRefreshToken || refreshToken, isRefreshing: false });
+      }
 
       // Update middleware cookie with new access token
       if (typeof window !== 'undefined') {

@@ -195,7 +195,7 @@ export async function POST(request: NextRequest) {
     const message = error instanceof Error ? error.message : 'Unknown error';
     console.error('Chat API error:', message);
     return NextResponse.json(
-      { error: 'Failed to generate response', details: message },
+      { error: 'Failed to generate response' },
       { status: 500 }
     );
   }

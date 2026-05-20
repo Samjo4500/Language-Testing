@@ -21,7 +21,9 @@ model User {
   isDemo           Boolean    @default(false) // true for auto-generated demo accounts
   emailVerified Boolean    @default(false)
   testCredits   Int        @default(0) // number of tests remaining
+  country       String?    // user's country from IP at signup
   planExpiresAt DateTime?  // when the plan expires (for subscriptions)
+  passwordResetAt DateTime? // timestamp of last successful password reset (used to invalidate old reset tokens)
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 
