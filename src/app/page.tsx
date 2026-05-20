@@ -16,6 +16,7 @@ import {
   Circle, CircleDot, Settings
 } from 'lucide-react';
 import { useEffect, useRef, useState, useCallback } from 'react';
+import { useHydrated } from '@/hooks/use-hydrated';
 
 /* ======================================================
    SCROLL ANIMATION HOOK
@@ -81,11 +82,10 @@ const CEFR_LEVEL_COLORS: Record<string, string> = {
 
 function AnimatedCEFRBadge() {
   const [activeLevel, setActiveLevel] = useState(0);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useHydrated();
   const levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
   useEffect(() => {
-    setMounted(true);
     const interval = setInterval(() => {
       setActiveLevel((prev) => (prev + 1) % levels.length);
     }, 2500);
@@ -186,10 +186,8 @@ function LiveVoiceDemo() {
   const [isRecording, setIsRecording] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
   const [inputLevel, setInputLevel] = useState<'low' | 'medium' | 'high'>('medium');
-  const [mounted, setMounted] = useState(false);
+  const mounted = useHydrated();
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  useEffect(() => { setMounted(true); }, []);
 
   const startRecording = useCallback(() => {
     setIsRecording(true);
@@ -452,9 +450,7 @@ const CEFR_LEVELS = [
 
 function InteractiveCEFRLevels() {
   const [activeTab, setActiveTab] = useState(0);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => { setMounted(true); }, []);
+  const mounted = useHydrated();
 
   const active = CEFR_LEVELS[activeTab];
 
@@ -783,9 +779,7 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
    ====================================================== */
 export default function Home() {
   const { isAuthenticated, user } = useAuthStore();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => { setMounted(true); }, []);
+  const mounted = useHydrated();
 
   const isAuth = mounted && isAuthenticated;
 

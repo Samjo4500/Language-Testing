@@ -14,7 +14,8 @@ import {
   ArrowRight,
   Sparkles,
 } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useHydrated } from '@/hooks/use-hydrated';
 
 const steps = [
   {
@@ -69,8 +70,7 @@ const steps = [
 
 export default function QuickTourPage() {
   const { isAuthenticated } = useAuthStore();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); }, []);
+  const mounted = useHydrated();
   const isAuth = mounted && isAuthenticated;
 
   useEffect(() => {

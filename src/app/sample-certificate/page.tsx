@@ -14,7 +14,8 @@ import {
   Eye,
   Star,
 } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+import { useHydrated } from '@/hooks/use-hydrated';
 
 const SKILLS = [
   { name: 'Grammar', value: 85, color: 'from-purple-400 to-pink-500' },
@@ -27,8 +28,7 @@ const SKILLS = [
 
 export default function SampleCertificatePage() {
   const scrollRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); }, []);
+  const mounted = useHydrated();
 
   useEffect(() => {
     const observer = new IntersectionObserver(

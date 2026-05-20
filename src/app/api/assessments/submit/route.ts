@@ -111,8 +111,8 @@ export async function POST(request: NextRequest) {
 
     // Step 6: Save responses and update assessment
     await db.$transaction(async (tx) => {
-      // Save individual responses
-      for (const response of responses) {
+      // Save individual responses (use server-verified data, NOT client-submitted)
+      for (const response of verifiedResponses) {
         await tx.assessmentResponse.upsert({
           where: {
             id: `${assessment.id}-${response.questionId}`,

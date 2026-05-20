@@ -86,10 +86,38 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Step 7: Generate a unique verification ID
+    // Step 7: Compute skill breakdown from assessment responses
+    const responses = await db.assessmentResponse.findMany({
+      where: { assessmentId: assessment.id },
+    });
+
+    // Derive category from questionId prefix (e.g., "r-a1" = reading, "l-b2" = listening)
+    const qIdToCategory = (qId: string): string => {
+      if (qId.startsWith('r-')) return 'reading';
+      if (qId.startsWith('l-')) return 'listening';
+      if (qId.startsWith('s-')) return 'speaking';
+      if (qId.startsWith('w-')) return 'writing';
+      if (qId.startsWith('g-')) return 'grammar';
+      if (qId.startsWith('v-')) return 'vocabulary';
+      return 'other';
+    };
+
+    const skillMap: Record<string, { correct: number; total: number }> = {};
+    for (const r of responses) {
+      const category = qIdToCategory(r.questionId);
+      if (!skillMap[category]) skillMap[category] = { correct: 0, total: 0 };
+      skillMap[category].total++;
+      if (r.isCorrect) skillMap[category].correct++;
+    }
+    const computedSkillBreakdown: Record<string, number> = {};
+    for (const [cat, data] of Object.entries(skillMap)) {
+      computedSkillBreakdown[cat] = data.total > 0 ? Math.round((data.correct / data.total) * 100) : 0;
+    }
+
+    // Step 8: Generate a unique verification ID
     const verificationId = `TC-${uuidv4().split('-')[0].toUpperCase()}-${uuidv4().split('-')[1].toUpperCase()}`;
 
-    // Step 8: Create the certificate
+    // Step 9: Create the certificate
     const certificate = await db.certificate.create({
       data: {
         verificationId,
@@ -98,6 +126,7 @@ export async function POST(request: NextRequest) {
         userName: user.name || user.email.split('@')[0],
         cefrLevel: assessment.cefrLevel,
         score: assessment.score,
+        skillBreakdown: JSON.stringify(computedSkillBreakdown),
       },
     });
 

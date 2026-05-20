@@ -4,11 +4,13 @@ import Link from 'next/link';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { useAuthStore } from '@/lib/auth-store';
+import { isPaidPlan } from '@/lib/plan-utils';
 import {
   Mic, ArrowRight, Brain, AudioWaveform, MessageSquareText,
   Activity, CirclePlay, Cpu, ClipboardCheck, Sparkles
 } from 'lucide-react';
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import { useHydrated } from '@/hooks/use-hydrated';
 
 /* Scroll animation hook using IntersectionObserver */
 function useScrollAnimation() {
@@ -68,8 +70,7 @@ function BackgroundOrbs() {
 
 export default function SpeakingPage() {
   const { isAuthenticated, user } = useAuthStore();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); }, []);
+  const mounted = useHydrated();
   const isAuth = mounted && isAuthenticated;
 
   return (
@@ -104,7 +105,7 @@ export default function SpeakingPage() {
             {/* CTA Buttons */}
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center animate-scale-in delay-500">
               {isAuth ? (
-                user?.plan === 'premium' ? (
+                isPaidPlan(user?.plan) ? (
                   <Link href="/test">
                     <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
                       Start Speaking Test
@@ -398,7 +399,7 @@ export default function SpeakingPage() {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   {isAuth ? (
-                    user?.plan === 'premium' ? (
+                    isPaidPlan(user?.plan) ? (
                       <Link href="/test">
                         <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
                           Start Speaking Test

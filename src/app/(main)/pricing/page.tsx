@@ -1,9 +1,11 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useHydrated } from '@/hooks/use-hydrated';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuthStore } from '@/lib/auth-store';
+import { isPaidPlan, getPlanLabel } from '@/lib/plan-utils';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import {
@@ -35,17 +37,16 @@ import {
 /* PayPal script loader with loading state */
 function usePayPalScript(clientId: string | null) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'loaded'>('idle');
-  const [mounted, setMounted] = useState(false);
+  const mounted = useHydrated();
   const scriptRef = useRef<HTMLScriptElement | null>(null);
 
   useEffect(() => {
-    setMounted(true);
-    if (window.paypal) setStatus('loaded');
-  }, []);
-
-  useEffect(() => {
+    if (window.paypal) {
+      const timer = setTimeout(() => setStatus('loaded'), 0);
+      return () => clearTimeout(timer);
+    }
     if (!clientId) return;
-    if (window.paypal || document.querySelector('script[src*="paypal.com/sdk/js"]')) return;
+    if (document.querySelector('script[src*="paypal.com/sdk/js"]')) return;
 
     const loadingTimer = setTimeout(() => setStatus('loaded'), 0);
     const script = document.createElement('script');
@@ -71,7 +72,7 @@ function PayPalCheckoutButton({ isAuthenticated, amount, description, planId, pl
   const paypalContainerRef = useRef<HTMLDivElement>(null);
   const [paypalClientId, setPaypalClientId] = useState<string | null>(null);
   const [isFetchingClientId, setIsFetchingClientId] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useHydrated();
   const [error, setError] = useState('');
   const { isLoaded, isLoading: isScriptLoading } = usePayPalScript(paypalClientId);
   const { updatePlan, setUser } = useAuthStore();
@@ -79,7 +80,6 @@ function PayPalCheckoutButton({ isAuthenticated, amount, description, planId, pl
   const renderedRef = useRef(false);
 
   useEffect(() => {
-    setMounted(true);
     setIsFetchingClientId(true);
     const fetchClientId = async () => {
       try {
@@ -429,9 +429,7 @@ const FAQ_ITEMS = [
 export default function PricingPage() {
   const { isAuthenticated, user } = useAuthStore();
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => { setMounted(true); }, []);
+  const mounted = useHydrated();
 
   /* Use false for isAuthenticated until client mounts to avoid hydration mismatch */
   const isAuth = mounted && isAuthenticated;
@@ -493,7 +491,7 @@ export default function PricingPage() {
                     </li>
                   ))}
                 </ul>
-                {!isAuth ? (
+                {(!isAuth || user?.plan === 'free') ? (
                   <Link href="/register" className="block">
                     <button className="w-full rounded-xl py-3 glass-button text-white font-medium cursor-pointer">
                       Start Free
@@ -501,7 +499,7 @@ export default function PricingPage() {
                   </Link>
                 ) : (
                   <button className="w-full rounded-xl py-3 bg-white/5 text-white/30 font-medium cursor-not-allowed" disabled>
-                    Current Plan
+                    {isPaidPlan(user?.plan) ? `${getPlanLabel(user?.plan)} Plan` : 'Current Plan'}
                   </button>
                 )}
               </div>

@@ -69,6 +69,7 @@ export async function POST(request: NextRequest) {
       email: user.email,
       plan: user.plan,
       role: user.role,
+      tokenVersion: user.tokenVersion,
     });
 
     // Send welcome email (fire-and-forget)

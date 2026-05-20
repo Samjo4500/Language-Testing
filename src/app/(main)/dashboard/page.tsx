@@ -9,6 +9,7 @@ import { Footer } from '@/components/footer';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { CheckCircle2, CreditCard, ArrowRight, BookOpen, Award, Download, QrCode, Loader2, Sparkles, Shield, Zap, LogIn, BarChart3 } from 'lucide-react';
+import { isPaidPlan, getPlanLabel, getPlanBadgeClasses } from '@/lib/plan-utils';
 
 interface CertificateInfo {
   id: string;
@@ -137,21 +138,17 @@ export default function DashboardPage() {
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-medium text-white/70">Current Plan:</span>
-                  <span className={`inline-flex items-center rounded-full px-3 py-0.5 text-sm font-medium ${
-                    user.plan === 'premium'
-                      ? 'bg-green-500/20 text-green-400 border border-green-500/30'
-                      : 'bg-white/10 text-white/50 border border-white/10'
-                  }`}>
-                    {user.plan === 'premium' ? 'Premium' : 'Free'}
+                  <span className={`inline-flex items-center rounded-full px-3 py-0.5 text-sm font-medium ${getPlanBadgeClasses(user.plan)}`}>
+                    {getPlanLabel(user.plan)}
                   </span>
                 </div>
                 <p className="text-sm text-white/40">
-                  {user.plan === 'premium'
+                  {isPaidPlan(user.plan)
                     ? 'You have full access to all assessments and features.'
                     : 'Upgrade to Premium to access the full CEFR assessment.'}
                 </p>
               </div>
-              {user.plan !== 'premium' && (
+              {!isPaidPlan(user.plan) && (
                 <Link href="/pricing">
                   <button className="flex items-center gap-2 rounded-xl px-6 py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 cursor-pointer">
                     <CreditCard className="h-4 w-4" />
@@ -179,7 +176,7 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            {user.plan !== 'premium' && (
+            {!isPaidPlan(user.plan) && (
               <div className="glass-card p-5 cursor-pointer group" onClick={() => router.push('/pricing')}>
                 <div className="flex items-center gap-3">
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-lg transition-transform duration-300 group-hover:scale-110">
@@ -196,7 +193,7 @@ export default function DashboardPage() {
               </div>
             )}
 
-            {user.plan === 'premium' && (
+            {isPaidPlan(user.plan) && (
               <div className="glass-card p-5 cursor-pointer group" onClick={() => router.push('/')}>
                 <div className="flex items-center gap-3">
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-purple-400 to-indigo-500 text-white shadow-lg transition-transform duration-300 group-hover:scale-110">
@@ -248,7 +245,7 @@ export default function DashboardPage() {
           )}
 
           {/* Certificates Section */}
-          {user.plan === 'premium' && (
+          {isPaidPlan(user.plan) && (
             <div className="glass-card p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
@@ -336,11 +333,11 @@ export default function DashboardPage() {
           )}
 
           {/* Premium Benefits */}
-          {user.plan === 'premium' && (
+          {isPaidPlan(user.plan) && (
             <div className="glass-card p-6">
               <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                 <Sparkles className="h-5 w-5 text-purple-400" />
-                Your Premium Benefits
+                Your {getPlanLabel(user.plan)} Benefits
               </h2>
               <div className="grid gap-3 sm:grid-cols-2">
                 {[

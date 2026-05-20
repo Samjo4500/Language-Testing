@@ -9,7 +9,8 @@ import {
   Zap, RotateCcw, Crown, Download, Shield, QrCode,
   ChevronDown, ChevronUp, Eye, AlertCircle,
 } from 'lucide-react';
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
+import { useHydrated } from '@/hooks/use-hydrated';
 
 /* ======================================================
    DEMO DATA
@@ -290,8 +291,7 @@ function SkillDetailSection({ skill, score }: { skill: string; score: number }) 
 }
 
 export default function SampleReportPage() {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); }, []);
+  const mounted = useHydrated();
 
   const levelInfo = CEFR_LEVELS[DEMO_CERT.cefrLevel];
   const skills = DEMO_CERT.skills;

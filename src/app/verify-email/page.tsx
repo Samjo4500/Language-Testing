@@ -12,35 +12,34 @@ function VerifyEmailContent() {
   const router = useRouter();
   const token = searchParams.get('token');
 
-  const [status, setStatus] = useState<'loading' | 'success' | 'error' | 'idle'>('idle');
+  const [status, setStatus] = useState<'loading' | 'success' | 'error' | 'idle'>(token ? 'loading' : 'idle');
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     if (!token) return;
-    verifyEmail(token);
-  }, [token]);
 
-  const verifyEmail = async (t: string) => {
-    setStatus('loading');
-    try {
-      const response = await fetch('/api/auth/verify-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token: t }),
-      });
-      const data = await response.json();
+    const doVerify = async () => {
+      try {
+        const response = await fetch('/api/auth/verify-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token }),
+        });
+        const data = await response.json();
 
-      if (response.ok) {
-        setStatus('success');
-      } else {
+        if (response.ok) {
+          setStatus('success');
+        } else {
+          setStatus('error');
+          setErrorMessage(data.error || 'Verification failed. The link may have expired.');
+        }
+      } catch {
         setStatus('error');
-        setErrorMessage(data.error || 'Verification failed. The link may have expired.');
+        setErrorMessage('Network error. Please try again.');
       }
-    } catch {
-      setStatus('error');
-      setErrorMessage('Network error. Please try again.');
-    }
-  };
+    };
+    doVerify();
+  }, [token]);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0F0A1E]">

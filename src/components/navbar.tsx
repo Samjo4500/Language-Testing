@@ -13,6 +13,8 @@ import {
 import { User, LogOut, CreditCard, Menu, Shield, X, ArrowRight } from 'lucide-react';
 import { AdminNotificationBell } from '@/components/admin-notification-bell';
 import { useState, useEffect } from 'react';
+import { isPaidPlan, getPlanLabel, getPlanBadgeClasses } from '@/lib/plan-utils';
+import { useHydrated } from '@/hooks/use-hydrated';
 
 const NAV_LINKS = [
   { href: '/', label: 'Home' },
@@ -29,12 +31,8 @@ export function Navbar() {
   const { user, isAuthenticated, logout } = useAuthStore();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useHydrated();
   const pathname = usePathname();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const isAuth = mounted && isAuthenticated;
 
@@ -146,13 +144,9 @@ export function Navbar() {
                   <p className="text-xs text-white/50">{user?.email}</p>
                   <div className="mt-1">
                     <span
-                      className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
-                        user?.plan === 'premium'
-                          ? 'bg-green-500/20 text-green-400 border border-green-500/30'
-                          : 'bg-white/10 text-white/60 border border-white/10'
-                      }`}
+                      className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${getPlanBadgeClasses(user?.plan)}`}
                     >
-                      {user?.plan === 'premium' ? 'Premium' : 'Free'}
+                      {getPlanLabel(user?.plan)}
                     </span>
                   </div>
                 </div>
@@ -166,7 +160,7 @@ export function Navbar() {
                 <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/10 focus:bg-white/10">
                   <Link href="/pricing">
                     <CreditCard className="mr-2 h-4 w-4" />
-                    {user?.plan === 'premium' ? 'Manage Plan' : 'Upgrade Plan'}
+                    {isPaidPlan(user?.plan) ? 'Manage Plan' : 'Upgrade Plan'}
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator className="bg-white/10" />
