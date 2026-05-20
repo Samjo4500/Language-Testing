@@ -67,6 +67,14 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   setLoading: (loading) => set({ isLoading: loading }),
 
   logout: () => {
+    const { accessToken } = get();
+    // Fire-and-forget: increment server-side tokenVersion to invalidate all tokens
+    if (accessToken) {
+      fetch('/api/auth/logout', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${accessToken}` },
+      }).catch(() => {}); // Ignore errors — client state is cleared regardless
+    }
     if (typeof window !== 'undefined') {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');

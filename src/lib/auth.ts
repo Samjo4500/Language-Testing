@@ -14,6 +14,7 @@ export interface TokenPayload {
   email: string;
   plan: string;
   role?: string; // "user" | "admin"
+  tokenVersion?: number; // incremented on logout/password change to invalidate old tokens
 }
 
 export async function hashPassword(password: string): Promise<string> {

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { capturePayPalOrder, getPayPalMode } from '@/lib/paypal';
-import { getAuthUser } from '@/lib/auth-middleware';
+import { getAuthUser, verifyTokenVersion } from '@/lib/auth-middleware';
 import { db } from '@/lib/db';
 import { generateTokens } from '@/lib/auth';
 import { sendPaymentConfirmation, sendAdminNewPayment } from '@/lib/email';
@@ -21,6 +21,10 @@ export async function POST(request: NextRequest) {
         { status: 401 }
       );
     }
+
+    // Verify token version (rejects tokens issued before logout/password change)
+    const versionError = await verifyTokenVersion(user);
+    if (versionError) return versionError;
 
     const body = await request.json();
     const { orderID, planType: requestedPlanType } = body;
@@ -134,6 +138,7 @@ export async function POST(request: NextRequest) {
       email: user.email,
       plan: planLevel,
       role: user.role,
+      tokenVersion: dbUser?.tokenVersion ?? user.tokenVersion,
     });
 
     return NextResponse.json({

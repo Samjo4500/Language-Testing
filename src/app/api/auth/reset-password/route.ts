@@ -75,12 +75,15 @@ export async function POST(request: NextRequest) {
     // Hash the new password
     const passwordHash = await hashPassword(newPassword);
 
-    // Update the user's password AND record the reset timestamp
+    // Update the user's password AND record the reset timestamp AND increment tokenVersion
+    // Incrementing tokenVersion invalidates ALL existing JWTs for this user,
+    // forcing them to log in again with the new password
     await db.user.update({
       where: { id: user.id },
       data: {
         passwordHash,
         passwordResetAt: new Date(), // Invalidate any older reset tokens
+        tokenVersion: { increment: 1 }, // Invalidate all existing JWTs
       },
     });
 

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { getAuthUser } from '@/lib/auth-middleware';
+import { getAuthUser, verifyTokenVersion } from '@/lib/auth-middleware';
 
 /**
  * GET /api/assessments/start
@@ -39,6 +39,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Step 1b: Verify token version (rejects tokens issued before logout/password change)
+    const versionError = await verifyTokenVersion(authResult);
+    if (versionError) return versionError;
+
     // Step 2: Check test credits
     const user = await db.user.findUnique({
       where: { id: authResult.userId },
@@ -48,6 +52,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'Not Found', message: 'User not found.' },
         { status: 404 }
+      );
+    }
+
+    // Step 2b: Require email verification to prevent throwaway accounts
+    if (!user.emailVerified) {
+      return NextResponse.json(
+        {
+          error: 'Email Not Verified',
+          message: 'Please verify your email address before taking a test. Check your inbox for the verification link.',
+          code: 'EMAIL_NOT_VERIFIED',
+        },
+        { status: 403 }
       );
     }
 

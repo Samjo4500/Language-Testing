@@ -22,6 +22,7 @@ model User {
   emailVerified Boolean    @default(false)
   testCredits   Int        @default(0) // number of tests remaining
   country       String?    // user's country from IP at signup
+  tokenVersion  Int        @default(0) // incremented on logout/password change to invalidate old tokens
   planExpiresAt DateTime?  // when the plan expires (for subscriptions)
   passwordResetAt DateTime? // timestamp of last successful password reset (used to invalidate old reset tokens)
   createdAt     DateTime   @default(now())

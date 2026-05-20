@@ -447,6 +447,8 @@ export default function TestPage() {
       if (!res.ok) {
         if (data.code === 'NO_CREDITS') {
           setError('You have no test credits remaining. Please upgrade your plan to continue.');
+        } else if (data.code === 'EMAIL_NOT_VERIFIED') {
+          setError('Please verify your email address before taking a test. Check your inbox for the verification link, or request a new one from your dashboard.');
         } else {
           setError(data.message || 'Failed to start assessment.');
         }

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { getAuthUser } from '@/lib/auth-middleware';
+import { getAuthUser, verifyTokenVersion } from '@/lib/auth-middleware';
 import { sendAssessmentComplete } from '@/lib/email';
 
 // Hardcoded correct answers for reading/listening (matching test page content)
@@ -27,6 +27,10 @@ export async function POST(request: NextRequest) {
         { status: 401 }
       );
     }
+
+    // Step 1b: Verify token version (rejects tokens issued before logout/password change)
+    const versionError = await verifyTokenVersion(authResult);
+    if (versionError) return versionError;
 
     // Note: We removed requirePremium check here because:
     // 1. Free users get 1 credit at signup and should be able to submit their test

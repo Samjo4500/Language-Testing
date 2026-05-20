@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyToken, TokenPayload } from './auth';
+import { db } from './db';
 
 export function getAuthUser(request: NextRequest): TokenPayload | null {
   const authHeader = request.headers.get('authorization');
@@ -44,4 +45,51 @@ export function requireAdmin(user: TokenPayload): NextResponse | null {
     );
   }
   return null;
+}
+
+/**
+ * Verify that the token's tokenVersion matches the user's current tokenVersion in the database.
+ * If they don't match, the token was issued before a logout/password change and should be rejected.
+ *
+ * This is an async check that should be used in security-critical routes:
+ * - Assessment start/submit
+ * - Payment capture
+ * - Certificate generation
+ * - Admin routes
+ *
+ * Returns null if the token is valid, or a NextResponse error if invalid.
+ */
+export async function verifyTokenVersion(user: TokenPayload): Promise<NextResponse | null> {
+  if (!user.tokenVersion && user.tokenVersion !== 0) {
+    // Token was issued before tokenVersion was added — allow it (backward compatibility)
+    return null;
+  }
+
+  try {
+    const dbUser = await db.user.findUnique({
+      where: { id: user.userId },
+      select: { tokenVersion: true },
+    });
+
+    if (!dbUser) {
+      return NextResponse.json(
+        { error: 'User not found.' },
+        { status: 401 }
+      );
+    }
+
+    if (user.tokenVersion !== dbUser.tokenVersion) {
+      // Token version mismatch — this token was issued before a logout/password reset
+      return NextResponse.json(
+        { error: 'Session expired. Please log in again.', code: 'TOKEN_VERSION_MISMATCH' },
+        { status: 401 }
+      );
+    }
+
+    return null; // Token is valid
+  } catch {
+    // DB error — don't block the request, just log
+    console.error('Failed to verify token version');
+    return null;
+  }
 }

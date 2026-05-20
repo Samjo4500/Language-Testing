@@ -48,12 +48,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Check token version — if the user logged out or reset their password
+    // since this refresh token was issued, reject it
+    if (payload.tokenVersion !== undefined && payload.tokenVersion !== dbUser.tokenVersion) {
+      return NextResponse.json(
+        { error: 'Session expired. Please log in again.' },
+        { status: 401 }
+      );
+    }
+
     // Generate new tokens with FRESH data from the database
     const tokens = generateTokens({
       userId: dbUser.id,
       email: dbUser.email,
       plan: dbUser.plan,
       role: dbUser.role,
+      tokenVersion: dbUser.tokenVersion,
     });
 
     return NextResponse.json({
