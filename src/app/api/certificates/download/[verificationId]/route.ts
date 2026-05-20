@@ -42,7 +42,7 @@ export async function GET(
     });
 
     // Return PDF as download
-    return new NextResponse(pdfBuffer, {
+    return new NextResponse(new Uint8Array(pdfBuffer), {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',

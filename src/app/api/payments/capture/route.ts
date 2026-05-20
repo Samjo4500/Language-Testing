@@ -4,6 +4,7 @@ import { getAuthUser, verifyTokenVersion } from '@/lib/auth-middleware';
 import { db } from '@/lib/db';
 import { generateTokens } from '@/lib/auth';
 import { sendPaymentConfirmation, sendAdminNewPayment } from '@/lib/email';
+import { setAuthCookies } from '@/lib/cookie-auth';
 
 // Plan configuration: credits, expiry, display name, EXPECTED price
 const PLAN_CONFIG: Record<string, { credits: number; planName: string; expiryDays: number | null; expectedAmount: number }> = {
@@ -141,7 +142,7 @@ export async function POST(request: NextRequest) {
       tokenVersion: dbUser?.tokenVersion ?? user.tokenVersion,
     });
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       success: true,
       payment: {
         id: payment.id,
@@ -156,6 +157,8 @@ export async function POST(request: NextRequest) {
       refreshToken: tokens.refreshToken,
       message: `Payment completed successfully! Your account has been upgraded to ${config.planName} with ${config.credits} test credit${config.credits > 1 ? 's' : ''}.`,
     });
+    setAuthCookies(response, tokens.accessToken, tokens.refreshToken);
+    return response;
   } catch (error) {
     console.error('Capture payment error:', error);
     return NextResponse.json(

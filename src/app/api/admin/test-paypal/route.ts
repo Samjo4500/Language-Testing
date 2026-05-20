@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getPayPalAccessToken, getPayPalMode } from '@/lib/paypal';
 import { getAuthUser, requireAdmin } from '@/lib/auth-middleware';
+import { adminLimiter } from '@/lib/rate-limit';
 
 export async function GET(request: NextRequest) {
+  // Rate limit: 60 requests per minute per IP
+  const limitError = adminLimiter(request);
+  if (limitError) return limitError;
+
   try {
     // Admin-only endpoint
     const authResult = getAuthUser(request);

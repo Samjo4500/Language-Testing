@@ -327,7 +327,7 @@ function Toast({ message, type, onClose }: { message: string; type: 'success' | 
 
 // ─── Emails Tab Component ────────────────────────────────────────────────────────
 
-function EmailsTab({ accessToken, notifUnread, onSwitchTab }: { accessToken: string | null; notifUnread: number; onSwitchTab: (tab: TabId) => void }) {
+function EmailsTab({ notifUnread, onSwitchTab }: { notifUnread: number; onSwitchTab: (tab: TabId) => void }) {
   const [emailsData, setEmailsData] = useState<{
     users: Array<{
       id: string; email: string; name: string | null; emailVerified: boolean;
@@ -343,15 +343,14 @@ function EmailsTab({ accessToken, notifUnread, onSwitchTab }: { accessToken: str
   const [filter, setFilter] = useState('all');
 
   const fetchEmails = useCallback(async (page = 1) => {
-    if (!accessToken) return;
     setLoading(true);
     try {
       const params = new URLSearchParams({ page: String(page), limit: '20', filter });
-      const res = await fetch(`/api/admin/emails?${params}`, { headers: { Authorization: `Bearer ${accessToken}` } });
+      const res = await fetch(`/api/admin/emails?${params}`);
       if (res.ok) setEmailsData(await res.json());
     } catch (e) { console.error('Emails fetch error:', e); }
     finally { setLoading(false); }
-  }, [accessToken, filter]);
+  }, [filter]);
 
   useEffect(() => { fetchEmails(); }, [fetchEmails]);
 
@@ -524,7 +523,7 @@ interface WhiteLabelData {
   plan: string;
 }
 
-function APIsTab({ accessToken, onToast }: { accessToken: string | null; onToast: (msg: string, type: 'success' | 'error') => void }) {
+function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error') => void }) {
   // ── API Service Health Data ──
   const [apisData, setApisData] = useState<{
     apiEndpoints: Array<{ path: string; method: string; description: string }>;
@@ -582,53 +581,50 @@ function APIsTab({ accessToken, onToast }: { accessToken: string | null; onToast
 
   // ── Fetch API Health ──
   const fetchAPIs = useCallback(async () => {
-    if (!accessToken) return;
     setLoading(true);
     try {
-      const res = await fetch('/api/admin/apis', { headers: { Authorization: `Bearer ${accessToken}` } });
+      const res = await fetch('/api/admin/apis');
       if (res.ok) setApisData(await res.json());
     } catch (e) { console.error('APIs fetch error:', e); }
     finally { setLoading(false); }
-  }, [accessToken]);
+  }, []);
 
   // ── Fetch API Keys ──
   const fetchApiKeys = useCallback(async () => {
-    if (!accessToken) return;
     setApiKeysLoading(true);
     try {
-      const res = await fetch('/api/admin/api-keys', { headers: { Authorization: `Bearer ${accessToken}` } });
+      const res = await fetch('/api/admin/api-keys');
       if (res.ok) {
         const data = await res.json();
         setApiKeys(data.apiKeys);
       }
     } catch (e) { console.error('API keys fetch error:', e); }
     finally { setApiKeysLoading(false); }
-  }, [accessToken]);
+  }, []);
 
   // ── Fetch White-Label ──
   const fetchWhiteLabel = useCallback(async () => {
-    if (!accessToken) return;
     setWlLoading(true);
     try {
-      const res = await fetch('/api/admin/white-label', { headers: { Authorization: `Bearer ${accessToken}` } });
+      const res = await fetch('/api/admin/white-label');
       if (res.ok) {
         const data = await res.json();
         setWlSettings(data.settings);
       }
     } catch (e) { console.error('White-label fetch error:', e); }
     finally { setWlLoading(false); }
-  }, [accessToken]);
+  }, []);
 
   useEffect(() => { fetchAPIs(); fetchApiKeys(); fetchWhiteLabel(); }, [fetchAPIs, fetchApiKeys, fetchWhiteLabel]);
 
   // ── Generate API Key ──
   const handleGenerateKey = async () => {
-    if (!accessToken || !newKeyName.trim()) return;
+    if (!newKeyName.trim()) return;
     setGenerating(true);
     try {
       const res = await fetch('/api/admin/api-keys', {
         method: 'POST',
-        headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: newKeyName.trim(),
           plan: newKeyPlan,
@@ -657,11 +653,10 @@ function APIsTab({ accessToken, onToast }: { accessToken: string | null; onToast
 
   // ── Toggle API Key Active ──
   const handleToggleActive = async (id: string, currentActive: boolean) => {
-    if (!accessToken) return;
     try {
       const res = await fetch(`/api/admin/api-keys/${id}`, {
         method: 'PATCH',
-        headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ isActive: !currentActive }),
       });
       if (res.ok) {
@@ -677,11 +672,9 @@ function APIsTab({ accessToken, onToast }: { accessToken: string | null; onToast
 
   // ── Revoke API Key ──
   const handleRevokeKey = async (id: string) => {
-    if (!accessToken) return;
     try {
       const res = await fetch(`/api/admin/api-keys/${id}`, {
         method: 'DELETE',
-        headers: { Authorization: `Bearer ${accessToken}` },
       });
       if (res.ok) {
         onToast('API key revoked', 'success');
@@ -702,12 +695,11 @@ function APIsTab({ accessToken, onToast }: { accessToken: string | null; onToast
 
   // ── Save White-Label ──
   const handleSaveWhiteLabel = async () => {
-    if (!accessToken) return;
     setWlSaving(true);
     try {
       const res = await fetch('/api/admin/white-label', {
         method: 'POST',
-        headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(wlSettings),
       });
       if (res.ok) {
@@ -1439,7 +1431,7 @@ function APIsTab({ accessToken, onToast }: { accessToken: string | null; onToast
 
 export default function AdminPage() {
   const router = useRouter();
-  const { isAuthenticated, isLoading: authIsLoading, user, accessToken } = useAuthStore();
+  const { isAuthenticated, isLoading: authIsLoading, user } = useAuthStore();
 
   const [activeTab, setActiveTab] = useState<TabId>('overview');
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
@@ -1488,7 +1480,7 @@ export default function AdminPage() {
   // ── System ────────────────────────────────────────────────────────
   const [systemData, setSystemData] = useState<SystemData | null>(null);
   const [systemLoading, setSystemLoading] = useState(true);
-  const [paypalTestResult, setPaypalTestResult] = useState<{ status: string; message: string } | null>(null);
+  const [paypalTestResult, setPaypalTestResult] = useState<{ status: string; message: string; mode?: string } | null>(null);
   const [paypalTesting, setPaypalTesting] = useState(false);
 
   // ── User Details Dialog ───────────────────────────────────────────
@@ -1516,7 +1508,7 @@ export default function AdminPage() {
   } = useAdminNotificationStore();
 
   const handleMarkAllRead = async () => {
-    await storeMarkAllRead(accessToken!);
+    await storeMarkAllRead('');
     setToast({ message: 'All notifications marked as read', type: 'success' });
   };
 
@@ -1524,30 +1516,30 @@ export default function AdminPage() {
   // The admin page shows an access-denied state instead of redirecting
 
   // ── Helper: Auth Headers ──────────────────────────────────────────
-  const authHeaders = useCallback(() => ({
-    Authorization: `Bearer ${accessToken}`,
+  // With cookie-based auth, we only need Content-Type for JSON requests
+  const jsonHeaders = useCallback(() => ({
     'Content-Type': 'application/json',
-  }), [accessToken]);
+  }), []);
 
   // ── Fetch Analytics ───────────────────────────────────────────────
   const fetchAnalytics = useCallback(async () => {
-    if (!accessToken) return;
+    if (!isAuthenticated) return;
     setAnalyticsLoading(true);
     try {
-      const res = await fetch('/api/admin/analytics', { headers: { Authorization: `Bearer ${accessToken}` } });
+      const res = await fetch('/api/admin/analytics');
       if (res.ok) setAnalytics(await res.json());
     } catch (e) { console.error('Analytics fetch error:', e); }
     finally { setAnalyticsLoading(false); }
-  }, [accessToken]);
+  }, [isAuthenticated]);
 
   // ── Fetch Users ───────────────────────────────────────────────────
   const fetchUsers = useCallback(async (page = 1, search = '') => {
-    if (!accessToken) return;
+    if (!isAuthenticated) return;
     setUsersLoading(true);
     try {
       const params = new URLSearchParams({ page: String(page), limit: '20' });
       if (search) params.set('search', search);
-      const res = await fetch(`/api/admin/users?${params}`, { headers: { Authorization: `Bearer ${accessToken}` } });
+      const res = await fetch(`/api/admin/users?${params}`);
       if (res.ok) {
         const data = await res.json();
         setUsers(data.users);
@@ -1555,16 +1547,16 @@ export default function AdminPage() {
       }
     } catch (e) { console.error('Users fetch error:', e); }
     finally { setUsersLoading(false); }
-  }, [accessToken]);
+  }, [isAuthenticated]);
 
   // ── Fetch Payments ────────────────────────────────────────────────
   const fetchPayments = useCallback(async (page = 1, status = '') => {
-    if (!accessToken) return;
+    if (!isAuthenticated) return;
     setPaymentsLoading(true);
     try {
       const params = new URLSearchParams({ page: String(page), limit: '20' });
       if (status && status !== 'all') params.set('status', status);
-      const res = await fetch(`/api/admin/payments?${params}`, { headers: { Authorization: `Bearer ${accessToken}` } });
+      const res = await fetch(`/api/admin/payments?${params}`);
       if (res.ok) {
         const data = await res.json();
         setPayments(data.payments);
@@ -1573,15 +1565,15 @@ export default function AdminPage() {
       }
     } catch (e) { console.error('Payments fetch error:', e); }
     finally { setPaymentsLoading(false); }
-  }, [accessToken]);
+  }, [isAuthenticated]);
 
   // ── Fetch Assessments ─────────────────────────────────────────────
   const fetchAssessments = useCallback(async (page = 1) => {
-    if (!accessToken) return;
+    if (!isAuthenticated) return;
     setAssessmentsLoading(true);
     try {
       const params = new URLSearchParams({ page: String(page), limit: '20' });
-      const res = await fetch(`/api/admin/assessments?${params}`, { headers: { Authorization: `Bearer ${accessToken}` } });
+      const res = await fetch(`/api/admin/assessments?${params}`);
       if (res.ok) {
         const data = await res.json();
         setAssessments(data.assessments);
@@ -1589,15 +1581,15 @@ export default function AdminPage() {
       }
     } catch (e) { console.error('Assessments fetch error:', e); }
     finally { setAssessmentsLoading(false); }
-  }, [accessToken]);
+  }, [isAuthenticated]);
 
   // ── Fetch Certificates ────────────────────────────────────────────
   const fetchCertificates = useCallback(async (page = 1) => {
-    if (!accessToken) return;
+    if (!isAuthenticated) return;
     setCertificatesLoading(true);
     try {
       const params = new URLSearchParams({ page: String(page), limit: '20' });
-      const res = await fetch(`/api/admin/certificates?${params}`, { headers: { Authorization: `Bearer ${accessToken}` } });
+      const res = await fetch(`/api/admin/certificates?${params}`);
       if (res.ok) {
         const data = await res.json();
         setCertificates(data.certificates);
@@ -1606,36 +1598,36 @@ export default function AdminPage() {
       }
     } catch (e) { console.error('Certificates fetch error:', e); }
     finally { setCertificatesLoading(false); }
-  }, [accessToken]);
+  }, [isAuthenticated]);
 
   // ── Fetch Question Stats ──────────────────────────────────────────
   const fetchQuestionStats = useCallback(async () => {
-    if (!accessToken) return;
+    if (!isAuthenticated) return;
     setQuestionStatsLoading(true);
     try {
-      const res = await fetch('/api/admin/questions/stats', { headers: { Authorization: `Bearer ${accessToken}` } });
+      const res = await fetch('/api/admin/questions/stats');
       if (res.ok) setQuestionStats(await res.json());
     } catch (e) { console.error('Question stats error:', e); }
     finally { setQuestionStatsLoading(false); }
-  }, [accessToken]);
+  }, [isAuthenticated]);
 
   // ── Fetch System ──────────────────────────────────────────────────
   const fetchSystem = useCallback(async () => {
-    if (!accessToken) return;
+    if (!isAuthenticated) return;
     setSystemLoading(true);
     try {
-      const res = await fetch('/api/admin/system', { headers: { Authorization: `Bearer ${accessToken}` } });
+      const res = await fetch('/api/admin/system');
       if (res.ok) setSystemData(await res.json());
     } catch (e) { console.error('System fetch error:', e); }
     finally { setSystemLoading(false); }
-  }, [accessToken]);
+  }, [isAuthenticated]);
 
   // ── Notifications: fetch & mark-read come from shared Zustand store ─
   // (useAdminNotificationStore handles polling, fetch, and mark-read)
 
   // ── Initial data fetch ────────────────────────────────────────────
   useEffect(() => {
-    if (authIsLoading || !isAuthenticated || !accessToken) return;
+    if (authIsLoading || !isAuthenticated) return;
     fetchAnalytics();
     fetchUsers();
     fetchPayments();
@@ -1643,33 +1635,33 @@ export default function AdminPage() {
     fetchCertificates();
     fetchQuestionStats();
     fetchSystem();
-    fetchNotifications(accessToken);
-  }, [authIsLoading, isAuthenticated, accessToken, fetchAnalytics, fetchUsers, fetchPayments, fetchAssessments, fetchCertificates, fetchQuestionStats, fetchSystem, fetchNotifications]);
+    fetchNotifications('');
+  }, [authIsLoading, isAuthenticated, fetchAnalytics, fetchUsers, fetchPayments, fetchAssessments, fetchCertificates, fetchQuestionStats, fetchSystem, fetchNotifications]);
 
   // ── Tab change refresh ────────────────────────────────────────────
   useEffect(() => {
-    if (authIsLoading || !isAuthenticated || !accessToken) return;
+    if (authIsLoading || !isAuthenticated) return;
     // Refresh data when switching tabs
-  }, [activeTab, authIsLoading, isAuthenticated, accessToken]);
+  }, [activeTab, authIsLoading, isAuthenticated]);
 
   // ── Search debounce ───────────────────────────────────────────────
   useEffect(() => {
-    if (!accessToken) return;
+    if (!isAuthenticated) return;
     const t = setTimeout(() => fetchUsers(1, usersSearch), 300);
     return () => clearTimeout(t);
-  }, [usersSearch, accessToken, fetchUsers]);
+  }, [usersSearch, isAuthenticated, fetchUsers]);
 
   // ── Notification polling handled by shared Zustand store ──────────
   // (AdminNotificationBell component manages its own 30s polling)
 
   // ── Actions ───────────────────────────────────────────────────────
   const handlePromoteUser = async (email: string) => {
-    if (!accessToken) return;
+    if (!isAuthenticated) return;
     setPromoting(true);
     try {
       const res = await fetch('/api/admin/promote', {
         method: 'POST',
-        headers: authHeaders(),
+        headers: jsonHeaders(),
         body: JSON.stringify({ email }),
       });
       const data = await res.json();
@@ -1685,12 +1677,12 @@ export default function AdminPage() {
   };
 
   const handleResetPassword = async (userId: string) => {
-    if (!accessToken) return;
+    if (!isAuthenticated) return;
     setResettingPassword(true);
     try {
       const res = await fetch('/api/admin/users/reset-password', {
         method: 'PATCH',
-        headers: authHeaders(),
+        headers: jsonHeaders(),
         body: JSON.stringify({ userId, newPassword: 'NewPass123!' }),
       });
       const data = await res.json();
@@ -1705,13 +1697,13 @@ export default function AdminPage() {
   };
 
   const handleCreateDemoUsers = async () => {
-    if (!accessToken) return;
+    if (!isAuthenticated) return;
     setCreatingDemo(true);
     setDemoResult(null);
     try {
       const res = await fetch('/api/admin/users/demo', {
         method: 'POST',
-        headers: authHeaders(),
+        headers: jsonHeaders(),
         body: JSON.stringify({ count: demoCount, plan: demoPlan }),
       });
       const data = await res.json();
@@ -1728,11 +1720,11 @@ export default function AdminPage() {
   };
 
   const handleTestPaypal = async () => {
-    if (!accessToken) return;
+    if (!isAuthenticated) return;
     setPaypalTesting(true);
     setPaypalTestResult(null);
     try {
-      const res = await fetch('/api/admin/test-paypal', { headers: { Authorization: `Bearer ${accessToken}` } });
+      const res = await fetch('/api/admin/test-paypal');
       const data = await res.json();
       setPaypalTestResult(data);
     } catch {
@@ -1741,14 +1733,14 @@ export default function AdminPage() {
   };
 
   const handleBatchGenerate = async () => {
-    if (!accessToken) return;
+    if (!isAuthenticated) return;
     setGenerating(true);
     setGenerationError('');
     setGenerationResult(null);
     try {
       const res = await fetch('/api/admin/questions/batch', {
         method: 'POST',
-        headers: authHeaders(),
+        headers: jsonHeaders(),
         body: JSON.stringify({ levels: selectedLevels, skills: selectedSkills, countPerSlot }),
       });
       const data = await res.json();
@@ -1872,7 +1864,7 @@ export default function AdminPage() {
               {/* Notification Bell */}
               <div className="relative">
                 <button
-                  onClick={() => { setNotifOpen(!notifOpen); if (!notifOpen) fetchNotifications(accessToken!); }}
+                  onClick={() => { setNotifOpen(!notifOpen); if (!notifOpen) fetchNotifications(''); }}
                   className="relative flex items-center justify-center p-2 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-colors"
                   title="Notifications"
                 >
@@ -1991,7 +1983,7 @@ export default function AdminPage() {
               </div>
 
               <button
-                onClick={() => { fetchAnalytics(); fetchSystem(); fetchNotifications(accessToken!); }}
+                onClick={() => { fetchAnalytics(); fetchSystem(); fetchNotifications(''); }}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs text-white/60 hover:text-white hover:bg-white/10 transition-colors"
               >
                 <RefreshCw className="h-3.5 w-3.5" /> Refresh
@@ -2193,7 +2185,7 @@ export default function AdminPage() {
                     {[
                       { label: 'Database', ok: !!systemData, detail: systemData ? `${systemData.database.tables.users} users` : 'Checking...' },
                       { label: 'AI Service', ok: systemData?.environment.googleAiKeySet ?? false, detail: systemData?.environment.googleAiKeySet ? 'API Key Set' : 'Not Configured' },
-                      { label: 'PayPal', ok: paypalTestResult?.status === 'ok', detail: paypalTestResult?.status === 'ok' ? `${paypalTestResult.mode} mode` : systemData?.environment.paypalMode || 'Unknown' },
+                      { label: 'PayPal', ok: paypalTestResult?.status === 'ok', detail: paypalTestResult?.status === 'ok' ? `${paypalTestResult.mode || 'sandbox'} mode` : systemData?.environment.paypalMode || 'Unknown' },
                       { label: 'Uptime', ok: true, detail: systemData ? `${Math.floor(systemData.uptime / 3600)}h ${Math.floor((systemData.uptime % 3600) / 60)}m` : '—' },
                     ].map((item) => (
                       <div key={item.label} className="flex items-center justify-between py-1.5 border-b border-white/5 last:border-0">
@@ -2747,14 +2739,14 @@ export default function AdminPage() {
               TAB: EMAILS
               ════════════════════════════════════════════════════════════ */}
           {activeTab === 'emails' && (
-            <EmailsTab accessToken={accessToken} notifUnread={notifUnread} onSwitchTab={setActiveTab} />
+            <EmailsTab notifUnread={notifUnread} onSwitchTab={setActiveTab} />
           )}
 
           {/* ════════════════════════════════════════════════════════════
               TAB: APIs
               ════════════════════════════════════════════════════════════ */}
           {activeTab === 'apis' && (
-            <APIsTab accessToken={accessToken} onToast={(msg, type) => setToast({ message: msg, type })} />
+            <APIsTab onToast={(msg, type) => setToast({ message: msg, type })} />
           )}
 
           {/* ════════════════════════════════════════════════════════════

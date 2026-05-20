@@ -90,6 +90,7 @@ function addSecurityHeaders(response: NextResponse): NextResponse {
         "frame-src https://www.paypal.com https://www.sandbox.paypal.com",
         "connect-src 'self' https://api-m.paypal.com https://api-m.sandbox.paypal.com https://generativelanguage.googleapis.com",
         "worker-src 'self' blob:",
+        "report-uri /api/csp-report",
       ].join('; ')
     );
   }
@@ -107,8 +108,8 @@ export function middleware(request: NextRequest) {
     return response;
   }
 
-  // Read auth token from cookie and VERIFY the JWT
-  const accessToken = request.cookies.get('auth_token')?.value;
+  // Read auth token from HttpOnly cookie and VERIFY the JWT
+  const accessToken = request.cookies.get('access_token')?.value;
   const tokenPayload = accessToken ? verifyTokenSafely(accessToken) : null;
 
   // Extract role from verified JWT — NEVER trust a client-set cookie for role

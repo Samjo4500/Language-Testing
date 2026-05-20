@@ -62,7 +62,7 @@ function usePayPalScript(clientId: string | null) {
 }
 
 /* PayPal button component — supports different amounts */
-function PayPalCheckoutButton({ accessToken, amount, description, planId, planName }: { accessToken: string | null; amount: number; description: string; planId: string; planName: string }) {
+function PayPalCheckoutButton({ isAuthenticated, amount, description, planId, planName }: { isAuthenticated: boolean; amount: number; description: string; planId: string; planName: string }) {
   const paypalContainerRef = useRef<HTMLDivElement>(null);
   const [paypalClientId, setPaypalClientId] = useState<string | null>(null);
   const [isFetchingClientId, setIsFetchingClientId] = useState(false);
@@ -95,7 +95,7 @@ function PayPalCheckoutButton({ accessToken, amount, description, planId, planNa
   }, []);
 
   useEffect(() => {
-    if (!isLoaded || !window.paypal || !paypalContainerRef.current || !accessToken || renderedRef.current) return;
+    if (!isLoaded || !window.paypal || !paypalContainerRef.current || !isAuthenticated || renderedRef.current) return;
     renderedRef.current = true;
 
     window.paypal.Buttons({
@@ -104,7 +104,7 @@ function PayPalCheckoutButton({ accessToken, amount, description, planId, planNa
         try {
           const response = await fetch('/api/payments/create-order', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${accessToken}` },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ amount, currency: 'USD', planType: planId }),
           });
           if (!response.ok) throw new Error('Failed to create order');
@@ -121,7 +121,7 @@ function PayPalCheckoutButton({ accessToken, amount, description, planId, planNa
           setError('');
           const response = await fetch('/api/payments/capture', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${accessToken}` },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ orderID: data.orderID }),
           });
           if (!response.ok) {
@@ -132,42 +132,17 @@ function PayPalCheckoutButton({ accessToken, amount, description, planId, planNa
           // Update plan based on actual purchase
           const newPlan = captureData.payment?.plan || planName;
           updatePlan(newPlan);
-          // The capture endpoint now returns new JWT tokens with the updated plan.
-          // Use these to immediately grant premium access without waiting for refresh.
-          if (captureData.accessToken) {
-            // Update the auth store with new tokens and user data
-            const { setAuth } = useAuthStore.getState();
-            setAuth(
-              { userId: '', email: '', name: '', plan: newPlan, role: '' },
-              captureData.accessToken,
-              captureData.refreshToken
-            );
-            // Refresh full user data from server using the new token
-            try {
-              const meRes = await fetch('/api/auth/me', {
-                headers: { 'Authorization': `Bearer ${captureData.accessToken}` },
-              });
-              if (meRes.ok) {
-                const meData = await meRes.json();
-                if (meData.user) {
-                  setUser(meData.user);
-                }
+          // The capture endpoint returns new JWT tokens and sets HttpOnly cookies.
+          // Refresh full user data from server using cookie-based auth.
+          try {
+            const meRes = await fetch('/api/auth/me');
+            if (meRes.ok) {
+              const meData = await meRes.json();
+              if (meData.user) {
+                setUser(meData.user);
               }
-            } catch {}
-          } else {
-            // Fallback: refresh user data using old token
-            try {
-              const meRes = await fetch('/api/auth/me', {
-                headers: { 'Authorization': `Bearer ${accessToken}` },
-              });
-              if (meRes.ok) {
-                const meData = await meRes.json();
-                if (meData.user) {
-                  setUser(meData.user);
-                }
-              }
-            } catch {}
-          }
+            }
+          } catch {}
           router.push(`/payment-success?plan=${planId}&credits=${captureData.payment?.testsIncluded || 1}`);
         } catch (err) {
           console.error('Capture error:', err);
@@ -179,7 +154,7 @@ function PayPalCheckoutButton({ accessToken, amount, description, planId, planNa
         setError('Payment process encountered an error. Please try again.');
       },
     }).render(paypalContainerRef.current);
-  }, [isLoaded, accessToken, amount]);
+  }, [isLoaded, isAuthenticated, amount]);
 
   /* Always render the same structure on server and client to avoid hydration mismatch.
      PayPal content is only populated after mount via useEffect. */
@@ -447,7 +422,7 @@ const FAQ_ITEMS = [
    MAIN PRICING PAGE
    ====================================================== */
 export default function PricingPage() {
-  const { isAuthenticated, accessToken, user } = useAuthStore();
+  const { isAuthenticated, user } = useAuthStore();
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
   const [mounted, setMounted] = useState(false);
 
@@ -557,7 +532,7 @@ export default function PricingPage() {
                       <span className="text-xs font-medium text-green-400">You already have {user?.plan === 'pro' ? 'Pro' : 'Premium'}!</span>
                     </div>
                   ) : (
-                    <PayPalCheckoutButton accessToken={accessToken} amount={12.99} description="Single Test" planId="single" planName="premium" />
+                    <PayPalCheckoutButton isAuthenticated={isAuth} amount={12.99} description="Single Test" planId="single" planName="premium" />
                   )
                 ) : (
                   <Link href="/login" className="block">
@@ -608,7 +583,7 @@ export default function PricingPage() {
                         <span className="text-xs font-medium text-green-400">You already have {user?.plan === 'pro' ? 'Pro' : 'Premium'}!</span>
                       </div>
                     ) : (
-                      <PayPalCheckoutButton accessToken={accessToken} amount={29.99} description="Premium Pack (3 tests)" planId="premium" planName="premium" />
+                      <PayPalCheckoutButton isAuthenticated={isAuth} amount={29.99} description="Premium Pack (3 tests)" planId="premium" planName="premium" />
                     )
                   ) : (
                     <Link href="/login" className="block">
@@ -654,7 +629,7 @@ export default function PricingPage() {
                         <span className="text-xs font-medium text-green-400">You already have {user?.plan === 'pro' ? 'Pro' : 'Premium'}!</span>
                       </div>
                     ) : (
-                      <PayPalCheckoutButton accessToken={accessToken} amount={49.99} description="Pro Pack (6 tests)" planId="pro" planName="pro" />
+                      <PayPalCheckoutButton isAuthenticated={isAuth} amount={49.99} description="Pro Pack (6 tests)" planId="pro" planName="pro" />
                     )
                   ) : (
                     <Link href="/login" className="block">

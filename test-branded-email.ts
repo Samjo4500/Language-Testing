@@ -1,7 +1,9 @@
 import { Resend } from 'resend';
 
 async function main() {
-  const resend = new Resend('re_LZTDkM5t_7zU8QXwNG9EkS3qzMjKXUMEX');
+  const RESEND_API_KEY = process.env.RESEND_API_KEY;
+  if (!RESEND_API_KEY) { console.error('ERROR: RESEND_API_KEY environment variable is not set.'); process.exit(1); }
+  const resend = new Resend(RESEND_API_KEY);
   
   const { data, error } = await resend.emails.send({
     from: 'TestCEFR <noreply@testcefr.com>',

@@ -32,18 +32,16 @@ const CEFR_GRADIENTS: Record<string, string> = {
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { isAuthenticated, isLoading: authIsLoading, user, accessToken } = useAuthStore();
+  const { isAuthenticated, isLoading: authIsLoading, user } = useAuthStore();
   const [certificates, setCertificates] = useState<CertificateInfo[]>([]);
   const [certificatesLoading, setCertificatesLoading] = useState(true);
 
   useEffect(() => {
-    if (authIsLoading || !isAuthenticated || !accessToken) return;
+    if (authIsLoading || !isAuthenticated) return;
 
     const fetchCertificates = async () => {
       try {
-        const response = await fetch('/api/certificates/list', {
-          headers: { 'Authorization': `Bearer ${accessToken}` },
-        });
+        const response = await fetch('/api/certificates/list');
         if (response.ok) {
           const data = await response.json();
           setCertificates(data.certificates);
@@ -56,7 +54,7 @@ export default function DashboardPage() {
     };
 
     fetchCertificates();
-  }, [authIsLoading, isAuthenticated, accessToken]);
+  }, [authIsLoading, isAuthenticated]);
 
   if (authIsLoading) {
     return (

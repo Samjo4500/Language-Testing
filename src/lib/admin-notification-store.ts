@@ -24,9 +24,9 @@ interface AdminNotificationState {
   setIsLoading: (loading: boolean) => void;
   setIsOpen: (open: boolean) => void;
   toggleOpen: () => void;
-  fetchNotifications: (accessToken: string) => Promise<void>;
-  markAllRead: (accessToken: string) => Promise<void>;
-  markAsRead: (accessToken: string, ids: string[]) => Promise<void>;
+  fetchNotifications: (_accessToken: string) => Promise<void>;
+  markAllRead: (_accessToken: string) => Promise<void>;
+  markAsRead: (_accessToken: string, ids: string[]) => Promise<void>;
 }
 
 export const useAdminNotificationStore = create<AdminNotificationState>((set, get) => ({
@@ -42,13 +42,11 @@ export const useAdminNotificationStore = create<AdminNotificationState>((set, ge
   setIsOpen: (open) => set({ isOpen: open }),
   toggleOpen: () => set((state) => ({ isOpen: !state.isOpen })),
 
-  fetchNotifications: async (accessToken) => {
-    if (!accessToken) return;
+  // _accessToken parameter kept for API compatibility but cookies are used instead
+  fetchNotifications: async (_accessToken) => {
     set({ isLoading: true });
     try {
-      const res = await fetch('/api/admin/notifications', {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
+      const res = await fetch('/api/admin/notifications');
       if (res.ok) {
         const data = await res.json();
         set({
@@ -64,13 +62,11 @@ export const useAdminNotificationStore = create<AdminNotificationState>((set, ge
     }
   },
 
-  markAllRead: async (accessToken) => {
-    if (!accessToken) return;
+  markAllRead: async (_accessToken) => {
     try {
       const res = await fetch('/api/admin/notifications', {
         method: 'PATCH',
         headers: {
-          Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ markAll: true }),
@@ -86,13 +82,12 @@ export const useAdminNotificationStore = create<AdminNotificationState>((set, ge
     }
   },
 
-  markAsRead: async (accessToken, ids) => {
-    if (!accessToken || !ids.length) return;
+  markAsRead: async (_accessToken, ids) => {
+    if (!ids.length) return;
     try {
       const res = await fetch('/api/admin/notifications', {
         method: 'PATCH',
         headers: {
-          Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ notificationIds: ids }),

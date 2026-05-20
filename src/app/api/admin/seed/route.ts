@@ -1,12 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { getAuthUser, requireAdmin } from '@/lib/auth-middleware';
+import { adminLimiter } from '@/lib/rate-limit';
 
 /**
  * POST /api/admin/seed
  * Seed the database with comprehensive CEFR questions and ensure admin has proper access.
  */
 export async function POST(request: NextRequest) {
+  // Rate limit: 60 requests per minute per IP
+  const limitError = adminLimiter(request);
+  if (limitError) return limitError;
+
   try {
     const authResult = getAuthUser(request);
     if (!authResult) {

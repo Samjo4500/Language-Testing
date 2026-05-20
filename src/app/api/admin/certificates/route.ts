@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { getAuthUser, requireAdmin } from '@/lib/auth-middleware';
+import { adminLimiter } from '@/lib/rate-limit';
 
 /**
  * GET /api/admin/certificates
@@ -8,6 +9,10 @@ import { getAuthUser, requireAdmin } from '@/lib/auth-middleware';
  * Query params: page, limit, cefrLevel
  */
 export async function GET(request: NextRequest) {
+  // Rate limit: 60 requests per minute per IP
+  const limitError = adminLimiter(request);
+  if (limitError) return limitError;
+
   try {
     const authResult = getAuthUser(request);
     if (!authResult) {

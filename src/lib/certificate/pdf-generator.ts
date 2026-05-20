@@ -115,7 +115,6 @@ export async function generateCertificatePDF(data: CertificateData): Promise<Buf
     font: fontRegular,
     color: rgb(1, 1, 1),
     opacity: 0.6,
-    characterSpacing: 3,
   });
 
   cursorY -= 30;
@@ -152,7 +151,6 @@ export async function generateCertificatePDF(data: CertificateData): Promise<Buf
     font: fontRegular,
     color: rgb(1, 1, 1),
     opacity: 0.4,
-    characterSpacing: 1.5,
   });
 
   cursorY -= 40;
@@ -232,7 +230,7 @@ export async function generateCertificatePDF(data: CertificateData): Promise<Buf
   page.drawCircle({
     x: centerX,
     y: cursorY,
-    radius: circleRadius,
+    size: circleRadius,
     color: levelAccent,
     opacity: 0.2,
   });
@@ -240,7 +238,7 @@ export async function generateCertificatePDF(data: CertificateData): Promise<Buf
   page.drawCircle({
     x: centerX,
     y: cursorY,
-    radius: circleRadius,
+    size: circleRadius,
     borderColor: levelAccent,
     borderWidth: 1.5,
   });
@@ -329,7 +327,6 @@ export async function generateCertificatePDF(data: CertificateData): Promise<Buf
     font: fontRegular,
     color: rgb(1, 1, 1),
     opacity: 0.4,
-    characterSpacing: 1,
   });
 
   // Completed date (center)
@@ -351,7 +348,6 @@ export async function generateCertificatePDF(data: CertificateData): Promise<Buf
     font: fontRegular,
     color: rgb(1, 1, 1),
     opacity: 0.4,
-    characterSpacing: 1,
   });
 
   // Issued date (right third)
@@ -372,7 +368,6 @@ export async function generateCertificatePDF(data: CertificateData): Promise<Buf
     font: fontRegular,
     color: rgb(1, 1, 1),
     opacity: 0.4,
-    characterSpacing: 1,
   });
 
   cursorY -= rowHeight + 20;
@@ -391,7 +386,6 @@ export async function generateCertificatePDF(data: CertificateData): Promise<Buf
       font: fontRegular,
       color: rgb(1, 1, 1),
       opacity: 0.4,
-      characterSpacing: 2,
     });
 
     cursorY -= 15;

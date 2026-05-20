@@ -73,7 +73,7 @@ export default function CertificatePage() {
   const params = useParams();
   const router = useRouter();
   const verificationId = params.verificationId as string;
-  const { isAuthenticated, isLoading: authIsLoading, accessToken } = useAuthStore();
+  const { isAuthenticated, isLoading: authIsLoading } = useAuthStore();
 
   const [certificate, setCertificate] = useState<CertificateInfo | null>(null);
   const [loading, setLoading] = useState(true);

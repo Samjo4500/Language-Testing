@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { verifyToken, generateTokens } from '@/lib/auth';
 import { db } from '@/lib/db';
+import { setAuthCookies } from '@/lib/cookie-auth';
 
 /**
  * POST /api/auth/refresh
@@ -16,15 +17,19 @@ import { db } from '@/lib/db';
  */
 export async function POST(request: NextRequest) {
   try {
+    // Priority 1: Read refresh token from HttpOnly cookie
+    // Priority 2: Fall back to Authorization header (backward compatibility)
     const authHeader = request.headers.get('authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    const refreshToken = request.cookies.get('refresh_token')?.value
+      || (authHeader?.startsWith('Bearer ') ? authHeader.substring(7) : null);
+
+    if (!refreshToken) {
       return NextResponse.json(
         { error: 'Refresh token is required.' },
         { status: 401 }
       );
     }
 
-    const refreshToken = authHeader.substring(7);
     const payload = verifyToken(refreshToken);
 
     if (!payload) {
@@ -66,7 +71,7 @@ export async function POST(request: NextRequest) {
       tokenVersion: dbUser.tokenVersion,
     });
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       accessToken: tokens.accessToken,
       refreshToken: tokens.refreshToken,
       // Also return updated user data so the client can sync its state
@@ -81,6 +86,8 @@ export async function POST(request: NextRequest) {
         organizationName: dbUser.organizationName,
       },
     });
+    setAuthCookies(response, tokens.accessToken, tokens.refreshToken);
+    return response;
   } catch (error) {
     console.error('Token refresh error:', error);
     return NextResponse.json(

@@ -273,7 +273,7 @@ function speakText(text: string, rate: number = 0.9): Promise<void> {
    ====================================================== */
 export default function TestPage() {
   const router = useRouter();
-  const { isAuthenticated, isLoading: authIsLoading, user, accessToken } = useAuthStore();
+  const { isAuthenticated, isLoading: authIsLoading, user } = useAuthStore();
 
   // Test state
   const [phase, setPhase] = useState<TestPhase>('select');
@@ -285,14 +285,11 @@ export default function TestPage() {
   // Check for in-progress assessment on mount (resume capability)
   // SECURITY: Use GET (read-only) instead of POST to avoid consuming a credit on page load
   useEffect(() => {
-    if (!isAuthenticated || !accessToken) return;
+    if (!isAuthenticated) return;
     const checkForResumableAssessment = async () => {
       try {
         const res = await fetch('/api/assessments/start', {
           method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${accessToken}`,
-          },
         });
         if (res.ok) {
           const data = await res.json();
@@ -304,7 +301,7 @@ export default function TestPage() {
       } catch {}
     };
     checkForResumableAssessment();
-  }, [isAuthenticated, accessToken]);
+  }, [isAuthenticated]);
 
   // Skill tracking
   const [skillStatuses, setSkillStatuses] = useState<Record<string, SkillStatus>>({
@@ -432,7 +429,7 @@ export default function TestPage() {
      START ASSESSMENT
      ====================================================== */
   const startAssessment = async () => {
-    if (!accessToken) return;
+    if (!isAuthenticated) return;
     setLoading(true);
     setError(null);
     try {
@@ -440,7 +437,6 @@ export default function TestPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
         },
       });
       const data = await res.json();
@@ -620,14 +616,13 @@ export default function TestPage() {
   }, []);
 
   const evaluateSpeaking = async () => {
-    if (!speakingTranscript.trim() || !accessToken) return;
+    if (!speakingTranscript.trim() || !isAuthenticated) return;
     setEvaluatingSpeaking(true);
     try {
       const res = await fetch('/api/assessments/speaking/evaluate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
           transcript: speakingTranscript,
@@ -663,14 +658,13 @@ export default function TestPage() {
   const currentWritingText = writingTexts[currentWritingPrompt?.id] || '';
 
   const evaluateWriting = async () => {
-    if (!currentWritingText.trim() || !accessToken) return;
+    if (!currentWritingText.trim() || !isAuthenticated) return;
     setEvaluatingWriting(true);
     try {
       const res = await fetch('/api/assessments/writing/evaluate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
           text: currentWritingText,
@@ -703,7 +697,7 @@ export default function TestPage() {
      SUBMIT ASSESSMENT
      ====================================================== */
   const submitAssessment = async () => {
-    if (!assessmentId || !accessToken) return;
+    if (!assessmentId || !isAuthenticated) return;
     setSubmitting(true);
 
     // Build responses from all skills
@@ -765,7 +759,6 @@ export default function TestPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
         },
         body: JSON.stringify({ assessmentId, responses }),
       });

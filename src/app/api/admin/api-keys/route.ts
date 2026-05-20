@@ -2,12 +2,17 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { getAuthUser, requireAdmin } from '@/lib/auth-middleware';
 import { randomBytes } from 'crypto';
+import { adminLimiter } from '@/lib/rate-limit';
 
 /**
  * GET /api/admin/api-keys
  * List all API keys with user info.
  */
 export async function GET(request: NextRequest) {
+  // Rate limit: 60 requests per minute per IP
+  const limitError = adminLimiter(request);
+  if (limitError) return limitError;
+
   try {
     const authResult = getAuthUser(request);
     if (!authResult) {
@@ -57,6 +62,10 @@ export async function GET(request: NextRequest) {
  * Body: { name, plan, type, permissions, rateLimit }
  */
 export async function POST(request: NextRequest) {
+  // Rate limit: 60 requests per minute per IP
+  const limitError = adminLimiter(request);
+  if (limitError) return limitError;
+
   try {
     const authResult = getAuthUser(request);
     if (!authResult) {

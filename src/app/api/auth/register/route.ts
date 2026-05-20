@@ -3,6 +3,7 @@ import { db } from '@/lib/db';
 import { hashPassword, generateTokens } from '@/lib/auth';
 import { sendWelcomeEmail, sendEmailVerification, sendAdminNewUser } from '@/lib/email';
 import { authLimiter } from '@/lib/rate-limit';
+import { setAuthCookies } from '@/lib/cookie-auth';
 import jwt from 'jsonwebtoken';
 
 // Use centralized JWT_SECRET — no fallback
@@ -101,7 +102,7 @@ export async function POST(request: NextRequest) {
       user.id
     ).catch((err) => console.error('Verification email send error:', err));
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       user: {
         userId: user.id,
         email: user.email,
@@ -114,6 +115,8 @@ export async function POST(request: NextRequest) {
       accessToken: tokens.accessToken,
       refreshToken: tokens.refreshToken,
     }, { status: 201 });
+    setAuthCookies(response, tokens.accessToken, tokens.refreshToken);
+    return response;
   } catch (error) {
     console.error('Registration error:', error);
     return NextResponse.json(

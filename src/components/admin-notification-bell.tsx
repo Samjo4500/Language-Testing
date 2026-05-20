@@ -31,7 +31,7 @@ const TYPE_COLORS: Record<string, string> = {
 };
 
 export function AdminNotificationBell() {
-  const { accessToken, isAuthenticated, user } = useAuthStore();
+  const { isAuthenticated, user } = useAuthStore();
   const {
     unreadCount,
     notifications,
@@ -49,18 +49,18 @@ export function AdminNotificationBell() {
 
   // Fetch notifications on mount and when auth changes
   useEffect(() => {
-    if (!isAuthenticated || !accessToken || user?.role !== 'admin') return;
-    fetchNotifications(accessToken);
-  }, [isAuthenticated, accessToken, user?.role, fetchNotifications]);
+    if (!isAuthenticated || user?.role !== 'admin') return;
+    fetchNotifications('');
+  }, [isAuthenticated, user?.role, fetchNotifications]);
 
   // Poll every 30 seconds
   useEffect(() => {
-    if (!isAuthenticated || !accessToken || user?.role !== 'admin') return;
-    pollingRef.current = setInterval(() => fetchNotifications(accessToken), 30000);
+    if (!isAuthenticated || user?.role !== 'admin') return;
+    pollingRef.current = setInterval(() => fetchNotifications(''), 30000);
     return () => {
       if (pollingRef.current) clearInterval(pollingRef.current);
     };
-  }, [isAuthenticated, accessToken, user?.role, fetchNotifications]);
+  }, [isAuthenticated, user?.role, fetchNotifications]);
 
   // Close dropdown on route change
   useEffect(() => {
@@ -80,13 +80,13 @@ export function AdminNotificationBell() {
   }, [isOpen, setIsOpen]);
 
   const handleToggle = useCallback(() => {
-    if (!isOpen) fetchNotifications(accessToken!);
+    if (!isOpen) fetchNotifications('');
     toggleOpen();
-  }, [isOpen, accessToken, fetchNotifications, toggleOpen]);
+  }, [isOpen, fetchNotifications, toggleOpen]);
 
   const handleMarkAllRead = useCallback(async () => {
-    await markAllRead(accessToken!);
-  }, [accessToken, markAllRead]);
+    await markAllRead('');
+  }, [markAllRead]);
 
   // Don't render for non-admin users
   if (!isAuthenticated || user?.role !== 'admin') return null;

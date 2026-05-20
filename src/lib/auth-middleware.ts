@@ -3,17 +3,23 @@ import { verifyToken, TokenPayload } from './auth';
 import { db } from './db';
 
 export function getAuthUser(request: NextRequest): TokenPayload | null {
+  // Priority 1: HttpOnly cookie (secure, server-set)
+  const cookieToken = request.cookies.get('access_token')?.value;
+  if (cookieToken && cookieToken !== 'null' && cookieToken !== 'undefined') {
+    const payload = verifyToken(cookieToken);
+    if (payload) return payload;
+  }
+
+  // Priority 2: Authorization header (backward compatibility)
   const authHeader = request.headers.get('authorization');
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return null;
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const token = authHeader.substring(7);
+    if (token && token !== 'null' && token !== 'undefined') {
+      return verifyToken(token);
+    }
   }
 
-  const token = authHeader.substring(7);
-  if (!token || token === 'null' || token === 'undefined') {
-    return null;
-  }
-
-  return verifyToken(token);
+  return null;
 }
 
 export function requireAuth(request: NextRequest): TokenPayload | NextResponse {

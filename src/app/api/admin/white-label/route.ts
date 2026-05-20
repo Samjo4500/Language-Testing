@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { getAuthUser, requireAdmin } from '@/lib/auth-middleware';
+import { adminLimiter } from '@/lib/rate-limit';
 
 const DEFAULT_SETTINGS = {
   companyName: 'TestCEFR',
@@ -19,6 +20,10 @@ const DEFAULT_SETTINGS = {
  * Get white-label settings. Returns defaults if none exist.
  */
 export async function GET(request: NextRequest) {
+  // Rate limit: 60 requests per minute per IP
+  const limitError = adminLimiter(request);
+  if (limitError) return limitError;
+
   try {
     const authResult = getAuthUser(request);
     if (!authResult) {
@@ -45,6 +50,10 @@ export async function GET(request: NextRequest) {
  * Create or update white-label settings.
  */
 export async function POST(request: NextRequest) {
+  // Rate limit: 60 requests per minute per IP
+  const limitError = adminLimiter(request);
+  if (limitError) return limitError;
+
   try {
     const authResult = getAuthUser(request);
     if (!authResult) {

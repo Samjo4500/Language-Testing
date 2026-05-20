@@ -63,3 +63,4 @@ export const authLimiter = rateLimit({ windowMs: 15 * 60 * 1000, maxRequests: 10
 export const aiChatLimiter = rateLimit({ windowMs: 60 * 1000, maxRequests: 20 });     // 20 chat messages per min
 export const aiEvalLimiter = rateLimit({ windowMs: 60 * 1000, maxRequests: 10 });     // 10 AI evaluations per min
 export const assessmentLimiter = rateLimit({ windowMs: 60 * 1000, maxRequests: 5 });   // 5 assessment starts per min
+export const adminLimiter = rateLimit({ windowMs: 60 * 1000, maxRequests: 60 });       // 60 admin API calls per min

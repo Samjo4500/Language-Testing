@@ -140,3 +140,92 @@ Stage Summary:
 - All 4 Medium issues fixed (rate limiting, error leaks, safe JSON.parse)
 - 1 Low issue fixed (OG images)
 - Launch readiness: ~78% → ~90%
+
+---
+Task ID: 2
+Agent: Main
+Task: Migrate authentication from localStorage tokens to HttpOnly cookies
+
+Work Log:
+- Created /src/lib/cookie-auth.ts with setAuthCookies() and clearAuthCookies() utilities
+  - HttpOnly, Secure (production), SameSite=Lax cookies
+  - access_token: 24h maxAge, refresh_token: 30d maxAge
+- Updated /src/lib/auth-middleware.ts getAuthUser() to read from access_token HttpOnly cookie first, then fall back to Authorization header for backward compatibility
+- Updated /src/middleware.ts to read from 'access_token' cookie instead of 'auth_token'
+- Updated /src/app/api/auth/login/route.ts to set HttpOnly cookies on login response
+- Updated /src/app/api/auth/register/route.ts to set HttpOnly cookies on register response
+- Updated /src/app/api/auth/refresh/route.ts to:
+  - Read refresh token from HttpOnly cookie first, fall back to Authorization header
+  - Set new auth cookies on refresh response
+- Updated /src/app/api/auth/logout/route.ts to clear auth cookies on logout
+- Updated /src/app/api/payments/capture/route.ts to set auth cookies after payment
+- Updated /src/lib/auth-store.ts:
+  - setAuth(): Removed localStorage.setItem('accessToken'/'refreshToken'), removed document.cookie for auth_token. Only stores user JSON in localStorage
+  - logout(): Removed localStorage.removeItem('accessToken'/'refreshToken'), removed document.cookie clearing. Server clears cookies via /api/auth/logout
+  - refreshAccessToken(): Removed Authorization header from fetch, removed localStorage token writes, removed document.cookie update. Uses cookie-based auth
+- Updated /src/components/auth-provider.tsx for cookie-based hydration:
+  - Reads user from localStorage for immediate UI hydration
+  - Validates auth via cookie-based /api/auth/me
+  - On 401, tries /api/auth/refresh (browser sends refresh_token cookie automatically)
+  - Falls back to localStorage user data on network errors
+- Updated client components to remove Authorization headers and use isAuthenticated instead of accessToken:
+  - /src/app/test/page.tsx: Removed all Authorization headers, changed !accessToken to !isAuthenticated
+  - /src/app/(main)/dashboard/page.tsx: Removed Authorization header from certificates fetch
+  - /src/app/(main)/pricing/page.tsx: Changed PayPalCheckoutButton prop from accessToken to isAuthenticated, removed Authorization headers from create-order/capture fetches, simplified post-payment user refresh
+  - /src/app/(main)/admin/page.tsx: Removed all Authorization headers, changed !accessToken to !isAuthenticated, replaced authHeaders() with jsonHeaders()
+  - /src/lib/admin-notification-store.ts: Removed Authorization headers, kept _accessToken param for API compatibility
+  - /src/components/admin-notification-bell.tsx: Removed accessToken dependency, uses isAuthenticated instead
+  - /src/app/certificate/[verificationId]/page.tsx: Removed unused accessToken destructuring
+- Verified no TypeScript errors introduced (only pre-existing errors remain)
+- Verified no lint errors in modified files
+
+Stage Summary:
+- Authentication tokens no longer stored in localStorage (XSS protection)
+- Server sets HttpOnly cookies on login, register, refresh, and payment capture
+- Server clears cookies on logout
+- All client-side API calls now rely on cookies (browser sends automatically)
+- Backward compatibility maintained: Authorization header still accepted by getAuthUser()
+- Auth store keeps accessToken/refreshToken in memory but doesn't persist to localStorage
+- User JSON still stored in localStorage for UI hydration on page reload
+
+---
+Task ID: 7
+Agent: Main
+Task: Add rate limiting to ALL admin API routes
+
+Work Log:
+- Read all 18 admin route files to understand current structure and handler signatures
+- Verified adminLimiter is already defined at /src/lib/rate-limit.ts (60 requests per minute per IP)
+- Added `import { adminLimiter } from '@/lib/rate-limit';` to all 18 admin route files
+- Added rate limit check at the very beginning of each handler function (before try block):
+  ```
+  const limitError = adminLimiter(request);
+  if (limitError) return limitError;
+  ```
+- Files modified (18 total, 21 handlers covered):
+  1. /api/admin/analytics/route.ts — GET
+  2. /api/admin/api-keys/route.ts — GET, POST
+  3. /api/admin/api-keys/[id]/route.ts — PATCH, DELETE
+  4. /api/admin/assessments/route.ts — GET
+  5. /api/admin/certificates/route.ts — GET
+  6. /api/admin/emails/route.ts — GET
+  7. /api/admin/notifications/route.ts — GET, PATCH
+  8. /api/admin/payments/route.ts — GET
+  9. /api/admin/promote/route.ts — POST
+  10. /api/admin/questions/batch/route.ts — POST
+  11. /api/admin/questions/stats/route.ts — GET
+  12. /api/admin/seed/route.ts — POST
+  13. /api/admin/system/route.ts — GET
+  14. /api/admin/test-paypal/route.ts — GET
+  15. /api/admin/users/route.ts — GET, PATCH
+  16. /api/admin/users/demo/route.ts — POST
+  17. /api/admin/users/reset-password/route.ts — PATCH
+  18. /api/admin/white-label/route.ts — GET, POST (PATCH delegates to POST, so covered)
+- Verified: /api/admin/apis/route.ts does not exist
+- Verified: all 18 files have adminLimiter import, 21 total handler rate limit checks
+- Lint passes for all admin route files (no new errors introduced)
+
+Stage Summary:
+- All 21 admin API handlers now have rate limiting (60 req/min/IP) applied as the first check
+- Pattern matches existing authLimiter usage in auth routes
+- No existing logic or imports were disturbed

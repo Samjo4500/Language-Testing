@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { getAuthUser, requireAdmin } from '@/lib/auth-middleware';
 import { generateAIJSON } from '@/lib/ai-provider';
+import { adminLimiter } from '@/lib/rate-limit';
 
 const CEFR_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 const SKILLS = ['grammar', 'vocabulary', 'reading', 'listening'];
@@ -14,6 +15,10 @@ interface GeneratedQuestion {
 }
 
 export async function POST(request: NextRequest) {
+  // Rate limit: 60 requests per minute per IP
+  const limitError = adminLimiter(request);
+  if (limitError) return limitError;
+
   try {
     const authResult = getAuthUser(request);
     if (!authResult) {

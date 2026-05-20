@@ -38,14 +38,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   isRefreshing: false,
 
   setAuth: (user, accessToken, refreshToken) => {
-    // Persist tokens to localStorage
+    // Persist user data to localStorage for UI hydration (tokens come from HttpOnly cookies)
     if (typeof window !== 'undefined') {
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
       localStorage.setItem('user', JSON.stringify(user));
-      // Also set cookies for middleware (server-side route protection)
-      document.cookie = `auth_token=${accessToken}; path=/; max-age=${30 * 24 * 60 * 60}; SameSite=Lax; Secure`;
-      // Note: user_role cookie REMOVED — role is now extracted from verified JWT in middleware
     }
     set({
       user,
@@ -67,20 +62,14 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   setLoading: (loading) => set({ isLoading: loading }),
 
   logout: () => {
-    const { accessToken } = get();
     // Fire-and-forget: increment server-side tokenVersion to invalidate all tokens
-    if (accessToken) {
-      fetch('/api/auth/logout', {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${accessToken}` },
-      }).catch(() => {}); // Ignore errors — client state is cleared regardless
-    }
+    // Browser sends access_token cookie automatically — no need for Authorization header
+    fetch('/api/auth/logout', {
+      method: 'POST',
+    }).catch(() => {}); // Ignore errors — client state is cleared regardless
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
       localStorage.removeItem('user');
-      // Clear middleware cookie
-      document.cookie = 'auth_token=; path=/; max-age=0';
+      // HttpOnly cookies are cleared by the server's /api/auth/logout endpoint
     }
     set({
       user: null,
@@ -93,7 +82,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   refreshAccessToken: async () => {
-    const { refreshToken, isRefreshing } = get();
+    const { isRefreshing, isAuthenticated } = get();
 
     // If already refreshing, wait for it to complete
     if (isRefreshing) {
@@ -114,7 +103,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       });
     }
 
-    if (!refreshToken) {
+    if (!isAuthenticated) {
       get().logout();
       return null;
     }
@@ -122,11 +111,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     set({ isRefreshing: true });
 
     try {
+      // Browser sends refresh_token HttpOnly cookie automatically
       const response = await fetch('/api/auth/refresh', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${refreshToken}`,
         },
       });
 
@@ -146,13 +135,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const newAccessToken = data.accessToken;
       const newRefreshToken = data.refreshToken;
 
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('accessToken', newAccessToken);
-        if (newRefreshToken) {
-          localStorage.setItem('refreshToken', newRefreshToken);
-        }
-      }
-
       // If the refresh endpoint returns updated user data (plan/role), sync it
       if (data.user) {
         const currentUser = get().user;
@@ -163,15 +145,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         if (typeof window !== 'undefined') {
           localStorage.setItem('user', JSON.stringify(mergedUser));
         }
-        set({ accessToken: newAccessToken, refreshToken: newRefreshToken || refreshToken, user: mergedUser, isRefreshing: false });
+        set({ accessToken: newAccessToken, refreshToken: newRefreshToken, user: mergedUser, isRefreshing: false });
       } else {
-        set({ accessToken: newAccessToken, refreshToken: newRefreshToken || refreshToken, isRefreshing: false });
+        set({ accessToken: newAccessToken, refreshToken: newRefreshToken, isRefreshing: false });
       }
 
-      // Update middleware cookie with new access token
-      if (typeof window !== 'undefined') {
-        document.cookie = `auth_token=${newAccessToken}; path=/; max-age=${30 * 24 * 60 * 60}; SameSite=Lax; Secure`;
-      }
       return newAccessToken;
     } catch {
       // Network error - DON'T logout, keep existing auth

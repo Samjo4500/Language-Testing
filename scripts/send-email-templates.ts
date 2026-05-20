@@ -4,7 +4,8 @@
  */
 import { Resend } from 'resend';
 
-const RESEND_API_KEY = process.env.RESEND_API_KEY || 're_LZTDkM5t_7zU8QXwNG9EkS3qzMjKXUMEX';
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
+if (!RESEND_API_KEY) { console.error('ERROR: RESEND_API_KEY environment variable is not set.'); process.exit(1); }
 const TO_EMAIL = 'samjo4500@gmail.com';
 const APP_URL = 'https://testcefr.com';
 const FROM_EMAIL = 'TestCEFR <noreply@testcefr.com>';

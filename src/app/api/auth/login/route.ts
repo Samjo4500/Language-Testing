@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { verifyPassword, generateTokens } from '@/lib/auth';
 import { authLimiter } from '@/lib/rate-limit';
+import { setAuthCookies } from '@/lib/cookie-auth';
 
 export async function POST(request: NextRequest) {
   // Rate limit: 10 login attempts per 15 minutes per IP
@@ -43,7 +44,7 @@ export async function POST(request: NextRequest) {
       tokenVersion: user.tokenVersion,
     });
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       user: {
         userId: user.id,
         email: user.email,
@@ -56,6 +57,8 @@ export async function POST(request: NextRequest) {
       accessToken: tokens.accessToken,
       refreshToken: tokens.refreshToken,
     });
+    setAuthCookies(response, tokens.accessToken, tokens.refreshToken);
+    return response;
   } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json(

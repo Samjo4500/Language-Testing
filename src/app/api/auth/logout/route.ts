@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { getAuthUser } from '@/lib/auth-middleware';
+import { clearAuthCookies } from '@/lib/cookie-auth';
 
 /**
  * POST /api/auth/logout
@@ -22,14 +23,18 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       message: 'Logged out successfully.',
     });
+    clearAuthCookies(response);
+    return response;
   } catch (error) {
     console.error('Logout error:', error);
     // Even if the DB update fails, return success so the client clears its state
-    return NextResponse.json({
+    const response = NextResponse.json({
       message: 'Logged out successfully.',
     });
+    clearAuthCookies(response);
+    return response;
   }
 }

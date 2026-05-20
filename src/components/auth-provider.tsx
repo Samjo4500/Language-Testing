@@ -12,70 +12,52 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (hasHydrated.current) return;
     hasHydrated.current = true;
 
-    // Hydrate auth state from localStorage on mount
+    // Hydrate auth state using HttpOnly cookies
     const hydrate = async () => {
       try {
-        const accessToken = localStorage.getItem('accessToken');
-        const refreshToken = localStorage.getItem('refreshToken');
+        // Try to read user from localStorage for immediate UI
         const userStr = localStorage.getItem('user');
-
-        if (accessToken && refreshToken && userStr) {
-          // First, set auth from localStorage immediately to prevent flicker
+        if (userStr) {
           try {
             const user = JSON.parse(userStr);
-            // Set auth with existing tokens so the UI shows authenticated immediately
-            setAuth(user, accessToken, refreshToken);
-            // Also refresh the cookie so middleware sees it with updated expiry
-            document.cookie = `accessToken=${accessToken}; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Lax; Secure`;
+            setAuth(user, '', ''); // Set user data immediately (tokens come from cookies)
           } catch {
-            // Bad localStorage data
-            logout();
-            return;
+            localStorage.removeItem('user');
           }
-
-          // Then validate the token in the background
-          try {
-            const response = await fetch('/api/auth/me', {
-              headers: {
-                'Authorization': `Bearer ${accessToken}`,
-              },
-            });
-
-            if (response.ok) {
-              // Token is still valid - update user data from server
-              const data = await response.json();
-              setAuth(data.user, accessToken, refreshToken);
-            } else if (response.status === 401) {
-              // Access token expired - try refreshing
-              try {
-                const refreshResponse = await fetch('/api/auth/refresh', {
-                  method: 'POST',
-                  headers: {
-                    'Authorization': `Bearer ${refreshToken}`,
-                  },
-                });
-
-                if (refreshResponse.ok) {
-                  const refreshData = await refreshResponse.json();
-                  const user = JSON.parse(userStr);
-                  setAuth(user, refreshData.accessToken, refreshData.refreshToken || refreshToken);
-                } else if (refreshResponse.status === 401) {
-                  // Refresh token also expired - must re-login
-                  logout();
-                }
-                // On 5xx from refresh, keep localStorage auth (server issue, not auth issue)
-              } catch {
-                // Network error during refresh - keep localStorage auth
-              }
-            }
-            // On 5xx from /me, keep localStorage auth (already set above)
-          } catch {
-            // Network error during /me validation - keep localStorage auth
-          }
-        } else {
-          // No stored tokens, stop loading
-          setLoading(false);
         }
+
+        // Validate auth via cookie-based /api/auth/me
+        try {
+          const response = await fetch('/api/auth/me');
+          if (response.ok) {
+            const data = await response.json();
+            setAuth(data.user, '', '');
+            if (typeof window !== 'undefined') {
+              localStorage.setItem('user', JSON.stringify(data.user));
+            }
+          } else if (response.status === 401) {
+            // Access token cookie expired — try refresh (browser sends refresh_token cookie)
+            try {
+              const refreshResponse = await fetch('/api/auth/refresh', { method: 'POST' });
+              if (refreshResponse.ok) {
+                const refreshData = await refreshResponse.json();
+                setAuth(refreshData.user || JSON.parse(userStr || '{}'), '', '');
+                if (refreshData.user && typeof window !== 'undefined') {
+                  localStorage.setItem('user', JSON.stringify(refreshData.user));
+                }
+              } else {
+                // Refresh also failed — clear auth
+                logout();
+              }
+            } catch {
+              // Network error — keep optimistic auth from localStorage
+            }
+          }
+        } catch {
+          // Network error — keep optimistic auth from localStorage
+        }
+
+        setLoading(false);
       } catch {
         // localStorage not available or other issue - just stop loading
         setLoading(false);
