@@ -537,6 +537,32 @@ html {
     linear-gradient(180deg, #150C30 0%, #1A1040 50%, #120A28 100%);
 }
 
+/* === SPEAKING SECTION DARKER BACKGROUNDS === */
+/* 1. Deepest Void — Almost black with the faintest purple tint */
+.speaking-bg-1 {
+  background: linear-gradient(180deg, #08051A 0%, #060312 45%, #04020C 100%);
+}
+
+/* 2. Cosmic Depth — Dark with a subtle blue-purple gradient shift */
+.speaking-bg-2 {
+  background: linear-gradient(180deg, #06081E 0%, #0A0D2C 35%, #070618 70%, #04030E 100%);
+}
+
+/* 3. Midnight Orchid — Dark with a hint of pink/magenta at the edges */
+.speaking-bg-3 {
+  background: linear-gradient(180deg, #0C0515 0%, #10071E 40%, #0E0618 70%, #080310 100%);
+}
+
+/* 4. Abyss Purple — Darkest purple gradient, like deep space */
+.speaking-bg-4 {
+  background: linear-gradient(180deg, #0E0825 0%, #120A32 30%, #0A0720 60%, #060414 100%);
+}
+
+/* 5. Obsidian Glow — Near-black center with the faintest purple glow at the edges */
+.speaking-bg-5 {
+  background: radial-gradient(ellipse at 50% 50%, #030208 0%, #07041A 35%, #0B0722 65%, #0D082A 100%);
+}
+
 /* === RECORDING ELEMENT STYLES === */
 .recording-ring {
   border: 2px solid rgba(239, 68, 68, 0.4);

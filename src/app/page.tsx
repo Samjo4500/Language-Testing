@@ -227,7 +227,7 @@ function LiveVoiceDemo() {
   ];
 
   return (
-    <section className="relative py-20 md:py-28 bg-[#0F0A1E] overflow-hidden">
+    <section className="relative py-20 md:py-28 speaking-bg-4 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div className="orb orb-purple w-[500px] h-[500px] top-0 left-1/3 animate-float-slow" />
         <div className="orb orb-pink w-[300px] h-[300px] bottom-0 right-1/4 animate-float-reverse" />
