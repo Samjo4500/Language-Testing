@@ -227,10 +227,10 @@ function LiveVoiceDemo() {
   ];
 
   return (
-    <section className="relative py-20 md:py-28 speaking-bg-5 overflow-hidden">
+    <section className="relative py-20 md:py-28 speaking-bg-5 overflow-hidden" style={{ background: 'radial-gradient(ellipse at 50% 40%, rgba(139,92,246,0.12) 0%, transparent 50%), radial-gradient(ellipse at 50% 50%, #020106 0%, #050312 30%, #090520 60%, #0C0728 100%)' }}>
       <div className="absolute inset-0 pointer-events-none">
-        <div className="orb orb-purple w-[500px] h-[500px] top-0 left-1/3 animate-float-slow" />
-        <div className="orb orb-pink w-[300px] h-[300px] bottom-0 right-1/4 animate-float-reverse" />
+        <div className="orb orb-purple w-[300px] h-[300px] top-1/4 -left-12 animate-float-slow opacity-20" />
+        <div className="orb orb-pink w-[200px] h-[200px] bottom-1/4 -right-8 animate-float-reverse opacity-15" />
       </div>
 
       <div className="container relative mx-auto px-4">
