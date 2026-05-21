@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/lib/auth-store';
 import { useAdminNotificationStore } from '@/lib/admin-notification-store';
-import { Bell, BellRing, Users, CreditCard, Award, Mail, Globe, Loader2, ExternalLink, Check } from 'lucide-react';
+import { Bell, BellRing, Users, CreditCard, Award, Mail, Globe, Loader2, ExternalLink, CheckCheck } from 'lucide-react';
 
 const TYPE_LABELS: Record<string, string> = {
   admin_new_user: 'New User',
@@ -39,6 +39,7 @@ export function AdminNotificationBell() {
     isOpen,
     fetchNotifications,
     markAllRead,
+    markAsRead,
     toggleOpen,
     setIsOpen,
   } = useAdminNotificationStore();
@@ -46,6 +47,7 @@ export function AdminNotificationBell() {
   const pathname = usePathname();
   const pollingRef = useRef<NodeJS.Timeout | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [markingAll, setMarkingAll] = useState(false);
 
   // Fetch notifications on mount and when auth changes
   useEffect(() => {
@@ -85,8 +87,17 @@ export function AdminNotificationBell() {
   }, [isOpen, fetchNotifications, toggleOpen]);
 
   const handleMarkAllRead = useCallback(async () => {
-    await markAllRead('');
+    setMarkingAll(true);
+    try {
+      await markAllRead('');
+    } finally {
+      setMarkingAll(false);
+    }
   }, [markAllRead]);
+
+  const handleMarkOneRead = useCallback(async (id: string) => {
+    await markAsRead('', [id]);
+  }, [markAsRead]);
 
   // Don't render for non-admin users
   if (!isAuthenticated || user?.role !== 'admin') return null;
@@ -96,7 +107,7 @@ export function AdminNotificationBell() {
       {/* Bell Button */}
       <button
         onClick={handleToggle}
-        className="relative flex items-center justify-center p-2 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+        className="relative flex items-center justify-center p-2 rounded-lg text-white/60 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
         title="Notifications"
         aria-label={`Notifications${unreadCount > 0 ? `, ${unreadCount} unread` : ''}`}
         aria-expanded={isOpen}
@@ -113,9 +124,16 @@ export function AdminNotificationBell() {
         )}
       </button>
 
-      {/* Dropdown */}
+      {/* Dropdown — using inline styles instead of glass-card to avoid the hover transform that shifts the entire dropdown */}
       {isOpen && (
-        <div className="absolute right-0 top-12 z-50 w-80 sm:w-96 glass-card p-0 overflow-hidden shadow-2xl shadow-purple-500/10 border border-white/10 animate-slide-up">
+        <div
+          className="absolute right-0 top-12 z-50 w-80 sm:w-96 overflow-hidden shadow-2xl shadow-purple-500/10 border border-white/10 animate-slide-up rounded-2xl"
+          style={{
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)',
+            backdropFilter: 'blur(24px)',
+            WebkitBackdropFilter: 'blur(24px)',
+          }}
+        >
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-white/[0.02]">
             <h4 className="text-white font-semibold text-sm flex items-center gap-2">
@@ -130,10 +148,15 @@ export function AdminNotificationBell() {
             {unreadCount > 0 && (
               <button
                 onClick={(e) => { e.stopPropagation(); handleMarkAllRead(); }}
-                className="text-xs text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-1"
+                disabled={markingAll}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-purple-300 hover:text-white bg-purple-500/20 hover:bg-purple-500/40 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Check className="h-3 w-3" />
-                Mark all read
+                {markingAll ? (
+                  <Loader2 className="h-3 w-3 animate-spin" />
+                ) : (
+                  <CheckCheck className="h-3.5 w-3.5" />
+                )}
+                {markingAll ? 'Marking...' : 'Mark all read'}
               </button>
             )}
           </div>
@@ -157,9 +180,13 @@ export function AdminNotificationBell() {
               notifications.map((notif) => (
                 <div
                   key={notif.id}
-                  className={`px-4 py-3 border-b border-white/5 hover:bg-white/[0.03] transition-colors ${
-                    !notif.isRead ? 'bg-purple-500/[0.05]' : ''
+                  onClick={() => { if (!notif.isRead) handleMarkOneRead(notif.id); }}
+                  className={`px-4 py-3 border-b border-white/5 transition-colors ${
+                    !notif.isRead
+                      ? 'bg-purple-500/[0.05] hover:bg-purple-500/[0.1] cursor-pointer'
+                      : 'hover:bg-white/[0.03]'
                   }`}
+                  title={!notif.isRead ? 'Click to mark as read' : undefined}
                 >
                   <div className="flex items-start gap-2.5">
                     <div
@@ -183,6 +210,13 @@ export function AdminNotificationBell() {
                         {new Date(notif.createdAt).toLocaleString()}
                       </p>
                     </div>
+                    {!notif.isRead && (
+                      <div className="shrink-0 self-center">
+                        <span className="text-[10px] text-purple-400/60 hover:text-purple-300 transition-colors">
+                          Mark read
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))
