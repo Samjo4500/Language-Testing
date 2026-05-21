@@ -6,6 +6,7 @@ import { useAuthStore } from '@/lib/auth-store';
 import { identifyUser, resetIdentity } from '@/lib/analytics';
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+const GADS_ID = process.env.NEXT_PUBLIC_GA_ADS_ID;
 const POSTHOG_KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY;
 const POSTHOG_HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com';
 
@@ -28,22 +29,21 @@ export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      {/* ── GA4 gtag.js ── */}
-      {GA_ID && (
+      {/* ── GA4 + Google Ads gtag.js ── */}
+      {/* Load the primary GA4 script (also used by Google Ads via shared dataLayer) */}
+      {(GA_ID || GADS_ID) && (
         <>
           <Script
-            src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+            src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID || GADS_ID}`}
             strategy="afterInteractive"
           />
-          <Script id="ga4-init" strategy="afterInteractive">
+          <Script id="gtag-init" strategy="afterInteractive">
             {`
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', '${GA_ID}', {
-                page_path: window.location.pathname,
-                send_page_view: true
-              });
+              ${GA_ID ? `gtag('config', '${GA_ID}', { page_path: window.location.pathname, send_page_view: true });` : ''}
+              ${GADS_ID ? `gtag('config', '${GADS_ID}');` : ''}
             `}
           </Script>
         </>
