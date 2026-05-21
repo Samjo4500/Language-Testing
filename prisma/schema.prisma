@@ -28,11 +28,11 @@ model User {
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 
-  payments     Payment[]     @relation("UserPayments", onDelete: Cascade)
-  assessments  Assessment[]  @relation("UserAssessments", onDelete: Cascade)
-  certificates Certificate[] @relation("UserCertificates", onDelete: Cascade)
-  apiKeys      ApiKey[]      @relation("UserApiKeys", onDelete: Cascade)
-  emailLogs    EmailLog[]    @relation("UserEmailLogs", onDelete: SetNull)
+  payments     Payment[]     @relation("UserPayments")
+  assessments  Assessment[]  @relation("UserAssessments")
+  certificates Certificate[] @relation("UserCertificates")
+  apiKeys      ApiKey[]      @relation("UserApiKeys")
+  emailLogs    EmailLog[]    @relation("UserEmailLogs")
 }
 
 model Question {
@@ -61,7 +61,7 @@ model Payment {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  user User @relation("UserPayments", fields: [userId], references: [id])
+  user User @relation("UserPayments", fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([status])
@@ -79,9 +79,9 @@ model Assessment {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  user       User           @relation("UserAssessments", fields: [userId], references: [id])
-  responses  AssessmentResponse[] @relation("AssessmentResponses", onDelete: Cascade)
-  certificate Certificate?      @relation("AssessmentCertificate", onDelete: Cascade)
+  user       User           @relation("UserAssessments", fields: [userId], references: [id], onDelete: Cascade)
+  responses  AssessmentResponse[] @relation("AssessmentResponses")
+  certificate Certificate?      @relation("AssessmentCertificate")
 
   @@index([userId])
   @@index([status])
@@ -96,7 +96,7 @@ model AssessmentResponse {
   isCorrect    Boolean?
   createdAt    DateTime @default(now())
 
-  assessment Assessment @relation("AssessmentResponses", fields: [assessmentId], references: [id])
+  assessment Assessment @relation("AssessmentResponses", fields: [assessmentId], references: [id], onDelete: Cascade)
 
   @@index([assessmentId])
 }
@@ -114,8 +114,8 @@ model Certificate {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  user       User       @relation("UserCertificates", fields: [userId], references: [id])
-  assessment Assessment @relation("AssessmentCertificate", fields: [assessmentId], references: [id])
+  user       User       @relation("UserCertificates", fields: [userId], references: [id], onDelete: Cascade)
+  assessment Assessment @relation("AssessmentCertificate", fields: [assessmentId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([issuedAt])
