@@ -412,9 +412,9 @@ function LiveVoiceDemo() {
 
         <AnimatedSection delay={200}>
           <div className="max-w-4xl mx-auto">
-            <div className="relative">
-              <div className="absolute -inset-[2px] rounded-3xl bg-gradient-to-br from-purple-500/60 via-pink-500/40 to-blue-500/60 animate-border-glow" />
-              <div className="relative glass-card-neon speaking-card-border p-6 md:p-10">
+            {/* Gradient border wrapper — gradient bg = border, inner card covers the center */}
+            <div className="speaking-gradient-border-wrap rounded-[22px] p-[2px]">
+              <div className="glass-card-neon speaking-card-border p-6 md:p-10 h-full">
                 <div className="grid md:grid-cols-2 gap-8">
                   {/* Left: Mic & Controls */}
                   <div className="flex flex-col items-center">
@@ -636,9 +636,8 @@ function InteractiveCEFRLevels() {
 
         <AnimatedSection delay={200}>
           <div className="max-w-4xl mx-auto">
-            <div className="relative">
-              <div className="absolute -inset-[1px] rounded-3xl bg-gradient-to-br from-purple-500/30 via-pink-500/10 to-blue-500/30" />
-              <div className="relative glass-card-neon p-6 md:p-10">
+            <div className="gradient-border-wrap rounded-[21px] p-[1px]">
+              <div className="glass-card-neon p-6 md:p-10 h-full">
                 {/* Level Tabs */}
                 <div className="flex flex-wrap gap-2 mb-8 justify-center">
                   {CEFR_LEVELS.map((lvl, i) => (

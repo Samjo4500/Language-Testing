@@ -40,9 +40,8 @@ export default function VerifyCertificatePage() {
           </div>
 
           {/* Verification form */}
-          <div className="relative mb-10">
-            <div className="absolute -inset-[1px] rounded-3xl bg-gradient-to-br from-purple-500/30 via-pink-500/10 to-blue-500/30" />
-            <div className="relative glass-card-neon p-8 md:p-10">
+          <div className="gradient-border-wrap rounded-[21px] p-[1px] mb-10">
+            <div className="glass-card-neon p-8 md:p-10 h-full">
               <form onSubmit={handleVerify}>
                 <label htmlFor="verificationId" className="block text-sm font-medium text-white mb-2">
                   Verification ID
