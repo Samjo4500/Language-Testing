@@ -272,8 +272,8 @@ function LiveVoiceDemo() {
         <AnimatedSection delay={200}>
           <div className="max-w-4xl mx-auto">
             <div className="relative">
-              <div className="absolute -inset-[1px] rounded-3xl bg-gradient-to-br from-purple-500/40 via-pink-500/20 to-blue-500/40 animate-border-glow" />
-              <div className="relative glass-card-neon p-6 md:p-10 light-streak">
+              <div className="absolute -inset-[2px] rounded-3xl bg-gradient-to-br from-purple-500/60 via-pink-500/40 to-blue-500/60 animate-border-glow" />
+              <div className="relative glass-card-neon speaking-card-border p-6 md:p-10">
                 <div className="grid md:grid-cols-2 gap-8">
                   {/* Left: Mic & Controls */}
                   <div className="flex flex-col items-center">

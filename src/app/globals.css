@@ -257,6 +257,30 @@
   opacity: 1;
 }
 
+/* === SPEAKING DEMO CARD — prominent gradient border === */
+.speaking-card-border {
+  border: 2px solid rgba(139, 92, 246, 0.45);
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.15),
+    0 12px 40px rgba(0, 0, 0, 0.3),
+    0 0 40px rgba(139, 92, 246, 0.15),
+    0 0 80px rgba(236, 72, 153, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+.speaking-card-border::before {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(139,92,246,0.6), rgba(236,72,153,0.5), transparent);
+}
+.speaking-card-border::after {
+  border: 2px solid rgba(139, 92, 246, 0.6);
+  box-shadow:
+    0 8px 16px rgba(0, 0, 0, 0.2),
+    0 20px 60px rgba(0, 0, 0, 0.35),
+    0 0 80px rgba(139, 92, 246, 0.25),
+    0 0 120px rgba(236, 72, 153, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
 /* === NAVIGATION === */
 .glass-nav {
   background: rgba(10, 6, 24, 0.85);
