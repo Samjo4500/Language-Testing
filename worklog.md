@@ -60,3 +60,24 @@ Stage Summary:
 - Server-side purchase tracking ensures revenue data accuracy even with ad-blockers
 - Sitemap now includes all public pages for Search Console
 - User needs to: (1) Create GA4 property, (2) Create PostHog project, (3) Add env vars to Vercel, (4) Verify Search Console ownership
+
+---
+Task ID: 3
+Agent: Main
+Task: Add Analytics & Integrations tab to admin dashboard
+
+Work Log:
+- Added new tab 'analytics-integrations' to TABS array with Globe icon
+- Added lucide imports: MousePointerClick, LineChart, SearchIcon, LayoutDashboard, CheckSquare, Square, Settings2, Circle
+- Built 4 integration status cards: GA4, Search Console, PostHog, Looker Studio
+- Each card shows: icon, name, description, connection status badge, key config values, and quick-launch button
+- Added "Tracked Events Reference" table with all 9 custom events and their triggers/parameters
+- Added "Setup Checklist" with 10 items, auto-checked based on process.env values
+- Added "Environment Variables" reference showing which vars are set vs missing
+- Build and deploy successful
+
+Stage Summary:
+- Admin dashboard now has an Analytics tab at /admin (last tab)
+- Cards dynamically show Connected/Not Set based on Vercel env vars
+- All external service links open in new tabs
+- When user adds GA4/PostHog keys to Vercel env vars and redeploys, the cards will auto-update to show Connected
