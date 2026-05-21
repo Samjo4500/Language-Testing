@@ -20,6 +20,7 @@ import {
 import QRCode from 'react-qr-code';
 import Link from 'next/link';
 import { Footer } from '@/components/footer';
+import { trackCertificateDownload } from '@/lib/analytics';
 
 interface SkillBreakdown {
   reading?: number;
@@ -339,6 +340,7 @@ export default function CertificatePage() {
               href={`/api/certificates/download/${verificationId}`}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackCertificateDownload({ cefr_level: certificate?.cefrLevel })}
             >
               <button className="flex items-center gap-2 rounded-xl px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 cursor-pointer">
                 <Download className="h-4 w-4" />

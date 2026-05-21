@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { useHydrated } from '@/hooks/use-hydrated';
+import { trackSpeakingDemoStart, trackSpeakingDemoComplete, trackPricingView } from '@/lib/analytics';
 
 /* ======================================================
    SCROLL ANIMATION HOOK
@@ -192,7 +193,17 @@ function LiveVoiceDemo() {
   const mounted = useHydrated();
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const startRecording = useCallback(() => {
+  const startRecording = useCallback(async () => {
+    // Request mic permission and track result
+    let micPermission: 'granted' | 'denied' | 'not_requested' = 'not_requested';
+    try {
+      const result = await navigator.permissions.query({ name: 'microphone' as PermissionName });
+      micPermission = result.state === 'granted' ? 'granted' : result.state === 'denied' ? 'denied' : 'not_requested';
+    } catch {
+      // permissions.query may not be supported for microphone in all browsers
+      micPermission = 'not_requested';
+    }
+    trackSpeakingDemoStart({ mic_permission: micPermission });
     setIsRecording(true);
     setRecordingTime(0);
     timerRef.current = setInterval(() => {
@@ -206,6 +217,7 @@ function LiveVoiceDemo() {
       clearInterval(timerRef.current);
       timerRef.current = null;
     }
+    trackSpeakingDemoComplete();
   }, []);
 
   useEffect(() => {
@@ -789,6 +801,26 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 export default function Home() {
   const { isAuthenticated, user } = useAuthStore();
   const mounted = useHydrated();
+  const pricingSectionRef = useRef<HTMLElement>(null);
+  const pricingViewTracked = useRef(false);
+
+  // Track pricing_view when the pricing section scrolls into view
+  useEffect(() => {
+    const el = pricingSectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !pricingViewTracked.current) {
+          pricingViewTracked.current = true;
+          trackPricingView();
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const isAuth = mounted && isAuthenticated;
 
@@ -971,7 +1003,7 @@ export default function Home() {
       </section>
 
       {/* ===== PRICING — Individual ===== */}
-      <section className="relative py-20 md:py-28 dark-section-alt hero-pattern noise-overlay" id="pricing">
+      <section ref={pricingSectionRef} className="relative py-20 md:py-28 dark-section-alt hero-pattern noise-overlay" id="pricing">
         <div className="container relative mx-auto px-4">
           <AnimatedSection>
             <div className="text-center mb-14">

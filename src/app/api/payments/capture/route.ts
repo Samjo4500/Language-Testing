@@ -6,6 +6,7 @@ import { generateTokens } from '@/lib/auth';
 import { sendPaymentConfirmation, sendAdminNewPayment } from '@/lib/email';
 import { setAuthCookies } from '@/lib/cookie-auth';
 import { PLAN_CONFIG } from '@/lib/plans';
+import { trackPurchaseServerSide } from '@/lib/analytics';
 
 export async function POST(request: NextRequest) {
   try {
@@ -121,6 +122,23 @@ export async function POST(request: NextRequest) {
         amount,
         captureId || orderID
       ).catch((err) => console.error('Admin new payment email error:', err));
+    }
+
+    // Server-side purchase tracking via GA4 Measurement Protocol (fire-and-forget)
+    // This ensures purchase events are captured even if ad-blockers prevent client-side JS
+    const gaMeasurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+    const gaApiSecret = process.env.GA_API_SECRET;
+    if (gaMeasurementId && gaApiSecret) {
+      trackPurchaseServerSide({
+        measurementId: gaMeasurementId,
+        apiSecret: gaApiSecret,
+        clientId: `${user.userId}.${Date.now()}`,
+        transactionId: captureId || orderID,
+        value: amount,
+        currency,
+        planType,
+        userId: user.userId,
+      }).catch((err) => console.error('GA4 server-side purchase tracking error:', err));
     }
 
     // Generate new JWT tokens with updated plan so user gets premium access immediately

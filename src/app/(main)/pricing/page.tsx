@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuthStore } from '@/lib/auth-store';
 import { isPaidPlan, getPlanLabel } from '@/lib/plan-utils';
+import { trackPurchase } from '@/lib/analytics';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import {
@@ -134,6 +135,14 @@ function PayPalCheckoutButton({ isAuthenticated, amount, description, planId, pl
             throw new Error(errorData.error || 'Payment capture failed');
           }
           const captureData = await response.json();
+          // Track purchase event (client-side)
+          trackPurchase({
+            transaction_id: data.orderID,
+            value: captureData.payment?.amount || amount,
+            currency: captureData.payment?.currency || 'USD',
+            plan_type: captureData.payment?.planType || planId,
+            items: planName,
+          });
           // Update plan based on actual purchase
           const newPlan = captureData.payment?.plan || planName;
           updatePlan(newPlan);

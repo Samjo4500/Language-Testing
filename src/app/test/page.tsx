@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuthStore } from '@/lib/auth-store';
 import { Navbar } from '@/components/navbar';
+import { trackTestStart, trackTestComplete, trackTestAbandon } from '@/lib/analytics';
 import {
   Headphones, Mic, BookOpen, PenTool, Play, Square, Volume2,
   ChevronRight, ChevronLeft, Clock, AlertCircle, CheckCircle2,
@@ -274,18 +275,39 @@ export default function TestPage() {
       writingEvaluations, skillStatuses, phase,
       grammarIdx, vocabIdx, readingIdx, listeningIdx]);
 
-  // Warn user before leaving/refreshing during an active test
+  // Warn user before leaving/refreshing during an active test + track abandonment
   const isInActiveTest = phase !== 'select' && phase !== 'results';
   useEffect(() => {
     if (!isInActiveTest) return;
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      // Track test abandonment via sendBeacon (reliable during page unload)
+      const completedSkills = Object.values(skillStatuses).filter(s => s === 'completed').length;
+      const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+      if (gaId && navigator.sendBeacon) {
+        const payload = JSON.stringify({
+          event_id: crypto.randomUUID(),
+          events: [{
+            name: 'test_abandon',
+            params: {
+              step: phase,
+              skills_completed: completedSkills,
+              skills_total: 6,
+              engagement_time_msec: 1,
+            },
+          }],
+        });
+        navigator.sendBeacon(
+          `https://www.google-analytics.com/g/collect?measurement_id=${gaId}&api_secret=_`,
+          payload
+        );
+      }
       e.preventDefault();
       e.returnValue = 'Your test is in progress. Are you sure you want to leave?';
       return e.returnValue;
     };
     window.addEventListener('beforeunload', handleBeforeUnload);
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
-  }, [isInActiveTest]);
+  }, [isInActiveTest, phase, skillStatuses]);
 
   // Load voices for TTS
   useEffect(() => {
@@ -314,6 +336,10 @@ export default function TestPage() {
   const startSkill = async (skill: TestPhase) => {
     setPhase(skill);
     setSkillStatuses(prev => ({ ...prev, [skill]: 'in_progress' }));
+    // Track test_start on first skill start (when moving from 'select' phase)
+    if (skill !== 'select') {
+      trackTestStart({ plan: user?.plan, is_resume: resumingAssessment });
+    }
   };
 
   /* ======================================================
@@ -672,6 +698,12 @@ export default function TestPage() {
       if (res.ok) {
         setResults(data);
         setPhase('results');
+        // Track test completion
+        trackTestComplete({
+          cefr_level: data.cefrLevel || data.overallLevel,
+          score: data.overallScore,
+          duration_seconds: undefined, // We don't track duration currently
+        });
       } else {
         setError(data.message || 'Failed to submit assessment.');
       }

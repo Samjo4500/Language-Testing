@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuthStore } from '@/lib/auth-store';
 import { Navbar } from '@/components/navbar';
+import { trackAccountCreate } from '@/lib/analytics';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -98,6 +99,8 @@ export default function RegisterPage() {
       }
 
       setAuth(data.user, data.accessToken, data.refreshToken);
+      // Track account creation
+      trackAccountCreate({ account_type: accountType });
       router.push(isB2B ? '/contact' : '/pricing');
     } catch {
       setError('An unexpected error occurred. Please try again.');
