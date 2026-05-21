@@ -505,6 +505,38 @@
 .animate-spin-reverse { animation: spin-reverse 15s linear infinite; }
 .animate-ping-slow { animation: ping-slow 4s ease-in-out infinite; }
 .animate-pulse-slow { animation: pulse-slow 3s ease-in-out infinite; }
+
+/* === CEFR HOLOGRAPHIC ORBITAL ANIMATIONS === */
+@keyframes cefr-ring-1 {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes cefr-ring-2 {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+@keyframes cefr-ring-3 {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes cefr-pulse-expand {
+  0% { transform: scale(0.85); opacity: 0.7; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+@keyframes cefr-node-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.2); opacity: 0.15; }
+}
+@keyframes cefr-scanner {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-cefr-ring-1 { animation: cefr-ring-1 25s linear infinite; }
+.animate-cefr-ring-2 { animation: cefr-ring-2 18s linear infinite; }
+.animate-cefr-ring-3 { animation: cefr-ring-3 12s linear infinite; }
+.animate-cefr-pulse-expand { animation: cefr-pulse-expand 1.5s ease-out forwards; }
+.animate-cefr-node-pulse { animation: cefr-node-pulse 2s ease-in-out infinite; }
+.animate-cefr-scanner { animation: cefr-scanner 8s linear infinite; }
 .animate-border-glow {
   position: relative;
   border: 1px solid rgba(139, 92, 246, 0.2);
