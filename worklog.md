@@ -1,56 +1,30 @@
 ---
 Task ID: 1
-Agent: Super Z (Main)
-Task: Comprehensive site health audit and quality improvements
+Agent: Main
+Task: Phase 1 Question Rotation System Implementation
 
 Work Log:
-- Ran Next.js build: PASSES (68 static pages, 0 errors)
-- Ran TypeScript type check: PASSES (0 errors)
-- Ran deep code audit: Found 42 issues across accessibility, error handling, code quality, type safety
-- Fixed 4 critical security bugs: admin password reset session fixation, notification API mismatch, PayPal webhook fail-open, unauthenticated /api/track
-- Fixed 5 high-priority issues: chat/track rate limiting, JWT_SECRET centralization, hardcoded admin email, contact from address, unused import
-- Fixed medium issues: AI eval timeout, CSP report 204+JSON, email XSS
-- Added loading/error boundaries to 5 route groups
-- Added admin page auth guard with Access Denied state
-- Added dashboard certificate error state with retry
-- Created shared plans constants (src/lib/plans.ts)
-- Fixed auth.ts JWT_SECRET lazy initialization
-- Added SEO metadata for certificate and report pages
-- Added accessibility: aria-labels on mobile menu, password toggles, notification bell
-- Deployed 3 commits to Vercel successfully
+- Verified Prisma schema already includes all new models (Organization, OrganizationMember, ReadingPassage, ReadingQuestion, ListeningItem, ListeningQuestion, SpeakingPrompt, WritingPrompt, SeenQuestion)
+- Pushed schema to Neon PostgreSQL - already in sync
+- Verified question-selection.ts algorithm already implemented (Fisher-Yates shuffle, blended A2-C1 bell curve, anti-repeat, adaptive difficulty)
+- Verified start/route.ts and submit/route.ts already use DB-driven questions with server-side verification
+- Created comprehensive seed script (prisma/seed.ts) with:
+  - 16 reading passages (4 per level: A2, B1, B2, C1) with 2 questions each
+  - 12 listening items (3 per level: A2, B1, B2, C1) with 2 questions each
+  - 20 speaking prompts (5 per level: A2, B1, B2, C1)
+  - 16 writing prompts (4 per level: A2, B1, B2, C1)
+- Successfully seeded database - now has: 1482 MCQs, 22 reading passages, 18 listening items, 26 speaking prompts, 22 writing prompts
+- Enhanced questionSet serialization to include sub-question IDs for reading/listening (backward compatible)
+- Created GET /api/assessments/[id]/questions endpoint for resuming in-progress assessments
+- Fixed resume assessment flow in test/page.tsx (was broken - user couldn't get questions back after refresh)
+- Updated submit route to handle both old and new serialization formats
+- Build succeeded, deployed to Vercel via GitHub push
 
 Stage Summary:
-- Site health improved significantly with 0 build errors, 0 TypeScript errors
-- All critical security vulnerabilities patched
-- Key UX improvements: loading states, error states, auth guards, accessibility
-- Manual action checklist prepared for user
-
----
-Task ID: 2
-Agent: Super Z (Main)
-Task: Deep quality audit round 2 — fix all remaining critical/high issues
-
-Work Log:
-- Ran comprehensive deep audit: Found 5 Critical, 10 High, 12 Medium, 10 Low issues
-- FIXED C1/C2: XSS in admin notification emails — escapeHtml() added to sendAdminNewUser, sendAdminNewPayment, contact form admin email
-- FIXED C4: /api/track now derives userId from JWT token, not client body (IDOR fix)
-- FIXED C5: verifyTokenVersion() now fails-closed on DB errors instead of returning null
-- FIXED H3: Added aiEvalLimiter (10/min) to writing and speaking AI evaluation endpoints
-- FIXED H9: Payment capture uses atomic increment instead of read-then-write (race condition fix)
-- FIXED H1: Admin role now determined by ADMIN_EMAIL env var match, not user count
-- FIXED H7: Converted duplicate PATCH /admin/users to general user update (role/plan), keeping dedicated reset-password route
-- FIXED H10: Removed PayPal token prefix leak from test-paypal endpoint
-- FIXED M2: Added server-side email format validation on registration
-- FIXED M5: Added loading.tsx for admin, about, contact, verify, verify-email pages
-- FIXED M6: Added SEO metadata to verify-email layout
-- FIXED H6: Added cascading deletes and missing Prisma indexes (PageView, ApiKey, Certificate, composite userId+status)
-- Ran prisma db push — database schema updated with all new indexes and cascade deletes
-- Built and deployed 2 commits to Vercel
-- Build: PASSES, TypeScript: 0 errors, Site: LIVE
-
-Stage Summary:
-- All 5 critical issues fixed (XSS, IDOR, token version bypass)
-- All 10 high-priority issues fixed (rate limiting, race condition, admin auto-promotion)
-- Key medium issues fixed (email validation, loading states, indexes, cascading deletes)
-- Database schema updated with new indexes and cascade delete rules
-- Manual action list prepared for user
+- Phase 1 Question Rotation System is LIVE
+- All 6 question types are now DB-driven with random selection
+- Anti-repeat tracking via SeenQuestion model is active
+- Adaptive difficulty adjustment based on prior performance
+- Resume flow fixed - users can now continue in-progress assessments
+- Question bank sufficiently populated for rotation variety
+- correctIndex properly stripped from all client responses
