@@ -18,6 +18,7 @@ model User {
   role             String     @default("user")  // "user" | "admin"
   accountType      String     @default("individual") // "individual" | "university" | "business"
   organizationName String?    // Name of university/company (for B2B accounts)
+  organizationId   String?    // FK to Organization (for B2B users)
   isDemo           Boolean    @default(false) // true for auto-generated demo accounts
   emailVerified Boolean    @default(false)
   testCredits   Int        @default(0) // number of tests remaining
@@ -28,23 +29,37 @@ model User {
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 
-  payments     Payment[]     @relation("UserPayments")
-  assessments  Assessment[]  @relation("UserAssessments")
-  certificates Certificate[] @relation("UserCertificates")
-  apiKeys      ApiKey[]      @relation("UserApiKeys")
-  emailLogs    EmailLog[]    @relation("UserEmailLogs")
+  payments     Payment[]        @relation("UserPayments")
+  assessments  Assessment[]     @relation("UserAssessments")
+  certificates Certificate[]    @relation("UserCertificates")
+  apiKeys      ApiKey[]         @relation("UserApiKeys")
+  emailLogs    EmailLog[]       @relation("UserEmailLogs")
+  seenQuestions SeenQuestion[]  @relation("UserSeenQuestions")
+  orgMembership OrganizationMember[] @relation("UserOrgMembership")
+
+  @@index([organizationId])
 }
 
 model Question {
-  id           String   @id @default(cuid())
-  level        String   // "A1" | "A2" | "B1" | "B2" | "C1" | "C2"
-  category     String   // "grammar" | "vocabulary" | "reading" | "listening"
-  text         String   // The question text
-  options      String   // JSON array of 4 options: ["opt1", "opt2", "opt3", "opt4"]
-  correctIndex Int      // 0-3 index of the correct answer
-  explanation  String?  // Optional explanation of the correct answer
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id             String   @id @default(cuid())
+  level          String   // "A1" | "A2" | "B1" | "B2" | "C1" | "C2"
+  category       String   // "grammar" | "vocabulary" | "reading" | "listening"
+  difficultyTier Int      @default(5)  // 1-10 within the level (for adaptive selection)
+  variantGroup   String?  // Questions that test the same concept (variants for anti-cheat)
+  text           String   // The question text
+  options        String   // JSON array of 4 options: ["opt1", "opt2", "opt3", "opt4"]
+  correctIndex   Int      // 0-3 index of the correct answer
+  explanation    String?  // Optional explanation of the correct answer
+  organizationId String?  // null = global pool; non-null = org-exclusive
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization? @relation(fields: [organizationId], references: [id])
+
+  @@index([level, category, isActive, organizationId])
+  @@index([variantGroup])
+  @@index([organizationId])
 }
 
 model Payment {
@@ -74,6 +89,7 @@ model Assessment {
   status      String   @default("not_started") // "not_started" | "in_progress" | "completed"
   cefrLevel   String?  // "A1" | "A2" | "B1" | "B2" | "C1" | "C2"
   score       Int?
+  questionSet String?  // JSON snapshot of question IDs selected for this assessment
   startedAt   DateTime?
   completedAt DateTime?
   createdAt   DateTime @default(now())
@@ -92,13 +108,18 @@ model AssessmentResponse {
   id           String   @id @default(cuid())
   assessmentId String
   questionId   String
+  questionType String   @default("mcq") // "mcq" | "reading" | "listening" | "speaking" | "writing"
+  parentItemId String?  // For reading/listening: the passageId or itemId
   answer       String?
   isCorrect    Boolean?
+  aiScore      Int?     // For speaking/writing: AI-evaluated score (0-100)
+  aiFeedback   String?  // JSON: AI evaluation details
   createdAt    DateTime @default(now())
 
   assessment Assessment @relation("AssessmentResponses", fields: [assessmentId], references: [id], onDelete: Cascade)
 
   @@index([assessmentId])
+  @@index([questionType, questionId])
 }
 
 model Certificate {
@@ -189,4 +210,192 @@ model EmailLog {
   @@index([status])
   @@index([to])
   @@index([isRead])
+}
+
+// ═══════════════════════════════════════════════════════════
+//  ORGANIZATION (B2B/institution pools)
+// ═══════════════════════════════════════════════════════════
+
+model Organization {
+  id              String   @id @default(cuid())
+  name            String   @unique
+  slug            String   @unique
+  plan            String   @default("team")  // "team" | "business" | "enterprise"
+  maxMembers      Int      @default(50)
+  questionPoolAccess Boolean @default(true)
+  customBranding  Boolean  @default(false)
+  primaryColor    String?
+  logoUrl         String?
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  members         OrganizationMember[]
+  questions       Question[]
+  readingPassages ReadingPassage[]
+  listeningItems  ListeningItem[]
+  speakingPrompts SpeakingPrompt[]
+  writingPrompts  WritingPrompt[]
+}
+
+model OrganizationMember {
+  id             String   @id @default(cuid())
+  organizationId String
+  userId         String
+  role           String   @default("member")  // "admin" | "member" | "viewer"
+  joinedAt       DateTime @default(now())
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user         User         @relation("UserOrgMembership", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([organizationId, userId])
+  @@index([organizationId])
+  @@index([userId])
+}
+
+// ═══════════════════════════════════════════════════════════
+//  READING PASSAGE — parent entity with sub-questions
+// ═══════════════════════════════════════════════════════════
+
+model ReadingPassage {
+  id             String   @id @default(cuid())
+  level          String   // "A2" | "B1" | "B2" | "C1"
+  title          String?
+  passageText    String
+  difficultyTier Int      @default(5)
+  variantGroup   String?
+  organizationId String?
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization?  @relation(fields: [organizationId], references: [id])
+  questions    ReadingQuestion[]
+
+  @@index([level, isActive, organizationId])
+  @@index([variantGroup])
+  @@index([organizationId])
+}
+
+model ReadingQuestion {
+  id           String   @id @default(cuid())
+  passageId    String
+  questionText String
+  options      String   // JSON array of 4 options
+  correctIndex Int      // 0-3
+  explanation  String?
+  sortOrder    Int      @default(0)
+  createdAt    DateTime @default(now())
+
+  passage ReadingPassage @relation(fields: [passageId], references: [id], onDelete: Cascade)
+
+  @@index([passageId])
+}
+
+// ═══════════════════════════════════════════════════════════
+//  LISTENING ITEM — audio script with question(s)
+// ═══════════════════════════════════════════════════════════
+
+model ListeningItem {
+  id             String   @id @default(cuid())
+  level          String   // "A2" | "B1" | "B2" | "C1"
+  scriptText     String   // TTS script or transcript
+  audioUrl       String?
+  context        String?  // "You hear:" or "Listen to a conversation about..."
+  difficultyTier Int      @default(5)
+  variantGroup   String?
+  organizationId String?
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization?    @relation(fields: [organizationId], references: [id])
+  questions    ListeningQuestion[]
+
+  @@index([level, isActive, organizationId])
+  @@index([variantGroup])
+  @@index([organizationId])
+}
+
+model ListeningQuestion {
+  id           String   @id @default(cuid())
+  itemId       String
+  questionText String
+  options      String   // JSON array of 4 options
+  correctIndex Int      // 0-3
+  explanation  String?
+  sortOrder    Int      @default(0)
+  createdAt    DateTime @default(now())
+
+  item ListeningItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@index([itemId])
+}
+
+// ═══════════════════════════════════════════════════════════
+//  SPEAKING PROMPT — AI-evaluated
+// ═══════════════════════════════════════════════════════════
+
+model SpeakingPrompt {
+  id              String   @id @default(cuid())
+  level           String   // "A2" | "B1" | "B2" | "C1"
+  promptText      String
+  preparationTime Int      @default(30)  // seconds
+  responseTime    Int      @default(120) // seconds
+  difficultyTier  Int      @default(5)
+  variantGroup    String?
+  organizationId  String?
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  organization Organization?  @relation(fields: [organizationId], references: [id])
+
+  @@index([level, isActive, organizationId])
+  @@index([variantGroup])
+  @@index([organizationId])
+}
+
+// ═══════════════════════════════════════════════════════════
+//  WRITING PROMPT — AI-evaluated
+// ═══════════════════════════════════════════════════════════
+
+model WritingPrompt {
+  id             String   @id @default(cuid())
+  level          String   // "A2" | "B1" | "B2" | "C1"
+  promptText     String
+  minWords       Int      @default(50)
+  maxWords       Int      @default(250)
+  difficultyTier Int      @default(5)
+  variantGroup   String?
+  organizationId String?
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization?  @relation(fields: [organizationId], references: [id])
+
+  @@index([level, isActive, organizationId])
+  @@index([variantGroup])
+  @@index([organizationId])
+}
+
+// ═══════════════════════════════════════════════════════════
+//  SEEN QUESTION — anti-repeat tracking
+// ═══════════════════════════════════════════════════════════
+
+model SeenQuestion {
+  id           String   @id @default(cuid())
+  userId       String
+  questionType String   // "mcq" | "reading" | "listening" | "speaking" | "writing"
+  questionId   String   // Polymorphic FK to Question/ReadingPassage/ListeningItem/SpeakingPrompt/WritingPrompt.id
+  assessmentId String?
+  seenAt       DateTime @default(now())
+
+  user User @relation("UserSeenQuestions", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, questionType, questionId])
+  @@index([userId, questionType])
+  @@index([userId, questionType, seenAt])
+  @@index([assessmentId])
 }

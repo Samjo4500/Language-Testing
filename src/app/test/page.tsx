@@ -9,46 +9,12 @@ import {
   Headphones, Mic, BookOpen, PenTool, Play, Square, Volume2,
   ChevronRight, ChevronLeft, Clock, AlertCircle, CheckCircle2,
   Loader2, ArrowRight, Award, Sparkles, RotateCcw, VolumeX,
-  MicOff, Send, X, LogIn
+  MicOff, Send, X, LogIn, SpellCheck, BookMarked
 } from 'lucide-react';
 
 /* ======================================================
    TYPES
    ====================================================== */
-interface Question {
-  id: string;
-  text: string;
-  options: string[];
-  correctIndex: number;
-  level: string;
-  category: string;
-}
-
-interface ListeningItem {
-  id: string;
-  script: string;
-  question: string;
-  options: string[];
-  correctIndex: number;
-  level: string;
-}
-
-interface SpeakingPrompt {
-  id: string;
-  prompt: string;
-  level: string;
-  preparationTime: number; // seconds
-  responseTime: number; // seconds
-}
-
-interface WritingPrompt {
-  id: string;
-  prompt: string;
-  level: string;
-  minWords: number;
-  maxWords: number;
-}
-
 interface SpeakingEvaluation {
   cefrLevel: string;
   score: number;
@@ -73,172 +39,17 @@ interface WritingEvaluation {
   improvements: string[];
 }
 
-type TestPhase = 'select' | 'reading' | 'listening' | 'speaking' | 'writing' | 'results';
+type TestPhase = 'select' | 'grammar' | 'vocabulary' | 'reading' | 'listening' | 'speaking' | 'writing' | 'results';
 type SkillStatus = 'pending' | 'in_progress' | 'completed';
 
-/* ======================================================
-   CEFR TEST CONTENT DATA
-   ====================================================== */
-const LISTENING_ITEMS: ListeningItem[] = [
-  {
-    id: 'l-a1',
-    script: 'Hello, my name is Sarah. I am a student at the university. I study English every day because I want to travel to London next summer.',
-    question: 'Why does Sarah study English?',
-    options: ['For her job', 'To travel to London', 'For an exam', 'To teach others'],
-    correctIndex: 1,
-    level: 'A1',
-  },
-  {
-    id: 'l-a2',
-    script: 'Excuse me, could you tell me how to get to the train station? Go straight down this road for two blocks, then turn left at the traffic light. You will see the station on your right.',
-    question: 'Where is the train station?',
-    options: ['On the left after two blocks', 'On the right after turning left', 'Straight ahead', 'Behind the traffic light'],
-    correctIndex: 1,
-    level: 'A2',
-  },
-  {
-    id: 'l-b1',
-    script: 'I have been working at the company for three years now, and I really enjoy the collaborative atmosphere. However, the commute is getting quite long, so I am considering asking my manager if I could work from home two days a week.',
-    question: 'What is the speaker considering?',
-    options: ['Finding a new job', 'Asking to work from home part-time', 'Moving closer to work', 'Reducing work hours'],
-    correctIndex: 1,
-    level: 'B1',
-  },
-  {
-    id: 'l-b2',
-    script: 'The recent study published in the Journal of Environmental Science suggests that urban green spaces not only improve air quality but also have a significant impact on residents mental health. Researchers found that people living within 300 metres of a park reported 25 percent lower stress levels compared to those without easy access to green areas.',
-    question: 'What does the study primarily suggest about urban green spaces?',
-    options: [
-      'They should be expanded to cover more area',
-      'They benefit both environmental and psychological well-being',
-      'They are more effective than medication for stress',
-      'They only help people who live very close to them',
-    ],
-    correctIndex: 1,
-    level: 'B2',
-  },
-  {
-    id: 'l-c1',
-    script: 'While the government touts the new infrastructure bill as a panacea for the nations crumbling bridges and roads, critics argue that the allocated funds are merely a drop in the ocean. The bipartisan compromise, they contend, sacrifices long-term sustainability for short-term political gains, leaving future generations to grapple with the consequences of deferred maintenance and inadequate investment in resilient design.',
-    question: 'What is the critics main argument against the infrastructure bill?',
-    options: [
-      'It focuses too much on bridges and ignores other infrastructure',
-      'It is politically motivated and insufficient for long-term needs',
-      'It adequately addresses all infrastructure concerns',
-      'It should have been passed earlier to prevent current problems',
-    ],
-    correctIndex: 1,
-    level: 'C1',
-  },
-  {
-    id: 'l-c2',
-    script: 'The paradox of modern globalization lies in its simultaneous capacity to homogenize and fragment. As transnational corporations impose a veneer of cultural uniformity through ubiquitous branding and algorithmically curated content, local identities undergo a complex process of renegotiation rather than mere erasure. Scholars of cultural hybridity argue that this dialectic produces novel syncretic forms, which neither conform to the dominant global template nor replicate pre-globalization traditions, but instead inhabit an interstitial space that defies conventional categorization.',
-    question: 'According to the passage, what is the key insight about cultural globalization?',
-    options: [
-      'It inevitably destroys local cultures completely',
-      'It creates entirely new cultural forms that blend global and local elements',
-      'It has no meaningful impact on cultural identity',
-      'It strengthens traditional cultures against external influence',
-    ],
-    correctIndex: 1,
-    level: 'C2',
-  },
-];
-
-const SPEAKING_PROMPTS: SpeakingPrompt[] = [
-  { id: 's-a1', prompt: 'Introduce yourself. Tell me your name, where you are from, and what you like to do in your free time.', level: 'A1', preparationTime: 15, responseTime: 60 },
-  { id: 's-a2', prompt: 'Describe your daily routine. What do you usually do from morning to night? Include at least three activities.', level: 'A2', preparationTime: 20, responseTime: 90 },
-  { id: 's-b1', prompt: 'Talk about a memorable trip you have taken. Where did you go, what did you do, and why was it memorable?', level: 'B1', preparationTime: 25, responseTime: 120 },
-  { id: 's-b2', prompt: 'Some people believe that technology has made our lives easier, while others argue it has created more problems than it has solved. What is your opinion? Provide specific examples to support your view.', level: 'B2', preparationTime: 30, responseTime: 150 },
-  { id: 's-c1', prompt: 'Discuss the ethical implications of artificial intelligence in the workplace. Consider both the potential benefits and the concerns, and propose how society might balance innovation with worker protection.', level: 'C1', preparationTime: 40, responseTime: 180 },
-  { id: 's-c2', prompt: 'Critically evaluate the assertion that economic growth should be the primary objective of national policy. In your response, address the tensions between growth, sustainability, and social equity, drawing on examples from different economic models.', level: 'C2', preparationTime: 45, responseTime: 240 },
-];
-
-const WRITING_PROMPTS: WritingPrompt[] = [
-  { id: 'w-a1', prompt: 'Write a short email to a friend telling them about your weekend. What did you do? Did you enjoy it?', level: 'A1', minWords: 30, maxWords: 80 },
-  { id: 'w-a2', prompt: 'Write about your favourite hobby. Explain what it is, how often you do it, and why you enjoy it. Give specific details.', level: 'A2', minWords: 50, maxWords: 120 },
-  { id: 'w-b1', prompt: 'Some people prefer living in a city, while others prefer living in the countryside. Compare the advantages and disadvantages of each, and explain which you prefer and why.', level: 'B1', minWords: 80, maxWords: 180 },
-  { id: 'w-b2', prompt: 'In many countries, the cost of higher education continues to rise. Discuss the arguments for and against free university education, and give your own opinion on how this issue should be addressed.', level: 'B2', minWords: 120, maxWords: 250 },
-  { id: 'w-c1', prompt: 'The rapid development of social media has transformed how people access information and form opinions. Analyze the impact of this transformation on democratic discourse, considering both the democratization of information and the proliferation of misinformation. Propose measures that could mitigate the negative effects while preserving the benefits.', level: 'C1', minWords: 180, maxWords: 350 },
-  { id: 'w-c2', prompt: 'Critically examine the proposition that universal basic income is the most viable solution to the economic disruption caused by automation and artificial intelligence. In your essay, evaluate the theoretical justifications, practical challenges of implementation, and alternative policy approaches, drawing on empirical evidence from pilot programs where available.', level: 'C2', minWords: 250, maxWords: 500 },
-];
-
-const READING_PASSAGES = [
-  {
-    id: 'r-a1',
-    level: 'A1',
-    passage: 'My name is Tom. I am 25 years old. I live in a small apartment in the city centre. Every morning, I wake up at 7 oclock and have breakfast. I usually eat toast and drink coffee. Then I take the bus to work. I work in a shop. I like my job because I meet many people. In the evening, I go home and cook dinner. After dinner, I watch TV or read a book. I go to bed at 10 oclock.',
-    questions: [
-      { question: 'Where does Tom live?', options: ['In a house', 'In an apartment', 'On a farm', 'With his parents'], correctIndex: 1 },
-      { question: 'How does Tom go to work?', options: ['By car', 'On foot', 'By bus', 'By bike'], correctIndex: 2 },
-    ],
-  },
-  {
-    id: 'r-a2',
-    level: 'A2',
-    passage: 'Last weekend, Maria decided to try a new restaurant that had just opened near her office. The restaurant, called The Green Table, specializes in vegetarian food. Maria is not a vegetarian, but she wanted to eat something healthy. She ordered a mixed salad as a starter and a mushroom risotto for the main course. The food was delicious, and the service was friendly. The only problem was that the restaurant was quite busy, so she had to wait 20 minutes for a table. She said she would definitely go back, but next time she would make a reservation.',
-    questions: [
-      { question: 'Why did Maria choose The Green Table?', options: ['She is vegetarian', 'She wanted healthy food', 'Her friend recommended it', 'It was the cheapest option'], correctIndex: 1 },
-      { question: 'What was the problem with the restaurant?', options: ['The food was bad', 'The service was slow', 'It was too busy', 'It was too expensive'], correctIndex: 2 },
-    ],
-  },
-  {
-    id: 'r-b1',
-    level: 'B1',
-    passage: 'Working from home has become increasingly common in recent years, and the trend accelerated dramatically during the global pandemic. While many employees appreciate the flexibility and time saved by not commuting, remote work also presents significant challenges. Studies have shown that remote workers often struggle to separate their professional and personal lives, leading to longer working hours and increased stress. Additionally, the lack of face-to-face interaction can make collaboration more difficult and reduce the sense of belonging within a team. Some companies have adopted hybrid models, allowing employees to split their time between home and office, as a compromise that aims to capture the benefits of both arrangements.',
-    questions: [
-      { question: 'According to the passage, what is one major challenge of remote work?', options: ['Higher transportation costs', 'Difficulty separating work and personal life', 'Reduced salary', 'Lack of technology'], correctIndex: 1 },
-      { question: 'What solution do some companies offer?', options: ['Fully remote work', 'Returning to the office', 'Hybrid models', 'Shorter working hours'], correctIndex: 2 },
-    ],
-  },
-  {
-    id: 'r-b2',
-    level: 'B2',
-    passage: 'The concept of a circular economy has gained considerable traction among policymakers and business leaders seeking alternatives to the traditional linear model of take-make-dispose. In a circular economy, products and materials are designed for durability, reuse, and recyclability, thereby minimizing waste and reducing the extraction of virgin resources. Proponents argue that this approach not only addresses environmental concerns but also creates economic opportunities through new business models such as product-as-a-service, where consumers lease rather than own products. Critics, however, contend that the transition to a circular economy is hindered by entrenched consumer habits, inadequate infrastructure for recycling and remanufacturing, and the economic incentives that still favour linear production. Despite these obstacles, several multinational corporations have begun incorporating circular principles into their operations, suggesting that incremental progress is possible even without a complete systemic overhaul.',
-    questions: [
-      { question: 'What is the primary advantage of the product-as-a-service model according to the passage?', options: ['It eliminates the need for recycling', 'It reduces consumer costs significantly', 'It supports circular economy principles by changing ownership patterns', 'It is the only viable circular economy approach'], correctIndex: 2 },
-      { question: 'What do critics identify as barriers to the circular economy?', options: ['Lack of scientific evidence', 'Consumer habits, poor infrastructure, and existing economic incentives', 'Resistance from environmental groups', 'Technological limitations only'], correctIndex: 1 },
-    ],
-  },
-  {
-    id: 'r-c1',
-    level: 'C1',
-    passage: 'The burgeoning field of neuroethics confronts a constellation of dilemmas arising from advances in neurotechnology. Brain-computer interfaces, once confined to science fiction, now enable individuals with severe motor disabilities to control prosthetic limbs and communication devices through neural signals alone. While these developments are laudable, they raise profound questions about cognitive liberty, the right to mental privacy, and the potential for coercion if such technologies become commodified. Moreover, the capacity for neural manipulation, whether for therapeutic or enhancement purposes, blurs the boundary between treatment and augmentation, compelling society to re-examine longstanding assumptions about identity, agency, and authenticity. As regulatory frameworks struggle to keep pace with technological innovation, neuroethicists advocate for a precautionary yet progressive approach that safeguards fundamental cognitive rights without stifling innovation that could alleviate suffering.',
-    questions: [
-      { question: 'What fundamental tension does the passage identify in the field of neuroethics?', options: [
-        'The cost of neurotechnology versus its benefits',
-        'The conflict between treating medical conditions and enhancing human capabilities',
-        'The competition between different neurotechnology companies',
-        'The disagreement between scientists and ethicists about research methods',
-      ], correctIndex: 1 },
-      { question: 'What approach do neuroethicists recommend?', options: [
-        'Complete prohibition of neural manipulation',
-        'Unrestricted development of neurotechnology',
-        'A balanced approach that protects rights while allowing beneficial innovation',
-        'Deferring all decisions to international regulatory bodies',
-      ], correctIndex: 2 },
-    ],
-  },
-  {
-    id: 'r-c2',
-    level: 'C2',
-    passage: 'The epistemological implications of large language models extend far beyond their practical applications, challenging foundational assumptions about the nature of knowledge, understanding, and meaning. When a language model generates a coherent and seemingly insightful response, it raises the question of whether this output constitutes genuine understanding or merely sophisticated pattern matching. The philosopher John Searles Chinese Room argument, originally formulated to critique symbolic AI, finds renewed relevance: just as Searles hypothetical room occupant can manipulate Chinese symbols without understanding Chinese, a language model processes tokens without, by most philosophical accounts, apprehending their referential content. Yet critics of this analogy contend that it relies on an unduly individualistic conception of cognition, one that neglects the distributed and relational character of meaning-making. From a pragmatic standpoint, if a models outputs are indistinguishable from those of a competent language user, and if they reliably facilitate communication and problem-solving, the question of internal understanding may be moot. This position, however, risks conflating functional equivalence with ontological identity, a conflation that has historically underwritten pernicious simplifications in the philosophy of mind. The debate thus mirrors broader tensions between instrumentalist and realist approaches to knowledge, with significant implications for how we conceptualize artificial intelligence and its place in the epistemic landscape.',
-    questions: [
-      { question: 'How does the passage characterize the central philosophical debate regarding large language models?', options: [
-        'Whether they will replace human intelligence entirely',
-        'Whether their outputs constitute genuine understanding or merely sophisticated pattern matching',
-        'Whether they should be regulated by governments',
-        'Whether they are more efficient than traditional computing methods',
-      ], correctIndex: 1 },
-      { question: 'What criticism does the passage level against the pragmatic position?', options: [
-        'It overestimates the capabilities of language models',
-        'It conflates functional equivalence with ontological identity',
-        'It relies too heavily on Searles Chinese Room argument',
-        'It fails to consider the practical benefits of language models',
-      ], correctIndex: 1 },
-    ],
-  },
-];
+interface ApiQuestionSet {
+  grammar: Array<{ id: string; text: string; options: string[]; level: string; category: string; difficultyTier: number }>;
+  vocabulary: Array<{ id: string; text: string; options: string[]; level: string; category: string; difficultyTier: number }>;
+  reading: Array<{ id: string; level: string; title: string | null; passageText: string; questions: Array<{ id: string; questionText: string; options: string[]; sortOrder: number }> }>;
+  listening: Array<{ id: string; level: string; scriptText: string; audioUrl: string | null; context: string | null; questions: Array<{ id: string; questionText: string; options: string[]; sortOrder: number }> }>;
+  speaking: { id: string; level: string; promptText: string; preparationTime: number; responseTime: number } | null;
+  writing: { id: string; level: string; promptText: string; minWords: number; maxWords: number } | null;
+}
 
 /* ======================================================
    HELPER: SPEECH SYNTHESIS (Google TTS)
@@ -275,41 +86,95 @@ export default function TestPage() {
   const router = useRouter();
   const { isAuthenticated, isLoading: authIsLoading, user } = useAuthStore();
 
-  // Test state
-  const [phase, setPhase] = useState<TestPhase>('select');
+  // API-driven question state
+  const [apiQuestions, setApiQuestions] = useState<ApiQuestionSet | null>(null);
   const [assessmentId, setAssessmentId] = useState<string | null>(null);
+  const [isLoadingQuestions, setIsLoadingQuestions] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [resumingAssessment, setResumingAssessment] = useState(false);
 
-  // Check for in-progress assessment on mount (resume capability)
-  // SECURITY: Use GET (read-only) instead of POST to avoid consuming a credit on page load
+  // Test state
+  const [phase, setPhase] = useState<TestPhase>('select');
+
+  // Fetch questions on mount
   useEffect(() => {
     if (!isAuthenticated) return;
-    const checkForResumableAssessment = async () => {
+    const initAssessment = async () => {
+      setIsLoadingQuestions(true);
       try {
-        const res = await fetch('/api/assessments/start', {
-          method: 'GET',
-        });
-        if (res.ok) {
-          const data = await res.json();
-          if (data.hasInProgress && data.assessment) {
-            setAssessmentId(data.assessment.id);
+        // First, check for in-progress assessment (GET, does not consume credit)
+        const getRes = await fetch('/api/assessments/start', { method: 'GET' });
+        if (getRes.ok) {
+          const getData = await getRes.json();
+          if (getData.hasInProgress && getData.assessment) {
+            // We have an in-progress assessment but no questions from GET
+            // We'll need to POST to get questions. Since the POST returns the
+            // existing assessment without questions, we mark it as resuming
+            // and note we don't have question data.
+            setAssessmentId(getData.assessment.id);
             setResumingAssessment(true);
+            // For now, we can't get questions for in-progress assessments.
+            // The user will need to complete without API questions or start fresh.
+            // We'll still try POST to see if it returns questions.
           }
         }
-      } catch {}
+
+        // POST to start assessment (or get existing one)
+        const postRes = await fetch('/api/assessments/start', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+        });
+        const postData = await postRes.json();
+
+        if (postRes.ok) {
+          if (postData.questions) {
+            // New assessment with questions
+            setAssessmentId(postData.assessment.id);
+            setApiQuestions(postData.questions);
+            setResumingAssessment(false);
+          } else {
+            // Existing in-progress assessment without questions
+            // We have the assessmentId but no question data.
+            // The user needs to work with what they have or we show a notice.
+            setAssessmentId(postData.assessment.id);
+          }
+        } else {
+          // Handle errors
+          if (postData.code === 'NO_CREDITS') {
+            setError('You have no test credits remaining. Please upgrade your plan to continue.');
+          } else if (postData.code === 'EMAIL_NOT_VERIFIED') {
+            setError('Please verify your email address before taking a test. Check your inbox for the verification link.');
+          } else {
+            setError(postData.message || 'Failed to start assessment.');
+          }
+        }
+      } catch {
+        setError('Failed to load test questions. Please refresh the page.');
+      } finally {
+        setIsLoadingQuestions(false);
+      }
     };
-    checkForResumableAssessment();
+    initAssessment();
   }, [isAuthenticated]);
 
   // Skill tracking
   const [skillStatuses, setSkillStatuses] = useState<Record<string, SkillStatus>>({
+    grammar: 'pending',
+    vocabulary: 'pending',
     reading: 'pending',
     listening: 'pending',
     speaking: 'pending',
     writing: 'pending',
   });
+
+  // Grammar state
+  const [grammarIdx, setGrammarIdx] = useState(0);
+  const [grammarAnswers, setGrammarAnswers] = useState<Record<string, number>>({});
+
+  // Vocabulary state
+  const [vocabIdx, setVocabIdx] = useState(0);
+  const [vocabAnswers, setVocabAnswers] = useState<Record<string, number>>({});
 
   // Reading state
   const [readingIdx, setReadingIdx] = useState(0);
@@ -321,7 +186,6 @@ export default function TestPage() {
   const [isSpeaking, setIsSpeaking] = useState(false);
 
   // Speaking state
-  const [speakingIdx, setSpeakingIdx] = useState(0);
   const [isRecording, setIsRecording] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
   const [isPrepTime, setIsPrepTime] = useState(false);
@@ -334,7 +198,6 @@ export default function TestPage() {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Writing state
-  const [writingIdx, setWritingIdx] = useState(0);
   const [writingTexts, setWritingTexts] = useState<Record<string, string>>({});
   const [writingEvaluations, setWritingEvaluations] = useState<Record<string, WritingEvaluation>>({});
   const [evaluatingWriting, setEvaluatingWriting] = useState(false);
@@ -360,6 +223,8 @@ export default function TestPage() {
       const saved = sessionStorage.getItem(SESSION_KEY);
       if (saved) {
         const state = JSON.parse(saved);
+        if (state.grammarAnswers) setGrammarAnswers(state.grammarAnswers);
+        if (state.vocabAnswers) setVocabAnswers(state.vocabAnswers);
         if (state.readingAnswers) setReadingAnswers(state.readingAnswers);
         if (state.listeningAnswers) setListeningAnswers(state.listeningAnswers);
         if (state.writingTexts) setWritingTexts(state.writingTexts);
@@ -368,10 +233,10 @@ export default function TestPage() {
         if (state.writingEvaluations) setWritingEvaluations(state.writingEvaluations);
         if (state.skillStatuses) setSkillStatuses(state.skillStatuses);
         if (state.phase && state.phase !== 'select') setPhase(state.phase);
+        if (state.grammarIdx) setGrammarIdx(state.grammarIdx);
+        if (state.vocabIdx) setVocabIdx(state.vocabIdx);
         if (state.readingIdx) setReadingIdx(state.readingIdx);
         if (state.listeningIdx) setListeningIdx(state.listeningIdx);
-        if (state.speakingIdx) setSpeakingIdx(state.speakingIdx);
-        if (state.writingIdx) setWritingIdx(state.writingIdx);
       }
     } catch {}
   }, [SESSION_KEY]);
@@ -381,15 +246,17 @@ export default function TestPage() {
     if (!SESSION_KEY || typeof window === 'undefined' || phase === 'select' || phase === 'results') return;
     try {
       const state = {
-        readingAnswers, listeningAnswers, writingTexts, speakingTranscript,
-        speakingEvaluations, writingEvaluations, skillStatuses, phase,
-        readingIdx, listeningIdx, speakingIdx, writingIdx,
+        grammarAnswers, vocabAnswers, readingAnswers, listeningAnswers,
+        writingTexts, speakingTranscript, speakingEvaluations,
+        writingEvaluations, skillStatuses, phase,
+        grammarIdx, vocabIdx, readingIdx, listeningIdx,
       };
       sessionStorage.setItem(SESSION_KEY, JSON.stringify(state));
     } catch {}
-  }, [SESSION_KEY, readingAnswers, listeningAnswers, writingTexts, speakingTranscript,
-      speakingEvaluations, writingEvaluations, skillStatuses, phase,
-      readingIdx, listeningIdx, speakingIdx, writingIdx]);
+  }, [SESSION_KEY, grammarAnswers, vocabAnswers, readingAnswers, listeningAnswers,
+      writingTexts, speakingTranscript, speakingEvaluations,
+      writingEvaluations, skillStatuses, phase,
+      grammarIdx, vocabIdx, readingIdx, listeningIdx]);
 
   // Warn user before leaving/refreshing during an active test
   const isInActiveTest = phase !== 'select' && phase !== 'results';
@@ -426,51 +293,9 @@ export default function TestPage() {
   }, []);
 
   /* ======================================================
-     START ASSESSMENT
-     ====================================================== */
-  const startAssessment = async () => {
-    if (!isAuthenticated) return;
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch('/api/assessments/start', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        if (data.code === 'NO_CREDITS') {
-          setError('You have no test credits remaining. Please upgrade your plan to continue.');
-        } else if (data.code === 'EMAIL_NOT_VERIFIED') {
-          setError('Please verify your email address before taking a test. Check your inbox for the verification link, or request a new one from your dashboard.');
-        } else {
-          setError(data.message || 'Failed to start assessment.');
-        }
-        setLoading(false);
-        return;
-      }
-      setAssessmentId(data.assessment.id);
-      setResumingAssessment(false);
-      setLoading(false);
-    } catch {
-      setError('Failed to start assessment. Please try again.');
-      setLoading(false);
-    }
-  };
-
-  /* ======================================================
      SKILL SELECTION HANDLER
      ====================================================== */
   const startSkill = async (skill: TestPhase) => {
-    // If we already have an assessmentId (from resume or previous start), use it
-    if (!assessmentId) {
-      await startAssessment();
-      // Note: assessmentId will be set via setState, but it won't be available
-      // in this render cycle. We'll proceed anyway since submitAssessment
-      // checks assessmentId again.
-    }
     setPhase(skill);
     setSkillStatuses(prev => ({ ...prev, [skill]: 'in_progress' }));
   };
@@ -483,9 +308,42 @@ export default function TestPage() {
   };
 
   /* ======================================================
+     GRAMMAR LOGIC
+     ====================================================== */
+  const grammarQuestions = apiQuestions?.grammar || [];
+  const currentGrammar = grammarQuestions[grammarIdx];
+
+  const submitGrammar = () => {
+    completeSkill('grammar');
+    const allDone = Object.values({ ...skillStatuses, grammar: 'completed' }).every(s => s === 'completed');
+    if (allDone) {
+      submitAssessment();
+    } else {
+      setPhase('select');
+    }
+  };
+
+  /* ======================================================
+     VOCABULARY LOGIC
+     ====================================================== */
+  const vocabQuestions = apiQuestions?.vocabulary || [];
+  const currentVocab = vocabQuestions[vocabIdx];
+
+  const submitVocabulary = () => {
+    completeSkill('vocabulary');
+    const allDone = Object.values({ ...skillStatuses, vocabulary: 'completed' }).every(s => s === 'completed');
+    if (allDone) {
+      submitAssessment();
+    } else {
+      setPhase('select');
+    }
+  };
+
+  /* ======================================================
      READING LOGIC
      ====================================================== */
-  const currentReading = READING_PASSAGES[readingIdx];
+  const readingPassages = apiQuestions?.reading || [];
+  const currentReading = readingPassages[readingIdx];
 
   const submitReading = () => {
     completeSkill('reading');
@@ -500,13 +358,14 @@ export default function TestPage() {
   /* ======================================================
      LISTENING LOGIC
      ====================================================== */
-  const currentListening = LISTENING_ITEMS[listeningIdx];
+  const listeningItems = apiQuestions?.listening || [];
+  const currentListening = listeningItems[listeningIdx];
 
   const playAudio = async () => {
-    if (isSpeaking) return;
+    if (isSpeaking || !currentListening) return;
     setIsSpeaking(true);
     try {
-      await speakText(currentListening.script);
+      await speakText(currentListening.scriptText);
     } catch (e) {
       console.error('TTS error:', e);
     } finally {
@@ -534,11 +393,12 @@ export default function TestPage() {
   /* ======================================================
      SPEAKING LOGIC
      ====================================================== */
-  const currentSpeakingPrompt = SPEAKING_PROMPTS[speakingIdx];
+  const speakingPrompt = apiQuestions?.speaking || null;
 
   const startPrepTime = () => {
+    if (!speakingPrompt) return;
     setIsPrepTime(true);
-    setPrepTimeLeft(currentSpeakingPrompt.preparationTime);
+    setPrepTimeLeft(speakingPrompt.preparationTime);
     timerRef.current = setInterval(() => {
       setPrepTimeLeft(prev => {
         if (prev <= 1) {
@@ -553,6 +413,7 @@ export default function TestPage() {
   };
 
   const startRecording = () => {
+    if (!speakingPrompt) return;
     setSpeakingTranscript('');
     setRecordingTime(0);
 
@@ -594,7 +455,7 @@ export default function TestPage() {
     setIsRecording(true);
     timerRef.current = setInterval(() => {
       setRecordingTime(prev => {
-        if (prev >= currentSpeakingPrompt.responseTime) {
+        if (speakingPrompt && prev >= speakingPrompt.responseTime) {
           stopRecording();
           return prev;
         }
@@ -616,7 +477,7 @@ export default function TestPage() {
   }, []);
 
   const evaluateSpeaking = async () => {
-    if (!speakingTranscript.trim() || !isAuthenticated) return;
+    if (!speakingTranscript.trim() || !isAuthenticated || !speakingPrompt) return;
     setEvaluatingSpeaking(true);
     try {
       const res = await fetch('/api/assessments/speaking/evaluate', {
@@ -626,13 +487,13 @@ export default function TestPage() {
         },
         body: JSON.stringify({
           transcript: speakingTranscript,
-          prompt: currentSpeakingPrompt.prompt,
-          level: currentSpeakingPrompt.level,
+          prompt: speakingPrompt.promptText,
+          level: speakingPrompt.level,
         }),
       });
       const data = await res.json();
       if (res.ok) {
-        setSpeakingEvaluations(prev => ({ ...prev, [currentSpeakingPrompt.id]: data }));
+        setSpeakingEvaluations(prev => ({ ...prev, [speakingPrompt.id]: data }));
       }
     } catch (e) {
       console.error('Speaking evaluation error:', e);
@@ -654,11 +515,11 @@ export default function TestPage() {
   /* ======================================================
      WRITING LOGIC
      ====================================================== */
-  const currentWritingPrompt = WRITING_PROMPTS[writingIdx];
-  const currentWritingText = writingTexts[currentWritingPrompt?.id] || '';
+  const writingPrompt = apiQuestions?.writing || null;
+  const currentWritingText = writingPrompt ? (writingTexts[writingPrompt.id] || '') : '';
 
   const evaluateWriting = async () => {
-    if (!currentWritingText.trim() || !isAuthenticated) return;
+    if (!currentWritingText.trim() || !isAuthenticated || !writingPrompt) return;
     setEvaluatingWriting(true);
     try {
       const res = await fetch('/api/assessments/writing/evaluate', {
@@ -668,13 +529,13 @@ export default function TestPage() {
         },
         body: JSON.stringify({
           text: currentWritingText,
-          prompt: currentWritingPrompt.prompt,
-          level: currentWritingPrompt.level,
+          prompt: writingPrompt.promptText,
+          level: writingPrompt.level,
         }),
       });
       const data = await res.json();
       if (res.ok) {
-        setWritingEvaluations(prev => ({ ...prev, [currentWritingPrompt.id]: data }));
+        setWritingEvaluations(prev => ({ ...prev, [writingPrompt.id]: data }));
       }
     } catch (e) {
       console.error('Writing evaluation error:', e);
@@ -700,17 +561,41 @@ export default function TestPage() {
     if (!assessmentId || !isAuthenticated) return;
     setSubmitting(true);
 
-    // Build responses from all skills
     const responses: any[] = [];
 
+    // Grammar responses
+    grammarQuestions.forEach(q => {
+      const answer = grammarAnswers[q.id];
+      responses.push({
+        questionId: q.id,
+        questionType: 'mcq',
+        answer: answer !== undefined ? String(answer) : '',
+        level: q.level,
+        category: 'grammar',
+      });
+    });
+
+    // Vocabulary responses
+    vocabQuestions.forEach(q => {
+      const answer = vocabAnswers[q.id];
+      responses.push({
+        questionId: q.id,
+        questionType: 'mcq',
+        answer: answer !== undefined ? String(answer) : '',
+        level: q.level,
+        category: 'vocabulary',
+      });
+    });
+
     // Reading responses
-    READING_PASSAGES.forEach(passage => {
-      passage.questions.forEach((q, qi) => {
-        const answer = readingAnswers[`${passage.id}-${qi}`];
+    readingPassages.forEach(passage => {
+      passage.questions.forEach(q => {
+        const answer = readingAnswers[q.id];
         responses.push({
-          questionId: `${passage.id}-${qi}`,
+          questionId: q.id,
+          questionType: 'reading',
+          parentItemId: passage.id,
           answer: answer !== undefined ? String(answer) : '',
-          isCorrect: answer === q.correctIndex,
           level: passage.level,
           category: 'reading',
         });
@@ -718,41 +603,46 @@ export default function TestPage() {
     });
 
     // Listening responses
-    LISTENING_ITEMS.forEach(item => {
-      const answer = listeningAnswers[item.id];
-      responses.push({
-        questionId: item.id,
-        answer: answer !== undefined ? String(answer) : '',
-        isCorrect: answer === item.correctIndex,
-        level: item.level,
-        category: 'listening',
+    listeningItems.forEach(item => {
+      item.questions.forEach(q => {
+        const answer = listeningAnswers[q.id];
+        responses.push({
+          questionId: q.id,
+          questionType: 'listening',
+          parentItemId: item.id,
+          answer: answer !== undefined ? String(answer) : '',
+          level: item.level,
+          category: 'listening',
+        });
       });
     });
 
-    // Speaking - evaluate against prompt
-    SPEAKING_PROMPTS.forEach(prompt => {
-      const eval_ = speakingEvaluations[prompt.id];
+    // Speaking response
+    if (speakingPrompt) {
+      const eval_ = speakingEvaluations[speakingPrompt.id];
       responses.push({
-        questionId: prompt.id,
+        questionId: speakingPrompt.id,
+        questionType: 'speaking',
         answer: speakingTranscript || 'No response',
-        isCorrect: eval_ ? eval_.score >= 50 : false,
-        level: prompt.level,
+        level: speakingPrompt.level,
         category: 'speaking',
+        aiScore: eval_ ? eval_.score : undefined,
       });
-    });
+    }
 
-    // Writing - evaluate against prompt
-    WRITING_PROMPTS.forEach(prompt => {
-      const eval_ = writingEvaluations[prompt.id];
-      const text = writingTexts[prompt.id] || '';
+    // Writing response
+    if (writingPrompt) {
+      const eval_ = writingEvaluations[writingPrompt.id];
+      const text = writingTexts[writingPrompt.id] || '';
       responses.push({
-        questionId: prompt.id,
+        questionId: writingPrompt.id,
+        questionType: 'writing',
         answer: text || 'No response',
-        isCorrect: eval_ ? eval_.score >= 50 : false,
-        level: prompt.level,
+        level: writingPrompt.level,
         category: 'writing',
+        aiScore: eval_ ? eval_.score : undefined,
       });
-    });
+    }
 
     try {
       const res = await fetch('/api/assessments/submit', {
@@ -838,10 +728,82 @@ export default function TestPage() {
   }
 
   /* ======================================================
+     LOADING QUESTIONS
+     ====================================================== */
+  if (isLoadingQuestions) {
+    return (
+      <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
+        <Navbar />
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center">
+            <div className="relative mb-6">
+              <div className="h-16 w-16 rounded-full border-4 border-purple-500/20 border-t-purple-500 animate-spin mx-auto" />
+              <Sparkles className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-6 w-6 text-purple-400" />
+            </div>
+            <h2 className="text-xl font-semibold text-white mb-2">Preparing Your Assessment</h2>
+            <p className="text-sm text-white/50">Selecting questions based on your level...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  /* ======================================================
+     NO QUESTIONS FALLBACK
+     ====================================================== */
+  if (!apiQuestions && !isLoadingQuestions) {
+    return (
+      <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
+        <Navbar />
+        <div className="flex-1 flex items-center justify-center px-4 py-12">
+          <div className="w-full max-w-md">
+            <div className="glass-card p-8 text-center">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 text-white mb-4">
+                <AlertCircle className="h-6 w-6" />
+              </div>
+              <h1 className="text-xl font-bold text-white mb-2">Unable to Load Questions</h1>
+              <p className="text-sm text-white/50 mb-6">
+                {error || 'We couldn\'t load the test questions. This may happen if you have an assessment in progress from a previous session. Please refresh the page to try again.'}
+              </p>
+              <button
+                onClick={() => window.location.reload()}
+                className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer"
+              >
+                <RotateCcw className="h-4 w-4" />
+                Refresh Page
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  /* ======================================================
      SKILL SELECT PHASE
      ====================================================== */
   if (phase === 'select') {
     const skills = [
+      {
+        key: 'grammar',
+        title: 'Grammar',
+        desc: 'Answer multiple-choice questions testing grammar at different CEFR levels.',
+        icon: <SpellCheck className="h-7 w-7" />,
+        gradient: 'from-rose-500 to-pink-500',
+        bgGlow: 'rgba(244,63,94,0.15)',
+        levels: 'A2 - C1',
+        questions: grammarQuestions.length,
+      },
+      {
+        key: 'vocabulary',
+        title: 'Vocabulary',
+        desc: 'Answer multiple-choice questions testing vocabulary knowledge at different CEFR levels.',
+        icon: <BookMarked className="h-7 w-7" />,
+        gradient: 'from-teal-500 to-cyan-500',
+        bgGlow: 'rgba(20,184,166,0.15)',
+        levels: 'A2 - C1',
+        questions: vocabQuestions.length,
+      },
       {
         key: 'reading',
         title: 'Reading',
@@ -849,8 +811,8 @@ export default function TestPage() {
         icon: <BookOpen className="h-7 w-7" />,
         gradient: 'from-blue-500 to-cyan-500',
         bgGlow: 'rgba(59,130,246,0.15)',
-        levels: 'A1 - C2',
-        questions: READING_PASSAGES.length,
+        levels: 'B1 - B2',
+        questions: readingPassages.length,
       },
       {
         key: 'listening',
@@ -859,8 +821,8 @@ export default function TestPage() {
         icon: <Headphones className="h-7 w-7" />,
         gradient: 'from-green-500 to-emerald-500',
         bgGlow: 'rgba(34,197,94,0.15)',
-        levels: 'A1 - C2',
-        questions: LISTENING_ITEMS.length,
+        levels: 'B1 - B2',
+        questions: listeningItems.length,
       },
       {
         key: 'speaking',
@@ -869,8 +831,8 @@ export default function TestPage() {
         icon: <Mic className="h-7 w-7" />,
         gradient: 'from-orange-500 to-amber-500',
         bgGlow: 'rgba(249,115,22,0.15)',
-        levels: 'A1 - C2',
-        questions: SPEAKING_PROMPTS.length,
+        levels: speakingPrompt?.level || 'B2',
+        questions: speakingPrompt ? 1 : 0,
       },
       {
         key: 'writing',
@@ -879,12 +841,13 @@ export default function TestPage() {
         icon: <PenTool className="h-7 w-7" />,
         gradient: 'from-violet-500 to-purple-500',
         bgGlow: 'rgba(139,92,246,0.15)',
-        levels: 'A1 - C2',
-        questions: WRITING_PROMPTS.length,
+        levels: writingPrompt?.level || 'B2',
+        questions: writingPrompt ? 1 : 0,
       },
     ];
 
     const completedCount = Object.values(skillStatuses).filter(s => s === 'completed').length;
+    const totalSkills = 6;
 
     return (
       <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
@@ -901,7 +864,7 @@ export default function TestPage() {
                 Take Your <span className="gradient-text-static">CEFR Test</span>
               </h1>
               <p className="mt-3 text-white/50 max-w-xl mx-auto">
-                Complete all four skill sections to receive your comprehensive CEFR proficiency score and certificate.
+                Complete all six skill sections to receive your comprehensive CEFR proficiency score and certificate.
               </p>
             </div>
 
@@ -909,12 +872,12 @@ export default function TestPage() {
             <div className="glass-card p-4 mb-6">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm text-white/60">Progress</span>
-                <span className="text-sm font-medium text-white">{completedCount}/4 skills completed</span>
+                <span className="text-sm font-medium text-white">{completedCount}/{totalSkills} skills completed</span>
               </div>
               <div className="h-2 rounded-full bg-white/5 overflow-hidden">
                 <div
                   className="h-full rounded-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-500"
-                  style={{ width: `${(completedCount / 4) * 100}%` }}
+                  style={{ width: `${(completedCount / totalSkills) * 100}%` }}
                 />
               </div>
             </div>
@@ -927,7 +890,7 @@ export default function TestPage() {
                   <div>
                     <p className="text-sm text-amber-300 font-medium">You have an assessment in progress</p>
                     <p className="text-xs text-white/40 mt-1">
-                      It looks like you started a test but didn&apos;t finish. Complete all four skills below to submit your results.
+                      It looks like you started a test but didn&apos;t finish. Complete all six skills below to submit your results.
                     </p>
                   </div>
                 </div>
@@ -970,7 +933,7 @@ export default function TestPage() {
             )}
 
             {/* Skill Cards */}
-            <div className="grid gap-4 sm:grid-cols-2">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {skills.map(skill => {
                 const status = skillStatuses[skill.key];
                 return (
@@ -979,9 +942,11 @@ export default function TestPage() {
                     className={`glass-card p-6 cursor-pointer group transition-all duration-300 ${
                       status === 'completed'
                         ? 'border-green-500/30'
+                        : skill.questions === 0
+                        ? 'opacity-50 cursor-not-allowed'
                         : 'hover:border-purple-500/30'
                     }`}
-                    onClick={() => status !== 'completed' && startSkill(skill.key as TestPhase)}
+                    onClick={() => status !== 'completed' && skill.questions > 0 && startSkill(skill.key as TestPhase)}
                   >
                     <div className="flex items-start justify-between mb-4">
                       <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${skill.gradient} text-white shadow-lg transition-transform duration-300 group-hover:scale-110`}>
@@ -1004,8 +969,8 @@ export default function TestPage() {
                     <h3 className="text-lg font-semibold text-white mb-1">{skill.title}</h3>
                     <p className="text-sm text-white/50 leading-relaxed">{skill.desc}</p>
                     <div className="mt-4 flex items-center justify-between">
-                      <span className="text-xs text-white/30">{skill.questions} prompts</span>
-                      {status !== 'completed' && (
+                      <span className="text-xs text-white/30">{skill.questions} {skill.key === 'speaking' || skill.key === 'writing' ? 'prompt' : 'questions'}</span>
+                      {status !== 'completed' && skill.questions > 0 && (
                         <span className="flex items-center text-sm text-purple-400 font-medium">
                           Start <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </span>
@@ -1017,7 +982,7 @@ export default function TestPage() {
             </div>
 
             {/* Submit All */}
-            {completedCount === 4 && (
+            {completedCount === totalSkills && (
               <div className="mt-6 text-center">
                 <button
                   onClick={() => submitAssessment()}
@@ -1036,10 +1001,198 @@ export default function TestPage() {
   }
 
   /* ======================================================
+     GRAMMAR PHASE
+     ====================================================== */
+  if (phase === 'grammar' && currentGrammar) {
+    const answeredCount = Object.keys(grammarAnswers).length;
+    const totalQuestions = grammarQuestions.length;
+
+    return (
+      <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
+        <Navbar />
+        <div className="flex-1 py-8 px-4">
+          <div className="container max-w-4xl mx-auto">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-rose-500 to-pink-500 text-white shadow-lg">
+                  <SpellCheck className="h-5 w-5" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-semibold text-white">Grammar</h2>
+                  <p className="text-xs text-white/40">Question {grammarIdx + 1} of {totalQuestions}</p>
+                </div>
+              </div>
+              <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold bg-gradient-to-r from-rose-500/20 to-pink-500/20 text-rose-300 border border-rose-500/30">
+                {currentGrammar.level}
+              </span>
+            </div>
+
+            {/* Progress */}
+            <div className="glass-card p-3 mb-6">
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-xs text-white/50">Progress</span>
+                <span className="text-xs text-white/70">{answeredCount}/{totalQuestions} answered</span>
+              </div>
+              <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
+                <div className="h-full rounded-full bg-gradient-to-r from-rose-500 to-pink-500 transition-all" style={{ width: `${(answeredCount / totalQuestions) * 100}%` }} />
+              </div>
+            </div>
+
+            {/* Question */}
+            <div className="glass-card p-6 mb-6">
+              <p className="text-white/80 text-[15px] leading-relaxed font-medium mb-4">{currentGrammar.text}</p>
+              <div className="space-y-2">
+                {currentGrammar.options.map((opt, oi) => {
+                  const selected = grammarAnswers[currentGrammar.id];
+                  return (
+                    <button
+                      key={oi}
+                      onClick={() => setGrammarAnswers(prev => ({ ...prev, [currentGrammar.id]: oi }))}
+                      className={`w-full text-left p-3 rounded-xl text-sm transition-all duration-300 cursor-pointer ${
+                        selected === oi
+                          ? 'bg-gradient-to-r from-purple-600/30 to-pink-500/30 border border-purple-500/40 text-white'
+                          : 'bg-white/5 border border-white/5 text-white/60 hover:bg-white/8 hover:text-white/80'
+                      }`}
+                    >
+                      <span className="font-medium mr-2">{String.fromCharCode(65 + oi)}.</span>
+                      {opt}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Navigation */}
+            <div className="flex items-center justify-between">
+              <button
+                onClick={() => setGrammarIdx(Math.max(0, grammarIdx - 1))}
+                disabled={grammarIdx === 0}
+                className="flex items-center gap-2 rounded-xl px-5 py-2.5 glass-button text-white text-sm font-medium cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+              >
+                <ChevronLeft className="h-4 w-4" /> Previous
+              </button>
+              {grammarIdx < totalQuestions - 1 ? (
+                <button
+                  onClick={() => setGrammarIdx(grammarIdx + 1)}
+                  className="flex items-center gap-2 rounded-xl px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-sm font-medium transition-all shadow-lg shadow-purple-500/25 cursor-pointer"
+                >
+                  Next <ChevronRight className="h-4 w-4" />
+                </button>
+              ) : (
+                <button
+                  onClick={submitGrammar}
+                  className="flex items-center gap-2 rounded-xl px-5 py-2.5 bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-500 hover:to-emerald-400 text-white text-sm font-medium transition-all shadow-lg cursor-pointer"
+                >
+                  <CheckCircle2 className="h-4 w-4" /> Complete Grammar
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  /* ======================================================
+     VOCABULARY PHASE
+     ====================================================== */
+  if (phase === 'vocabulary' && currentVocab) {
+    const answeredCount = Object.keys(vocabAnswers).length;
+    const totalQuestions = vocabQuestions.length;
+
+    return (
+      <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
+        <Navbar />
+        <div className="flex-1 py-8 px-4">
+          <div className="container max-w-4xl mx-auto">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-teal-500 to-cyan-500 text-white shadow-lg">
+                  <BookMarked className="h-5 w-5" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-semibold text-white">Vocabulary</h2>
+                  <p className="text-xs text-white/40">Question {vocabIdx + 1} of {totalQuestions}</p>
+                </div>
+              </div>
+              <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold bg-gradient-to-r from-teal-500/20 to-cyan-500/20 text-teal-300 border border-teal-500/30">
+                {currentVocab.level}
+              </span>
+            </div>
+
+            {/* Progress */}
+            <div className="glass-card p-3 mb-6">
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-xs text-white/50">Progress</span>
+                <span className="text-xs text-white/70">{answeredCount}/{totalQuestions} answered</span>
+              </div>
+              <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
+                <div className="h-full rounded-full bg-gradient-to-r from-teal-500 to-cyan-500 transition-all" style={{ width: `${(answeredCount / totalQuestions) * 100}%` }} />
+              </div>
+            </div>
+
+            {/* Question */}
+            <div className="glass-card p-6 mb-6">
+              <p className="text-white/80 text-[15px] leading-relaxed font-medium mb-4">{currentVocab.text}</p>
+              <div className="space-y-2">
+                {currentVocab.options.map((opt, oi) => {
+                  const selected = vocabAnswers[currentVocab.id];
+                  return (
+                    <button
+                      key={oi}
+                      onClick={() => setVocabAnswers(prev => ({ ...prev, [currentVocab.id]: oi }))}
+                      className={`w-full text-left p-3 rounded-xl text-sm transition-all duration-300 cursor-pointer ${
+                        selected === oi
+                          ? 'bg-gradient-to-r from-purple-600/30 to-pink-500/30 border border-purple-500/40 text-white'
+                          : 'bg-white/5 border border-white/5 text-white/60 hover:bg-white/8 hover:text-white/80'
+                      }`}
+                    >
+                      <span className="font-medium mr-2">{String.fromCharCode(65 + oi)}.</span>
+                      {opt}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Navigation */}
+            <div className="flex items-center justify-between">
+              <button
+                onClick={() => setVocabIdx(Math.max(0, vocabIdx - 1))}
+                disabled={vocabIdx === 0}
+                className="flex items-center gap-2 rounded-xl px-5 py-2.5 glass-button text-white text-sm font-medium cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+              >
+                <ChevronLeft className="h-4 w-4" /> Previous
+              </button>
+              {vocabIdx < totalQuestions - 1 ? (
+                <button
+                  onClick={() => setVocabIdx(vocabIdx + 1)}
+                  className="flex items-center gap-2 rounded-xl px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-sm font-medium transition-all shadow-lg shadow-purple-500/25 cursor-pointer"
+                >
+                  Next <ChevronRight className="h-4 w-4" />
+                </button>
+              ) : (
+                <button
+                  onClick={submitVocabulary}
+                  className="flex items-center gap-2 rounded-xl px-5 py-2.5 bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-500 hover:to-emerald-400 text-white text-sm font-medium transition-all shadow-lg cursor-pointer"
+                >
+                  <CheckCircle2 className="h-4 w-4" /> Complete Vocabulary
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  /* ======================================================
      READING PHASE
      ====================================================== */
   if (phase === 'reading' && currentReading) {
-    const totalQuestions = READING_PASSAGES.reduce((sum, p) => sum + p.questions.length, 0);
+    const totalQuestions = readingPassages.reduce((sum, p) => sum + p.questions.length, 0);
     const answeredCount = Object.keys(readingAnswers).length;
 
     return (
@@ -1055,10 +1208,10 @@ export default function TestPage() {
                 </div>
                 <div>
                   <h2 className="text-lg font-semibold text-white">Reading Comprehension</h2>
-                  <p className="text-xs text-white/40">Passage {readingIdx + 1} of {READING_PASSAGES.length}</p>
+                  <p className="text-xs text-white/40">Passage {readingIdx + 1} of {readingPassages.length}</p>
                 </div>
               </div>
-              <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-bold bg-gradient-to-r from-blue-500/20 to-cyan-500/20 text-blue-300 border border-blue-500/30`}>
+              <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold bg-gradient-to-r from-blue-500/20 to-cyan-500/20 text-blue-300 border border-blue-500/30">
                 {currentReading.level}
               </span>
             </div>
@@ -1076,23 +1229,25 @@ export default function TestPage() {
 
             {/* Passage */}
             <div className="glass-card p-6 mb-6">
+              {currentReading.title && (
+                <p className="text-sm font-semibold text-white/60 mb-3">{currentReading.title}</p>
+              )}
               <p className="text-xs text-white/40 uppercase tracking-wider mb-3">Read the passage carefully</p>
-              <p className="text-white/80 leading-relaxed text-[15px]">{currentReading.passage}</p>
+              <p className="text-white/80 leading-relaxed text-[15px]">{currentReading.passageText}</p>
             </div>
 
             {/* Questions */}
             <div className="space-y-4 mb-6">
               {currentReading.questions.map((q, qi) => {
-                const qKey = `${currentReading.id}-${qi}`;
-                const selected = readingAnswers[qKey];
+                const selected = readingAnswers[q.id];
                 return (
-                  <div key={qi} className="glass-card p-5">
-                    <p className="text-sm font-medium text-white mb-3">{qi + 1}. {q.question}</p>
+                  <div key={q.id} className="glass-card p-5">
+                    <p className="text-sm font-medium text-white mb-3">{qi + 1}. {q.questionText}</p>
                     <div className="space-y-2">
                       {q.options.map((opt, oi) => (
                         <button
                           key={oi}
-                          onClick={() => setReadingAnswers(prev => ({ ...prev, [qKey]: oi }))}
+                          onClick={() => setReadingAnswers(prev => ({ ...prev, [q.id]: oi }))}
                           className={`w-full text-left p-3 rounded-xl text-sm transition-all duration-300 cursor-pointer ${
                             selected === oi
                               ? 'bg-gradient-to-r from-purple-600/30 to-pink-500/30 border border-purple-500/40 text-white'
@@ -1118,7 +1273,7 @@ export default function TestPage() {
               >
                 <ChevronLeft className="h-4 w-4" /> Previous
               </button>
-              {readingIdx < READING_PASSAGES.length - 1 ? (
+              {readingIdx < readingPassages.length - 1 ? (
                 <button
                   onClick={() => setReadingIdx(readingIdx + 1)}
                   className="flex items-center gap-2 rounded-xl px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-sm font-medium transition-all shadow-lg shadow-purple-500/25 cursor-pointer"
@@ -1144,6 +1299,7 @@ export default function TestPage() {
      LISTENING PHASE
      ====================================================== */
   if (phase === 'listening' && currentListening) {
+    const totalQuestions = listeningItems.reduce((sum, item) => sum + item.questions.length, 0);
     const answeredCount = Object.keys(listeningAnswers).length;
 
     return (
@@ -1159,10 +1315,10 @@ export default function TestPage() {
                 </div>
                 <div>
                   <h2 className="text-lg font-semibold text-white">Listening Comprehension</h2>
-                  <p className="text-xs text-white/40">Audio {listeningIdx + 1} of {LISTENING_ITEMS.length}</p>
+                  <p className="text-xs text-white/40">Audio {listeningIdx + 1} of {listeningItems.length}</p>
                 </div>
               </div>
-              <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-bold bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-300 border border-green-500/30`}>
+              <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold bg-gradient-to-r from-green-500/20 to-emerald-500/20 text-green-300 border border-green-500/30">
                 {currentListening.level}
               </span>
             </div>
@@ -1171,10 +1327,10 @@ export default function TestPage() {
             <div className="glass-card p-3 mb-6">
               <div className="flex items-center justify-between mb-1.5">
                 <span className="text-xs text-white/50">Progress</span>
-                <span className="text-xs text-white/70">{answeredCount}/{LISTENING_ITEMS.length} answered</span>
+                <span className="text-xs text-white/70">{answeredCount}/{totalQuestions} answered</span>
               </div>
               <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
-                <div className="h-full rounded-full bg-gradient-to-r from-green-500 to-emerald-500 transition-all" style={{ width: `${(answeredCount / LISTENING_ITEMS.length) * 100}%` }} />
+                <div className="h-full rounded-full bg-gradient-to-r from-green-500 to-emerald-500 transition-all" style={{ width: `${(answeredCount / totalQuestions) * 100}%` }} />
               </div>
             </div>
 
@@ -1213,32 +1369,36 @@ export default function TestPage() {
                 <summary className="text-xs text-white/30 cursor-pointer hover:text-white/50 transition-colors">
                   Show transcript (for accessibility)
                 </summary>
-                <p className="mt-2 text-sm text-white/50 italic leading-relaxed">{currentListening.script}</p>
+                <p className="mt-2 text-sm text-white/50 italic leading-relaxed">{currentListening.scriptText}</p>
               </details>
             </div>
 
-            {/* Question */}
-            <div className="glass-card p-5 mb-6">
-              <p className="text-sm font-medium text-white mb-3">{currentListening.question}</p>
-              <div className="space-y-2">
-                {currentListening.options.map((opt, oi) => {
-                  const selected = listeningAnswers[currentListening.id];
-                  return (
-                    <button
-                      key={oi}
-                      onClick={() => setListeningAnswers(prev => ({ ...prev, [currentListening.id]: oi }))}
-                      className={`w-full text-left p-3 rounded-xl text-sm transition-all duration-300 cursor-pointer ${
-                        selected === oi
-                          ? 'bg-gradient-to-r from-purple-600/30 to-pink-500/30 border border-purple-500/40 text-white'
-                          : 'bg-white/5 border border-white/5 text-white/60 hover:bg-white/8 hover:text-white/80'
-                      }`}
-                    >
-                      <span className="font-medium mr-2">{String.fromCharCode(65 + oi)}.</span>
-                      {opt}
-                    </button>
-                  );
-                })}
-              </div>
+            {/* Questions */}
+            <div className="space-y-4 mb-6">
+              {currentListening.questions.map((q, qi) => {
+                const selected = listeningAnswers[q.id];
+                return (
+                  <div key={q.id} className="glass-card p-5">
+                    <p className="text-sm font-medium text-white mb-3">{qi + 1}. {q.questionText}</p>
+                    <div className="space-y-2">
+                      {q.options.map((opt, oi) => (
+                        <button
+                          key={oi}
+                          onClick={() => setListeningAnswers(prev => ({ ...prev, [q.id]: oi }))}
+                          className={`w-full text-left p-3 rounded-xl text-sm transition-all duration-300 cursor-pointer ${
+                            selected === oi
+                              ? 'bg-gradient-to-r from-purple-600/30 to-pink-500/30 border border-purple-500/40 text-white'
+                              : 'bg-white/5 border border-white/5 text-white/60 hover:bg-white/8 hover:text-white/80'
+                          }`}
+                        >
+                          <span className="font-medium mr-2">{String.fromCharCode(65 + oi)}.</span>
+                          {opt}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
 
             {/* Navigation */}
@@ -1250,7 +1410,7 @@ export default function TestPage() {
               >
                 <ChevronLeft className="h-4 w-4" /> Previous
               </button>
-              {listeningIdx < LISTENING_ITEMS.length - 1 ? (
+              {listeningIdx < listeningItems.length - 1 ? (
                 <button
                   onClick={() => setListeningIdx(listeningIdx + 1)}
                   className="flex items-center gap-2 rounded-xl px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-sm font-medium transition-all shadow-lg shadow-purple-500/25 cursor-pointer"
@@ -1275,9 +1435,9 @@ export default function TestPage() {
   /* ======================================================
      SPEAKING PHASE
      ====================================================== */
-  if (phase === 'speaking' && currentSpeakingPrompt) {
-    const hasEvaluation = !!speakingEvaluations[currentSpeakingPrompt.id];
-    const evaluation = speakingEvaluations[currentSpeakingPrompt.id];
+  if (phase === 'speaking' && speakingPrompt) {
+    const hasEvaluation = !!speakingEvaluations[speakingPrompt.id];
+    const evaluation = speakingEvaluations[speakingPrompt.id];
     const dimensions = evaluation?.dimensions
       ? [
           { key: 'grammar', label: 'Grammar (G)', ...evaluation.dimensions.grammar, color: 'from-purple-500 to-violet-500' },
@@ -1302,18 +1462,22 @@ export default function TestPage() {
                 </div>
                 <div>
                   <h2 className="text-lg font-semibold text-white">Speaking Assessment</h2>
-                  <p className="text-xs text-white/40">Prompt {speakingIdx + 1} of {SPEAKING_PROMPTS.length}</p>
+                  <p className="text-xs text-white/40">1 prompt</p>
                 </div>
               </div>
               <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold bg-gradient-to-r from-orange-500/20 to-amber-500/20 text-orange-300 border border-orange-500/30">
-                {currentSpeakingPrompt.level}
+                {speakingPrompt.level}
               </span>
             </div>
 
             {/* Prompt */}
             <div className="glass-card p-6 mb-6">
               <p className="text-xs text-white/40 uppercase tracking-wider mb-2">Speaking Prompt</p>
-              <p className="text-white/80 text-[15px] leading-relaxed italic">&ldquo;{currentSpeakingPrompt.prompt}&rdquo;</p>
+              <p className="text-white/80 text-[15px] leading-relaxed italic">&ldquo;{speakingPrompt.promptText}&rdquo;</p>
+              <div className="flex gap-4 mt-3">
+                <span className="text-xs text-white/30">Prep: {speakingPrompt.preparationTime}s</span>
+                <span className="text-xs text-white/30">Response: {speakingPrompt.responseTime}s</span>
+              </div>
             </div>
 
             {/* Mic Controls */}
@@ -1337,7 +1501,7 @@ export default function TestPage() {
                       <>
                         <span className="w-2.5 h-2.5 rounded-full bg-red-400 animate-pulse" />
                         <span className="text-sm text-red-300 font-medium">RECORDING</span>
-                        <span className="text-sm text-white/50 ml-2">{formatTime(recordingTime)} / {formatTime(currentSpeakingPrompt.responseTime)}</span>
+                        <span className="text-sm text-white/50 ml-2">{formatTime(recordingTime)} / {formatTime(speakingPrompt.responseTime)}</span>
                       </>
                     ) : isPrepTime ? (
                       <>
@@ -1497,30 +1661,14 @@ export default function TestPage() {
               </div>
             )}
 
-            {/* Navigation */}
-            <div className="flex items-center justify-between">
+            {/* Complete Speaking */}
+            <div className="flex justify-end">
               <button
-                onClick={() => setSpeakingIdx(Math.max(0, speakingIdx - 1))}
-                disabled={speakingIdx === 0}
-                className="flex items-center gap-2 rounded-xl px-5 py-2.5 glass-button text-white text-sm font-medium cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                onClick={submitSpeaking}
+                className="flex items-center gap-2 rounded-xl px-5 py-2.5 bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-500 hover:to-emerald-400 text-white text-sm font-medium transition-all shadow-lg cursor-pointer"
               >
-                <ChevronLeft className="h-4 w-4" /> Previous
+                <CheckCircle2 className="h-4 w-4" /> Complete Speaking
               </button>
-              {speakingIdx < SPEAKING_PROMPTS.length - 1 ? (
-                <button
-                  onClick={() => setSpeakingIdx(speakingIdx + 1)}
-                  className="flex items-center gap-2 rounded-xl px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-sm font-medium transition-all shadow-lg shadow-purple-500/25 cursor-pointer"
-                >
-                  Next <ChevronRight className="h-4 w-4" />
-                </button>
-              ) : (
-                <button
-                  onClick={submitSpeaking}
-                  className="flex items-center gap-2 rounded-xl px-5 py-2.5 bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-500 hover:to-emerald-400 text-white text-sm font-medium transition-all shadow-lg cursor-pointer"
-                >
-                  <CheckCircle2 className="h-4 w-4" /> Complete Speaking
-                </button>
-              )}
             </div>
           </div>
         </div>
@@ -1531,10 +1679,10 @@ export default function TestPage() {
   /* ======================================================
      WRITING PHASE
      ====================================================== */
-  if (phase === 'writing' && currentWritingPrompt) {
+  if (phase === 'writing' && writingPrompt) {
     const wc = wordCount(currentWritingText);
-    const hasEvaluation = !!writingEvaluations[currentWritingPrompt.id];
-    const evaluation = writingEvaluations[currentWritingPrompt.id];
+    const hasEvaluation = !!writingEvaluations[writingPrompt.id];
+    const evaluation = writingEvaluations[writingPrompt.id];
 
     return (
       <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
@@ -1549,20 +1697,20 @@ export default function TestPage() {
                 </div>
                 <div>
                   <h2 className="text-lg font-semibold text-white">Writing Assessment</h2>
-                  <p className="text-xs text-white/40">Prompt {writingIdx + 1} of {WRITING_PROMPTS.length}</p>
+                  <p className="text-xs text-white/40">1 prompt</p>
                 </div>
               </div>
               <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold bg-gradient-to-r from-violet-500/20 to-purple-500/20 text-violet-300 border border-violet-500/30">
-                {currentWritingPrompt.level}
+                {writingPrompt.level}
               </span>
             </div>
 
             {/* Prompt */}
             <div className="glass-card p-6 mb-6">
               <p className="text-xs text-white/40 uppercase tracking-wider mb-2">Writing Prompt</p>
-              <p className="text-white/80 text-[15px] leading-relaxed">{currentWritingPrompt.prompt}</p>
+              <p className="text-white/80 text-[15px] leading-relaxed">{writingPrompt.promptText}</p>
               <p className="text-xs text-white/30 mt-3">
-                Suggested word count: {currentWritingPrompt.minWords} - {currentWritingPrompt.maxWords} words
+                Suggested word count: {writingPrompt.minWords} - {writingPrompt.maxWords} words
               </p>
             </div>
 
@@ -1571,13 +1719,13 @@ export default function TestPage() {
               <div className="glass-card p-6 mb-6">
                 <div className="flex items-center justify-between mb-3">
                   <p className="text-xs text-white/40 uppercase tracking-wider">Your Response</p>
-                  <span className={`text-xs font-medium ${wc < currentWritingPrompt.minWords ? 'text-amber-400' : wc > currentWritingPrompt.maxWords ? 'text-red-400' : 'text-green-400'}`}>
+                  <span className={`text-xs font-medium ${wc < writingPrompt.minWords ? 'text-amber-400' : wc > writingPrompt.maxWords ? 'text-red-400' : 'text-green-400'}`}>
                     {wc} words
                   </span>
                 </div>
                 <textarea
                   value={currentWritingText}
-                  onChange={(e) => setWritingTexts(prev => ({ ...prev, [currentWritingPrompt.id]: e.target.value }))}
+                  onChange={(e) => setWritingTexts(prev => ({ ...prev, [writingPrompt.id]: e.target.value }))}
                   placeholder="Start writing your response here..."
                   className="w-full h-64 bg-white/5 border border-white/10 rounded-xl p-4 text-white/80 text-sm leading-relaxed placeholder-white/20 focus:outline-none focus:border-purple-500/40 focus:ring-2 focus:ring-purple-500/20 transition-all resize-none"
                 />
@@ -1640,30 +1788,14 @@ export default function TestPage() {
               </div>
             )}
 
-            {/* Navigation */}
-            <div className="flex items-center justify-between">
+            {/* Complete Writing */}
+            <div className="flex justify-end">
               <button
-                onClick={() => setWritingIdx(Math.max(0, writingIdx - 1))}
-                disabled={writingIdx === 0}
-                className="flex items-center gap-2 rounded-xl px-5 py-2.5 glass-button text-white text-sm font-medium cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                onClick={submitWriting}
+                className="flex items-center gap-2 rounded-xl px-5 py-2.5 bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-500 hover:to-emerald-400 text-white text-sm font-medium transition-all shadow-lg cursor-pointer"
               >
-                <ChevronLeft className="h-4 w-4" /> Previous
+                <CheckCircle2 className="h-4 w-4" /> Complete Writing
               </button>
-              {writingIdx < WRITING_PROMPTS.length - 1 ? (
-                <button
-                  onClick={() => setWritingIdx(writingIdx + 1)}
-                  className="flex items-center gap-2 rounded-xl px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-sm font-medium transition-all shadow-lg shadow-purple-500/25 cursor-pointer"
-                >
-                  Next <ChevronRight className="h-4 w-4" />
-                </button>
-              ) : (
-                <button
-                  onClick={submitWriting}
-                  className="flex items-center gap-2 rounded-xl px-5 py-2.5 bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-500 hover:to-emerald-400 text-white text-sm font-medium transition-all shadow-lg cursor-pointer"
-                >
-                  <CheckCircle2 className="h-4 w-4" /> Complete Writing
-                </button>
-              )}
             </div>
           </div>
         </div>
@@ -1762,11 +1894,14 @@ export default function TestPage() {
                 onClick={() => {
                   setPhase('select');
                   setAssessmentId(null);
-                  setSkillStatuses({ reading: 'pending', listening: 'pending', speaking: 'pending', writing: 'pending' });
+                  setApiQuestions(null);
+                  setSkillStatuses({ grammar: 'pending', vocabulary: 'pending', reading: 'pending', listening: 'pending', speaking: 'pending', writing: 'pending' });
+                  setGrammarIdx(0);
+                  setVocabIdx(0);
                   setReadingIdx(0);
                   setListeningIdx(0);
-                  setSpeakingIdx(0);
-                  setWritingIdx(0);
+                  setGrammarAnswers({});
+                  setVocabAnswers({});
                   setReadingAnswers({});
                   setListeningAnswers({});
                   setSpeakingTranscript('');
@@ -1775,6 +1910,15 @@ export default function TestPage() {
                   setWritingEvaluations({});
                   setResults(null);
                   setError(null);
+                  setIsLoadingQuestions(true);
+                  // Re-fetch questions
+                  fetch('/api/assessments/start', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                  }).then(res => res.json()).then(data => {
+                    if (data.assessment) setAssessmentId(data.assessment.id);
+                    if (data.questions) setApiQuestions(data.questions);
+                  }).catch(() => {}).finally(() => setIsLoadingQuestions(false));
                 }}
                 className="flex items-center justify-center gap-2 rounded-xl px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-medium transition-all shadow-lg cursor-pointer"
               >
