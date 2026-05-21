@@ -227,10 +227,15 @@ function LiveVoiceDemo() {
   ];
 
   return (
-    <section className="relative py-20 md:py-28 speaking-bg-5 overflow-hidden" style={{ background: 'radial-gradient(ellipse at 50% 40%, rgba(139,92,246,0.12) 0%, transparent 50%), radial-gradient(ellipse at 50% 50%, #020106 0%, #050312 30%, #090520 60%, #0C0728 100%)' }}>
+    <section className="relative py-20 md:py-28 speaking-section overflow-hidden">
+      {/* Ambient glow background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="orb orb-purple w-[300px] h-[300px] top-1/4 -left-12 animate-float-slow opacity-20" />
-        <div className="orb orb-pink w-[200px] h-[200px] bottom-1/4 -right-8 animate-float-reverse opacity-15" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-purple-600/15 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute bottom-0 left-1/4 w-[500px] h-[300px] bg-pink-600/10 rounded-full blur-[100px] animate-float-slow" />
+        <div className="absolute top-1/3 right-1/4 w-[400px] h-[250px] bg-violet-500/8 rounded-full blur-[80px] animate-float-reverse" />
+        <div className="orb orb-purple w-[500px] h-[500px] top-1/4 -left-24 animate-float-slow opacity-30" />
+        <div className="orb orb-pink w-[400px] h-[400px] bottom-1/4 -right-16 animate-float-reverse opacity-25" />
+        <div className="orb orb-purple w-[250px] h-[250px] top-2/3 left-1/3 animate-float-slow opacity-15" />
       </div>
 
       <div className="container relative mx-auto px-4">
