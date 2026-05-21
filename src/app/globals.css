@@ -560,7 +560,9 @@ html {
 
 /* 5. Obsidian Glow — Near-black center with the faintest purple glow at the edges */
 .speaking-bg-5 {
-  background: radial-gradient(ellipse at 50% 50%, #030208 0%, #07041A 35%, #0B0722 65%, #0D082A 100%);
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, #020106 0%, #050312 30%, #090520 60%, #0C0728 100%);
 }
 
 /* === RECORDING ELEMENT STYLES === */
