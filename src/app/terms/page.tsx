@@ -247,7 +247,7 @@ export default function TermsPage() {
                 {
                   icon: <CheckCircle2 className="h-5 w-5" />,
                   title: 'Assessment Methodology',
-                  desc: 'Our AI evaluates your English proficiency across six core skills using adaptive testing technology. Questions adjust in difficulty based on your responses, ensuring an accurate and efficient assessment. The evaluation is powered by Google Gemini AI, providing results with 98% accuracy.',
+                  desc: 'Our AI evaluates your English proficiency across six core skills using adaptive testing technology. Questions adjust in difficulty based on your responses, ensuring an accurate and efficient assessment. The evaluation is powered by Google Gemini AI, providing reliable and consistent CEFR-aligned results.',
                 },
                 {
                   icon: <QrCode className="h-5 w-5" />,

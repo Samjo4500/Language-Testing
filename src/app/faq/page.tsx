@@ -95,7 +95,7 @@ const faqCategories: FAQCategory[] = [
       },
       {
         question: 'How long does the test take?',
-        answer: 'The full assessment takes approximately 45-60 minutes and covers all 6 CEFR skills. You can pause and resume within 24 hours. The speaking section takes about 10 minutes.',
+        answer: 'The full assessment takes approximately 30–45 minutes and covers all 6 CEFR skills. You can pause and resume within 24 hours. The speaking section takes about 10 minutes.',
       },
     ],
   },
@@ -125,7 +125,7 @@ const faqCategories: FAQCategory[] = [
     items: [
       {
         question: 'Do you offer refunds?',
-        answer: 'Yes, we offer a full refund within 7 days of purchase if you haven\'t completed any assessments using the purchased credits. Contact support@testcefr.com to request a refund.',
+        answer: 'Yes, we offer a full refund within 14 days of purchase if you haven\'t completed any assessments using the purchased credits. For technical issues that prevent you from completing the assessment, we offer a 30-day refund or free retake. Contact support@testcefr.com to request a refund.',
       },
       {
         question: 'How is the payment processed?',

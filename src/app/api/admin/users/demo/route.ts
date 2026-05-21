@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
           plan,
           role: 'user',
           isDemo: true,
-          emailVerified: false,
+          emailVerified: true,
         },
       });
 

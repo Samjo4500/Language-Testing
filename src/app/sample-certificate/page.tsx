@@ -301,7 +301,7 @@ export default function SampleCertificatePage() {
               <p className="text-white/50 mb-8 max-w-md mx-auto">
                 Complete a CEFR assessment and receive your personalized, verifiable certificate in minutes.
               </p>
-              <Link href="/login">
+              <Link href="/register">
                 <button className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 cursor-pointer">
                   <Sparkles className="h-4 w-4" />
                   Register Now

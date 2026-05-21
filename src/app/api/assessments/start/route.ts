@@ -76,12 +76,17 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Decrement credit + create assessment in transaction
+    // Decrement credit + create assessment in transaction (atomic credit check prevents race condition)
     const assessment = await db.$transaction(async (tx) => {
-      await tx.user.update({
-        where: { id: authResult.userId },
+      // Use updateMany with testCredits > 0 condition to atomically check AND decrement
+      // This prevents race conditions where two concurrent requests both pass the credit check
+      const creditResult = await tx.user.updateMany({
+        where: { id: authResult.userId, testCredits: { gt: 0 } },
         data: { testCredits: { decrement: 1 } },
       });
+      if (creditResult.count === 0) {
+        throw new Error('NO_CREDITS');
+      }
 
       return tx.assessment.create({
         data: {
@@ -106,6 +111,13 @@ export async function POST(request: NextRequest) {
       message: 'Assessment started successfully.',
     });
   } catch (error) {
+    // Handle atomic credit check failure
+    if (error instanceof Error && error.message === 'NO_CREDITS') {
+      return NextResponse.json(
+        { error: 'No Test Credits', message: 'You have no test credits remaining.', code: 'NO_CREDITS' },
+        { status: 403 }
+      );
+    }
     console.error('Start assessment error:', error);
     return NextResponse.json(
       { error: 'Internal server error. Please try again later.' },

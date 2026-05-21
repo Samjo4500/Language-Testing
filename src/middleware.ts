@@ -29,7 +29,7 @@ const PROTECTED_ROUTES = ['/dashboard', '/test', '/payment-success'];
 const ADMIN_ROUTES = ['/admin'];
 
 // Routes that should redirect to dashboard if already authenticated
-const AUTH_ROUTES = ['/login', '/register'];
+const AUTH_ROUTES = ['/login', '/register', '/forgot-password', '/reset-password'];
 
 interface TokenPayload {
   userId: string;
@@ -97,12 +97,12 @@ function addSecurityHeaders(response: NextResponse): NextResponse {
       'Content-Security-Policy',
       [
         "default-src 'self'",
-        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.paypal.com https://www.sandbox.paypal.com https://www.paypalobjects.com",
+        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.paypal.com https://www.sandbox.paypal.com https://www.paypalobjects.com https://www.googletagmanager.com",
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
         "font-src 'self' https://fonts.gstatic.com",
-        "img-src 'self' data: blob: https://www.paypal.com https://www.sandbox.paypal.com https://www.paypalobjects.com",
+        "img-src 'self' data: blob: https://www.paypal.com https://www.sandbox.paypal.com https://www.paypalobjects.com https://www.google-analytics.com",
         "frame-src https://www.paypal.com https://www.sandbox.paypal.com",
-        "connect-src 'self' https://api-m.paypal.com https://api-m.sandbox.paypal.com https://generativelanguage.googleapis.com",
+        "connect-src 'self' https://api-m.paypal.com https://api-m.sandbox.paypal.com https://generativelanguage.googleapis.com https://www.google-analytics.com https://analytics.google.com https://us.i.posthog.com",
         "worker-src 'self' blob:",
         "report-uri /api/csp-report",
       ].join('; ')
@@ -159,7 +159,9 @@ export async function middleware(request: NextRequest) {
 
   // Auth route with valid auth → redirect to dashboard (or the redirect param if present)
   if (isAuthRoute && tokenPayload) {
-    const redirectTo = request.nextUrl.searchParams.get('redirect') || '/dashboard';
+    const redirectParam = request.nextUrl.searchParams.get('redirect') || '/dashboard';
+    // Sanitize redirect: only allow relative paths to prevent open redirect attacks
+    const redirectTo = redirectParam.startsWith('/') && !redirectParam.startsWith('//') ? redirectParam : '/dashboard';
     const response = NextResponse.redirect(new URL(redirectTo, request.url));
     addSecurityHeaders(response);
     return response;

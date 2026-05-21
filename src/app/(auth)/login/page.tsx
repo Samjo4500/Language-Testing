@@ -25,9 +25,10 @@ export default function LoginPage() {
     // Wait for auth hydration to finish before deciding whether to redirect
     if (authIsLoading) return;
     if (isAuthenticated) {
-      // Use the redirect param if present, otherwise go to dashboard
+      // Use the redirect param if present (sanitized), otherwise go to dashboard
       const params = new URLSearchParams(window.location.search);
-      const redirectTo = params.get('redirect') || '/dashboard';
+      const rawRedirect = params.get('redirect') || '/dashboard';
+      const redirectTo = rawRedirect.startsWith('/') && !rawRedirect.startsWith('//') ? rawRedirect : '/dashboard';
       router.replace(redirectTo);
     }
   }, [authIsLoading, isAuthenticated, router]);
@@ -58,7 +59,11 @@ export default function LoginPage() {
       }
 
       setAuth(data.user, data.accessToken, data.refreshToken);
-      router.push('/dashboard');
+      // Use the redirect param if present (sanitized), otherwise go to dashboard
+      const params = new URLSearchParams(window.location.search);
+      const rawRedirect = params.get('redirect') || '/dashboard';
+      const redirectTo = rawRedirect.startsWith('/') && !rawRedirect.startsWith('//') ? rawRedirect : '/dashboard';
+      router.push(redirectTo);
     } catch (err) {
       // Network-level error (Failed to fetch)
       if (err instanceof TypeError && err.message === 'Failed to fetch') {

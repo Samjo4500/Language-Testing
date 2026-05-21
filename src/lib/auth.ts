@@ -7,9 +7,9 @@ import bcrypt from 'bcryptjs';
 let _cachedSecret: string | undefined;
 export function getJwtSecret(): string {
   if (_cachedSecret === undefined) {
-    _cachedSecret = process.env.JWT_SECRET || '';
+    _cachedSecret = process.env.JWT_SECRET;
     if (!_cachedSecret) {
-      console.error('FATAL: JWT_SECRET environment variable is not set. Authentication will not work.');
+      throw new Error('FATAL: JWT_SECRET environment variable is not set. Authentication will not work.');
     }
   }
   return _cachedSecret;

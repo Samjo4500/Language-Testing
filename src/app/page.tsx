@@ -617,7 +617,7 @@ function InteractiveCEFRLevels() {
   const active = CEFR_LEVELS[activeTab];
 
   return (
-    <section className="relative py-20 md:py-28 dark-section-alt hero-pattern noise-overlay">
+    <section id="cefr-levels" className="relative py-20 md:py-28 dark-section-alt hero-pattern noise-overlay">
       <div className="container relative mx-auto px-4">
         <AnimatedSection>
           <div className="text-center mb-12">

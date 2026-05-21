@@ -24,6 +24,7 @@ const NAV_LINKS = [
   { href: '/writing', label: 'Writing' },
   { href: '/quick-tour', label: 'Quick Tour' },
   { href: '/pricing', label: 'Pricing' },
+  { href: '/faq', label: 'FAQ' },
   { href: '/contact', label: 'Contact' },
 ];
 

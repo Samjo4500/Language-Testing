@@ -78,29 +78,32 @@ export async function POST(request: NextRequest) {
     // single → premium (paid plan with certificate access), premium → premium, pro → pro
     const planLevel = planType === 'pro' ? 'pro' : 'premium';
 
-    // Save payment to database
-    const payment = await db.payment.create({
-      data: {
-        userId: user.userId,
-        paypalOrderId: orderID,
-        paypalCaptureId: captureId,
-        amount,
-        currency,
-        status: 'completed',
-        plan: planLevel,
-        planType,
-        testsIncluded: config.credits,
-      },
-    });
+    // Save payment and update user atomically in a transaction
+    const { payment, dbUser } = await db.$transaction(async (tx) => {
+      const payment = await tx.payment.create({
+        data: {
+          userId: user.userId,
+          paypalOrderId: orderID,
+          paypalCaptureId: captureId,
+          amount,
+          currency,
+          status: 'completed',
+          plan: planLevel,
+          planType,
+          testsIncluded: config.credits,
+        },
+      });
 
-    // Update user: upgrade plan, add test credits atomically (prevents race condition), set expiry
-    const dbUser = await db.user.update({
-      where: { id: user.userId },
-      data: {
-        plan: planLevel,
-        testCredits: { increment: config.credits },
-        ...(planExpiresAt ? { planExpiresAt } : {}),
-      },
+      const dbUser = await tx.user.update({
+        where: { id: user.userId },
+        data: {
+          plan: planLevel,
+          testCredits: { increment: config.credits },
+          ...(planExpiresAt ? { planExpiresAt } : {}),
+        },
+      });
+
+      return { payment, dbUser };
     });
 
     // Send payment confirmation email (fire-and-forget)

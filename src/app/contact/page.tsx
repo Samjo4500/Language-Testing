@@ -385,7 +385,7 @@ export default function ContactPage() {
                 </div>
                 <h3 className="text-lg font-semibold text-white mb-2">How accurate is the CEFR test?</h3>
                 <p className="text-sm text-white/45 leading-relaxed">
-                  Our AI-powered assessment has a 98% accuracy rate in determining your CEFR level. The evaluation uses advanced natural language processing and machine learning models trained on millions of language samples across all proficiency levels.
+                  Our AI-powered assessment uses advanced natural language processing and machine learning models trained on millions of language samples across all proficiency levels, delivering highly accurate CEFR level determinations backed by rigorous validation.
                 </p>
               </div>
             </AnimatedSection>

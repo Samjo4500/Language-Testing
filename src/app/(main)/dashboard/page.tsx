@@ -198,7 +198,7 @@ export default function DashboardPage() {
             )}
 
             {isPaidPlan(user.plan) && (
-              <div className="glass-card p-5 cursor-pointer group" onClick={() => router.push('/')}>
+              <div className="glass-card p-5 cursor-pointer group" onClick={() => router.push('/#cefr-levels')}>
                 <div className="flex items-center gap-3">
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-purple-400 to-indigo-500 text-white shadow-lg transition-transform duration-300 group-hover:scale-110">
                     <Award className="h-5 w-5" />

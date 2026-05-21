@@ -48,21 +48,21 @@ export function Footer() {
               <Link href="/about" className="block text-sm text-white/60 hover:text-white/70 transition-colors">About</Link>
               <Link href="/faq" className="block text-sm text-white/60 hover:text-white/70 transition-colors">FAQ</Link>
               <Link href="/contact" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Contact</Link>
+              <Link href="/sample-certificate" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Verify Certificate</Link>
               <Link href="/privacy" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Privacy</Link>
               <Link href="/terms" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Terms</Link>
-              <Link href="/verify" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Verify Certificate</Link>
             </div>
           </div>
 
-          {/* Account & Reports */}
+          {/* Account */}
           <div>
             <p className="text-white font-semibold text-sm mb-4">Account</p>
             <div className="space-y-2.5">
               <Link href="/dashboard" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Dashboard</Link>
               <Link href="/login" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Sign In</Link>
               <Link href="/register" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Create Account</Link>
-              <Link href="/sample-certificate" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Sample Certificate</Link>
-              <Link href="/sample-report" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Sample Report</Link>
+              <Link href="/pricing" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Pricing</Link>
+              <Link href="/quick-tour" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Quick Tour</Link>
             </div>
           </div>
         </div>

@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
 
     await db.user.update({
       where: { id: user.id },
-      data: { role: 'admin' },
+      data: { role: 'admin', tokenVersion: { increment: 1 } },
     });
 
     return NextResponse.json({ message: `${email} has been promoted to admin.` });

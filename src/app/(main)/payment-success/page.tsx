@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useAuthStore } from '@/lib/auth-store';
 import { Navbar } from '@/components/navbar';
+import { Footer } from '@/components/footer';
 import { CheckCircle2, ArrowRight, BookOpen, Sparkles } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
@@ -83,6 +84,7 @@ function PaymentSuccessContent() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

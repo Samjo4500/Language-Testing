@@ -203,7 +203,7 @@ export default function QuickTourPage() {
               href={isAuth ? '/dashboard' : '/register'}
             >
               <button className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-base font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 cursor-pointer">
-                Create Free Account
+                {isAuth ? 'Go to Dashboard' : 'Create Free Account'}
                 <ArrowRight className="h-5 w-5" />
               </button>
             </Link>
