@@ -92,15 +92,12 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Update user: upgrade plan, add test credits, set expiry
-    const dbUser = await db.user.findUnique({ where: { id: user.userId } });
-    const currentCredits = dbUser?.testCredits || 0;
-
-    await db.user.update({
+    // Update user: upgrade plan, add test credits atomically (prevents race condition), set expiry
+    const dbUser = await db.user.update({
       where: { id: user.userId },
       data: {
         plan: planLevel,
-        testCredits: currentCredits + config.credits,
+        testCredits: { increment: config.credits },
         ...(planExpiresAt ? { planExpiresAt } : {}),
       },
     });

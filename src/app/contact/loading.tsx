@@ -1,7 +1,6 @@
 import { Navbar } from '@/components/navbar';
-import { Loader2 } from 'lucide-react';
 
-export default function MainLoading() {
+export default function Loading() {
   return (
     <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
       <Navbar />

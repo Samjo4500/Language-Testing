@@ -20,7 +20,7 @@ const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://testcefr.com';
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@testcefr.com';
 
 /** Escape HTML special characters to prevent XSS in email templates */
-function escapeHtml(str: string): string {
+export function escapeHtml(str: string): string {
   return str
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
@@ -206,16 +206,19 @@ export async function sendContactAutoReply(name: string, email: string, accountT
 
 export async function sendAdminNewUser(name: string, email: string, accountType: string, organizationName?: string): Promise<void> {
   const typeLabel = accountType === 'university' ? 'University/College' : accountType === 'business' ? 'Business' : 'Individual';
-  const orgLine = organizationName
-    ? `<div class="detail-row"><span class="detail-label">Organization</span><span class="detail-value">${organizationName}</span></div>`
+  const safeName = escapeHtml(name || '—');
+  const safeEmail = escapeHtml(email);
+  const safeOrg = organizationName ? escapeHtml(organizationName) : '';
+  const orgLine = safeOrg
+    ? `<div class="detail-row"><span class="detail-label">Organization</span><span class="detail-value">${safeOrg}</span></div>`
     : '';
   await sendAdminEmail(
     `New user registered: ${name || email}`,
     emailShell('New User Registration',
       `<div class="content">
         <p class="greeting">New user signup</p>
-        <div class="detail-row"><span class="detail-label">Name</span><span class="detail-value">${name || '—'}</span></div>
-        <div class="detail-row"><span class="detail-label">Email</span><span class="detail-value">${email}</span></div>
+        <div class="detail-row"><span class="detail-label">Name</span><span class="detail-value">${safeName}</span></div>
+        <div class="detail-row"><span class="detail-label">Email</span><span class="detail-value">${safeEmail}</span></div>
         <div class="detail-row"><span class="detail-label">Account Type</span><span class="detail-value">${typeLabel}</span></div>
         ${orgLine}
         <hr class="divider" />
@@ -227,16 +230,20 @@ export async function sendAdminNewUser(name: string, email: string, accountType:
 
 export async function sendAdminNewPayment(name: string, email: string, planName: string, amount: number, transactionId: string): Promise<void> {
   const formatted = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+  const safeName = escapeHtml(name || '—');
+  const safeEmail = escapeHtml(email);
+  const safePlanName = escapeHtml(planName);
+  const safeTxId = escapeHtml(transactionId);
   await sendAdminEmail(
     `New payment: ${formatted} — ${planName} plan`,
     emailShell('New Payment Received',
       `<div class="content">
         <p class="greeting">Payment received!</p>
-        <div class="detail-row"><span class="detail-label">Customer</span><span class="detail-value">${name || '—'}</span></div>
-        <div class="detail-row"><span class="detail-label">Email</span><span class="detail-value">${email}</span></div>
-        <div class="detail-row"><span class="detail-label">Plan</span><span class="detail-value">${planName}</span></div>
+        <div class="detail-row"><span class="detail-label">Customer</span><span class="detail-value">${safeName}</span></div>
+        <div class="detail-row"><span class="detail-label">Email</span><span class="detail-value">${safeEmail}</span></div>
+        <div class="detail-row"><span class="detail-label">Plan</span><span class="detail-value">${safePlanName}</span></div>
         <div class="detail-row"><span class="detail-label">Amount</span><span class="detail-value">${formatted}</span></div>
-        <div class="detail-row"><span class="detail-label">Transaction ID</span><span class="detail-value">${transactionId}</span></div>
+        <div class="detail-row"><span class="detail-label">Transaction ID</span><span class="detail-value">${safeTxId}</span></div>
         <hr class="divider" />
         <a href="${APP_URL}/admin" class="btn">View in Admin</a>
       </div>`),

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { sendContactAutoReply, sendAdminEmail, emailShell, FROM_EMAIL } from '@/lib/email';
+import { sendContactAutoReply, sendAdminEmail, emailShell, FROM_EMAIL, escapeHtml } from '@/lib/email';
 import { db } from '@/lib/db';
 import { rateLimit } from '@/lib/rate-limit';
 
@@ -53,23 +53,27 @@ export async function POST(request: NextRequest) {
     // Send auto-reply to the user
     await sendContactAutoReply(name, email, accountType);
 
-    // Send admin notification
-    const orgLine = organizationName
-      ? `<div class="detail-row"><span class="detail-label">Organization</span><span class="detail-value">${organizationName}</span></div>`
+    // Send admin notification — escape all user-controlled data to prevent XSS
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+    const safeOrg = organizationName ? escapeHtml(organizationName) : '';
+    const orgLine = safeOrg
+      ? `<div class="detail-row"><span class="detail-label">Organization</span><span class="detail-value">${safeOrg}</span></div>`
       : '';
+    const safeMessage = escapeHtml(message).replace(/\n/g, '<br/>');
 
     await sendAdminEmail(
       `New Contact Form Submission from ${name}`,
       emailShell('New Contact Submission',
         `<div class="content">
           <p class="greeting">New contact form submission</p>
-          <div class="detail-row"><span class="detail-label">Name</span><span class="detail-value">${name}</span></div>
-          <div class="detail-row"><span class="detail-label">Email</span><span class="detail-value">${email}</span></div>
+          <div class="detail-row"><span class="detail-label">Name</span><span class="detail-value">${safeName}</span></div>
+          <div class="detail-row"><span class="detail-label">Email</span><span class="detail-value">${safeEmail}</span></div>
           <div class="detail-row"><span class="detail-label">Account Type</span><span class="detail-value">${typeLabel}</span></div>
           ${orgLine}
           <hr class="divider" />
           <p><strong>Message:</strong></p>
-          <p>${message.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br/>')}</p>
+          <p>${safeMessage}</p>
         </div>`),
       'contact_notification'
     );

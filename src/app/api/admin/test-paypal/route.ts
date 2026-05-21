@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
       status: 'ok',
       message: `PayPal ${mode} mode connection is working.`,
       mode,
-      tokenPrefix: token.substring(0, 10) + '...',
+      tokenObtained: true,
     });
   } catch (error) {
     console.error('PayPal test error:', error);

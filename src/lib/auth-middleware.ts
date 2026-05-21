@@ -94,8 +94,13 @@ export async function verifyTokenVersion(user: TokenPayload): Promise<NextRespon
 
     return null; // Token is valid
   } catch {
-    // DB error — don't block the request, just log
-    console.error('Failed to verify token version');
-    return null;
+    // DB error — FAIL CLOSED for security. If we can't verify the token version,
+    // the token might have been invalidated (logout/password reset) and we must reject it.
+    // This prevents invalidated tokens from being used when the database is temporarily unreachable.
+    console.error('Failed to verify token version — rejecting token for security (fail-closed)');
+    return NextResponse.json(
+      { error: 'Unable to verify session. Please try again.', code: 'TOKEN_VERSION_CHECK_FAILED' },
+      { status: 401 }
+    );
   }
 }

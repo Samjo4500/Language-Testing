@@ -50,6 +50,7 @@ export async function PATCH(request: NextRequest) {
       data: {
         passwordHash,
         tokenVersion: { increment: 1 }, // Invalidate existing sessions
+        passwordResetAt: new Date(), // Track when the reset happened
       },
     });
 

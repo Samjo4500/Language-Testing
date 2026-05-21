@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { getAuthUser, requireAdmin } from '@/lib/auth-middleware';
-import { hashPassword } from '@/lib/auth';
 import { adminLimiter } from '@/lib/rate-limit';
 
 /**
@@ -84,8 +83,9 @@ export async function GET(request: NextRequest) {
 
 /**
  * PATCH /api/admin/users
- * Reset a user's password.
- * Body: { userId: string, newPassword: string }
+ * Update a user's role or plan.
+ * Body: { userId: string, role?: string, plan?: string }
+ * For password resets, use POST /api/admin/users/reset-password instead.
  */
 export async function PATCH(request: NextRequest) {
   // Rate limit: 60 requests per minute per IP
@@ -101,18 +101,34 @@ export async function PATCH(request: NextRequest) {
     if (adminCheck) return adminCheck;
 
     const body = await request.json();
-    const { userId, newPassword } = body;
+    const { userId, role, plan } = body;
 
-    if (!userId || !newPassword) {
+    if (!userId) {
       return NextResponse.json(
-        { error: 'userId and newPassword are required.' },
+        { error: 'userId is required.' },
         { status: 400 }
       );
     }
 
-    if (newPassword.length < 6) {
+    if (!role && !plan) {
       return NextResponse.json(
-        { error: 'Password must be at least 6 characters.' },
+        { error: 'At least one of role or plan must be provided.' },
+        { status: 400 }
+      );
+    }
+
+    // Validate role if provided
+    if (role && !['user', 'admin'].includes(role)) {
+      return NextResponse.json(
+        { error: 'Invalid role. Must be "user" or "admin".' },
+        { status: 400 }
+      );
+    }
+
+    // Validate plan if provided
+    if (plan && !['free', 'premium', 'pro'].includes(plan)) {
+      return NextResponse.json(
+        { error: 'Invalid plan. Must be "free", "premium", or "pro".' },
         { status: 400 }
       );
     }
@@ -122,20 +138,20 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: 'User not found.' }, { status: 404 });
     }
 
-    const passwordHash = await hashPassword(newPassword);
+    const updateData: Record<string, unknown> = {};
+    if (role) updateData.role = role;
+    if (plan) updateData.plan = plan;
+
     await db.user.update({
       where: { id: userId },
-      data: {
-        passwordHash,
-        tokenVersion: { increment: 1 }, // Invalidate existing sessions
-      },
+      data: updateData,
     });
 
-    return NextResponse.json({ message: 'Password reset successfully. User will need to log in again.' });
+    return NextResponse.json({ message: 'User updated successfully.' });
   } catch (error) {
-    console.error('Reset password error:', error);
+    console.error('Update user error:', error);
     return NextResponse.json(
-      { error: 'Failed to reset password.' },
+      { error: 'Failed to update user.' },
       { status: 500 }
     );
   }

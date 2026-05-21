@@ -22,6 +22,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return NextResponse.json(
+        { error: 'Please provide a valid email address.' },
+        { status: 400 }
+      );
+    }
+
     if (password.length < 6) {
       return NextResponse.json(
         { error: 'Password must be at least 6 characters long.' },
@@ -39,9 +48,10 @@ export async function POST(request: NextRequest) {
 
     const passwordHash = await hashPassword(password);
 
-    // Check if this is the first user — make them admin
-    const userCount = await db.user.count();
-    const role = userCount === 0 ? 'admin' : 'user';
+    // Determine user role: admin only via explicit ADMIN_EMAIL env var match
+    // Prevents accidental admin on empty DB or after migration reset
+    const adminEmail = process.env.ADMIN_EMAIL || 'admin@testcefr.com';
+    const role = email.toLowerCase() === adminEmail.toLowerCase() ? 'admin' : 'user';
 
     // Validate accountType if provided
     const validAccountTypes = ['individual', 'university', 'business'];

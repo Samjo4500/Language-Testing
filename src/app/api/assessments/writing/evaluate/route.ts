@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { getAuthUser } from '@/lib/auth-middleware';
+import { aiEvalLimiter } from '@/lib/rate-limit';
 
 const MAX_TEXT_LENGTH = 10000;
 
@@ -12,6 +13,10 @@ const MAX_TEXT_LENGTH = 10000;
  * Returns: { cefrLevel, score (0-100), feedback, strengths[], improvements[] }
  */
 export async function POST(request: NextRequest) {
+  // Rate limit AI evaluation to prevent cost abuse (10 evals/min per IP)
+  const limitError = aiEvalLimiter(request);
+  if (limitError) return limitError;
+
   try {
     // Auth check — prevent unauthenticated AI abuse
     const authResult = getAuthUser(request);
