@@ -108,15 +108,22 @@ export default function TestPage() {
         if (getRes.ok) {
           const getData = await getRes.json();
           if (getData.hasInProgress && getData.assessment) {
-            // We have an in-progress assessment but no questions from GET
-            // We'll need to POST to get questions. Since the POST returns the
-            // existing assessment without questions, we mark it as resuming
-            // and note we don't have question data.
+            // Resume: fetch questions for the in-progress assessment
             setAssessmentId(getData.assessment.id);
             setResumingAssessment(true);
-            // For now, we can't get questions for in-progress assessments.
-            // The user will need to complete without API questions or start fresh.
-            // We'll still try POST to see if it returns questions.
+            try {
+              const qRes = await fetch(`/api/assessments/${getData.assessment.id}/questions`);
+              if (qRes.ok) {
+                const qData = await qRes.json();
+                if (qData.questions) {
+                  setApiQuestions(qData.questions);
+                  setResumingAssessment(false);
+                  return; // Successfully resumed — skip POST
+                }
+              }
+            } catch {
+              // If resume fetch fails, fall through to POST
+            }
           }
         }
 
@@ -129,18 +136,27 @@ export default function TestPage() {
 
         if (postRes.ok) {
           if (postData.questions) {
-            // New assessment with questions
             setAssessmentId(postData.assessment.id);
             setApiQuestions(postData.questions);
             setResumingAssessment(false);
           } else {
-            // Existing in-progress assessment without questions
-            // We have the assessmentId but no question data.
-            // The user needs to work with what they have or we show a notice.
+            // Existing in-progress assessment without questions returned
             setAssessmentId(postData.assessment.id);
+            // Try fetching questions via the resume endpoint
+            try {
+              const qRes = await fetch(`/api/assessments/${postData.assessment.id}/questions`);
+              if (qRes.ok) {
+                const qData = await qRes.json();
+                if (qData.questions) {
+                  setApiQuestions(qData.questions);
+                  setResumingAssessment(false);
+                }
+              }
+            } catch {
+              // Leave as resuming state
+            }
           }
         } else {
-          // Handle errors
           if (postData.code === 'NO_CREDITS') {
             setError('You have no test credits remaining. Please upgrade your plan to continue.');
           } else if (postData.code === 'EMAIL_NOT_VERIFIED') {

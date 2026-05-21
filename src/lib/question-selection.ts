@@ -528,8 +528,14 @@ function serializeQuestionSet(questionSet: AssessmentQuestionSet) {
   return {
     grammar: questionSet.grammar.map(q => q.id),
     vocabulary: questionSet.vocabulary.map(q => q.id),
-    reading: questionSet.reading.map(p => p.id),
-    listening: questionSet.listening.map(l => l.id),
+    reading: questionSet.reading.map(p => ({
+      passageId: p.id,
+      questionIds: (p as any).questions?.map((q: any) => q.id) || [],
+    })),
+    listening: questionSet.listening.map(l => ({
+      itemId: l.id,
+      questionIds: (l as any).questions?.map((q: any) => q.id) || [],
+    })),
     speaking: questionSet.speaking?.id || null,
     writing: questionSet.writing?.id || null,
   };

@@ -52,12 +52,21 @@ export async function POST(request: NextRequest) {
         const allIds = [
           ...(qs.grammar || []),
           ...(qs.vocabulary || []),
-          ...(qs.reading || []),
-          ...(qs.listening || []),
-          // Speaking/writing are single IDs
           qs.speaking, qs.writing,
-          // Also include sub-question IDs for reading/listening
         ].filter(Boolean);
+        // Handle both old format (string[]) and new format ({passageId, questionIds}[])
+        if (qs.reading) {
+          for (const r of qs.reading) {
+            if (typeof r === 'string') { allIds.push(r); }
+            else { allIds.push(r.passageId, ...(r.questionIds || [])); }
+          }
+        }
+        if (qs.listening) {
+          for (const l of qs.listening) {
+            if (typeof l === 'string') { allIds.push(l); }
+            else { allIds.push(l.itemId, ...(l.questionIds || [])); }
+          }
+        }
         validQuestionIds = new Set(allIds);
       } catch {}
     }
