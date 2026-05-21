@@ -27,6 +27,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
 
         // Validate auth via cookie-based /api/auth/me
+        // Only make the request if there's a chance we're authenticated (localStorage user exists)
+        // This avoids 401 console errors for anonymous visitors
+        if (!userStr) {
+          // No cached user — skip server check, we're definitely not authenticated
+          setLoading(false);
+          return;
+        }
         try {
           const response = await fetch('/api/auth/me');
           if (response.ok) {
@@ -51,7 +58,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                   logout();
                 }
               } else {
-                // Refresh also failed — clear auth
+                // Refresh also failed — clear auth silently
                 logout();
               }
             } catch {

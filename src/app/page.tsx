@@ -305,6 +305,7 @@ function LiveVoiceDemo() {
                       <div className={`absolute -inset-6 rounded-full transition-all duration-500 ${isRecording ? 'bg-red-500/15 blur-2xl' : 'bg-purple-500/15 blur-2xl'}`} />
                       <button
                         onClick={isRecording ? stopRecording : startRecording}
+                        aria-label={isRecording ? 'Stop recording' : 'Start recording'}
                         className={`relative w-20 h-20 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${
                           isRecording
                             ? 'bg-gradient-to-br from-red-500 to-red-600 shadow-2xl shadow-red-500/40 animate-recording-pulse'
@@ -792,6 +793,7 @@ export default function Home() {
     <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
       <Navbar />
 
+      <main>
       {/* ===== HERO SECTION ===== */}
       <section className="relative overflow-hidden dark-section hero-pattern noise-overlay mesh-gradient">
         <BackgroundOrbs />
@@ -1261,6 +1263,7 @@ export default function Home() {
       </section>
 
       {/* ===== FOOTER ===== */}
+      </main>
       <Footer />
     </div>
   );

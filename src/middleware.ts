@@ -62,6 +62,10 @@ function addSecurityHeaders(response: NextResponse): NextResponse {
   // Prevent clickjacking — only allow framing from same origin
   response.headers.set('X-Frame-Options', 'SAMEORIGIN');
 
+  // Isolate the top-level window from other documents (cross-origin pop-ups)
+  // Prevents cross-origin windows from accessing our window object
+  response.headers.set('Cross-Origin-Opener-Policy', 'same-origin');
+
   // Prevent MIME type sniffing — browser must respect declared Content-Type
   response.headers.set('X-Content-Type-Options', 'nosniff');
 

@@ -15,13 +15,13 @@ export function Footer() {
                 <span className="text-white font-bold text-base sm:text-lg tracking-tight leading-tight">
                   test<span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">cefr</span><span className="text-purple-300">.com</span>
                 </span>
-                <span className="text-white/40 text-[10px] uppercase tracking-[0.2em] leading-tight">English Assessment</span>
+                <span className="text-white/60 text-[10px] uppercase tracking-[0.2em] leading-tight">English Assessment</span>
               </div>
             </div>
-            <p className="text-sm text-white/40 leading-relaxed mb-4">
+            <p className="text-sm text-white/60 leading-relaxed mb-4">
               AI-powered English proficiency assessment aligned with the Common European Framework of Reference.
             </p>
-            <div className="flex items-center gap-3 text-white/30">
+            <div className="flex items-center gap-3 text-white/60">
               <a href="https://twitter.com/testcefr" target="_blank" rel="noopener noreferrer" className="text-xs hover:text-white/60 transition-colors cursor-pointer">Twitter / X</a>
               <span>&middot;</span>
               <a href="https://linkedin.com/company/testcefr" target="_blank" rel="noopener noreferrer" className="text-xs hover:text-white/60 transition-colors cursor-pointer">LinkedIn</a>
@@ -30,39 +30,39 @@ export function Footer() {
 
           {/* Product */}
           <div>
-            <h4 className="text-white font-semibold text-sm mb-4">Product</h4>
+            <p className="text-white font-semibold text-sm mb-4">Product</p>
             <div className="space-y-2.5">
-              <Link href="/" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Home</Link>
-              <Link href="/pricing" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Pricing</Link>
-              <Link href="/quick-tour" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Quick Tour</Link>
-              <Link href="/sample-certificate" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Sample Certificate</Link>
-              <Link href="/sample-report" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Sample Report</Link>
-              <Link href="/register" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Get Started</Link>
+              <Link href="/" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Home</Link>
+              <Link href="/pricing" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Pricing</Link>
+              <Link href="/quick-tour" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Quick Tour</Link>
+              <Link href="/sample-certificate" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Sample Certificate</Link>
+              <Link href="/sample-report" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Sample Report</Link>
+              <Link href="/register" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Get Started</Link>
             </div>
           </div>
 
           {/* Company */}
           <div>
-            <h4 className="text-white font-semibold text-sm mb-4">Company</h4>
+            <p className="text-white font-semibold text-sm mb-4">Company</p>
             <div className="space-y-2.5">
-              <Link href="/about" className="block text-sm text-white/40 hover:text-white/70 transition-colors">About</Link>
-              <Link href="/faq" className="block text-sm text-white/40 hover:text-white/70 transition-colors">FAQ</Link>
-              <Link href="/contact" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Contact</Link>
-              <Link href="/privacy" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Privacy</Link>
-              <Link href="/terms" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Terms</Link>
-              <Link href="/verify" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Verify Certificate</Link>
+              <Link href="/about" className="block text-sm text-white/60 hover:text-white/70 transition-colors">About</Link>
+              <Link href="/faq" className="block text-sm text-white/60 hover:text-white/70 transition-colors">FAQ</Link>
+              <Link href="/contact" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Contact</Link>
+              <Link href="/privacy" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Privacy</Link>
+              <Link href="/terms" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Terms</Link>
+              <Link href="/verify" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Verify Certificate</Link>
             </div>
           </div>
 
           {/* Account & Reports */}
           <div>
-            <h4 className="text-white font-semibold text-sm mb-4">Account</h4>
+            <p className="text-white font-semibold text-sm mb-4">Account</p>
             <div className="space-y-2.5">
-              <Link href="/dashboard" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Dashboard</Link>
-              <Link href="/login" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Sign In</Link>
-              <Link href="/register" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Create Account</Link>
-              <Link href="/sample-certificate" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Sample Certificate</Link>
-              <Link href="/sample-report" className="block text-sm text-white/40 hover:text-white/70 transition-colors">Sample Report</Link>
+              <Link href="/dashboard" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Dashboard</Link>
+              <Link href="/login" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Sign In</Link>
+              <Link href="/register" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Create Account</Link>
+              <Link href="/sample-certificate" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Sample Certificate</Link>
+              <Link href="/sample-report" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Sample Report</Link>
             </div>
           </div>
         </div>
