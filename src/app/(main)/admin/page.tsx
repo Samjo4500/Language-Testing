@@ -45,6 +45,7 @@ import {
   Lock,
   Eye,
   XCircle,
+  Circle,
   Clock,
   TrendingUp,
   ArrowUpRight,
@@ -63,6 +64,13 @@ import {
   Bell,
   BellRing,
   ExternalLink,
+  MousePointerClick,
+  LineChart,
+  Search as SearchIcon,
+  LayoutDashboard,
+  CheckSquare,
+  Square,
+  Settings2,
 } from 'lucide-react';
 import {
   AreaChart,
@@ -111,6 +119,7 @@ const TABS = [
   { id: 'apis', label: 'APIs', icon: Code2 },
   { id: 'questions', label: 'Question Bank', icon: BookOpen },
   { id: 'system', label: 'System', icon: Server },
+  { id: 'analytics-integrations', label: 'Analytics', icon: Globe },
 ] as const;
 
 type TabId = (typeof TABS)[number]['id'];
@@ -3220,6 +3229,356 @@ export default function AdminPage() {
               </div>
             </div>
           )}
+
+          {/* ─── Analytics & Integrations Tab ─── */}
+          {activeTab === 'analytics-integrations' && (
+            <div className="space-y-6">
+              {/* Header */}
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                    <Globe className="h-5 w-5 text-purple-400" />
+                    Analytics & Integrations
+                  </h2>
+                  <p className="text-sm text-white/50 mt-1">
+                    Configure and access your Google & third-party analytics services
+                  </p>
+                </div>
+              </div>
+
+              {/* ── Integration Status Cards ── */}
+              <div className="grid md:grid-cols-2 gap-4">
+                {/* GA4 */}
+                <div className="glass-card p-5 hover:border-purple-500/30 transition-colors">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 text-white shadow-lg">
+                        <BarChart3 className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <h3 className="text-white font-semibold">Google Analytics 4</h3>
+                        <p className="text-xs text-white/40">Web analytics & event tracking</p>
+                      </div>
+                    </div>
+                    <span className={`inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full ${
+                      !!process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
+                        ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                        : 'bg-white/5 text-white/40 border border-white/10'
+                    }`}>
+                      {!!process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
+                        ? <><CheckCircle2 className="h-3 w-3" /> Connected</>
+                        : <><XCircle className="h-3 w-3" /> Not Set</>}
+                    </span>
+                  </div>
+                  <div className="space-y-2 mb-4">
+                    <div className="flex items-center justify-between p-2.5 rounded-lg bg-white/5 border border-white/5">
+                      <span className="text-xs text-white/50">Measurement ID</span>
+                      <span className="text-xs font-mono text-white/70">
+                        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || '—'}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between p-2.5 rounded-lg bg-white/5 border border-white/5">
+                      <span className="text-xs text-white/50">Server-side Tracking</span>
+                      <span className={`text-xs font-medium ${process.env.GA_API_SECRET ? 'text-green-400' : 'text-white/40'}`}>
+                        {process.env.GA_API_SECRET ? 'Enabled' : 'Not configured'}
+                      </span>
+                    </div>
+                  </div>
+                  <a
+                    href="https://analytics.google.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white text-sm font-medium transition-all cursor-pointer"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    Open GA4 Dashboard
+                  </a>
+                </div>
+
+                {/* Search Console */}
+                <div className="glass-card p-5 hover:border-purple-500/30 transition-colors">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 text-white shadow-lg">
+                        <SearchIcon className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <h3 className="text-white font-semibold">Google Search Console</h3>
+                        <p className="text-xs text-white/40">SEO, indexing & search performance</p>
+                      </div>
+                    </div>
+                    <span className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full bg-white/5 text-white/40 border border-white/10">
+                      <Square className="h-3 w-3" /> External
+                    </span>
+                  </div>
+                  <div className="space-y-2 mb-4">
+                    <div className="flex items-center justify-between p-2.5 rounded-lg bg-white/5 border border-white/5">
+                      <span className="text-xs text-white/50">Property</span>
+                      <span className="text-xs font-mono text-white/70">testcefr.com</span>
+                    </div>
+                    <div className="flex items-center justify-between p-2.5 rounded-lg bg-white/5 border border-white/5">
+                      <span className="text-xs text-white/50">Sitemap</span>
+                      <a href="https://www.testcefr.com/sitemap.xml" target="_blank" rel="noopener noreferrer" className="text-xs font-mono text-purple-400 hover:text-purple-300">
+                        /sitemap.xml
+                      </a>
+                    </div>
+                  </div>
+                  <a
+                    href="https://search.google.com/search-console?resource_id=https://www.testcefr.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-500 hover:to-emerald-400 text-white text-sm font-medium transition-all cursor-pointer"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    Open Search Console
+                  </a>
+                </div>
+
+                {/* PostHog */}
+                <div className="glass-card p-5 hover:border-purple-500/30 transition-colors">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg">
+                        <MousePointerClick className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <h3 className="text-white font-semibold">PostHog</h3>
+                        <p className="text-xs text-white/40">Session replay, feature flags & A/B tests</p>
+                      </div>
+                    </div>
+                    <span className={`inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full ${
+                      !!process.env.NEXT_PUBLIC_POSTHOG_KEY
+                        ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                        : 'bg-white/5 text-white/40 border border-white/10'
+                    }`}>
+                      {!!process.env.NEXT_PUBLIC_POSTHOG_KEY
+                        ? <><CheckCircle2 className="h-3 w-3" /> Connected</>
+                        : <><XCircle className="h-3 w-3" /> Not Set</>}
+                    </span>
+                  </div>
+                  <div className="space-y-2 mb-4">
+                    <div className="flex items-center justify-between p-2.5 rounded-lg bg-white/5 border border-white/5">
+                      <span className="text-xs text-white/50">API Key</span>
+                      <span className="text-xs font-mono text-white/70">
+                        {process.env.NEXT_PUBLIC_POSTHOG_KEY ? `${process.env.NEXT_PUBLIC_POSTHOG_KEY.substring(0, 12)}...` : '—'}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between p-2.5 rounded-lg bg-white/5 border border-white/5">
+                      <span className="text-xs text-white/50">Session Replay</span>
+                      <span className={`text-xs font-medium ${process.env.NEXT_PUBLIC_POSTHOG_KEY ? 'text-green-400' : 'text-white/40'}`}>
+                        {process.env.NEXT_PUBLIC_POSTHOG_KEY ? 'Enabled' : 'Requires API key'}
+                      </span>
+                    </div>
+                  </div>
+                  <a
+                    href="https://app.posthog.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-sm font-medium transition-all cursor-pointer"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    Open PostHog
+                  </a>
+                </div>
+
+                {/* Looker Studio */}
+                <div className="glass-card p-5 hover:border-purple-500/30 transition-colors">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 text-white shadow-lg">
+                        <LayoutDashboard className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <h3 className="text-white font-semibold">Looker Studio</h3>
+                        <p className="text-xs text-white/40">Custom dashboards & visual reports</p>
+                      </div>
+                    </div>
+                    <span className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full bg-white/5 text-white/40 border border-white/10">
+                      <Square className="h-3 w-3" /> External
+                    </span>
+                  </div>
+                  <div className="space-y-2 mb-4">
+                    <div className="flex items-center justify-between p-2.5 rounded-lg bg-white/5 border border-white/5">
+                      <span className="text-xs text-white/50">Data Source</span>
+                      <span className="text-xs text-white/70">GA4 + Search Console</span>
+                    </div>
+                    <div className="flex items-center justify-between p-2.5 rounded-lg bg-white/5 border border-white/5">
+                      <span className="text-xs text-white/50">Cost</span>
+                      <span className="text-xs text-green-400">Free</span>
+                    </div>
+                  </div>
+                  <a
+                    href="https://lookerstudio.google.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-white text-sm font-medium transition-all cursor-pointer"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                    Open Looker Studio
+                  </a>
+                </div>
+              </div>
+
+              {/* ── Custom Events Reference ── */}
+              <div className="glass-card p-5">
+                <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+                  <Activity className="h-4 w-4 text-cyan-400" />
+                  Tracked Events Reference
+                </h3>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-white/10">
+                        <th className="text-left py-2 px-3 text-white/50 font-medium">Event</th>
+                        <th className="text-left py-2 px-3 text-white/50 font-medium">Trigger</th>
+                        <th className="text-left py-2 px-3 text-white/50 font-medium">Key Parameter</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[
+                        { event: 'test_start', trigger: 'Click skill in test page', param: 'plan, is_resume' },
+                        { event: 'test_complete', trigger: 'Submit assessment', param: 'cefr_level, score' },
+                        { event: 'test_abandon', trigger: 'Close page during test', param: 'step, skills_completed' },
+                        { event: 'purchase', trigger: 'PayPal payment success', param: 'transaction_id, value, plan_type' },
+                        { event: 'speaking_demo_start', trigger: 'Homepage mic button click', param: 'mic_permission' },
+                        { event: 'speaking_demo_complete', trigger: 'Stop demo recording', param: '—' },
+                        { event: 'pricing_view', trigger: 'Pricing section in viewport', param: '—' },
+                        { event: 'certificate_download', trigger: 'Click Download PDF', param: 'cefr_level' },
+                        { event: 'account_create', trigger: 'Registration success', param: 'account_type' },
+                      ].map((row) => (
+                        <tr key={row.event} className="border-b border-white/5 hover:bg-white/5 transition-colors">
+                          <td className="py-2.5 px-3 font-mono text-purple-400 text-xs">{row.event}</td>
+                          <td className="py-2.5 px-3 text-white/70">{row.trigger}</td>
+                          <td className="py-2.5 px-3 text-white/50 text-xs">{row.param}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <p className="mt-3 text-xs text-white/30">
+                  All events fire to both GA4 and PostHog simultaneously. Purchase events also fire server-side via GA4 Measurement Protocol.
+                </p>
+              </div>
+
+              {/* ── Setup Checklist ── */}
+              <div className="glass-card p-5">
+                <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+                  <CheckSquare className="h-4 w-4 text-green-400" />
+                  Setup Checklist
+                </h3>
+                <div className="space-y-3">
+                  {[
+                    {
+                      label: 'Create Google account for TestCEFR (separate from personal)',
+                      done: true,
+                      link: 'https://accounts.google.com/',
+                    },
+                    {
+                      label: 'Set up GA4 property: testcefr.com',
+                      done: !!process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID,
+                      link: 'https://analytics.google.com/',
+                    },
+                    {
+                      label: 'Add NEXT_PUBLIC_GA_MEASUREMENT_ID to Vercel env vars',
+                      done: !!process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID,
+                      link: 'https://vercel.com/',
+                    },
+                    {
+                      label: 'Add GA_API_SECRET for server-side purchase tracking',
+                      done: !!process.env.GA_API_SECRET,
+                      link: 'https://analytics.google.com/',
+                    },
+                    {
+                      label: 'Verify Search Console ownership (HTML tag or DNS)',
+                      done: false,
+                      link: 'https://search.google.com/search-console',
+                    },
+                    {
+                      label: 'Submit sitemap.xml to Search Console',
+                      done: false,
+                      link: 'https://search.google.com/search-console?resource_id=https://www.testcefr.com/',
+                    },
+                    {
+                      label: 'Create PostHog project and add NEXT_PUBLIC_POSTHOG_KEY',
+                      done: !!process.env.NEXT_PUBLIC_POSTHOG_KEY,
+                      link: 'https://app.posthog.com/',
+                    },
+                    {
+                      label: 'Connect Google Ads account to GA4',
+                      done: false,
+                      link: 'https://ads.google.com/',
+                    },
+                    {
+                      label: 'Build first Looker Studio dashboard',
+                      done: false,
+                      link: 'https://lookerstudio.google.com/',
+                    },
+                    {
+                      label: 'Launch first A/B test via PostHog',
+                      done: false,
+                      link: 'https://app.posthog.com/',
+                    },
+                  ].map((item, i) => (
+                    <div
+                      key={i}
+                      className={`flex items-center gap-3 p-3 rounded-xl border transition-colors ${
+                        item.done
+                          ? 'bg-green-500/5 border-green-500/20'
+                          : 'bg-white/5 border-white/5'
+                      }`}
+                    >
+                      {item.done ? (
+                        <CheckCircle2 className="h-4 w-4 text-green-400 shrink-0" />
+                      ) : (
+                        <Circle className="h-4 w-4 text-white/20 shrink-0" />
+                      )}
+                      <span className={`text-sm flex-1 ${item.done ? 'text-white/70 line-through' : 'text-white/80'}`}>
+                        {item.label}
+                      </span>
+                      <a
+                        href={item.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-purple-400 hover:text-purple-300 transition-colors shrink-0"
+                      >
+                        <ExternalLink className="h-3.5 w-3.5" />
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* ── Environment Variables Reference ── */}
+              <div className="glass-card p-5">
+                <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+                  <Settings2 className="h-4 w-4 text-amber-400" />
+                  Environment Variables
+                </h3>
+                <p className="text-xs text-white/40 mb-4">
+                  Add these in Vercel Dashboard → Settings → Environment Variables. After adding, redeploy for changes to take effect.
+                </p>
+                <div className="space-y-2">
+                  {[
+                    { key: 'NEXT_PUBLIC_GA_MEASUREMENT_ID', desc: 'GA4 Measurement ID (G-XXXXXXXXXX)', set: !!process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID },
+                    { key: 'GA_API_SECRET', desc: 'GA4 Measurement Protocol API Secret', set: !!process.env.GA_API_SECRET },
+                    { key: 'NEXT_PUBLIC_POSTHOG_KEY', desc: 'PostHog project API key (phc_...)', set: !!process.env.NEXT_PUBLIC_POSTHOG_KEY },
+                    { key: 'NEXT_PUBLIC_POSTHOG_HOST', desc: 'PostHog region host (us/eu.i.posthog.com)', set: !!process.env.NEXT_PUBLIC_POSTHOG_HOST },
+                  ].map((env) => (
+                    <div key={env.key} className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5">
+                      <span className={`shrink-0 ${env.set ? 'text-green-400' : 'text-red-400'}`}>
+                        {env.set ? <CheckCircle2 className="h-4 w-4" /> : <XCircle className="h-4 w-4" />}
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-mono text-white/80 truncate">{env.key}</p>
+                        <p className="text-xs text-white/40">{env.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
         </div>
       </div>
 
