@@ -70,7 +70,7 @@ export function Footer() {
         {/* Trust & Security Badges */}
         <div className="mt-10 pt-8 border-t border-white/5">
           <div className="flex flex-col items-center gap-5">
-            <h5 className="text-white/50 text-xs uppercase tracking-[0.15em] font-semibold">Trust &amp; Security</h5>
+            <p className="text-white/50 text-xs uppercase tracking-[0.15em] font-semibold">Trust &amp; Security</p>
             <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
               {/* GDPR Compliant */}
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06] hover:border-purple-500/30 transition-colors">
@@ -143,11 +143,11 @@ export function Footer() {
             </span>
           </div>
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
-            <p className="text-white/20 text-xs">
+            <p className="text-white/50 text-xs">
               Secure payments powered by PayPal
             </p>
             <span className="hidden sm:inline text-white/10">|</span>
-            <p className="text-white/20 text-xs">
+            <p className="text-white/50 text-xs">
               &copy; {new Date().getFullYear()} CEFR Test. All rights reserved.
             </p>
           </div>

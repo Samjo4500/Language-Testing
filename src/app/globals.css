@@ -291,8 +291,15 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: gradient-shift 4s ease infinite;
+  /* Gradient-shift animation is non-composited (animates background-position).
+     Only animate when user prefers motion and on hover for performance. */
   will-change: background-position;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .gradient-text {
+    animation: gradient-shift 4s ease infinite;
+  }
 }
 
 .gradient-text-static {

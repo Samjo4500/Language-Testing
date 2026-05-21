@@ -118,17 +118,19 @@ function AnimatedCEFRBadge() {
           const radius = 46;
           const x = 50 + radius * Math.cos(angle);
           const y = 50 + radius * Math.sin(angle);
+          const isActive = i === activeLevel;
           return (
             <div
               key={lvl}
-              className="absolute w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold transition-all duration-500"
+              className="absolute w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold"
               style={{
                 left: `${x}%`,
                 top: `${y}%`,
-                transform: 'translate(-50%, -50%)',
-                background: i === activeLevel ? `${CEFR_LEVEL_COLORS[lvl]}30` : 'rgba(255,255,255,0.05)',
-                color: i === activeLevel ? CEFR_LEVEL_COLORS[lvl] : 'rgba(255,255,255,0.3)',
-                boxShadow: i === activeLevel ? `0 0 16px ${CEFR_LEVEL_COLORS[lvl]}40` : 'none',
+                background: `${CEFR_LEVEL_COLORS[lvl]}30`,
+                color: CEFR_LEVEL_COLORS[lvl],
+                opacity: isActive ? 1 : 0.35,
+                transition: 'opacity 0.5s, transform 0.5s',
+                transform: isActive ? 'translate(-50%, -50%) scale(1.15)' : 'translate(-50%, -50%) scale(1)',
               }}
             >
               {lvl}
@@ -138,15 +140,16 @@ function AnimatedCEFRBadge() {
       </div>
       <div className="absolute inset-6 rounded-full animate-spin-reverse" style={{ border: `1px dashed ${currentColor}10` }} />
       <div
-        className="relative w-40 h-40 md:w-52 md:h-52 rounded-full flex items-center justify-center transition-all duration-700"
+        className="relative w-40 h-40 md:w-52 md:h-52 rounded-full flex items-center justify-center"
         style={{
           background: `linear-gradient(135deg, ${currentColor}15 0%, rgba(236,72,153,0.1) 100%)`,
           boxShadow: `0 0 80px ${currentColor}20, inset 0 0 40px ${currentColor}10`,
+          transition: 'background 0.7s, box-shadow 0.7s',
         }}
       >
         <div className="absolute inset-1 rounded-full animate-ping-slow" style={{ border: `1px solid ${currentColor}15` }} />
-        <div className="text-center transition-all duration-500">
-          <div className="text-5xl md:text-6xl font-black transition-all duration-500" style={{ color: currentColor }}>
+        <div className="text-center">
+          <div className="text-5xl md:text-6xl font-black" style={{ color: currentColor, transition: 'color 0.5s' }}>
             {currentLevel}
           </div>
           <div className="text-[10px] text-white/40 mt-1 uppercase tracking-widest">CEFR Level</div>
