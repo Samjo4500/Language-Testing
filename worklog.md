@@ -28,3 +28,35 @@ Stage Summary:
 - Resume flow fixed - users can now continue in-progress assessments
 - Question bank sufficiently populated for rotation variety
 - correctIndex properly stripped from all client responses
+
+---
+Task ID: 2
+Agent: Main
+Task: Add GA4 + PostHog analytics, server-side purchase tracking, and Search Console optimization
+
+Work Log:
+- Created `/src/lib/analytics.ts` — central analytics utility with typed GA4 + PostHog event helpers
+- Created `/src/components/analytics-provider.tsx` — loads GA4 gtag.js and PostHog via next/script (afterInteractive)
+- Added AnalyticsProvider to root layout (`/src/app/layout.tsx`) wrapping AuthProvider's children
+- Installed `posthog-js` package
+- Added 9 custom events across 5 pages:
+  - `test_start` → `/test/page.tsx` on first skill start
+  - `test_complete` → `/test/page.tsx` on assessment submission
+  - `test_abandon` → `/test/page.tsx` on beforeunload via sendBeacon (with step, skills_completed)
+  - `purchase` → `/pricing/page.tsx` on PayPal onApprove (client-side) + `/api/payments/capture` (server-side Measurement Protocol)
+  - `speaking_demo_start` → `/page.tsx` LiveVoiceDemo mic click (with mic_permission param)
+  - `speaking_demo_complete` → `/page.tsx` LiveVoiceDemo stop recording
+  - `pricing_view` → `/page.tsx` IntersectionObserver on pricing section
+  - `certificate_download` → `/certificate/[verificationId]/page.tsx` download click
+  - `account_create` → `/register/page.tsx` on successful registration
+- Added server-side GA4 Measurement Protocol in PayPal capture route (bypasses ad-blockers)
+- Updated sitemap.ts with /login and /faq pages
+- Updated .env.example with NEXT_PUBLIC_GA_MEASUREMENT_ID, GA_API_SECRET, NEXT_PUBLIC_POSTHOG_KEY, NEXT_PUBLIC_POSTHOG_HOST
+- Built and deployed successfully via GitHub push → Vercel auto-deploy
+
+Stage Summary:
+- All analytics are graceful no-ops when env vars are empty (safe for dev/staging)
+- PostHog auto-identifies users on login via AuthProvider integration
+- Server-side purchase tracking ensures revenue data accuracy even with ad-blockers
+- Sitemap now includes all public pages for Search Console
+- User needs to: (1) Create GA4 property, (2) Create PostHog project, (3) Add env vars to Vercel, (4) Verify Search Console ownership
