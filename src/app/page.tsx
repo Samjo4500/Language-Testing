@@ -383,7 +383,7 @@ function LiveVoiceDemo() {
   ];
 
   return (
-    <section className="relative py-20 md:py-28 speaking-section overflow-hidden">
+    <section className="relative py-20 md:py-28 speaking-bg-5 overflow-hidden">
       {/* Ambient glow background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-purple-600/15 rounded-full blur-[120px] animate-pulse" />
