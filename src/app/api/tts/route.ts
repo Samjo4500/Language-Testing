@@ -406,9 +406,113 @@ export async function POST(req: NextRequest) {
 }
 
 /**
- * GET /api/tts — Debug endpoint to check TTS provider availability
+ * GET /api/tts — Generate audio via query parameter OR check TTS provider availability
+ *
+ * When called with ?text=... query parameter, generates TTS audio and returns WAV.
+ * This is the preferred method for browser <audio> elements because:
+ * - The browser automatically sends HttpOnly cookies (no fetch credentials issue)
+ * - Works with native audio element (better autoplay policy handling)
+ * - No CORS or content-type issues with fetch
+ *
+ * Without ?text parameter, returns provider availability debug info.
  */
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const textParam = req.nextUrl.searchParams.get('text');
+
+  // If text parameter is provided, generate TTS audio
+  if (textParam && textParam.trim()) {
+    try {
+      // Auth check
+      const user = getAuthUser(req);
+      if (!user) {
+        return NextResponse.json(
+          { error: 'Unauthorized', message: 'You must be logged in to use text-to-speech.' },
+          { status: 401 }
+        );
+      }
+
+      // Rate limit
+      if (!checkRateLimit(user.userId)) {
+        return NextResponse.json(
+          { error: 'Rate limit exceeded', message: 'Too many TTS requests. Please wait a moment and try again.' },
+          { status: 429 }
+        );
+      }
+
+      const inputText = textParam.trim().slice(0, 2000);
+
+      // Check cache
+      const cacheKey = inputText;
+      const cached = audioCache.get(cacheKey);
+      if (cached && Date.now() - cached.timestamp < CACHE_MAX_AGE) {
+        return audioResponse(cached.base64Data, cached.mimeType, 'HIT');
+      }
+
+      const googleApiKey = process.env.GOOGLE_AI_API_KEY;
+      const zaiBaseUrl = process.env.ZAI_BASE_URL;
+
+      let result: { base64Data: string; mimeType: string } | null = null;
+      let usedProvider: string = 'none';
+      const errors: string[] = [];
+
+      const providers: Array<{ name: string; fn: () => Promise<{ base64Data: string; mimeType: string }> }> = [];
+
+      if (googleApiKey) {
+        providers.push({
+          name: 'gemini-tts',
+          fn: () => generateWithGeminiTTS(googleApiKey, inputText),
+        });
+      }
+
+      providers.push({
+        name: 'zai-sdk-tts',
+        fn: () => generateWithZaiSDK(inputText),
+      });
+
+      if (zaiBaseUrl) {
+        providers.push({
+          name: 'zai-http-tts',
+          fn: () => generateWithZaiHTTP(inputText),
+        });
+      }
+
+      for (const provider of providers) {
+        try {
+          console.log(`[TTS GET] Trying provider: ${provider.name}`);
+          result = await provider.fn();
+          usedProvider = provider.name;
+          console.log(`[TTS GET] Success with provider: ${provider.name}`);
+          break;
+        } catch (err) {
+          const errMsg = err instanceof Error ? err.message : String(err);
+          errors.push(`${provider.name}: ${errMsg.slice(0, 150)}`);
+          console.warn(`[TTS GET] Provider "${provider.name}" failed:`, errMsg.slice(0, 200));
+        }
+      }
+
+      if (!result) {
+        console.error('[TTS GET] All providers failed:', errors);
+        return NextResponse.json(
+          { error: 'All TTS providers failed', details: errors },
+          { status: 502 }
+        );
+      }
+
+      // Cache the result
+      cleanCache();
+      audioCache.set(cacheKey, { ...result, timestamp: Date.now() });
+
+      return audioResponse(result.base64Data, result.mimeType, 'MISS', usedProvider);
+    } catch (error) {
+      console.error('[TTS GET] API Error:', error);
+      return NextResponse.json(
+        { error: error instanceof Error ? error.message : 'Failed to generate speech' },
+        { status: 500 }
+      );
+    }
+  }
+
+  // No text parameter — return debug info
   const googleApiKey = process.env.GOOGLE_AI_API_KEY;
   const zaiBaseUrl = process.env.ZAI_BASE_URL;
 

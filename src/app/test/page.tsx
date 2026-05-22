@@ -60,7 +60,7 @@ interface ApiQuestionSet {
 // Cache audio blobs by listening item ID so we don't re-fetch
 const audioBlobCache = new Map<string, string>();
 
-async function generateNaturalSpeech(itemId: string, text: string): Promise<string> {
+async function generateNaturalSpeech(itemId: string, text: string, accessToken?: string): Promise<string> {
   // Check cache first
   const cached = audioBlobCache.get(itemId);
   if (cached) return cached;
@@ -69,9 +69,17 @@ async function generateNaturalSpeech(itemId: string, text: string): Promise<stri
     throw new Error('No text provided for audio generation');
   }
 
+  // Build headers — include Authorization Bearer token as a belt-and-suspenders approach.
+  // The HttpOnly cookie should be sent automatically via credentials: 'same-origin',
+  // but some browsers/environments may not send it. The Bearer header serves as a reliable fallback.
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  if (accessToken && accessToken !== 'null' && accessToken !== 'undefined') {
+    headers['Authorization'] = `Bearer ${accessToken}`;
+  }
+
   const res = await fetch('/api/tts/', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers,
     body: JSON.stringify({ text: text.trim() }),
     credentials: 'same-origin', // Explicitly include HttpOnly cookies
   });
@@ -109,7 +117,7 @@ async function generateNaturalSpeech(itemId: string, text: string): Promise<stri
    ====================================================== */
 export default function TestPage() {
   const router = useRouter();
-  const { isAuthenticated, isLoading: authIsLoading, user } = useAuthStore();
+  const { isAuthenticated, isLoading: authIsLoading, user, accessToken } = useAuthStore();
 
   // API-driven question state
   const [apiQuestions, setApiQuestions] = useState<ApiQuestionSet | null>(null);
@@ -259,10 +267,11 @@ export default function TestPage() {
     if (!items || items.length === 0) return;
     // Pre-generate audio for all listening items in background
     const prefetch = async () => {
+      const token = useAuthStore.getState().accessToken;
       for (const item of items) {
         if (!audioBlobCache.has(item.id)) {
           try {
-            await generateNaturalSpeech(item.id, item.scriptText);
+            await generateNaturalSpeech(item.id, item.scriptText, token || undefined);
           } catch {
             // Silently fail - will retry on play
           }
@@ -482,7 +491,13 @@ export default function TestPage() {
       return;
     }
 
-    // Check if audio is already cached — instant replay
+    // Stop any currently playing audio
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+
+    // Check if audio is already cached (from fetch-based generation) — instant replay
     const cachedUrl = audioBlobCache.get(currentListening.id);
     if (cachedUrl) {
       const audio = new Audio(cachedUrl);
@@ -491,9 +506,10 @@ export default function TestPage() {
       audio.onerror = (e) => {
         console.error('Audio playback error (cached):', e);
         setIsSpeaking(false);
-        // Cached blob might be stale — invalidate and retry
+        // Cached URL might be stale — invalidate and retry
         audioBlobCache.delete(currentListening.id);
-        URL.revokeObjectURL(cachedUrl);
+        // Only revoke if it's a blob URL
+        if (cachedUrl.startsWith('blob:')) URL.revokeObjectURL(cachedUrl);
         setAudioError('Audio playback failed. Click play to retry.');
       };
       setIsSpeaking(true);
@@ -507,52 +523,95 @@ export default function TestPage() {
       return;
     }
 
-    // First time — generate natural audio via TTS API
+    // ── PRIMARY METHOD: Use <audio> element with GET URL ──
+    // This is the most reliable approach because:
+    // 1. The browser automatically sends HttpOnly cookies for <audio> src requests
+    // 2. No fetch/CORS/credentials issues
+    // 3. Native audio handling (autoplay policies, buffering, etc.)
+    // The TTS GET endpoint at /api/tts/?text=... returns WAV audio
     setAudioLoading(true);
     try {
-      const url = await generateNaturalSpeech(currentListening.id, currentListening.scriptText);
-      const audio = new Audio(url);
+      const ttsUrl = `/api/tts/?text=${encodeURIComponent(currentListening.scriptText.trim())}`;
+      const audio = new Audio(ttsUrl);
       audioRef.current = audio;
+
+      // Wait for audio to load before playing
+      await new Promise<void>((resolve, reject) => {
+        const timeout = setTimeout(() => {
+          reject(new Error('Audio loading timed out (30s). Please try again.'));
+        }, 30000);
+
+        audio.oncanplaythrough = () => {
+          clearTimeout(timeout);
+          resolve();
+        };
+        audio.onerror = () => {
+          clearTimeout(timeout);
+          // Try to read the error response — it might be JSON with an error message
+          reject(new Error('Failed to load audio from server.'));
+        };
+        audio.onloadstart = () => {
+          // Audio started loading — this means the request was accepted
+        };
+        // Start loading
+        audio.load();
+      });
+
+      // Audio loaded successfully — play it
       audio.onended = () => setIsSpeaking(false);
-      audio.onerror = (e) => {
-        console.error('Audio playback error (fresh):', e);
+      audio.onerror = () => {
         setIsSpeaking(false);
-        // Invalidate cache for this item
-        audioBlobCache.delete(currentListening.id);
-        setAudioError('Audio playback failed. Click play to retry.');
+        setAudioError('Audio playback error. Click play to retry.');
       };
       setIsSpeaking(true);
       setAudioLoading(false);
       await audio.play();
+
+      // Cache the audio URL for instant replay
+      // We can't get a blob URL from a same-origin audio element directly,
+      // so we cache the TTS URL instead
+      audioBlobCache.set(currentListening.id, ttsUrl);
+
     } catch (e) {
-      console.error('[TTS] Failed to generate natural audio:', e);
       setAudioLoading(false);
       setIsSpeaking(false);
+      console.error('[TTS] Audio loading/playback failed:', e);
 
       const errMsg = e instanceof Error ? e.message : 'Unknown error';
 
-      // If TTS API returned 401, the user's session may have expired
-      if (errMsg.includes('401')) {
-        setAudioError('Your session has expired. Please log in again to use the listening test.');
-        return;
-      }
-
-      // Fallback: use browser speechSynthesis (less natural but always works)
-      if ('speechSynthesis' in window) {
-        console.log('[TTS] Falling back to browser speechSynthesis');
-        setAudioError('Natural audio unavailable — using browser voice (may sound less natural).');
-        const utterance = new SpeechSynthesisUtterance(currentListening.scriptText);
-        utterance.lang = 'en-US';
-        utterance.rate = 0.9;
-        utterance.onend = () => setIsSpeaking(false);
-        utterance.onerror = () => {
+      // If the GET method fails, try the POST method with Bearer token
+      try {
+        const url = await generateNaturalSpeech(currentListening.id, currentListening.scriptText, accessToken || undefined);
+        const audio = new Audio(url);
+        audioRef.current = audio;
+        audio.onended = () => setIsSpeaking(false);
+        audio.onerror = () => {
           setIsSpeaking(false);
-          setAudioError('Audio playback failed. Please try again.');
+          audioBlobCache.delete(currentListening.id);
+          setAudioError('Audio playback failed. Click play to retry.');
         };
         setIsSpeaking(true);
-        window.speechSynthesis.speak(utterance);
-      } else {
-        setAudioError(`Could not generate audio: ${errMsg}. Please try again or refresh the page.`);
+        await audio.play();
+      } catch (fallbackErr) {
+        console.error('[TTS] Fallback POST method also failed:', fallbackErr);
+
+        // Final fallback: use browser speechSynthesis
+        if ('speechSynthesis' in window) {
+          console.log('[TTS] Falling back to browser speechSynthesis');
+          setAudioError('Server audio unavailable — using browser voice (less natural).');
+          const utterance = new SpeechSynthesisUtterance(currentListening.scriptText);
+          utterance.lang = 'en-US';
+          utterance.rate = 0.9;
+          utterance.onend = () => setIsSpeaking(false);
+          utterance.onerror = () => {
+            setIsSpeaking(false);
+            setAudioError('All audio methods failed. Please try again.');
+          };
+          setIsSpeaking(true);
+          window.speechSynthesis.speak(utterance);
+        } else {
+          setAudioError(`Could not play audio: ${errMsg}. Please try again or refresh the page.`);
+        }
       }
     }
   };
