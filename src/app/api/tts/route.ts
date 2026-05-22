@@ -1,4 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getAuthUser } from '@/lib/auth-middleware';
+
+// ── Rate limiting (per-user, in-memory) ──
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+const RATE_LIMIT_MAX = 20; // 20 TTS requests per minute per user
+
+function checkRateLimit(userId: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(userId);
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(userId, { count: 1, resetAt: now + RATE_LIMIT_WINDOW });
+    return true;
+  }
+  if (entry.count >= RATE_LIMIT_MAX) return false;
+  entry.count++;
+  return true;
+}
 
 // ── In-memory cache for generated audio (keyed by text) ──
 const audioCache = new Map<string, { base64Data: string; mimeType: string; timestamp: number }>();
@@ -225,7 +243,10 @@ async function generateWithZaiSDK(inputText: string): Promise<{ base64Data: stri
  */
 async function generateWithZaiHTTP(inputText: string): Promise<{ base64Data: string; mimeType: string }> {
   const baseUrl = process.env.ZAI_BASE_URL;
-  const apiKey = process.env.ZAI_API_KEY || 'Z.ai';
+  const apiKey = process.env.ZAI_API_KEY;
+  if (!apiKey) {
+    throw new Error('ZAI_API_KEY is not configured');
+  }
   const token = process.env.ZAI_TOKEN;
 
   if (!baseUrl) {
@@ -275,6 +296,23 @@ async function generateWithZaiHTTP(inputText: string): Promise<{ base64Data: str
 
 export async function POST(req: NextRequest) {
   try {
+    // ── Auth check: require logged-in user ──
+    const user = getAuthUser(req);
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Unauthorized', message: 'You must be logged in to use text-to-speech.' },
+        { status: 401 }
+      );
+    }
+
+    // ── Rate limit: 20 requests per minute per user ──
+    if (!checkRateLimit(user.userId)) {
+      return NextResponse.json(
+        { error: 'Rate limit exceeded', message: 'Too many TTS requests. Please wait a moment and try again.' },
+        { status: 429 }
+      );
+    }
+
     const { text } = await req.json();
 
     if (!text || typeof text !== 'string' || text.trim().length === 0) {
