@@ -104,7 +104,7 @@ export default function TestPage() {
     const initAssessment = async () => {
       setIsLoadingQuestions(true);
       try {
-        // First, check for in-progress assessment (GET, does not consume credit)
+        // First, check for in-progress assessment (GET, does NOT consume a credit)
         const getRes = await fetch('/api/assessments/start', { method: 'GET' });
         if (getRes.ok) {
           const getData = await getRes.json();
@@ -121,14 +121,23 @@ export default function TestPage() {
                   setResumingAssessment(false);
                   return; // Successfully resumed — skip POST
                 }
+              } else {
+                // Questions endpoint returned an error — show a clear message, don't fall through to POST
+                const qErrData = await qRes.json().catch(() => ({}));
+                setError(`Could not load your in-progress assessment: ${qErrData.error || 'Unknown error'}. Try refreshing the page.`);
+                setResumingAssessment(false);
+                return;
               }
             } catch {
-              // If resume fetch fails, fall through to POST
+              // Network error fetching questions — don't fall through to POST (it would create a new assessment)
+              setError('Network error while loading your in-progress assessment. Please check your connection and refresh the page.');
+              setResumingAssessment(false);
+              return;
             }
           }
         }
 
-        // POST to start assessment (or get existing one)
+        // No in-progress assessment found — start a new one (POST consumes a credit)
         const postRes = await fetch('/api/assessments/start', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -141,9 +150,10 @@ export default function TestPage() {
             setApiQuestions(postData.questions);
             setResumingAssessment(false);
           } else {
-            // Existing in-progress assessment without questions returned
+            // POST returned an existing in-progress assessment without questions
+            // This can happen if the GET above failed or returned hasInProgress=false incorrectly
             setAssessmentId(postData.assessment.id);
-            // Try fetching questions via the resume endpoint
+            setResumingAssessment(true);
             try {
               const qRes = await fetch(`/api/assessments/${postData.assessment.id}/questions`);
               if (qRes.ok) {
@@ -151,10 +161,14 @@ export default function TestPage() {
                 if (qData.questions) {
                   setApiQuestions(qData.questions);
                   setResumingAssessment(false);
+                } else {
+                  setError('Your assessment questions could not be loaded. Please refresh the page to try again.');
                 }
+              } else {
+                setError('Failed to fetch assessment questions. Please refresh the page.');
               }
             } catch {
-              // Leave as resuming state
+              setError('Network error. Please check your connection and refresh the page.');
             }
           }
         } else {
@@ -167,7 +181,7 @@ export default function TestPage() {
           }
         }
       } catch {
-        setError('Failed to load test questions. Please refresh the page.');
+        setError('Failed to load test questions. Please check your connection and refresh the page.');
       } finally {
         setIsLoadingQuestions(false);
       }

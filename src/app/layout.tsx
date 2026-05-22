@@ -3,14 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/components/auth-provider";
-import dynamic from "next/dynamic";
 import { AnalyticsProvider } from "@/components/analytics-provider";
-
-// Lazy-load chat widget — heavy component (318 lines + react-markdown) not needed for initial paint
-const ChatWidget = dynamic(() => import("@/components/chat-widget").then(mod => ({ default: mod.ChatWidget })), {
-  ssr: false,
-  loading: () => null,
-});
+import { LazyChatWidget } from "@/components/lazy-chat-widget";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -149,7 +143,7 @@ export default function RootLayout({
               dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
             {children}
-            <ChatWidget />
+            <LazyChatWidget />
           </AnalyticsProvider>
         </AuthProvider>
         <Toaster />

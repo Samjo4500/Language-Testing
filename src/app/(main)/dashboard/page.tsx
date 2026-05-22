@@ -37,28 +37,33 @@ export default function DashboardPage() {
   const [certificates, setCertificates] = useState<CertificateInfo[]>([]);
   const [certificatesLoading, setCertificatesLoading] = useState(true);
   const [certificatesError, setCertificatesError] = useState<string | null>(null);
+  const [inProgressAssessment, setInProgressAssessment] = useState<{ id: string; startedAt: string } | null>(null);
 
   useEffect(() => {
     if (authIsLoading || !isAuthenticated) return;
 
-    const fetchCertificates = async () => {
-      try {
-        const response = await fetch('/api/certificates/list');
-        if (response.ok) {
-          const data = await response.json();
-          setCertificates(data.certificates);
-        } else {
-          setCertificatesError('Failed to load certificates. Please try again later.');
-        }
-      } catch (error) {
-        console.error('Failed to fetch certificates:', error);
-        setCertificatesError('Network error. Please check your connection and try again.');
-      } finally {
-        setCertificatesLoading(false);
+    const fetchDashboardData = async () => {
+      // Fetch certificates and in-progress assessment in parallel
+      const [certsResult, progressResult] = await Promise.allSettled([
+        fetch('/api/certificates/list').then(res => res.ok ? res.json() : Promise.reject('Failed')),
+        fetch('/api/assessments/start', { method: 'GET' }).then(res => res.ok ? res.json() : Promise.reject('Failed')),
+      ]);
+
+      // Process certificates
+      if (certsResult.status === 'fulfilled') {
+        setCertificates(certsResult.value.certificates);
+      } else {
+        setCertificatesError('Failed to load certificates. Please try again later.');
+      }
+      setCertificatesLoading(false);
+
+      // Process in-progress assessment
+      if (progressResult.status === 'fulfilled' && progressResult.value.hasInProgress && progressResult.value.assessment) {
+        setInProgressAssessment(progressResult.value.assessment);
       }
     };
 
-    fetchCertificates();
+    fetchDashboardData();
   }, [authIsLoading, isAuthenticated]);
 
   if (authIsLoading) {
@@ -162,6 +167,27 @@ export default function DashboardPage() {
               )}
             </div>
           </div>
+
+          {/* Resume Assessment Banner */}
+          {inProgressAssessment && (
+            <div className="glass-card p-5 border-amber-500/30 bg-amber-500/5 cursor-pointer group" onClick={() => router.push('/test')}>
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-lg transition-transform duration-300 group-hover:scale-110 animate-pulse">
+                  <RotateCcw className="h-6 w-6" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-white text-base">Resume Your Assessment</h3>
+                  <p className="text-xs text-amber-300/80 mt-0.5">
+                    You have an unfinished CEFR assessment. Click here to continue where you left off.
+                  </p>
+                  <p className="text-xs text-white/30 mt-1">
+                    Started {new Date(inProgressAssessment.startedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                  </p>
+                </div>
+                <ArrowRight className="h-5 w-5 text-amber-400 shrink-0 transition-transform group-hover:translate-x-1" />
+              </div>
+            </div>
+          )}
 
           {/* Quick Actions */}
           <div className="grid gap-4 sm:grid-cols-2">
