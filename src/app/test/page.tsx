@@ -53,12 +53,12 @@ interface ApiQuestionSet {
 }
 
 /* ======================================================
-   HELPER: NATURAL TTS via z-ai-web-dev-sdk API
+   HELPER: NATURAL TTS via Gemini API (Kore voice)
    ====================================================== */
 // Cache audio blobs by listening item ID so we don't re-fetch
 const audioBlobCache = new Map<string, string>();
 
-async function generateNaturalSpeech(itemId: string, text: string, voice: string = 'kazi', speed: number = 0.9): Promise<string> {
+async function generateNaturalSpeech(itemId: string, text: string): Promise<string> {
   // Check cache first
   const cached = audioBlobCache.get(itemId);
   if (cached) return cached;
@@ -66,7 +66,7 @@ async function generateNaturalSpeech(itemId: string, text: string, voice: string
   const res = await fetch('/api/tts', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text, voice, speed }),
+    body: JSON.stringify({ text }),
   });
 
   if (!res.ok) {
@@ -226,7 +226,7 @@ export default function TestPage() {
       for (const item of items) {
         if (!audioBlobCache.has(item.id)) {
           try {
-            await generateNaturalSpeech(item.id, item.scriptText, 'kazi', 0.9);
+            await generateNaturalSpeech(item.id, item.scriptText);
           } catch {
             // Silently fail - will retry on play
           }
@@ -461,7 +461,7 @@ export default function TestPage() {
     // First time — generate natural audio
     setAudioLoading(true);
     try {
-      const url = await generateNaturalSpeech(currentListening.id, currentListening.scriptText, 'kazi', 0.9);
+      const url = await generateNaturalSpeech(currentListening.id, currentListening.scriptText);
       const audio = new Audio(url);
       audioRef.current = audio;
       audio.onended = () => setIsSpeaking(false);
