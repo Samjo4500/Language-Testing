@@ -19,8 +19,12 @@ import { jwtVerify } from 'jose';
 // Convert JWT_SECRET to Uint8Array for jose (Web Crypto API)
 // Note: JWT_SECRET must be set in Vercel environment variables.
 // If it's empty, token verification will fail and all protected routes
-// will redirect to login.
-const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET || '');
+// will redirect to login. This is a safe fail-closed behavior.
+const JWT_SECRET_STRING = process.env.JWT_SECRET || '';
+if (!JWT_SECRET_STRING && process.env.NODE_ENV === 'production') {
+  console.error('[middleware] FATAL: JWT_SECRET is not set. All protected routes will redirect to login.');
+}
+const JWT_SECRET = new TextEncoder().encode(JWT_SECRET_STRING);
 
 // Routes that require authentication
 const PROTECTED_ROUTES = ['/dashboard', '/test', '/payment-success'];
