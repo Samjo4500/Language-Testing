@@ -56,3 +56,30 @@ Stage Summary:
 - **Fix**: Gemini TTS works on Vercel's US servers. Added trailing slash to client fetch. Dynamic import of z-ai SDK for dev environments.
 - **Production verification**: Gemini TTS returns valid WAV audio (16-bit, mono, 24kHz) from "Kore" voice. Tested with both short and long passages.
 - **Files modified**: `src/app/api/tts/route.ts`, `src/app/test/page.tsx`, `package.json`
+
+---
+Task ID: 4-8
+Agent: Main Agent
+Task: PageSpeed optimization, TTS security hardening, git history cleanup, middleware fix
+
+Work Log:
+- Ran PageSpeed Insights audit: Performance 68, LCP 3.3s, TBT 820ms, Speed Index 5.3s
+- Ran full security audit: found .env in git history with production secrets, unauthenticated TTS endpoint
+- Added optimizePackageImports for lucide-react, @radix-ui, recharts in next.config.ts
+- Added compiler.removeConsole for production builds
+- Removed unused framer-motion dependency (5.4MB dead weight)
+- Made BackgroundOrbs a Server Component (removed 'use client')
+- Added auth check to /api/tts POST endpoint (was completely unauthenticated)
+- Added rate limiting (20 req/min/user) to TTS endpoint
+- Fixed ZAI_API_KEY fallback from 'Z.ai' to proper error
+- Purged .env from git history using git-filter-repo
+- Force pushed clean history to both remotes
+- Added JWT_SECRET production warning in middleware
+- Verified all changes on production
+
+Stage Summary:
+- TTS endpoint now requires authentication (401 for unauthenticated requests)
+- Rate limiting prevents AI cost abuse
+- Git history is clean of secrets
+- Bundle optimization should improve PageSpeed scores (est. 15-20 KiB JS savings)
+- **CRITICAL**: User must rotate exposed credentials (DB password, JWT_SECRET, Resend API key)
