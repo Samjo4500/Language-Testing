@@ -3,17 +3,25 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/components/auth-provider";
-import { ChatWidget } from "@/components/chat-widget";
+import dynamic from "next/dynamic";
 import { AnalyticsProvider } from "@/components/analytics-provider";
+
+// Lazy-load chat widget — heavy component (318 lines + react-markdown) not needed for initial paint
+const ChatWidget = dynamic(() => import("@/components/chat-widget").then(mod => ({ default: mod.ChatWidget })), {
+  ssr: false,
+  loading: () => null,
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const siteUrl = 'https://www.testcefr.com';

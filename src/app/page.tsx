@@ -1,9 +1,14 @@
 'use client';
 
 import Link from 'next/link';
+import React, { Suspense } from 'react';
 import { useAuthStore } from '@/lib/auth-store';
 import { Navbar } from '@/components/navbar';
-import { Footer } from '@/components/footer';
+import dynamic from 'next/dynamic';
+// Lazy-load footer — below the fold, saves ~4KB of initial JS
+const Footer = dynamic(() => import('@/components/footer').then(mod => ({ default: mod.Footer })), {
+  loading: () => <div className="h-40" />,
+});
 import {
   Sparkles, Award, Clock, BarChart3, Shield, Globe,
   CheckCircle2, QrCode, Headphones, Mic, PenTool,
@@ -15,76 +20,20 @@ import {
   Twitter, Linkedin, Github, HelpCircle,
   Circle, CircleDot, Settings
 } from 'lucide-react';
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useHydrated } from '@/hooks/use-hydrated';
-import { trackSpeakingDemoStart, trackSpeakingDemoComplete, trackPricingView } from '@/lib/analytics';
+import { trackPricingView } from '@/lib/analytics';
+import { AnimatedSection } from '@/components/home/animated-section';
+import { BackgroundOrbs } from '@/components/home/background-orbs';
+import { CEFR_LEVEL_COLORS, CEFR_LEVEL_DESCS } from '@/components/home/constants';
 
-/* ======================================================
-   SCROLL ANIMATION HOOK
-   ====================================================== */
-function useScrollAnimation() {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.classList.add('visible');
-          observer.unobserve(el);
-        }
-      },
-      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
-    );
-    observer.observe(el);
-    // Immediately mark as visible if already in viewport on mount
-    if (el.getBoundingClientRect().top < window.innerHeight) {
-      el.classList.add('visible');
-      observer.unobserve(el);
-    }
-    return () => observer.disconnect();
-  }, []);
-  return ref;
-}
-
-function AnimatedSection({ children, className = '', delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
-  const ref = useScrollAnimation();
-  return (
-    <div ref={ref} className={`scroll-animate ${className}`} style={{ transitionDelay: `${delay}ms` }}>
-      {children}
-    </div>
-  );
-}
-
-/* ======================================================
-   FLOATING BACKGROUND ORBS
-   ====================================================== */
-function BackgroundOrbs() {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      <div className="orb orb-purple w-[700px] h-[700px] -top-48 -left-48 animate-float-slow" />
-      <div className="orb orb-pink w-[500px] h-[500px] top-1/4 -right-24 animate-float-reverse" />
-      <div className="orb orb-blue w-[350px] h-[350px] bottom-10 left-1/4 animate-float" />
-      <div className="orb orb-cyan w-[200px] h-[200px] top-2/3 right-1/3 animate-float-slow" style={{ animationDelay: '2s' }} />
-      <div className="absolute top-[15%] left-[55%] w-1 h-1 rounded-full bg-purple-300/60 animate-float" style={{ animationDelay: '0.5s' }} />
-      <div className="absolute top-[30%] right-[25%] w-1.5 h-1.5 rounded-full bg-pink-300/40 animate-float-reverse" style={{ animationDelay: '1.5s' }} />
-      <div className="absolute bottom-[35%] left-[20%] w-1 h-1 rounded-full bg-blue-300/50 animate-float" style={{ animationDelay: '3s' }} />
-      <div className="absolute top-[50%] left-[40%] w-0.5 h-0.5 rounded-full bg-white/40 animate-float-slow" style={{ animationDelay: '2s' }} />
-    </div>
-  );
-}
+// Lazy-load below-fold heavy components to reduce Total Blocking Time
+const LiveVoiceDemo = React.lazy(() => import('@/components/home/live-voice-demo'));
+const InteractiveCEFRLevels = React.lazy(() => import('@/components/home/interactive-cefr-levels'));
 
 /* ======================================================
    ANIMATED CEFR BADGE — Holographic Orbital Display
    ====================================================== */
-const CEFR_LEVEL_COLORS: Record<string, string> = {
-  A1: '#3b82f6', A2: '#22c55e', B1: '#eab308', B2: '#f97316', C1: '#ef4444', C2: '#a855f7',
-};
-
-const CEFR_LEVEL_DESCS: Record<string, string> = {
-  A1: 'Beginner', A2: 'Elementary', B1: 'Intermediate', B2: 'Upper Intermediate', C1: 'Advanced', C2: 'Proficient',
-};
-
 function AnimatedCEFRBadge() {
   const [activeLevel, setActiveLevel] = useState(0);
   const [pulseKey, setPulseKey] = useState(0);
@@ -315,242 +264,6 @@ function AnimatedCEFRBadge() {
 }
 
 /* ======================================================
-   WAVEFORM PRE-COMPUTED VALUES (hydration-safe)
-   ====================================================== */
-const WAVEFORM_HEIGHTS = Array.from({ length: 30 }, (_, i) =>
-  `${(6 + Math.sin(i * 0.4) * 5 + 5).toFixed(2)}px`
-);
-const WAVEFORM_DELAYS = Array.from({ length: 30 }, (_, i) =>
-  `${(i * 0.06).toFixed(2)}s`
-);
-
-/* ======================================================
-   LIVE VOICE DEMO SECTION
-   ====================================================== */
-function LiveVoiceDemo() {
-  const [isRecording, setIsRecording] = useState(false);
-  const [recordingTime, setRecordingTime] = useState(0);
-  const [inputLevel, setInputLevel] = useState<'low' | 'medium' | 'high'>('medium');
-  const mounted = useHydrated();
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  const startRecording = useCallback(async () => {
-    // Request mic permission and track result
-    let micPermission: 'granted' | 'denied' | 'not_requested' = 'not_requested';
-    try {
-      const result = await navigator.permissions.query({ name: 'microphone' as PermissionName });
-      micPermission = result.state === 'granted' ? 'granted' : result.state === 'denied' ? 'denied' : 'not_requested';
-    } catch {
-      // permissions.query may not be supported for microphone in all browsers
-      micPermission = 'not_requested';
-    }
-    trackSpeakingDemoStart({ mic_permission: micPermission });
-    setIsRecording(true);
-    setRecordingTime(0);
-    timerRef.current = setInterval(() => {
-      setRecordingTime(prev => prev + 1);
-    }, 1000);
-  }, []);
-
-  const stopRecording = useCallback(() => {
-    setIsRecording(false);
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-      timerRef.current = null;
-    }
-    trackSpeakingDemoComplete();
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, []);
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  };
-
-  const dimensions = [
-    { letter: 'G', label: 'Grammar', color: 'from-purple-500 to-violet-500', score: isRecording ? 82 : 0 },
-    { letter: 'V', label: 'Vocabulary', color: 'from-pink-500 to-rose-500', score: isRecording ? 78 : 0 },
-    { letter: 'F', label: 'Fluency', color: 'from-blue-500 to-cyan-500', score: isRecording ? 87 : 0 },
-    { letter: 'P', label: 'Pronunciation', color: 'from-green-500 to-emerald-500', score: isRecording ? 91 : 0 },
-    { letter: 'C', label: 'Coherence', color: 'from-orange-500 to-amber-500', score: isRecording ? 75 : 0 },
-    { letter: 'I', label: 'Interaction', color: 'from-red-500 to-pink-500', score: isRecording ? 80 : 0 },
-  ];
-
-  return (
-    <section className="relative py-20 md:py-28 speaking-bg-5 overflow-hidden">
-      {/* Ambient glow background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-purple-600/15 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-0 left-1/4 w-[500px] h-[300px] bg-pink-600/10 rounded-full blur-[100px] animate-float-slow" />
-        <div className="absolute top-1/3 right-1/4 w-[400px] h-[250px] bg-violet-500/8 rounded-full blur-[80px] animate-float-reverse" />
-        <div className="orb orb-purple w-[500px] h-[500px] top-1/4 -left-24 animate-float-slow opacity-30" />
-        <div className="orb orb-pink w-[400px] h-[400px] bottom-1/4 -right-16 animate-float-reverse opacity-25" />
-        <div className="orb orb-purple w-[250px] h-[250px] top-2/3 left-1/3 animate-float-slow opacity-15" />
-      </div>
-
-      <div className="container relative mx-auto px-4">
-        <AnimatedSection>
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-              <Mic className="h-3.5 w-3.5 text-purple-400" />
-              <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Live Voice Demo</span>
-            </div>
-            <h2 className="text-3xl md:text-5xl font-bold text-white leading-tight">
-              Interactive Speaking <span className="gradient-text-static">Assessment</span>
-            </h2>
-            <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
-              Experience our AI-powered speaking assessment with real-time feedback and analysis
-            </p>
-          </div>
-        </AnimatedSection>
-
-        <AnimatedSection delay={200}>
-          <div className="max-w-4xl mx-auto">
-            {/* Gradient border wrapper — gradient bg = border, inner card covers the center */}
-            <div className="speaking-gradient-border-wrap rounded-[22px] p-[2px]">
-              <div className="glass-card-neon speaking-card-border p-6 md:p-10 h-full">
-                <div className="grid md:grid-cols-2 gap-8">
-                  {/* Left: Mic & Controls */}
-                  <div className="flex flex-col items-center">
-                    {/* Status indicator */}
-                    <div className="flex items-center gap-2 mb-6">
-                      {isRecording ? (
-                        <>
-                          <span className="w-2.5 h-2.5 rounded-full bg-red-400 animate-pulse" />
-                          <span className="text-sm text-red-300 font-medium">RECORDING</span>
-                          <span className="text-sm text-white/50 ml-2">{formatTime(recordingTime)}</span>
-                        </>
-                      ) : (
-                        <>
-                          <CircleDot className="h-3 w-3 text-green-400" />
-                          <span className="text-sm text-green-300 font-medium">READY</span>
-                          <span className="text-sm text-white/50 ml-2">00:00</span>
-                        </>
-                      )}
-                    </div>
-
-                    {/* Waveform */}
-                    <div className="flex items-center justify-center gap-[3px] h-16 mb-6">
-                      {Array.from({ length: 30 }).map((_, i) => (
-                        <div
-                          key={i}
-                          className={`waveform-bar ${isRecording ? (i % 2 === 0 ? 'active' : 'waveform-bar-alt active') : ''}`}
-                          style={{
-                            height: isRecording ? undefined : WAVEFORM_HEIGHTS[i],
-                            animationDelay: WAVEFORM_DELAYS[i],
-                            opacity: isRecording ? 1 : 0.25,
-                          }}
-                        />
-                      ))}
-                    </div>
-
-                    {/* Mic button */}
-                    <div className="relative mb-6">
-                      {isRecording && (
-                        <>
-                          <div className="absolute inset-[-8px] rounded-full border-2 border-red-400/30 animate-ripple" />
-                          <div className="absolute inset-[-8px] rounded-full border-2 border-red-400/20 animate-ripple" style={{ animationDelay: '0.5s' }} />
-                        </>
-                      )}
-                      <div className={`absolute -inset-6 rounded-full transition-all duration-500 ${isRecording ? 'bg-red-500/15 blur-2xl' : 'bg-purple-500/15 blur-2xl'}`} />
-                      <button
-                        onClick={isRecording ? stopRecording : startRecording}
-                        aria-label={isRecording ? 'Stop recording' : 'Start recording'}
-                        className={`relative w-20 h-20 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${
-                          isRecording
-                            ? 'bg-gradient-to-br from-red-500 to-red-600 shadow-2xl shadow-red-500/40 animate-recording-pulse'
-                            : 'bg-gradient-to-br from-purple-500 to-pink-500 shadow-2xl shadow-purple-500/40 hover:shadow-purple-500/60 hover:scale-110 animate-mic-glow'
-                        }`}
-                      >
-                        <Mic className={`h-8 w-8 text-white ${isRecording ? 'animate-pulse' : ''}`} />
-                      </button>
-                    </div>
-
-                    {/* Speaking prompt */}
-                    <div className="w-full mb-4">
-                      <p className="text-xs text-white/40 uppercase tracking-wider mb-2">Speaking Prompt</p>
-                      <div className="glass-card p-4">
-                        <p className="text-sm text-white/70 italic leading-relaxed">
-                          &ldquo;Describe a memorable experience from your life and why it shaped who you are.&rdquo;
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Input Level */}
-                    <div className="w-full">
-                      <p className="text-xs text-white/40 uppercase tracking-wider mb-2">Input Level</p>
-                      <div className="flex gap-2">
-                        {(['low', 'medium', 'high'] as const).map((level) => (
-                          <button
-                            key={level}
-                            onClick={() => setInputLevel(level)}
-                            className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all duration-300 cursor-pointer ${
-                              inputLevel === level
-                                ? 'bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-lg shadow-purple-500/25'
-                                : 'glass text-white/50 hover:text-white/80'
-                            }`}
-                          >
-                            {level.charAt(0).toUpperCase() + level.slice(1)}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <p className="text-xs text-white/30 mt-4 text-center">
-                      Click to start — mic permission required
-                    </p>
-                  </div>
-
-                  {/* Right: 6 Dimensions */}
-                  <div>
-                    <p className="text-xs text-white/40 uppercase tracking-wider mb-4">6 Dimensions</p>
-                    <div className="space-y-4">
-                      {dimensions.map((dim) => (
-                        <div key={dim.label} className="glass-card p-3">
-                          <div className="flex items-center gap-3 mb-2">
-                            <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br ${dim.color} text-white font-bold text-sm shadow-lg`}>
-                              {dim.letter}
-                            </div>
-                            <span className="text-sm font-medium text-white">{dim.label}</span>
-                            {isRecording && (
-                              <span className={`ml-auto text-sm font-bold bg-gradient-to-r ${dim.color} bg-clip-text text-transparent`}>
-                                {dim.score}%
-                              </span>
-                            )}
-                          </div>
-                          <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
-                            <div
-                              className={`h-full rounded-full bg-gradient-to-r ${dim.color} transition-all duration-1000`}
-                              style={{ width: isRecording ? `${dim.score}%` : '0%' }}
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-6 text-center">
-                  <p className="text-xs text-white/30">
-                    This is an interactive demo. Full speaking assessment with AI scoring available on Premium plans.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </AnimatedSection>
-      </div>
-    </section>
-  );
-}
-
-/* ======================================================
    6 DIMENSIONS OF ENGLISH PROFICIENCY SECTION
    ====================================================== */
 const DIMENSIONS_DATA = [
@@ -597,115 +310,6 @@ const DIMENSIONS_DATA = [
     items: ['Word range', 'Precision', 'Collocations', 'Register awareness', 'Topic-specific vocabulary'],
   },
 ];
-
-/* ======================================================
-   INTERACTIVE CEFR LEVELS SECTION
-   ====================================================== */
-const CEFR_LEVELS = [
-  { level: 'A1', title: 'Beginner', percentage: 17, desc: 'Can understand and use familiar everyday expressions and very basic phrases. Can introduce themselves and others.', items: ['Basic greetings', 'Numbers & dates', 'Simple questions', 'Common words'], color: '#3b82f6' },
-  { level: 'A2', title: 'Elementary', percentage: 33, desc: 'Can communicate in simple and routine tasks requiring a direct exchange of information on familiar and routine matters.', items: ['Shopping & directions', 'Simple conversations', 'Basic descriptions', 'Routine situations'], color: '#22c55e' },
-  { level: 'B1', title: 'Intermediate', percentage: 50, desc: 'Can deal with most situations likely to arise while travelling in an area where the language is spoken. Can produce simple connected text on familiar topics.', items: ['Travel situations', 'Opinions & preferences', 'Past events', 'Future plans'], color: '#eab308' },
-  { level: 'B2', title: 'Upper Intermediate', percentage: 67, desc: 'Can interact with a degree of fluency and spontaneity that makes regular interaction with native speakers quite possible without strain for either party.', items: ['Complex discussions', 'Abstract topics', 'News & media', 'Professional contexts'], color: '#f97316' },
-  { level: 'C1', title: 'Advanced', percentage: 83, desc: 'Can express ideas fluently and spontaneously without much obvious searching for expressions. Can use language flexibly and effectively for social, academic, and professional purposes.', items: ['Academic writing', 'Implicit meaning', 'Cultural nuance', 'Extended discourse'], color: '#ef4444' },
-  { level: 'C2', title: 'Proficient', percentage: 100, desc: 'Can understand virtually everything heard or read with ease. Can express themselves spontaneously, very fluently, and precisely, differentiating finer shades of meaning.', items: ['Near-native fluency', 'Complex argumentation', 'Literary analysis', 'Complete mastery'], color: '#a855f7' },
-];
-
-function InteractiveCEFRLevels() {
-  const [activeTab, setActiveTab] = useState(0);
-  const mounted = useHydrated();
-
-  const active = CEFR_LEVELS[activeTab];
-
-  return (
-    <section id="cefr-levels" className="relative py-20 md:py-28 dark-section-alt hero-pattern noise-overlay">
-      <div className="container relative mx-auto px-4">
-        <AnimatedSection>
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-              <Globe className="h-3.5 w-3.5 text-purple-400" />
-              <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">CEFR Framework</span>
-            </div>
-            <h2 className="text-3xl md:text-5xl font-bold text-white">
-              Interactive <span className="gradient-text-static">CEFR Levels</span>
-            </h2>
-            <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
-              Click on each level to see detailed progression from beginner to mastery.
-            </p>
-          </div>
-        </AnimatedSection>
-
-        <AnimatedSection delay={200}>
-          <div className="max-w-4xl mx-auto">
-            <div className="gradient-border-wrap rounded-[21px] p-[1px]">
-              <div className="glass-card-neon p-6 md:p-10 h-full">
-                {/* Level Tabs */}
-                <div className="flex flex-wrap gap-2 mb-8 justify-center">
-                  {CEFR_LEVELS.map((lvl, i) => (
-                    <button
-                      key={lvl.level}
-                      onClick={() => setActiveTab(i)}
-                      className={`px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 cursor-pointer ${
-                        activeTab === i
-                          ? 'text-white shadow-lg scale-105'
-                          : 'glass text-white/50 hover:text-white/80'
-                      }`}
-                      style={activeTab === i ? { background: `linear-gradient(135deg, ${lvl.color}40, ${lvl.color}20)`, boxShadow: `0 4px 20px ${lvl.color}30` } : {}}
-                    >
-                      {lvl.level}
-                    </button>
-                  ))}
-                </div>
-
-                {/* Active Level Content */}
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div>
-                    <div className="flex items-center gap-3 mb-4">
-                      <div
-                        className="flex h-14 w-14 items-center justify-center rounded-xl text-white font-bold text-xl shadow-lg"
-                        style={{ background: `linear-gradient(135deg, ${active.color}60, ${active.color}30)` }}
-                      >
-                        {active.level}
-                      </div>
-                      <div>
-                        <h3 className="text-base sm:text-xl font-bold text-white">{active.level} — {active.title}</h3>
-                        <p className="text-xs text-white/40">{active.percentage}% Complete</p>
-                      </div>
-                    </div>
-
-                    {/* Progress bar */}
-                    <div className="h-3 rounded-full bg-white/5 overflow-hidden mb-6">
-                      <div
-                        className="h-full rounded-full transition-all duration-700"
-                        style={{
-                          width: mounted ? `${active.percentage}%` : '0%',
-                          background: `linear-gradient(90deg, ${active.color}80, ${active.color})`,
-                        }}
-                      />
-                    </div>
-
-                    <p className="text-sm text-white/60 leading-relaxed">{active.desc}</p>
-                  </div>
-
-                  <div>
-                    <p className="text-xs text-white/40 uppercase tracking-wider mb-3">Key Capabilities</p>
-                    <div className="space-y-2">
-                      {active.items.map((item) => (
-                        <div key={item} className="flex items-center gap-2">
-                          <CheckCircle2 className="h-4 w-4 shrink-0" style={{ color: active.color }} />
-                          <span className="text-sm text-white/70">{item}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </AnimatedSection>
-      </div>
-    </section>
-  );
-}
 
 /* ======================================================
    HOW IT WORKS SECTION
@@ -1042,7 +646,11 @@ export default function Home() {
       </section>
 
       {/* ===== LIVE VOICE DEMO ===== */}
-      <LiveVoiceDemo />
+      <section className="relative py-20 md:py-28 speaking-bg-5 overflow-hidden">
+        <Suspense fallback={<div className="min-h-[600px]" />}>
+          <LiveVoiceDemo />
+        </Suspense>
+      </section>
 
       {/* ===== 6 DIMENSIONS OF ENGLISH PROFICIENCY ===== */}
       <section className="relative py-20 md:py-28 bg-[#0F0A1E] overflow-hidden">
@@ -1095,7 +703,11 @@ export default function Home() {
       </section>
 
       {/* ===== INTERACTIVE CEFR LEVELS ===== */}
-      <InteractiveCEFRLevels />
+      <section id="cefr-levels" className="relative py-20 md:py-28 dark-section-alt hero-pattern noise-overlay">
+        <Suspense fallback={<div className="min-h-[500px]" />}>
+          <InteractiveCEFRLevels />
+        </Suspense>
+      </section>
 
       {/* ===== HOW IT WORKS ===== */}
       <section className="relative py-20 md:py-28 bg-[#0F0A1E] overflow-hidden">
