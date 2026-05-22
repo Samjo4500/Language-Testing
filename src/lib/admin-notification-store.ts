@@ -46,7 +46,7 @@ export const useAdminNotificationStore = create<AdminNotificationState>((set, ge
   fetchNotifications: async (_accessToken) => {
     set({ isLoading: true });
     try {
-      const res = await fetch('/api/admin/notifications');
+      const res = await fetch('/api/admin/notifications/');
       if (res.ok) {
         const data = await res.json();
         set({
@@ -64,7 +64,7 @@ export const useAdminNotificationStore = create<AdminNotificationState>((set, ge
 
   markAllRead: async (_accessToken) => {
     try {
-      const res = await fetch('/api/admin/notifications', {
+      const res = await fetch('/api/admin/notifications/', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ export const useAdminNotificationStore = create<AdminNotificationState>((set, ge
   markAsRead: async (_accessToken, ids) => {
     if (!ids.length) return;
     try {
-      const res = await fetch('/api/admin/notifications', {
+      const res = await fetch('/api/admin/notifications/', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

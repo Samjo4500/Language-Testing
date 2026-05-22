@@ -592,7 +592,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
   const fetchAPIs = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/admin/apis');
+      const res = await fetch('/api/admin/apis/');
       if (res.ok) setApisData(await res.json());
     } catch (e) { console.error('APIs fetch error:', e); }
     finally { setLoading(false); }
@@ -602,7 +602,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
   const fetchApiKeys = useCallback(async () => {
     setApiKeysLoading(true);
     try {
-      const res = await fetch('/api/admin/api-keys');
+      const res = await fetch('/api/admin/api-keys/');
       if (res.ok) {
         const data = await res.json();
         setApiKeys(data.apiKeys);
@@ -615,7 +615,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
   const fetchWhiteLabel = useCallback(async () => {
     setWlLoading(true);
     try {
-      const res = await fetch('/api/admin/white-label');
+      const res = await fetch('/api/admin/white-label/');
       if (res.ok) {
         const data = await res.json();
         setWlSettings(data.settings);
@@ -631,7 +631,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
     if (!newKeyName.trim()) return;
     setGenerating(true);
     try {
-      const res = await fetch('/api/admin/api-keys', {
+      const res = await fetch('/api/admin/api-keys/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -706,7 +706,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
   const handleSaveWhiteLabel = async () => {
     setWlSaving(true);
     try {
-      const res = await fetch('/api/admin/white-label', {
+      const res = await fetch('/api/admin/white-label/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(wlSettings),
@@ -1587,7 +1587,7 @@ export default function AdminPage() {
     if (!isAuthenticated) return;
     setAnalyticsLoading(true);
     try {
-      const res = await fetch('/api/admin/analytics');
+      const res = await fetch('/api/admin/analytics/');
       if (res.ok) setAnalytics(await res.json());
     } catch (e) { console.error('Analytics fetch error:', e); }
     finally { setAnalyticsLoading(false); }
@@ -1666,7 +1666,7 @@ export default function AdminPage() {
     if (!isAuthenticated) return;
     setQuestionStatsLoading(true);
     try {
-      const res = await fetch('/api/admin/questions/stats');
+      const res = await fetch('/api/admin/questions/stats/');
       if (res.ok) setQuestionStats(await res.json());
     } catch (e) { console.error('Question stats error:', e); }
     finally { setQuestionStatsLoading(false); }
@@ -1677,7 +1677,7 @@ export default function AdminPage() {
     if (!isAuthenticated) return;
     setSystemLoading(true);
     try {
-      const res = await fetch('/api/admin/system');
+      const res = await fetch('/api/admin/system/');
       if (res.ok) setSystemData(await res.json());
     } catch (e) { console.error('System fetch error:', e); }
     finally { setSystemLoading(false); }
@@ -1720,7 +1720,7 @@ export default function AdminPage() {
     if (!isAuthenticated) return;
     setPromoting(true);
     try {
-      const res = await fetch('/api/admin/promote', {
+      const res = await fetch('/api/admin/promote/', {
         method: 'POST',
         headers: jsonHeaders(),
         body: JSON.stringify({ email }),
@@ -1741,7 +1741,7 @@ export default function AdminPage() {
     if (!isAuthenticated) return;
     setResettingPassword(true);
     try {
-      const res = await fetch('/api/admin/users/reset-password', {
+      const res = await fetch('/api/admin/users/reset-password/', {
         method: 'PATCH',
         headers: jsonHeaders(),
         body: JSON.stringify({ userId, newPassword: 'NewPass123!' }),
@@ -1762,7 +1762,7 @@ export default function AdminPage() {
     setCreatingDemo(true);
     setDemoResult(null);
     try {
-      const res = await fetch('/api/admin/users/demo', {
+      const res = await fetch('/api/admin/users/demo/', {
         method: 'POST',
         headers: jsonHeaders(),
         body: JSON.stringify({ count: demoCount, plan: demoPlan }),
@@ -1785,7 +1785,7 @@ export default function AdminPage() {
     setPaypalTesting(true);
     setPaypalTestResult(null);
     try {
-      const res = await fetch('/api/admin/test-paypal');
+      const res = await fetch('/api/admin/test-paypal/');
       const data = await res.json();
       setPaypalTestResult(data);
     } catch {
@@ -1799,7 +1799,7 @@ export default function AdminPage() {
     setGenerationError('');
     setGenerationResult(null);
     try {
-      const res = await fetch('/api/admin/questions/batch', {
+      const res = await fetch('/api/admin/questions/batch/', {
         method: 'POST',
         headers: jsonHeaders(),
         body: JSON.stringify({ levels: selectedLevels, skills: selectedSkills, countPerSlot }),

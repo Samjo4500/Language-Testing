@@ -64,7 +64,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   logout: () => {
     // Fire-and-forget: increment server-side tokenVersion to invalidate all tokens
     // Browser sends access_token cookie automatically — no need for Authorization header
-    fetch('/api/auth/logout', {
+    fetch('/api/auth/logout/', {
       method: 'POST',
     }).catch(() => {}); // Ignore errors — client state is cleared regardless
     if (typeof window !== 'undefined') {
@@ -112,7 +112,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
     try {
       // Browser sends refresh_token HttpOnly cookie automatically
-      const response = await fetch('/api/auth/refresh', {
+      const response = await fetch('/api/auth/refresh/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

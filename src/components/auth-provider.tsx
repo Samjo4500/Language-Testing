@@ -35,7 +35,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           return;
         }
         try {
-          const response = await fetch('/api/auth/me');
+          const response = await fetch('/api/auth/me/');
           if (response.ok) {
             const data = await response.json();
             setAuth(data.user, '', '');
@@ -45,7 +45,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           } else if (response.status === 401) {
             // Access token cookie expired — try refresh (browser sends refresh_token cookie)
             try {
-              const refreshResponse = await fetch('/api/auth/refresh', { method: 'POST' });
+              const refreshResponse = await fetch('/api/auth/refresh/', { method: 'POST' });
               if (refreshResponse.ok) {
                 const refreshData = await refreshResponse.json();
                 const user = refreshData.user || (userStr ? JSON.parse(userStr) : null);

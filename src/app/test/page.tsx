@@ -113,7 +113,7 @@ export default function TestPage() {
       setIsLoadingQuestions(true);
       try {
         // First, check for in-progress assessment (GET, does NOT consume a credit)
-        const getRes = await fetch('/api/assessments/start', { method: 'GET' });
+        const getRes = await fetch('/api/assessments/start/', { method: 'GET' });
         if (getRes.ok) {
           const getData = await getRes.json();
           if (getData.hasInProgress && getData.assessment) {
@@ -146,7 +146,7 @@ export default function TestPage() {
         }
 
         // No in-progress assessment found — start a new one (POST consumes a credit)
-        const postRes = await fetch('/api/assessments/start', {
+        const postRes = await fetch('/api/assessments/start/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
         });
@@ -603,7 +603,7 @@ export default function TestPage() {
     if (!speakingTranscript.trim() || !isAuthenticated || !speakingPrompt) return;
     setEvaluatingSpeaking(true);
     try {
-      const res = await fetch('/api/assessments/speaking/evaluate', {
+      const res = await fetch('/api/assessments/speaking/evaluate/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -645,7 +645,7 @@ export default function TestPage() {
     if (!currentWritingText.trim() || !isAuthenticated || !writingPrompt) return;
     setEvaluatingWriting(true);
     try {
-      const res = await fetch('/api/assessments/writing/evaluate', {
+      const res = await fetch('/api/assessments/writing/evaluate/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -768,7 +768,7 @@ export default function TestPage() {
     }
 
     try {
-      const res = await fetch('/api/assessments/submit', {
+      const res = await fetch('/api/assessments/submit/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -2054,7 +2054,7 @@ export default function TestPage() {
                   setError(null);
                   setIsLoadingQuestions(true);
                   // Re-fetch questions
-                  fetch('/api/assessments/start', {
+                  fetch('/api/assessments/start/', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                   }).then(res => res.json()).then(data => {
