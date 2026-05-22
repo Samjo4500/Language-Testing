@@ -111,7 +111,7 @@ function toBase64(bytes: Uint8Array): string {
  * but works on Vercel's US-based servers where the Google AI API is available.
  */
 async function generateWithGeminiTTS(apiKey: string, inputText: string): Promise<{ base64Data: string; mimeType: string }> {
-  const prompt = `Read the following text aloud in a clear, professional, natural American English female voice. Speak at a moderate pace as if you are a professional narrator. Do not add any commentary, just read the text exactly as written:\n\n${inputText}`;
+  const prompt = `Read the following text aloud in a clear, professional, natural American English female voice. Speak SLOWLY and DELIBERATELY, at about 85% of normal conversational speed, as if you are narrating an important audio guide for non-native English speakers. Enunciate every word clearly. Do not add any commentary, just read the text exactly as written:\n\n${inputText}`;
 
   const requestBody = {
     contents: [{

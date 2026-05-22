@@ -501,6 +501,7 @@ export default function TestPage() {
     const cachedUrl = audioBlobCache.get(currentListening.id);
     if (cachedUrl) {
       const audio = new Audio(cachedUrl);
+      audio.playbackRate = 0.85; // 85% speed for clear comprehension
       audioRef.current = audio;
       audio.onended = () => setIsSpeaking(false);
       audio.onerror = (e) => {
@@ -533,6 +534,7 @@ export default function TestPage() {
     try {
       const ttsUrl = `/api/tts/?text=${encodeURIComponent(currentListening.scriptText.trim())}`;
       const audio = new Audio(ttsUrl);
+      audio.playbackRate = 0.85; // 85% speed for clear comprehension
       audioRef.current = audio;
 
       // Wait for audio to load before playing
@@ -583,6 +585,7 @@ export default function TestPage() {
       try {
         const url = await generateNaturalSpeech(currentListening.id, currentListening.scriptText, accessToken || undefined);
         const audio = new Audio(url);
+        audio.playbackRate = 0.85; // 85% speed for clear comprehension
         audioRef.current = audio;
         audio.onended = () => setIsSpeaking(false);
         audio.onerror = () => {
@@ -601,7 +604,7 @@ export default function TestPage() {
           setAudioError('Server audio unavailable — using browser voice (less natural).');
           const utterance = new SpeechSynthesisUtterance(currentListening.scriptText);
           utterance.lang = 'en-US';
-          utterance.rate = 0.9;
+          utterance.rate = 0.85;
           utterance.onend = () => setIsSpeaking(false);
           utterance.onerror = () => {
             setIsSpeaking(false);
