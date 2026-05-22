@@ -65,7 +65,7 @@ async function generateNaturalSpeech(itemId: string, text: string): Promise<stri
   const cached = audioBlobCache.get(itemId);
   if (cached) return cached;
 
-  const res = await fetch('/api/tts', {
+  const res = await fetch('/api/tts/', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ text }),
