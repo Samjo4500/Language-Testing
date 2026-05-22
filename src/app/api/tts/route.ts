@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// In-memory cache for generated audio (keyed by text)
+// ── In-memory cache for generated audio (keyed by text) ──
 const audioCache = new Map<string, { base64Data: string; mimeType: string; timestamp: number }>();
 const CACHE_MAX_AGE = 30 * 60 * 1000; // 30 minutes
 const CACHE_MAX_SIZE = 200;
@@ -39,7 +39,10 @@ function audioResponse(base64Data: string, mimeType: string, cacheStatus: string
 
 /**
  * Convert raw PCM audio to WAV format.
- * Gemini TTS returns PCM at 24kHz, 16-bit, mono.
+ * @param pcmData Raw PCM samples (16-bit signed little-endian)
+ * @param sampleRate Sample rate in Hz
+ * @param numChannels Number of audio channels
+ * @param bitsPerSample Bits per sample (16 for standard PCM)
  */
 function pcmToWav(pcmData: Uint8Array, sampleRate: number = 24000, numChannels: number = 1, bitsPerSample: number = 16): Uint8Array {
   const byteRate = sampleRate * numChannels * (bitsPerSample / 8);
@@ -57,7 +60,7 @@ function pcmToWav(pcmData: Uint8Array, sampleRate: number = 24000, numChannels: 
   writeString(8, 'WAVE');
   writeString(12, 'fmt ');
   view.setUint32(16, 16, true);
-  view.setUint16(20, 1, true);
+  view.setUint16(20, 1, true); // PCM format
   view.setUint16(22, numChannels, true);
   view.setUint32(24, sampleRate, true);
   view.setUint32(28, byteRate, true);
@@ -76,8 +79,103 @@ function toBase64(bytes: Uint8Array): string {
   return btoa(binary);
 }
 
+// ══════════════════════════════════════════════════════════
+// TTS PROVIDERS
+// ══════════════════════════════════════════════════════════
+
 /**
- * OPTION 1: Google Cloud Text-to-Speech API
+ * PROVIDER 1: Gemini TTS via Google AI API
+ * Uses "Kore" voice — female, professional, American accent
+ * Returns PCM audio at 24kHz, 16-bit, mono
+ * 
+ * Tries multiple model names in case one is deprecated:
+ * - gemini-2.5-flash-preview-tts
+ * - gemini-2.5-pro-preview-tts
+ */
+async function generateWithGeminiTTS(apiKey: string, inputText: string): Promise<{ base64Data: string; mimeType: string }> {
+  const prompt = `Read the following text aloud in a clear, professional, natural American English female voice. Speak at a moderate pace as if you are a professional narrator. Do not add any commentary, just read the text exactly as written:\n\n${inputText}`;
+
+  const requestBody = {
+    contents: [{
+      parts: [{ text: prompt }],
+    }],
+    generationConfig: {
+      responseModalities: ['AUDIO'],
+      speechConfig: {
+        voiceConfig: {
+          prebuiltVoiceConfig: { voiceName: 'Kore' },
+        },
+      },
+    },
+  };
+
+  // Try multiple Gemini TTS model endpoints
+  const models = [
+    'gemini-2.5-flash-preview-tts',
+    'gemini-2.5-pro-preview-tts',
+  ];
+
+  let lastError: string = '';
+
+  for (const model of models) {
+    try {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+      
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        const errText = await response.text();
+        lastError = `Model ${model}: ${response.status} - ${errText.slice(0, 200)}`;
+        console.warn(`[TTS] Gemini model "${model}" failed:`, response.status, errText.slice(0, 150));
+        continue; // Try next model
+      }
+
+      const data = await response.json();
+      const audioPart = data.candidates?.[0]?.content?.parts?.[0]?.inlineData;
+
+      if (!audioPart?.data) {
+        // Check if the response contains text instead of audio (model might not support audio)
+        const textPart = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (textPart) {
+          lastError = `Model ${model}: returned text instead of audio. The model may not support TTS output.`;
+          console.warn(`[TTS] Gemini model "${model}" returned text instead of audio`);
+          continue;
+        }
+        lastError = `Model ${model}: No audio data in response`;
+        continue;
+      }
+
+      const geminiMime = (audioPart.mimeType as string) || 'audio/L16;codec=pcm;rate=24000';
+      const base64Audio = audioPart.data as string;
+
+      // Convert PCM to WAV for browser compatibility
+      if (geminiMime.includes('pcm') || geminiMime.includes('L16')) {
+        // Gemini TTS outputs PCM at 24kHz, 16-bit, mono
+        const sampleRate = 24000;
+        const pcmBinary = atob(base64Audio);
+        const pcmBytes = new Uint8Array(pcmBinary.length);
+        for (let i = 0; i < pcmBinary.length; i++) pcmBytes[i] = pcmBinary.charCodeAt(i);
+        const wavBytes = pcmToWav(pcmBytes, sampleRate, 1, 16);
+        return { base64Data: toBase64(wavBytes), mimeType: 'audio/wav' };
+      }
+
+      // If not PCM, return as-is (e.g., MP3)
+      return { base64Data: base64Audio, mimeType: geminiMime };
+    } catch (err) {
+      lastError = `Model ${model}: ${err instanceof Error ? err.message : String(err)}`;
+      console.warn(`[TTS] Gemini model "${model}" error:`, lastError.slice(0, 150));
+    }
+  }
+
+  throw new Error(`All Gemini TTS models failed. ${lastError}`);
+}
+
+/**
+ * PROVIDER 2: Google Cloud Text-to-Speech API
  * Uses Neural2-F voice (female, professional, American accent)
  * Requires Cloud TTS API to be enabled in Google Cloud Console
  */
@@ -118,59 +216,56 @@ async function generateWithCloudTTS(apiKey: string, inputText: string): Promise<
 }
 
 /**
- * OPTION 2: Gemini TTS with Kore voice (female, professional, American accent)
- * May have regional restrictions
+ * PROVIDER 3: z-ai-web-dev-sdk TTS API
+ * Uses "kazi" voice with tts-1-hd model for highest quality
+ * Returns PCM audio at 48kHz, 16-bit, mono
+ * Requires ZAI_BASE_URL and ZAI_API_KEY environment variables
  */
-async function generateWithGeminiTTS(apiKey: string, inputText: string): Promise<{ base64Data: string; mimeType: string }> {
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{
-          parts: [{
-            text: `Read the following text aloud in a clear, professional, natural American English female voice. Speak at a moderate pace as if you are a professional narrator. Do not add any commentary, just read the text exactly as written:\n\n${inputText}`,
-          }],
-        }],
-        generationConfig: {
-          responseModalities: ['AUDIO'],
-          speechConfig: {
-            voiceConfig: {
-              prebuiltVoiceConfig: { voiceName: 'Kore' },
-            },
-          },
-        },
-      }),
-    }
-  );
+async function generateWithZaiTTS(inputText: string): Promise<{ base64Data: string; mimeType: string }> {
+  const baseUrl = process.env.ZAI_BASE_URL;
+  const apiKey = process.env.ZAI_API_KEY || 'Z.ai';
+  const token = process.env.ZAI_TOKEN;
+
+  if (!baseUrl) {
+    throw new Error('ZAI_BASE_URL is not configured');
+  }
+
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${apiKey}`,
+    'X-Z-AI-From': 'Z',
+  };
+  if (token) headers['X-Token'] = token;
+
+  const response = await fetch(`${baseUrl}/audio/tts`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      input: inputText,
+      voice: 'kazi',
+      model: 'tts-1-hd',
+      speed: 0.9,
+    }),
+  });
 
   if (!response.ok) {
     const errText = await response.text();
-    throw new Error(`Gemini TTS error ${response.status}: ${errText.slice(0, 300)}`);
+    throw new Error(`z-ai TTS error ${response.status}: ${errText.slice(0, 300)}`);
   }
 
-  const data = await response.json();
-  const audioPart = data.candidates?.[0]?.content?.parts?.[0]?.inlineData;
+  // z-ai TTS returns raw PCM audio (48kHz, 16-bit, mono)
+  const arrayBuffer = await response.arrayBuffer();
+  const pcmBytes = new Uint8Array(arrayBuffer);
 
-  if (!audioPart?.data) {
-    throw new Error('No audio data in Gemini response');
-  }
+  const sampleRate = 48000;
+  const wavBytes = pcmToWav(pcmBytes, sampleRate, 1, 16);
 
-  const geminiMime = (audioPart.mimeType as string) || 'audio/L16;codec=pcm;rate=24000';
-  const base64Audio = audioPart.data as string;
-
-  // Convert PCM to WAV for browser compatibility
-  if (geminiMime.includes('pcm') || geminiMime.includes('L16')) {
-    const pcmBinary = atob(base64Audio);
-    const pcmBytes = new Uint8Array(pcmBinary.length);
-    for (let i = 0; i < pcmBinary.length; i++) pcmBytes[i] = pcmBinary.charCodeAt(i);
-    const wavBytes = pcmToWav(pcmBytes, 24000, 1, 16);
-    return { base64Data: toBase64(wavBytes), mimeType: 'audio/wav' };
-  }
-
-  return { base64Data: base64Audio, mimeType: geminiMime };
+  return { base64Data: toBase64(wavBytes), mimeType: 'audio/wav' };
 }
+
+// ══════════════════════════════════════════════════════════
+// MAIN ROUTE HANDLER
+// ══════════════════════════════════════════════════════════
 
 export async function POST(req: NextRequest) {
   try {
@@ -181,7 +276,6 @@ export async function POST(req: NextRequest) {
     }
 
     const inputText = text.trim().slice(0, 2000);
-    const apiKey = process.env.GOOGLE_AI_API_KEY;
 
     // Check cache
     const cacheKey = inputText;
@@ -190,47 +284,69 @@ export async function POST(req: NextRequest) {
       return audioResponse(cached.base64Data, cached.mimeType, 'HIT');
     }
 
-    if (!apiKey) {
+    const googleApiKey = process.env.GOOGLE_AI_API_KEY;
+    const zaiBaseUrl = process.env.ZAI_BASE_URL;
+
+    let result: { base64Data: string; mimeType: string } | null = null;
+    let usedProvider: string = 'none';
+    const errors: string[] = [];
+
+    // Build provider list in priority order
+    // 1. Gemini TTS (works from Vercel if API is accessible)
+    // 2. Cloud TTS (requires API to be enabled in Google Cloud Console)
+    // 3. z-ai SDK TTS (for dev/internal environments with ZAI_BASE_URL)
+    const providers: Array<{ name: string; fn: () => Promise<{ base64Data: string; mimeType: string }> }> = [];
+
+    if (googleApiKey) {
+      providers.push({
+        name: 'gemini-tts',
+        fn: () => generateWithGeminiTTS(googleApiKey, inputText),
+      });
+      providers.push({
+        name: 'cloud-tts',
+        fn: () => generateWithCloudTTS(googleApiKey, inputText),
+      });
+    }
+
+    if (zaiBaseUrl) {
+      providers.push({
+        name: 'zai-tts',
+        fn: () => generateWithZaiTTS(inputText),
+      });
+    }
+
+    if (providers.length === 0) {
       return NextResponse.json(
-        { error: 'TTS service is not configured. GOOGLE_AI_API_KEY is not set.' },
+        { error: 'No TTS provider is configured. Set GOOGLE_AI_API_KEY or ZAI_BASE_URL environment variable.' },
         { status: 503 }
       );
     }
 
-    let result: { base64Data: string; mimeType: string } | null = null;
-    let usedProvider: string = 'none';
-    let lastError: string = '';
-
-    // Try providers in order of quality
-    const providers: Array<{ name: string; fn: () => Promise<{ base64Data: string; mimeType: string }> }> = [
-      {
-        name: 'cloud-tts',
-        fn: () => generateWithCloudTTS(apiKey, inputText),
-      },
-      {
-        name: 'gemini-tts',
-        fn: () => generateWithGeminiTTS(apiKey, inputText),
-      },
-    ];
-
+    // Try providers in order
     for (const provider of providers) {
       try {
+        console.log(`[TTS] Trying provider: ${provider.name}`);
         result = await provider.fn();
         usedProvider = provider.name;
+        console.log(`[TTS] Success with provider: ${provider.name}`);
         break;
       } catch (err) {
-        lastError = err instanceof Error ? err.message : String(err);
-        console.warn(`TTS provider "${provider.name}" failed:`, lastError.slice(0, 200));
+        const errMsg = err instanceof Error ? err.message : String(err);
+        errors.push(`${provider.name}: ${errMsg.slice(0, 150)}`);
+        console.warn(`[TTS] Provider "${provider.name}" failed:`, errMsg.slice(0, 200));
         // Try next provider
       }
     }
 
     if (!result) {
+      console.error('[TTS] All providers failed:', errors);
       return NextResponse.json(
         {
           error: 'All TTS providers failed',
-          details: lastError,
-          hint: 'Enable Cloud Text-to-Speech API at: https://console.cloud.google.com/apis/library/texttospeech.googleapis.com?project=642571779346',
+          details: errors,
+          hint: googleApiKey
+            ? 'If Gemini TTS shows "location not supported", enable Cloud TTS API at: https://console.cloud.google.com/apis/library/texttospeech.googleapis.com'
+            : 'Set GOOGLE_AI_API_KEY or ZAI_BASE_URL environment variable',
         },
         { status: 502 }
       );
@@ -242,10 +358,47 @@ export async function POST(req: NextRequest) {
 
     return audioResponse(result.base64Data, result.mimeType, 'MISS', usedProvider);
   } catch (error) {
-    console.error('TTS API Error:', error);
+    console.error('[TTS] API Error:', error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Failed to generate speech' },
       { status: 500 }
     );
   }
+}
+
+/**
+ * GET /api/tts — Debug endpoint to check TTS provider availability
+ */
+export async function GET() {
+  const googleApiKey = process.env.GOOGLE_AI_API_KEY;
+  const zaiBaseUrl = process.env.ZAI_BASE_URL;
+
+  const providers: Array<{ name: string; available: boolean; reason?: string }> = [];
+
+  if (googleApiKey) {
+    providers.push({ name: 'gemini-tts', available: true });
+    providers.push({ name: 'cloud-tts', available: true, reason: 'Requires Cloud TTS API to be enabled in Google Cloud Console' });
+  } else {
+    providers.push({ name: 'gemini-tts', available: false, reason: 'GOOGLE_AI_API_KEY not set' });
+    providers.push({ name: 'cloud-tts', available: false, reason: 'GOOGLE_AI_API_KEY not set' });
+  }
+
+  if (zaiBaseUrl) {
+    providers.push({ name: 'zai-tts', available: true });
+  } else {
+    providers.push({ name: 'zai-tts', available: false, reason: 'ZAI_BASE_URL not set' });
+  }
+
+  const cacheStats = {
+    size: audioCache.size,
+    maxSize: CACHE_MAX_SIZE,
+    maxAge: CACHE_MAX_AGE,
+  };
+
+  return NextResponse.json({
+    status: 'ok',
+    providers,
+    cache: cacheStats,
+    hasWorkingProvider: providers.some(p => p.available),
+  });
 }
