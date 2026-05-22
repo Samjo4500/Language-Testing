@@ -96,20 +96,20 @@ export default function LiveVoiceDemo() {
               <div className="glass-card-neon speaking-card-border p-6 md:p-10 h-full">
                 <div className="grid md:grid-cols-2 gap-8">
                   {/* Left: Mic & Controls */}
-                  <div className="flex flex-col items-center">
+                  <div className="flex flex-col items-center rounded-2xl bg-white/[0.03] border border-white/[0.06] p-6">
                     {/* Status indicator */}
                     <div className="flex items-center gap-2 mb-6">
                       {isRecording ? (
                         <>
                           <span className="w-2.5 h-2.5 rounded-full bg-red-400 animate-pulse" />
                           <span className="text-sm text-red-300 font-medium">RECORDING</span>
-                          <span className="text-sm text-white/50 ml-2">{formatTime(recordingTime)}</span>
+                          <span className="text-sm text-white/70 ml-2">{formatTime(recordingTime)}</span>
                         </>
                       ) : (
                         <>
                           <CircleDot className="h-3 w-3 text-green-400" />
                           <span className="text-sm text-green-300 font-medium">READY</span>
-                          <span className="text-sm text-white/50 ml-2">00:00</span>
+                          <span className="text-sm text-white/70 ml-2">00:00</span>
                         </>
                       )}
                     </div>
@@ -153,7 +153,7 @@ export default function LiveVoiceDemo() {
 
                     {/* Speaking prompt */}
                     <div className="w-full mb-4">
-                      <p className="text-xs text-white/40 uppercase tracking-wider mb-2">Speaking Prompt</p>
+                      <p className="text-xs text-white uppercase tracking-wider mb-2 font-medium">Speaking Prompt</p>
                       <div className="glass-card p-4">
                         <p className="text-sm text-white/70 italic leading-relaxed">
                           &ldquo;Describe a memorable experience from your life and why it shaped who you are.&rdquo;
@@ -163,7 +163,7 @@ export default function LiveVoiceDemo() {
 
                     {/* Input Level */}
                     <div className="w-full">
-                      <p className="text-xs text-white/40 uppercase tracking-wider mb-2">Input Level</p>
+                      <p className="text-xs text-white uppercase tracking-wider mb-2 font-medium">Input Level</p>
                       <div className="flex gap-2">
                         {(['low', 'medium', 'high'] as const).map((level) => (
                           <button
@@ -181,14 +181,14 @@ export default function LiveVoiceDemo() {
                       </div>
                     </div>
 
-                    <p className="text-xs text-white/30 mt-4 text-center">
+                    <p className="text-xs text-white/60 mt-4 text-center">
                       Click to start — mic permission required
                     </p>
                   </div>
 
                   {/* Right: 6 Dimensions */}
                   <div>
-                    <p className="text-xs text-white/40 uppercase tracking-wider mb-4">6 Dimensions</p>
+                    <p className="text-xs text-white uppercase tracking-wider mb-4 font-medium">6 Dimensions</p>
                     <div className="space-y-4">
                       {dimensions.map((dim) => (
                         <div key={dim.label} className="glass-card p-3">

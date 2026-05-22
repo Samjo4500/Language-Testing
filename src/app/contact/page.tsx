@@ -84,6 +84,7 @@ export default function ContactPage() {
       const res = await fetch('/api/contact/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
         body: JSON.stringify({
           name: formName,
           email: formEmail,

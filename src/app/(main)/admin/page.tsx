@@ -355,7 +355,7 @@ function EmailsTab({ notifUnread, onSwitchTab }: { notifUnread: number; onSwitch
     setLoading(true);
     try {
       const params = new URLSearchParams({ page: String(page), limit: '20', filter });
-      const res = await fetch(`/api/admin/emails?${params}`);
+      const res = await fetch(`/api/admin/emails?${params}`, { credentials: 'same-origin' });
       if (res.ok) setEmailsData(await res.json());
     } catch (e) { console.error('Emails fetch error:', e); }
     finally { setLoading(false); }
@@ -592,7 +592,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
   const fetchAPIs = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/admin/apis/');
+      const res = await fetch('/api/admin/apis/', { credentials: 'same-origin' });
       if (res.ok) setApisData(await res.json());
     } catch (e) { console.error('APIs fetch error:', e); }
     finally { setLoading(false); }
@@ -602,7 +602,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
   const fetchApiKeys = useCallback(async () => {
     setApiKeysLoading(true);
     try {
-      const res = await fetch('/api/admin/api-keys/');
+      const res = await fetch('/api/admin/api-keys/', { credentials: 'same-origin' });
       if (res.ok) {
         const data = await res.json();
         setApiKeys(data.apiKeys);
@@ -615,7 +615,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
   const fetchWhiteLabel = useCallback(async () => {
     setWlLoading(true);
     try {
-      const res = await fetch('/api/admin/white-label/');
+      const res = await fetch('/api/admin/white-label/', { credentials: 'same-origin' });
       if (res.ok) {
         const data = await res.json();
         setWlSettings(data.settings);
@@ -634,6 +634,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
       const res = await fetch('/api/admin/api-keys/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
         body: JSON.stringify({
           name: newKeyName.trim(),
           plan: newKeyPlan,
@@ -666,6 +667,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
       const res = await fetch(`/api/admin/api-keys/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
         body: JSON.stringify({ isActive: !currentActive }),
       });
       if (res.ok) {
@@ -684,6 +686,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
     try {
       const res = await fetch(`/api/admin/api-keys/${id}`, {
         method: 'DELETE',
+        credentials: 'same-origin',
       });
       if (res.ok) {
         onToast('API key revoked', 'success');
@@ -709,6 +712,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
       const res = await fetch('/api/admin/white-label/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
         body: JSON.stringify(wlSettings),
       });
       if (res.ok) {
@@ -1587,7 +1591,7 @@ export default function AdminPage() {
     if (!isAuthenticated) return;
     setAnalyticsLoading(true);
     try {
-      const res = await fetch('/api/admin/analytics/');
+      const res = await fetch('/api/admin/analytics/', { credentials: 'same-origin' });
       if (res.ok) setAnalytics(await res.json());
     } catch (e) { console.error('Analytics fetch error:', e); }
     finally { setAnalyticsLoading(false); }
@@ -1600,7 +1604,7 @@ export default function AdminPage() {
     try {
       const params = new URLSearchParams({ page: String(page), limit: '20' });
       if (search) params.set('search', search);
-      const res = await fetch(`/api/admin/users?${params}`);
+      const res = await fetch(`/api/admin/users?${params}`, { credentials: 'same-origin' });
       if (res.ok) {
         const data = await res.json();
         setUsers(data.users);
@@ -1617,7 +1621,7 @@ export default function AdminPage() {
     try {
       const params = new URLSearchParams({ page: String(page), limit: '20' });
       if (status && status !== 'all') params.set('status', status);
-      const res = await fetch(`/api/admin/payments?${params}`);
+      const res = await fetch(`/api/admin/payments?${params}`, { credentials: 'same-origin' });
       if (res.ok) {
         const data = await res.json();
         setPayments(data.payments);
@@ -1634,7 +1638,7 @@ export default function AdminPage() {
     setAssessmentsLoading(true);
     try {
       const params = new URLSearchParams({ page: String(page), limit: '20' });
-      const res = await fetch(`/api/admin/assessments?${params}`);
+      const res = await fetch(`/api/admin/assessments?${params}`, { credentials: 'same-origin' });
       if (res.ok) {
         const data = await res.json();
         setAssessments(data.assessments);
@@ -1650,7 +1654,7 @@ export default function AdminPage() {
     setCertificatesLoading(true);
     try {
       const params = new URLSearchParams({ page: String(page), limit: '20' });
-      const res = await fetch(`/api/admin/certificates?${params}`);
+      const res = await fetch(`/api/admin/certificates?${params}`, { credentials: 'same-origin' });
       if (res.ok) {
         const data = await res.json();
         setCertificates(data.certificates);
@@ -1666,7 +1670,7 @@ export default function AdminPage() {
     if (!isAuthenticated) return;
     setQuestionStatsLoading(true);
     try {
-      const res = await fetch('/api/admin/questions/stats/');
+      const res = await fetch('/api/admin/questions/stats/', { credentials: 'same-origin' });
       if (res.ok) setQuestionStats(await res.json());
     } catch (e) { console.error('Question stats error:', e); }
     finally { setQuestionStatsLoading(false); }
@@ -1677,7 +1681,7 @@ export default function AdminPage() {
     if (!isAuthenticated) return;
     setSystemLoading(true);
     try {
-      const res = await fetch('/api/admin/system/');
+      const res = await fetch('/api/admin/system/', { credentials: 'same-origin' });
       if (res.ok) setSystemData(await res.json());
     } catch (e) { console.error('System fetch error:', e); }
     finally { setSystemLoading(false); }
@@ -1723,6 +1727,7 @@ export default function AdminPage() {
       const res = await fetch('/api/admin/promote/', {
         method: 'POST',
         headers: jsonHeaders(),
+        credentials: 'same-origin',
         body: JSON.stringify({ email }),
       });
       const data = await res.json();
@@ -1744,6 +1749,7 @@ export default function AdminPage() {
       const res = await fetch('/api/admin/users/reset-password/', {
         method: 'PATCH',
         headers: jsonHeaders(),
+        credentials: 'same-origin',
         body: JSON.stringify({ userId, newPassword: 'NewPass123!' }),
       });
       const data = await res.json();
@@ -1765,6 +1771,7 @@ export default function AdminPage() {
       const res = await fetch('/api/admin/users/demo/', {
         method: 'POST',
         headers: jsonHeaders(),
+        credentials: 'same-origin',
         body: JSON.stringify({ count: demoCount, plan: demoPlan }),
       });
       const data = await res.json();
@@ -1785,7 +1792,7 @@ export default function AdminPage() {
     setPaypalTesting(true);
     setPaypalTestResult(null);
     try {
-      const res = await fetch('/api/admin/test-paypal/');
+      const res = await fetch('/api/admin/test-paypal/', { credentials: 'same-origin' });
       const data = await res.json();
       setPaypalTestResult(data);
     } catch {
@@ -1802,6 +1809,7 @@ export default function AdminPage() {
       const res = await fetch('/api/admin/questions/batch/', {
         method: 'POST',
         headers: jsonHeaders(),
+        credentials: 'same-origin',
         body: JSON.stringify({ levels: selectedLevels, skills: selectedSkills, countPerSlot }),
       });
       const data = await res.json();

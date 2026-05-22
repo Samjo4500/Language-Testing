@@ -99,6 +99,7 @@ export default function RegisterPage() {
           accountType,
           organizationName: isB2B ? organizationName : undefined,
         }),
+        credentials: 'same-origin',
       });
 
       const data = await response.json();

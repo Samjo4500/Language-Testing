@@ -137,7 +137,7 @@ export default function TestPage() {
       setIsLoadingQuestions(true);
       try {
         // First, check for in-progress assessment (GET, does NOT consume a credit)
-        const getRes = await fetch('/api/assessments/start/', { method: 'GET' });
+        const getRes = await fetch('/api/assessments/start/', { method: 'GET', credentials: 'same-origin' });
         if (getRes.ok) {
           const getData = await getRes.json();
           if (getData.hasInProgress && getData.assessment) {
@@ -145,7 +145,7 @@ export default function TestPage() {
             setAssessmentId(getData.assessment.id);
             setResumingAssessment(true);
             try {
-              const qRes = await fetch(`/api/assessments/${getData.assessment.id}/questions/`);
+              const qRes = await fetch(`/api/assessments/${getData.assessment.id}/questions/`, { credentials: 'same-origin' });
               if (qRes.ok) {
                 const qData = await qRes.json();
                 if (qData.questions) {
@@ -173,6 +173,7 @@ export default function TestPage() {
         const postRes = await fetch('/api/assessments/start/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
         });
         const postData = await postRes.json();
 
@@ -187,7 +188,7 @@ export default function TestPage() {
             setAssessmentId(postData.assessment.id);
             setResumingAssessment(true);
             try {
-              const qRes = await fetch(`/api/assessments/${postData.assessment.id}/questions/`);
+              const qRes = await fetch(`/api/assessments/${postData.assessment.id}/questions/`, { credentials: 'same-origin' });
               if (qRes.ok) {
                 const qData = await qRes.json();
                 if (qData.questions) {
@@ -736,7 +737,11 @@ export default function TestPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...(accessToken && accessToken !== 'null' && accessToken !== 'undefined'
+            ? { Authorization: `Bearer ${accessToken}` }
+            : {}),
         },
+        credentials: 'same-origin',
         body: JSON.stringify({
           transcript: speakingTranscript,
           prompt: speakingPrompt.promptText,
@@ -746,9 +751,12 @@ export default function TestPage() {
       const data = await res.json();
       if (res.ok) {
         setSpeakingEvaluations(prev => ({ ...prev, [speakingPrompt.id]: data }));
+      } else {
+        setError(data.error || data.message || 'Speaking evaluation failed. Please try again.');
       }
     } catch (e) {
       console.error('Speaking evaluation error:', e);
+      setError('Network error during speaking evaluation. Please check your connection.');
     } finally {
       setEvaluatingSpeaking(false);
     }
@@ -778,7 +786,11 @@ export default function TestPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...(accessToken && accessToken !== 'null' && accessToken !== 'undefined'
+            ? { Authorization: `Bearer ${accessToken}` }
+            : {}),
         },
+        credentials: 'same-origin',
         body: JSON.stringify({
           text: currentWritingText,
           prompt: writingPrompt.promptText,
@@ -788,9 +800,12 @@ export default function TestPage() {
       const data = await res.json();
       if (res.ok) {
         setWritingEvaluations(prev => ({ ...prev, [writingPrompt.id]: data }));
+      } else {
+        setError(data.error || data.message || 'Writing evaluation failed. Please try again.');
       }
     } catch (e) {
       console.error('Writing evaluation error:', e);
+      setError('Network error during writing evaluation. Please check your connection.');
     } finally {
       setEvaluatingWriting(false);
     }
@@ -901,7 +916,11 @@ export default function TestPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...(accessToken && accessToken !== 'null' && accessToken !== 'undefined'
+            ? { Authorization: `Bearer ${accessToken}` }
+            : {}),
         },
+        credentials: 'same-origin',
         body: JSON.stringify({ assessmentId, responses }),
       });
       const data = await res.json();
@@ -2200,7 +2219,13 @@ export default function TestPage() {
                   // Re-fetch questions
                   fetch('/api/assessments/start/', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                      'Content-Type': 'application/json',
+                      ...(accessToken && accessToken !== 'null' && accessToken !== 'undefined'
+                        ? { Authorization: `Bearer ${accessToken}` }
+                        : {}),
+                    },
+                    credentials: 'same-origin',
                   }).then(res => res.json()).then(data => {
                     if (data.assessment) setAssessmentId(data.assessment.id);
                     if (data.questions) setApiQuestions(data.questions);

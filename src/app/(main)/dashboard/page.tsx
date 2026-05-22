@@ -45,8 +45,8 @@ export default function DashboardPage() {
     const fetchDashboardData = async () => {
       // Fetch certificates and in-progress assessment in parallel
       const [certsResult, progressResult] = await Promise.allSettled([
-        fetch('/api/certificates/list/').then(res => res.ok ? res.json() : Promise.reject('Failed')),
-        fetch('/api/assessments/start/', { method: 'GET' }).then(res => res.ok ? res.json() : Promise.reject('Failed')),
+        fetch('/api/certificates/list/', { credentials: 'same-origin' }).then(res => res.ok ? res.json() : Promise.reject('Failed')),
+        fetch('/api/assessments/start/', { method: 'GET', credentials: 'same-origin' }).then(res => res.ok ? res.json() : Promise.reject('Failed')),
       ]);
 
       // Process certificates

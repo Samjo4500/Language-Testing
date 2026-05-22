@@ -84,7 +84,7 @@ function PayPalCheckoutButton({ isAuthenticated, amount, description, planId, pl
     setIsFetchingClientId(true);
     const fetchClientId = async () => {
       try {
-        const response = await fetch('/api/payments/client-id/');
+        const response = await fetch('/api/payments/client-id/', { credentials: 'same-origin' });
         if (response.ok) {
           const data = await response.json();
           setPaypalClientId(data.clientId);
@@ -111,6 +111,7 @@ function PayPalCheckoutButton({ isAuthenticated, amount, description, planId, pl
           const response = await fetch('/api/payments/create-order/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin',
             body: JSON.stringify({ amount, currency: 'USD', planType: planId }),
           });
           if (!response.ok) throw new Error('Failed to create order');
@@ -128,6 +129,7 @@ function PayPalCheckoutButton({ isAuthenticated, amount, description, planId, pl
           const response = await fetch('/api/payments/capture/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin',
             body: JSON.stringify({ orderID: data.orderID }),
           });
           if (!response.ok) {
@@ -149,7 +151,7 @@ function PayPalCheckoutButton({ isAuthenticated, amount, description, planId, pl
           // The capture endpoint returns new JWT tokens and sets HttpOnly cookies.
           // Refresh full user data from server using cookie-based auth.
           try {
-            const meRes = await fetch('/api/auth/me/');
+            const meRes = await fetch('/api/auth/me/', { credentials: 'same-origin' });
             if (meRes.ok) {
               const meData = await meRes.json();
               if (meData.user) {

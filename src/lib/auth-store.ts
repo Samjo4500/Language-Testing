@@ -66,6 +66,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     // Browser sends access_token cookie automatically — no need for Authorization header
     fetch('/api/auth/logout/', {
       method: 'POST',
+      credentials: 'same-origin',
     }).catch(() => {}); // Ignore errors — client state is cleared regardless
     if (typeof window !== 'undefined') {
       localStorage.removeItem('user');
@@ -117,6 +118,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'same-origin',
       });
 
       if (!response.ok) {

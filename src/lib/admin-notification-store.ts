@@ -46,7 +46,7 @@ export const useAdminNotificationStore = create<AdminNotificationState>((set, ge
   fetchNotifications: async (_accessToken) => {
     set({ isLoading: true });
     try {
-      const res = await fetch('/api/admin/notifications/');
+      const res = await fetch('/api/admin/notifications/', { credentials: 'same-origin' });
       if (res.ok) {
         const data = await res.json();
         set({
@@ -69,6 +69,7 @@ export const useAdminNotificationStore = create<AdminNotificationState>((set, ge
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'same-origin',
         body: JSON.stringify({ markAll: true }),
       });
       if (res.ok) {
@@ -90,6 +91,7 @@ export const useAdminNotificationStore = create<AdminNotificationState>((set, ge
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'same-origin',
         body: JSON.stringify({ notificationIds: ids }),
       });
       if (res.ok) {
