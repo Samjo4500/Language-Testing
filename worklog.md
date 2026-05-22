@@ -29,3 +29,30 @@ Stage Summary:
 - Gemini TTS API works from Vercel's servers (tested and confirmed)
 - If Gemini TTS fails in future, Cloud TTS can be enabled at: https://console.cloud.google.com/apis/library/texttospeech.googleapis.com
 - For local development, set ZAI_BASE_URL env var to use z-ai TTS provider
+---
+Task ID: 1
+Agent: Main Agent
+Task: Fix TTS so listening comprehension uses natural female American voice instead of robotic browser TTS
+
+Work Log:
+- Read current TTS route code (`src/app/api/tts/route.ts`) and test page (`src/app/test/page.tsx`)
+- Tested Gemini TTS API directly → discovered "User location is not supported for the API use" (geo-restricted from dev server)
+- Tested Google Cloud TTS API → blocked with AI API key (requires separate Cloud Console API key)
+- Discovered z-ai-web-dev-sdk has `audio.tts.create()` method that works on this dev server
+- Tested z-ai SDK TTS → works perfectly, returns PCM at 48kHz, 16-bit, mono
+- Key insight: z-ai SDK reads config from `/etc/.z-ai-config` which has an internal IP (`172.25.136.193:8080`) — NOT accessible from Vercel
+- Verified Gemini TTS DOES work on Vercel production (tested via curl to testcefr.com) → returns valid WAV audio from "Kore" voice
+- Fixed client-side fetch URL: `/api/tts` → `/api/tts/` to prevent 308 redirect that could lose POST body
+- Restructured TTS provider priority:
+  1. Gemini TTS (primary on Vercel US servers — "Kore" voice, female, American, professional)
+  2. z-ai SDK TTS (secondary — works on dev with .z-ai-config)
+  3. z-ai HTTP TTS (tertiary fallback — requires ZAI_BASE_URL env var)
+- Added build script to generate `.z-ai-config` from env vars (`ZAI_BASE_URL`, `ZAI_API_KEY`, `ZAI_TOKEN`)
+- Added dynamic import of z-ai SDK to prevent build failures when config is missing
+- Deployed to production via GitHub → Vercel
+
+Stage Summary:
+- **Root cause**: Gemini TTS was listed first but was geo-restricted from some regions. The previous code also had the client calling `/api/tts` without trailing slash, causing a 308 redirect on `trailingSlash: true` config.
+- **Fix**: Gemini TTS works on Vercel's US servers. Added trailing slash to client fetch. Dynamic import of z-ai SDK for dev environments.
+- **Production verification**: Gemini TTS returns valid WAV audio (16-bit, mono, 24kHz) from "Kore" voice. Tested with both short and long passages.
+- **Files modified**: `src/app/api/tts/route.ts`, `src/app/test/page.tsx`, `package.json`
