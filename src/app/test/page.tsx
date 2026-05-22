@@ -53,31 +53,30 @@ interface ApiQuestionSet {
 }
 
 /* ======================================================
-   HELPER: SPEECH SYNTHESIS (Google TTS)
+   HELPER: NATURAL TTS via z-ai-web-dev-sdk API
    ====================================================== */
-function speakText(text: string, rate: number = 0.9): Promise<void> {
-  return new Promise((resolve, reject) => {
-    if (!('speechSynthesis' in window)) {
-      reject(new Error('Speech synthesis not supported'));
-      return;
-    }
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = rate;
-    utterance.pitch = 1;
-    utterance.lang = 'en-US';
+// Cache audio blobs by listening item ID so we don't re-fetch
+const audioBlobCache = new Map<string, string>();
 
-    // Try to get an English voice
-    const voices = window.speechSynthesis.getVoices();
-    const englishVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Google')) ||
-                         voices.find(v => v.lang.startsWith('en-')) ||
-                         voices.find(v => v.lang.startsWith('en'));
-    if (englishVoice) utterance.voice = englishVoice;
+async function generateNaturalSpeech(itemId: string, text: string, voice: string = 'kazi', speed: number = 0.9): Promise<string> {
+  // Check cache first
+  const cached = audioBlobCache.get(itemId);
+  if (cached) return cached;
 
-    utterance.onend = () => resolve();
-    utterance.onerror = (e) => reject(e);
-    window.speechSynthesis.speak(utterance);
+  const res = await fetch('/api/tts', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text, voice, speed }),
   });
+
+  if (!res.ok) {
+    throw new Error('TTS generation failed');
+  }
+
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  audioBlobCache.set(itemId, url);
+  return url;
 }
 
 /* ======================================================
@@ -215,6 +214,27 @@ export default function TestPage() {
   const [listeningIdx, setListeningIdx] = useState(0);
   const [listeningAnswers, setListeningAnswers] = useState<Record<string, number>>({});
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [audioLoading, setAudioLoading] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Pre-fetch listening audio in the background when questions load
+  useEffect(() => {
+    const items = apiQuestions?.listening;
+    if (!items || items.length === 0) return;
+    // Pre-generate audio for all listening items in background
+    const prefetch = async () => {
+      for (const item of items) {
+        if (!audioBlobCache.has(item.id)) {
+          try {
+            await generateNaturalSpeech(item.id, item.scriptText, 'kazi', 0.9);
+          } catch {
+            // Silently fail - will retry on play
+          }
+        }
+      }
+    };
+    prefetch();
+  }, [apiQuestions?.listening]);
 
   // Speaking state
   const [isRecording, setIsRecording] = useState(false);
@@ -323,21 +343,20 @@ export default function TestPage() {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [isInActiveTest, phase, skillStatuses]);
 
-  // Load voices for TTS
-  useEffect(() => {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.getVoices();
-      window.speechSynthesis.onvoiceschanged = () => {
-        window.speechSynthesis.getVoices();
-      };
-    }
-  }, []);
-
   // Cleanup on unmount
   useEffect(() => {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
-      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      // Cleanup audio
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+      // Revoke all cached blob URLs
+      for (const url of audioBlobCache.values()) {
+        URL.revokeObjectURL(url);
+      }
+      audioBlobCache.clear();
       if (recognitionRef.current) {
         try { recognitionRef.current.stop(); } catch {}
       }
@@ -418,18 +437,74 @@ export default function TestPage() {
   const currentListening = listeningItems[listeningIdx];
 
   const playAudio = async () => {
-    if (isSpeaking || !currentListening) return;
-    setIsSpeaking(true);
+    if (isSpeaking || audioLoading || !currentListening) return;
+
+    // Check if audio is already cached — instant replay
+    const cachedUrl = audioBlobCache.get(currentListening.id);
+    if (cachedUrl) {
+      const audio = new Audio(cachedUrl);
+      audioRef.current = audio;
+      audio.onended = () => setIsSpeaking(false);
+      audio.onerror = () => {
+        console.error('Audio playback error');
+        setIsSpeaking(false);
+      };
+      setIsSpeaking(true);
+      try {
+        await audio.play();
+      } catch {
+        setIsSpeaking(false);
+      }
+      return;
+    }
+
+    // First time — generate natural audio
+    setAudioLoading(true);
     try {
-      await speakText(currentListening.scriptText);
+      const url = await generateNaturalSpeech(currentListening.id, currentListening.scriptText, 'kazi', 0.9);
+      const audio = new Audio(url);
+      audioRef.current = audio;
+      audio.onended = () => setIsSpeaking(false);
+      audio.onerror = () => {
+        console.error('Audio playback error');
+        setIsSpeaking(false);
+      };
+      setIsSpeaking(true);
+      setAudioLoading(false);
+      await audio.play();
     } catch (e) {
       console.error('TTS error:', e);
-    } finally {
-      setIsSpeaking(false);
+      // Fallback: try browser speechSynthesis
+      try {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          const utterance = new SpeechSynthesisUtterance(currentListening.scriptText);
+          utterance.rate = 0.9;
+          utterance.lang = 'en-US';
+          const voices = window.speechSynthesis.getVoices();
+          const englishVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Google')) ||
+                               voices.find(v => v.lang.startsWith('en-')) ||
+                               voices.find(v => v.lang.startsWith('en'));
+          if (englishVoice) utterance.voice = englishVoice;
+          utterance.onend = () => setIsSpeaking(false);
+          utterance.onerror = () => setIsSpeaking(false);
+          setIsSpeaking(true);
+          window.speechSynthesis.speak(utterance);
+        }
+      } catch {
+        setIsSpeaking(false);
+      }
+      setAudioLoading(false);
     }
   };
 
   const stopAudio = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      audioRef.current = null;
+    }
+    // Also stop browser TTS fallback if active
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel();
     }
@@ -879,7 +954,7 @@ export default function TestPage() {
       {
         key: 'listening',
         title: 'Listening',
-        desc: 'Listen to audio passages using text-to-speech and answer questions about what you heard.',
+        desc: 'Listen to natural-sounding audio passages and answer questions about what you heard.',
         icon: <Headphones className="h-7 w-7" />,
         gradient: 'from-green-500 to-emerald-500',
         bgGlow: 'rgba(34,197,94,0.15)',
@@ -1402,17 +1477,30 @@ export default function TestPage() {
               <div className="flex items-center gap-4">
                 <button
                   onClick={isSpeaking ? stopAudio : playAudio}
-                  className={`flex h-14 w-14 items-center justify-center rounded-full transition-all duration-300 cursor-pointer ${
-                    isSpeaking
+                  disabled={audioLoading}
+                  className={`flex h-14 w-14 items-center justify-center rounded-full transition-all duration-300 cursor-pointer disabled:cursor-wait ${
+                    audioLoading
+                      ? 'bg-gradient-to-br from-purple-500 to-purple-600 shadow-2xl shadow-purple-500/40'
+                      : isSpeaking
                       ? 'bg-gradient-to-br from-red-500 to-red-600 shadow-2xl shadow-red-500/40 animate-pulse'
                       : 'bg-gradient-to-br from-green-500 to-emerald-500 shadow-2xl shadow-green-500/40 hover:scale-110'
                   }`}
                 >
-                  {isSpeaking ? <Square className="h-6 w-6 text-white" /> : <Play className="h-6 w-6 text-white ml-1" />}
+                  {audioLoading ? (
+                    <Loader2 className="h-6 w-6 text-white animate-spin" />
+                  ) : isSpeaking ? (
+                    <Square className="h-6 w-6 text-white" />
+                  ) : (
+                    <Play className="h-6 w-6 text-white ml-1" />
+                  )}
                 </button>
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
-                    {isSpeaking ? (
+                    {audioLoading ? (
+                      <span className="text-sm text-purple-300 font-medium flex items-center gap-1">
+                        <Loader2 className="h-4 w-4 animate-spin" /> Generating natural audio...
+                      </span>
+                    ) : isSpeaking ? (
                       <span className="text-sm text-green-300 font-medium flex items-center gap-1">
                         <Volume2 className="h-4 w-4" /> Playing audio...
                       </span>
