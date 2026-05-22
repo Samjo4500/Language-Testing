@@ -19,44 +19,6 @@ function cleanCache() {
 }
 
 /**
- * Convert raw PCM audio to WAV format by prepending a WAV header.
- * Gemini TTS returns PCM at 24kHz, 16-bit, mono.
- */
-function pcmToWav(pcmData: Uint8Array, sampleRate: number = 24000, numChannels: number = 1, bitsPerSample: number = 16): Uint8Array {
-  const byteRate = sampleRate * numChannels * (bitsPerSample / 8);
-  const blockAlign = numChannels * (bitsPerSample / 8);
-  const dataSize = pcmData.length;
-  const headerSize = 44;
-  const wav = new Uint8Array(headerSize + dataSize);
-  const view = new DataView(wav.buffer);
-
-  // RIFF header
-  const writeString = (offset: number, str: string) => {
-    for (let i = 0; i < str.length; i++) wav[offset + i] = str.charCodeAt(i);
-  };
-  writeString(0, 'RIFF');
-  view.setUint32(4, 36 + dataSize, true);
-  writeString(8, 'WAVE');
-
-  // fmt sub-chunk
-  writeString(12, 'fmt ');
-  view.setUint32(16, 16, true);
-  view.setUint16(20, 1, true);               // PCM format
-  view.setUint16(22, numChannels, true);
-  view.setUint32(24, sampleRate, true);
-  view.setUint32(28, byteRate, true);
-  view.setUint16(32, blockAlign, true);
-  view.setUint16(34, bitsPerSample, true);
-
-  // data sub-chunk
-  writeString(36, 'data');
-  view.setUint32(40, dataSize, true);
-  wav.set(pcmData, 44);
-
-  return wav;
-}
-
-/**
  * Helper: create audio response from base64 data
  */
 function audioResponse(base64Data: string, mimeType: string, cacheStatus: string, provider?: string): Response {
@@ -76,9 +38,90 @@ function audioResponse(base64Data: string, mimeType: string, cacheStatus: string
 }
 
 /**
- * Try Gemini TTS with Kore voice (female, professional, American accent)
+ * Convert raw PCM audio to WAV format.
+ * Gemini TTS returns PCM at 24kHz, 16-bit, mono.
  */
-async function generateWithGemini(apiKey: string, inputText: string): Promise<{ base64Data: string; mimeType: string }> {
+function pcmToWav(pcmData: Uint8Array, sampleRate: number = 24000, numChannels: number = 1, bitsPerSample: number = 16): Uint8Array {
+  const byteRate = sampleRate * numChannels * (bitsPerSample / 8);
+  const blockAlign = numChannels * (bitsPerSample / 8);
+  const dataSize = pcmData.length;
+  const headerSize = 44;
+  const wav = new Uint8Array(headerSize + dataSize);
+  const view = new DataView(wav.buffer);
+
+  const writeString = (offset: number, str: string) => {
+    for (let i = 0; i < str.length; i++) wav[offset + i] = str.charCodeAt(i);
+  };
+  writeString(0, 'RIFF');
+  view.setUint32(4, 36 + dataSize, true);
+  writeString(8, 'WAVE');
+  writeString(12, 'fmt ');
+  view.setUint32(16, 16, true);
+  view.setUint16(20, 1, true);
+  view.setUint16(22, numChannels, true);
+  view.setUint32(24, sampleRate, true);
+  view.setUint32(28, byteRate, true);
+  view.setUint16(32, blockAlign, true);
+  view.setUint16(34, bitsPerSample, true);
+  writeString(36, 'data');
+  view.setUint32(40, dataSize, true);
+  wav.set(pcmData, 44);
+
+  return wav;
+}
+
+function toBase64(bytes: Uint8Array): string {
+  let binary = '';
+  for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+  return btoa(binary);
+}
+
+/**
+ * OPTION 1: Google Cloud Text-to-Speech API
+ * Uses Neural2-F voice (female, professional, American accent)
+ * Requires Cloud TTS API to be enabled in Google Cloud Console
+ */
+async function generateWithCloudTTS(apiKey: string, inputText: string): Promise<{ base64Data: string; mimeType: string }> {
+  const response = await fetch(
+    `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        input: { text: inputText },
+        voice: {
+          languageCode: 'en-US',
+          name: 'en-US-Neural2-F',
+          ssmlGender: 'FEMALE',
+        },
+        audioConfig: {
+          audioEncoding: 'MP3',
+          speakingRate: 0.95,
+          pitch: 0,
+          effectsProfileId: ['headphone-class'],
+        },
+      }),
+    }
+  );
+
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new Error(`Cloud TTS error ${response.status}: ${errText.slice(0, 300)}`);
+  }
+
+  const data = await response.json();
+  if (!data.audioContent) {
+    throw new Error('No audio content in Cloud TTS response');
+  }
+
+  return { base64Data: data.audioContent as string, mimeType: 'audio/mpeg' };
+}
+
+/**
+ * OPTION 2: Gemini TTS with Kore voice (female, professional, American accent)
+ * May have regional restrictions
+ */
+async function generateWithGeminiTTS(apiKey: string, inputText: string): Promise<{ base64Data: string; mimeType: string }> {
   const response = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`,
     {
@@ -94,9 +137,7 @@ async function generateWithGemini(apiKey: string, inputText: string): Promise<{ 
           responseModalities: ['AUDIO'],
           speechConfig: {
             voiceConfig: {
-              prebuiltVoiceConfig: {
-                voiceName: 'Kore',
-              },
+              prebuiltVoiceConfig: { voiceName: 'Kore' },
             },
           },
         },
@@ -106,7 +147,7 @@ async function generateWithGemini(apiKey: string, inputText: string): Promise<{ 
 
   if (!response.ok) {
     const errText = await response.text();
-    throw new Error(`Gemini API error ${response.status}: ${errText.slice(0, 300)}`);
+    throw new Error(`Gemini TTS error ${response.status}: ${errText.slice(0, 300)}`);
   }
 
   const data = await response.json();
@@ -125,35 +166,10 @@ async function generateWithGemini(apiKey: string, inputText: string): Promise<{ 
     const pcmBytes = new Uint8Array(pcmBinary.length);
     for (let i = 0; i < pcmBinary.length; i++) pcmBytes[i] = pcmBinary.charCodeAt(i);
     const wavBytes = pcmToWav(pcmBytes, 24000, 1, 16);
-    // Convert back to base64
-    let wavBase64 = '';
-    for (let i = 0; i < wavBytes.length; i++) wavBase64 += String.fromCharCode(wavBytes[i]);
-    return { base64Data: btoa(wavBase64), mimeType: 'audio/wav' };
+    return { base64Data: toBase64(wavBytes), mimeType: 'audio/wav' };
   }
 
   return { base64Data: base64Audio, mimeType: geminiMime };
-}
-
-/**
- * Fallback: z-ai-web-dev-sdk TTS with 'kazi' voice (clear standard English)
- */
-async function generateWithZAI(inputText: string): Promise<{ base64Data: string; mimeType: string }> {
-  const ZAI = (await import('z-ai-web-dev-sdk')).default;
-  const zai = await ZAI.create();
-
-  const response = await zai.audio.tts.create({
-    input: inputText.slice(0, 1024),
-    voice: 'kazi',
-    speed: 0.9,
-    response_format: 'mp3',
-    stream: false,
-  });
-
-  const arrayBuffer = await response.arrayBuffer();
-  const bytes = new Uint8Array(arrayBuffer);
-  let base64 = '';
-  for (let i = 0; i < bytes.length; i++) base64 += String.fromCharCode(bytes[i]);
-  return { base64Data: btoa(base64), mimeType: 'audio/mpeg' };
 }
 
 export async function POST(req: NextRequest) {
@@ -174,22 +190,50 @@ export async function POST(req: NextRequest) {
       return audioResponse(cached.base64Data, cached.mimeType, 'HIT');
     }
 
-    let result: { base64Data: string; mimeType: string };
-    let usedProvider: string;
+    if (!apiKey) {
+      return NextResponse.json(
+        { error: 'TTS service is not configured. GOOGLE_AI_API_KEY is not set.' },
+        { status: 503 }
+      );
+    }
 
-    // Try Gemini TTS first (best quality, natural voice)
-    if (apiKey) {
+    let result: { base64Data: string; mimeType: string } | null = null;
+    let usedProvider: string = 'none';
+    let lastError: string = '';
+
+    // Try providers in order of quality
+    const providers: Array<{ name: string; fn: () => Promise<{ base64Data: string; mimeType: string }> }> = [
+      {
+        name: 'cloud-tts',
+        fn: () => generateWithCloudTTS(apiKey, inputText),
+      },
+      {
+        name: 'gemini-tts',
+        fn: () => generateWithGeminiTTS(apiKey, inputText),
+      },
+    ];
+
+    for (const provider of providers) {
       try {
-        result = await generateWithGemini(apiKey, inputText);
-        usedProvider = 'gemini';
-      } catch (geminiError) {
-        console.warn('Gemini TTS failed, falling back to z-ai SDK:', geminiError instanceof Error ? geminiError.message : String(geminiError));
-        result = await generateWithZAI(inputText);
-        usedProvider = 'zai';
+        result = await provider.fn();
+        usedProvider = provider.name;
+        break;
+      } catch (err) {
+        lastError = err instanceof Error ? err.message : String(err);
+        console.warn(`TTS provider "${provider.name}" failed:`, lastError.slice(0, 200));
+        // Try next provider
       }
-    } else {
-      result = await generateWithZAI(inputText);
-      usedProvider = 'zai';
+    }
+
+    if (!result) {
+      return NextResponse.json(
+        {
+          error: 'All TTS providers failed',
+          details: lastError,
+          hint: 'Enable Cloud Text-to-Speech API at: https://console.cloud.google.com/apis/library/texttospeech.googleapis.com?project=642571779346',
+        },
+        { status: 502 }
+      );
     }
 
     // Cache the result
