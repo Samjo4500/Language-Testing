@@ -7,8 +7,13 @@ import { sendPaymentConfirmation, sendAdminNewPayment } from '@/lib/email';
 import { setAuthCookies } from '@/lib/cookie-auth';
 import { PLAN_CONFIG } from '@/lib/plans';
 import { trackPurchaseServerSide } from '@/lib/analytics';
+import { paymentLimiter } from '@/lib/rate-limit';
 
 export async function POST(request: NextRequest) {
+  // Rate limit: 5 payment requests per minute per IP
+  const limitError = paymentLimiter(request);
+  if (limitError) return limitError;
+
   try {
     const user = getAuthUser(request);
     if (!user) {

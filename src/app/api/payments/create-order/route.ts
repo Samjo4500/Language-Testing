@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createPayPalOrder } from '@/lib/paypal';
 import { getAuthUser } from '@/lib/auth-middleware';
+import { paymentLimiter } from '@/lib/rate-limit';
 
 // Plan pricing configuration
 const PLAN_PRICES: Record<string, { amount: number; label: string }> = {
@@ -10,6 +11,10 @@ const PLAN_PRICES: Record<string, { amount: number; label: string }> = {
 };
 
 export async function POST(request: NextRequest) {
+  // Rate limit: 5 payment requests per minute per IP
+  const limitError = paymentLimiter(request);
+  if (limitError) return limitError;
+
   try {
     const user = getAuthUser(request);
     if (!user) {

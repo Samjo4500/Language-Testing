@@ -55,6 +55,13 @@ async function verifyWebhookSignature(
     return false;
   }
 
+  // Validate certUrl to prevent SSRF attacks
+  const allowedCertUrls = ['https://api.paypal.com/', 'https://api-m.paypal.com/', 'https://api.sandbox.paypal.com/', 'https://api-m.sandbox.paypal.com/'];
+  if (!allowedCertUrls.some(url => certUrl!.startsWith(url))) {
+    console.error('Invalid PayPal cert URL:', certUrl);
+    return false;
+  }
+
   try {
     // Step 1: Fetch the PayPal certificate
     const certResponse = await fetch(certUrl);

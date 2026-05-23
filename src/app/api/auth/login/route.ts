@@ -36,6 +36,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Check if user is suspended
+    if (user.isSuspended) {
+      return NextResponse.json(
+        { error: 'Account suspended', message: 'Your account has been suspended. Please contact support.' },
+        { status: 403 }
+      );
+    }
+
     const tokens = generateTokens({
       userId: user.id,
       email: user.email,

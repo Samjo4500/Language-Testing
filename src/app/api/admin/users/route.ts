@@ -45,7 +45,10 @@ export async function GET(request: NextRequest) {
           plan: true,
           role: true,
           isDemo: true,
+          isSuspended: true,
           emailVerified: true,
+          country: true,
+          testCredits: true,
           createdAt: true,
           updatedAt: true,
           _count: {

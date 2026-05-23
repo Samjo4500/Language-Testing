@@ -78,6 +78,10 @@ import {
   UserMinus,
   ShieldAlert,
   FileBadge,
+  Download,
+  LogIn,
+  ShieldBan,
+  MoreHorizontal,
 } from 'lucide-react';
 import {
   AreaChart,
@@ -161,7 +165,10 @@ interface AdminUser {
   plan: string;
   role: string;
   isDemo: boolean;
+  isSuspended: boolean;
   emailVerified: boolean;
+  country: string | null;
+  testCredits: number;
   createdAt: string;
   updatedAt: string;
   _count: { assessments: number; certificates: number; payments: number };
@@ -2027,6 +2034,18 @@ export default function AdminPage() {
   }>({ id: '', name: '', plan: 'free', role: 'user', country: '', testCredits: 0, emailVerified: true, isDemo: false });
   const [savingUser, setSavingUser] = useState(false);
 
+  // ── Suspend User ──────────────────────────────────────────────────
+  const [suspendingUserId, setSuspendingUserId] = useState<string | null>(null);
+
+  // ── Impersonate User ──────────────────────────────────────────────
+  const [impersonatingUserId, setImpersonatingUserId] = useState<string | null>(null);
+
+  // ── Export Data ───────────────────────────────────────────────────
+  const [exportingType, setExportingType] = useState<string | null>(null);
+
+  // ── Bulk User Selection ───────────────────────────────────────────
+  const [selectedUserIds, setSelectedUserIds] = useState<Set<string>>(new Set());
+
   // ── User Detail Panel ─────────────────────────────────────────────
   const [userDetailData, setUserDetailData] = useState<{
     user: Record<string, unknown>;
@@ -2347,6 +2366,81 @@ export default function AdminPage() {
     } catch {
       setToast({ message: 'Failed to update user', type: 'error' });
     } finally { setSavingUser(false); }
+  };
+
+  // ── Suspend/Unsuspend User ────────────────────────────────────────
+  const handleSuspendUser = async (userId: string, isSuspended: boolean) => {
+    if (!isAuthenticated) return;
+    setSuspendingUserId(userId);
+    try {
+      const res = await fetch('/api/admin/users/suspend/', {
+        method: 'POST',
+        headers: jsonHeaders(),
+        credentials: 'same-origin',
+        body: JSON.stringify({ userId, isSuspended }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setToast({ message: data.message || `User ${isSuspended ? 'suspended' : 'unsuspended'} successfully`, type: 'success' });
+        fetchUsers(usersPagination.page, usersSearch);
+        if (userDetailOpen && selectedUser?.id === userId) {
+          fetchUserDetail(userId);
+        }
+      } else {
+        setToast({ message: data.error || 'Failed to update suspension status', type: 'error' });
+      }
+    } catch {
+      setToast({ message: 'Failed to update suspension status', type: 'error' });
+    } finally { setSuspendingUserId(null); }
+  };
+
+  // ── Impersonate User ──────────────────────────────────────────────
+  const handleImpersonateUser = async (userId: string) => {
+    if (!isAuthenticated) return;
+    setImpersonatingUserId(userId);
+    try {
+      const res = await fetch('/api/admin/impersonate/', {
+        method: 'POST',
+        headers: jsonHeaders(),
+        credentials: 'same-origin',
+        body: JSON.stringify({ userId }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setToast({ message: `Now impersonating ${data.user?.email}. Redirecting...`, type: 'success' });
+        // Redirect to dashboard as the impersonated user
+        setTimeout(() => { window.location.href = '/dashboard/'; }, 1500);
+      } else {
+        setToast({ message: data.error || 'Failed to impersonate user', type: 'error' });
+      }
+    } catch {
+      setToast({ message: 'Failed to impersonate user', type: 'error' });
+    } finally { setImpersonatingUserId(null); }
+  };
+
+  // ── Export Data ───────────────────────────────────────────────────
+  const handleExportData = async (type: string) => {
+    if (!isAuthenticated) return;
+    setExportingType(type);
+    try {
+      const res = await fetch(`/api/admin/export/?type=${type}`, { credentials: 'same-origin' });
+      if (res.ok) {
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${type}-export.csv`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+        setToast({ message: `${type.charAt(0).toUpperCase() + type.slice(1)} data exported successfully`, type: 'success' });
+      } else {
+        setToast({ message: 'Failed to export data', type: 'error' });
+      }
+    } catch {
+      setToast({ message: 'Failed to export data', type: 'error' });
+    } finally { setExportingType(null); }
   };
 
   const fetchUserDetail = async (userId: string) => {
@@ -2949,6 +3043,14 @@ export default function AdminPage() {
                       <UserCog className="h-4 w-4" />
                       Demo Accounts
                     </button>
+                    <button
+                      onClick={() => handleExportData('users')}
+                      disabled={exportingType === 'users'}
+                      className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-white/70 text-sm font-medium hover:bg-white/10 hover:text-white transition-all cursor-pointer"
+                    >
+                      {exportingType === 'users' ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
+                      Export CSV
+                    </button>
                   </div>
                 </div>
               </div>
@@ -2983,13 +3085,20 @@ export default function AdminPage() {
                         </tr>
                       ) : (
                         filteredUsers.map((u) => (
-                          <tr key={u.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                          <tr key={u.id} className={`border-b border-white/5 hover:bg-white/[0.02] transition-colors ${u.isSuspended ? 'opacity-60 bg-red-500/[0.03]' : ''}`}>
                             <td className="py-3 px-4">
                               <div className="flex items-center gap-2">
-                                <div className="h-8 w-8 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white text-xs font-bold shrink-0">
+                                <div className={`h-8 w-8 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0 ${u.isSuspended ? 'bg-gradient-to-br from-red-400 to-red-600' : 'bg-gradient-to-br from-purple-400 to-pink-400'}`}>
                                   {(u.name || u.email)[0].toUpperCase()}
                                 </div>
-                                <span className="text-white truncate max-w-[120px]">{u.name || '—'}</span>
+                                <div className="min-w-0">
+                                  <span className="text-white truncate max-w-[120px] block">{u.name || '—'}</span>
+                                  <div className="flex items-center gap-1 mt-0.5">
+                                    {u.isDemo && <span className="px-1.5 py-0 rounded bg-purple-500/20 text-purple-400 text-[10px] font-medium">DEMO</span>}
+                                    {u.isSuspended && <span className="px-1.5 py-0 rounded bg-red-500/20 text-red-400 text-[10px] font-medium">SUSPENDED</span>}
+                                    {!u.emailVerified && <span className="px-1.5 py-0 rounded bg-yellow-500/20 text-yellow-400 text-[10px] font-medium">UNVERIFIED</span>}
+                                  </div>
+                                </div>
                               </div>
                             </td>
                             <td className="py-3 px-4 text-white/60 truncate max-w-[180px]">{u.email}</td>
@@ -3014,7 +3123,7 @@ export default function AdminPage() {
                             <td className="py-3 px-4 text-center text-white/50 text-xs">{new Date(u.createdAt).toLocaleDateString()}</td>
                             <td className="py-3 px-4 text-center text-white/50">{u._count.assessments}</td>
                             <td className="py-3 px-4 text-right">
-                              <div className="flex items-center justify-end gap-1">
+                              <div className="flex items-center justify-end gap-0.5">
                                 <button
                                   onClick={() => openUserDetail(u)}
                                   className="p-1.5 rounded-lg text-white/40 hover:text-cyan-400 hover:bg-cyan-500/10 transition-colors"
@@ -3036,6 +3145,26 @@ export default function AdminPage() {
                                   title="Reset Password"
                                 >
                                   <Lock className="h-3.5 w-3.5" />
+                                </button>
+                                <button
+                                  onClick={() => handleImpersonateUser(u.id)}
+                                  disabled={impersonatingUserId === u.id}
+                                  className="p-1.5 rounded-lg text-cyan-400/60 hover:text-cyan-400 hover:bg-cyan-500/10 transition-colors"
+                                  title="Login As User"
+                                >
+                                  {impersonatingUserId === u.id ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <LogIn className="h-3.5 w-3.5" />}
+                                </button>
+                                <button
+                                  onClick={() => handleSuspendUser(u.id, !u.isSuspended)}
+                                  disabled={suspendingUserId === u.id}
+                                  className={`p-1.5 rounded-lg transition-colors ${
+                                    u.isSuspended
+                                      ? 'text-green-400/60 hover:text-green-400 hover:bg-green-500/10'
+                                      : 'text-red-400/60 hover:text-red-400 hover:bg-red-500/10'
+                                  }`}
+                                  title={u.isSuspended ? 'Unsuspend User' : 'Suspend User'}
+                                >
+                                  {suspendingUserId === u.id ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <ShieldBan className="h-3.5 w-3.5" />}
                                 </button>
                               </div>
                             </td>
@@ -3155,6 +3284,7 @@ export default function AdminPage() {
                             { label: 'Test Credits', value: String(userDetailData.user.testCredits ?? '—') },
                             { label: 'Email Verified', value: userDetailData.user.emailVerified ? 'Yes' : 'No' },
                             { label: 'Is Demo', value: userDetailData.user.isDemo ? 'Yes' : 'No' },
+                            { label: 'Suspended', value: userDetailData.user.isSuspended ? 'Yes — Account suspended' : 'No' },
                             { label: 'Plan Expires', value: userDetailData.user.planExpiresAt ? new Date(String(userDetailData.user.planExpiresAt)).toLocaleDateString() : '—' },
                             { label: 'Account Age', value: `${userDetailData.stats.accountAgeDays} days` },
                             { label: 'Created', value: userDetailData.user.createdAt ? new Date(String(userDetailData.user.createdAt)).toLocaleString() : '—' },
@@ -3351,7 +3481,7 @@ export default function AdminPage() {
                       )}
 
                       {/* Action Buttons */}
-                      <div className="flex gap-2 pt-2 border-t border-white/10">
+                      <div className="flex flex-wrap gap-2 pt-2 border-t border-white/10">
                         {selectedUser && (
                           <Button
                             onClick={() => { openEditUser(selectedUser); setUserDetailOpen(false); }}
@@ -3378,6 +3508,31 @@ export default function AdminPage() {
                             className="bg-gradient-to-r from-orange-600 to-orange-500 text-white gap-1.5"
                           >
                             <Shield className="h-4 w-4" /> Promote
+                          </Button>
+                        )}
+                        {selectedUser && (
+                          <Button
+                            onClick={() => handleImpersonateUser(selectedUser.id)}
+                            disabled={impersonatingUserId === selectedUser.id}
+                            variant="outline"
+                            className="border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 gap-1.5"
+                          >
+                            {impersonatingUserId === selectedUser.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <LogIn className="h-4 w-4" />}
+                            Login As
+                          </Button>
+                        )}
+                        {selectedUser && (
+                          <Button
+                            onClick={() => handleSuspendUser(selectedUser.id, !selectedUser.isSuspended)}
+                            disabled={suspendingUserId === selectedUser.id}
+                            variant="outline"
+                            className={selectedUser.isSuspended
+                              ? 'border-green-500/30 text-green-400 hover:bg-green-500/10 gap-1.5'
+                              : 'border-red-500/30 text-red-400 hover:bg-red-500/10 gap-1.5'
+                            }
+                          >
+                            {suspendingUserId === selectedUser.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <ShieldBan className="h-4 w-4" />}
+                            {selectedUser.isSuspended ? 'Unsuspend' : 'Suspend'}
                           </Button>
                         )}
                       </div>
@@ -3729,7 +3884,16 @@ export default function AdminPage() {
                     <CreditCard className="h-4 w-4 text-green-400" />
                     Payment History
                   </h3>
-                  <select
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => handleExportData('payments')}
+                      disabled={exportingType === 'payments'}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+                    >
+                      {exportingType === 'payments' ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Download className="h-3.5 w-3.5" />}
+                      Export
+                    </button>
+                    <select
                     value={paymentsFilterStatus}
                     onChange={(e) => { setPaymentsFilterStatus(e.target.value); fetchPayments(1, e.target.value); }}
                     className="px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500/50"
@@ -3740,6 +3904,7 @@ export default function AdminPage() {
                     <option value="failed" className="bg-[#1a1f36]">Failed</option>
                     <option value="refunded" className="bg-[#1a1f36]">Refunded</option>
                   </select>
+                  </div>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">

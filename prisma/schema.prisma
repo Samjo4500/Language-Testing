@@ -20,6 +20,7 @@ model User {
   organizationName String?    // Name of university/company (for B2B accounts)
   organizationId   String?    // FK to Organization (for B2B users)
   isDemo           Boolean    @default(false) // true for auto-generated demo accounts
+  isSuspended      Boolean    @default(false) // Admin can suspend user accounts
   emailVerified Boolean    @default(false)
   testCredits   Int        @default(0) // number of tests remaining
   country       String?    // user's country from IP at signup

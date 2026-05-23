@@ -71,8 +71,13 @@ export async function POST(request: NextRequest) {
       } catch {}
     }
 
+    // Warn about missing question set — but still process for backward compatibility
+    if (validQuestionIds.size === 0 && responses.length > 0) {
+      console.warn(`Assessment ${assessmentId} has no validQuestionIds — accepting all responses without validation (legacy mode)`);
+    }
+
     // Verify answers server-side from DB
-    const verifiedResponses = await verifyResponsesFromDB(responses, validQuestionIds);
+    const verifiedResponses = await verifyResponsesFromDB(responses, validQuestionIds, assessmentId);
     const { score, cefrLevel, correctCount, totalQuestions, skillBreakdown } = calculateResults(verifiedResponses);
 
     // Save responses and update assessment
@@ -159,7 +164,8 @@ interface ResponseInput {
 
 async function verifyResponsesFromDB(
   responses: ResponseInput[],
-  validQuestionIds: Set<string>
+  validQuestionIds: Set<string>,
+  assessmentId: string
 ): Promise<any[]> {
   const verified: any[] = [];
 
@@ -203,12 +209,26 @@ async function verifyResponsesFromDB(
       category = 'speaking';
       const prompt = await db.speakingPrompt.findUnique({ where: { id: r.questionId } });
       if (prompt) level = prompt.level;
-      // Speaking is AI-evaluated, score >= 50 = correct
+      // Validate: use server-stored evaluation if available
+      const existingEval = await db.assessmentResponse.findFirst({
+        where: { assessmentId, questionId: r.questionId },
+        select: { aiScore: true },
+      });
+      if (existingEval?.aiScore != null) {
+        r.aiScore = existingEval.aiScore; // Override client score with server-stored score
+      }
       isCorrect = (r.aiScore || 0) >= 50;
     } else if (qType === 'writing') {
       category = 'writing';
       const prompt = await db.writingPrompt.findUnique({ where: { id: r.questionId } });
       if (prompt) level = prompt.level;
+      const existingEval = await db.assessmentResponse.findFirst({
+        where: { assessmentId, questionId: r.questionId },
+        select: { aiScore: true },
+      });
+      if (existingEval?.aiScore != null) {
+        r.aiScore = existingEval.aiScore;
+      }
       isCorrect = (r.aiScore || 0) >= 50;
     }
 

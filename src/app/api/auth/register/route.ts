@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
 
     // Determine user role: admin only via explicit ADMIN_EMAIL env var match
     // Prevents accidental admin on empty DB or after migration reset
-    const adminEmail = process.env.ADMIN_EMAIL || 'admin@testcefr.com';
+    const adminEmail = process.env.ADMIN_EMAIL || '';
     const role = email.toLowerCase() === adminEmail.toLowerCase() ? 'admin' : 'user';
 
     // Validate accountType if provided
