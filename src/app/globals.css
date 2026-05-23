@@ -745,13 +745,9 @@ html {
   background: linear-gradient(180deg, #0E0825 0%, #120A32 30%, #0A0720 60%, #060414 100%);
 }
 
-/* 5. Obsidian Glow — Deep purple gradient with visible radial glow for the speaking section */
+/* 5. Obsidian Glow — Solid dark purple background matching design spec */
 .speaking-bg-5 {
-  background:
-    radial-gradient(ellipse at 50% 30%, rgba(139, 92, 246, 0.35) 0%, rgba(139, 92, 246, 0.1) 40%, transparent 70%),
-    radial-gradient(ellipse at 30% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
-    radial-gradient(ellipse at 70% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-    linear-gradient(180deg, #0E0828 0%, #160D40 20%, #221460 50%, #160D40 80%, #0E0828 100%);
+  background: #1a1040;
 }
 
 /* Speaking Section — Vibrant purple-pink ambient atmosphere */
