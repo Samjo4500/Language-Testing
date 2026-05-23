@@ -83,3 +83,21 @@ Stage Summary:
 - Git history is clean of secrets
 - Bundle optimization should improve PageSpeed scores (est. 15-20 KiB JS savings)
 - **CRITICAL**: User must rotate exposed credentials (DB password, JWT_SECRET, Resend API key)
+
+---
+Task ID: 2
+Agent: Main Agent
+Task: Fix speaking section background color (user reported it never changed)
+
+Work Log:
+- Investigated the speaking section on the home page (`src/components/home/live-voice-demo.tsx`)
+- Found the section uses `speaking-bg-5` CSS class in `src/app/globals.css`
+- Previous `speaking-bg-5` was near-black (#020106 center) with only 8% purple opacity — visually indistinguishable from default `bg-[#0F0A1E]`
+- Rewrote `speaking-bg-5` with a rich purple gradient: visible radial purple glow (18% opacity), pink/indigo accent radials, and a `#1A0F45` peak that contrasts with the standard dark background
+- Confirmed TTS 85% speed was already applied in the remote codebase (commit bd4a6de)
+- Deployed fix via git push to main → Vercel auto-deploy
+
+Stage Summary:
+- Speaking section background is now a distinct deep purple with visible glow — no longer near-black
+- TTS at 85% speed was already deployed (confirmed in code)
+- Deployed as commit b6518f3
