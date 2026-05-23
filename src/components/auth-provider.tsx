@@ -26,14 +26,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           }
         }
 
-        // Validate auth via cookie-based /api/auth/me
-        // Only make the request if there's a chance we're authenticated (localStorage user exists)
-        // This avoids 401 console errors for anonymous visitors
-        if (!userStr) {
-          // No cached user — skip server check, we're definitely not authenticated
-          setLoading(false);
-          return;
-        }
+        // Always validate auth via cookie-based /api/auth/me
+        // Even if localStorage is empty, HttpOnly cookies may still be valid
+        // (e.g., after browser data clear, incognito mode, or different tab)
         try {
           const response = await fetch('/api/auth/me/', { credentials: 'same-origin' });
           if (response.ok) {

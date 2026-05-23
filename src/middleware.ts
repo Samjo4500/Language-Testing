@@ -138,13 +138,20 @@ export async function middleware(request: NextRequest) {
   const isAdminRoute = ADMIN_ROUTES.some(route => pathname.startsWith(route));
   const isAuthRoute = AUTH_ROUTES.some(route => pathname.startsWith(route));
 
-  // Protected route without valid auth → redirect to login
+  // Protected route without valid auth → check if refresh token exists before redirecting
   if (isProtectedRoute && !tokenPayload) {
-    const loginUrl = new URL('/login', request.url);
-    loginUrl.searchParams.set('redirect', pathname);
-    const response = NextResponse.redirect(loginUrl);
-    addSecurityHeaders(response);
-    return response;
+    // If a refresh_token cookie exists, let the request through — the client-side
+    // AuthProvider will attempt to refresh the access token via /api/auth/refresh/.
+    // Only redirect to login if there's no refresh token (truly unauthenticated).
+    const refreshToken = request.cookies.get('refresh_token')?.value;
+    if (!refreshToken) {
+      const loginUrl = new URL('/login', request.url);
+      loginUrl.searchParams.set('redirect', pathname);
+      const response = NextResponse.redirect(loginUrl);
+      addSecurityHeaders(response);
+      return response;
+    }
+    // Refresh token exists — let the page load; client-side auth will refresh
   }
 
   // Admin route without admin role → redirect to dashboard
