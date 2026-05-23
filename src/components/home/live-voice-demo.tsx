@@ -137,14 +137,14 @@ export default function LiveVoiceDemo() {
                           <div className="absolute inset-[-8px] rounded-full border-2 border-red-400/20 animate-ripple" style={{ animationDelay: '0.5s' }} />
                         </>
                       )}
-                      <div className={`absolute -inset-6 rounded-full transition-all duration-500 ${isRecording ? 'bg-red-500/15 blur-2xl' : 'bg-red-500/15 blur-2xl'}`} />
+                      <div className={`absolute -inset-6 rounded-full transition-all duration-500 ${isRecording ? 'bg-red-500/15 blur-2xl' : 'bg-purple-500/15 blur-2xl'}`} />
                       <button
                         onClick={isRecording ? stopRecording : startRecording}
                         aria-label={isRecording ? 'Stop recording' : 'Start recording'}
                         className={`relative w-20 h-20 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${
                           isRecording
                             ? 'bg-gradient-to-br from-red-500 to-red-600 shadow-2xl shadow-red-500/40 animate-recording-pulse'
-                            : 'bg-gradient-to-br from-red-500 to-red-600 shadow-2xl shadow-red-500/40 hover:shadow-red-500/60 hover:scale-110 animate-mic-glow'
+                            : 'bg-gradient-to-br from-purple-500 to-pink-500 shadow-2xl shadow-purple-500/40 hover:shadow-purple-500/60 hover:scale-110 animate-mic-glow'
                         }`}
                       >
                         <Mic className={`h-8 w-8 text-white ${isRecording ? 'animate-pulse' : ''}`} />
@@ -171,7 +171,7 @@ export default function LiveVoiceDemo() {
                             onClick={() => setInputLevel(level)}
                             className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all duration-300 cursor-pointer ${
                               inputLevel === level
-                                ? 'bg-gradient-to-r from-red-600 to-red-500 text-white shadow-lg shadow-red-500/25'
+                                ? 'bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-lg shadow-purple-500/25'
                                 : 'glass text-white/50 hover:text-white/80'
                             }`}
                           >

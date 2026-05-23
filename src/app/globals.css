@@ -270,7 +270,7 @@
 
 /* === SPEAKING GRADIENT BORDER WRAPPER (2px, vibrant) === */
 .speaking-gradient-border-wrap {
-  background: linear-gradient(135deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.5) 100%);
+  background: linear-gradient(135deg, rgba(139,92,246,0.6) 0%, rgba(236,72,153,0.4) 50%, rgba(99,102,241,0.6) 100%);
   position: relative;
 }
 .speaking-gradient-border-wrap::after {
@@ -278,20 +278,20 @@
   position: absolute;
   inset: -1px;
   border-radius: inherit;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(139, 92, 246, 0.6);
   animation: border-glow-opacity 3s ease-in-out infinite;
   pointer-events: none;
 }
 
 /* === SPEAKING DEMO CARD — inner card for the gradient border wrapper === */
 .speaking-card-border {
-  border: none;
-  border-radius: 20px;
+  border: none; /* Border comes from wrapper's padding+gradient, not this element */
+  border-radius: 20px; /* Wrapper radius (22px) minus padding (2px) = 20px for perfect corner alignment */
   box-shadow:
     0 4px 6px rgba(0, 0, 0, 0.15),
     0 12px 40px rgba(0, 0, 0, 0.3),
-    0 0 40px rgba(255, 255, 255, 0.1),
-    0 0 80px rgba(255, 255, 255, 0.05),
+    0 0 40px rgba(139, 92, 246, 0.15),
+    0 0 80px rgba(236, 72, 153, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 /* Override glass-card-neon hover transform to avoid gap with gradient border wrapper */
@@ -304,16 +304,16 @@
 }
 .speaking-card-border::before {
   height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), rgba(255,255,255,0.4), transparent);
+  background: linear-gradient(90deg, transparent, rgba(139,92,246,0.6), rgba(236,72,153,0.5), transparent);
 }
 .speaking-card-border::after {
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(139, 92, 246, 0.3);
   border-radius: inherit;
   box-shadow:
     0 8px 16px rgba(0, 0, 0, 0.2),
     0 20px 60px rgba(0, 0, 0, 0.35),
-    0 0 80px rgba(255, 255, 255, 0.15),
-    0 0 120px rgba(255, 255, 255, 0.05),
+    0 0 80px rgba(139, 92, 246, 0.25),
+    0 0 120px rgba(236, 72, 153, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
@@ -594,7 +594,7 @@
   position: absolute;
   inset: -8px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(239, 68, 68, 0.4), rgba(220, 38, 38, 0.2), transparent 70%);
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.4), rgba(236, 72, 153, 0.2), transparent 70%);
   animation: mic-glow-opacity 2s ease-in-out infinite;
   pointer-events: none;
   z-index: -1;
@@ -745,9 +745,11 @@ html {
   background: linear-gradient(180deg, #0E0825 0%, #120A32 30%, #0A0720 60%, #060414 100%);
 }
 
-/* 5. Obsidian Glow — Solid dark purple background matching design spec */
+/* 5. Obsidian Glow — Near-black center with the faintest purple glow at the edges */
 .speaking-bg-5 {
-  background: #1a1040;
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, #020106 0%, #050312 30%, #090520 60%, #0C0728 100%);
 }
 
 /* Speaking Section — Vibrant purple-pink ambient atmosphere */
@@ -793,7 +795,7 @@ html {
 .waveform-bar {
   width: 3px;
   border-radius: 3px;
-  background: linear-gradient(to top, rgba(255,255,255,0.9), rgba(255,255,255,0.6));
+  background: linear-gradient(to top, #8B5CF6, #EC4899);
   transition: height 0.1s ease;
 }
 
