@@ -429,7 +429,7 @@ export default function ReportPage() {
   useEffect(() => {
     const fetchCertificate = async () => {
       try {
-        const response = await fetch(`/api/certificates/verify/${verificationId}`);
+        const response = await fetch(`/api/certificates/verify/${verificationId}/`);
         if (!response.ok) {
           setError('Report not found. The certificate may not exist or has been removed.');
           return;

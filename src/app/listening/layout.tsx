@@ -13,13 +13,13 @@ export const metadata: Metadata = {
     'AI listening assessment',
   ],
   openGraph: {
-    images: ["https://www.testcefr.com/og-image.png"],
+    images: ["https://testcefr.com/og-image.png"],
     title: 'English Listening Test | TestCEFR',
     description:
       'Sharpen your English listening comprehension with our AI-powered CEFR-aligned assessment. Get an accurate A1–C2 level rating.',
   },
   alternates: {
-    canonical: 'https://www.testcefr.com/listening',
+    canonical: 'https://testcefr.com/listening',
   },
 };
 

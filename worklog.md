@@ -101,3 +101,161 @@ Stage Summary:
 - Speaking section background is now a distinct deep purple with visible glow — no longer near-black
 - TTS at 85% speed was already deployed (confirmed in code)
 - Deployed as commit b6518f3
+
+---
+Task ID: 2
+Agent: Main Agent
+Task: Fix HIGH priority issues — trailing slashes, token invalidation, password reset, dashboard redirect
+
+Work Log:
+- Fixed trailing slashes on ALL fetch calls in admin page (`src/app/(main)/admin/page.tsx`):
+  - `/api/admin/emails?${params}` → `/api/admin/emails/?${params}`
+  - `/api/admin/users?${params}` → `/api/admin/users/?${params}`
+  - `/api/admin/payments?${params}` → `/api/admin/payments/?${params}`
+  - `/api/admin/assessments?${params}` → `/api/admin/assessments/?${params}`
+  - `/api/admin/certificates?${params}` → `/api/admin/certificates/?${params}`
+  - `/api/admin/api-keys/${id}` (PATCH) → `/api/admin/api-keys/${id}/`
+  - `/api/admin/api-keys/${id}` (DELETE) → `/api/admin/api-keys/${id}/`
+- Fixed trailing slashes on certificate verification pages:
+  - `src/app/verify/[verificationId]/page.tsx`: `/api/certificates/verify/${verificationId}` → `/api/certificates/verify/${verificationId}/`
+  - `src/app/certificate/[verificationId]/page.tsx`: same fix
+  - `src/app/report/[verificationId]/page.tsx`: same fix
+- Fixed admin token invalidation on role/plan changes (`src/app/api/admin/users/route.ts`):
+  - Added `tokenVersion: { increment: 1 }` to the Prisma updateData in PATCH handler
+  - This invalidates the user's JWT after role or plan changes, preventing demoted admins from retaining access
+- Fixed hardcoded admin password in reset (`src/app/(main)/admin/page.tsx`):
+  - Replaced hardcoded `'NewPass123!'` with cryptographically secure random 12-character password
+  - Uses `crypto.getRandomValues()` for randomness
+  - Guarantees at least 1 lowercase, 1 uppercase, 1 digit, and 1 symbol
+  - Password is shuffled to avoid predictable patterns
+  - Generated password shown in toast notification
+- Fixed dashboard login redirect (`src/app/(main)/dashboard/page.tsx`):
+  - Changed `<Link href="/login">` to `<Link href="/login?redirect=/dashboard">`
+  - Ensures users return to dashboard after logging in
+- Verified build compiles successfully with `npx next build`
+
+Stage Summary:
+- All 5 HIGH priority fixes applied and verified
+- Trailing slash fixes prevent 308 redirects (site uses `trailingSlash: true`)
+- Token version increment on role/plan changes closes privilege escalation vector
+- Random password generation eliminates hardcoded credential vulnerability
+- Dashboard redirect improves user experience for unauthenticated visitors
+
+---
+Task ID: 4
+Agent: Admin API Routes Developer
+Task: Create enhanced admin panel API routes
+
+Work Log:
+- Read worklog.md, Prisma schema, existing admin routes to understand project patterns
+- Analyzed auth-middleware (getAuthUser, requireAdmin, adminLimiter), db client, hashPassword usage
+- Created 4 new admin API route files:
+
+1. **POST /api/admin/users/create/** (`src/app/api/admin/users/create/route.ts`)
+   - Validates required fields (email, password), email format, password min length
+   - Checks for email uniqueness (409 if exists)
+   - Hashes password with bcrypt via `hashPassword` from `@/lib/auth`
+   - Creates user with all specified fields, defaults: plan=free, role=user, testCredits=0 (free) / 999 (premium/pro), emailVerified=true
+   - Returns created user (without passwordHash) with status 201
+
+2. **GET/PATCH/DELETE /api/admin/users/[id]/** (`src/app/api/admin/users/[id]/route.ts`)
+   - GET: Returns full user detail + related assessments, certificates, payments, emailLogs + computed stats (totalAssessments, completedAssessments, totalCertificates, totalPayments, totalSpent, lastActivityAt, accountAgeDays)
+   - PATCH: Updates name, plan, role, country, testCredits, emailVerified, isDemo, planExpiresAt. Increments tokenVersion when role/plan changes. Prevents self-demotion. Validates all input.
+   - DELETE: Returns 405 — user deletion not supported (no soft-delete field in schema), suggests PATCH to suspend instead
+
+3. **GET /api/admin/users/[id]/activity/** (`src/app/api/admin/users/[id]/activity/route.ts`)
+   - Combines assessment events (created/completed), payment events (completed/failed/refunded), certificate events (issued), email events (sent/failed), page view events
+   - Each event has: type, description, date, metadata
+   - Sorted by date descending, limited to 100 events
+   - Parallel data fetching for performance
+
+4. **GET /api/admin/audit-log/** (`src/app/api/admin/audit-log/route.ts`)
+   - Derives audit trail from existing data (no AuditLog model in Prisma)
+   - Sources: admin notification EmailLog entries (admin_new_user, admin_new_payment, admin_certificate), admin users, recent password resets
+   - Supports query params: page, limit, adminId, action
+   - Returns paginated results with adminUsers summary
+
+- All routes follow project conventions: `getAuthUser → requireAdmin → adminLimiter` auth pattern, trailing slash URLs, `@/lib/db` for Prisma, proper error responses
+- Build compiles successfully (`npx next build`)
+- ESLint passes with zero errors on all new files
+
+Stage Summary:
+- 4 new admin API routes created, all with consistent auth patterns and error handling
+- User creation with validation and bcrypt hashing
+- Detailed user view with computed stats from related records
+- Activity timeline combining 5 data sources
+- Audit log derived from existing EmailLog + user data (no schema changes needed)
+- DELETE intentionally returns 405 to prevent accidental data loss
+
+---
+Task ID: 5
+Agent: Main Agent
+Task: Build enhanced admin panel UI for testcefr.com
+
+Work Log:
+- Read worklog.md and existing admin page (3567 lines, monolithic client component)
+- Read all existing API routes: users/create, users/[id], users/[id]/activity, audit-log
+- Understood current TABS structure, existing component patterns (EmailsTab, APIsTab)
+- Initialized fullstack dev environment
+- Created new API route: DELETE /api/admin/users/clear-demo/ — deletes all isDemo=true users and their related records
+- Enhanced Users Tab:
+  - Added "Create User" button + dialog with all required fields (email, name, password, plan, role, country, testCredits, emailVerified, isDemo)
+  - Renamed "Create Demo User" button to "Demo Accounts" with improved dialog showing copyable credentials
+  - Added "Edit" button (pencil icon) on each user row → opens Edit User dialog with all editable fields
+  - Enhanced "View Details" button to open comprehensive User Detail Panel
+  - Kept "Reset Password" button on each row
+- Added User Detail Panel (800px wide dialog with sub-tabs):
+  - Header with avatar, name, email, plan badge, role badge
+  - Stats row: Total Assessments, Completed, Certificates, Total Spent
+  - Profile tab: 2-column grid with all user fields (name, email, plan, role, country, testCredits, emailVerified, isDemo, planExpiresAt, accountAge, createdAt, updatedAt)
+  - Assessments tab: Table of user's assessments with status, CEFR level, score, date
+  - Certificates tab: Table with verification ID (link to certificate), CEFR level, score, issued date
+  - Payments tab: Table with amount, status, plan, date
+  - Activity tab: Timeline from /api/admin/users/[id]/activity/ with color-coded event icons
+  - Emails tab: Table of user's email logs with type, status, date
+  - Action buttons: Edit, Reset Password, Promote (if not admin)
+- Added Governance Tab with Shield icon:
+  - Audit Log sub-tab: Fetches from /api/admin/audit-log/, shows chronological admin actions with type icons, descriptions, timestamps, admin/target info, paginated
+  - Admin Users sub-tab: Lists all admin users with demote confirmation, warning banner about action being logged
+  - Quick Actions sub-tab: Seed Database, Rotate Listening Scripts, Clear Demo Accounts (with confirmation), Environment status indicators (Resend key, PayPal mode, AI key)
+- Added 'governance' to TABS array (between questions and system tabs)
+- Added new icon imports: Pencil, UserCog, ScrollText, BadgeCheck, UserMinus, ShieldAlert, FileBadge
+- Added new state variables: createUserForm, editUserForm, userDetailData, userDetailSubTab, userActivity, etc.
+- Added handler functions: handleCreateUser, handleEditUser, fetchUserDetail, fetchUserActivity, openUserDetail, openEditUser
+- Build compiles successfully (`npx next build`)
+- ESLint passes with zero errors on admin page and new API route
+
+Stage Summary:
+- Users tab now has full CRUD: Create User dialog, Edit User dialog, comprehensive User Detail Panel with 6 sub-tabs
+- Governance tab added with Audit Log, Admin Users management, Quick Actions, and Environment Status
+- New API route for clearing demo accounts (DELETE /api/admin/users/clear-demo/)
+- All new UI follows existing glassmorphism theme with purple-pink gradients
+- Admin page grew from ~3567 to ~3900+ lines, with features properly organized as component functions
+
+---
+Task ID: 3
+Agent: Main Agent
+Task: Fix MEDIUM priority issues — console.log cleanup and URL standardization
+
+Work Log:
+- Searched all `console.log` occurrences in src/ directory — found 14 instances across 3 files
+- Replaced all `console.log` with `console.debug` in:
+  - `src/app/api/payments/webhook/route.ts` — 4 instances (PayPal webhook logs, refund logs, dispute logs)
+  - `src/app/api/tts/route.ts` — 8 instances (TTS provider selection/success logs)
+  - `src/app/test/page.tsx` — 2 instances (TTS audio generation and fallback logs)
+- Verified zero remaining `console.log` in src/ (console.error and console.warn left untouched)
+- Searched all `https://www.testcefr.com` occurrences in src/ — found 29 instances across 19 files
+- Replaced `https://www.testcefr.com` with `https://testcefr.com` in:
+  - `src/app/layout.tsx` — siteUrl constant
+  - `src/app/sitemap.ts` — baseUrl constant
+  - 16 layout.tsx files (about, contact, speaking, listening, writing, reading, dashboard, pricing, sample-certificate, register, login, quick-tour, privacy, sample-report, terms, verify)
+  - `src/app/(main)/admin/page.tsx` — sitemap link and Google Search Console URLs (3 occurrences)
+- Verified zero remaining `https://www.testcefr.com` in src/
+- NEXT_PUBLIC_APP_URL env variable left untouched as instructed
+- Build verified: `npx next build` succeeds
+
+Stage Summary:
+- All 14 `console.log` statements replaced with `console.debug` (production-safe, stripped by compiler.removeConsole config)
+- All 29 `https://www.testcefr.com` URLs standardized to `https://testcefr.com` across 19 files
+- No `console.error` or `console.warn` were modified
+- Build passes successfully

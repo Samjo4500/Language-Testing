@@ -13,13 +13,13 @@ export const metadata: Metadata = {
     'online English certification',
   ],
   openGraph: {
-    images: ["https://www.testcefr.com/og-image.png"],
+    images: ["https://testcefr.com/og-image.png"],
     title: 'About TestCEFR',
     description:
       'Democratizing English proficiency assessment through AI technology. Make accurate, affordable CEFR certification accessible worldwide.',
   },
   alternates: {
-    canonical: 'https://www.testcefr.com/about',
+    canonical: 'https://testcefr.com/about',
   },
 };
 

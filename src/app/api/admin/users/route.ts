@@ -138,7 +138,9 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: 'User not found.' }, { status: 404 });
     }
 
-    const updateData: Record<string, unknown> = {};
+    const updateData: Record<string, unknown> = {
+      tokenVersion: { increment: 1 },
+    };
     if (role) updateData.role = role;
     if (plan) updateData.plan = plan;
 

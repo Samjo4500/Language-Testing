@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       'Sign in to your TestCEFR account to access your assessments, certificates, and progress dashboard.',
   },
   alternates: {
-    canonical: 'https://www.testcefr.com/login',
+    canonical: 'https://testcefr.com/login',
   },
   robots: {
     index: false,

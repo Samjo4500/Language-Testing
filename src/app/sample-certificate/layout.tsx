@@ -18,7 +18,7 @@ export const metadata: Metadata = {
       'Preview a sample CEFR proficiency certificate with QR verification, skill breakdown, and professional design.',
   },
   alternates: {
-    canonical: 'https://www.testcefr.com/sample-certificate',
+    canonical: 'https://testcefr.com/sample-certificate',
   },
 };
 

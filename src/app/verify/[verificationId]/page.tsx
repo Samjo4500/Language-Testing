@@ -58,7 +58,7 @@ export default function VerifyCertificatePage() {
   useEffect(() => {
     const verifyCertificate = async () => {
       try {
-        const response = await fetch(`/api/certificates/verify/${verificationId}`);
+        const response = await fetch(`/api/certificates/verify/${verificationId}/`);
         if (!response.ok) {
           if (response.status === 404) {
             setError('Certificate not found. The verification ID may be incorrect or the certificate may have been revoked.');

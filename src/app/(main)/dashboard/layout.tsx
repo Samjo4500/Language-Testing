@@ -17,7 +17,7 @@ export const metadata: Metadata = {
       'Manage your CEFR assessment, view certificates, and track your English proficiency progress.',
   },
   alternates: {
-    canonical: 'https://www.testcefr.com/dashboard',
+    canonical: 'https://testcefr.com/dashboard',
   },
   robots: {
     index: false,

@@ -18,7 +18,7 @@ export const metadata: Metadata = {
       'Understand your rights and responsibilities when using the TestCEFR AI-powered English proficiency assessment platform.',
   },
   alternates: {
-    canonical: 'https://www.testcefr.com/terms',
+    canonical: 'https://testcefr.com/terms',
   },
 };
 

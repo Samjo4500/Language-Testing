@@ -18,7 +18,7 @@ export const metadata: Metadata = {
       'Create your free TestCEFR account and start your English proficiency journey with AI-powered CEFR assessments.',
   },
   alternates: {
-    canonical: 'https://www.testcefr.com/register',
+    canonical: 'https://testcefr.com/register',
   },
   robots: {
     index: false,

@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-const siteUrl = 'https://www.testcefr.com';
+const siteUrl = 'https://testcefr.com';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

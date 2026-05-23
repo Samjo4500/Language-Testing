@@ -126,7 +126,7 @@ export async function POST(request: NextRequest) {
 
     const eventType = event.event_type;
 
-    console.log(`PayPal webhook received: ${eventType}`);
+    console.debug(`PayPal webhook received: ${eventType}`);
 
     // Handle refund events
     if (
@@ -188,7 +188,7 @@ async function handleRefund(event: any) {
           updatedAt: new Date(),
         },
       });
-      console.log(`Partial refund processed for payment ${payment.id}: $${refundAmount} of $${payment.amount}`);
+      console.debug(`Partial refund processed for payment ${payment.id}: $${refundAmount} of $${payment.amount}`);
       return;
     }
 
@@ -215,7 +215,7 @@ async function handleRefund(event: any) {
       });
     });
 
-    console.log(`Full refund processed for payment ${payment.id}. User ${payment.userId} downgraded to free.`);
+    console.debug(`Full refund processed for payment ${payment.id}. User ${payment.userId} downgraded to free.`);
   } catch (error) {
     console.error('Error handling refund event:', error);
   }
@@ -280,7 +280,7 @@ async function handleDispute(event: any) {
         }
       });
 
-      console.log(`Dispute ${disputeId} processed for payment ${payment.id}. Status: ${disputeStatus}`);
+      console.debug(`Dispute ${disputeId} processed for payment ${payment.id}. Status: ${disputeStatus}`);
     }
   } catch (error) {
     console.error('Error handling dispute event:', error);

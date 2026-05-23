@@ -71,6 +71,13 @@ import {
   CheckSquare,
   Square,
   Settings2,
+  Pencil,
+  UserCog,
+  ScrollText,
+  BadgeCheck,
+  UserMinus,
+  ShieldAlert,
+  FileBadge,
 } from 'lucide-react';
 import {
   AreaChart,
@@ -118,6 +125,7 @@ const TABS = [
   { id: 'emails', label: 'Emails', icon: Mail },
   { id: 'apis', label: 'APIs', icon: Code2 },
   { id: 'questions', label: 'Question Bank', icon: BookOpen },
+  { id: 'governance', label: 'Governance', icon: Shield },
   { id: 'system', label: 'System', icon: Server },
   { id: 'analytics-integrations', label: 'Analytics', icon: Globe },
 ] as const;
@@ -355,7 +363,7 @@ function EmailsTab({ notifUnread, onSwitchTab }: { notifUnread: number; onSwitch
     setLoading(true);
     try {
       const params = new URLSearchParams({ page: String(page), limit: '20', filter });
-      const res = await fetch(`/api/admin/emails?${params}`, { credentials: 'same-origin' });
+      const res = await fetch(`/api/admin/emails/?${params}`, { credentials: 'same-origin' });
       if (res.ok) setEmailsData(await res.json());
     } catch (e) { console.error('Emails fetch error:', e); }
     finally { setLoading(false); }
@@ -664,7 +672,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
   // ── Toggle API Key Active ──
   const handleToggleActive = async (id: string, currentActive: boolean) => {
     try {
-      const res = await fetch(`/api/admin/api-keys/${id}`, {
+      const res = await fetch(`/api/admin/api-keys/${id}/`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'same-origin',
@@ -684,7 +692,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
   // ── Revoke API Key ──
   const handleRevokeKey = async (id: string) => {
     try {
-      const res = await fetch(`/api/admin/api-keys/${id}`, {
+      const res = await fetch(`/api/admin/api-keys/${id}/`, {
         method: 'DELETE',
         credentials: 'same-origin',
       });
@@ -1438,6 +1446,500 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
   );
 }
 
+// ─── Governance Tab Component ────────────────────────────────────────────────
+
+function GovernanceTab({
+  onToast,
+  systemData,
+  onRefreshUsers,
+}: {
+  onToast: (msg: string, type: 'success' | 'error') => void;
+  systemData: SystemData | null;
+  onRefreshUsers: () => void;
+}) {
+  const [subTab, setSubTab] = useState<'audit' | 'admins' | 'actions'>('audit');
+
+  // ── Audit Log State ──
+  const [auditEntries, setAuditEntries] = useState<Array<{
+    id: string; type: string; description: string; date: string;
+    adminEmail?: string; adminName?: string; targetEmail?: string; targetName?: string;
+    metadata?: Record<string, unknown>;
+  }>>([]);
+  const [auditLoading, setAuditLoading] = useState(true);
+  const [auditPagination, setAuditPagination] = useState({ page: 1, limit: 20, total: 0, totalPages: 1 });
+
+  // ── Admin Users State ──
+  const [adminUsers, setAdminUsers] = useState<Array<{
+    id: string; email: string; name: string | null; createdAt: string; updatedAt: string;
+  }>>([]);
+  const [adminUsersLoading, setAdminUsersLoading] = useState(true);
+  const [demotingId, setDemotingId] = useState<string | null>(null);
+  const [confirmDemoteId, setConfirmDemoteId] = useState<string | null>(null);
+
+  // ── Quick Actions State ──
+  const [seeding, setSeeding] = useState(false);
+  const [rotating, setRotating] = useState(false);
+  const [clearingDemos, setClearingDemos] = useState(false);
+  const [confirmClearDemos, setConfirmClearDemos] = useState(false);
+
+  // ── Fetch Audit Log ──
+  const fetchAuditLog = useCallback(async (page = 1) => {
+    setAuditLoading(true);
+    try {
+      const params = new URLSearchParams({ page: String(page), limit: '20' });
+      const res = await fetch(`/api/admin/audit-log/?${params}`, { credentials: 'same-origin' });
+      if (res.ok) {
+        const data = await res.json();
+        setAuditEntries(data.entries || []);
+        setAuditPagination(data.pagination || { page: 1, limit: 20, total: 0, totalPages: 1 });
+        // Also get admin users from the response
+        if (data.adminUsers) setAdminUsers(data.adminUsers);
+      }
+    } catch (e) { console.error('Audit log fetch error:', e); }
+    finally { setAuditLoading(false); }
+  }, []);
+
+  // ── Fetch Admin Users ──
+  const fetchAdminUsers = useCallback(async () => {
+    setAdminUsersLoading(true);
+    try {
+      const res = await fetch('/api/admin/users/?limit=100&role=admin', { credentials: 'same-origin' });
+      if (res.ok) {
+        const data = await res.json();
+        setAdminUsers(data.users.filter((u: AdminUser) => u.role === 'admin'));
+      }
+    } catch (e) { console.error('Admin users fetch error:', e); }
+    finally { setAdminUsersLoading(false); }
+  }, []);
+
+  useEffect(() => { fetchAuditLog(); fetchAdminUsers(); }, [fetchAuditLog, fetchAdminUsers]);
+
+  // ── Demote Admin ──
+  const handleDemoteAdmin = async (userId: string) => {
+    setDemotingId(userId);
+    try {
+      const res = await fetch(`/api/admin/users/${userId}/`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ role: 'user' }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        onToast(`Demoted ${data.user?.email || 'user'} to regular user`, 'success');
+        fetchAdminUsers();
+        onRefreshUsers();
+      } else {
+        onToast(data.error || 'Failed to demote user', 'error');
+      }
+    } catch {
+      onToast('Failed to demote user', 'error');
+    } finally { setDemotingId(null); setConfirmDemoteId(null); }
+  };
+
+  // ── Seed Database ──
+  const handleSeed = async () => {
+    setSeeding(true);
+    try {
+      const res = await fetch('/api/admin/seed/', { method: 'POST', credentials: 'same-origin' });
+      const data = await res.json();
+      if (res.ok) {
+        onToast(data.message || 'Database seeded successfully', 'success');
+      } else {
+        onToast(data.error || 'Seed failed', 'error');
+      }
+    } catch {
+      onToast('Seed request failed', 'error');
+    } finally { setSeeding(false); }
+  };
+
+  // ── Rotate Listening Scripts ──
+  const handleRotate = async () => {
+    setRotating(true);
+    try {
+      const res = await fetch('/api/admin/rotate-scripts/', { method: 'POST', credentials: 'same-origin' });
+      const data = await res.json();
+      if (res.ok) {
+        onToast(data.message || 'Scripts rotated successfully', 'success');
+      } else {
+        onToast(data.error || 'Rotation failed', 'error');
+      }
+    } catch {
+      onToast('Rotation request failed', 'error');
+    } finally { setRotating(false); }
+  };
+
+  // ── Clear Demo Accounts ──
+  const handleClearDemos = async () => {
+    setClearingDemos(true);
+    try {
+      const res = await fetch('/api/admin/users/clear-demo/', { method: 'DELETE', credentials: 'same-origin' });
+      const data = await res.json();
+      if (res.ok) {
+        onToast(data.message || `Deleted ${data.deletedCount} demo accounts`, 'success');
+        onRefreshUsers();
+      } else {
+        onToast(data.error || 'Failed to clear demos', 'error');
+      }
+    } catch {
+      onToast('Clear demos request failed', 'error');
+    } finally { setClearingDemos(false); setConfirmClearDemos(false); }
+  };
+
+  // ── Audit log type icons/colors ──
+  const auditTypeConfig: Record<string, { icon: React.ElementType; color: string; label: string }> = {
+    admin_new_user: { icon: UserPlus, color: 'text-blue-400 bg-blue-500/20', label: 'New User' },
+    admin_new_payment: { icon: CreditCard, color: 'text-green-400 bg-green-500/20', label: 'Payment' },
+    admin_certificate: { icon: Award, color: 'text-purple-400 bg-purple-500/20', label: 'Certificate' },
+    admin_user: { icon: Shield, color: 'text-orange-400 bg-orange-500/20', label: 'Admin' },
+    password_reset: { icon: Lock, color: 'text-yellow-400 bg-yellow-500/20', label: 'Password Reset' },
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Sub-tab Navigation */}
+      <div className="flex gap-2">
+        {[
+          { id: 'audit' as const, label: 'Audit Log', icon: ScrollText },
+          { id: 'admins' as const, label: 'Admin Users', icon: ShieldAlert },
+          { id: 'actions' as const, label: 'Quick Actions', icon: Zap },
+        ].map((tab) => {
+          const Icon = tab.icon;
+          const isActive = subTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setSubTab(tab.id)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-300 ${
+                isActive
+                  ? 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-white border border-purple-500/30 shadow-lg shadow-purple-500/10'
+                  : 'text-white/50 hover:text-white hover:bg-white/5 border border-transparent'
+              }`}
+            >
+              <Icon className="h-4 w-4" />
+              {tab.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          SUB-TAB: AUDIT LOG
+          ═══════════════════════════════════════════════════════════════ */}
+      {subTab === 'audit' && (
+        <div className="glass-card p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-white font-semibold flex items-center gap-2">
+              <ScrollText className="h-4 w-4 text-purple-400" />
+              Admin Audit Trail
+            </h3>
+            <button
+              onClick={() => fetchAuditLog()}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+            >
+              <RefreshCw className="h-3.5 w-3.5" /> Refresh
+            </button>
+          </div>
+
+          {auditLoading ? (
+            <Skeleton className="h-64 w-full bg-white/5" />
+          ) : auditEntries.length === 0 ? (
+            <div className="text-center py-12">
+              <ScrollText className="h-8 w-8 text-white/10 mx-auto mb-3" />
+              <p className="text-white/30 text-sm">No audit log entries yet</p>
+              <p className="text-white/20 text-xs mt-1">Admin actions will be recorded here</p>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {auditEntries.map((entry) => {
+                const config = auditTypeConfig[entry.type] || { icon: Activity, color: 'text-white/40 bg-white/10', label: entry.type };
+                const Icon = config.icon;
+                return (
+                  <div key={entry.id} className="flex items-start gap-3 p-3 rounded-xl bg-white/[0.02] hover:bg-white/[0.04] transition-colors border border-white/5">
+                    <div className={`flex items-center justify-center h-8 w-8 rounded-lg shrink-0 ${config.color}`}>
+                      <Icon className="h-4 w-4" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <span className="text-xs font-semibold text-white/80">{config.label}</span>
+                        {entry.adminEmail && (
+                          <span className="text-xs text-purple-400/70">by {entry.adminEmail}</span>
+                        )}
+                      </div>
+                      <p className="text-white/50 text-xs leading-relaxed">{entry.description}</p>
+                      {entry.targetEmail && (
+                        <p className="text-white/30 text-[10px] mt-0.5">Target: {entry.targetEmail}{entry.targetName ? ` (${entry.targetName})` : ''}</p>
+                      )}
+                    </div>
+                    <div className="shrink-0 text-right">
+                      <p className="text-white/30 text-[10px]">{new Date(entry.date).toLocaleDateString()}</p>
+                      <p className="text-white/20 text-[10px]">{new Date(entry.date).toLocaleTimeString()}</p>
+                    </div>
+                  </div>
+                );
+              })}
+              {auditPagination.totalPages > 1 && (
+                <Pagination page={auditPagination.page} totalPages={auditPagination.totalPages} onPageChange={(p) => fetchAuditLog(p)} />
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ═══════════════════════════════════════════════════════════════
+          SUB-TAB: ADMIN USERS
+          ═══════════════════════════════════════════════════════════════ */}
+      {subTab === 'admins' && (
+        <div className="space-y-4">
+          {/* Warning Banner */}
+          <div className="glass-card p-4 border border-yellow-500/20 bg-yellow-500/[0.05]">
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-yellow-500 to-orange-500 text-white shadow-lg">
+                <ShieldAlert className="h-4 w-4" />
+              </div>
+              <div>
+                <p className="text-yellow-400 font-semibold text-sm">Proceed with Caution</p>
+                <p className="text-white/50 text-xs">Only demote users you trust. This action is logged and will invalidate their session immediately.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Admin Users List */}
+          <div className="glass-card p-5">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-white font-semibold flex items-center gap-2">
+                <Shield className="h-4 w-4 text-orange-400" />
+                Admin Users ({adminUsers.length})
+              </h3>
+              <button
+                onClick={() => fetchAdminUsers()}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+              >
+                <RefreshCw className="h-3.5 w-3.5" /> Refresh
+              </button>
+            </div>
+
+            {adminUsersLoading ? (
+              <Skeleton className="h-40 w-full bg-white/5" />
+            ) : adminUsers.length === 0 ? (
+              <div className="text-center py-8 text-white/30 text-sm">No admin users found</div>
+            ) : (
+              <div className="space-y-2">
+                {adminUsers.map((admin) => (
+                  <div key={admin.id} className="flex items-center justify-between p-3 rounded-xl bg-white/[0.02] hover:bg-white/[0.04] transition-colors border border-white/5">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-full bg-gradient-to-br from-orange-400 to-red-400 flex items-center justify-center text-white text-sm font-bold">
+                        {(admin.name || admin.email)[0].toUpperCase()}
+                      </div>
+                      <div>
+                        <p className="text-white font-medium text-sm">{admin.name || 'No name'}</p>
+                        <p className="text-white/50 text-xs">{admin.email}</p>
+                        <div className="flex items-center gap-3 mt-0.5">
+                          <span className="text-white/30 text-[10px]">Created: {new Date(admin.createdAt).toLocaleDateString()}</span>
+                          <span className="text-white/30 text-[10px]">Last active: {new Date(admin.updatedAt).toLocaleDateString()}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      {confirmDemoteId === admin.id ? (
+                        <div className="flex items-center gap-2">
+                          <span className="text-red-400 text-xs">Are you sure?</span>
+                          <Button
+                            size="sm"
+                            onClick={() => handleDemoteAdmin(admin.id)}
+                            disabled={demotingId === admin.id}
+                            className="bg-red-600 hover:bg-red-500 text-white text-xs h-7 px-3"
+                          >
+                            {demotingId === admin.id ? <Loader2 className="h-3 w-3 animate-spin" /> : 'Confirm'}
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => setConfirmDemoteId(null)}
+                            className="border-white/10 text-white/60 hover:text-white text-xs h-7 px-3"
+                          >
+                            Cancel
+                          </Button>
+                        </div>
+                      ) : (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => setConfirmDemoteId(admin.id)}
+                          className="border-red-500/20 text-red-400 hover:text-red-300 hover:bg-red-500/10 text-xs h-7 px-3"
+                        >
+                          <UserMinus className="h-3 w-3 mr-1" />
+                          Demote to User
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* ═══════════════════════════════════════════════════════════════
+          SUB-TAB: QUICK ACTIONS
+          ═══════════════════════════════════════════════════════════════ */}
+      {subTab === 'actions' && (
+        <div className="space-y-6">
+          {/* Quick Action Buttons */}
+          <div className="glass-card p-5">
+            <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+              <Zap className="h-4 w-4 text-yellow-400" />
+              Quick Actions
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Seed Database */}
+              <div className="glass-card p-4 hover:border-purple-500/30 transition-colors">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-indigo-500 text-white shadow-lg">
+                    <Database className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <p className="text-white font-medium text-sm">Seed Database</p>
+                    <p className="text-white/40 text-xs">Populate sample questions</p>
+                  </div>
+                </div>
+                <Button
+                  onClick={handleSeed}
+                  disabled={seeding}
+                  className="w-full bg-gradient-to-r from-purple-600 to-indigo-500 text-white hover:from-purple-500 hover:to-indigo-400 text-xs h-9"
+                >
+                  {seeding ? <Loader2 className="h-3.5 w-3.5 animate-spin mr-1.5" /> : <Database className="h-3.5 w-3.5 mr-1.5" />}
+                  {seeding ? 'Seeding...' : 'Run Seed'}
+                </Button>
+              </div>
+
+              {/* Rotate Listening Scripts */}
+              <div className="glass-card p-4 hover:border-purple-500/30 transition-colors">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 text-white shadow-lg">
+                    <RefreshCw className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <p className="text-white font-medium text-sm">Rotate Scripts</p>
+                    <p className="text-white/40 text-xs">Refresh listening content</p>
+                  </div>
+                </div>
+                <Button
+                  onClick={handleRotate}
+                  disabled={rotating}
+                  className="w-full bg-gradient-to-r from-cyan-600 to-blue-500 text-white hover:from-cyan-500 hover:to-blue-400 text-xs h-9"
+                >
+                  {rotating ? <Loader2 className="h-3.5 w-3.5 animate-spin mr-1.5" /> : <RefreshCw className="h-3.5 w-3.5 mr-1.5" />}
+                  {rotating ? 'Rotating...' : 'Rotate'}
+                </Button>
+              </div>
+
+              {/* Clear Demo Accounts */}
+              <div className="glass-card p-4 hover:border-red-500/30 transition-colors">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-red-500 to-orange-500 text-white shadow-lg">
+                    <Trash2 className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <p className="text-white font-medium text-sm">Clear Demo Accounts</p>
+                    <p className="text-white/40 text-xs">Delete all isDemo=true users</p>
+                  </div>
+                </div>
+                {confirmClearDemos ? (
+                  <div className="space-y-2">
+                    <p className="text-red-400 text-xs font-medium">This will permanently delete all demo accounts and their data.</p>
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={handleClearDemos}
+                        disabled={clearingDemos}
+                        className="flex-1 bg-red-600 hover:bg-red-500 text-white text-xs h-9"
+                      >
+                        {clearingDemos ? <Loader2 className="h-3.5 w-3.5 animate-spin mr-1.5" /> : null}
+                        {clearingDemos ? 'Deleting...' : 'Confirm Delete'}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => setConfirmClearDemos(false)}
+                        className="flex-1 border-white/10 text-white/60 hover:text-white text-xs h-9"
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <Button
+                    onClick={() => setConfirmClearDemos(true)}
+                    className="w-full bg-gradient-to-r from-red-600 to-orange-500 text-white hover:from-red-500 hover:to-orange-400 text-xs h-9"
+                  >
+                    <Trash2 className="h-3.5 w-3.5 mr-1.5" />
+                    Clear All Demos
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Environment Status */}
+          <div className="glass-card p-5">
+            <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+              <Cpu className="h-4 w-4 text-green-400" />
+              Environment Status
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="glass-card p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Mail className="h-4 w-4 text-white/40" />
+                  <span className="text-white/50 text-sm">Resend Key</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  {systemData?.environment ? (
+                    <>
+                      <CheckCircle2 className="h-4 w-4 text-green-400" />
+                      <span className="text-green-400 text-sm font-medium">Configured</span>
+                    </>
+                  ) : (
+                    <>
+                      <AlertCircle className="h-4 w-4 text-yellow-400" />
+                      <span className="text-yellow-400 text-sm font-medium">Checking...</span>
+                    </>
+                  )}
+                </div>
+              </div>
+              <div className="glass-card p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <CreditCard className="h-4 w-4 text-white/40" />
+                  <span className="text-white/50 text-sm">PayPal Mode</span>
+                </div>
+                <span className="text-white text-sm font-medium">{systemData?.environment.paypalMode || '—'}</span>
+              </div>
+              <div className="glass-card p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Cpu className="h-4 w-4 text-white/40" />
+                  <span className="text-white/50 text-sm">AI API Key</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  {systemData?.environment.googleAiKeySet ? (
+                    <>
+                      <CheckCircle2 className="h-4 w-4 text-green-400" />
+                      <span className="text-green-400 text-sm font-medium">Set</span>
+                    </>
+                  ) : (
+                    <>
+                      <AlertCircle className="h-4 w-4 text-red-400" />
+                      <span className="text-red-400 text-sm font-medium">Missing</span>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ═══════════════════════════════════════════════════════════════════════════════
 // MAIN ADMIN PAGE
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -1509,6 +2011,36 @@ export default function AdminPage() {
   const [creatingDemo, setCreatingDemo] = useState(false);
   const [demoResult, setDemoResult] = useState<{ message: string; credentials: Array<{ email: string; password: string; userId: string }> } | null>(null);
 
+  // ── Create User Dialog ────────────────────────────────────────────
+  const [createUserDialogOpen, setCreateUserDialogOpen] = useState(false);
+  const [createUserForm, setCreateUserForm] = useState({
+    email: '', name: '', password: '', plan: 'free', role: 'user',
+    country: '', testCredits: 0, emailVerified: true, isDemo: false,
+  });
+  const [creatingUser, setCreatingUser] = useState(false);
+
+  // ── Edit User Dialog ──────────────────────────────────────────────
+  const [editUserDialogOpen, setEditUserDialogOpen] = useState(false);
+  const [editUserForm, setEditUserForm] = useState<{
+    id: string; name: string; plan: string; role: string; country: string;
+    testCredits: number; emailVerified: boolean; isDemo: boolean;
+  }>({ id: '', name: '', plan: 'free', role: 'user', country: '', testCredits: 0, emailVerified: true, isDemo: false });
+  const [savingUser, setSavingUser] = useState(false);
+
+  // ── User Detail Panel ─────────────────────────────────────────────
+  const [userDetailData, setUserDetailData] = useState<{
+    user: Record<string, unknown>;
+    assessments: Array<Record<string, unknown>>;
+    certificates: Array<Record<string, unknown>>;
+    payments: Array<Record<string, unknown>>;
+    emailLogs: Array<Record<string, unknown>>;
+    stats: { totalAssessments: number; completedAssessments: number; totalCertificates: number; totalPayments: number; totalSpent: number; lastActivityAt: string | null; accountAgeDays: number };
+  } | null>(null);
+  const [userDetailLoading, setUserDetailLoading] = useState(false);
+  const [userDetailSubTab, setUserDetailSubTab] = useState<'profile' | 'assessments' | 'certificates' | 'payments' | 'activity' | 'emails'>('profile');
+  const [userActivity, setUserActivity] = useState<Array<{ type: string; description: string; date: string; metadata?: Record<string, unknown> }>>([]);
+  const [userActivityLoading, setUserActivityLoading] = useState(false);
+
   // ── Notifications (shared Zustand store with navbar bell) ──────────
   const {
     unreadCount: notifUnread,
@@ -1553,7 +2085,7 @@ export default function AdminPage() {
     try {
       const params = new URLSearchParams({ page: String(page), limit: '20' });
       if (search) params.set('search', search);
-      const res = await fetch(`/api/admin/users?${params}`, { credentials: 'same-origin' });
+      const res = await fetch(`/api/admin/users/?${params}`, { credentials: 'same-origin' });
       if (res.ok) {
         const data = await res.json();
         setUsers(data.users);
@@ -1570,7 +2102,7 @@ export default function AdminPage() {
     try {
       const params = new URLSearchParams({ page: String(page), limit: '20' });
       if (status && status !== 'all') params.set('status', status);
-      const res = await fetch(`/api/admin/payments?${params}`, { credentials: 'same-origin' });
+      const res = await fetch(`/api/admin/payments/?${params}`, { credentials: 'same-origin' });
       if (res.ok) {
         const data = await res.json();
         setPayments(data.payments);
@@ -1587,7 +2119,7 @@ export default function AdminPage() {
     setAssessmentsLoading(true);
     try {
       const params = new URLSearchParams({ page: String(page), limit: '20' });
-      const res = await fetch(`/api/admin/assessments?${params}`, { credentials: 'same-origin' });
+      const res = await fetch(`/api/admin/assessments/?${params}`, { credentials: 'same-origin' });
       if (res.ok) {
         const data = await res.json();
         setAssessments(data.assessments);
@@ -1603,7 +2135,7 @@ export default function AdminPage() {
     setCertificatesLoading(true);
     try {
       const params = new URLSearchParams({ page: String(page), limit: '20' });
-      const res = await fetch(`/api/admin/certificates?${params}`, { credentials: 'same-origin' });
+      const res = await fetch(`/api/admin/certificates/?${params}`, { credentials: 'same-origin' });
       if (res.ok) {
         const data = await res.json();
         setCertificates(data.certificates);
@@ -1695,15 +2227,36 @@ export default function AdminPage() {
     if (!isAuthenticated) return;
     setResettingPassword(true);
     try {
+      // Generate a random 12-character password with mixed case, numbers, and symbols
+      const chars = 'abcdefghijklmnopqrstuvwxyz';
+      const upperChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const numbers = '0123456789';
+      const symbols = '!@#$%^&*';
+      const allChars = chars + upperChars + numbers + symbols;
+      const array = new Uint32Array(12);
+      crypto.getRandomValues(array);
+      let newPassword = '';
+      // Ensure at least one of each type
+      newPassword += chars[array[0] % chars.length];
+      newPassword += upperChars[array[1] % upperChars.length];
+      newPassword += numbers[array[2] % numbers.length];
+      newPassword += symbols[array[3] % symbols.length];
+      for (let i = 4; i < 12; i++) {
+        newPassword += allChars[array[i] % allChars.length];
+      }
+      // Shuffle the password
+      const shuffleArray = new Uint32Array(newPassword.length);
+      crypto.getRandomValues(shuffleArray);
+      newPassword = newPassword.split('').sort((a, b) => shuffleArray[newPassword.indexOf(a)] - shuffleArray[newPassword.indexOf(b)]).join('');
       const res = await fetch('/api/admin/users/reset-password/', {
         method: 'PATCH',
         headers: jsonHeaders(),
         credentials: 'same-origin',
-        body: JSON.stringify({ userId, newPassword: 'NewPass123!' }),
+        body: JSON.stringify({ userId, newPassword }),
       });
       const data = await res.json();
       if (res.ok) {
-        setToast({ message: 'Password reset to: NewPass123!', type: 'success' });
+        setToast({ message: `Password reset to: ${newPassword}`, type: 'success' });
       } else {
         setToast({ message: data.error || 'Failed to reset password', type: 'error' });
       }
@@ -1734,6 +2287,129 @@ export default function AdminPage() {
     } catch {
       setToast({ message: 'Failed to create demo users', type: 'error' });
     } finally { setCreatingDemo(false); }
+  };
+
+  const handleCreateUser = async () => {
+    if (!isAuthenticated) return;
+    if (!createUserForm.email || !createUserForm.password) {
+      setToast({ message: 'Email and password are required', type: 'error' });
+      return;
+    }
+    if (createUserForm.password.length < 6) {
+      setToast({ message: 'Password must be at least 6 characters', type: 'error' });
+      return;
+    }
+    setCreatingUser(true);
+    try {
+      const res = await fetch('/api/admin/users/create/', {
+        method: 'POST',
+        headers: jsonHeaders(),
+        credentials: 'same-origin',
+        body: JSON.stringify(createUserForm),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setToast({ message: `User ${createUserForm.email} created successfully!`, type: 'success' });
+        setCreateUserDialogOpen(false);
+        setCreateUserForm({ email: '', name: '', password: '', plan: 'free', role: 'user', country: '', testCredits: 0, emailVerified: true, isDemo: false });
+        fetchUsers(1, usersSearch);
+      } else {
+        setToast({ message: data.error || 'Failed to create user', type: 'error' });
+      }
+    } catch {
+      setToast({ message: 'Failed to create user', type: 'error' });
+    } finally { setCreatingUser(false); }
+  };
+
+  const handleEditUser = async () => {
+    if (!isAuthenticated) return;
+    setSavingUser(true);
+    try {
+      const { id, ...updateData } = editUserForm;
+      const res = await fetch(`/api/admin/users/${id}/`, {
+        method: 'PATCH',
+        headers: jsonHeaders(),
+        credentials: 'same-origin',
+        body: JSON.stringify(updateData),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setToast({ message: `User ${data.user?.email || id} updated successfully`, type: 'success' });
+        setEditUserDialogOpen(false);
+        fetchUsers(usersPagination.page, usersSearch);
+        // Refresh detail panel if open
+        if (userDetailOpen && selectedUser?.id === id) {
+          fetchUserDetail(id);
+        }
+      } else {
+        setToast({ message: data.error || 'Failed to update user', type: 'error' });
+      }
+    } catch {
+      setToast({ message: 'Failed to update user', type: 'error' });
+    } finally { setSavingUser(false); }
+  };
+
+  const fetchUserDetail = async (userId: string) => {
+    setUserDetailLoading(true);
+    try {
+      const res = await fetch(`/api/admin/users/${userId}/`, { credentials: 'same-origin' });
+      if (res.ok) {
+        const data = await res.json();
+        setUserDetailData(data);
+      }
+    } catch (e) { console.error('User detail fetch error:', e); }
+    finally { setUserDetailLoading(false); }
+  };
+
+  const fetchUserActivity = async (userId: string) => {
+    setUserActivityLoading(true);
+    try {
+      const res = await fetch(`/api/admin/users/${userId}/activity/`, { credentials: 'same-origin' });
+      if (res.ok) {
+        const data = await res.json();
+        setUserActivity(data.events || []);
+      }
+    } catch (e) { console.error('User activity fetch error:', e); }
+    finally { setUserActivityLoading(false); }
+  };
+
+  const openUserDetail = async (u: AdminUser) => {
+    setSelectedUser(u);
+    setUserDetailOpen(true);
+    setUserDetailSubTab('profile');
+    await fetchUserDetail(u.id);
+  };
+
+  const openEditUser = (u: AdminUser) => {
+    setEditUserForm({
+      id: u.id,
+      name: u.name || '',
+      plan: u.plan,
+      role: u.role,
+      country: '',
+      testCredits: 0,
+      emailVerified: u.emailVerified,
+      isDemo: u.isDemo,
+    });
+    // Fetch full detail to populate country and testCredits
+    fetch(`/api/admin/users/${u.id}/`, { credentials: 'same-origin' })
+      .then(res => res.ok ? res.json() : null)
+      .then(data => {
+        if (data?.user) {
+          setEditUserForm(prev => ({
+            ...prev,
+            name: data.user.name || '',
+            plan: data.user.plan,
+            role: data.user.role,
+            country: data.user.country || '',
+            testCredits: data.user.testCredits ?? 0,
+            emailVerified: data.user.emailVerified ?? true,
+            isDemo: data.user.isDemo ?? false,
+          }));
+        }
+      })
+      .catch(() => {});
+    setEditUserDialogOpen(true);
   };
 
   const handleTestPaypal = async () => {
@@ -2258,13 +2934,22 @@ export default function AdminPage() {
                       <option value="admin" className="bg-[#1a1f36]">Admin</option>
                     </select>
                   </div>
-                  <button
-                    onClick={() => setDemoDialogOpen(true)}
-                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-pink-500 text-white text-sm font-medium hover:from-purple-500 hover:to-pink-400 transition-all shadow-lg shadow-purple-500/20 cursor-pointer"
-                  >
-                    <UserPlus className="h-4 w-4" />
-                    Create Demo User
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setCreateUserDialogOpen(true)}
+                      className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-green-600 to-emerald-500 text-white text-sm font-medium hover:from-green-500 hover:to-emerald-400 transition-all shadow-lg shadow-green-500/20 cursor-pointer"
+                    >
+                      <UserPlus className="h-4 w-4" />
+                      Create User
+                    </button>
+                    <button
+                      onClick={() => setDemoDialogOpen(true)}
+                      className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-pink-500 text-white text-sm font-medium hover:from-purple-500 hover:to-pink-400 transition-all shadow-lg shadow-purple-500/20 cursor-pointer"
+                    >
+                      <UserCog className="h-4 w-4" />
+                      Demo Accounts
+                    </button>
+                  </div>
                 </div>
               </div>
 
@@ -2310,11 +2995,11 @@ export default function AdminPage() {
                             <td className="py-3 px-4 text-white/60 truncate max-w-[180px]">{u.email}</td>
                             <td className="py-3 px-4 text-center">
                               <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
-                                u.plan === 'premium'
+                                u.plan === 'premium' || u.plan === 'pro'
                                   ? 'bg-green-500/20 text-green-400 border border-green-500/30'
                                   : 'bg-white/10 text-white/50 border border-white/10'
                               }`}>
-                                {u.plan === 'premium' ? 'Premium' : 'Free'}
+                                {u.plan.charAt(0).toUpperCase() + u.plan.slice(1)}
                               </span>
                             </td>
                             <td className="py-3 px-4 text-center">
@@ -2331,22 +3016,19 @@ export default function AdminPage() {
                             <td className="py-3 px-4 text-right">
                               <div className="flex items-center justify-end gap-1">
                                 <button
-                                  onClick={() => { setSelectedUser(u); setUserDetailOpen(true); }}
-                                  className="p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/10 transition-colors"
+                                  onClick={() => openUserDetail(u)}
+                                  className="p-1.5 rounded-lg text-white/40 hover:text-cyan-400 hover:bg-cyan-500/10 transition-colors"
                                   title="View Details"
                                 >
                                   <Eye className="h-3.5 w-3.5" />
                                 </button>
-                                {u.role !== 'admin' && (
-                                  <button
-                                    onClick={() => handlePromoteUser(u.email)}
-                                    disabled={promoting}
-                                    className="p-1.5 rounded-lg text-orange-400/60 hover:text-orange-400 hover:bg-orange-500/10 transition-colors"
-                                    title="Promote to Admin"
-                                  >
-                                    <Shield className="h-3.5 w-3.5" />
-                                  </button>
-                                )}
+                                <button
+                                  onClick={() => openEditUser(u)}
+                                  className="p-1.5 rounded-lg text-white/40 hover:text-yellow-400 hover:bg-yellow-500/10 transition-colors"
+                                  title="Edit User"
+                                >
+                                  <Pencil className="h-3.5 w-3.5" />
+                                </button>
                                 <button
                                   onClick={() => handleResetPassword(u.id)}
                                   disabled={resettingPassword}
@@ -2366,89 +3048,600 @@ export default function AdminPage() {
                 <Pagination page={usersPagination.page} totalPages={usersPagination.totalPages} onPageChange={(p) => fetchUsers(p, usersSearch)} />
               </div>
 
-              {/* User Detail Dialog */}
+              {/* ═════════════════════════════════════════════════════════════
+                  USER DETAIL PANEL (Full-Screen Dialog)
+                  ═════════════════════════════════════════════════════════════ */}
               <Dialog open={userDetailOpen} onOpenChange={setUserDetailOpen}>
-                <DialogContent className="sm:max-w-[500px] bg-[#1a1f36] border-white/10 text-white">
-                  <DialogHeader>
-                    <DialogTitle className="text-white">User Details</DialogTitle>
-                  </DialogHeader>
-                  {selectedUser && (
-                    <div className="space-y-4 py-2">
-                      <div className="flex items-center gap-3">
-                        <div className="h-12 w-12 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white text-lg font-bold">
-                          {(selectedUser.name || selectedUser.email)[0].toUpperCase()}
-                        </div>
-                        <div>
-                          <p className="font-semibold text-white">{selectedUser.name || 'No name'}</p>
-                          <p className="text-sm text-white/50">{selectedUser.email}</p>
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-2 gap-3">
-                        {[
-                          { label: 'Plan', value: selectedUser.plan, badge: true },
-                          { label: 'Role', value: selectedUser.role, badge: true },
-                          { label: 'Joined', value: new Date(selectedUser.createdAt).toLocaleDateString() },
-                          { label: 'Email Verified', value: selectedUser.emailVerified ? 'Yes' : 'No' },
-                          { label: 'Assessments', value: selectedUser._count.assessments },
-                          { label: 'Certificates', value: selectedUser._count.certificates },
-                          { label: 'Payments', value: selectedUser._count.payments },
-                          { label: 'Demo Account', value: selectedUser.isDemo ? 'Yes' : 'No' },
-                        ].map((item) => (
-                          <div key={item.label} className="p-3 rounded-xl bg-white/5">
-                            <p className="text-xs text-white/40 mb-1">{item.label}</p>
-                            {item.badge ? (
-                              <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
-                                (item.label === 'Plan' && item.value === 'premium')
-                                  ? 'bg-green-500/20 text-green-400'
-                                  : (item.label === 'Role' && item.value === 'admin')
-                                  ? 'bg-orange-500/20 text-orange-400'
-                                  : 'bg-white/10 text-white/60'
-                              }`}>
-                                {String(item.value)}
-                              </span>
-                            ) : (
-                              <p className="text-sm text-white font-medium">{String(item.value)}</p>
-                            )}
+                <DialogContent className="sm:max-w-[800px] max-h-[90vh] bg-[#1a1f36] border-white/10 text-white overflow-hidden flex flex-col">
+                  <DialogHeader className="shrink-0">
+                    <DialogTitle className="text-white flex items-center gap-3">
+                      {selectedUser && (
+                        <>
+                          <div className="h-10 w-10 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white text-sm font-bold">
+                            {(selectedUser.name || selectedUser.email)[0].toUpperCase()}
                           </div>
-                        ))}
+                          <div>
+                            <p className="font-semibold">{selectedUser.name || 'No name'}</p>
+                            <p className="text-sm text-white/50 font-normal">{selectedUser.email}</p>
+                          </div>
+                          <span className={`ml-2 inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
+                            selectedUser.plan === 'premium' || selectedUser.plan === 'pro'
+                              ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                              : 'bg-white/10 text-white/50 border border-white/10'
+                          }`}>
+                            {selectedUser.plan.charAt(0).toUpperCase() + selectedUser.plan.slice(1)}
+                          </span>
+                          <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
+                            selectedUser.role === 'admin'
+                              ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30'
+                              : 'bg-white/10 text-white/50 border border-white/10'
+                          }`}>
+                            {selectedUser.role === 'admin' ? 'Admin' : 'User'}
+                          </span>
+                        </>
+                      )}
+                    </DialogTitle>
+                  </DialogHeader>
+
+                  {userDetailLoading ? (
+                    <div className="flex-1 flex items-center justify-center py-12">
+                      <Loader2 className="h-8 w-8 text-purple-400 animate-spin" />
+                    </div>
+                  ) : userDetailData ? (
+                    <div className="flex-1 overflow-y-auto space-y-4 py-2 min-h-0">
+                      {/* Stats Row */}
+                      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                        <div className="glass-card p-3 text-center">
+                          <p className="text-white/40 text-xs mb-1">Assessments</p>
+                          <p className="text-xl font-bold text-white">{userDetailData.stats.totalAssessments}</p>
+                        </div>
+                        <div className="glass-card p-3 text-center">
+                          <p className="text-white/40 text-xs mb-1">Completed</p>
+                          <p className="text-xl font-bold text-green-400">{userDetailData.stats.completedAssessments}</p>
+                        </div>
+                        <div className="glass-card p-3 text-center">
+                          <p className="text-white/40 text-xs mb-1">Certificates</p>
+                          <p className="text-xl font-bold text-purple-400">{userDetailData.stats.totalCertificates}</p>
+                        </div>
+                        <div className="glass-card p-3 text-center">
+                          <p className="text-white/40 text-xs mb-1">Total Spent</p>
+                          <p className="text-xl font-bold text-emerald-400">${userDetailData.stats.totalSpent.toFixed(2)}</p>
+                        </div>
                       </div>
-                      <div className="flex gap-2 pt-2">
-                        {selectedUser.role !== 'admin' && (
+
+                      {/* Sub-tab Navigation */}
+                      <div className="flex gap-1.5 overflow-x-auto pb-1">
+                        {[
+                          { id: 'profile' as const, label: 'Profile', icon: Users },
+                          { id: 'assessments' as const, label: 'Assessments', icon: ClipboardList },
+                          { id: 'certificates' as const, label: 'Certificates', icon: Award },
+                          { id: 'payments' as const, label: 'Payments', icon: CreditCard },
+                          { id: 'activity' as const, label: 'Activity', icon: Activity },
+                          { id: 'emails' as const, label: 'Emails', icon: Mail },
+                        ].map((tab) => {
+                          const Icon = tab.icon;
+                          const isActive = userDetailSubTab === tab.id;
+                          return (
+                            <button
+                              key={tab.id}
+                              onClick={async () => {
+                                setUserDetailSubTab(tab.id);
+                                if (tab.id === 'activity' && selectedUser) {
+                                  await fetchUserActivity(selectedUser.id);
+                                }
+                              }}
+                              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
+                                isActive
+                                  ? 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-white border border-purple-500/30'
+                                  : 'text-white/50 hover:text-white hover:bg-white/5 border border-transparent'
+                              }`}
+                            >
+                              <Icon className="h-3.5 w-3.5" />
+                              {tab.label}
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      {/* Profile Tab */}
+                      {userDetailSubTab === 'profile' && userDetailData.user && (
+                        <div className="grid grid-cols-2 gap-3">
+                          {[
+                            { label: 'Name', value: String(userDetailData.user.name || '—') },
+                            { label: 'Email', value: String(userDetailData.user.email || '—') },
+                            { label: 'Plan', value: String(userDetailData.user.plan || '—') },
+                            { label: 'Role', value: String(userDetailData.user.role || '—') },
+                            { label: 'Country', value: String(userDetailData.user.country || '—') },
+                            { label: 'Test Credits', value: String(userDetailData.user.testCredits ?? '—') },
+                            { label: 'Email Verified', value: userDetailData.user.emailVerified ? 'Yes' : 'No' },
+                            { label: 'Is Demo', value: userDetailData.user.isDemo ? 'Yes' : 'No' },
+                            { label: 'Plan Expires', value: userDetailData.user.planExpiresAt ? new Date(String(userDetailData.user.planExpiresAt)).toLocaleDateString() : '—' },
+                            { label: 'Account Age', value: `${userDetailData.stats.accountAgeDays} days` },
+                            { label: 'Created', value: userDetailData.user.createdAt ? new Date(String(userDetailData.user.createdAt)).toLocaleString() : '—' },
+                            { label: 'Updated', value: userDetailData.user.updatedAt ? new Date(String(userDetailData.user.updatedAt)).toLocaleString() : '—' },
+                          ].map((item) => (
+                            <div key={item.label} className="p-3 rounded-xl bg-white/5">
+                              <p className="text-xs text-white/40 mb-1">{item.label}</p>
+                              <p className="text-sm text-white font-medium">{item.value}</p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Assessments Tab */}
+                      {userDetailSubTab === 'assessments' && (
+                        <div className="overflow-x-auto">
+                          <table className="w-full text-sm">
+                            <thead>
+                              <tr className="border-b border-white/10">
+                                <th className="text-left py-2 px-3 text-white/40 text-xs">Status</th>
+                                <th className="text-center py-2 px-3 text-white/40 text-xs">CEFR Level</th>
+                                <th className="text-center py-2 px-3 text-white/40 text-xs">Score</th>
+                                <th className="text-center py-2 px-3 text-white/40 text-xs">Date</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {userDetailData.assessments.length === 0 ? (
+                                <tr><td colSpan={4} className="py-8 text-center text-white/30 text-xs">No assessments</td></tr>
+                              ) : userDetailData.assessments.map((a: Record<string, unknown>) => (
+                                <tr key={String(a.id)} className="border-b border-white/5 hover:bg-white/[0.02]">
+                                  <td className="py-2 px-3">
+                                    <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
+                                      a.status === 'completed' ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'
+                                    }`}>{String(a.status)}</span>
+                                  </td>
+                                  <td className="py-2 px-3 text-center">{a.cefrLevel ? (
+                                    <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-bold border ${CEFR_COLORS_DARK[String(a.cefrLevel)] || 'bg-white/10 text-white/50'}`}>{String(a.cefrLevel)}</span>
+                                  ) : '—'}</td>
+                                  <td className="py-2 px-3 text-center text-white/70">{a.score != null ? `${a.score}%` : '—'}</td>
+                                  <td className="py-2 px-3 text-center text-white/40 text-xs">{a.createdAt ? new Date(String(a.createdAt)).toLocaleDateString() : '—'}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
+
+                      {/* Certificates Tab */}
+                      {userDetailSubTab === 'certificates' && (
+                        <div className="overflow-x-auto">
+                          <table className="w-full text-sm">
+                            <thead>
+                              <tr className="border-b border-white/10">
+                                <th className="text-left py-2 px-3 text-white/40 text-xs">Verification ID</th>
+                                <th className="text-center py-2 px-3 text-white/40 text-xs">CEFR Level</th>
+                                <th className="text-center py-2 px-3 text-white/40 text-xs">Score</th>
+                                <th className="text-center py-2 px-3 text-white/40 text-xs">Issued</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {userDetailData.certificates.length === 0 ? (
+                                <tr><td colSpan={4} className="py-8 text-center text-white/30 text-xs">No certificates</td></tr>
+                              ) : userDetailData.certificates.map((c: Record<string, unknown>) => (
+                                <tr key={String(c.id)} className="border-b border-white/5 hover:bg-white/[0.02]">
+                                  <td className="py-2 px-3">
+                                    <Link href={`/certificate/${c.verificationId}`} target="_blank" className="text-purple-400 hover:text-purple-300 font-mono text-xs flex items-center gap-1">
+                                      {String(c.verificationId).slice(0, 12)}...
+                                      <ExternalLink className="h-3 w-3" />
+                                    </Link>
+                                  </td>
+                                  <td className="py-2 px-3 text-center">
+                                    <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-bold border ${CEFR_COLORS_DARK[String(c.cefrLevel)] || 'bg-white/10 text-white/50'}`}>{String(c.cefrLevel)}</span>
+                                  </td>
+                                  <td className="py-2 px-3 text-center text-white/70">{c.score != null ? `${c.score}%` : '—'}</td>
+                                  <td className="py-2 px-3 text-center text-white/40 text-xs">{c.issuedAt ? new Date(String(c.issuedAt)).toLocaleDateString() : '—'}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
+
+                      {/* Payments Tab */}
+                      {userDetailSubTab === 'payments' && (
+                        <div className="overflow-x-auto">
+                          <table className="w-full text-sm">
+                            <thead>
+                              <tr className="border-b border-white/10">
+                                <th className="text-center py-2 px-3 text-white/40 text-xs">Amount</th>
+                                <th className="text-center py-2 px-3 text-white/40 text-xs">Status</th>
+                                <th className="text-center py-2 px-3 text-white/40 text-xs">Plan</th>
+                                <th className="text-center py-2 px-3 text-white/40 text-xs">Date</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {userDetailData.payments.length === 0 ? (
+                                <tr><td colSpan={4} className="py-8 text-center text-white/30 text-xs">No payments</td></tr>
+                              ) : userDetailData.payments.map((p: Record<string, unknown>) => (
+                                <tr key={String(p.id)} className="border-b border-white/5 hover:bg-white/[0.02]">
+                                  <td className="py-2 px-3 text-center text-white font-medium">${Number(p.amount).toFixed(2)}</td>
+                                  <td className="py-2 px-3 text-center">
+                                    <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
+                                      p.status === 'completed' ? 'bg-green-500/20 text-green-400' : p.status === 'pending' ? 'bg-yellow-500/20 text-yellow-400' : 'bg-red-500/20 text-red-400'
+                                    }`}>{String(p.status)}</span>
+                                  </td>
+                                  <td className="py-2 px-3 text-center text-white/60 text-xs">{String(p.plan || '—')}</td>
+                                  <td className="py-2 px-3 text-center text-white/40 text-xs">{p.createdAt ? new Date(String(p.createdAt)).toLocaleDateString() : '—'}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
+
+                      {/* Activity Tab */}
+                      {userDetailSubTab === 'activity' && (
+                        userActivityLoading ? (
+                          <div className="flex items-center justify-center py-12">
+                            <Loader2 className="h-6 w-6 text-purple-400 animate-spin" />
+                          </div>
+                        ) : userActivity.length === 0 ? (
+                          <div className="text-center text-white/30 text-sm py-12">No activity recorded</div>
+                        ) : (
+                          <div className="space-y-2 max-h-80 overflow-y-auto pr-2">
+                            {userActivity.map((event, i) => {
+                              const iconMap: Record<string, React.ElementType> = {
+                                assessment_created: ClipboardList,
+                                assessment_completed: CheckCircle2,
+                                payment_completed: DollarSign,
+                                payment_failed: XCircle,
+                                payment_refunded: CreditCard,
+                                certificate_issued: Award,
+                                email_sent: Mail,
+                                email_failed: AlertCircle,
+                                page_view: Eye,
+                              };
+                              const colorMap: Record<string, string> = {
+                                assessment_created: 'text-cyan-400 bg-cyan-500/20',
+                                assessment_completed: 'text-green-400 bg-green-500/20',
+                                payment_completed: 'text-emerald-400 bg-emerald-500/20',
+                                payment_failed: 'text-red-400 bg-red-500/20',
+                                payment_refunded: 'text-blue-400 bg-blue-500/20',
+                                certificate_issued: 'text-purple-400 bg-purple-500/20',
+                                email_sent: 'text-white/50 bg-white/10',
+                                email_failed: 'text-red-400 bg-red-500/20',
+                                page_view: 'text-white/40 bg-white/5',
+                              };
+                              const Icon = iconMap[event.type] || Activity;
+                              const color = colorMap[event.type] || 'text-white/40 bg-white/10';
+                              return (
+                                <div key={i} className="flex items-start gap-3 p-2.5 rounded-lg hover:bg-white/[0.02] transition-colors">
+                                  <div className={`flex items-center justify-center h-7 w-7 rounded-lg shrink-0 ${color}`}>
+                                    <Icon className="h-3.5 w-3.5" />
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <p className="text-white/70 text-xs leading-relaxed">{event.description}</p>
+                                    <p className="text-white/30 text-[10px] mt-0.5">{new Date(event.date).toLocaleString()}</p>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )
+                      )}
+
+                      {/* Emails Tab */}
+                      {userDetailSubTab === 'emails' && (
+                        <div className="overflow-x-auto">
+                          <table className="w-full text-sm">
+                            <thead>
+                              <tr className="border-b border-white/10">
+                                <th className="text-left py-2 px-3 text-white/40 text-xs">Type</th>
+                                <th className="text-center py-2 px-3 text-white/40 text-xs">Status</th>
+                                <th className="text-center py-2 px-3 text-white/40 text-xs">Date</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {userDetailData.emailLogs.length === 0 ? (
+                                <tr><td colSpan={3} className="py-8 text-center text-white/30 text-xs">No email logs</td></tr>
+                              ) : userDetailData.emailLogs.map((e: Record<string, unknown>) => (
+                                <tr key={String(e.id)} className="border-b border-white/5 hover:bg-white/[0.02]">
+                                  <td className="py-2 px-3 text-white/70 text-xs">{String(e.type)}</td>
+                                  <td className="py-2 px-3 text-center">
+                                    <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
+                                      e.status === 'sent' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'
+                                    }`}>{String(e.status)}</span>
+                                  </td>
+                                  <td className="py-2 px-3 text-center text-white/40 text-xs">{e.createdAt ? new Date(String(e.createdAt)).toLocaleDateString() : '—'}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
+
+                      {/* Action Buttons */}
+                      <div className="flex gap-2 pt-2 border-t border-white/10">
+                        {selectedUser && (
+                          <Button
+                            onClick={() => { openEditUser(selectedUser); setUserDetailOpen(false); }}
+                            variant="outline"
+                            className="border-white/10 text-white hover:bg-white/10 gap-1.5"
+                          >
+                            <Pencil className="h-4 w-4" /> Edit
+                          </Button>
+                        )}
+                        {selectedUser && (
+                          <Button
+                            onClick={() => { handleResetPassword(selectedUser.id); }}
+                            disabled={resettingPassword}
+                            variant="outline"
+                            className="border-white/10 text-white hover:bg-white/10 gap-1.5"
+                          >
+                            <Lock className="h-4 w-4" /> Reset Password
+                          </Button>
+                        )}
+                        {selectedUser && selectedUser.role !== 'admin' && (
                           <Button
                             onClick={() => { handlePromoteUser(selectedUser.email); setUserDetailOpen(false); }}
                             disabled={promoting}
                             className="bg-gradient-to-r from-orange-600 to-orange-500 text-white gap-1.5"
                           >
-                            <Shield className="h-4 w-4" />
-                            Promote to Admin
+                            <Shield className="h-4 w-4" /> Promote
                           </Button>
                         )}
-                        <Button
-                          onClick={() => { handleResetPassword(selectedUser.id); }}
-                          disabled={resettingPassword}
-                          variant="outline"
-                          className="border-white/10 text-white hover:bg-white/10 gap-1.5"
-                        >
-                          <Lock className="h-4 w-4" />
-                          Reset Password
-                        </Button>
                       </div>
+                    </div>
+                  ) : (
+                    <div className="flex-1 flex items-center justify-center py-12">
+                      <p className="text-white/30 text-sm">No data available</p>
                     </div>
                   )}
                 </DialogContent>
               </Dialog>
 
-              {/* Demo User Dialog */}
+              {/* ═════════════════════════════════════════════════════════════
+                  CREATE USER DIALOG
+                  ═════════════════════════════════════════════════════════════ */}
+              <Dialog open={createUserDialogOpen} onOpenChange={setCreateUserDialogOpen}>
+                <DialogContent className="sm:max-w-[520px] bg-[#1a1f36] border-white/10 text-white max-h-[90vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle className="text-white flex items-center gap-2">
+                      <UserPlus className="h-5 w-5 text-green-400" />
+                      Create User
+                    </DialogTitle>
+                    <DialogDescription className="text-white/50">Manually create a new user account.</DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-4 py-2">
+                    <div>
+                      <Label className="text-sm text-white/60 mb-1.5 block">Email <span className="text-red-400">*</span></Label>
+                      <Input
+                        type="email"
+                        placeholder="user@example.com"
+                        value={createUserForm.email}
+                        onChange={(e) => setCreateUserForm(prev => ({ ...prev, email: e.target.value }))}
+                        className="bg-white/5 border-white/10 text-white"
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm text-white/60 mb-1.5 block">Name</Label>
+                      <Input
+                        type="text"
+                        placeholder="Full name (optional)"
+                        value={createUserForm.name}
+                        onChange={(e) => setCreateUserForm(prev => ({ ...prev, name: e.target.value }))}
+                        className="bg-white/5 border-white/10 text-white"
+                      />
+                    </div>
+                    <div>
+                      <Label className="text-sm text-white/60 mb-1.5 block">Password <span className="text-red-400">*</span></Label>
+                      <Input
+                        type="password"
+                        placeholder="Minimum 6 characters"
+                        value={createUserForm.password}
+                        onChange={(e) => setCreateUserForm(prev => ({ ...prev, password: e.target.value }))}
+                        className="bg-white/5 border-white/10 text-white"
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label className="text-sm text-white/60 mb-1.5 block">Plan</Label>
+                        <select
+                          value={createUserForm.plan}
+                          onChange={(e) => setCreateUserForm(prev => ({ ...prev, plan: e.target.value }))}
+                          className="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none"
+                        >
+                          <option value="free" className="bg-[#1a1f36]">Free</option>
+                          <option value="premium" className="bg-[#1a1f36]">Premium</option>
+                          <option value="pro" className="bg-[#1a1f36]">Pro</option>
+                        </select>
+                      </div>
+                      <div>
+                        <Label className="text-sm text-white/60 mb-1.5 block">Role</Label>
+                        <select
+                          value={createUserForm.role}
+                          onChange={(e) => setCreateUserForm(prev => ({ ...prev, role: e.target.value }))}
+                          className="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none"
+                        >
+                          <option value="user" className="bg-[#1a1f36]">User</option>
+                          <option value="admin" className="bg-[#1a1f36]">Admin</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label className="text-sm text-white/60 mb-1.5 block">Country</Label>
+                        <Input
+                          type="text"
+                          placeholder="e.g. US"
+                          value={createUserForm.country}
+                          onChange={(e) => setCreateUserForm(prev => ({ ...prev, country: e.target.value }))}
+                          className="bg-white/5 border-white/10 text-white"
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-sm text-white/60 mb-1.5 block">Test Credits</Label>
+                        <Input
+                          type="number"
+                          min={0}
+                          value={createUserForm.testCredits}
+                          onChange={(e) => setCreateUserForm(prev => ({ ...prev, testCredits: Number(e.target.value) }))}
+                          className="bg-white/5 border-white/10 text-white"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-6">
+                      <div className="flex items-center gap-2">
+                        <Checkbox
+                          id="create-email-verified"
+                          checked={createUserForm.emailVerified}
+                          onCheckedChange={(checked) => setCreateUserForm(prev => ({ ...prev, emailVerified: checked === true }))}
+                        />
+                        <Label htmlFor="create-email-verified" className="text-sm text-white/60 cursor-pointer">Email Verified</Label>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Checkbox
+                          id="create-is-demo"
+                          checked={createUserForm.isDemo}
+                          onCheckedChange={(checked) => setCreateUserForm(prev => ({ ...prev, isDemo: checked === true }))}
+                        />
+                        <Label htmlFor="create-is-demo" className="text-sm text-white/60 cursor-pointer">Is Demo</Label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex justify-end gap-2 pt-2 border-t border-white/10">
+                    <Button
+                      variant="outline"
+                      onClick={() => setCreateUserDialogOpen(false)}
+                      className="border-white/10 text-white/60 hover:text-white hover:bg-white/10"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={handleCreateUser}
+                      disabled={creatingUser || !createUserForm.email || !createUserForm.password}
+                      className="bg-gradient-to-r from-green-600 to-emerald-500 text-white gap-1.5"
+                    >
+                      {creatingUser ? <Loader2 className="h-4 w-4 animate-spin" /> : <UserPlus className="h-4 w-4" />}
+                      Create User
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
+
+              {/* ═════════════════════════════════════════════════════════════
+                  EDIT USER DIALOG
+                  ═════════════════════════════════════════════════════════════ */}
+              <Dialog open={editUserDialogOpen} onOpenChange={setEditUserDialogOpen}>
+                <DialogContent className="sm:max-w-[520px] bg-[#1a1f36] border-white/10 text-white max-h-[90vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle className="text-white flex items-center gap-2">
+                      <Pencil className="h-5 w-5 text-yellow-400" />
+                      Edit User
+                    </DialogTitle>
+                    <DialogDescription className="text-white/50">Update user details and permissions.</DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-4 py-2">
+                    <div>
+                      <Label className="text-sm text-white/60 mb-1.5 block">Name</Label>
+                      <Input
+                        type="text"
+                        value={editUserForm.name}
+                        onChange={(e) => setEditUserForm(prev => ({ ...prev, name: e.target.value }))}
+                        className="bg-white/5 border-white/10 text-white"
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label className="text-sm text-white/60 mb-1.5 block">Plan</Label>
+                        <select
+                          value={editUserForm.plan}
+                          onChange={(e) => setEditUserForm(prev => ({ ...prev, plan: e.target.value }))}
+                          className="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none"
+                        >
+                          <option value="free" className="bg-[#1a1f36]">Free</option>
+                          <option value="premium" className="bg-[#1a1f36]">Premium</option>
+                          <option value="pro" className="bg-[#1a1f36]">Pro</option>
+                        </select>
+                      </div>
+                      <div>
+                        <Label className="text-sm text-white/60 mb-1.5 block">Role</Label>
+                        <select
+                          value={editUserForm.role}
+                          onChange={(e) => setEditUserForm(prev => ({ ...prev, role: e.target.value }))}
+                          className="w-full px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none"
+                        >
+                          <option value="user" className="bg-[#1a1f36]">User</option>
+                          <option value="admin" className="bg-[#1a1f36]">Admin</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label className="text-sm text-white/60 mb-1.5 block">Country</Label>
+                        <Input
+                          type="text"
+                          value={editUserForm.country}
+                          onChange={(e) => setEditUserForm(prev => ({ ...prev, country: e.target.value }))}
+                          className="bg-white/5 border-white/10 text-white"
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-sm text-white/60 mb-1.5 block">Test Credits</Label>
+                        <Input
+                          type="number"
+                          min={0}
+                          value={editUserForm.testCredits}
+                          onChange={(e) => setEditUserForm(prev => ({ ...prev, testCredits: Number(e.target.value) }))}
+                          className="bg-white/5 border-white/10 text-white"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-6">
+                      <div className="flex items-center gap-2">
+                        <Checkbox
+                          id="edit-email-verified"
+                          checked={editUserForm.emailVerified}
+                          onCheckedChange={(checked) => setEditUserForm(prev => ({ ...prev, emailVerified: checked === true }))}
+                        />
+                        <Label htmlFor="edit-email-verified" className="text-sm text-white/60 cursor-pointer">Email Verified</Label>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Checkbox
+                          id="edit-is-demo"
+                          checked={editUserForm.isDemo}
+                          onCheckedChange={(checked) => setEditUserForm(prev => ({ ...prev, isDemo: checked === true }))}
+                        />
+                        <Label htmlFor="edit-is-demo" className="text-sm text-white/60 cursor-pointer">Is Demo</Label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex justify-end gap-2 pt-2 border-t border-white/10">
+                    <Button
+                      variant="outline"
+                      onClick={() => setEditUserDialogOpen(false)}
+                      className="border-white/10 text-white/60 hover:text-white hover:bg-white/10"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={handleEditUser}
+                      disabled={savingUser}
+                      className="bg-gradient-to-r from-yellow-600 to-orange-500 text-white gap-1.5"
+                    >
+                      {savingUser ? <Loader2 className="h-4 w-4 animate-spin" /> : <Pencil className="h-4 w-4" />}
+                      Save Changes
+                    </Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
+
+              {/* ═════════════════════════════════════════════════════════════
+                  DEMO USER DIALOG
+                  ═════════════════════════════════════════════════════════════ */}
               <Dialog open={demoDialogOpen} onOpenChange={(open) => { setDemoDialogOpen(open); if (!open) setDemoResult(null); }}>
                 <DialogContent className="sm:max-w-[480px] bg-[#1a1f36] border-white/10 text-white">
                   <DialogHeader>
-                    <DialogTitle className="text-white">Create Demo Users</DialogTitle>
+                    <DialogTitle className="text-white flex items-center gap-2">
+                      <UserCog className="h-5 w-5 text-purple-400" />
+                      Create Demo Accounts
+                    </DialogTitle>
                     <DialogDescription className="text-white/50">Generate test accounts for development and QA.</DialogDescription>
                   </DialogHeader>
                   <div className="space-y-4 py-2">
                     <div className="flex gap-4">
                       <div className="flex-1">
-                        <Label className="text-sm text-white/60 mb-2 block">Count</Label>
+                        <Label className="text-sm text-white/60 mb-2 block">Count (1-10)</Label>
                         <Input
                           type="number"
                           min={1}
@@ -2474,9 +3667,18 @@ export default function AdminPage() {
                       <div className="rounded-xl bg-green-500/10 border border-green-500/20 p-3 space-y-2 max-h-48 overflow-y-auto">
                         <p className="text-green-400 text-sm font-medium">{demoResult.message}</p>
                         {demoResult.credentials.map((cred, i) => (
-                          <div key={i} className="text-xs text-white/60 space-y-0.5">
-                            <p>Email: <span className="text-white">{cred.email}</span></p>
-                            <p>Password: <span className="text-white">{cred.password}</span></p>
+                          <div key={i} className="text-xs text-white/60 flex items-center justify-between gap-2 p-1.5 rounded bg-black/20">
+                            <div>
+                              <p>Email: <span className="text-white">{cred.email}</span></p>
+                              <p>Password: <span className="text-white font-mono">{cred.password}</span></p>
+                            </div>
+                            <button
+                              onClick={() => { navigator.clipboard.writeText(`${cred.email}:${cred.password}`); setToast({ message: 'Credentials copied!', type: 'success' }); }}
+                              className="p-1 rounded hover:bg-white/10 text-white/40 hover:text-white transition-colors"
+                              title="Copy credentials"
+                            >
+                              <Copy className="h-3.5 w-3.5" />
+                            </button>
                           </div>
                         ))}
                       </div>
@@ -3001,6 +4203,17 @@ export default function AdminPage() {
           )}
 
           {/* ════════════════════════════════════════════════════════════
+              TAB: GOVERNANCE
+              ════════════════════════════════════════════════════════════ */}
+          {activeTab === 'governance' && (
+            <GovernanceTab
+              onToast={(msg, type) => setToast({ message: msg, type })}
+              systemData={systemData}
+              onRefreshUsers={() => fetchUsers(1, usersSearch)}
+            />
+          )}
+
+          {/* ════════════════════════════════════════════════════════════
               TAB: SYSTEM
               ════════════════════════════════════════════════════════════ */}
           {activeTab === 'system' && (
@@ -3275,13 +4488,13 @@ export default function AdminPage() {
                     </div>
                     <div className="flex items-center justify-between p-2.5 rounded-lg bg-white/5 border border-white/5">
                       <span className="text-xs text-white/50">Sitemap</span>
-                      <a href="https://www.testcefr.com/sitemap.xml" target="_blank" rel="noopener noreferrer" className="text-xs font-mono text-purple-400 hover:text-purple-300">
+                      <a href="https://testcefr.com/sitemap.xml" target="_blank" rel="noopener noreferrer" className="text-xs font-mono text-purple-400 hover:text-purple-300">
                         /sitemap.xml
                       </a>
                     </div>
                   </div>
                   <a
-                    href="https://search.google.com/search-console?resource_id=https://www.testcefr.com/"
+                    href="https://search.google.com/search-console?resource_id=https://testcefr.com/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-gradient-to-r from-green-600 to-emerald-500 hover:from-green-500 hover:to-emerald-400 text-white text-sm font-medium transition-all cursor-pointer"
@@ -3453,7 +4666,7 @@ export default function AdminPage() {
                     {
                       label: 'Submit sitemap.xml to Search Console',
                       done: false,
-                      link: 'https://search.google.com/search-console?resource_id=https://www.testcefr.com/',
+                      link: 'https://search.google.com/search-console?resource_id=https://testcefr.com/',
                     },
                     {
                       label: 'Create PostHog project and add NEXT_PUBLIC_POSTHOG_KEY',

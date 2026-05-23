@@ -18,7 +18,7 @@ export const metadata: Metadata = {
       'Understand how TestCEFR collects, uses, and protects your personal information. Fully GDPR compliant.',
   },
   alternates: {
-    canonical: 'https://www.testcefr.com/privacy',
+    canonical: 'https://testcefr.com/privacy',
   },
 };
 

@@ -18,7 +18,7 @@ export const metadata: Metadata = {
       'Discover how TestCEFR works in 6 simple steps — from creating your account to downloading a QR-verified CEFR certificate.',
   },
   alternates: {
-    canonical: 'https://www.testcefr.com/quick-tour',
+    canonical: 'https://testcefr.com/quick-tour',
   },
 };
 

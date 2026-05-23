@@ -14,13 +14,13 @@ export const metadata: Metadata = {
     'English essay test',
   ],
   openGraph: {
-    images: ["https://www.testcefr.com/og-image.png"],
+    images: ["https://testcefr.com/og-image.png"],
     title: 'English Writing Test | TestCEFR',
     description:
       'Excel in English writing with our AI-powered CEFR-aligned assessment. Evaluate coherence, grammar, vocabulary, and structure for an accurate A1–C2 rating.',
   },
   alternates: {
-    canonical: 'https://www.testcefr.com/writing',
+    canonical: 'https://testcefr.com/writing',
   },
 };
 

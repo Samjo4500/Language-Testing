@@ -14,13 +14,13 @@ export const metadata: Metadata = {
     'speech recognition English',
   ],
   openGraph: {
-    images: ["https://www.testcefr.com/og-image.png"],
+    images: ["https://testcefr.com/og-image.png"],
     title: 'English Speaking Test | TestCEFR',
     description:
       'Perfect your English speaking skills with our AI-powered assessment using advanced speech recognition. Get an accurate CEFR A1–C2 level rating.',
   },
   alternates: {
-    canonical: 'https://www.testcefr.com/speaking',
+    canonical: 'https://testcefr.com/speaking',
   },
 };
 

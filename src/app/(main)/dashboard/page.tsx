@@ -103,7 +103,7 @@ export default function DashboardPage() {
               <p className="text-sm text-white/50 mb-6">
                 Access your dashboard, certificates, and CEFR assessments by signing in to your account.
               </p>
-              <Link href="/login">
+              <Link href="/login?redirect=/dashboard">
                 <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 cursor-pointer">
                   <Sparkles className="h-4 w-4" />
                   Sign in

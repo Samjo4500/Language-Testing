@@ -16,7 +16,7 @@ export const metadata: Metadata = {
       'Preview a detailed CEFR assessment report. See how our AI-powered analysis breaks down your English skills.',
   },
   alternates: {
-    canonical: 'https://www.testcefr.com/sample-report',
+    canonical: 'https://testcefr.com/sample-report',
   },
 };
 

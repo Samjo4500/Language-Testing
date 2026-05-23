@@ -177,12 +177,12 @@ async function generateWithGeminiTTS(apiKey: string, inputText: string): Promise
         const pcmBytes = new Uint8Array(pcmBinary.length);
         for (let i = 0; i < pcmBinary.length; i++) pcmBytes[i] = pcmBinary.charCodeAt(i);
         const wavBytes = pcmToWav(pcmBytes, sampleRate, 1, 16);
-        console.log(`[TTS] Gemini TTS success: ${wavBytes.length} bytes WAV audio`);
+        console.debug(`[TTS] Gemini TTS success: ${wavBytes.length} bytes WAV audio`);
         return { base64Data: toBase64(wavBytes), mimeType: 'audio/wav' };
       }
 
       // If not PCM, return as-is (e.g., MP3)
-      console.log(`[TTS] Gemini TTS success: ${base64Audio.length} bytes ${geminiMime} audio`);
+      console.debug(`[TTS] Gemini TTS success: ${base64Audio.length} bytes ${geminiMime} audio`);
       return { base64Data: base64Audio, mimeType: geminiMime };
     } catch (err) {
       lastError = `Model ${model}: ${err instanceof Error ? err.message : String(err)}`;
@@ -231,7 +231,7 @@ async function generateWithZaiSDK(inputText: string): Promise<{ base64Data: stri
   // Convert PCM to WAV for browser compatibility
   const sampleRate = 48000;
   const wavBytes = pcmToWav(pcmBytes, sampleRate, 1, 16);
-  console.log(`[TTS] z-ai SDK TTS success: ${wavBytes.length} bytes WAV audio`);
+  console.debug(`[TTS] z-ai SDK TTS success: ${wavBytes.length} bytes WAV audio`);
 
   return { base64Data: toBase64(wavBytes), mimeType: 'audio/wav' };
 }
@@ -285,7 +285,7 @@ async function generateWithZaiHTTP(inputText: string): Promise<{ base64Data: str
 
   const sampleRate = 48000;
   const wavBytes = pcmToWav(pcmBytes, sampleRate, 1, 16);
-  console.log(`[TTS] z-ai HTTP TTS success: ${wavBytes.length} bytes WAV audio`);
+  console.debug(`[TTS] z-ai HTTP TTS success: ${wavBytes.length} bytes WAV audio`);
 
   return { base64Data: toBase64(wavBytes), mimeType: 'audio/wav' };
 }
@@ -367,10 +367,10 @@ export async function POST(req: NextRequest) {
     // Try providers in order
     for (const provider of providers) {
       try {
-        console.log(`[TTS] Trying provider: ${provider.name}`);
+        console.debug(`[TTS] Trying provider: ${provider.name}`);
         result = await provider.fn();
         usedProvider = provider.name;
-        console.log(`[TTS] Success with provider: ${provider.name}`);
+        console.debug(`[TTS] Success with provider: ${provider.name}`);
         break;
       } catch (err) {
         const errMsg = err instanceof Error ? err.message : String(err);
@@ -478,10 +478,10 @@ export async function GET(req: NextRequest) {
 
       for (const provider of providers) {
         try {
-          console.log(`[TTS GET] Trying provider: ${provider.name}`);
+          console.debug(`[TTS GET] Trying provider: ${provider.name}`);
           result = await provider.fn();
           usedProvider = provider.name;
-          console.log(`[TTS GET] Success with provider: ${provider.name}`);
+          console.debug(`[TTS GET] Success with provider: ${provider.name}`);
           break;
         } catch (err) {
           const errMsg = err instanceof Error ? err.message : String(err);

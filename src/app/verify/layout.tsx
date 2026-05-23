@@ -18,7 +18,7 @@ export const metadata: Metadata = {
       'Verify the authenticity of a TestCEFR CEFR certificate. Enter the verification ID or scan the QR code to confirm.',
   },
   alternates: {
-    canonical: 'https://www.testcefr.com/verify',
+    canonical: 'https://testcefr.com/verify',
   },
 };
 
