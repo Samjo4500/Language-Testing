@@ -26,9 +26,14 @@ export default function MainError({
               <AlertCircle className="h-8 w-8" />
             </div>
             <h1 className="text-2xl font-bold text-white mb-2">Something went wrong</h1>
-            <p className="text-sm text-white/50 mb-6">
+            <p className="text-sm text-white/50 mb-2">
               An unexpected error occurred. This has been logged and we are working to fix it.
             </p>
+            {error?.message && (
+              <p className="text-xs text-red-400/70 font-mono mb-6 break-all max-h-24 overflow-y-auto">
+                {error.message}
+              </p>
+            )}
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <button
                 onClick={reset}
