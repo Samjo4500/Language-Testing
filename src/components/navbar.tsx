@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { User, LogOut, CreditCard, Menu, Shield, X, ArrowRight } from 'lucide-react';
+import { User, LogOut, CreditCard, Menu, Shield, X, ArrowRight, BookOpen } from 'lucide-react';
 import { AdminNotificationBell } from '@/components/admin-notification-bell';
 import { useState, useEffect } from 'react';
 import { isPaidPlan, getPlanLabel, getPlanBadgeClasses } from '@/lib/plan-utils';
@@ -110,6 +110,22 @@ export function Navbar() {
           ))}
           {isAuth && (
             <Link
+              href="/learn"
+              className={`relative text-sm px-3 py-1.5 rounded-lg transition-all duration-300 flex items-center gap-1 ${
+                isActive('/learn')
+                  ? 'text-white bg-white/10'
+                  : 'text-white/60 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <BookOpen className="h-3.5 w-3.5" />
+              My Learning
+              {isActive('/learn') && (
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full bg-gradient-to-r from-blue-400 to-cyan-400" />
+              )}
+            </Link>
+          )}
+          {isAuth && (
+            <Link
               href="/test"
               className="text-sm px-3 py-1.5 rounded-lg transition-all duration-300 text-white/60 hover:text-white hover:bg-white/5"
             >
@@ -153,6 +169,12 @@ export function Navbar() {
                   </div>
                 </div>
                 <DropdownMenuSeparator className="bg-white/10" />
+                <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/10 focus:bg-white/10">
+                  <Link href="/learn">
+                    <BookOpen className="mr-2 h-4 w-4" />
+                    My Learning
+                  </Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/10 focus:bg-white/10">
                   <Link href="/dashboard">
                     <User className="mr-2 h-4 w-4" />
@@ -230,6 +252,18 @@ export function Navbar() {
           ))}
           {isAuth ? (
             <>
+              <Link
+                href="/learn"
+                className={`block text-sm py-2.5 px-4 rounded-xl transition-all duration-300 flex items-center gap-2 ${
+                  isActive('/learn')
+                    ? 'text-white bg-white/10'
+                    : 'text-white/60 hover:text-white hover:bg-white/5'
+                }`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <BookOpen className="h-4 w-4" />
+                My Learning
+              </Link>
               <Link
                 href="/test"
                 className="block text-sm text-white/60 hover:text-white py-2.5 px-4 rounded-xl hover:bg-white/5"
