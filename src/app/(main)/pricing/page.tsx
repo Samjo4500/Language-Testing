@@ -9,6 +9,7 @@ import { isPaidPlan, getPlanLabel } from '@/lib/plan-utils';
 import { trackPurchase } from '@/lib/analytics';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
+import { COURSE_TIERS, COURSE_BUNDLE } from '@/lib/courses';
 import {
   CheckCircle2,
   Loader2,
@@ -33,6 +34,10 @@ import {
   Download,
   Shield,
   BarChart3,
+  Sprout,
+  TrendingUp,
+  BookOpen,
+  Package,
 } from 'lucide-react';
 
 /* PayPal script loader with loading state */
@@ -670,6 +675,210 @@ export default function PricingPage() {
           </div>
         </div>
       </section>
+
+      {/* ===== ENGLISH COURSES ===== */}
+      <section className="relative py-20 dark-section-alt hero-pattern noise-overlay overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="orb orb-purple w-[350px] h-[350px] top-10 -left-20 animate-float-slow" />
+          <div className="orb orb-pink w-[300px] h-[300px] bottom-10 right-0 animate-float-reverse" />
+        </div>
+
+        <div className="container relative mx-auto px-4">
+          <AnimatedSection>
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
+                <BookOpen className="h-3.5 w-3.5 text-purple-400" />
+                <span className="text-xs text-purple-300 font-medium">NEW</span>
+                <span className="text-white/20">·</span>
+                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Learn & Grow</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-white">
+                English <span className="gradient-text-static">Courses</span>
+              </h2>
+              <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
+                Go beyond testing — build real English skills from A1 to C2
+              </p>
+            </div>
+          </AnimatedSection>
+
+          {/* Three course cards */}
+          <div className="grid gap-6 max-w-5xl mx-auto md:grid-cols-3">
+            {/* Beginner Course */}
+            <AnimatedSection delay={100}>
+              <div className="glass-card p-7 h-full flex flex-col">
+                <div className="flex items-center gap-3 mb-1">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-green-400 to-emerald-500 text-white shadow-lg shadow-green-500/20">
+                    <Sprout className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-white">{COURSE_TIERS.beginner.title}</h3>
+                    <span className="inline-flex items-center rounded-full bg-green-500/15 px-2 py-0.5 text-[10px] font-semibold text-green-400 border border-green-500/20">
+                      {COURSE_TIERS.beginner.level}
+                    </span>
+                  </div>
+                </div>
+                <p className="text-xs text-white/40 mt-1 mb-4">{COURSE_TIERS.beginner.subtitle}</p>
+                <div className="mb-5">
+                  <span className="text-2xl sm:text-3xl font-bold text-white">${COURSE_TIERS.beginner.price}</span>
+                  {COURSE_TIERS.beginner.compareAtPrice && (
+                    <span className="ml-2 text-sm text-white/30 line-through">${COURSE_TIERS.beginner.compareAtPrice}</span>
+                  )}
+                </div>
+                <div className="section-divider mb-5" />
+                <ul className="space-y-2.5 mb-7 flex-1">
+                  {COURSE_TIERS.beginner.features.slice(0, 5).map((feature) => (
+                    <li key={feature} className="flex items-start gap-2.5 text-sm">
+                      <CheckCircle2 className="h-4 w-4 text-green-400 mt-0.5 shrink-0" />
+                      <span className="text-white/60">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link href={`/courses/${COURSE_TIERS.beginner.slug}`} className="block">
+                  <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-green-500/20 cursor-pointer">
+                    Learn More
+                    <ArrowRight className="h-4 w-4" />
+                  </button>
+                </Link>
+              </div>
+            </AnimatedSection>
+
+            {/* Intermediate Course — Most Popular */}
+            <AnimatedSection delay={200}>
+              <div className="relative animate-pulse-glow rounded-2xl">
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-blue-500/50 via-cyan-500/30 to-blue-500/50 p-[1px]" />
+                <div className="relative glass-card p-7 h-full flex flex-col border-transparent">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 px-4 py-1 text-xs font-semibold text-white shadow-lg shadow-blue-500/25">
+                      <Star className="h-3 w-3" />
+                      Most Popular
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-3 mb-1">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-400 to-cyan-500 text-white shadow-lg shadow-blue-500/25">
+                      <TrendingUp className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-white">{COURSE_TIERS.intermediate.title}</h3>
+                      <span className="inline-flex items-center rounded-full bg-blue-500/15 px-2 py-0.5 text-[10px] font-semibold text-blue-400 border border-blue-500/20">
+                        {COURSE_TIERS.intermediate.level}
+                      </span>
+                    </div>
+                  </div>
+                  <p className="text-xs text-white/40 mt-1 mb-4">{COURSE_TIERS.intermediate.subtitle}</p>
+                  <div className="mb-5">
+                    <span className="text-2xl sm:text-3xl font-bold gradient-text-static">${COURSE_TIERS.intermediate.price}</span>
+                    {COURSE_TIERS.intermediate.compareAtPrice && (
+                      <span className="ml-2 text-sm text-white/30 line-through">${COURSE_TIERS.intermediate.compareAtPrice}</span>
+                    )}
+                  </div>
+                  <div className="section-divider mb-5" />
+                  <ul className="space-y-2.5 mb-7 flex-1">
+                    {COURSE_TIERS.intermediate.features.slice(0, 5).map((feature) => (
+                      <li key={feature} className="flex items-start gap-2.5 text-sm">
+                        <CheckCircle2 className="h-4 w-4 text-blue-400 mt-0.5 shrink-0" />
+                        <span className="text-white/65">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link href={`/courses/${COURSE_TIERS.intermediate.slug}`} className="block">
+                    <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-400 hover:to-cyan-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-blue-500/25 cursor-pointer">
+                      Learn More
+                      <ArrowRight className="h-4 w-4" />
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            </AnimatedSection>
+
+            {/* Advanced Course */}
+            <AnimatedSection delay={300}>
+              <div className="relative rounded-2xl">
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-purple-500/40 via-pink-500/30 to-purple-500/40 p-[1px]" />
+                <div className="relative glass-card p-7 h-full flex flex-col border-transparent">
+                  <div className="flex items-center gap-3 mb-1">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-purple-400 to-pink-500 text-white shadow-lg shadow-purple-500/20">
+                      <Crown className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-white">{COURSE_TIERS.advanced.title}</h3>
+                      <span className="inline-flex items-center rounded-full bg-purple-500/15 px-2 py-0.5 text-[10px] font-semibold text-purple-400 border border-purple-500/20">
+                        {COURSE_TIERS.advanced.level}
+                      </span>
+                    </div>
+                  </div>
+                  <p className="text-xs text-white/40 mt-1 mb-4">{COURSE_TIERS.advanced.subtitle}</p>
+                  <div className="mb-5">
+                    <span className="text-2xl sm:text-3xl font-bold text-white">${COURSE_TIERS.advanced.price}</span>
+                    {COURSE_TIERS.advanced.compareAtPrice && (
+                      <span className="ml-2 text-sm text-white/30 line-through">${COURSE_TIERS.advanced.compareAtPrice}</span>
+                    )}
+                  </div>
+                  <div className="section-divider mb-5" />
+                  <ul className="space-y-2.5 mb-7 flex-1">
+                    {COURSE_TIERS.advanced.features.slice(0, 5).map((feature) => (
+                      <li key={feature} className="flex items-start gap-2.5 text-sm">
+                        <CheckCircle2 className="h-4 w-4 text-purple-400 mt-0.5 shrink-0" />
+                        <span className="text-white/65">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link href={`/courses/${COURSE_TIERS.advanced.slug}`} className="block">
+                    <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-purple-500/20 cursor-pointer">
+                      Learn More
+                      <ArrowRight className="h-4 w-4" />
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            </AnimatedSection>
+          </div>
+
+          {/* Bundle Banner */}
+          <AnimatedSection delay={400}>
+            <div className="mt-8 max-w-5xl mx-auto">
+              <div className="relative glass-card p-6 md:p-8 overflow-hidden border border-amber-500/20">
+                <div className="absolute inset-0 bg-gradient-to-r from-amber-500/5 via-yellow-500/5 to-amber-500/5 pointer-events-none" />
+                <div className="relative flex flex-col md:flex-row items-center gap-6">
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-400 to-yellow-500 text-white shadow-lg shadow-amber-500/25">
+                    <Package className="h-7 w-7" />
+                  </div>
+                  <div className="flex-1 text-center md:text-left">
+                    <div className="flex flex-col sm:flex-row items-center gap-2 mb-1">
+                      <h3 className="text-xl font-bold text-white">{COURSE_BUNDLE.title}</h3>
+                      <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-amber-500 to-yellow-500 px-3 py-0.5 text-xs font-bold text-white shadow-lg shadow-amber-500/25">
+                        Save $198
+                      </span>
+                    </div>
+                    <p className="text-sm text-white/50">{COURSE_BUNDLE.subtitle}</p>
+                    <ul className="mt-3 flex flex-wrap justify-center md:justify-start gap-x-5 gap-y-1.5">
+                      {COURSE_BUNDLE.features.map((feature) => (
+                        <li key={feature} className="flex items-center gap-1.5 text-sm">
+                          <CheckCircle2 className="h-3.5 w-3.5 text-amber-400 shrink-0" />
+                          <span className="text-white/60">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="shrink-0 text-center">
+                    <div className="mb-3">
+                      <span className="text-3xl font-bold text-white">${COURSE_BUNDLE.price}</span>
+                      <span className="ml-2 text-sm text-white/30 line-through">${COURSE_BUNDLE.compareAtPrice}</span>
+                    </div>
+                    <Link href="/courses" className="block">
+                      <button className="flex items-center justify-center gap-2 rounded-xl px-6 py-3 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-amber-500/25 cursor-pointer">
+                        Get the Bundle
+                        <ArrowRight className="h-4 w-4" />
+                      </button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      <div className="section-divider max-w-4xl mx-auto" />
 
       {/* ===== CERTIFICATE PREVIEW ===== */}
       <section className="relative py-20 bg-[#0F0A1E]">

@@ -92,15 +92,17 @@ export async function POST(request: NextRequest) {
       where: { enrollmentId },
     });
 
-    // Get total lessons in the course
-    const course = await db.course.findUnique({
-      where: { id: enrollment.courseId },
-      select: { lessonsCount: true },
+    // Count actual published lessons in the course
+    const totalLessons = await db.courseLesson.count({
+      where: {
+        module: { courseId: enrollment.courseId },
+        isPublished: true,
+      },
     });
 
-    const totalLessons = course?.lessonsCount || 1;
+    const safeTotalLessons = totalLessons || 1;
     const completedCount = allLessonProgress.filter((lp) => lp.completed).length;
-    const progressPercentage = Math.round((completedCount / totalLessons) * 100);
+    const progressPercentage = Math.round((completedCount / safeTotalLessons) * 100);
 
     // Check if course is completed
     const isCourseCompleted = progressPercentage >= 100;
@@ -117,7 +119,7 @@ export async function POST(request: NextRequest) {
           ? {
               status: 'completed',
               completedAt: new Date(),
-              certificateId: `TC-${user.userId.slice(0, 6).toUpperCase()}-${Date.now().toString(36).toUpperCase()}`,
+              certificateId: `TC-${user.userId.slice(0, 6).toUpperCase()}-${crypto.randomUUID().split('-')[0].toUpperCase()}${Date.now().toString(36).toUpperCase()}`,
             }
           : {}),
       },

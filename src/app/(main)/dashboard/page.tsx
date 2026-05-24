@@ -8,7 +8,7 @@ import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { CheckCircle2, CreditCard, ArrowRight, BookOpen, Award, Download, QrCode, Loader2, Sparkles, Shield, Zap, LogIn, BarChart3, AlertCircle, RotateCcw } from 'lucide-react';
+import { CheckCircle2, CreditCard, ArrowRight, BookOpen, Award, Download, QrCode, Loader2, Sparkles, Shield, Zap, LogIn, BarChart3, AlertCircle, RotateCcw, GraduationCap } from 'lucide-react';
 import { isPaidPlan, getPlanLabel, getPlanBadgeClasses } from '@/lib/plan-utils';
 
 interface CertificateInfo {
@@ -38,6 +38,8 @@ export default function DashboardPage() {
   const [certificatesLoading, setCertificatesLoading] = useState(true);
   const [certificatesError, setCertificatesError] = useState<string | null>(null);
   const [inProgressAssessment, setInProgressAssessment] = useState<{ id: string; startedAt: string } | null>(null);
+  const [courseEnrollments, setCourseEnrollments] = useState<any[]>([]);
+  const [coursesLoading, setCoursesLoading] = useState(true);
 
   useEffect(() => {
     if (authIsLoading || !isAuthenticated) return;
@@ -61,6 +63,15 @@ export default function DashboardPage() {
       if (progressResult.status === 'fulfilled' && progressResult.value.hasInProgress && progressResult.value.assessment) {
         setInProgressAssessment(progressResult.value.assessment);
       }
+
+      // Fetch user's enrolled courses
+      const coursesResult = await Promise.allSettled([
+        fetch('/api/courses/my-courses/', { credentials: 'same-origin' }).then(res => res.ok ? res.json() : Promise.reject('Failed')),
+      ]);
+      if (coursesResult[0].status === 'fulfilled') {
+        setCourseEnrollments(coursesResult[0].value.enrollments || []);
+      }
+      setCoursesLoading(false);
     };
 
     fetchDashboardData();
@@ -237,6 +248,123 @@ export default function DashboardPage() {
                 <div className="mt-3 flex items-center text-sm text-purple-400 font-medium">
                   Learn more <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </div>
+              </div>
+            )}
+          </div>
+
+          {/* My Courses */}
+          <div className="glass-card p-6">
+            <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <BookOpen className="h-5 w-5 text-purple-400" />
+              My Courses
+            </h2>
+
+            {coursesLoading ? (
+              <div className="space-y-3">
+                <Skeleton className="h-28 w-full bg-white/5" />
+                <Skeleton className="h-28 w-full bg-white/5" />
+              </div>
+            ) : courseEnrollments.length === 0 ? (
+              <div className="text-center py-8 space-y-3">
+                <BookOpen className="h-12 w-12 text-white/20 mx-auto" />
+                <p className="text-white/40">You haven&apos;t enrolled in any courses yet</p>
+                <p className="text-xs text-white/30">
+                  Explore our curated courses to improve your English skills at every CEFR level.
+                </p>
+                <Link href="/courses">
+                  <button className="mt-2 flex items-center gap-2 mx-auto rounded-xl px-6 py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer">
+                    <BookOpen className="h-4 w-4" />
+                    Explore Courses
+                  </button>
+                </Link>
+              </div>
+            ) : (
+              <div className="space-y-3 max-h-96 overflow-y-auto custom-scrollbar">
+                {courseEnrollments.map((enrollment) => {
+                  const level = enrollment.course?.level || enrollment.level || '';
+                  const levelLower = level.toLowerCase();
+                  const isBeginner = levelLower.startsWith('a');
+                  const isIntermediate = levelLower.startsWith('b');
+                  const isAdvanced = levelLower.startsWith('c');
+
+                  let levelBadgeClasses = 'bg-purple-500/20 text-purple-300 border-purple-500/30';
+                  let progressColor = 'bg-purple-500';
+                  let progressTrack = 'bg-purple-500/20';
+                  if (isBeginner) {
+                    levelBadgeClasses = 'bg-green-500/20 text-green-300 border-green-500/30';
+                    progressColor = 'bg-green-500';
+                    progressTrack = 'bg-green-500/20';
+                  } else if (isIntermediate) {
+                    levelBadgeClasses = 'bg-blue-500/20 text-blue-300 border-blue-500/30';
+                    progressColor = 'bg-blue-500';
+                    progressTrack = 'bg-blue-500/20';
+                  }
+
+                  const isCompleted = enrollment.completed || enrollment.progress >= 100;
+                  const progressPercent = Math.min(enrollment.progress || 0, 100);
+                  const completedLessons = enrollment.completedLessons || 0;
+                  const totalLessons = enrollment.totalLessons || 0;
+
+                  return (
+                    <div
+                      key={enrollment.id || enrollment.courseId}
+                      className="p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/8 transition-colors"
+                    >
+                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <h3 className="font-semibold text-white text-sm truncate">
+                              {enrollment.course?.title || enrollment.courseTitle || 'Untitled Course'}
+                            </h3>
+                            <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-medium border ${levelBadgeClasses}`}>
+                              {level}
+                            </span>
+                            {isCompleted && (
+                              <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-medium bg-green-500/20 text-green-300 border border-green-500/30">
+                                <CheckCircle2 className="h-3 w-3" />
+                                Completed
+                              </span>
+                            )}
+                          </div>
+                          {(enrollment.course?.subtitle || enrollment.courseSubtitle) && (
+                            <p className="text-xs text-white/40 mt-0.5 truncate">
+                              {enrollment.course?.subtitle || enrollment.courseSubtitle}
+                            </p>
+                          )}
+                          <div className="mt-3">
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="text-xs text-white/50">{progressPercent}% complete</span>
+                              <span className="text-xs text-white/30">{completedLessons}/{totalLessons} lessons</span>
+                            </div>
+                            <div className={`h-1.5 rounded-full ${progressTrack}`}>
+                              <div
+                                className={`h-full rounded-full transition-all duration-500 ${progressColor}`}
+                                style={{ width: `${progressPercent}%` }}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2 shrink-0">
+                          {isCompleted ? (
+                            <Link href={`/certificate/${enrollment.certificateId || enrollment.courseId}`}>
+                              <button className="flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-medium bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-lg cursor-pointer">
+                                <GraduationCap className="h-3 w-3" />
+                                View Certificate
+                              </button>
+                            </Link>
+                          ) : (
+                            <Link href={`/learn/${enrollment.courseId}/${enrollment.currentModuleId || enrollment.moduleId || ''}?lesson=${enrollment.currentLessonId || enrollment.lessonId || ''}`}>
+                              <button className="flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-medium bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-lg cursor-pointer">
+                                Continue Learning
+                                <ArrowRight className="h-3 w-3" />
+                              </button>
+                            </Link>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>

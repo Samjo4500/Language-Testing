@@ -166,6 +166,10 @@ export const PLAN_DETAILS: Record<string, { name: string; price: string }> = {
   single: { name: 'Single Test', price: '$12.99 USD' },
   premium: { name: 'Premium', price: '$29.99 USD' },
   pro: { name: 'Pro', price: '$49.99 USD' },
+  'course-beginner': { name: 'Beginner English Course (A1-A2)', price: '$49 USD' },
+  'course-intermediate': { name: 'Intermediate English Course (B1-B2)', price: '$79 USD' },
+  'course-advanced': { name: 'Advanced English Course (C1-C2)', price: '$99 USD' },
+  'course-bundle': { name: 'Complete English Bundle (A1-C2)', price: '$179 USD' },
 };
 
 // ─── CEFR Levels ──────────────────────────────────────────────────────────────

@@ -84,6 +84,7 @@ export function Footer() {
             <div className="space-y-2.5">
               <Link href="/" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Home</Link>
               <Link href="/pricing" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Pricing</Link>
+              <Link href="/courses" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Courses</Link>
               <Link href="/quick-tour" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Quick Tour</Link>
               <Link href="/sample-certificate" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Sample Certificate</Link>
               <Link href="/sample-report" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Sample Report</Link>
