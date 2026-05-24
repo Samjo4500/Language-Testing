@@ -37,6 +37,7 @@ model User {
   emailLogs    EmailLog[]       @relation("UserEmailLogs")
   seenQuestions SeenQuestion[]  @relation("UserSeenQuestions")
   orgMembership OrganizationMember[] @relation("UserOrgMembership")
+  courseEnrollments CourseEnrollment[] @relation("UserCourseEnrollments")
 
   @@index([organizationId])
 }
@@ -399,4 +400,113 @@ model SeenQuestion {
   @@index([userId, questionType])
   @@index([userId, questionType, seenAt])
   @@index([assessmentId])
+}
+
+// ═══════════════════════════════════════════════════════════
+//  ENGLISH COURSES — Online learning product (separate from assessments)
+// ═══════════════════════════════════════════════════════════
+
+model Course {
+  id              String   @id @default(cuid())
+  slug            String   @unique                    // "beginner" | "intermediate" | "advanced"
+  title           String                              // "Beginner English"
+  subtitle        String                              // "From A1 to A2 — Build your foundation"
+  level           String                              // "A1-A2" | "B1-B2" | "C1-C2"
+  price           Float                               // 49 | 79 | 99
+  compareAtPrice  Float?                              // Original price for showing discount (e.g., 79 → show "was $79")
+  description     String                              // Full marketing description
+  features        String                              // JSON array of feature strings
+  modulesCount    Int                                 // Total modules
+  lessonsCount    Int                                 // Total lessons
+  estimatedHours  Int                                 // Estimated study hours
+  imageUrl        String?                             // Course card image
+  order           Int      @default(0)                // Display order
+  isPublished     Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  modules       CourseModule[]
+  enrollments   CourseEnrollment[]
+
+  @@index([slug])
+  @@index([order])
+}
+
+model CourseModule {
+  id              String   @id @default(cuid())
+  courseId        String
+  moduleNumber    Int
+  title           String
+  description     String                              // Module description
+  icon            String?                              // Lucide icon name for the module
+  order           Int      @default(0)
+  isPublished     Boolean  @default(true)
+
+  course          Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons         CourseLesson[]
+
+  @@unique([courseId, moduleNumber])
+  @@index([courseId])
+}
+
+model CourseLesson {
+  id              String   @id @default(cuid())
+  moduleId        String
+  lessonNumber    Int
+  title           String
+  contentType     String   @default("reading")         // "reading" | "listening" | "grammar" | "vocabulary" | "quiz" | "speaking"
+  content         String                              // HTML/Markdown lesson content
+  vocabulary      String?                              // JSON: [{word, definition, example, pronunciation}]
+  quizData        String?                              // JSON: [{question, options:[], correctIndex, explanation}]
+  audioScript     String?                              // TTS script for listening lessons
+  estimatedMinutes Int     @default(15)
+  order           Int      @default(0)
+  isPublished     Boolean  @default(true)
+
+  module          CourseModule @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  progress        LessonProgress[]
+
+  @@unique([moduleId, lessonNumber])
+  @@index([moduleId])
+}
+
+model CourseEnrollment {
+  id              String   @id @default(cuid())
+  userId          String
+  courseId        String
+  status          String   @default("active")          // "active" | "completed" | "expired" | "refunded"
+  progress        Float    @default(0)                 // 0-100 percentage
+  currentModuleId String?
+  currentLessonId String?
+  paymentId       String?                              // PayPal order ID
+  enrolledAt      DateTime @default(now())
+  completedAt     DateTime?
+  lastAccessedAt  DateTime @default(now())
+  certificateId   String?                              // Verification ID for completion certificate
+
+  user            User     @relation("UserCourseEnrollments", fields: [userId], references: [id], onDelete: Cascade)
+  course          Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessonProgress  LessonProgress[]
+
+  @@unique([userId, courseId])
+  @@index([userId])
+  @@index([courseId])
+  @@index([status])
+}
+
+model LessonProgress {
+  id              String   @id @default(cuid())
+  enrollmentId    String
+  lessonId        String
+  completed       Boolean  @default(false)
+  quizScore       Float?
+  quizPassed      Boolean  @default(false)
+  timeSpentSeconds Int     @default(0)
+  completedAt     DateTime?
+
+  enrollment      CourseEnrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  lesson          CourseLesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([enrollmentId, lessonId])
+  @@index([enrollmentId])
 }
