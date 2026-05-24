@@ -278,35 +278,35 @@ const DIMENSIONS_DATA = [
     icon: <PenTool className="h-6 w-6" />,
     title: 'Writing',
     level: 'A1–C2',
-    gradient: 'from-violet-500 to-purple-500',
+    gradient: 'from-blue-500 to-indigo-500',
     items: ['Cohesion and coherence', 'Grammatical accuracy', 'Lexical resource', 'Task achievement', 'Writing mechanics'],
   },
   {
     icon: <Headphones className="h-6 w-6" />,
     title: 'Listening',
     level: 'A1–C2',
-    gradient: 'from-green-500 to-emerald-500',
+    gradient: 'from-sky-500 to-blue-500',
     items: ['Main ideas and details', 'Understanding speakers\' attitude', 'Following complex arguments', 'Multiple speaker comprehension', 'Accent familiarity'],
   },
   {
     icon: <Mic className="h-6 w-6" />,
     title: 'Speaking',
     level: 'A1–C2',
-    gradient: 'from-orange-500 to-amber-500',
+    gradient: 'from-blue-500 to-cyan-500',
     items: ['Fluency and coherence', 'Lexical resource', 'Grammatical range', 'Pronunciation clarity', 'Interactive communication'],
   },
   {
     icon: <BarChart3 className="h-6 w-6" />,
     title: 'Grammar',
     level: 'A1–C2',
-    gradient: 'from-purple-500 to-indigo-500',
+    gradient: 'from-indigo-500 to-blue-600',
     items: ['Sentence formation', 'Tense accuracy', 'Complex structures', 'Error patterns', 'Grammar application'],
   },
   {
     icon: <Award className="h-6 w-6" />,
     title: 'Vocabulary',
     level: 'A1–C2',
-    gradient: 'from-pink-500 to-rose-500',
+    gradient: 'from-indigo-400 to-blue-500',
     items: ['Word range', 'Precision', 'Collocations', 'Register awareness', 'Topic-specific vocabulary'],
   },
 ];
@@ -427,7 +427,7 @@ const TESTIMONIALS = [
     location: 'Mexico City',
     progress: 'B1 → C1',
     initials: 'M',
-    color: 'from-orange-500 to-amber-500',
+    color: 'from-blue-500 to-cyan-500',
   },
   {
     quote: 'I use CEFR Test with my students to track their progress. The CEFR alignment is accurate, and the comprehensive reports help me tailor my lessons effectively.',
@@ -436,7 +436,7 @@ const TESTIMONIALS = [
     location: 'Tokyo',
     progress: 'B2 → C2',
     initials: 'Y',
-    color: 'from-pink-500 to-rose-500',
+    color: 'from-sky-500 to-blue-500',
   },
   {
     quote: 'We assessed over 800 students in a single semester. The bulk import and CSV export saved our department dozens of hours.',
@@ -445,7 +445,7 @@ const TESTIMONIALS = [
     location: 'Hanoi',
     progress: 'B2 → C1',
     initials: 'L',
-    color: 'from-green-500 to-emerald-500',
+    color: 'from-blue-500 to-indigo-500',
   },
 ];
 
@@ -467,7 +467,7 @@ const ENTERPRISE_TESTIMONIALS = [
     name: 'Dr. Laura Pham',
     role: 'Head of Language Dept, Hanoi University',
     initials: 'DL',
-    color: 'from-green-500 to-emerald-500',
+    color: 'from-sky-500 to-blue-500',
   },
   {
     quote: 'White-label certificates with our academy logo made a huge difference. Our students trust the result because it feels professional.',
@@ -481,7 +481,7 @@ const ENTERPRISE_TESTIMONIALS = [
     name: 'Sofia Tanner',
     role: 'L&D Manager, Nexura Corp',
     initials: 'ST',
-    color: 'from-purple-500 to-violet-500',
+    color: 'from-indigo-500 to-blue-600',
   },
 ];
 
@@ -527,8 +527,8 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between p-5 text-left cursor-pointer group"
       >
-        <span className="text-base font-medium text-white group-hover:text-purple-300 transition-colors pr-4">{question}</span>
-        <ChevronDown className={`h-5 w-5 text-purple-400 shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
+        <span className="text-base font-medium text-white group-hover:text-blue-300 transition-colors pr-4">{question}</span>
+        <ChevronDown className={`h-5 w-5 text-blue-400 shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
       {isOpen && (
         <div className="px-5 pb-5 animate-slide-down">
@@ -582,9 +582,9 @@ export default function Home() {
             {/* Top badge */}
             <div className="text-center mb-8">
               <div className="animate-float inline-flex items-center gap-2 rounded-full glass-light px-5 py-2.5 animate-border-glow">
-                <Sparkles className="h-4 w-4 text-purple-300" />
-                <span className="text-sm text-purple-200 font-medium">AI-Powered Assessment Platform</span>
-                <span className="flex h-2 w-2 rounded-full bg-green-400 animate-pulse" />
+                <Sparkles className="h-4 w-4 text-blue-300" />
+                <span className="text-sm text-blue-200 font-medium">AI-Powered Assessment Platform</span>
+                <span className="flex h-2 w-2 rounded-full bg-blue-400 animate-pulse" />
               </div>
             </div>
 
@@ -603,7 +603,7 @@ export default function Home() {
             {/* CTA Buttons */}
             <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center animate-scale-in delay-500">
               <Link href={isAuth ? '/dashboard' : '/register'}>
-                <button className="group flex items-center justify-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer w-full sm:w-auto">
+                <button className="group flex items-center justify-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-1 cursor-pointer w-full sm:w-auto">
                   Start Free Assessment
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </button>
@@ -630,7 +630,7 @@ export default function Home() {
               ].map((stat, i) => (
                 <AnimatedSection key={stat.label} delay={i * 100}>
                   <div className="glass-card p-3 sm:p-5 text-center group">
-                    <div className="flex justify-center mb-2 text-purple-400 group-hover:text-purple-300 transition-colors">
+                    <div className="flex justify-center mb-2 text-blue-400 group-hover:text-blue-300 transition-colors">
                       {stat.icon}
                     </div>
                     <div className="text-xl sm:text-2xl font-bold text-white mb-1">{stat.value}</div>
@@ -662,8 +662,8 @@ export default function Home() {
           <AnimatedSection>
             <div className="text-center mb-14">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <BookOpen className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Comprehensive Coverage</span>
+                <BookOpen className="h-3.5 w-3.5 text-blue-400" />
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Comprehensive Coverage</span>
               </div>
               <h2 className="text-3xl md:text-5xl font-bold text-white">
                 6 Dimensions of <span className="gradient-text-static">English Proficiency</span>
@@ -690,7 +690,7 @@ export default function Home() {
                   <ul className="space-y-2">
                     {skill.items.map((item) => (
                       <li key={item} className="flex items-center gap-2">
-                        <CheckCircle2 className="h-3.5 w-3.5 text-purple-400 shrink-0" />
+                        <CheckCircle2 className="h-3.5 w-3.5 text-blue-400 shrink-0" />
                         <span className="text-sm text-white/60">{item}</span>
                       </li>
                     ))}
@@ -712,15 +712,15 @@ export default function Home() {
       {/* ===== HOW IT WORKS ===== */}
       <section className="relative py-20 md:py-28 bg-[#0F0A1E] overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="orb orb-pink w-[400px] h-[400px] bottom-0 left-0 animate-float-slow" />
+          <div className="orb orb-cyan w-[400px] h-[400px] bottom-0 left-0 animate-float-slow" />
         </div>
 
         <div className="container relative mx-auto px-4">
           <AnimatedSection>
             <div className="text-center mb-14">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <ClipboardCheck className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Simple Process</span>
+                <ClipboardCheck className="h-3.5 w-3.5 text-blue-400" />
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Simple Process</span>
               </div>
               <h2 className="text-3xl md:text-5xl font-bold text-white">
                 How It <span className="gradient-text-static">Works</span>
@@ -737,10 +737,10 @@ export default function Home() {
                 <div className="glass-card p-6 text-center h-full group">
                   <div className="flex justify-center mb-4">
                     <div className="relative">
-                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-500/20 text-purple-400 group-hover:border-purple-500/40 transition-all duration-300">
+                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border border-blue-500/20 text-blue-400 group-hover:border-blue-500/40 transition-all duration-300">
                         {step.icon}
                       </div>
-                      <div className="absolute -top-2 -right-2 flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-purple-600 to-pink-500 text-white text-xs font-bold shadow-lg">
+                      <div className="absolute -top-2 -right-2 flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-cyan-500 text-white text-xs font-bold shadow-lg">
                         {step.number}
                       </div>
                     </div>
@@ -760,8 +760,8 @@ export default function Home() {
           <AnimatedSection>
             <div className="text-center mb-14">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <CreditCard className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Pricing</span>
+                <CreditCard className="h-3.5 w-3.5 text-blue-400" />
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Pricing</span>
               </div>
               <h2 className="text-3xl md:text-5xl font-bold text-white">
                 Flexible <span className="gradient-text-static">Pricing</span>
@@ -775,10 +775,10 @@ export default function Home() {
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto">
             {INDIVIDUAL_PLANS.map((plan, index) => (
               <AnimatedSection key={plan.name} delay={index * 100}>
-                <div className={`relative glass-card p-6 h-full flex flex-col ${plan.popular ? 'ring-2 ring-purple-500/50' : ''}`}>
+                <div className={`relative glass-card p-6 h-full flex flex-col ${plan.popular ? 'ring-2 ring-blue-500/50' : ''}`}>
                   {plan.popular && (
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                      <span className="bg-gradient-to-r from-purple-600 to-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                      <span className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
                         Most Popular
                       </span>
                     </div>
@@ -791,7 +791,7 @@ export default function Home() {
                   <ul className="space-y-2.5 flex-1">
                     {plan.features.map((feature) => (
                       <li key={feature} className="flex items-start gap-2">
-                        <CheckCircle2 className="h-4 w-4 text-purple-400 shrink-0 mt-0.5" />
+                        <CheckCircle2 className="h-4 w-4 text-blue-400 shrink-0 mt-0.5" />
                         <span className="text-sm text-white/60">{feature}</span>
                       </li>
                     ))}
@@ -799,10 +799,10 @@ export default function Home() {
                   <Link href={plan.ctaLink} className="mt-6 block">
                     <button className={`w-full py-2.5 rounded-xl font-medium text-sm transition-all duration-300 cursor-pointer ${
                       plan.popular
-                        ? 'bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white shadow-lg shadow-purple-500/25 hover:-translate-y-0.5'
+                        ? 'bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white shadow-lg shadow-blue-500/25 hover:-translate-y-0.5'
                         : plan.price === '$0'
                           ? 'glass-button text-white'
-                          : 'glass-button text-white hover:bg-purple-500/20'
+                          : 'glass-button text-white hover:bg-blue-500/20'
                     }`}>
                       {plan.cta}
                     </button>
@@ -813,7 +813,7 @@ export default function Home() {
           </div>
 
           <div className="text-center mt-8">
-            <Link href="/pricing" className="group inline-flex items-center gap-1 text-sm text-purple-400 hover:text-purple-300 transition-colors">
+            <Link href="/pricing" className="group inline-flex items-center gap-1 text-sm text-blue-400 hover:text-blue-300 transition-colors">
               View all plans including Team & Enterprise
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
@@ -824,7 +824,7 @@ export default function Home() {
       {/* ===== FOR ORGANIZATIONS ===== */}
       <section className="relative py-20 md:py-28 bg-[#0F0A1E] overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="orb orb-purple w-[500px] h-[500px] top-0 right-0 animate-float-slow" />
+          <div className="orb orb-blue w-[500px] h-[500px] top-0 right-0 animate-float-slow" />
           <div className="orb orb-cyan w-[300px] h-[300px] bottom-0 left-1/4 animate-float-reverse" />
         </div>
 
@@ -832,8 +832,8 @@ export default function Home() {
           <AnimatedSection>
             <div className="text-center mb-14">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <Building2 className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">For Organizations</span>
+                <Building2 className="h-3.5 w-3.5 text-blue-400" />
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">For Organizations</span>
               </div>
               <h2 className="text-3xl md:text-5xl font-bold text-white">
                 Scale English Testing
@@ -849,10 +849,10 @@ export default function Home() {
           <div className="grid gap-6 md:grid-cols-3 max-w-5xl mx-auto">
             {ORG_PLANS.map((plan, index) => (
               <AnimatedSection key={plan.tier} delay={index * 150}>
-                <div className={`relative glass-card p-6 h-full flex flex-col ${plan.popular ? 'ring-2 ring-purple-500/50' : ''}`}>
+                <div className={`relative glass-card p-6 h-full flex flex-col ${plan.popular ? 'ring-2 ring-blue-500/50' : ''}`}>
                   {plan.popular && (
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                      <span className="bg-gradient-to-r from-purple-600 to-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                      <span className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
                         Most Popular
                       </span>
                     </div>
@@ -867,7 +867,7 @@ export default function Home() {
                   <ul className="space-y-2.5 flex-1">
                     {plan.features.map((feature) => (
                       <li key={feature} className="flex items-start gap-2">
-                        <CheckCircle2 className="h-4 w-4 text-purple-400 shrink-0 mt-0.5" />
+                        <CheckCircle2 className="h-4 w-4 text-blue-400 shrink-0 mt-0.5" />
                         <span className="text-sm text-white/60">{feature}</span>
                       </li>
                     ))}
@@ -876,7 +876,7 @@ export default function Home() {
                   <Link href={plan.ctaLink} className="mt-4 block">
                     <button className={`w-full py-2.5 rounded-xl font-medium text-sm transition-all duration-300 cursor-pointer ${
                       plan.popular
-                        ? 'bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white shadow-lg shadow-purple-500/25 hover:-translate-y-0.5'
+                        ? 'bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white shadow-lg shadow-blue-500/25 hover:-translate-y-0.5'
                         : 'glass-button text-white'
                     }`}>
                       {plan.cta}
@@ -895,8 +895,8 @@ export default function Home() {
           <AnimatedSection>
             <div className="text-center mb-14">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <Star className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Success Stories</span>
+                <Star className="h-3.5 w-3.5 text-blue-400" />
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Success Stories</span>
               </div>
               <h2 className="text-3xl md:text-5xl font-bold text-white">
                 Trusted by <span className="gradient-text-static">Thousands of Learners</span>
@@ -919,7 +919,7 @@ export default function Home() {
                     </div>
                     <div className="text-right">
                       <p className="text-xs text-white/30">{testimonial.location}</p>
-                      <span className="text-xs font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">{testimonial.progress}</span>
+                      <span className="text-xs font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">{testimonial.progress}</span>
                     </div>
                   </div>
                 </div>
@@ -939,8 +939,8 @@ export default function Home() {
           <AnimatedSection>
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <Building2 className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Enterprise</span>
+                <Building2 className="h-3.5 w-3.5 text-blue-400" />
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Enterprise</span>
               </div>
               <h2 className="text-3xl md:text-5xl font-bold text-white">
                 Built for Teams and <span className="gradient-text-static">Organisations</span>
@@ -956,7 +956,7 @@ export default function Home() {
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-5xl mx-auto mb-14">
               {ENTERPRISE_STATS.map((stat, i) => (
                 <div key={stat.label} className="glass-card p-4 text-center">
-                  <div className="flex justify-center mb-2 text-purple-400">{stat.icon}</div>
+                  <div className="flex justify-center mb-2 text-blue-400">{stat.icon}</div>
                   <div className="text-lg font-bold text-white">{stat.value}</div>
                   <div className="text-[10px] text-white/40">{stat.label}</div>
                 </div>
@@ -994,8 +994,8 @@ export default function Home() {
           <AnimatedSection>
             <div className="text-center mb-14">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <HelpCircle className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">FAQ</span>
+                <HelpCircle className="h-3.5 w-3.5 text-blue-400" />
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">FAQ</span>
               </div>
               <h2 className="text-3xl md:text-5xl font-bold text-white">
                 Frequently Asked <span className="gradient-text-static">Questions</span>
@@ -1016,8 +1016,8 @@ export default function Home() {
       {/* ===== FINAL CTA SECTION ===== */}
       <section className="relative py-20 md:py-28 bg-[#0F0A1E] overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="orb orb-purple w-[600px] h-[600px] top-1/4 left-1/4 animate-float-slow" />
-          <div className="orb orb-pink w-[400px] h-[400px] bottom-1/4 right-1/4 animate-float-reverse" />
+          <div className="orb orb-blue w-[600px] h-[600px] top-1/4 left-1/4 animate-float-slow" />
+          <div className="orb orb-cyan w-[400px] h-[400px] bottom-1/4 right-1/4 animate-float-reverse" />
         </div>
 
         <div className="container relative mx-auto px-4">
@@ -1033,7 +1033,7 @@ export default function Home() {
               </p>
               <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href={isAuth ? '/dashboard' : '/register'}>
-                  <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                  <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-1 cursor-pointer">
                     Get Started Free
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </button>
