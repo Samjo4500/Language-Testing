@@ -50,7 +50,7 @@ export function Footer() {
 
               {/* Instagram */}
               <a
-                href="https://www.instagram.com/testcefr2026"
+                href="https://www.instagram.com/testcefr2026/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center justify-center w-9 h-9 rounded-lg bg-white/[0.04] border border-white/[0.06] hover:border-rose-500/40 hover:bg-rose-500/10 transition-all duration-200"
@@ -65,7 +65,7 @@ export function Footer() {
 
               {/* LinkedIn */}
               <a
-                href="https://www.linkedin.com/company/testcefr"
+                href="https://www.linkedin.com/in/test-cefr-313421411/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center justify-center w-9 h-9 rounded-lg bg-white/[0.04] border border-white/[0.06] hover:border-blue-500/40 hover:bg-blue-500/10 transition-all duration-200"
