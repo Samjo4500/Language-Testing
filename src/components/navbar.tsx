@@ -119,7 +119,7 @@ export function Navbar() {
           {isAuth && user?.role === 'admin' && (
             <Link
               href="/admin"
-              className="text-sm text-orange-400 hover:text-orange-300 transition-colors px-3 py-1.5 rounded-lg hover:bg-white/5 flex items-center gap-1"
+              className="text-sm text-blue-400 hover:text-blue-300 transition-colors px-3 py-1.5 rounded-lg hover:bg-white/5 flex items-center gap-1"
             >
               <Shield className="h-3.5 w-3.5" />
               Admin
@@ -251,7 +251,7 @@ export function Navbar() {
                   </div>
                   <Link
                     href="/admin"
-                    className="block text-sm text-orange-400 py-2.5 px-4 rounded-xl"
+                    className="block text-sm text-blue-400 py-2.5 px-4 rounded-xl"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     <Shield className="inline h-3.5 w-3.5 mr-1" />

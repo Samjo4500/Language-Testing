@@ -64,40 +64,40 @@ const TIER_COLORS: Record<string, {
   ringColor: string;
 }> = {
   beginner: {
-    gradient: 'from-green-400 to-emerald-500',
-    orb1: 'orb-cyan',
-    orb2: 'orb-purple',
-    text: 'text-emerald-400',
-    badge: 'bg-green-500/20 text-green-300 border-green-500/30',
-    checkColor: 'text-green-400',
-    shadowColor: 'shadow-green-500/20',
-    buttonGradient: 'from-green-600 to-emerald-500',
-    statBg: 'bg-green-500/10 border-green-500/20',
-    ringColor: 'ring-green-500/30',
+    gradient: 'from-sky-400 to-blue-500',
+    orb1: 'orb-blue',
+    orb2: 'orb-cyan',
+    text: 'text-sky-400',
+    badge: 'bg-sky-500/20 text-sky-300 border-sky-500/30',
+    checkColor: 'text-sky-400',
+    shadowColor: 'shadow-sky-500/20',
+    buttonGradient: 'from-sky-500 to-blue-500',
+    statBg: 'bg-sky-500/10 border-sky-500/20',
+    ringColor: 'ring-sky-500/30',
   },
   intermediate: {
-    gradient: 'from-blue-400 to-cyan-500',
+    gradient: 'from-blue-500 to-indigo-600',
     orb1: 'orb-blue',
     orb2: 'orb-purple',
     text: 'text-blue-400',
     badge: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
     checkColor: 'text-blue-400',
     shadowColor: 'shadow-blue-500/20',
-    buttonGradient: 'from-blue-600 to-cyan-500',
+    buttonGradient: 'from-blue-600 to-indigo-500',
     statBg: 'bg-blue-500/10 border-blue-500/20',
     ringColor: 'ring-blue-500/30',
   },
   advanced: {
-    gradient: 'from-purple-400 to-pink-500',
+    gradient: 'from-indigo-500 to-blue-700',
     orb1: 'orb-purple',
-    orb2: 'orb-pink',
-    text: 'text-purple-400',
-    badge: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
-    checkColor: 'text-purple-400',
-    shadowColor: 'shadow-purple-500/25',
-    buttonGradient: 'from-purple-600 to-pink-500',
-    statBg: 'bg-purple-500/10 border-purple-500/20',
-    ringColor: 'ring-purple-500/30',
+    orb2: 'orb-blue',
+    text: 'text-indigo-400',
+    badge: 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30',
+    checkColor: 'text-indigo-400',
+    shadowColor: 'shadow-indigo-500/25',
+    buttonGradient: 'from-indigo-600 to-blue-700',
+    statBg: 'bg-indigo-500/10 border-indigo-500/20',
+    ringColor: 'ring-indigo-500/30',
   },
 };
 
@@ -809,7 +809,7 @@ function CourseNotFound({ slug }: { slug: string }) {
               The course &quot;{slug}&quot; doesn&apos;t exist. Choose from Beginner, Intermediate, or Advanced.
             </p>
             <Link href="/">
-              <button className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-500 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer">
+              <button className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-blue-500/25 cursor-pointer">
                 <ArrowLeft className="h-4 w-4" />
                 Back to Home
               </button>
@@ -997,9 +997,9 @@ export default function CourseDetailPage() {
                       )}
                     </div>
                     {discount > 0 && (
-                      <div className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-green-500/15 border border-green-500/25 px-3 py-1">
-                        <Zap className="h-3 w-3 text-green-400" />
-                        <span className="text-xs font-semibold text-green-400">Save {discount}%</span>
+                      <div className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-blue-500/15 border border-blue-500/25 px-3 py-1">
+                        <Zap className="h-3 w-3 text-blue-400" />
+                        <span className="text-xs font-semibold text-blue-400">Save {discount}%</span>
                       </div>
                     )}
                     <p className="text-xs text-white/30 mt-2">One-time payment · Lifetime access</p>
@@ -1051,7 +1051,7 @@ export default function CourseDetailPage() {
 
                   {/* Trust badge */}
                   <div className="mt-5 flex items-center justify-center gap-2">
-                    <Lock className="h-3.5 w-3.5 text-green-400" />
+                    <Lock className="h-3.5 w-3.5 text-blue-400" />
                     <span className="text-xs text-white/30">Secure payment via PayPal · 14-day refund policy</span>
                   </div>
                 </div>
@@ -1236,7 +1236,7 @@ export default function CourseDetailPage() {
                   {/* Stars */}
                   <div className="flex gap-1 mb-4">
                     {Array.from({ length: testimonial.rating }).map((_, j) => (
-                      <Star key={j} className="h-4 w-4 fill-amber-400 text-amber-400" />
+                      <Star key={j} className="h-4 w-4 fill-blue-400 text-blue-400" />
                     ))}
                   </div>
                   {/* Quote */}
@@ -1344,7 +1344,7 @@ export default function CourseDetailPage() {
 
               <div className="mt-6 flex items-center justify-center gap-4 text-xs text-white/30">
                 <div className="flex items-center gap-1.5">
-                  <Lock className="h-3.5 w-3.5 text-green-400" />
+                  <Lock className="h-3.5 w-3.5 text-blue-400" />
                   <span>Secure checkout</span>
                 </div>
                 <span className="text-white/10">·</span>
@@ -1354,7 +1354,7 @@ export default function CourseDetailPage() {
                 </div>
                 <span className="text-white/10">·</span>
                 <div className="flex items-center gap-1.5">
-                  <Award className="h-3.5 w-3.5 text-amber-400" />
+                  <Award className="h-3.5 w-3.5 text-blue-300" />
                   <span>Certificate included</span>
                 </div>
               </div>

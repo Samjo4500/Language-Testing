@@ -118,37 +118,37 @@ const TIER_COLORS: Record<
     badgeBg: string;
   }
 > = {
-  green: {
-    checkColor: 'text-emerald-400',
-    shadowColor: 'shadow-emerald-500/20',
-    ctaGradient: 'from-green-600 to-emerald-500',
-    ctaHoverGradient: 'hover:from-green-500 hover:to-emerald-400',
-    borderGradient: 'from-green-500/40 via-emerald-500/30 to-green-500/40',
-    badgeBg: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/20',
+  sky: {
+    checkColor: 'text-sky-300',
+    shadowColor: 'shadow-sky-500/20',
+    ctaGradient: 'from-sky-500 to-blue-500',
+    ctaHoverGradient: 'hover:from-sky-400 hover:to-blue-400',
+    borderGradient: 'from-sky-400/50 via-blue-400/30 to-sky-400/50',
+    badgeBg: 'bg-sky-500/15 text-sky-300 border-sky-500/20',
   },
   blue: {
-    checkColor: 'text-cyan-400',
+    checkColor: 'text-blue-300',
     shadowColor: 'shadow-blue-500/25',
-    ctaGradient: 'from-blue-600 to-cyan-500',
-    ctaHoverGradient: 'hover:from-blue-500 hover:to-cyan-400',
-    borderGradient: 'from-blue-500/60 via-cyan-500/40 to-blue-500/60',
-    badgeBg: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/20',
+    ctaGradient: 'from-blue-600 to-indigo-500',
+    ctaHoverGradient: 'hover:from-blue-500 hover:to-indigo-400',
+    borderGradient: 'from-blue-500/60 via-indigo-400/40 to-blue-500/60',
+    badgeBg: 'bg-blue-500/15 text-blue-300 border-blue-500/20',
   },
-  purple: {
-    checkColor: 'text-purple-400',
-    shadowColor: 'shadow-purple-500/25',
-    ctaGradient: 'from-purple-600 to-pink-500',
-    ctaHoverGradient: 'hover:from-purple-500 hover:to-pink-400',
-    borderGradient: 'from-purple-500/60 via-pink-500/40 to-purple-500/60',
-    badgeBg: 'bg-purple-500/15 text-purple-300 border-purple-500/20',
+  indigo: {
+    checkColor: 'text-indigo-300',
+    shadowColor: 'shadow-indigo-500/25',
+    ctaGradient: 'from-indigo-600 to-blue-700',
+    ctaHoverGradient: 'hover:from-indigo-500 hover:to-blue-600',
+    borderGradient: 'from-indigo-500/60 via-blue-600/40 to-indigo-500/60',
+    badgeBg: 'bg-indigo-500/15 text-indigo-300 border-indigo-500/20',
   },
-  gold: {
-    checkColor: 'text-amber-400',
-    shadowColor: 'shadow-amber-500/20',
-    ctaGradient: 'from-amber-600 to-orange-500',
-    ctaHoverGradient: 'hover:from-amber-500 hover:to-orange-400',
-    borderGradient: 'from-amber-500/40 via-orange-500/30 to-amber-500/40',
-    badgeBg: 'bg-amber-500/15 text-amber-300 border-amber-500/20',
+  navy: {
+    checkColor: 'text-blue-200',
+    shadowColor: 'shadow-blue-800/25',
+    ctaGradient: 'from-blue-700 to-cyan-600',
+    ctaHoverGradient: 'hover:from-blue-600 hover:to-cyan-500',
+    borderGradient: 'from-blue-600/50 via-cyan-500/30 to-blue-600/50',
+    badgeBg: 'bg-blue-600/15 text-blue-200 border-blue-600/20',
   },
 };
 
@@ -159,8 +159,8 @@ const BENEFITS = [
     title: 'CEFR Aligned',
     description:
       'All courses follow the Common European Framework of Reference, the global standard for language proficiency.',
-    color: 'text-purple-400',
-    bg: 'bg-purple-500/20',
+    color: 'text-sky-400',
+    bg: 'bg-sky-500/20',
   },
   {
     icon: <Headphones className="h-5 w-5" />,
@@ -175,24 +175,24 @@ const BENEFITS = [
     title: 'Progress Tracking',
     description:
       'Track your improvement across all skills with a detailed dashboard that shows your growth over time.',
-    color: 'text-green-400',
-    bg: 'bg-green-500/20',
+    color: 'text-blue-400',
+    bg: 'bg-blue-500/20',
   },
   {
     icon: <Award className="h-5 w-5" />,
     title: 'Completion Certificate',
     description:
       'Earn an official certificate for each course you complete, verifiable online by employers and institutions.',
-    color: 'text-amber-400',
-    bg: 'bg-amber-500/20',
+    color: 'text-indigo-400',
+    bg: 'bg-indigo-500/20',
   },
   {
     icon: <Shield className="h-5 w-5" />,
     title: 'Money-Back Guarantee',
     description:
       'Not satisfied? Get a full refund within 14 days if you haven\'t completed more than 2 lessons.',
-    color: 'text-rose-400',
-    bg: 'bg-rose-500/20',
+    color: 'text-blue-300',
+    bg: 'bg-blue-600/20',
   },
   {
     icon: <Users className="h-5 w-5" />,
@@ -399,7 +399,7 @@ export default function CoursesPage() {
                         className="block"
                       >
                         <button
-                          className={`w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r ${colors.ctaGradient} ${colors.ctaHoverGradient} text-white font-semibold text-sm transition-all duration-300 shadow-lg ${colors.shadowColor} cursor-pointer`}
+                          className={`w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 text-white font-semibold text-sm transition-all duration-300 backdrop-blur-sm cursor-pointer`}
                         >
                           View Course
                           <ArrowRight className="h-4 w-4" />
@@ -414,11 +414,11 @@ export default function CoursesPage() {
             {/* ===== BUNDLE CARD ===== */}
             <AnimatedSection delay={500}>
               <div className="relative h-full rounded-2xl">
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-amber-500/40 via-orange-500/30 to-amber-500/40 p-[1px]" />
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-blue-600/50 via-cyan-500/30 to-blue-600/50 p-[1px]" />
                 <div className="relative glass-card p-7 h-full flex flex-col border-transparent">
                   {/* Save badge */}
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 px-4 py-1 text-xs font-semibold text-white shadow-lg shadow-amber-500/25">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 px-4 py-1 text-xs font-semibold text-white shadow-lg shadow-blue-500/25">
                       <Sparkles className="h-3 w-3" />
                       Save $198
                     </span>
@@ -426,7 +426,7 @@ export default function CoursesPage() {
 
                   {/* Icon + Title */}
                   <div className="flex items-center gap-3 mb-1">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 text-white shadow-lg shadow-amber-500/20">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-cyan-500 text-white shadow-lg shadow-blue-500/20">
                       <Zap className="h-5 w-5" />
                     </div>
                     <div>
@@ -441,7 +441,7 @@ export default function CoursesPage() {
 
                   {/* Level badge */}
                   <div className="mb-4">
-                    <span className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium bg-amber-500/15 text-amber-300 border-amber-500/20">
+                    <span className="inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium bg-blue-500/15 text-blue-200 border-blue-500/20">
                       <Globe className="h-3 w-3" />
                       A1 – C2 Complete
                     </span>
@@ -489,7 +489,7 @@ export default function CoursesPage() {
                         key={feature}
                         className="flex items-start gap-2.5 text-sm"
                       >
-                        <CheckCircle2 className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" />
+                        <CheckCircle2 className="h-4 w-4 text-blue-300 mt-0.5 shrink-0" />
                         <span className="text-white/65">{feature}</span>
                       </li>
                     ))}
@@ -497,7 +497,7 @@ export default function CoursesPage() {
 
                   {/* CTA */}
                   <Link href="/courses/bundle" className="block">
-                    <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-500 hover:to-orange-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-amber-500/20 cursor-pointer">
+                    <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 text-white font-semibold text-sm transition-all duration-300 backdrop-blur-sm cursor-pointer">
                       Get the Bundle
                       <ArrowRight className="h-4 w-4" />
                     </button>
@@ -510,7 +510,7 @@ export default function CoursesPage() {
           {/* Trust badge */}
           <div className="mt-10 text-center">
             <div className="inline-flex items-center gap-2 glass px-5 py-2.5 rounded-full">
-              <Shield className="h-4 w-4 text-green-400" />
+              <Shield className="h-4 w-4 text-blue-400" />
               <span className="text-sm text-white/50">
                 14-day money-back guarantee
               </span>
@@ -662,19 +662,19 @@ export default function CoursesPage() {
             <AnimatedSection delay={450}>
               <div className="flex gap-5 mt-4">
                 <div className="flex flex-col items-center">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-amber-500 to-orange-500 text-white shadow-lg shadow-amber-500/20">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-cyan-500 text-white shadow-lg shadow-blue-500/20">
                     <Zap className="h-5 w-5" />
                   </div>
                 </div>
-                <div className="glass-card p-5 flex-1 border-amber-500/20 bg-amber-500/5">
+                <div className="glass-card p-5 flex-1 border-blue-500/20 bg-blue-500/5">
                   <div className="flex flex-wrap items-center gap-3 mb-2">
                     <h3 className="text-base font-bold text-white">
                       Complete Bundle
                     </h3>
-                    <span className="inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[10px] font-medium bg-amber-500/15 text-amber-300 border-amber-500/20">
+                    <span className="inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-[10px] font-medium bg-blue-500/15 text-blue-200 border-blue-500/20">
                       A1 – C2
                     </span>
-                    <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 px-2 py-0.5 text-[10px] font-semibold text-white">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 px-2 py-0.5 text-[10px] font-semibold text-white">
                       Save $198
                     </span>
                   </div>
@@ -767,7 +767,7 @@ export default function CoursesPage() {
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                   <Link href="/courses/beginner">
-                    <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 cursor-pointer">
+                    <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 cursor-pointer">
                       Start with Beginner
                       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </button>
