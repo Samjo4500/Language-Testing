@@ -65,20 +65,20 @@ export default function LiveVoiceDemo() {
     <>
       {/* Ambient glow background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-purple-600/15 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-0 left-1/4 w-[500px] h-[300px] bg-pink-600/10 rounded-full blur-[100px] animate-float-slow" />
-        <div className="absolute top-1/3 right-1/4 w-[400px] h-[250px] bg-violet-500/8 rounded-full blur-[80px] animate-float-reverse" />
-        <div className="orb orb-purple w-[500px] h-[500px] top-1/4 -left-24 animate-float-slow opacity-30" />
-        <div className="orb orb-pink w-[400px] h-[400px] bottom-1/4 -right-16 animate-float-reverse opacity-25" />
-        <div className="orb orb-purple w-[250px] h-[250px] top-2/3 left-1/3 animate-float-slow opacity-15" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-600/15 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute bottom-0 left-1/4 w-[500px] h-[300px] bg-cyan-600/10 rounded-full blur-[100px] animate-float-slow" />
+        <div className="absolute top-1/3 right-1/4 w-[400px] h-[250px] bg-indigo-500/8 rounded-full blur-[80px] animate-float-reverse" />
+        <div className="orb orb-blue w-[500px] h-[500px] top-1/4 -left-24 animate-float-slow opacity-30" />
+        <div className="orb orb-cyan w-[400px] h-[400px] bottom-1/4 -right-16 animate-float-reverse opacity-25" />
+        <div className="orb orb-blue w-[250px] h-[250px] top-2/3 left-1/3 animate-float-slow opacity-15" />
       </div>
 
       <div className="container relative mx-auto px-4">
         <AnimatedSection>
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-              <Mic className="h-3.5 w-3.5 text-purple-400" />
-              <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Live Voice Demo</span>
+              <Mic className="h-3.5 w-3.5 text-blue-400" />
+              <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Live Voice Demo</span>
             </div>
             <h2 className="text-3xl md:text-5xl font-bold text-white leading-tight">
               Interactive Speaking <span className="gradient-text-static">Assessment</span>
@@ -107,8 +107,8 @@ export default function LiveVoiceDemo() {
                         </>
                       ) : (
                         <>
-                          <CircleDot className="h-3 w-3 text-green-400" />
-                          <span className="text-sm text-green-300 font-medium">READY</span>
+                          <CircleDot className="h-3 w-3 text-blue-400" />
+                          <span className="text-sm text-blue-300 font-medium">READY</span>
                           <span className="text-sm text-white/70 ml-2">00:00</span>
                         </>
                       )}
@@ -137,14 +137,14 @@ export default function LiveVoiceDemo() {
                           <div className="absolute inset-[-8px] rounded-full border-2 border-red-400/20 animate-ripple" style={{ animationDelay: '0.5s' }} />
                         </>
                       )}
-                      <div className={`absolute -inset-6 rounded-full transition-all duration-500 ${isRecording ? 'bg-red-500/15 blur-2xl' : 'bg-purple-500/15 blur-2xl'}`} />
+                      <div className={`absolute -inset-6 rounded-full transition-all duration-500 ${isRecording ? 'bg-red-500/15 blur-2xl' : 'bg-blue-500/15 blur-2xl'}`} />
                       <button
                         onClick={isRecording ? stopRecording : startRecording}
                         aria-label={isRecording ? 'Stop recording' : 'Start recording'}
                         className={`relative w-20 h-20 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${
                           isRecording
                             ? 'bg-gradient-to-br from-red-500 to-red-600 shadow-2xl shadow-red-500/40 animate-recording-pulse'
-                            : 'bg-gradient-to-br from-purple-500 to-pink-500 shadow-2xl shadow-purple-500/40 hover:shadow-purple-500/60 hover:scale-110 animate-mic-glow'
+                            : 'bg-gradient-to-br from-blue-500 to-cyan-500 shadow-2xl shadow-blue-500/40 hover:shadow-blue-500/60 hover:scale-110 animate-mic-glow'
                         }`}
                       >
                         <Mic className={`h-8 w-8 text-white ${isRecording ? 'animate-pulse' : ''}`} />
@@ -171,7 +171,7 @@ export default function LiveVoiceDemo() {
                             onClick={() => setInputLevel(level)}
                             className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all duration-300 cursor-pointer ${
                               inputLevel === level
-                                ? 'bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-lg shadow-purple-500/25'
+                                ? 'bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg shadow-blue-500/25'
                                 : 'glass text-white/50 hover:text-white/80'
                             }`}
                           >

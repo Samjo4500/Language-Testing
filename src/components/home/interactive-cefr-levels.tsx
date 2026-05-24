@@ -20,8 +20,8 @@ export default function InteractiveCEFRLevels() {
       <AnimatedSection>
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-            <Globe className="h-3.5 w-3.5 text-purple-400" />
-            <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">CEFR Framework</span>
+            <Globe className="h-3.5 w-3.5 text-blue-400" />
+            <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">CEFR Framework</span>
           </div>
           <h2 className="text-3xl md:text-5xl font-bold text-white">
             Interactive <span className="gradient-text-static">CEFR Levels</span>
