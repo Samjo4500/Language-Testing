@@ -28,3 +28,36 @@ Stage Summary:
 - 3 new admin API endpoints created
 - Admin panel significantly enhanced with governance controls
 - Build passes, deployment triggered via GitHub push
+
+---
+Task ID: fix-login-and-assessment-errors
+Agent: Main Agent
+Task: Fix login 500 error and assessment error on testcefr.com
+
+Work Log:
+- Investigated "Internal server error" on login page
+- Found DATABASE_URL shell env var was set to SQLite, overriding .env
+- Updated .env and .env.local with correct PostgreSQL URLs
+- Improved db.ts with robust URL resolution, stale cache detection, and clear error messages
+- Created db-health.ts for database error classification and health check
+- Updated login route to return 503 with specific error codes for DB issues
+- Updated register route with same improved error handling
+- Updated login page with friendlier error messages for service unavailability
+- Added /api/health endpoint for database connectivity monitoring
+- Discovered the REAL root cause: Prisma schema had new fields/tables that didn't exist in the database
+  - User.isSuspended column was missing
+  - Course, CourseModule, CourseLesson, CourseEnrollment, LessonProgress tables were missing
+- Created temporary /api/debug/db-sync/ POST endpoint to push schema changes via raw SQL
+- Successfully synced all schema changes to the Neon database
+- Verified login works with admin@testcefr.com / Admin@2026!
+- Removed debug endpoints and pushed final clean code
+
+Stage Summary:
+- Root cause: Prisma schema was out of sync with the database (missing isSuspended column and Course-related tables)
+- When Prisma's findUnique() tried to SELECT the missing isSuspended column, PostgreSQL returned an error
+- This caused ALL User queries to fail, breaking login, register, and assessment endpoints
+- The health check endpoint still worked because it only runs SELECT 1 (doesn't query any specific table)
+- Fixed by syncing the database schema via a temporary API endpoint
+- Also added resilience improvements: better error handling, database health check, schema drift prevention
+- Login is now working: admin@testcefr.com / Admin@2026! returns 200 OK
+- NOTE: The admin password is Admin@2026! (with @), not Admin2026!
