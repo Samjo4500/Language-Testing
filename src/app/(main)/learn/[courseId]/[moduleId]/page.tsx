@@ -147,12 +147,12 @@ function contentTypeLabel(type: string) {
 
 function contentTypeBadgeColor(type: string) {
   switch (type) {
-    case 'video': return 'bg-purple-500/15 text-purple-300 border-purple-500/25';
-    case 'interactive': return 'bg-pink-500/15 text-pink-300 border-pink-500/25';
+    case 'video': return 'bg-blue-500/15 text-blue-300 border-blue-500/25';
+    case 'interactive': return 'bg-sky-500/15 text-sky-300 border-sky-500/25';
     case 'listening': return 'bg-cyan-500/15 text-cyan-300 border-cyan-500/25';
-    case 'practice': return 'bg-amber-500/15 text-amber-300 border-amber-500/25';
-    case 'quiz': return 'bg-green-500/15 text-green-300 border-green-500/25';
-    case 'speaking': return 'bg-rose-500/15 text-rose-300 border-rose-500/25';
+    case 'practice': return 'bg-indigo-500/15 text-indigo-300 border-indigo-500/25';
+    case 'quiz': return 'bg-blue-400/15 text-blue-200 border-blue-400/25';
+    case 'speaking': return 'bg-blue-600/15 text-blue-300 border-blue-600/25';
     default: return 'bg-white/10 text-white/60 border-white/10';
   }
 }
@@ -194,7 +194,7 @@ function QuizSection({
     return (
       <div className="glass-card p-6 mt-6">
         <div className="flex items-center gap-3 mb-4">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-green-500/15 text-green-400">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/15 text-blue-400">
             <CheckCircle2 className="h-5 w-5" />
           </div>
           <div>
@@ -260,7 +260,7 @@ function QuizSection({
     const passed = score >= 70;
     return (
       <div className="glass-card p-6 mt-6 text-center">
-        <div className={`mx-auto flex h-16 w-16 items-center justify-center rounded-2xl mb-4 ${passed ? 'bg-green-500/15 text-green-400' : 'bg-red-500/15 text-red-400'}`}>
+        <div className={`mx-auto flex h-16 w-16 items-center justify-center rounded-2xl mb-4 ${passed ? 'bg-blue-500/15 text-blue-400' : 'bg-red-500/15 text-red-400'}`}>
           {passed ? <CheckCircle2 className="h-8 w-8" /> : <AlertCircle className="h-8 w-8" />}
         </div>
         <h3 className="text-2xl font-bold text-white mb-2">
@@ -296,7 +296,7 @@ function QuizSection({
     <div className="glass-card p-6 mt-6">
       {/* Header */}
       <div className="flex items-center gap-3 mb-5">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-green-500/15 text-green-400">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/15 text-blue-400">
           <HelpCircle className="h-5 w-5" />
         </div>
         <div className="flex-1">
@@ -309,7 +309,7 @@ function QuizSection({
       {/* Progress bar */}
       <div className="h-1.5 rounded-full bg-white/5 mb-6 overflow-hidden">
         <div
-          className="h-full rounded-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-500"
+          className="h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 transition-all duration-500"
           style={{ width: `${progressPercent}%` }}
         />
       </div>
@@ -320,10 +320,10 @@ function QuizSection({
       {/* Options */}
       <div className="space-y-3 mb-5">
         {q.options.map((option, idx) => {
-          let optionStyle = 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-purple-500/30 cursor-pointer';
+          let optionStyle = 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-blue-500/30 cursor-pointer';
           if (isAnswered) {
             if (idx === q.correctIndex) {
-              optionStyle = 'bg-green-500/10 border-green-500/40 cursor-default';
+              optionStyle = 'bg-blue-500/10 border-blue-500/40 cursor-default';
             } else if (idx === selectedAnswer && !isCorrect) {
               optionStyle = 'bg-red-500/10 border-red-500/40 cursor-default';
             } else {
@@ -340,7 +340,7 @@ function QuizSection({
             >
               <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-xs font-bold ${
                 isAnswered && idx === q.correctIndex
-                  ? 'bg-green-500/20 text-green-300'
+                  ? 'bg-blue-500/20 text-blue-300'
                   : isAnswered && idx === selectedAnswer && !isCorrect
                     ? 'bg-red-500/20 text-red-300'
                     : 'bg-white/10 text-white/60'
@@ -349,7 +349,7 @@ function QuizSection({
               </span>
               <span className={`text-sm ${
                 isAnswered && idx === q.correctIndex
-                  ? 'text-green-300'
+                  ? 'text-blue-300'
                   : isAnswered && idx === selectedAnswer && !isCorrect
                     ? 'text-red-300'
                     : 'text-white/70'
@@ -357,7 +357,7 @@ function QuizSection({
                 {option}
               </span>
               {isAnswered && idx === q.correctIndex && (
-                <CheckCircle2 className="h-4 w-4 text-green-400 ml-auto shrink-0" />
+                <CheckCircle2 className="h-4 w-4 text-blue-400 ml-auto shrink-0" />
               )}
             </button>
           );
@@ -368,10 +368,10 @@ function QuizSection({
       {showExplanation && isAnswered && (
         <div className={`rounded-xl p-4 mb-5 border ${
           isCorrect
-            ? 'bg-green-500/5 border-green-500/20'
-            : 'bg-amber-500/5 border-amber-500/20'
+            ? 'bg-blue-500/5 border-blue-500/20'
+            : 'bg-indigo-500/5 border-indigo-500/20'
         }`}>
-          <p className={`text-sm font-medium mb-1 ${isCorrect ? 'text-green-300' : 'text-amber-300'}`}>
+          <p className={`text-sm font-medium mb-1 ${isCorrect ? 'text-blue-300' : 'text-indigo-300'}`}>
             {isCorrect ? 'Correct!' : 'Not quite right'}
           </p>
           <p className="text-sm text-white/60 leading-relaxed">{q.explanation}</p>
@@ -382,7 +382,7 @@ function QuizSection({
       {isAnswered && (
         <button
           onClick={handleNext}
-          className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer"
+          className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-blue-500/25 cursor-pointer"
         >
           {currentQuestion < totalQuestions - 1 ? (
             <>
@@ -420,7 +420,7 @@ function VocabularySection({ vocabularyData }: { vocabularyData: string }) {
   return (
     <div className="glass-card p-6 mt-6">
       <div className="flex items-center gap-3 mb-5">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-pink-500/15 text-pink-400">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-500/15 text-sky-400">
           <BookOpen className="h-5 w-5" />
         </div>
         <h3 className="text-lg font-bold text-white">Vocabulary</h3>
@@ -434,7 +434,7 @@ function VocabularySection({ vocabularyData }: { vocabularyData: string }) {
             <div className="flex items-start justify-between gap-2 mb-2">
               <span className="font-bold text-white text-base">{w.word}</span>
               {w.pronunciation && (
-                <span className="text-xs text-purple-300/80 font-mono shrink-0">{w.pronunciation}</span>
+                <span className="text-xs text-blue-300/80 font-mono shrink-0">{w.pronunciation}</span>
               )}
             </div>
             <p className="text-sm text-white/60 mb-2">{w.definition}</p>
@@ -739,7 +739,7 @@ export default function LessonViewerPage() {
     return (
       <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
         <div className="flex-1 flex items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-purple-400" />
+          <Loader2 className="h-8 w-8 animate-spin text-blue-400" />
         </div>
       </div>
     );
@@ -753,7 +753,7 @@ export default function LessonViewerPage() {
     return (
       <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
         <div className="flex-1 flex items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-purple-400" />
+          <Loader2 className="h-8 w-8 animate-spin text-blue-400" />
         </div>
       </div>
     );
@@ -767,8 +767,8 @@ export default function LessonViewerPage() {
       <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
         <div className="flex-1 flex items-center justify-center px-4 py-12 relative">
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <div className="orb orb-purple w-[400px] h-[400px] -top-20 -right-20 animate-float-slow" />
-            <div className="orb orb-pink w-[300px] h-[300px] bottom-0 left-1/4 animate-float-reverse" />
+            <div className="orb orb-blue w-[400px] h-[400px] -top-20 -right-20 animate-float-slow" />
+            <div className="orb orb-cyan w-[300px] h-[300px] bottom-0 left-1/4 animate-float-reverse" />
           </div>
           <div className="w-full max-w-md relative">
             <div className="glass-card p-8 text-center">
@@ -780,7 +780,7 @@ export default function LessonViewerPage() {
                 You must be enrolled in this course to view lesson content. Please enroll first to access all lessons.
               </p>
               <Link href="/courses">
-                <button className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer">
+                <button className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-blue-500/25 cursor-pointer">
                   <Sparkles className="h-4 w-4" />
                   Browse Courses
                   <ArrowRight className="h-4 w-4" />
@@ -850,7 +850,7 @@ export default function LessonViewerPage() {
                 Try Again
               </button>
               <Link href="/learn">
-                <button className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 text-white font-semibold text-sm cursor-pointer">
+                <button className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold text-sm cursor-pointer">
                   <ChevronLeft className="h-4 w-4" />
                   My Courses
                 </button>
@@ -900,7 +900,7 @@ export default function LessonViewerPage() {
             </span>
             <div className="w-32 sm:w-48 h-2 rounded-full bg-white/5 overflow-hidden">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-700"
+                className="h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 transition-all duration-700"
                 style={{ width: `${courseProgress}%` }}
               />
             </div>
@@ -1047,10 +1047,10 @@ export default function LessonViewerPage() {
             {/* Mark as Complete / Completed indicator */}
             <div className="mt-8 pt-6 border-t border-white/5">
               {isCompleted ? (
-                <div className="flex items-center gap-3 p-4 rounded-xl bg-green-500/5 border border-green-500/15">
-                  <CheckCircle2 className="h-5 w-5 text-green-400 shrink-0" />
+                <div className="flex items-center gap-3 p-4 rounded-xl bg-blue-500/5 border border-blue-500/15">
+                  <CheckCircle2 className="h-5 w-5 text-blue-400 shrink-0" />
                   <div>
-                    <p className="text-sm font-medium text-green-300">Lesson Completed</p>
+                    <p className="text-sm font-medium text-blue-300">Lesson Completed</p>
                     {progress?.quizScore !== null && progress?.quizScore !== undefined && (
                       <p className="text-xs text-white/40 mt-0.5">Quiz score: {progress.quizScore}%</p>
                     )}
@@ -1060,7 +1060,7 @@ export default function LessonViewerPage() {
                 <button
                   onClick={handleMarkComplete}
                   disabled={markingComplete}
-                  className="w-full flex items-center justify-center gap-2 rounded-xl py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="w-full flex items-center justify-center gap-2 rounded-xl py-3.5 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-blue-500/25 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   {markingComplete ? (
                     <>
@@ -1095,7 +1095,7 @@ export default function LessonViewerPage() {
               {nextLesson ? (
                 <button
                   onClick={() => navigateToLesson(nextLesson.id)}
-                  className="flex items-center gap-2 rounded-xl px-4 py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-sm font-medium cursor-pointer hover:-translate-y-0.5 transition-all shadow-lg shadow-purple-500/20"
+                  className="flex items-center gap-2 rounded-xl px-4 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white text-sm font-medium cursor-pointer hover:-translate-y-0.5 transition-all shadow-lg shadow-blue-500/20"
                 >
                   <span className="hidden sm:inline truncate max-w-[200px]">{nextLesson.title}</span>
                   <span className="sm:hidden">Next</span>
@@ -1103,7 +1103,7 @@ export default function LessonViewerPage() {
                 </button>
               ) : (
                 <Link href="/learn">
-                  <button className="flex items-center gap-2 rounded-xl px-4 py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-sm font-medium cursor-pointer hover:-translate-y-0.5 transition-all shadow-lg shadow-purple-500/20">
+                  <button className="flex items-center gap-2 rounded-xl px-4 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white text-sm font-medium cursor-pointer hover:-translate-y-0.5 transition-all shadow-lg shadow-blue-500/20">
                     Back to Courses
                     <ArrowRight className="h-4 w-4" />
                   </button>
@@ -1161,14 +1161,14 @@ function SidebarContent({
               onClick={() => toggleModule(mod.id)}
               className={`w-full flex items-center justify-between p-3 rounded-xl text-left transition-colors cursor-pointer ${
                 isCurrentModule
-                  ? 'bg-purple-500/10 border border-purple-500/20'
+                  ? 'bg-blue-500/10 border border-blue-500/20'
                   : 'hover:bg-white/5'
               }`}
             >
               <div className="flex items-center gap-2.5 min-w-0">
                 <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-xs font-bold ${
                   isCurrentModule
-                    ? 'bg-gradient-to-br from-purple-500 to-pink-500 text-white'
+                    ? 'bg-gradient-to-br from-blue-500 to-cyan-500 text-white'
                     : 'bg-white/10 text-white/60'
                 }`}>
                   {mod.moduleNumber}
@@ -1199,19 +1199,19 @@ function SidebarContent({
                       onClick={() => navigateToLesson(les.id)}
                       className={`w-full flex items-center gap-2.5 p-2.5 rounded-lg text-left transition-colors cursor-pointer ${
                         isCurrentLesson
-                          ? 'bg-purple-500/15 border border-purple-500/30'
+                          ? 'bg-blue-500/15 border border-blue-500/30'
                           : 'hover:bg-white/5'
                       }`}
                     >
                       {/* Lesson number or completed check */}
                       {isLessonCompleted ? (
-                        <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-green-500/15 text-green-400">
+                        <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-blue-500/15 text-blue-400">
                           <CheckCircle2 className="h-3.5 w-3.5" />
                         </div>
                       ) : (
                         <div className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-[10px] font-bold ${
                           isCurrentLesson
-                            ? 'bg-purple-500/20 text-purple-300'
+                            ? 'bg-blue-500/20 text-blue-300'
                             : 'bg-white/5 text-white/40'
                         }`}>
                           {les.lessonNumber}
@@ -1220,7 +1220,7 @@ function SidebarContent({
 
                       {/* Content type icon */}
                       <span className={`shrink-0 ${
-                        isCurrentLesson ? 'text-purple-400' : 'text-white/30'
+                        isCurrentLesson ? 'text-blue-400' : 'text-white/30'
                       }`}>
                         {contentTypeIcon(les.contentType)}
                       </span>

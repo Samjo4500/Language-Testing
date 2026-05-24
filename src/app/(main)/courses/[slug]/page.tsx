@@ -78,7 +78,7 @@ const TIER_COLORS: Record<string, {
   intermediate: {
     gradient: 'from-blue-500 to-indigo-600',
     orb1: 'orb-blue',
-    orb2: 'orb-purple',
+    orb2: 'orb-blue',
     text: 'text-blue-400',
     badge: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
     checkColor: 'text-blue-400',
@@ -89,7 +89,7 @@ const TIER_COLORS: Record<string, {
   },
   advanced: {
     gradient: 'from-indigo-500 to-blue-700',
-    orb1: 'orb-purple',
+    orb1: 'orb-blue',
     orb2: 'orb-blue',
     text: 'text-indigo-400',
     badge: 'bg-indigo-500/20 text-indigo-300 border-indigo-500/30',
@@ -608,7 +608,7 @@ function CoursePayPalButton({
     <div>
       {!mounted || isFetchingClientId || isScriptLoading ? (
         <div className="flex items-center justify-center py-6">
-          <Loader2 className="h-5 w-5 animate-spin mr-2 text-purple-400" />
+          <Loader2 className="h-5 w-5 animate-spin mr-2 text-blue-400" />
           <span className="text-xs text-white/50">Loading payment...</span>
         </div>
       ) : null}
@@ -705,7 +705,7 @@ function ModuleAccordion({ module, index, colors }: {
           </div>
         </div>
         {open ? (
-          <ChevronUp className="h-4 w-4 text-purple-400 shrink-0 ml-2" />
+          <ChevronUp className="h-4 w-4 text-blue-400 shrink-0 ml-2" />
         ) : (
           <ChevronDown className="h-4 w-4 text-white/40 shrink-0 ml-2" />
         )}
@@ -747,7 +747,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
       >
         <span className="font-medium text-sm text-white pr-4">{q}</span>
         {open ? (
-          <ChevronUp className="h-4 w-4 text-purple-400 shrink-0" />
+          <ChevronUp className="h-4 w-4 text-blue-400 shrink-0" />
         ) : (
           <ChevronDown className="h-4 w-4 text-white/40 shrink-0" />
         )}
@@ -801,7 +801,7 @@ function CourseNotFound({ slug }: { slug: string }) {
       <div className="flex-1 flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-md">
           <div className="glass-card p-8 text-center">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-purple-500/10 text-purple-400 mb-6">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-500/10 text-blue-400 mb-6">
               <X className="h-8 w-8" />
             </div>
             <h1 className="text-3xl font-bold text-white mb-2">Course Not Found</h1>
@@ -920,7 +920,7 @@ export default function CourseDetailPage() {
         <div className="absolute inset-0 pointer-events-none">
           <div className={`orb ${colors.orb1} w-[500px] h-[500px] -top-32 -right-32 animate-float-slow`} />
           <div className={`orb ${colors.orb2} w-[400px] h-[400px] bottom-0 left-1/4 animate-float-reverse`} />
-          <div className="orb orb-purple w-[250px] h-[250px] top-1/2 right-1/3 animate-float" />
+          <div className="orb orb-blue w-[250px] h-[250px] top-1/2 right-1/3 animate-float" />
         </div>
 
         <div className="container relative mx-auto px-4 pt-8 pb-20 md:pt-12 md:pb-28">
@@ -941,7 +941,7 @@ export default function CourseDetailPage() {
                   Level {course.level}
                 </span>
                 {course.badgeText && (
-                  <span className="inline-flex items-center gap-1 rounded-full bg-purple-500/20 border border-purple-500/30 px-3 py-1 text-xs font-semibold text-purple-300">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-blue-500/20 border border-blue-500/30 px-3 py-1 text-xs font-semibold text-blue-300">
                     <Star className="h-3 w-3" />
                     {course.badgeText}
                   </span>
@@ -1023,7 +1023,7 @@ export default function CourseDetailPage() {
                   {/* CTA */}
                   {checkingEnrollment ? (
                     <div className="flex items-center justify-center py-3">
-                      <Loader2 className="h-5 w-5 animate-spin mr-2 text-purple-400" />
+                      <Loader2 className="h-5 w-5 animate-spin mr-2 text-blue-400" />
                       <span className="text-sm text-white/50">Checking enrollment...</span>
                     </div>
                   ) : isEnrolled ? (
@@ -1069,7 +1069,7 @@ export default function CourseDetailPage() {
             <div className="max-w-4xl mx-auto">
               <div className="inline-flex items-center gap-2 rounded-full glass-light px-4 py-1.5 mb-4">
                 <BookOpen className={`h-3.5 w-3.5 ${colors.text}`} />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Course Overview</span>
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Course Overview</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
                 Why Choose <span className="gradient-text-static">{course.title}</span>?
@@ -1119,7 +1119,7 @@ export default function CourseDetailPage() {
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 rounded-full glass-light px-4 py-1.5 mb-4">
                 <Sparkles className={`h-3.5 w-3.5 ${colors.text}`} />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Learning Outcomes</span>
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Learning Outcomes</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
                 What You&apos;ll <span className="gradient-text-static">Learn</span>
@@ -1155,7 +1155,7 @@ export default function CourseDetailPage() {
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 rounded-full glass-light px-4 py-1.5 mb-4">
                 <Shield className={`h-3.5 w-3.5 ${colors.text}`} />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Included Features</span>
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Included Features</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
                 Everything You <span className="gradient-text-static">Need</span>
@@ -1191,7 +1191,7 @@ export default function CourseDetailPage() {
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 rounded-full glass-light px-4 py-1.5 mb-4">
                 <Layers className={`h-3.5 w-3.5 ${colors.text}`} />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Curriculum</span>
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Curriculum</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
                 Course <span className="gradient-text-static">Curriculum</span>
@@ -1221,7 +1221,7 @@ export default function CourseDetailPage() {
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 rounded-full glass-light px-4 py-1.5 mb-4">
                 <Users className={`h-3.5 w-3.5 ${colors.text}`} />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Student Reviews</span>
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Student Reviews</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
                 What Our <span className="gradient-text-static">Students</span> Say
@@ -1269,7 +1269,7 @@ export default function CourseDetailPage() {
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 rounded-full glass-light px-4 py-1.5 mb-4">
                 <Sparkles className={`h-3.5 w-3.5 ${colors.text}`} />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">FAQ</span>
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">FAQ</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
                 Frequently Asked <span className="gradient-text-static">Questions</span>
@@ -1315,7 +1315,7 @@ export default function CourseDetailPage() {
 
               {checkingEnrollment ? (
                 <div className="flex items-center justify-center py-3">
-                  <Loader2 className="h-5 w-5 animate-spin mr-2 text-purple-400" />
+                  <Loader2 className="h-5 w-5 animate-spin mr-2 text-blue-400" />
                 </div>
               ) : isEnrolled ? (
                 <Link href="/learn" className="inline-block">

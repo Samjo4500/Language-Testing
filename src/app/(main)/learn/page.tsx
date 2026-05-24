@@ -93,34 +93,34 @@ const TIER_COLORS: Record<string, {
   glowBg: string;
 }> = {
   beginner: {
-    gradient: 'from-green-400 to-emerald-500',
-    badge: 'bg-green-500/15 text-green-300 border-green-500/25',
-    progressBar: 'bg-gradient-to-r from-green-400 to-emerald-400',
-    progressBg: 'bg-green-500/10',
-    buttonGradient: 'from-green-600 to-emerald-500',
+    gradient: 'from-sky-400 to-blue-500',
+    badge: 'bg-sky-500/15 text-sky-300 border-sky-500/25',
+    progressBar: 'bg-gradient-to-r from-sky-400 to-blue-400',
+    progressBg: 'bg-sky-500/10',
+    buttonGradient: 'from-sky-500 to-blue-500',
     icon: <GraduationCap className="h-6 w-6" />,
-    shadow: 'shadow-green-500/20',
-    glowBg: 'bg-green-500/5',
+    shadow: 'shadow-sky-500/20',
+    glowBg: 'bg-sky-500/5',
   },
   intermediate: {
-    gradient: 'from-blue-400 to-cyan-500',
+    gradient: 'from-blue-500 to-indigo-600',
     badge: 'bg-blue-500/15 text-blue-300 border-blue-500/25',
-    progressBar: 'bg-gradient-to-r from-blue-400 to-cyan-400',
+    progressBar: 'bg-gradient-to-r from-blue-400 to-indigo-400',
     progressBg: 'bg-blue-500/10',
-    buttonGradient: 'from-blue-600 to-cyan-500',
+    buttonGradient: 'from-blue-600 to-indigo-500',
     icon: <BarChart3 className="h-6 w-6" />,
     shadow: 'shadow-blue-500/20',
     glowBg: 'bg-blue-500/5',
   },
   advanced: {
-    gradient: 'from-purple-400 to-pink-500',
-    badge: 'bg-purple-500/15 text-purple-300 border-purple-500/25',
-    progressBar: 'bg-gradient-to-r from-purple-400 to-pink-400',
-    progressBg: 'bg-purple-500/10',
-    buttonGradient: 'from-purple-600 to-pink-500',
+    gradient: 'from-indigo-500 to-blue-700',
+    badge: 'bg-indigo-500/15 text-indigo-300 border-indigo-500/25',
+    progressBar: 'bg-gradient-to-r from-indigo-400 to-blue-500',
+    progressBg: 'bg-indigo-500/10',
+    buttonGradient: 'from-indigo-600 to-blue-700',
     icon: <Trophy className="h-6 w-6" />,
-    shadow: 'shadow-purple-500/20',
-    glowBg: 'bg-purple-500/5',
+    shadow: 'shadow-indigo-500/20',
+    glowBg: 'bg-indigo-500/5',
   },
 };
 
@@ -191,12 +191,12 @@ export default function MyCoursesPage() {
         <Navbar />
         <div className="flex-1 flex items-center justify-center px-4 py-12 relative">
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <div className="orb orb-purple w-[400px] h-[400px] -top-20 -right-20 animate-float-slow" />
-            <div className="orb orb-pink w-[300px] h-[300px] bottom-0 left-1/4 animate-float-reverse" />
+            <div className="orb orb-blue w-[400px] h-[400px] -top-20 -right-20 animate-float-slow" />
+            <div className="orb orb-cyan w-[300px] h-[300px] bottom-0 left-1/4 animate-float-reverse" />
           </div>
           <div className="w-full max-w-md relative">
             <div className="glass-card p-8 text-center">
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 text-white mb-5 shadow-lg shadow-purple-500/25">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-500 text-white mb-5 shadow-lg shadow-blue-500/25">
                 <LogIn className="h-7 w-7" />
               </div>
               <h1 className="text-2xl font-bold text-white mb-2">Sign in to continue</h1>
@@ -204,14 +204,14 @@ export default function MyCoursesPage() {
                 Access your courses, track progress, and continue learning by signing in to your account.
               </p>
               <Link href="/login?redirect=/learn">
-                <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 cursor-pointer">
+                <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 cursor-pointer">
                   <Sparkles className="h-4 w-4" />
                   Sign in
                 </button>
               </Link>
               <p className="text-xs text-white/30 mt-4">
                 Don&apos;t have an account?{' '}
-                <Link href="/register" className="text-purple-400 hover:text-purple-300 transition-colors">
+                <Link href="/register" className="text-blue-400 hover:text-blue-300 transition-colors">
                   Create one
                 </Link>
               </p>
@@ -262,8 +262,8 @@ export default function MyCoursesPage() {
         <div className="container relative mx-auto px-4 py-16 md:py-20">
           <div className="mx-auto max-w-3xl text-center">
             <div className="inline-flex items-center gap-2 rounded-full glass-light px-5 py-2 mb-6 animate-border-glow">
-              <BookOpen className="h-4 w-4 text-purple-300" />
-              <span className="text-sm text-purple-200 font-medium">My Courses</span>
+              <BookOpen className="h-4 w-4 text-blue-300" />
+              <span className="text-sm text-blue-200 font-medium">My Courses</span>
             </div>
             <h1 className="text-4xl sm:text-5xl font-bold text-white">
               Your Learning{' '}
@@ -318,7 +318,7 @@ export default function MyCoursesPage() {
             {/* Empty State */}
             {!loading && !error && enrollments.length === 0 && (
               <div className="glass-card p-10 text-center max-w-lg mx-auto">
-                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 text-purple-400 mb-6">
+                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 text-blue-400 mb-6">
                   <BookOpen className="h-10 w-10" />
                 </div>
                 <h2 className="text-2xl font-bold text-white mb-2">No Courses Yet</h2>
@@ -326,7 +326,7 @@ export default function MyCoursesPage() {
                   You haven&apos;t enrolled in any courses yet. Explore our CEFR-aligned English courses and start your learning journey.
                 </p>
                 <Link href="/courses">
-                  <button className="inline-flex items-center gap-2 rounded-xl px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 cursor-pointer">
+                  <button className="inline-flex items-center gap-2 rounded-xl px-8 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 cursor-pointer">
                     <Sparkles className="h-4 w-4" />
                     Browse Courses
                     <ArrowRight className="h-4 w-4" />
@@ -372,7 +372,7 @@ export default function MyCoursesPage() {
                           {enrollment.course.level}
                         </span>
                         {isCompleted && (
-                          <span className="inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-medium bg-amber-500/15 text-amber-300 border-amber-500/25 ml-2">
+                          <span className="inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-medium bg-blue-500/15 text-blue-300 border-blue-500/25 ml-2">
                             <Award className="h-3 w-3" />
                             Completed
                           </span>

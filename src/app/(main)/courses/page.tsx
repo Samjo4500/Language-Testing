@@ -85,7 +85,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
       >
         <span className="font-medium text-sm text-white pr-4">{q}</span>
         {open ? (
-          <ChevronUp className="h-4 w-4 text-purple-400 shrink-0" />
+          <ChevronUp className="h-4 w-4 text-blue-400 shrink-0" />
         ) : (
           <ChevronDown className="h-4 w-4 text-white/40 shrink-0" />
         )}
@@ -254,16 +254,16 @@ export default function CoursesPage() {
       {/* ===== HERO SECTION ===== */}
       <section className="relative dark-section hero-pattern noise-overlay overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="orb orb-purple w-[400px] h-[400px] -top-20 -right-20 animate-float-slow" />
-          <div className="orb orb-pink w-[300px] h-[300px] bottom-0 left-1/4 animate-float-reverse" />
+          <div className="orb orb-blue w-[400px] h-[400px] -top-20 -right-20 animate-float-slow" />
+          <div className="orb orb-cyan w-[300px] h-[300px] bottom-0 left-1/4 animate-float-reverse" />
           <div className="orb orb-blue w-[250px] h-[250px] top-1/2 right-1/3 animate-float" />
         </div>
 
         <div className="container relative mx-auto px-4 py-20 md:py-28">
           <div className="mx-auto max-w-3xl text-center">
             <div className="inline-flex items-center gap-2 rounded-full glass-light px-5 py-2 mb-6 animate-border-glow">
-              <BookOpen className="h-4 w-4 text-purple-300" />
-              <span className="text-sm text-purple-200 font-medium">
+              <BookOpen className="h-4 w-4 text-blue-300" />
+              <span className="text-sm text-blue-200 font-medium">
                 English Courses
               </span>
             </div>
@@ -528,16 +528,16 @@ export default function CoursesPage() {
       {/* ===== WHY LEARN WITH US ===== */}
       <section className="relative py-20 md:py-28 dark-section-alt hero-pattern noise-overlay">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="orb orb-purple w-[400px] h-[400px] top-0 right-1/4 animate-float-slow" />
-          <div className="orb orb-pink w-[300px] h-[300px] bottom-0 left-1/4 animate-float-reverse" />
+          <div className="orb orb-blue w-[400px] h-[400px] top-0 right-1/4 animate-float-slow" />
+          <div className="orb orb-cyan w-[300px] h-[300px] bottom-0 left-1/4 animate-float-reverse" />
         </div>
 
         <div className="container relative mx-auto px-4">
           <AnimatedSection>
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <GraduationCap className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">
+                <GraduationCap className="h-3.5 w-3.5 text-blue-400" />
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">
                   Why Learn With Us
                 </span>
               </div>
@@ -584,8 +584,8 @@ export default function CoursesPage() {
           <AnimatedSection>
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <Layers className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">
+                <Layers className="h-3.5 w-3.5 text-blue-400" />
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">
                   Your Learning Path
                 </span>
               </div>
@@ -708,15 +708,15 @@ export default function CoursesPage() {
       {/* ===== FAQ SECTION ===== */}
       <section className="relative py-20 dark-section-alt hero-pattern noise-overlay">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="orb orb-purple w-[300px] h-[300px] top-0 left-1/4 animate-float-slow" />
+          <div className="orb orb-blue w-[300px] h-[300px] top-0 left-1/4 animate-float-slow" />
         </div>
 
         <div className="container relative mx-auto px-4">
           <AnimatedSection>
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <Sparkles className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">
+                <Sparkles className="h-3.5 w-3.5 text-blue-400" />
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">
                   FAQ
                 </span>
               </div>
@@ -747,13 +747,13 @@ export default function CoursesPage() {
           <AnimatedSection>
             <div className="glass-card max-w-3xl mx-auto p-8 md:p-12 text-center relative overflow-hidden">
               <div className="absolute inset-0 pointer-events-none">
-                <div className="orb orb-purple w-[200px] h-[200px] -top-10 -right-10 animate-float-slow opacity-40" />
-                <div className="orb orb-pink w-[150px] h-[150px] -bottom-10 -left-10 animate-float-reverse opacity-30" />
+                <div className="orb orb-blue w-[200px] h-[200px] -top-10 -right-10 animate-float-slow opacity-40" />
+                <div className="orb orb-cyan w-[150px] h-[150px] -bottom-10 -left-10 animate-float-reverse opacity-30" />
               </div>
               <div className="relative">
                 <div className="inline-flex items-center gap-2 rounded-full glass-light px-4 py-1.5 mb-5">
-                  <GraduationCap className="h-4 w-4 text-purple-300" />
-                  <span className="text-xs text-purple-200 font-medium">
+                  <GraduationCap className="h-4 w-4 text-blue-300" />
+                  <span className="text-xs text-blue-200 font-medium">
                     Start Learning Today
                   </span>
                 </div>
