@@ -4,6 +4,7 @@ import { hashPassword, generateTokens, getJwtSecret } from '@/lib/auth';
 import { sendWelcomeEmail, sendEmailVerification, sendAdminNewUser } from '@/lib/email';
 import { authLimiter } from '@/lib/rate-limit';
 import { setAuthCookies } from '@/lib/cookie-auth';
+import { classifyDBError } from '@/lib/db-health';
 import jwt from 'jsonwebtoken';
 
 export async function POST(request: NextRequest) {
@@ -147,6 +148,18 @@ export async function POST(request: NextRequest) {
     return response;
   } catch (error) {
     console.error('Registration error:', error);
+
+    // Classify database errors for meaningful responses
+    const dbError = classifyDBError(error);
+
+    if (dbError.type === 'AUTH_FAILED' || dbError.type === 'CONNECTION_REFUSED' || dbError.type === 'CONNECTION_TIMEOUT') {
+      console.error('[register] DATABASE ERROR:', dbError.type, dbError.message);
+      return NextResponse.json(
+        { error: 'Service temporarily unavailable. Please try again later.', code: 'DB_ERROR' },
+        { status: 503 }
+      );
+    }
+
     return NextResponse.json(
       { error: 'Internal server error. Please try again later.' },
       { status: 500 }

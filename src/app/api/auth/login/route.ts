@@ -3,6 +3,7 @@ import { db } from '@/lib/db';
 import { verifyPassword, generateTokens } from '@/lib/auth';
 import { authLimiter } from '@/lib/rate-limit';
 import { setAuthCookies } from '@/lib/cookie-auth';
+import { classifyDBError } from '@/lib/db-health';
 
 export async function POST(request: NextRequest) {
   // Rate limit: 10 login attempts per 15 minutes per IP
@@ -69,6 +70,33 @@ export async function POST(request: NextRequest) {
     return response;
   } catch (error) {
     console.error('Login error:', error);
+
+    // Classify the database error for a meaningful response
+    const dbError = classifyDBError(error);
+
+    if (dbError.type === 'AUTH_FAILED') {
+      console.error('[login] DATABASE AUTH FAILED: The DATABASE_URL credentials are incorrect. Update your environment variables.');
+      return NextResponse.json(
+        {
+          error: 'Service temporarily unavailable. Please try again later.',
+          code: 'DB_AUTH_ERROR',
+        },
+        { status: 503 }
+      );
+    }
+
+    if (dbError.type === 'CONNECTION_REFUSED' || dbError.type === 'CONNECTION_TIMEOUT') {
+      console.error('[login] DATABASE UNREACHABLE:', dbError.message);
+      return NextResponse.json(
+        {
+          error: 'Service temporarily unavailable. Please try again later.',
+          code: 'DB_CONNECTION_ERROR',
+        },
+        { status: 503 }
+      );
+    }
+
+    // Generic error for other cases (don't leak internal details)
     return NextResponse.json(
       { error: 'Internal server error. Please try again later.' },
       { status: 500 }

@@ -55,7 +55,12 @@ export default function LoginPage() {
       }
 
       if (!response.ok) {
-        setError(data.error || 'Login failed. Please try again.');
+        // Handle service unavailability (database errors) with a friendlier message
+        if (response.status === 503 || data.code === 'DB_AUTH_ERROR' || data.code === 'DB_CONNECTION_ERROR') {
+          setError('Service temporarily unavailable. Our team has been notified. Please try again in a few minutes.');
+        } else {
+          setError(data.error || 'Login failed. Please try again.');
+        }
         return;
       }
 
