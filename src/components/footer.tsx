@@ -13,7 +13,7 @@ export function Footer() {
               <img src="/logo-icon.svg" alt="CEFR Test" className="h-10 w-10 sm:h-12 sm:w-12" />
               <div className="flex flex-col">
                 <span className="text-white font-bold text-base sm:text-lg tracking-tight leading-tight">
-                  test<span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">cefr</span><span className="text-purple-300">.com</span>
+                  test<span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">cefr</span><span className="text-blue-300">.com</span>
                 </span>
                 <span className="text-white/60 text-[10px] uppercase tracking-[0.2em] leading-tight">English Assessment</span>
               </div>
@@ -27,10 +27,10 @@ export function Footer() {
                 href="https://www.tiktok.com/@testcefr"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-center w-9 h-9 rounded-lg bg-white/[0.04] border border-white/[0.06] hover:border-pink-500/40 hover:bg-pink-500/10 transition-all duration-200"
+                className="group flex items-center justify-center w-9 h-9 rounded-lg bg-white/[0.04] border border-white/[0.06] hover:border-blue-500/40 hover:bg-blue-500/10 transition-all duration-200"
                 aria-label="TikTok"
               >
-                <svg className="w-4 h-4 text-white/50 group-hover:text-pink-400 transition-colors" viewBox="0 0 24 24" fill="currentColor">
+                <svg className="w-4 h-4 text-white/50 group-hover:text-blue-400 transition-colors" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.73a8.19 8.19 0 0 0 4.76 1.52V6.79a4.84 4.84 0 0 1-1-.1z" />
                 </svg>
               </a>
@@ -40,10 +40,10 @@ export function Footer() {
                 href="https://x.com/testcefr"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-center w-9 h-9 rounded-lg bg-white/[0.04] border border-white/[0.06] hover:border-purple-500/40 hover:bg-purple-500/10 transition-all duration-200"
+                className="group flex items-center justify-center w-9 h-9 rounded-lg bg-white/[0.04] border border-white/[0.06] hover:border-blue-500/40 hover:bg-blue-500/10 transition-all duration-200"
                 aria-label="X / Twitter"
               >
-                <svg className="w-4 h-4 text-white/50 group-hover:text-purple-400 transition-colors" viewBox="0 0 24 24" fill="currentColor">
+                <svg className="w-4 h-4 text-white/50 group-hover:text-blue-400 transition-colors" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
               </a>
@@ -53,10 +53,10 @@ export function Footer() {
                 href="https://www.instagram.com/testcefr2026/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-center w-9 h-9 rounded-lg bg-white/[0.04] border border-white/[0.06] hover:border-rose-500/40 hover:bg-rose-500/10 transition-all duration-200"
+                className="group flex items-center justify-center w-9 h-9 rounded-lg bg-white/[0.04] border border-white/[0.06] hover:border-blue-500/40 hover:bg-blue-500/10 transition-all duration-200"
                 aria-label="Instagram"
               >
-                <svg className="w-4 h-4 text-white/50 group-hover:text-rose-400 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg className="w-4 h-4 text-white/50 group-hover:text-blue-400 transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                   <circle cx="12" cy="12" r="5" />
                   <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
@@ -124,8 +124,8 @@ export function Footer() {
             <p className="text-white/50 text-xs uppercase tracking-[0.15em] font-semibold">Trust &amp; Security</p>
             <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
               {/* GDPR Compliant */}
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06] hover:border-purple-500/30 transition-colors">
-                <svg className="h-5 w-5 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06] hover:border-blue-500/30 transition-colors">
+                <svg className="h-5 w-5 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                   <path d="M9 12l2 2 4-4" />
                 </svg>
@@ -190,7 +190,7 @@ export function Footer() {
           <div className="flex items-center gap-3">
             <img src="/logo-icon.svg" alt="CEFR Test" className="h-9 w-9" />
             <span className="text-white font-semibold text-sm">
-              test<span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">cefr</span><span className="text-purple-300">.com</span>
+              test<span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">cefr</span><span className="text-blue-300">.com</span>
             </span>
           </div>
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">

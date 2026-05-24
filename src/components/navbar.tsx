@@ -81,8 +81,8 @@ export function Navbar() {
             <img src="/logo-icon.svg" alt="CEFR Test" className="h-10 w-10 sm:h-12 sm:w-12" />
           </div>
           <div className="flex flex-col">
-            <span className="text-white font-bold text-base sm:text-lg tracking-tight leading-tight group-hover:text-purple-200 transition-colors">
-              test<span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">cefr</span><span className="text-purple-300">.com</span>
+            <span className="text-white font-bold text-base sm:text-lg tracking-tight leading-tight group-hover:text-blue-200 transition-colors">
+              test<span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">cefr</span><span className="text-blue-300">.com</span>
             </span>
             <span className="text-white/40 text-[10px] uppercase tracking-[0.2em] leading-tight">
               English Assessment
@@ -104,7 +104,7 @@ export function Navbar() {
             >
               {link.label}
               {isActive(link.href) && (
-                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full bg-gradient-to-r from-purple-400 to-pink-400" />
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full bg-gradient-to-r from-blue-400 to-cyan-400" />
               )}
             </Link>
           ))}
@@ -134,7 +134,7 @@ export function Navbar() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="flex items-center gap-2 rounded-xl px-3 py-1.5 glass-button text-white text-sm cursor-pointer">
-                  <div className="h-6 w-6 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-xs font-bold">
+                  <div className="h-6 w-6 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 flex items-center justify-center text-xs font-bold">
                     {(user?.name || user?.email || 'U')[0].toUpperCase()}
                   </div>
                   <span className="max-w-[120px] truncate">{user?.name || user?.email}</span>
@@ -183,7 +183,7 @@ export function Navbar() {
                 </button>
               </Link>
               <Link href="/register">
-                <button className="group flex items-center gap-1.5 rounded-xl px-5 py-2 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-sm font-medium transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 cursor-pointer">
+                <button className="group flex items-center gap-1.5 rounded-xl px-5 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white text-sm font-medium transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 cursor-pointer">
                   Get Started
                   <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
                 </button>
@@ -277,7 +277,7 @@ export function Navbar() {
                 </button>
               </Link>
               <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
-                <button className="w-full rounded-xl py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 text-white text-sm font-medium">
+                <button className="w-full rounded-xl py-2.5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-sm font-medium">
                   Get Started
                 </button>
               </Link>
