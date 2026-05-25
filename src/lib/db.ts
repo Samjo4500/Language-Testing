@@ -5,43 +5,43 @@ const globalForPrisma = globalThis as unknown as {
 }
 
 /**
- * Resolve the correct PostgreSQL connection URL.
+ * Resolve the database connection URL.
  *
+ * Supports both SQLite (file:) and PostgreSQL (postgresql:// / postgres://) URLs.
  * Priority:
- * 1. DATABASE_URL if it starts with "postgresql://" (correctly configured)
- * 2. DATABASE_URL_UNPOOLED if DATABASE_URL is missing or non-PostgreSQL (e.g., stale SQLite URL from shell env)
- * 3. Throw a clear error if neither is a valid PostgreSQL URL
- *
- * This prevents the "URL must start with the protocol postgresql://" crash that
- * happens when the shell environment overrides .env with a stale SQLite URL.
+ * 1. DATABASE_URL if it's a valid database URL
+ * 2. DATABASE_URL_UNPOOLED as fallback (PostgreSQL only)
+ * 3. Fall back to Prisma schema default if neither is set
  */
 function resolveDatabaseUrl(): string | undefined {
   const dbUrl = process.env.DATABASE_URL
   const unpooleddUrl = process.env.DATABASE_URL_UNPOOLED
 
-  // If DATABASE_URL is a valid PostgreSQL URL, use it
-  if (dbUrl?.startsWith('postgresql://') || dbUrl?.startsWith('postgres://')) {
+  // If DATABASE_URL is a valid database URL (SQLite or PostgreSQL), use it
+  if (dbUrl?.startsWith('file:') || dbUrl?.startsWith('postgresql://') || dbUrl?.startsWith('postgres://')) {
     return dbUrl
   }
 
-  // DATABASE_URL is missing or not PostgreSQL — fall back to DATABASE_URL_UNPOOLED
+  // DATABASE_URL is missing or not a recognized protocol — fall back to DATABASE_URL_UNPOOLED
   if (unpooleddUrl?.startsWith('postgresql://') || unpooleddUrl?.startsWith('postgres://')) {
-    if (dbUrl && !dbUrl.startsWith('postgresql://') && !dbUrl.startsWith('postgres://')) {
+    if (dbUrl && !dbUrl.startsWith('file:') && !dbUrl.startsWith('postgresql://') && !dbUrl.startsWith('postgres://')) {
       console.warn(
-        `[db] WARNING: DATABASE_URL is not a PostgreSQL URL (${dbUrl.substring(0, 30)}...), ` +
+        `[db] WARNING: DATABASE_URL is not a recognized database URL (${dbUrl.substring(0, 30)}...), ` +
         `falling back to DATABASE_URL_UNPOOLED. Fix your .env file!`
       )
     }
     return unpooleddUrl
   }
 
-  // Neither URL is valid — this will cause Prisma to throw, but log a clear message first
-  console.error(
-    `[db] FATAL: No valid PostgreSQL URL found! ` +
-    `DATABASE_URL=${dbUrl ? `"${dbUrl.substring(0, 30)}..."` : '(unset)'}, ` +
-    `DATABASE_URL_UNPOOLED=${unpooleddUrl ? `"${unpooleddUrl.substring(0, 30)}..."` : '(unset)'}. ` +
-    `Both must start with "postgresql://". Check your .env file.`
-  )
+  // Neither URL is valid — let Prisma use its schema default
+  if (!dbUrl) {
+    console.warn('[db] No DATABASE_URL set — using Prisma schema default.')
+  } else {
+    console.warn(
+      `[db] WARNING: DATABASE_URL="${dbUrl.substring(0, 30)}..." is not a recognized protocol. ` +
+      `Expected "file:", "postgresql://", or "postgres://". Using Prisma schema default.`
+    )
+  }
   return undefined
 }
 
