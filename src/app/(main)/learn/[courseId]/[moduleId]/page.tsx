@@ -595,15 +595,15 @@ function VocabularySection({ vocabularyData }: { vocabularyData: string }) {
                 <span className="font-bold text-white text-base">{w.word}</span>
                 <button
                   onClick={() => playWordAudio(w.word)}
-                  className={`flex h-8 w-8 items-center justify-center rounded-lg transition-all duration-200 cursor-pointer shrink-0 border ${
+                  className={`flex h-10 w-10 items-center justify-center rounded-full transition-all duration-200 cursor-pointer shrink-0 shadow-md ${
                     playingWord === w.word
-                      ? 'bg-blue-500/30 border-blue-400/50 text-blue-300 scale-110'
-                      : 'bg-blue-500/10 border-blue-400/30 text-blue-400 hover:bg-blue-500/20 hover:border-blue-400/50 hover:text-blue-300 hover:scale-105'
+                      ? 'bg-emerald-500 border-emerald-300 text-white scale-115 shadow-emerald-500/40'
+                      : 'bg-emerald-600/90 border border-emerald-400/60 text-white hover:bg-emerald-500 hover:scale-110 hover:shadow-emerald-500/50'
                   }`}
                   title={`Listen to "${w.word}"`}
                   aria-label={`Play pronunciation of ${w.word}`}
                 >
-                  <Volume2 className="h-4 w-4" />
+                  <Volume2 className="h-5 w-5" />
                 </button>
               </div>
               {w.pronunciation && (
