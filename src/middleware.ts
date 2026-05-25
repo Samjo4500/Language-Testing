@@ -106,7 +106,7 @@ function addSecurityHeaders(response: NextResponse): NextResponse {
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
         "font-src 'self' https://fonts.gstatic.com",
         "img-src 'self' data: blob: https://www.google-analytics.com",
-        "frame-src 'none'",
+        "frame-src https://www.youtube.com https://www.youtube-nocookie.com https://player.vimeo.com",
         "connect-src 'self' https://generativelanguage.googleapis.com https://www.google-analytics.com https://analytics.google.com https://us.i.posthog.com",
         "worker-src 'self' blob:",
         "report-uri /api/csp-report",
