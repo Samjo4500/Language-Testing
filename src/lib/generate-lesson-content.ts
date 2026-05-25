@@ -314,6 +314,7 @@ export function buildStaticLessonDetail(lessonId: string) {
       quizData,
       audioScript,
       estimatedMinutes: lesson.estimatedMinutes,
+      videoUrl: lesson.videoUrl || null,
     },
     module: {
       id: module.id,

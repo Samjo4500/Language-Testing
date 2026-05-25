@@ -15,6 +15,7 @@ export interface StaticModule {
 export interface StaticLesson {
   id: string; moduleId: string; lessonNumber: number; title: string;
   contentType: string; estimatedMinutes: number; order: number;
+  videoUrl?: string | null;
 }
 
 export const STATIC_COURSES: StaticCourse[] = [
@@ -332,6 +333,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
+    videoUrl: "https://www.youtube.com/watch?v=keckE2EOOPU",
   },
   {
     id: "cmpkmzr4l0006pwlblsqtcmue",
@@ -368,6 +370,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
+    videoUrl: "https://www.youtube.com/watch?v=eUXkg6hM2Ek",
   },
   {
     id: "cmpkmzr4q000gpwlbh3agtzyh",
@@ -440,6 +443,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
+    videoUrl: "https://www.youtube.com/watch?v=8Vdm2_WJMHk",
   },
   {
     id: "cmpkmzr4x0010pwlbkckiajc3",
@@ -620,6 +624,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
+    videoUrl: "https://www.youtube.com/watch?v=FYPl4L5E5Yg",
   },
   {
     id: "cmpkmzr5g002fpwlbvm89nzkg",
@@ -647,6 +652,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "listening",
     estimatedMinutes: 12,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=H14bBuluwB8",
   },
   {
     id: "cmpkmzr5j002lpwlbomkdtdks",
@@ -1070,6 +1076,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
+    videoUrl: "https://www.youtube.com/watch?v=3lJ3OrD3JcM",
   },
   {
     id: "cmpkmzr6n005spwlbxmz7qsm9",

@@ -42,6 +42,7 @@ interface LessonData {
   quizData: string | null;
   audioScript: string | null;
   estimatedMinutes: number;
+  videoUrl: string | null;
 }
 
 interface LessonProgressData {
@@ -155,6 +156,117 @@ function contentTypeBadgeColor(type: string) {
     case 'speaking': return 'bg-blue-600/15 text-blue-300 border-blue-600/25';
     default: return 'bg-white/10 text-white/60 border-white/10';
   }
+}
+
+/* ============================================================
+   VIDEO PLAYER COMPONENT
+   ============================================================ */
+function VideoPlayer({ url, title }: { url: string; title: string }) {
+  // Extract YouTube video ID from various URL formats
+  const getYouTubeId = (videoUrl: string): string | null => {
+    try {
+      const parsed = new URL(videoUrl);
+      // Standard youtube.com/watch?v=...
+      if (parsed.hostname.includes('youtube.com') && parsed.searchParams.get('v')) {
+        return parsed.searchParams.get('v');
+      }
+      // youtu.be/...
+      if (parsed.hostname === 'youtu.be') {
+        return parsed.pathname.slice(1);
+      }
+      // youtube.com/embed/...
+      if (parsed.pathname.startsWith('/embed/')) {
+        return parsed.pathname.split('/embed/')[1]?.split('?')[0] || null;
+      }
+    } catch {}
+    return null;
+  };
+
+  // Check if it's a Vimeo URL
+  const isVimeo = (videoUrl: string): boolean => {
+    try {
+      return new URL(videoUrl).hostname.includes('vimeo.com');
+    } catch {}
+    return false;
+  };
+
+  const getVimeoId = (videoUrl: string): string | null => {
+    try {
+      const parsed = new URL(videoUrl);
+      if (parsed.hostname.includes('vimeo.com')) {
+        return parsed.pathname.split('/').pop() || null;
+      }
+    } catch {}
+    return null;
+  };
+
+  const youtubeId = getYouTubeId(url);
+  const vimeoId = isVimeo(url) ? getVimeoId(url) : null;
+
+  return (
+    <div className="glass-card overflow-hidden mt-6">
+      {/* Video header */}
+      <div className="flex items-center gap-3 p-4 border-b border-white/5">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/15 text-blue-400">
+          <Play className="h-5 w-5" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <h3 className="text-sm font-bold text-white">Video Lesson</h3>
+          <p className="text-xs text-white/40 truncate">{title}</p>
+        </div>
+        <span className="inline-flex items-center gap-1 rounded-full border border-blue-500/25 bg-blue-500/10 px-2.5 py-1 text-xs font-medium text-blue-300">
+          <Play className="h-3 w-3" />
+          Video
+        </span>
+      </div>
+
+      {/* Video embed */}
+      <div className="relative w-full" style={{ paddingBottom: '56.25%' /* 16:9 */ }}>
+        {youtubeId ? (
+          <iframe
+            src={`https://www.youtube.com/embed/${youtubeId}?rel=0&modestbranding=1&cc_load_policy=1`}
+            title={title}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+            className="absolute inset-0 w-full h-full"
+            style={{ border: 'none' }}
+          />
+        ) : vimeoId ? (
+          <iframe
+            src={`https://player.vimeo.com/video/${vimeoId}`}
+            title={title}
+            allow="autoplay; fullscreen; picture-in-picture"
+            allowFullScreen
+            className="absolute inset-0 w-full h-full"
+            style={{ border: 'none' }}
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center bg-white/5">
+            <div className="text-center">
+              <Play className="h-12 w-12 text-white/20 mx-auto mb-3" />
+              <p className="text-sm text-white/40">Video unavailable</p>
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-blue-400 hover:text-blue-300 mt-1 inline-block"
+              >
+                Open in new tab
+              </a>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Video footer with tips */}
+      <div className="flex items-center gap-2 px-4 py-3 bg-white/[0.02] border-t border-white/5">
+        <Sparkles className="h-3.5 w-3.5 text-blue-400 shrink-0" />
+        <p className="text-xs text-white/40">
+          Watch the video, then scroll down for the written lesson, vocabulary, and quiz.
+        </p>
+      </div>
+    </div>
+  );
 }
 
 /* ============================================================
@@ -1011,10 +1123,15 @@ export default function LessonViewerPage() {
               </h1>
             </div>
 
+            {/* Video Player — shown before content if video exists */}
+            {lesson.videoUrl && (
+              <VideoPlayer url={lesson.videoUrl} title={lesson.title} />
+            )}
+
             {/* Lesson HTML content */}
             {lesson.content && (
               <div
-                className="lesson-content max-w-none mb-8"
+                className={`lesson-content max-w-none ${lesson.videoUrl ? 'mt-6' : 'mb-8'}`}
                 dangerouslySetInnerHTML={{ __html: lesson.content }}
               />
             )}
