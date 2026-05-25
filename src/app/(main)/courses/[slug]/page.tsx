@@ -834,44 +834,16 @@ export default function CourseDetailPage() {
   const isAuth = mounted && isAuthenticated;
 
   const [isEnrolled, setIsEnrolled] = useState(false);
-  const [checkingEnrollment, setCheckingEnrollment] = useState(true);
+  const [checkingEnrollment, setCheckingEnrollment] = useState(false);
   const [apiCourseData, setApiCourseData] = useState<any>(null);
 
   // Validate slug
   const validSlugs = ['beginner', 'intermediate', 'advanced'];
   const isValidSlug = validSlugs.includes(slug);
 
-  // Check enrollment status
-  useEffect(() => {
-    if (!isAuth || !isValidSlug) {
-      setCheckingEnrollment(false);
-      return;
-    }
-    const checkEnrollment = async () => {
-      try {
-        const res = await fetch('/api/courses/my-courses/', { credentials: 'same-origin' });
-        if (res.ok) {
-          const data = await res.json();
-          const enrolled = data.enrollments?.some(
-            (e: any) => e.course?.slug === slug && (e.status === 'active' || e.status === 'completed')
-          );
-          setIsEnrolled(enrolled);
-        }
-      } catch {
-        // Silently fail
-      } finally {
-        setCheckingEnrollment(false);
-      }
-    };
-    checkEnrollment();
-  }, [isAuth, slug, isValidSlug]);
-
-  // SANDBOX/PREVIEW MODE:
-  // - If user is logged in and enrolled → can access
-  // - If user is logged in but not enrolled → still allow access (sandbox bypass)
-  // - If user is NOT logged in → show sign-in prompt
+  // SANDBOX/PREVIEW MODE: Everyone can access courses without login or payment.
   // When going live with real payments, change this to: isAuth && isEnrolled
-  const canAccessCourse = isAuth;
+  const canAccessCourse = true;
 
   // Fetch dynamic course data from API (optional)
   useEffect(() => {
@@ -1034,7 +1006,7 @@ export default function CourseDetailPage() {
                       <span className="text-sm text-white/50">Checking enrollment...</span>
                     </div>
                   ) : canAccessCourse ? (
-                    <Link href={`/learn/${apiCourseData?.id || ''}`} className="block">
+                    <Link href={apiCourseData?.id && apiCourseData?.modules?.[0]?.id ? `/learn/${apiCourseData.id}/${apiCourseData.modules[0].id}` : `/learn`} className="block">
                       <button className={`w-full flex items-center justify-center gap-2 rounded-xl py-3.5 bg-gradient-to-r ${colors.buttonGradient} hover:opacity-90 text-white font-semibold text-sm transition-all duration-300 shadow-lg ${colors.shadowColor} cursor-pointer`}>
                         <Play className="h-4 w-4" />
                         Go to Course
@@ -1318,7 +1290,7 @@ export default function CourseDetailPage() {
                   <Loader2 className="h-5 w-5 animate-spin mr-2 text-blue-400" />
                 </div>
               ) : canAccessCourse ? (
-                <Link href={`/learn/${apiCourseData?.id || ''}`} className="inline-block">
+                <Link href={apiCourseData?.id && apiCourseData?.modules?.[0]?.id ? `/learn/${apiCourseData.id}/${apiCourseData.modules[0].id}` : `/learn`} className="inline-block">
                   <button className={`inline-flex items-center justify-center gap-2 rounded-xl px-8 py-4 bg-gradient-to-r ${colors.buttonGradient} hover:opacity-90 text-white font-semibold text-sm transition-all duration-300 shadow-lg ${colors.shadowColor} cursor-pointer`}>
                     <Play className="h-4 w-4" />
                     Go to Course

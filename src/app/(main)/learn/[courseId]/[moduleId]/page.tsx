@@ -463,6 +463,8 @@ export default function LessonViewerPage() {
   const moduleId = params.moduleId as string;
   const lessonIdParam = searchParams.get('lesson');
 
+  const sandboxMode = typeof window !== 'undefined' && process.env.NEXT_PUBLIC_SANDBOX_MODE === 'true';
+
   // State
   const [lessonData, setLessonData] = useState<LessonApiResponse | null>(null);
   const [enrollmentInfo, setEnrollmentInfo] = useState<EnrollmentInfo | null>(null);
@@ -552,7 +554,9 @@ export default function LessonViewerPage() {
 
   // Initial load
   useEffect(() => {
-    if (authIsLoading || !isAuthenticated) return;
+    if (authIsLoading) return;
+    // In sandbox mode, allow access without auth
+    if (!isAuthenticated && !sandboxMode) return;
     if (initialLoadDone.current) return;
     initialLoadDone.current = true;
 
@@ -582,7 +586,7 @@ export default function LessonViewerPage() {
     };
 
     init();
-  }, [authIsLoading, isAuthenticated, lessonIdParam, courseId, moduleId, fetchLesson, fetchEnrollmentInfo, router]);
+  }, [authIsLoading, isAuthenticated, sandboxMode, lessonIdParam, courseId, moduleId, fetchLesson, fetchEnrollmentInfo, router]);
 
   // Handle URL changes when user navigates via sidebar
   useEffect(() => {
@@ -746,23 +750,25 @@ export default function LessonViewerPage() {
   }
 
   /* ============================================================
-     NOT AUTHENTICATED → redirect
+     NOT AUTHENTICATED → redirect (skip in sandbox mode)
      ============================================================ */
-  if (!isAuthenticated || authError === 'unauthorized') {
-    router.push(`/login?redirect=/learn/${courseId}/${moduleId}${lessonIdParam ? `?lesson=${lessonIdParam}` : ''}`);
-    return (
-      <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
-        <div className="flex-1 flex items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-blue-400" />
+  if (!isAuthenticated && !sandboxMode && !authIsLoading) {
+    if (authError === 'unauthorized' || !isAuthenticated) {
+      router.push(`/login?redirect=/learn/${courseId}/${moduleId}${lessonIdParam ? `?lesson=${lessonIdParam}` : ''}`);
+      return (
+        <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
+          <div className="flex-1 flex items-center justify-center">
+            <Loader2 className="h-8 w-8 animate-spin text-blue-400" />
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 
   /* ============================================================
-     NOT ENROLLED (403)
+     NOT ENROLLED (403) — skip in sandbox mode
      ============================================================ */
-  if (authError === 'forbidden') {
+  if (authError === 'forbidden' && !sandboxMode) {
     return (
       <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
         <div className="flex-1 flex items-center justify-center px-4 py-12 relative">

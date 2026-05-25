@@ -141,8 +141,12 @@ export default function MyCoursesPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const sandboxMode = typeof window !== 'undefined' && process.env.NEXT_PUBLIC_SANDBOX_MODE === 'true';
+
   useEffect(() => {
-    if (authIsLoading || !isAuthenticated) return;
+    // In sandbox mode, fetch courses even without auth
+    if (authIsLoading) return;
+    if (!isAuthenticated && !sandboxMode) return;
 
     const fetchEnrollments = async () => {
       try {
@@ -162,7 +166,7 @@ export default function MyCoursesPage() {
     };
 
     fetchEnrollments();
-  }, [authIsLoading, isAuthenticated, router]);
+  }, [authIsLoading, isAuthenticated, sandboxMode, router]);
 
   /* ---- Auth Loading ---- */
   if (authIsLoading) {
@@ -184,8 +188,8 @@ export default function MyCoursesPage() {
     );
   }
 
-  /* ---- Not Authenticated ---- */
-  if (!isAuthenticated || !user) {
+  /* ---- Not Authenticated (skip in sandbox mode) ---- */
+  if (!isAuthenticated && !sandboxMode) {
     return (
       <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
         <Navbar />

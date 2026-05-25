@@ -70,3 +70,26 @@ Stage Summary:
 - Any logged-in user now sees "Go to Course" button
 - Lesson API auto-enrolls users on first access (sandbox mode)
 - All course content is accessible without PayPal payment
+---
+Task ID: 3
+Agent: main
+Task: Enable full sandbox mode - remove all auth/paywall gates so courses are accessible without login
+
+Work Log:
+- Diagnosed root cause: course page showed "Sign in to Get Started" with CreditCard icon for unauthenticated users (which the user perceived as PayPal), and the learn/lesson pages required auth entirely
+- Added `NEXT_PUBLIC_SANDBOX_MODE=true` and `COOKIE_SECURE=false` to `.env`
+- Modified `/api/courses/lesson/[lessonId]/route.ts`: In sandbox mode, allows access without auth (read-only preview, no progress tracking)
+- Modified `/api/courses/my-courses/route.ts`: In sandbox mode, returns all published courses as "enrolled" for unauthenticated visitors
+- Modified `/courses/[slug]/page.tsx`: Set `canAccessCourse = true` always, removed enrollment check, fixed "Go to Course" link to include course ID and module ID
+- Modified `/learn/page.tsx`: Skip auth gate in sandbox mode, fetch courses via API for any visitor
+- Modified `/learn/[courseId]/[moduleId]/page.tsx`: Skip auth/enrollment gates in sandbox mode, allow read-only lesson access
+- Clean build: Deleted `.next` directory completely, ran `npm run build` from scratch
+- Started PM2 and verified all changes are being served correctly
+
+Stage Summary:
+- Course detail pages now show "Go to Course" button instead of "Sign in to Get Started" for ALL visitors
+- /learn page works without auth in sandbox mode
+- Lesson viewer works without auth in sandbox mode  
+- APIs return data without auth in sandbox mode
+- All 3 courses (beginner, intermediate, advanced) are accessible
+- Verified via curl: "Go to Course" appears on pages, API returns 3 courses, lesson API works without auth

@@ -2,20 +2,17 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getAuthUser } from '@/lib/auth-middleware';
 import { db } from '@/lib/db';
 
-// GET /api/courses/lesson/[lessonId]/ — Get lesson content (AUTH + ENROLLMENT REQUIRED)
+const SANDBOX_MODE = process.env.NEXT_PUBLIC_SANDBOX_MODE === 'true';
+
+// GET /api/courses/lesson/[lessonId]/ — Get lesson content
+// In SANDBOX_MODE: accessible without auth (read-only preview)
+// In production: AUTH + ENROLLMENT REQUIRED
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ lessonId: string }> }
 ) {
   try {
     const user = getAuthUser(request);
-    if (!user) {
-      return NextResponse.json(
-        { error: 'You must be logged in to view lesson content.' },
-        { status: 401 }
-      );
-    }
-
     const { lessonId } = await params;
 
     // Get the lesson with module and course info
@@ -39,40 +36,60 @@ export async function GET(
       );
     }
 
-    // Verify user is enrolled in this course
-    let enrollment = await db.courseEnrollment.findUnique({
-      where: {
-        userId_courseId: {
-          userId: user.userId,
-          courseId: lesson.module.course.id,
-        },
-      },
-    });
+    let enrollment: Awaited<ReturnType<typeof db.courseEnrollment.findUnique>> = null;
+    let progress: Awaited<ReturnType<typeof db.lessonProgress.findUnique>> = null;
 
-    // SANDBOX/PREVIEW MODE: If not enrolled, auto-enroll the user so they can preview.
-    // This allows any logged-in user to access course content without PayPal payment.
-    // Remove this block when going live with real payments.
-    if (!enrollment || (enrollment.status !== 'active' && enrollment.status !== 'completed')) {
-      enrollment = await db.courseEnrollment.create({
-        data: {
-          userId: user.userId,
-          courseId: lesson.module.course.id,
-          status: 'active',
-          progress: 0,
-          paymentId: 'sandbox-auto-enroll',
+    if (user) {
+      // Authenticated user: check/create enrollment
+      enrollment = await db.courseEnrollment.findUnique({
+        where: {
+          userId_courseId: {
+            userId: user.userId,
+            courseId: lesson.module.course.id,
+          },
         },
       });
-    }
 
-    // Get the lesson progress for this user
-    const progress = await db.lessonProgress.findUnique({
-      where: {
-        enrollmentId_lessonId: {
-          enrollmentId: enrollment.id,
-          lessonId: lesson.id,
+      // SANDBOX/PREVIEW MODE: If not enrolled, auto-enroll the user so they can preview.
+      if (!enrollment || (enrollment.status !== 'active' && enrollment.status !== 'completed')) {
+        enrollment = await db.courseEnrollment.create({
+          data: {
+            userId: user.userId,
+            courseId: lesson.module.course.id,
+            status: 'active',
+            progress: 0,
+            paymentId: 'sandbox-auto-enroll',
+          },
+        });
+      }
+
+      // Get the lesson progress for this user
+      progress = await db.lessonProgress.findUnique({
+        where: {
+          enrollmentId_lessonId: {
+            enrollmentId: enrollment.id,
+            lessonId: lesson.id,
+          },
         },
-      },
-    });
+      });
+
+      // Update current lesson position
+      await db.courseEnrollment.update({
+        where: { id: enrollment.id },
+        data: {
+          currentModuleId: lesson.moduleId,
+          currentLessonId: lesson.id,
+          lastAccessedAt: new Date(),
+        },
+      });
+    } else if (!SANDBOX_MODE) {
+      // Not authenticated and not in sandbox mode → require auth
+      return NextResponse.json(
+        { error: 'You must be logged in to view lesson content.' },
+        { status: 401 }
+      );
+    }
+    // In sandbox mode without auth: allow read-only access (enrollment = null, progress = null)
 
     // Get sibling lessons in the same module (for navigation)
     const siblingLessons = await db.courseLesson.findMany({
@@ -95,16 +112,6 @@ export async function GET(
           orderBy: [{ order: 'asc' }, { lessonNumber: 'asc' }],
           select: { id: true, lessonNumber: true, title: true, contentType: true, estimatedMinutes: true },
         },
-      },
-    });
-
-    // Update current lesson position
-    await db.courseEnrollment.update({
-      where: { id: enrollment.id },
-      data: {
-        currentModuleId: lesson.moduleId,
-        currentLessonId: lesson.id,
-        lastAccessedAt: new Date(),
       },
     });
 
@@ -136,7 +143,7 @@ export async function GET(
         : null,
       siblingLessons,
       courseModules,
-      enrollmentId: enrollment.id,
+      enrollmentId: enrollment?.id || 'sandbox-preview',
     });
   } catch (error) {
     console.error('Get lesson error:', error);
