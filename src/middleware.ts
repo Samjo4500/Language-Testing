@@ -181,6 +181,18 @@ export async function middleware(request: NextRequest) {
 
   const response = NextResponse.next();
   addSecurityHeaders(response);
+
+  // AGGRESSIVE NO-CACHE: Prevent browsers and CDNs from caching HTML pages.
+  // This ensures users always see the latest content after deployments.
+  // The previous issue was Next.js ISR caching pages for 1 year (s-maxage=31536000),
+  // which caused stale PayPal content to be served even after code changes.
+  if (!pathname.startsWith('/api/') && !pathname.startsWith('/_next/')) {
+    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    response.headers.set('Pragma', 'no-cache');
+    response.headers.set('Expires', '0');
+    response.headers.delete('x-nextjs-cache');
+  }
+
   return response;
 }
 

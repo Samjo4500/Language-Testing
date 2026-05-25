@@ -149,3 +149,27 @@ Stage Summary:
 - All demo users enrolled in all 3 courses with full access
 - Sandbox mode active with visible green banners
 - HSTS header removed (root cause of previous "no changes" issue)
+
+---
+Task ID: cache-fix
+Agent: Main Agent
+Task: Fix PayPal buttons still showing on course pages due to Next.js ISR cache
+
+Work Log:
+- Investigated why code changes weren't reflected in browser
+- Discovered root cause: Next.js ISR cache with `Cache-Control: s-maxage=31536000` (1 year cache) and `x-nextjs-cache: HIT`
+- Deleted .next cache directory completely
+- Added aggressive no-cache headers in middleware.ts for all HTML pages (no-store, no-cache, must-revalidate, proxy-revalidate, Pragma: no-cache, Expires: 0)
+- Created /src/app/(main)/courses/layout.tsx with `dynamic = 'force-dynamic'` and `revalidate = 0`
+- Rebuilt the entire project (clean build)
+- Restarted PM2
+- Verified via curl that no-cache headers are present and PayPal is gone
+- Verified via Caddy proxy (port 81) that headers are correct
+
+Stage Summary:
+- ROOT CAUSE: Next.js was serving 1-year cached HTML with old PayPal content
+- Fix: Deleted cache + added no-cache headers + force-dynamic layout
+- Server now returns: cache-control: no-store, no-cache, must-revalidate, proxy-revalidate
+- Page content verified: "SANDBOX PREVIEW v2.1 — All Courses Free — No PayPal Required" banner present
+- "Go to Course" button shown instead of PayPal
+- User should now see updated content in browser (may need hard refresh with Ctrl+Shift+R)
