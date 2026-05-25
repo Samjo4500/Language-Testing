@@ -234,6 +234,13 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ enrollments: getStaticCourseEnrollments() });
     }
 
+    // If the authenticated user has no enrollments (e.g., database has no seed data on Vercel),
+    // return static fallback so the UI can still show courses
+    if (!enrollments || enrollments.length === 0) {
+      console.warn('[my-courses] No enrollments found for authenticated user, returning static fallback');
+      return NextResponse.json({ enrollments: getStaticCourseEnrollments() });
+    }
+
     const result = enrollments.map((enrollment) => {
       const totalLessons = enrollment.course.modules.reduce(
         (sum, mod) => sum + mod.lessons.length,

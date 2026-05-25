@@ -579,6 +579,23 @@ export default function LessonViewerPage() {
             setLoading(false);
           }
         } else {
+          // No enrollment data — try fetching the course directly to find the first lesson
+          try {
+            const courseRes = await fetch(`/api/courses/${courseId}`, { credentials: 'same-origin' });
+            if (courseRes.ok) {
+              const courseData = await courseRes.json();
+              const course = courseData.course;
+              if (course?.modules) {
+                const mod = course.modules.find((m: ModuleItem) => m.id === moduleId);
+                if (mod && mod.lessons && mod.lessons.length > 0) {
+                  const firstLesson = mod.lessons[0];
+                  router.replace(`/learn/${courseId}/${moduleId}?lesson=${firstLesson.id}`);
+                  await fetchLesson(firstLesson.id);
+                  return;
+                }
+              }
+            }
+          } catch {}
           setError('Could not load course data.');
           setLoading(false);
         }

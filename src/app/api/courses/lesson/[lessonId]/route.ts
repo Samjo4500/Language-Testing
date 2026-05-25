@@ -52,14 +52,18 @@ export async function GET(
 
     if (user) {
       // Authenticated user: check/create enrollment
-      enrollment = await db.courseEnrollment.findUnique({
-        where: {
-          userId_courseId: {
-            userId: user.userId,
-            courseId: lesson.module.course.id,
+      try {
+        enrollment = await db.courseEnrollment.findUnique({
+          where: {
+            userId_courseId: {
+              userId: user.userId,
+              courseId: lesson.module.course.id,
+            },
           },
-        },
-      });
+        });
+      } catch {
+        // DB unavailable — enrollment will be null
+      }
 
       // SANDBOX/PREVIEW MODE: If not enrolled, auto-enroll the user so they can preview.
       if (!enrollment || (enrollment.status !== 'active' && enrollment.status !== 'completed')) {
@@ -80,14 +84,18 @@ export async function GET(
 
       // Get the lesson progress for this user
       if (enrollment) {
-        progress = await db.lessonProgress.findUnique({
-          where: {
-            enrollmentId_lessonId: {
-              enrollmentId: enrollment.id,
-              lessonId: lesson.id,
+        try {
+          progress = await db.lessonProgress.findUnique({
+            where: {
+              enrollmentId_lessonId: {
+                enrollmentId: enrollment.id,
+                lessonId: lesson.id,
+              },
             },
-          },
-        });
+          });
+        } catch {
+          // DB unavailable — progress will be null
+        }
 
         // Update current lesson position
         try {
