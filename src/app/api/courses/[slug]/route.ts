@@ -48,9 +48,9 @@ export async function GET(
     }
 
     if (!course) {
-      // Try static fallback from COURSE_TIERS
+      // Try static fallback from COURSE_TIERS (works even without database)
       const tier = COURSE_TIERS[slug];
-      if (tier && SANDBOX_MODE) {
+      if (tier) {
         return NextResponse.json({
           course: {
             id: `course-${slug}`,
@@ -84,12 +84,11 @@ export async function GET(
     return NextResponse.json({ course });
   } catch (error) {
     console.error('Get course error:', error);
-    // In sandbox mode, try static fallback
-    if (SANDBOX_MODE) {
-      try {
-        const { slug: errSlug } = await (async () => { /* params already consumed */ return { slug: request.nextUrl.pathname.split('/').pop()?.replace(/\/$/, '') || '' }; })();
-        const tier = COURSE_TIERS[errSlug];
-        if (tier) {
+    // Try static fallback regardless of mode — database may be unavailable
+    try {
+      const errSlug = request.nextUrl.pathname.split('/').filter(Boolean).pop()?.replace(/\/$/, '') || '';
+      const tier = COURSE_TIERS[errSlug];
+      if (tier) {
           return NextResponse.json({
             course: {
               id: `course-${errSlug}`,
@@ -115,7 +114,6 @@ export async function GET(
           });
         }
       } catch {}
-    }
     return NextResponse.json(
       { error: 'Failed to fetch course.' },
       { status: 500 }
