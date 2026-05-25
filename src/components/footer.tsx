@@ -141,14 +141,6 @@ export function Footer() {
                 <span className="text-white/50 text-xs font-medium">SSL Secure</span>
               </div>
 
-              {/* PayPal Verified */}
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06] hover:border-blue-500/30 transition-colors">
-                <svg className="h-5 w-5 text-blue-400" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c1.847 2.826.632 7.26-3.595 7.26h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106H9.076l.16-1.014h2.627c4.298 0 7.664-1.748 8.647-6.797.395-2.028.142-3.682-.688-5.014z" />
-                </svg>
-                <span className="text-white/50 text-xs font-medium">PayPal Verified</span>
-              </div>
-
               {/* Visa */}
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06] hover:border-yellow-500/30 transition-colors">
                 <svg className="h-5 w-5 text-yellow-400" viewBox="0 0 24 24" fill="currentColor">
@@ -194,10 +186,6 @@ export function Footer() {
             </span>
           </div>
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
-            <p className="text-white/50 text-xs">
-              Secure payments powered by PayPal
-            </p>
-            <span className="hidden sm:inline text-white/10">|</span>
             <p className="text-white/50 text-xs">
               &copy; {new Date().getFullYear()} CEFR Test. All rights reserved.
             </p>

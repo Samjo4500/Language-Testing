@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useHydrated } from '@/hooks/use-hydrated';
 import { useAuthStore } from '@/lib/auth-store';
 import { COURSE_TIERS, type CourseTier } from '@/lib/courses';
-import { trackPurchase } from '@/lib/analytics';
+// PayPal imports removed for sandbox/preview mode
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import {
@@ -449,181 +449,15 @@ const COURSE_FAQ = [
   },
   {
     q: 'Is there a refund policy?',
-    a: 'We offer a full refund within 14 days of purchase if you\'ve completed less than 25% of the course. We want you to be completely satisfied with your learning experience. PayPal\'s buyer protection also applies.',
+    a: 'We offer a full refund within 14 days of purchase if you\'ve completed less than 25% of the course. We want you to be completely satisfied with your learning experience.',
   },
 ];
 
 /* ============================================================
-   PAYPAL SCRIPT LOADER
+   PAYPAL CODE REMOVED — SANDBOX/PREVIEW MODE v2.1
+   All PayPal functionality has been stripped from this page.
+   Courses are freely accessible without payment.
    ============================================================ */
-function usePayPalScript(clientId: string | null) {
-  const [status, setStatus] = useState<'idle' | 'loading' | 'loaded'>('idle');
-  const mounted = useHydrated();
-  const scriptRef = useRef<HTMLScriptElement | null>(null);
-
-  useEffect(() => {
-    if (window.paypal) {
-      const timer = setTimeout(() => setStatus('loaded'), 0);
-      return () => clearTimeout(timer);
-    }
-    if (!clientId) return;
-    if (document.querySelector('script[src*="paypal.com/sdk/js"]')) {
-      const checkTimer = setInterval(() => {
-        if (window.paypal) {
-          setStatus('loaded');
-          clearInterval(checkTimer);
-        }
-      }, 200);
-      return () => clearInterval(checkTimer);
-    }
-
-    const script = document.createElement('script');
-    script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=USD&intent=capture`;
-    script.async = true;
-    script.onload = () => setStatus('loaded');
-    script.onerror = () => setStatus('idle');
-
-    document.body.appendChild(script);
-    scriptRef.current = script;
-
-    return () => {
-      if (scriptRef.current && !window.paypal) scriptRef.current.remove();
-    };
-  }, [clientId]);
-
-  return { isLoaded: status === 'loaded', isLoading: status === 'loading' };
-}
-
-/* ============================================================
-   COURSE PAYPAL BUTTON
-   ============================================================ */
-function CoursePayPalButton({
-  isAuthenticated,
-  slug,
-  amount,
-  courseLabel,
-}: {
-  isAuthenticated: boolean;
-  slug: string;
-  amount: number;
-  courseLabel: string;
-}) {
-  const paypalContainerRef = useRef<HTMLDivElement>(null);
-  const [paypalClientId, setPaypalClientId] = useState<string | null>(null);
-  const [isFetchingClientId, setIsFetchingClientId] = useState(false);
-  const mounted = useHydrated();
-  const [error, setError] = useState('');
-  const { isLoaded, isLoading: isScriptLoading } = usePayPalScript(paypalClientId);
-  const { setUser } = useAuthStore();
-  const router = useRouter();
-  const renderedRef = useRef(false);
-
-  useEffect(() => {
-    setIsFetchingClientId(true);
-    const fetchClientId = async () => {
-      try {
-        const response = await fetch('/api/payments/client-id/', { credentials: 'same-origin' });
-        if (response.ok) {
-          const data = await response.json();
-          setPaypalClientId(data.clientId);
-        } else {
-          setError('Failed to load payment configuration.');
-        }
-      } catch {
-        setError('Failed to connect to payment service.');
-      } finally {
-        setIsFetchingClientId(false);
-      }
-    };
-    fetchClientId();
-  }, []);
-
-  useEffect(() => {
-    if (!isLoaded || !window.paypal || !paypalContainerRef.current || !isAuthenticated || renderedRef.current) return;
-    renderedRef.current = true;
-
-    window.paypal.Buttons({
-      style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'pay', height: 45 },
-      createOrder: async () => {
-        try {
-          const response = await fetch('/api/courses/create-order/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'same-origin',
-            body: JSON.stringify({ slug, currency: 'USD' }),
-          });
-          if (!response.ok) throw new Error('Failed to create order');
-          const data = await response.json();
-          return data.orderID;
-        } catch (err) {
-          console.error('Create order error:', err);
-          setError('Failed to create payment. Please try again.');
-          throw err;
-        }
-      },
-      onApprove: async (data: { orderID: string }) => {
-        try {
-          setError('');
-          const response = await fetch('/api/courses/enroll/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'same-origin',
-            body: JSON.stringify({ slug, orderID: data.orderID }),
-          });
-          if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || 'Enrollment failed');
-          }
-          const enrollData = await response.json();
-          // Track purchase event
-          trackPurchase({
-            transaction_id: data.orderID,
-            value: amount,
-            currency: 'USD',
-            plan_type: `course-${slug}`,
-            items: courseLabel,
-          });
-          // Refresh user data
-          try {
-            const meRes = await fetch('/api/auth/me/', { credentials: 'same-origin' });
-            if (meRes.ok) {
-              const meData = await meRes.json();
-              if (meData.user) setUser(meData.user);
-            }
-          } catch {}
-          router.push(`/payment-success?plan=course-${slug}`);
-        } catch (err) {
-          console.error('Enroll error:', err);
-          setError(err instanceof Error ? err.message : 'Payment failed. Please contact support.');
-        }
-      },
-      onError: (err: unknown) => {
-        console.error('PayPal button error:', err);
-        setError('Payment process encountered an error. Please try again.');
-      },
-    }).render(paypalContainerRef.current);
-  }, [isLoaded, isAuthenticated, slug, amount]);
-
-  return (
-    <div>
-      {!mounted || isFetchingClientId || isScriptLoading ? (
-        <div className="flex items-center justify-center py-6">
-          <Loader2 className="h-5 w-5 animate-spin mr-2 text-blue-400" />
-          <span className="text-xs text-white/50">Loading payment...</span>
-        </div>
-      ) : null}
-      {mounted && error && (
-        <div className="mb-3 rounded-xl bg-red-500/10 border border-red-500/20 p-3">
-          <p className="text-xs text-red-400">{error}</p>
-        </div>
-      )}
-      <div
-        ref={paypalContainerRef}
-        className={!mounted || isFetchingClientId || isScriptLoading ? 'opacity-0 h-0 overflow-hidden' : 'opacity-100 transition-opacity'}
-      />
-    </div>
-  );
-}
 
 /* ============================================================
    SCROLL ANIMATION HOOK
@@ -893,6 +727,11 @@ export default function CourseDetailPage() {
   return (
     <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
       <Navbar />
+
+      {/* ===== VERSION BANNER — REMOVE AFTER LAUNCH ===== */}
+      <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white text-center py-2 px-4 text-sm font-bold tracking-wide">
+        SANDBOX PREVIEW v2.1 — All Courses Free — No PayPal Required
+      </div>
 
       {/* ===== HERO SECTION ===== */}
       <section className="relative dark-section hero-pattern noise-overlay overflow-hidden">

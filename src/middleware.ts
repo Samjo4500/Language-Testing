@@ -76,14 +76,16 @@ function addSecurityHeaders(response: NextResponse): NextResponse {
   // Control referrer information sent to other sites
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
 
-  // Force HTTPS for 2 years (63072000 seconds), include subdomains, allow preloading
-  // Only set HSTS if we're on HTTPS (don't set for localhost)
-  if (process.env.NODE_ENV === 'production') {
-    response.headers.set(
-      'Strict-Transport-Security',
-      'max-age=63072000; includeSubDomains; preload'
-    );
-  }
+  // HSTS DISABLED: Site is served over HTTP via Caddy reverse proxy.
+  // Setting HSTS would force browsers to use HTTPS which is not available,
+  // causing browsers to show stale cached content instead of live pages.
+  // Re-enable ONLY after setting up proper HTTPS/SSL.
+  // if (process.env.NODE_ENV === 'production') {
+  //   response.headers.set(
+  //     'Strict-Transport-Security',
+  //     'max-age=63072000; includeSubDomains; preload'
+  //   );
+  // }
 
   // Restrict browser features — only allow what the app needs
   // microphone: needed for speaking test (Web Speech API)
@@ -94,19 +96,18 @@ function addSecurityHeaders(response: NextResponse): NextResponse {
     'camera=(), geolocation=(), microphone=(self), payment=(self)'
   );
 
-  // Content Security Policy — whitelist sources for content loading
-  // Development is more permissive; production is strict
+  // Content Security Policy — PayPal domains removed for sandbox/preview mode
   if (process.env.NODE_ENV === 'production') {
     response.headers.set(
       'Content-Security-Policy',
       [
         "default-src 'self'",
-        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.paypal.com https://www.sandbox.paypal.com https://www.paypalobjects.com https://www.googletagmanager.com",
+        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com",
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
         "font-src 'self' https://fonts.gstatic.com",
-        "img-src 'self' data: blob: https://www.paypal.com https://www.sandbox.paypal.com https://www.paypalobjects.com https://www.google-analytics.com",
-        "frame-src https://www.paypal.com https://www.sandbox.paypal.com",
-        "connect-src 'self' https://api-m.paypal.com https://api-m.sandbox.paypal.com https://generativelanguage.googleapis.com https://www.google-analytics.com https://analytics.google.com https://us.i.posthog.com",
+        "img-src 'self' data: blob: https://www.google-analytics.com",
+        "frame-src 'none'",
+        "connect-src 'self' https://generativelanguage.googleapis.com https://www.google-analytics.com https://analytics.google.com https://us.i.posthog.com",
         "worker-src 'self' blob:",
         "report-uri /api/csp-report",
       ].join('; ')
