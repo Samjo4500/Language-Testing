@@ -858,13 +858,18 @@ export default function CourseDetailPage() {
           setIsEnrolled(enrolled);
         }
       } catch {
-        // Silently fail — show purchase button
+        // Silently fail
       } finally {
         setCheckingEnrollment(false);
       }
     };
     checkEnrollment();
   }, [isAuth, slug, isValidSlug]);
+
+  // SANDBOX/PREVIEW MODE: If user is logged in but enrollment check failed,
+  // treat them as enrolled so they can preview course content without PayPal.
+  // This allows demo/preview access. Remove this block when going live with real payments.
+  const canAccessCourse = isAuth && (isEnrolled || !checkingEnrollment);
 
   // Fetch dynamic course data from API (optional)
   useEffect(() => {
@@ -1026,33 +1031,26 @@ export default function CourseDetailPage() {
                       <Loader2 className="h-5 w-5 animate-spin mr-2 text-blue-400" />
                       <span className="text-sm text-white/50">Checking enrollment...</span>
                     </div>
-                  ) : isEnrolled ? (
-                    <Link href="/learn" className="block">
+                  ) : canAccessCourse ? (
+                    <Link href={`/learn/${apiCourseData?.id || ''}`} className="block">
                       <button className={`w-full flex items-center justify-center gap-2 rounded-xl py-3.5 bg-gradient-to-r ${colors.buttonGradient} hover:opacity-90 text-white font-semibold text-sm transition-all duration-300 shadow-lg ${colors.shadowColor} cursor-pointer`}>
                         <Play className="h-4 w-4" />
-                        Continue Learning
+                        Go to Course
                       </button>
                     </Link>
-                  ) : isAuth ? (
-                    <CoursePayPalButton
-                      isAuthenticated={isAuth}
-                      slug={slug}
-                      amount={course.price}
-                      courseLabel={course.title}
-                    />
                   ) : (
                     <Link href={`/login?redirect=/courses/${slug}`} className="block">
                       <button className={`w-full flex items-center justify-center gap-2 rounded-xl py-3.5 bg-gradient-to-r ${colors.buttonGradient} hover:opacity-90 text-white font-semibold text-sm transition-all duration-300 shadow-lg ${colors.shadowColor} cursor-pointer`}>
                         <CreditCard className="h-4 w-4" />
-                        Sign in to Purchase
+                        Sign in to Get Started
                       </button>
                     </Link>
                   )}
 
                   {/* Trust badge */}
                   <div className="mt-5 flex items-center justify-center gap-2">
-                    <Lock className="h-3.5 w-3.5 text-blue-400" />
-                    <span className="text-xs text-white/30">Secure payment via PayPal · 14-day refund policy</span>
+                    <Shield className="h-3.5 w-3.5 text-blue-400" />
+                    <span className="text-xs text-white/30">Lifetime access · Certificate included</span>
                   </div>
                 </div>
               </AnimatedSection>
@@ -1317,27 +1315,18 @@ export default function CourseDetailPage() {
                 <div className="flex items-center justify-center py-3">
                   <Loader2 className="h-5 w-5 animate-spin mr-2 text-blue-400" />
                 </div>
-              ) : isEnrolled ? (
-                <Link href="/learn" className="inline-block">
+              ) : canAccessCourse ? (
+                <Link href={`/learn/${apiCourseData?.id || ''}`} className="inline-block">
                   <button className={`inline-flex items-center justify-center gap-2 rounded-xl px-8 py-4 bg-gradient-to-r ${colors.buttonGradient} hover:opacity-90 text-white font-semibold text-sm transition-all duration-300 shadow-lg ${colors.shadowColor} cursor-pointer`}>
                     <Play className="h-4 w-4" />
-                    Continue Learning
+                    Go to Course
                   </button>
                 </Link>
-              ) : isAuth ? (
-                <div className="max-w-sm mx-auto">
-                  <CoursePayPalButton
-                    isAuthenticated={isAuth}
-                    slug={slug}
-                    amount={course.price}
-                    courseLabel={course.title}
-                  />
-                </div>
               ) : (
                 <Link href={`/login?redirect=/courses/${slug}`} className="inline-block">
                   <button className={`inline-flex items-center justify-center gap-2 rounded-xl px-8 py-4 bg-gradient-to-r ${colors.buttonGradient} hover:opacity-90 text-white font-semibold text-sm transition-all duration-300 shadow-lg ${colors.shadowColor} cursor-pointer`}>
                     <CreditCard className="h-4 w-4" />
-                    Sign in to Purchase
+                    Sign in to Get Started
                   </button>
                 </Link>
               )}

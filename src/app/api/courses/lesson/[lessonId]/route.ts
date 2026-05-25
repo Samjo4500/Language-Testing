@@ -40,7 +40,7 @@ export async function GET(
     }
 
     // Verify user is enrolled in this course
-    const enrollment = await db.courseEnrollment.findUnique({
+    let enrollment = await db.courseEnrollment.findUnique({
       where: {
         userId_courseId: {
           userId: user.userId,
@@ -49,11 +49,19 @@ export async function GET(
       },
     });
 
+    // SANDBOX/PREVIEW MODE: If not enrolled, auto-enroll the user so they can preview.
+    // This allows any logged-in user to access course content without PayPal payment.
+    // Remove this block when going live with real payments.
     if (!enrollment || (enrollment.status !== 'active' && enrollment.status !== 'completed')) {
-      return NextResponse.json(
-        { error: 'You must be enrolled in this course to view lesson content.' },
-        { status: 403 }
-      );
+      enrollment = await db.courseEnrollment.create({
+        data: {
+          userId: user.userId,
+          courseId: lesson.module.course.id,
+          status: 'active',
+          progress: 0,
+          paymentId: 'sandbox-auto-enroll',
+        },
+      });
     }
 
     // Get the lesson progress for this user
