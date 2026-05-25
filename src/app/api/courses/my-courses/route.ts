@@ -123,48 +123,55 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const enrollments = await db.courseEnrollment.findMany({
-      where: { userId: user.userId, status: { in: ['active', 'completed'] } },
-      orderBy: { lastAccessedAt: 'desc' },
-      include: {
-        course: {
-          select: {
-            id: true,
-            slug: true,
-            title: true,
-            subtitle: true,
-            level: true,
-            imageUrl: true,
-            modulesCount: true,
-            lessonsCount: true,
-            estimatedHours: true,
-            modules: {
-              where: { isPublished: true },
-              orderBy: [{ order: 'asc' }, { moduleNumber: 'asc' }],
-              select: {
-                id: true,
-                moduleNumber: true,
-                title: true,
-                lessons: {
-                  where: { isPublished: true },
-                  orderBy: [{ order: 'asc' }, { lessonNumber: 'asc' }],
-                  select: { id: true, lessonNumber: true, title: true, contentType: true, estimatedMinutes: true },
+    let enrollments;
+    try {
+      enrollments = await db.courseEnrollment.findMany({
+        where: { userId: user.userId, status: { in: ['active', 'completed'] } },
+        orderBy: { lastAccessedAt: 'desc' },
+        include: {
+          course: {
+            select: {
+              id: true,
+              slug: true,
+              title: true,
+              subtitle: true,
+              level: true,
+              imageUrl: true,
+              modulesCount: true,
+              lessonsCount: true,
+              estimatedHours: true,
+              modules: {
+                where: { isPublished: true },
+                orderBy: [{ order: 'asc' }, { moduleNumber: 'asc' }],
+                select: {
+                  id: true,
+                  moduleNumber: true,
+                  title: true,
+                  lessons: {
+                    where: { isPublished: true },
+                    orderBy: [{ order: 'asc' }, { lessonNumber: 'asc' }],
+                    select: { id: true, lessonNumber: true, title: true, contentType: true, estimatedMinutes: true },
+                  },
                 },
               },
             },
           },
-        },
-        lessonProgress: {
-          select: {
-            lessonId: true,
-            completed: true,
-            quizScore: true,
-            quizPassed: true,
-            timeSpentSeconds: true,
+          lessonProgress: {
+            select: {
+              lessonId: true,
+              completed: true,
+              quizScore: true,
+              quizPassed: true,
+              timeSpentSeconds: true,
+            },
           },
         },
-      },
-    });
+      });
+    } catch (dbError) {
+      // Database not available (e.g. Vercel without SQLite) — return static fallback
+      console.warn('[my-courses] Database unavailable for authenticated user, returning static fallback');
+      return NextResponse.json({ enrollments: getStaticCourseEnrollments() });
+    }
 
     const result = enrollments.map((enrollment) => {
       const totalLessons = enrollment.course.modules.reduce(
