@@ -1,8 +1,47 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAuthUser } from '@/lib/auth-middleware';
 import { db } from '@/lib/db';
+import { COURSE_TIERS } from '@/lib/courses';
 
 const SANDBOX_MODE = process.env.NEXT_PUBLIC_SANDBOX_MODE === 'true';
+
+// Static fallback course data for when database is unavailable (e.g. Vercel without DB)
+function getStaticCourseEnrollments() {
+  const courses = [
+    { slug: 'beginner', tier: COURSE_TIERS.beginner, modulesCount: 8, lessonsCount: 36, estimatedHours: 25 },
+    { slug: 'intermediate', tier: COURSE_TIERS.intermediate, modulesCount: 10, lessonsCount: 55, estimatedHours: 45 },
+    { slug: 'advanced', tier: COURSE_TIERS.advanced, modulesCount: 10, lessonsCount: 55, estimatedHours: 55 },
+  ];
+
+  return courses.map((c, i) => ({
+    id: `static-${c.slug}`,
+    status: 'active',
+    progress: 0,
+    enrolledAt: new Date().toISOString(),
+    lastAccessedAt: new Date().toISOString(),
+    completedAt: null,
+    certificateId: null,
+    currentModuleId: `mod-${c.slug}-1`,
+    currentLessonId: `lesson-${c.slug}-1-1`,
+    currentModule: { id: `mod-${c.slug}-1`, moduleNumber: 1, title: `Module 1` },
+    currentLesson: { id: `lesson-${c.slug}-1-1`, lessonNumber: 1, title: 'Getting Started' },
+    totalLessons: c.lessonsCount,
+    completedLessons: 0,
+    course: {
+      id: `course-${c.slug}`,
+      slug: c.slug,
+      title: c.tier.title,
+      subtitle: c.tier.subtitle,
+      level: c.tier.level,
+      imageUrl: null,
+      modulesCount: c.modulesCount,
+      lessonsCount: c.lessonsCount,
+      estimatedHours: c.estimatedHours,
+      modules: [],
+    },
+    lessonProgress: [],
+  }));
+}
 
 // GET /api/courses/my-courses/ — Get user's enrolled courses
 // In SANDBOX_MODE: returns all published courses as "enrolled" even without auth
@@ -13,26 +52,33 @@ export async function GET(request: NextRequest) {
 
     // Sandbox mode: return all courses as enrolled for any visitor
     if (SANDBOX_MODE && !user) {
-      const courses = await db.course.findMany({
-        where: { isPublished: true },
-        orderBy: { createdAt: 'asc' },
-        include: {
-          modules: {
-            where: { isPublished: true },
-            orderBy: [{ order: 'asc' }, { moduleNumber: 'asc' }],
-            select: {
-              id: true,
-              moduleNumber: true,
-              title: true,
-              lessons: {
-                where: { isPublished: true },
-                orderBy: [{ order: 'asc' }, { lessonNumber: 'asc' }],
-                select: { id: true, lessonNumber: true, title: true, contentType: true, estimatedMinutes: true },
+      let courses;
+      try {
+        courses = await db.course.findMany({
+          where: { isPublished: true },
+          orderBy: { createdAt: 'asc' },
+          include: {
+            modules: {
+              where: { isPublished: true },
+              orderBy: [{ order: 'asc' }, { moduleNumber: 'asc' }],
+              select: {
+                id: true,
+                moduleNumber: true,
+                title: true,
+                lessons: {
+                  where: { isPublished: true },
+                  orderBy: [{ order: 'asc' }, { lessonNumber: 'asc' }],
+                  select: { id: true, lessonNumber: true, title: true, contentType: true, estimatedMinutes: true },
+                },
               },
             },
           },
-        },
-      });
+        });
+      } catch (dbError) {
+        // Database not available (e.g. Vercel without SQLite) — return static fallback
+        console.warn('[my-courses] Database unavailable, returning static fallback');
+        return NextResponse.json({ enrollments: getStaticCourseEnrollments() });
+      }
 
       const result = courses.map((course) => ({
         id: `sandbox-${course.id}`,
@@ -169,6 +215,11 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ enrollments: result });
   } catch (error) {
     console.error('Get my courses error:', error);
+    // Return static fallback instead of error — database may be unavailable on Vercel
+    if (SANDBOX_MODE) {
+      console.warn('[my-courses] Returning static fallback due to error');
+      return NextResponse.json({ enrollments: getStaticCourseEnrollments() });
+    }
     return NextResponse.json(
       { error: 'Failed to fetch your courses.' },
       { status: 500 }
