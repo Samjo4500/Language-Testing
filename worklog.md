@@ -239,3 +239,24 @@ Stage Summary:
 - App is now resilient to database failures - static fallbacks provide full course content
 - PayPal removed (from previous fix), courses accessible without payment
 - Key files: src/lib/static-course-data.ts, src/lib/generate-lesson-content.ts, prisma/schema.prisma
+
+---
+Task ID: fix-lesson-loading-auth-user
+Agent: Main Agent
+Task: Fix "Failed to load lesson content" error for authenticated users on Vercel
+
+Work Log:
+- Identified root cause: When user is authenticated but Vercel PostgreSQL DB has no enrollment data, the my-courses API returns empty enrollments array instead of static fallback
+- The learn page relies on my-courses to find the first lesson to load; empty enrollments = no lesson found = error
+- Also found that course API only supported slug lookup, but learn page URLs use course IDs (CUIDs)
+- Fixed my-courses API to return static fallback when authenticated user has no enrollments in DB
+- Wrapped all enrollment DB operations in lesson API with try-catch to prevent unhandled errors
+- Updated course detail API to support lookup by both slug AND course ID
+- Added frontend fallback in learn page to fetch course data directly when enrollment data is unavailable
+- Pushed to both remotes, verified deployment on testcefr.com
+
+Stage Summary:
+- Course API now works with both /api/courses/beginner and /api/courses/cmpkmzr4g0000pwlbu8n1kzw8
+- My-courses API returns static data for authenticated users with no DB enrollments
+- Lesson API handles DB failures gracefully for all enrollment operations
+- Learn page has multiple fallback paths to find and load lesson content
