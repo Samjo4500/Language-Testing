@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { STATIC_COURSES } from '@/lib/static-course-data';
 
 // GET /api/courses/ — List all published courses (PUBLIC)
 export async function GET() {
@@ -29,12 +30,20 @@ export async function GET() {
       },
     });
 
-    return NextResponse.json({ courses });
+    if (courses.length > 0) {
+      return NextResponse.json({ courses });
+    }
   } catch (error) {
-    console.error('List courses error:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch courses.' },
-      { status: 500 }
-    );
+    console.error('[courses] Database unavailable, using static fallback:', error);
   }
+
+  // Static fallback — always available even without database
+  const courses = STATIC_COURSES.map(c => ({
+    ...c,
+    isPublished: true,
+    createdAt: new Date().toISOString(),
+    _count: { modules: 0, enrollments: 0 },
+  }));
+
+  return NextResponse.json({ courses });
 }

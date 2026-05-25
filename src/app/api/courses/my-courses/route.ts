@@ -1,46 +1,66 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAuthUser } from '@/lib/auth-middleware';
 import { db } from '@/lib/db';
-import { COURSE_TIERS } from '@/lib/courses';
+import { STATIC_COURSES, STATIC_MODULES_BY_COURSE_ID, STATIC_LESSONS_BY_MODULE_ID } from '@/lib/static-course-data';
 
 const SANDBOX_MODE = process.env.NEXT_PUBLIC_SANDBOX_MODE === 'true';
 
 // Static fallback course data for when database is unavailable (e.g. Vercel without DB)
 function getStaticCourseEnrollments() {
-  const courses = [
-    { slug: 'beginner', tier: COURSE_TIERS.beginner, modulesCount: 8, lessonsCount: 36, estimatedHours: 25 },
-    { slug: 'intermediate', tier: COURSE_TIERS.intermediate, modulesCount: 10, lessonsCount: 55, estimatedHours: 45 },
-    { slug: 'advanced', tier: COURSE_TIERS.advanced, modulesCount: 10, lessonsCount: 55, estimatedHours: 55 },
-  ];
+  return STATIC_COURSES.map((c, i) => {
+    const modules = STATIC_MODULES_BY_COURSE_ID[c.id] || [];
+    const firstModule = modules[0];
+    const firstModuleLessons = firstModule ? (STATIC_LESSONS_BY_MODULE_ID[firstModule.id] || []) : [];
+    const firstLesson = firstModuleLessons[0];
 
-  return courses.map((c, i) => ({
-    id: `static-${c.slug}`,
-    status: 'active',
-    progress: 0,
-    enrolledAt: new Date().toISOString(),
-    lastAccessedAt: new Date().toISOString(),
-    completedAt: null,
-    certificateId: null,
-    currentModuleId: `mod-${c.slug}-1`,
-    currentLessonId: `lesson-${c.slug}-1-1`,
-    currentModule: { id: `mod-${c.slug}-1`, moduleNumber: 1, title: `Module 1` },
-    currentLesson: { id: `lesson-${c.slug}-1-1`, lessonNumber: 1, title: 'Getting Started' },
-    totalLessons: c.lessonsCount,
-    completedLessons: 0,
-    course: {
-      id: `course-${c.slug}`,
-      slug: c.slug,
-      title: c.tier.title,
-      subtitle: c.tier.subtitle,
-      level: c.tier.level,
-      imageUrl: null,
-      modulesCount: c.modulesCount,
-      lessonsCount: c.lessonsCount,
-      estimatedHours: c.estimatedHours,
-      modules: [],
-    },
-    lessonProgress: [],
-  }));
+    const totalLessons = modules.reduce((sum, m) => sum + (STATIC_LESSONS_BY_MODULE_ID[m.id]?.length || 0), 0);
+
+    const modulesWithLessons = modules.map(m => ({
+      id: m.id,
+      moduleNumber: m.moduleNumber,
+      title: m.title,
+      lessons: (STATIC_LESSONS_BY_MODULE_ID[m.id] || []).map(l => ({
+        id: l.id,
+        lessonNumber: l.lessonNumber,
+        title: l.title,
+        contentType: l.contentType,
+        estimatedMinutes: l.estimatedMinutes,
+      })),
+    }));
+
+    return {
+      id: `static-${c.slug}`,
+      status: 'active',
+      progress: 0,
+      enrolledAt: new Date().toISOString(),
+      lastAccessedAt: new Date().toISOString(),
+      completedAt: null,
+      certificateId: null,
+      currentModuleId: firstModule?.id || null,
+      currentLessonId: firstLesson?.id || null,
+      currentModule: firstModule
+        ? { id: firstModule.id, moduleNumber: firstModule.moduleNumber, title: firstModule.title }
+        : null,
+      currentLesson: firstLesson
+        ? { id: firstLesson.id, lessonNumber: firstLesson.lessonNumber, title: firstLesson.title }
+        : null,
+      totalLessons,
+      completedLessons: 0,
+      course: {
+        id: c.id,
+        slug: c.slug,
+        title: c.title,
+        subtitle: c.subtitle,
+        level: c.level,
+        imageUrl: c.imageUrl,
+        modulesCount: c.modulesCount,
+        lessonsCount: c.lessonsCount,
+        estimatedHours: c.estimatedHours,
+        modules: modulesWithLessons,
+      },
+      lessonProgress: [],
+    };
+  });
 }
 
 // GET /api/courses/my-courses/ — Get user's enrolled courses
@@ -75,8 +95,12 @@ export async function GET(request: NextRequest) {
           },
         });
       } catch (dbError) {
-        // Database not available (e.g. Vercel without SQLite) — return static fallback
+        // Database not available (e.g. Vercel without DB) — return static fallback
         console.warn('[my-courses] Database unavailable, returning static fallback');
+        return NextResponse.json({ enrollments: getStaticCourseEnrollments() });
+      }
+
+      if (!courses || courses.length === 0) {
         return NextResponse.json({ enrollments: getStaticCourseEnrollments() });
       }
 
@@ -102,9 +126,9 @@ export async function GET(request: NextRequest) {
           id: course.id,
           slug: course.slug,
           title: course.title,
-          subtitle: '',
-          level: '',
-          imageUrl: null,
+          subtitle: course.subtitle || '',
+          level: course.level || '',
+          imageUrl: course.imageUrl,
           modulesCount: course.modules.length,
           lessonsCount: course.modules.reduce((sum, m) => sum + m.lessons.length, 0),
           estimatedHours: 0,
@@ -117,8 +141,7 @@ export async function GET(request: NextRequest) {
     }
 
     if (!user) {
-      // No auth token — in sandbox mode, try DB first; if DB fails, return static fallback
-      // This allows Vercel deployments without a database to still show courses
+      // No auth token — try DB first; if DB fails, return static fallback
       try {
         const courses = await db.course.findMany({
           where: { isPublished: true },
@@ -138,6 +161,11 @@ export async function GET(request: NextRequest) {
             },
           },
         });
+
+        if (!courses || courses.length === 0) {
+          return NextResponse.json({ enrollments: getStaticCourseEnrollments() });
+        }
+
         const result = courses.map((course) => ({
           id: `sandbox-${course.id}`, status: 'active', progress: 0,
           enrolledAt: course.createdAt, lastAccessedAt: new Date().toISOString(),
@@ -147,7 +175,7 @@ export async function GET(request: NextRequest) {
           currentModule: course.modules[0] ? { id: course.modules[0].id, moduleNumber: course.modules[0].moduleNumber, title: course.modules[0].title } : null,
           currentLesson: course.modules[0]?.lessons[0] ? { id: course.modules[0].lessons[0].id, lessonNumber: course.modules[0].lessons[0].lessonNumber, title: course.modules[0].lessons[0].title } : null,
           totalLessons: course.modules.reduce((sum, m) => sum + m.lessons.length, 0), completedLessons: 0,
-          course: { id: course.id, slug: course.slug, title: course.title, subtitle: '', level: '', imageUrl: null, modulesCount: course.modules.length, lessonsCount: course.modules.reduce((sum, m) => sum + m.lessons.length, 0), estimatedHours: 0, modules: course.modules },
+          course: { id: course.id, slug: course.slug, title: course.title, subtitle: course.subtitle || '', level: course.level || '', imageUrl: course.imageUrl, modulesCount: course.modules.length, lessonsCount: course.modules.reduce((sum, m) => sum + m.lessons.length, 0), estimatedHours: 0, modules: course.modules },
           lessonProgress: [],
         }));
         return NextResponse.json({ enrollments: result });
@@ -201,7 +229,7 @@ export async function GET(request: NextRequest) {
         },
       });
     } catch (dbError) {
-      // Database not available (e.g. Vercel without SQLite) — return static fallback
+      // Database not available — return static fallback
       console.warn('[my-courses] Database unavailable for authenticated user, returning static fallback');
       return NextResponse.json({ enrollments: getStaticCourseEnrollments() });
     }
@@ -256,13 +284,6 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error('Get my courses error:', error);
     // Return static fallback instead of error — database may be unavailable on Vercel
-    if (SANDBOX_MODE) {
-      console.warn('[my-courses] Returning static fallback due to error');
-      return NextResponse.json({ enrollments: getStaticCourseEnrollments() });
-    }
-    return NextResponse.json(
-      { error: 'Failed to fetch your courses.' },
-      { status: 500 }
-    );
+    return NextResponse.json({ enrollments: getStaticCourseEnrollments() });
   }
 }
