@@ -529,13 +529,49 @@ function VocabularySection({ vocabularyData }: { vocabularyData: string }) {
 
   const [playingWord, setPlayingWord] = useState<string | null>(null);
 
-  const playWordAudio = (word: string) => {
+  const playWordAudio = useCallback((word: string) => {
+    // Prevent double-clicks while already playing
+    if (playingWord === word) return;
     setPlayingWord(word);
-    const audio = new Audio(`/api/tts/?text=${encodeURIComponent(word)}`);
-    audio.onended = () => setPlayingWord(null);
-    audio.onerror = () => setPlayingWord(null);
-    audio.play().catch(() => setPlayingWord(null));
-  };
+
+    // ── Fallback 1: Web Speech API (works in all modern browsers, no server needed) ──
+    const tryWebSpeech = (): boolean => {
+      if (typeof window === 'undefined' || !window.speechSynthesis) return false;
+      // Cancel any ongoing speech
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(word);
+      utterance.lang = 'en-US';
+      utterance.rate = 0.85; // Slightly slower for clarity
+      utterance.pitch = 1.0;
+      // Try to find an English voice
+      const voices = window.speechSynthesis.getVoices();
+      const englishVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Female'))
+        || voices.find(v => v.lang.startsWith('en-US'))
+        || voices.find(v => v.lang.startsWith('en'));
+      if (englishVoice) utterance.voice = englishVoice;
+      utterance.onend = () => setPlayingWord(null);
+      utterance.onerror = () => {
+        // Web Speech failed, try server TTS
+        tryServerTTS(word);
+      };
+      window.speechSynthesis.speak(utterance);
+      return true;
+    };
+
+    // ── Fallback 2: Server-side TTS API ──
+    const tryServerTTS = (w: string) => {
+      const audio = new Audio(`/api/tts/?text=${encodeURIComponent(w)}`);
+      audio.onended = () => setPlayingWord(null);
+      audio.onerror = () => setPlayingWord(null);
+      audio.play().catch(() => setPlayingWord(null));
+    };
+
+    // Try Web Speech first (instant, no network), then server TTS as fallback
+    const webSpeechWorked = tryWebSpeech();
+    if (!webSpeechWorked) {
+      tryServerTTS(word);
+    }
+  }, [playingWord]);
 
   if (words.length === 0) return null;
 
@@ -546,7 +582,7 @@ function VocabularySection({ vocabularyData }: { vocabularyData: string }) {
           <BookOpen className="h-5 w-5" />
         </div>
         <h3 className="text-lg font-bold text-white">Vocabulary</h3>
-        <span className="text-xs text-white/30 ml-auto">{words.length} words</span>
+        <span className="text-xs text-white/40 ml-auto">{words.length} words · tap 🔊 to listen</span>
       </div>
       <div className="grid gap-3 sm:grid-cols-2">
         {words.map((w, i) => (
@@ -555,23 +591,23 @@ function VocabularySection({ vocabularyData }: { vocabularyData: string }) {
             className="rounded-xl bg-white/5 border border-white/10 p-4 hover:bg-white/8 transition-colors"
           >
             <div className="flex items-start justify-between gap-2 mb-2">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5">
                 <span className="font-bold text-white text-base">{w.word}</span>
                 <button
                   onClick={() => playWordAudio(w.word)}
-                  className={`flex h-6 w-6 items-center justify-center rounded-full transition-all duration-200 cursor-pointer shrink-0 ${
+                  className={`flex h-8 w-8 items-center justify-center rounded-lg transition-all duration-200 cursor-pointer shrink-0 border ${
                     playingWord === w.word
-                      ? 'bg-blue-500/30 text-blue-300 animate-pulse'
-                      : 'bg-white/5 text-white/30 hover:bg-blue-500/15 hover:text-blue-300'
+                      ? 'bg-blue-500/30 border-blue-400/50 text-blue-300 scale-110'
+                      : 'bg-blue-500/10 border-blue-400/30 text-blue-400 hover:bg-blue-500/20 hover:border-blue-400/50 hover:text-blue-300 hover:scale-105'
                   }`}
                   title={`Listen to "${w.word}"`}
                   aria-label={`Play pronunciation of ${w.word}`}
                 >
-                  <Volume2 className="h-3 w-3" />
+                  <Volume2 className="h-4 w-4" />
                 </button>
               </div>
               {w.pronunciation && (
-                <span className="text-xs text-blue-300/80 font-mono shrink-0">{w.pronunciation}</span>
+                <span className="text-xs text-blue-300/80 font-mono shrink-0 mt-0.5">{w.pronunciation}</span>
               )}
             </div>
             <p className="text-sm text-white/60 mb-2">{w.definition}</p>
