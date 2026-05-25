@@ -333,7 +333,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-    videoUrl: "https://www.youtube.com/watch?v=keckE2EOOPU",
+    videoUrl: "https://www.youtube.com/watch?v=7aWhs5G6I-I",
   },
   {
     id: "cmpkmzr4l0006pwlblsqtcmue",
@@ -370,7 +370,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-    videoUrl: "https://www.youtube.com/watch?v=eUXkg6hM2Ek",
+    videoUrl: "https://www.youtube.com/watch?v=HrG3WXJheyQ",
   },
   {
     id: "cmpkmzr4q000gpwlbh3agtzyh",
@@ -443,7 +443,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-    videoUrl: "https://www.youtube.com/watch?v=8Vdm2_WJMHk",
+    videoUrl: "https://www.youtube.com/watch?v=bgfdqVmVjfk",
   },
   {
     id: "cmpkmzr4x0010pwlbkckiajc3",
@@ -624,7 +624,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-    videoUrl: "https://www.youtube.com/watch?v=FYPl4L5E5Yg",
+    videoUrl: "https://www.youtube.com/watch?v=moIucWGgvMc",
   },
   {
     id: "cmpkmzr5g002fpwlbvm89nzkg",
@@ -652,7 +652,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "listening",
     estimatedMinutes: 12,
     order: 3,
-    videoUrl: "https://www.youtube.com/watch?v=H14bBuluwB8",
+    videoUrl: "https://www.youtube.com/watch?v=jd7R1RG8HqY",
   },
   {
     id: "cmpkmzr5j002lpwlbomkdtdks",
@@ -1076,7 +1076,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-    videoUrl: "https://www.youtube.com/watch?v=3lJ3OrD3JcM",
+    videoUrl: "https://www.youtube.com/watch?v=t4ODg51XNYk",
   },
   {
     id: "cmpkmzr6n005spwlbxmz7qsm9",
