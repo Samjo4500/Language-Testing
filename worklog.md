@@ -118,3 +118,34 @@ Stage Summary:
 - All PayPal references removed from course page, footer, and CSP
 - Version banner "SANDBOX PREVIEW v2.1" added for user verification
 - User needs to clear browser HSTS settings: chrome://net-internals/#hsts → Delete domain testcefr.com
+
+---
+Task ID: paypal-removal-complete
+Agent: Main Agent
+Task: Remove ALL PayPal from every user-facing page for sandbox/preview mode
+
+Work Log:
+- Identified that pricing page was the PRIMARY source of PayPal buttons (3 PayPalCheckoutButton components)
+- Dashboard had "Upgrade to Premium" upsell cards linking to /pricing
+- Navbar had "Upgrade Plan" link to /pricing and "Pricing" nav link
+- Footer had "Pricing" links and "PayPal Verified" badge
+- Homepage had "View Pricing" buttons and PayPal FAQ answer
+- FAQ page had PayPal payment reference
+- About page had "PayPal Integration" feature card
+- Removed all PayPal script loaders and button components from pricing page
+- Replaced all PayPalCheckoutButton with "Start Learning" buttons linking to /courses
+- Replaced dashboard upgrade prompts with "Browse Courses" and "Continue Learning"
+- Changed navbar "Upgrade Plan" to "My Courses" and removed "Pricing" nav link
+- Changed footer "Pricing" links to "Courses"
+- Updated homepage "View Pricing" to "Browse Courses"
+- Updated FAQ and About pages to remove PayPal references
+- Added green SANDBOX PREVIEW banners to course and pricing pages
+- Verified: 0 PayPal references on all main pages (only remaining "PayPal" is in sandbox banner text)
+- Verified: No HSTS header, demo users can access all 3 courses with lessons
+- Demo credentials: demo01@testcefr.com / Demo@2026!
+
+Stage Summary:
+- PayPal completely removed from ALL user-facing pages
+- All demo users enrolled in all 3 courses with full access
+- Sandbox mode active with visible green banners
+- HSTS header removed (root cause of previous "no changes" issue)

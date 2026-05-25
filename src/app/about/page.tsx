@@ -382,8 +382,8 @@ export default function AboutPage() {
                 },
                 {
                   icon: <CreditCard className="h-6 w-6" />,
-                  title: 'PayPal Integration',
-                  desc: 'Secure payment processing through PayPal with full buyer protection. Your financial data never touches our servers — all transactions are handled through PayPal\'s PCI-DSS compliant infrastructure.',
+                  title: 'Free Preview Access',
+                  desc: 'All features are available for free during our preview period. No payment information is required — simply sign up and start learning.',
                   gradient: 'from-green-400 to-emerald-500',
                 },
               ].map((item, index) => (

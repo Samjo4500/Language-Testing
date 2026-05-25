@@ -265,14 +265,14 @@ export default function DashboardPage() {
                 <p className="text-sm text-white/40">
                   {isPaidPlan(user.plan)
                     ? 'You have full access to all assessments and features.'
-                    : 'Upgrade to Premium to access the full CEFR assessment.'}
+                    : 'Sandbox preview — all features are available for free. Browse our courses to get started!'}
                 </p>
               </div>
               {!isPaidPlan(user.plan) && (
-                <Link href="/pricing">
+                <Link href="/courses">
                   <button className="flex items-center gap-2 rounded-xl px-6 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 cursor-pointer">
-                    <CreditCard className="h-4 w-4" />
-                    Upgrade to Premium
+                    <BookOpen className="h-4 w-4" />
+                    Browse Courses
                   </button>
                 </Link>
               )}
@@ -334,18 +334,18 @@ export default function DashboardPage() {
             </div>
 
             {!isPaidPlan(user.plan) && (
-              <div className="glass-card p-5 cursor-pointer group" onClick={() => router.push('/pricing')}>
+              <div className="glass-card p-5 cursor-pointer group" onClick={() => router.push('/learn')}>
                 <div className="flex items-center gap-3">
                   <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-400 to-blue-500 text-white shadow-lg transition-transform duration-300 group-hover:scale-110">
-                    <CreditCard className="h-5 w-5" />
+                    <Play className="h-5 w-5" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-white">Get Premium Access</h3>
-                    <p className="text-xs text-white/40">Unlock certificates & detailed reports</p>
+                    <h3 className="font-semibold text-white">Continue Learning</h3>
+                    <p className="text-xs text-white/40">Pick up your courses where you left off</p>
                   </div>
                 </div>
                 <div className="mt-3 flex items-center text-sm text-blue-400 font-medium">
-                  View plans <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  Go to learning <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </div>
               </div>
             )}
@@ -526,7 +526,7 @@ export default function DashboardPage() {
                     <span className="font-bold text-sm">3</span>
                   </div>
                   <h3 className="text-sm font-semibold text-white mb-1">Get Certified</h3>
-                  <p className="text-xs text-white/40">Upgrade to Premium for a PDF certificate with QR verification.</p>
+                  <p className="text-xs text-white/40">Complete a CEFR assessment to earn a PDF certificate with QR verification — free during preview.</p>
                 </div>
               </div>
             </div>

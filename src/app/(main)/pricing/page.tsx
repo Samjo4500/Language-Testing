@@ -2,17 +2,14 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useHydrated } from '@/hooks/use-hydrated';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuthStore } from '@/lib/auth-store';
 import { isPaidPlan, getPlanLabel } from '@/lib/plan-utils';
-import { trackPurchase } from '@/lib/analytics';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { COURSE_TIERS, COURSE_BUNDLE } from '@/lib/courses';
 import {
   CheckCircle2,
-  Loader2,
   CreditCard,
   Star,
   Sparkles,
@@ -38,167 +35,10 @@ import {
   TrendingUp,
   BookOpen,
   Package,
+  Play,
 } from 'lucide-react';
 
-/* PayPal script loader with loading state */
-function usePayPalScript(clientId: string | null) {
-  const [status, setStatus] = useState<'idle' | 'loading' | 'loaded'>('idle');
-  const mounted = useHydrated();
-  const scriptRef = useRef<HTMLScriptElement | null>(null);
-
-  useEffect(() => {
-    if (window.paypal) {
-      const timer = setTimeout(() => setStatus('loaded'), 0);
-      return () => clearTimeout(timer);
-    }
-    if (!clientId) return;
-    if (document.querySelector('script[src*="paypal.com/sdk/js"]')) return;
-
-    const loadingTimer = setTimeout(() => setStatus('loaded'), 0);
-    const script = document.createElement('script');
-    script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&currency=USD&intent=capture`;
-    script.async = true;
-    script.onload = () => { clearTimeout(loadingTimer); setStatus('loaded'); };
-    script.onerror = () => { clearTimeout(loadingTimer); setStatus('idle'); };
-
-    document.body.appendChild(script);
-    scriptRef.current = script;
-
-    return () => {
-      clearTimeout(loadingTimer);
-      if (scriptRef.current && !window.paypal) scriptRef.current.remove();
-    };
-  }, [clientId]);
-
-  return { isLoaded: status === 'loaded', isLoading: status === 'loading' };
-}
-
-/* PayPal button component — supports different amounts */
-function PayPalCheckoutButton({ isAuthenticated, amount, description, planId, planName }: { isAuthenticated: boolean; amount: number; description: string; planId: string; planName: string }) {
-  const paypalContainerRef = useRef<HTMLDivElement>(null);
-  const [paypalClientId, setPaypalClientId] = useState<string | null>(null);
-  const [isFetchingClientId, setIsFetchingClientId] = useState(false);
-  const mounted = useHydrated();
-  const [error, setError] = useState('');
-  const { isLoaded, isLoading: isScriptLoading } = usePayPalScript(paypalClientId);
-  const { updatePlan, setUser } = useAuthStore();
-  const router = useRouter();
-  const renderedRef = useRef(false);
-
-  useEffect(() => {
-    setIsFetchingClientId(true);
-    const fetchClientId = async () => {
-      try {
-        const response = await fetch('/api/payments/client-id/', { credentials: 'same-origin' });
-        if (response.ok) {
-          const data = await response.json();
-          setPaypalClientId(data.clientId);
-        } else {
-          setError('Failed to load payment configuration.');
-        }
-      } catch {
-        setError('Failed to connect to payment service.');
-      } finally {
-        setIsFetchingClientId(false);
-      }
-    };
-    fetchClientId();
-  }, []);
-
-  useEffect(() => {
-    if (!isLoaded || !window.paypal || !paypalContainerRef.current || !isAuthenticated || renderedRef.current) return;
-    renderedRef.current = true;
-
-    window.paypal.Buttons({
-      style: { layout: 'vertical', color: 'gold', shape: 'rect', label: 'pay', height: 45 },
-      createOrder: async () => {
-        try {
-          const response = await fetch('/api/payments/create-order/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'same-origin',
-            body: JSON.stringify({ amount, currency: 'USD', planType: planId }),
-          });
-          if (!response.ok) throw new Error('Failed to create order');
-          const data = await response.json();
-          return data.orderID;
-        } catch (err) {
-          console.error('Create order error:', err);
-          setError('Failed to create payment. Please try again.');
-          throw err;
-        }
-      },
-      onApprove: async (data) => {
-        try {
-          setError('');
-          const response = await fetch('/api/payments/capture/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'same-origin',
-            body: JSON.stringify({ orderID: data.orderID }),
-          });
-          if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || 'Payment capture failed');
-          }
-          const captureData = await response.json();
-          // Track purchase event (client-side)
-          trackPurchase({
-            transaction_id: data.orderID,
-            value: captureData.payment?.amount || amount,
-            currency: captureData.payment?.currency || 'USD',
-            plan_type: captureData.payment?.planType || planId,
-            items: planName,
-          });
-          // Update plan based on actual purchase
-          const newPlan = captureData.payment?.plan || planName;
-          updatePlan(newPlan);
-          // The capture endpoint returns new JWT tokens and sets HttpOnly cookies.
-          // Refresh full user data from server using cookie-based auth.
-          try {
-            const meRes = await fetch('/api/auth/me/', { credentials: 'same-origin' });
-            if (meRes.ok) {
-              const meData = await meRes.json();
-              if (meData.user) {
-                setUser(meData.user);
-              }
-            }
-          } catch {}
-          router.push(`/payment-success?plan=${planId}&credits=${captureData.payment?.testsIncluded || 1}`);
-        } catch (err) {
-          console.error('Capture error:', err);
-          setError(err instanceof Error ? err.message : 'Payment failed. Please contact support.');
-        }
-      },
-      onError: (err) => {
-        console.error('PayPal button error:', err);
-        setError('Payment process encountered an error. Please try again.');
-      },
-    }).render(paypalContainerRef.current);
-  }, [isLoaded, isAuthenticated, amount]);
-
-  /* Always render the same structure on server and client to avoid hydration mismatch.
-     PayPal content is only populated after mount via useEffect. */
-  return (
-    <div>
-      {!mounted || isFetchingClientId || isScriptLoading ? (
-        <div className="flex items-center justify-center py-6">
-          <Loader2 className="h-5 w-5 animate-spin mr-2 text-blue-400" />
-          <span className="text-xs text-white/50">Loading payment...</span>
-        </div>
-      ) : null}
-      {mounted && error && (
-        <div className="mb-3 rounded-xl bg-red-500/10 border border-red-500/20 p-3">
-          <p className="text-xs text-red-400">{error}</p>
-        </div>
-      )}
-      <div
-        ref={paypalContainerRef}
-        className={!mounted || isFetchingClientId || isScriptLoading ? 'opacity-0 h-0 overflow-hidden' : 'opacity-100 transition-opacity'}
-      />
-    </div>
-  );
-}
+/* Sandbox notice — all plans are free during preview */
 
 /* Scroll animation hook */
 function useScrollAnimation() {
@@ -415,7 +255,7 @@ const B2B_PLANS = [
 const FAQ_ITEMS = [
   {
     q: 'What is your refund policy?',
-    a: 'We offer a full refund within 14 days of purchase if you have not completed any assessments. If you have completed an assessment but are unsatisfied with the experience, please contact our support team and we will work with you to find a fair resolution. PayPal also provides buyer protection for your peace of mind.',
+    a: 'During our preview period, all plans are available at no cost. Simply sign up and start learning!',
   },
   {
     q: 'How long are test credits valid?',
@@ -431,7 +271,7 @@ const FAQ_ITEMS = [
   },
   {
     q: 'Is my payment information secure?',
-    a: 'All transactions are processed through PayPal, which uses industry-leading encryption and fraud prevention systems. Your payment details are never stored on our servers. We also use TLS encryption for all data transmission, ensuring your information is protected end-to-end.',
+    a: 'During our preview period, all features are available for free. No payment information is required.',
   },
   {
     q: 'What happens after I complete an assessment?',
@@ -453,6 +293,9 @@ export default function PricingPage() {
   return (
     <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
       <Navbar />
+
+      {/* Sandbox Banner */}
+      <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white text-center py-2 px-4 text-sm font-bold tracking-wide">SANDBOX PREVIEW — All Plans Free — No Payment Required</div>
 
       {/* ===== HERO SECTION ===== */}
       <section className="relative dark-section hero-pattern noise-overlay overflow-hidden">
@@ -551,7 +394,12 @@ export default function PricingPage() {
                       <span className="text-xs font-medium text-blue-400">You already have {user?.plan === 'pro' ? 'Pro' : 'Premium'}!</span>
                     </div>
                   ) : (
-                    <PayPalCheckoutButton isAuthenticated={isAuth} amount={12.99} description="Single Test" planId="single" planName="premium" />
+                    <Link href="/courses" className="block">
+                      <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-blue-500/25 cursor-pointer">
+                        <Play className="h-4 w-4" />
+                        Start Learning
+                      </button>
+                    </Link>
                   )
                 ) : (
                   <Link href="/login" className="block">
@@ -602,7 +450,12 @@ export default function PricingPage() {
                         <span className="text-xs font-medium text-blue-400">You already have {user?.plan === 'pro' ? 'Pro' : 'Premium'}!</span>
                       </div>
                     ) : (
-                      <PayPalCheckoutButton isAuthenticated={isAuth} amount={29.99} description="Premium Pack (3 tests)" planId="premium" planName="premium" />
+                      <Link href="/courses" className="block">
+                        <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-blue-500/25 cursor-pointer">
+                          <Play className="h-4 w-4" />
+                          Start Learning
+                        </button>
+                      </Link>
                     )
                   ) : (
                     <Link href="/login" className="block">
@@ -648,7 +501,12 @@ export default function PricingPage() {
                         <span className="text-xs font-medium text-blue-400">You already have {user?.plan === 'pro' ? 'Pro' : 'Premium'}!</span>
                       </div>
                     ) : (
-                      <PayPalCheckoutButton isAuthenticated={isAuth} amount={49.99} description="Pro Pack (6 tests)" planId="pro" planName="pro" />
+                      <Link href="/courses" className="block">
+                        <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-blue-500/25 cursor-pointer">
+                          <Play className="h-4 w-4" />
+                          Start Learning
+                        </button>
+                      </Link>
                     )
                   ) : (
                     <Link href="/login" className="block">
@@ -668,7 +526,7 @@ export default function PricingPage() {
           <div className="mt-10 text-center">
             <div className="inline-flex items-center gap-2 glass px-5 py-2.5 rounded-full">
               <Lock className="h-4 w-4 text-blue-400" />
-              <span className="text-sm text-white/50">Secure payment powered by PayPal</span>
+              <span className="text-sm text-white/50">Sandbox Preview — All Plans Free</span>
               <span className="text-white/20">·</span>
               <span className="text-sm text-white/40">All prices in USD</span>
             </div>

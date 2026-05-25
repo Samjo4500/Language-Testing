@@ -129,7 +129,7 @@ const faqCategories: FAQCategory[] = [
       },
       {
         question: 'How is the payment processed?',
-        answer: 'All payments are securely processed through PayPal. We never see or store your credit card details. You can pay with PayPal balance, debit card, or credit card.',
+        answer: 'During our preview period, all features are completely free. No payment is required to access any assessment or feature.',
       },
       {
         question: 'Can I use this for visa applications?',

@@ -342,7 +342,7 @@ const INDIVIDUAL_PLANS = [
     priceNum: 12.99,
     features: ['Complete 6-skill assessment', 'Detailed CEFR score', 'AI-powered feedback', 'Downloadable PDF certificate'],
     cta: 'Buy Test',
-    ctaLink: '/pricing',
+    ctaLink: '/courses',
     popular: false,
   },
   {
@@ -352,7 +352,7 @@ const INDIVIDUAL_PLANS = [
     priceNum: 29.99,
     features: ['3 full assessments', 'Progress tracking dashboard', 'Priority AI analysis', 'Unlimited certificate downloads', 'Email support'],
     cta: 'Get Premium',
-    ctaLink: '/pricing',
+    ctaLink: '/courses',
     popular: true,
   },
   {
@@ -362,7 +362,7 @@ const INDIVIDUAL_PLANS = [
     priceNum: 49.99,
     features: ['6 assessments', 'Full analytics suite', 'Detailed skill improvement tips', 'Comparison with peers', 'Priority support'],
     cta: 'Go Pro',
-    ctaLink: '/pricing',
+    ctaLink: '/courses',
     popular: false,
   },
 ];
@@ -507,7 +507,7 @@ const FAQ_DATA = [
   },
   {
     question: 'What payment methods do you accept?',
-    answer: 'We accept payments through PayPal, which supports credit cards, debit cards, and bank transfers from around the world. All transactions are encrypted and secure. PayPal\'s buyer protection covers every purchase, giving you peace of mind.',
+    answer: 'During our preview period, all features and assessments are completely free. No payment information is required — just sign up and start learning!',
   },
   {
     question: 'Is my data secure?',
@@ -608,9 +608,9 @@ export default function Home() {
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </button>
               </Link>
-              <Link href="/pricing">
+              <Link href="/courses">
                 <button className="glass-button rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer w-full sm:w-auto">
-                  View Pricing
+                  Browse Courses
                 </button>
               </Link>
             </div>
@@ -761,10 +761,10 @@ export default function Home() {
             <div className="text-center mb-14">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
                 <CreditCard className="h-3.5 w-3.5 text-blue-400" />
-                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Pricing</span>
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Get Started</span>
               </div>
               <h2 className="text-3xl md:text-5xl font-bold text-white">
-                Flexible <span className="gradient-text-static">Pricing</span>
+                Start Learning <span className="gradient-text-static">Today</span>
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                 Start free and upgrade as you grow. All plans include our AI-powered scoring engine.
@@ -813,8 +813,8 @@ export default function Home() {
           </div>
 
           <div className="text-center mt-8">
-            <Link href="/pricing" className="group inline-flex items-center gap-1 text-sm text-blue-400 hover:text-blue-300 transition-colors">
-              View all plans including Team & Enterprise
+            <Link href="/courses" className="group inline-flex items-center gap-1 text-sm text-blue-400 hover:text-blue-300 transition-colors">
+              Browse Courses
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
@@ -1038,9 +1038,9 @@ export default function Home() {
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </button>
                 </Link>
-                <Link href="/pricing">
+                <Link href="/courses">
                   <button className="glass-button rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
-                    View Pricing
+                    Browse Courses
                   </button>
                 </Link>
               </div>

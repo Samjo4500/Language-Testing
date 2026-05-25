@@ -10,10 +10,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { User, LogOut, CreditCard, Menu, Shield, X, ArrowRight, BookOpen } from 'lucide-react';
+import { User, LogOut, Menu, Shield, X, ArrowRight, BookOpen } from 'lucide-react';
 import { AdminNotificationBell } from '@/components/admin-notification-bell';
 import { useState, useEffect } from 'react';
-import { isPaidPlan, getPlanLabel, getPlanBadgeClasses } from '@/lib/plan-utils';
+import { getPlanLabel, getPlanBadgeClasses } from '@/lib/plan-utils';
 import { useHydrated } from '@/hooks/use-hydrated';
 
 const NAV_LINKS = [
@@ -23,7 +23,6 @@ const NAV_LINKS = [
   { href: '/speaking', label: 'Speaking' },
   { href: '/writing', label: 'Writing' },
   { href: '/quick-tour', label: 'Quick Tour' },
-  { href: '/pricing', label: 'Pricing' },
   { href: '/courses', label: 'Courses' },
   { href: '/faq', label: 'FAQ' },
   { href: '/contact', label: 'Contact' },
@@ -182,9 +181,9 @@ export function Navbar() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/10 focus:bg-white/10">
-                  <Link href="/pricing">
-                    <CreditCard className="mr-2 h-4 w-4" />
-                    {isPaidPlan(user?.plan) ? 'Manage Plan' : 'Upgrade Plan'}
+                  <Link href="/learn">
+                    <BookOpen className="mr-2 h-4 w-4" />
+                    My Courses
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator className="bg-white/10" />
