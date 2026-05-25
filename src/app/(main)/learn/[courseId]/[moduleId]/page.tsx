@@ -527,6 +527,16 @@ function VocabularySection({ vocabularyData }: { vocabularyData: string }) {
     }
   }, [vocabularyData]);
 
+  const [playingWord, setPlayingWord] = useState<string | null>(null);
+
+  const playWordAudio = (word: string) => {
+    setPlayingWord(word);
+    const audio = new Audio(`/api/tts/?text=${encodeURIComponent(word)}`);
+    audio.onended = () => setPlayingWord(null);
+    audio.onerror = () => setPlayingWord(null);
+    audio.play().catch(() => setPlayingWord(null));
+  };
+
   if (words.length === 0) return null;
 
   return (
@@ -536,6 +546,7 @@ function VocabularySection({ vocabularyData }: { vocabularyData: string }) {
           <BookOpen className="h-5 w-5" />
         </div>
         <h3 className="text-lg font-bold text-white">Vocabulary</h3>
+        <span className="text-xs text-white/30 ml-auto">{words.length} words</span>
       </div>
       <div className="grid gap-3 sm:grid-cols-2">
         {words.map((w, i) => (
@@ -544,7 +555,21 @@ function VocabularySection({ vocabularyData }: { vocabularyData: string }) {
             className="rounded-xl bg-white/5 border border-white/10 p-4 hover:bg-white/8 transition-colors"
           >
             <div className="flex items-start justify-between gap-2 mb-2">
-              <span className="font-bold text-white text-base">{w.word}</span>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-white text-base">{w.word}</span>
+                <button
+                  onClick={() => playWordAudio(w.word)}
+                  className={`flex h-6 w-6 items-center justify-center rounded-full transition-all duration-200 cursor-pointer shrink-0 ${
+                    playingWord === w.word
+                      ? 'bg-blue-500/30 text-blue-300 animate-pulse'
+                      : 'bg-white/5 text-white/30 hover:bg-blue-500/15 hover:text-blue-300'
+                  }`}
+                  title={`Listen to "${w.word}"`}
+                  aria-label={`Play pronunciation of ${w.word}`}
+                >
+                  <Volume2 className="h-3 w-3" />
+                </button>
+              </div>
               {w.pronunciation && (
                 <span className="text-xs text-blue-300/80 font-mono shrink-0">{w.pronunciation}</span>
               )}
