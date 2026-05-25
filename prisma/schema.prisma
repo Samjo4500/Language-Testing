@@ -1,58 +1,57 @@
 generator client {
-  provider        = "prisma-client-js"
-  binaryTargets   = ["native", "rhel-openssl-3.0.x", "debian-openssl-3.0.x"]
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x", "debian-openssl-3.0.x"]
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DATABASE_URL_UNPOOLED")
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id            String     @id @default(cuid())
-  email         String     @unique
-  name          String?
-  passwordHash  String
-  plan          String     @default("free") // "free" | "premium" | "pro"
-  role             String     @default("user")  // "user" | "admin"
-  accountType      String     @default("individual") // "individual" | "university" | "business"
-  organizationName String?    // Name of university/company (for B2B accounts)
-  organizationId   String?    // FK to Organization (for B2B users)
-  isDemo           Boolean    @default(false) // true for auto-generated demo accounts
-  isSuspended      Boolean    @default(false) // Admin can suspend user accounts
-  emailVerified Boolean    @default(false)
-  testCredits   Int        @default(0) // number of tests remaining
-  country       String?    // user's country from IP at signup
-  tokenVersion  Int        @default(0) // incremented on logout/password change to invalidate old tokens
-  planExpiresAt DateTime?  // when the plan expires (for subscriptions)
-  passwordResetAt DateTime? // timestamp of last successful password reset (used to invalidate old reset tokens)
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  id               String    @id @default(cuid())
+  email            String    @unique
+  name             String?
+  passwordHash     String
+  plan             String    @default("free") // "free" | "premium" | "pro"
+  role             String    @default("user") // "user" | "admin"
+  accountType      String    @default("individual") // "individual" | "university" | "business"
+  organizationName String? // Name of university/company (for B2B accounts)
+  organizationId   String? // FK to Organization (for B2B users)
+  isDemo           Boolean   @default(false) // true for auto-generated demo accounts
+  isSuspended      Boolean   @default(false) // Admin can suspend user accounts
+  emailVerified    Boolean   @default(false)
+  testCredits      Int       @default(0) // number of tests remaining
+  country          String? // user's country from IP at signup
+  tokenVersion     Int       @default(0) // incremented on logout/password change to invalidate old tokens
+  planExpiresAt    DateTime? // when the plan expires (for subscriptions)
+  passwordResetAt  DateTime? // timestamp of last successful password reset (used to invalidate old reset tokens)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
 
-  payments     Payment[]        @relation("UserPayments")
-  assessments  Assessment[]     @relation("UserAssessments")
-  certificates Certificate[]    @relation("UserCertificates")
-  apiKeys      ApiKey[]         @relation("UserApiKeys")
-  emailLogs    EmailLog[]       @relation("UserEmailLogs")
-  seenQuestions SeenQuestion[]  @relation("UserSeenQuestions")
-  orgMembership OrganizationMember[] @relation("UserOrgMembership")
-  courseEnrollments CourseEnrollment[] @relation("UserCourseEnrollments")
+  payments          Payment[]            @relation("UserPayments")
+  assessments       Assessment[]         @relation("UserAssessments")
+  certificates      Certificate[]        @relation("UserCertificates")
+  apiKeys           ApiKey[]             @relation("UserApiKeys")
+  emailLogs         EmailLog[]           @relation("UserEmailLogs")
+  seenQuestions     SeenQuestion[]       @relation("UserSeenQuestions")
+  orgMembership     OrganizationMember[] @relation("UserOrgMembership")
+  courseEnrollments CourseEnrollment[]   @relation("UserCourseEnrollments")
 
   @@index([organizationId])
 }
 
 model Question {
   id             String   @id @default(cuid())
-  level          String   // "A1" | "A2" | "B1" | "B2" | "C1" | "C2"
-  category       String   // "grammar" | "vocabulary" | "reading" | "listening"
-  difficultyTier Int      @default(5)  // 1-10 within the level (for adaptive selection)
-  variantGroup   String?  // Questions that test the same concept (variants for anti-cheat)
-  text           String   // The question text
-  options        String   // JSON array of 4 options: ["opt1", "opt2", "opt3", "opt4"]
-  correctIndex   Int      // 0-3 index of the correct answer
-  explanation    String?  // Optional explanation of the correct answer
-  organizationId String?  // null = global pool; non-null = org-exclusive
+  level          String // "A1" | "A2" | "B1" | "B2" | "C1" | "C2"
+  category       String // "grammar" | "vocabulary" | "reading" | "listening"
+  difficultyTier Int      @default(5) // 1-10 within the level (for adaptive selection)
+  variantGroup   String? // Questions that test the same concept (variants for anti-cheat)
+  text           String // The question text
+  options        String // JSON array of 4 options: ["opt1", "opt2", "opt3", "opt4"]
+  correctIndex   Int // 0-3 index of the correct answer
+  explanation    String? // Optional explanation of the correct answer
+  organizationId String? // null = global pool; non-null = org-exclusive
   isActive       Boolean  @default(true)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
@@ -73,7 +72,7 @@ model Payment {
   currency        String   @default("USD")
   status          String   @default("pending") // "pending" | "completed" | "failed" | "refunded"
   plan            String   @default("premium")
-  planType        String?  // "single" | "premium" | "pro"
+  planType        String? // "single" | "premium" | "pro"
   testsIncluded   Int      @default(1) // how many tests this payment includes
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -86,20 +85,20 @@ model Payment {
 }
 
 model Assessment {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   userId      String
-  status      String   @default("not_started") // "not_started" | "in_progress" | "completed"
-  cefrLevel   String?  // "A1" | "A2" | "B1" | "B2" | "C1" | "C2"
+  status      String    @default("not_started") // "not_started" | "in_progress" | "completed"
+  cefrLevel   String? // "A1" | "A2" | "B1" | "B2" | "C1" | "C2"
   score       Int?
-  questionSet String?  // JSON snapshot of question IDs selected for this assessment
+  questionSet String? // JSON snapshot of question IDs selected for this assessment
   startedAt   DateTime?
   completedAt DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
-  user       User           @relation("UserAssessments", fields: [userId], references: [id], onDelete: Cascade)
-  responses  AssessmentResponse[] @relation("AssessmentResponses")
-  certificate Certificate?      @relation("AssessmentCertificate")
+  user        User                 @relation("UserAssessments", fields: [userId], references: [id], onDelete: Cascade)
+  responses   AssessmentResponse[] @relation("AssessmentResponses")
+  certificate Certificate?         @relation("AssessmentCertificate")
 
   @@index([userId])
   @@index([status])
@@ -111,11 +110,11 @@ model AssessmentResponse {
   assessmentId String
   questionId   String
   questionType String   @default("mcq") // "mcq" | "reading" | "listening" | "speaking" | "writing"
-  parentItemId String?  // For reading/listening: the passageId or itemId
+  parentItemId String? // For reading/listening: the passageId or itemId
   answer       String?
   isCorrect    Boolean?
-  aiScore      Int?     // For speaking/writing: AI-evaluated score (0-100)
-  aiFeedback   String?  // JSON: AI evaluation details
+  aiScore      Int? // For speaking/writing: AI-evaluated score (0-100)
+  aiFeedback   String? // JSON: AI evaluation details
   createdAt    DateTime @default(now())
 
   assessment Assessment @relation("AssessmentResponses", fields: [assessmentId], references: [id], onDelete: Cascade)
@@ -130,7 +129,7 @@ model Certificate {
   userId         String
   assessmentId   String   @unique
   userName       String
-  cefrLevel      String   // "A1" | "A2" | "B1" | "B2" | "C1" | "C2"
+  cefrLevel      String // "A1" | "A2" | "B1" | "B2" | "C1" | "C2"
   score          Int
   skillBreakdown String   @default("{}") // JSON: { reading: 80, writing: 80, listening: 60, speaking: 80, grammar: 100, vocabulary: 80 }
   issuedAt       DateTime @default(now())
@@ -146,12 +145,12 @@ model Certificate {
 
 model PageView {
   id        String   @id @default(cuid())
-  path      String   // "/test", "/pricing", "/", etc.
-  referrer  String?  // where they came from
-  country   String?  // from IP lookup (optional)
-  ip        String?  // hashed IP for unique visitor counting
-  userId    String?  // if logged in
-  userAgent String?  // browser info
+  path      String // "/test", "/pricing", "/", etc.
+  referrer  String? // where they came from
+  country   String? // from IP lookup (optional)
+  ip        String? // hashed IP for unique visitor counting
+  userId    String? // if logged in
+  userAgent String? // browser info
   createdAt DateTime @default(now())
 
   @@index([createdAt])
@@ -161,8 +160,8 @@ model PageView {
 model ApiKey {
   id          String    @id @default(cuid())
   key         String    @unique // The actual API key (e.g., "tcefr_live_xxxxx")
-  name        String    // Label like "Production Key", "Staging Key"
-  userId      String    // Who created it
+  name        String // Label like "Production Key", "Staging Key"
+  userId      String // Who created it
   plan        String    @default("enterprise") // "enterprise" | "business" | "team"
   type        String    @default("live") // "live" | "test"
   permissions String    @default("read") // JSON array: ["read", "write", "admin"]
@@ -179,31 +178,31 @@ model ApiKey {
 }
 
 model WhiteLabelSetting {
-  id              String   @id @default(cuid())
-  companyName     String   @default("TestCEFR")
-  primaryColor    String   @default("#8B5CF6")
-  logoUrl         String?
-  domain          String?
-  supportEmail    String?
-  customCss       String?
-  features        String   @default("{}") // JSON: enabled features
-  isActive        Boolean  @default(false)
-  plan            String   @default("enterprise") // Required plan
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id           String   @id @default(cuid())
+  companyName  String   @default("TestCEFR")
+  primaryColor String   @default("#8B5CF6")
+  logoUrl      String?
+  domain       String?
+  supportEmail String?
+  customCss    String?
+  features     String   @default("{}") // JSON: enabled features
+  isActive     Boolean  @default(false)
+  plan         String   @default("enterprise") // Required plan
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 model EmailLog {
-  id         String   @id @default(cuid())
-  to         String   // Recipient email
-  from       String   // Sender email
-  subject    String   // Email subject
-  type       String   // "welcome" | "verification" | "password_reset" | "payment" | "certificate" | "assessment" | "contact_auto_reply" | "contact_notification" | "b2b_auto_reply" | "b2b_notification" | "admin_new_user" | "admin_new_payment" | "admin_certificate" | "general"
-  status     String   @default("sent") // "sent" | "failed"
-  isRead     Boolean  @default(false) // Whether admin has viewed this notification
-  userId     String?  // If email was sent to a registered user
-  error      String?  // Error message if failed
-  createdAt  DateTime @default(now())
+  id        String   @id @default(cuid())
+  to        String // Recipient email
+  from      String // Sender email
+  subject   String // Email subject
+  type      String // "welcome" | "verification" | "password_reset" | "payment" | "certificate" | "assessment" | "contact_auto_reply" | "contact_notification" | "b2b_auto_reply" | "b2b_notification" | "admin_new_user" | "admin_new_payment" | "admin_certificate" | "general"
+  status    String   @default("sent") // "sent" | "failed"
+  isRead    Boolean  @default(false) // Whether admin has viewed this notification
+  userId    String? // If email was sent to a registered user
+  error     String? // Error message if failed
+  createdAt DateTime @default(now())
 
   user User? @relation("UserEmailLogs", fields: [userId], references: [id], onDelete: SetNull)
 
@@ -219,18 +218,18 @@ model EmailLog {
 // ═══════════════════════════════════════════════════════════
 
 model Organization {
-  id              String   @id @default(cuid())
-  name            String   @unique
-  slug            String   @unique
-  plan            String   @default("team")  // "team" | "business" | "enterprise"
-  maxMembers      Int      @default(50)
-  questionPoolAccess Boolean @default(true)
-  customBranding  Boolean  @default(false)
-  primaryColor    String?
-  logoUrl         String?
-  isActive        Boolean  @default(true)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id                 String   @id @default(cuid())
+  name               String   @unique
+  slug               String   @unique
+  plan               String   @default("team") // "team" | "business" | "enterprise"
+  maxMembers         Int      @default(50)
+  questionPoolAccess Boolean  @default(true)
+  customBranding     Boolean  @default(false)
+  primaryColor       String?
+  logoUrl            String?
+  isActive           Boolean  @default(true)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 
   members         OrganizationMember[]
   questions       Question[]
@@ -244,7 +243,7 @@ model OrganizationMember {
   id             String   @id @default(cuid())
   organizationId String
   userId         String
-  role           String   @default("member")  // "admin" | "member" | "viewer"
+  role           String   @default("member") // "admin" | "member" | "viewer"
   joinedAt       DateTime @default(now())
 
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
@@ -261,7 +260,7 @@ model OrganizationMember {
 
 model ReadingPassage {
   id             String   @id @default(cuid())
-  level          String   // "A2" | "B1" | "B2" | "C1"
+  level          String // "A2" | "B1" | "B2" | "C1"
   title          String?
   passageText    String
   difficultyTier Int      @default(5)
@@ -271,7 +270,7 @@ model ReadingPassage {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  organization Organization?  @relation(fields: [organizationId], references: [id])
+  organization Organization?     @relation(fields: [organizationId], references: [id])
   questions    ReadingQuestion[]
 
   @@index([level, isActive, organizationId])
@@ -283,8 +282,8 @@ model ReadingQuestion {
   id           String   @id @default(cuid())
   passageId    String
   questionText String
-  options      String   // JSON array of 4 options
-  correctIndex Int      // 0-3
+  options      String // JSON array of 4 options
+  correctIndex Int // 0-3
   explanation  String?
   sortOrder    Int      @default(0)
   createdAt    DateTime @default(now())
@@ -300,10 +299,10 @@ model ReadingQuestion {
 
 model ListeningItem {
   id             String   @id @default(cuid())
-  level          String   // "A2" | "B1" | "B2" | "C1"
-  scriptText     String   // TTS script or transcript
+  level          String // "A2" | "B1" | "B2" | "C1"
+  scriptText     String // TTS script or transcript
   audioUrl       String?
-  context        String?  // "You hear:" or "Listen to a conversation about..."
+  context        String? // "You hear:" or "Listen to a conversation about..."
   difficultyTier Int      @default(5)
   variantGroup   String?
   organizationId String?
@@ -311,7 +310,7 @@ model ListeningItem {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  organization Organization?    @relation(fields: [organizationId], references: [id])
+  organization Organization?       @relation(fields: [organizationId], references: [id])
   questions    ListeningQuestion[]
 
   @@index([level, isActive, organizationId])
@@ -323,8 +322,8 @@ model ListeningQuestion {
   id           String   @id @default(cuid())
   itemId       String
   questionText String
-  options      String   // JSON array of 4 options
-  correctIndex Int      // 0-3
+  options      String // JSON array of 4 options
+  correctIndex Int // 0-3
   explanation  String?
   sortOrder    Int      @default(0)
   createdAt    DateTime @default(now())
@@ -340,9 +339,9 @@ model ListeningQuestion {
 
 model SpeakingPrompt {
   id              String   @id @default(cuid())
-  level           String   // "A2" | "B1" | "B2" | "C1"
+  level           String // "A2" | "B1" | "B2" | "C1"
   promptText      String
-  preparationTime Int      @default(30)  // seconds
+  preparationTime Int      @default(30) // seconds
   responseTime    Int      @default(120) // seconds
   difficultyTier  Int      @default(5)
   variantGroup    String?
@@ -351,7 +350,7 @@ model SpeakingPrompt {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  organization Organization?  @relation(fields: [organizationId], references: [id])
+  organization Organization? @relation(fields: [organizationId], references: [id])
 
   @@index([level, isActive, organizationId])
   @@index([variantGroup])
@@ -364,7 +363,7 @@ model SpeakingPrompt {
 
 model WritingPrompt {
   id             String   @id @default(cuid())
-  level          String   // "A2" | "B1" | "B2" | "C1"
+  level          String // "A2" | "B1" | "B2" | "C1"
   promptText     String
   minWords       Int      @default(50)
   maxWords       Int      @default(250)
@@ -375,7 +374,7 @@ model WritingPrompt {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
-  organization Organization?  @relation(fields: [organizationId], references: [id])
+  organization Organization? @relation(fields: [organizationId], references: [id])
 
   @@index([level, isActive, organizationId])
   @@index([variantGroup])
@@ -389,8 +388,8 @@ model WritingPrompt {
 model SeenQuestion {
   id           String   @id @default(cuid())
   userId       String
-  questionType String   // "mcq" | "reading" | "listening" | "speaking" | "writing"
-  questionId   String   // Polymorphic FK to Question/ReadingPassage/ListeningItem/SpeakingPrompt/WritingPrompt.id
+  questionType String // "mcq" | "reading" | "listening" | "speaking" | "writing"
+  questionId   String // Polymorphic FK to Question/ReadingPassage/ListeningItem/SpeakingPrompt/WritingPrompt.id
   assessmentId String?
   seenAt       DateTime @default(now())
 
@@ -407,86 +406,86 @@ model SeenQuestion {
 // ═══════════════════════════════════════════════════════════
 
 model Course {
-  id              String   @id @default(cuid())
-  slug            String   @unique                    // "beginner" | "intermediate" | "advanced"
-  title           String                              // "Beginner English"
-  subtitle        String                              // "From A1 to A2 — Build your foundation"
-  level           String                              // "A1-A2" | "B1-B2" | "C1-C2"
-  price           Float                               // 49 | 79 | 99
-  compareAtPrice  Float?                              // Original price for showing discount (e.g., 79 → show "was $79")
-  description     String                              // Full marketing description
-  features        String                              // JSON array of feature strings
-  modulesCount    Int                                 // Total modules
-  lessonsCount    Int                                 // Total lessons
-  estimatedHours  Int                                 // Estimated study hours
-  imageUrl        String?                             // Course card image
-  order           Int      @default(0)                // Display order
-  isPublished     Boolean  @default(true)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id             String   @id @default(cuid())
+  slug           String   @unique // "beginner" | "intermediate" | "advanced"
+  title          String // "Beginner English"
+  subtitle       String // "From A1 to A2 — Build your foundation"
+  level          String // "A1-A2" | "B1-B2" | "C1-C2"
+  price          Float // 49 | 79 | 99
+  compareAtPrice Float? // Original price for showing discount (e.g., 79 → show "was $79")
+  description    String // Full marketing description
+  features       String // JSON array of feature strings
+  modulesCount   Int // Total modules
+  lessonsCount   Int // Total lessons
+  estimatedHours Int // Estimated study hours
+  imageUrl       String? // Course card image
+  order          Int      @default(0) // Display order
+  isPublished    Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
-  modules       CourseModule[]
-  enrollments   CourseEnrollment[]
+  modules     CourseModule[]
+  enrollments CourseEnrollment[]
 
   @@index([slug])
   @@index([order])
 }
 
 model CourseModule {
-  id              String   @id @default(cuid())
-  courseId        String
-  moduleNumber    Int
-  title           String
-  description     String                              // Module description
-  icon            String?                              // Lucide icon name for the module
-  order           Int      @default(0)
-  isPublished     Boolean  @default(true)
+  id           String  @id @default(cuid())
+  courseId     String
+  moduleNumber Int
+  title        String
+  description  String // Module description
+  icon         String? // Lucide icon name for the module
+  order        Int     @default(0)
+  isPublished  Boolean @default(true)
 
-  course          Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  lessons         CourseLesson[]
+  course  Course         @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons CourseLesson[]
 
   @@unique([courseId, moduleNumber])
   @@index([courseId])
 }
 
 model CourseLesson {
-  id              String   @id @default(cuid())
-  moduleId        String
-  lessonNumber    Int
-  title           String
-  contentType     String   @default("reading")         // "reading" | "listening" | "grammar" | "vocabulary" | "quiz" | "speaking"
-  content         String                              // HTML/Markdown lesson content
-  vocabulary      String?                              // JSON: [{word, definition, example, pronunciation}]
-  quizData        String?                              // JSON: [{question, options:[], correctIndex, explanation}]
-  audioScript     String?                              // TTS script for listening lessons
+  id               String  @id @default(cuid())
+  moduleId         String
+  lessonNumber     Int
+  title            String
+  contentType      String  @default("reading") // "reading" | "listening" | "grammar" | "vocabulary" | "quiz" | "speaking"
+  content          String // HTML/Markdown lesson content
+  vocabulary       String? // JSON: [{word, definition, example, pronunciation}]
+  quizData         String? // JSON: [{question, options:[], correctIndex, explanation}]
+  audioScript      String? // TTS script for listening lessons
   estimatedMinutes Int     @default(15)
-  order           Int      @default(0)
-  isPublished     Boolean  @default(true)
+  order            Int     @default(0)
+  isPublished      Boolean @default(true)
 
-  module          CourseModule @relation(fields: [moduleId], references: [id], onDelete: Cascade)
-  progress        LessonProgress[]
+  module   CourseModule     @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  progress LessonProgress[]
 
   @@unique([moduleId, lessonNumber])
   @@index([moduleId])
 }
 
 model CourseEnrollment {
-  id              String   @id @default(cuid())
+  id              String    @id @default(cuid())
   userId          String
   courseId        String
-  status          String   @default("active")          // "active" | "completed" | "expired" | "refunded"
-  progress        Float    @default(0)                 // 0-100 percentage
+  status          String    @default("active") // "active" | "completed" | "expired" | "refunded"
+  progress        Float     @default(0) // 0-100 percentage
   currentModuleId String?
   currentLessonId String?
-  paymentId       String?                              // PayPal order ID
-  enrolledAt      DateTime @default(now())
+  paymentId       String? // PayPal order ID
+  enrolledAt      DateTime  @default(now())
   completedAt     DateTime?
-  lastAccessedAt  DateTime @default(now())
-  certificateId   String?                              // Verification ID for completion certificate
+  lastAccessedAt  DateTime  @default(now())
+  certificateId   String? // Verification ID for completion certificate
 
-  user            User     @relation("UserCourseEnrollments", fields: [userId], references: [id], onDelete: Cascade)
-  course          Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  lessonProgress  LessonProgress[]
+  user           User             @relation("UserCourseEnrollments", fields: [userId], references: [id], onDelete: Cascade)
+  course         Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessonProgress LessonProgress[]
 
   @@unique([userId, courseId])
   @@index([userId])
@@ -495,17 +494,17 @@ model CourseEnrollment {
 }
 
 model LessonProgress {
-  id              String   @id @default(cuid())
-  enrollmentId    String
-  lessonId        String
-  completed       Boolean  @default(false)
-  quizScore       Float?
-  quizPassed      Boolean  @default(false)
-  timeSpentSeconds Int     @default(0)
-  completedAt     DateTime?
+  id               String    @id @default(cuid())
+  enrollmentId     String
+  lessonId         String
+  completed        Boolean   @default(false)
+  quizScore        Float?
+  quizPassed       Boolean   @default(false)
+  timeSpentSeconds Int       @default(0)
+  completedAt      DateTime?
 
-  enrollment      CourseEnrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
-  lesson          CourseLesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  enrollment CourseEnrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  lesson     CourseLesson     @relation(fields: [lessonId], references: [id], onDelete: Cascade)
 
   @@unique([enrollmentId, lessonId])
   @@index([enrollmentId])

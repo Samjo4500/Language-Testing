@@ -455,7 +455,7 @@ async function recordSeenQuestions(
   }
 
   if (records.length > 0) {
-    await db.seenQuestion.createMany({ data: records, skipDuplicates: true });
+    await db.seenQuestion.createMany({ data: records });
   }
 }
 
