@@ -173,3 +173,24 @@ Stage Summary:
 - Page content verified: "SANDBOX PREVIEW v2.1 — All Courses Free — No PayPal Required" banner present
 - "Go to Course" button shown instead of PayPal
 - User should now see updated content in browser (may need hard refresh with Ctrl+Shift+R)
+
+---
+Task ID: vercel-deploy
+Agent: Main Agent
+Task: Fix PayPal still visible - discovered site is deployed on Vercel, not local server
+
+Work Log:
+- Discovered that testcefr.com resolves to Vercel (76.76.21.21), not our local server
+- The user was always seeing the Vercel deployment which still had old PayPal code
+- All previous local server changes were invisible to the user
+- Pushed updated code to GitHub repos (origin + testcefr)
+- Vercel auto-deployed from the GitHub push
+- Verified Vercel deployment now has correct content
+
+Stage Summary:
+- ROOT CAUSE: testcefr.com points to VERCEL, not local server (port 81)
+- Fix: Pushed updated code to GitHub which triggered Vercel auto-deployment
+- Vercel now shows: "SANDBOX PREVIEW v2.1 — All Courses Free — No PayPal Required"
+- Vercel CSP no longer includes PayPal domains
+- "Go to Course" button shown instead of PayPal on all course pages
+- All 3 courses (beginner, intermediate, advanced) verified PayPal-free on Vercel
