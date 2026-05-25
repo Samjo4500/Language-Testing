@@ -534,43 +534,45 @@ function VocabularySection({ vocabularyData }: { vocabularyData: string }) {
     if (playingWord === word) return;
     setPlayingWord(word);
 
-    // ── Fallback 1: Web Speech API (works in all modern browsers, no server needed) ──
-    const tryWebSpeech = (): boolean => {
-      if (typeof window === 'undefined' || !window.speechSynthesis) return false;
-      // Cancel any ongoing speech
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(word);
-      utterance.lang = 'en-US';
-      utterance.rate = 0.85; // Slightly slower for clarity
-      utterance.pitch = 1.0;
-      // Try to find an English voice
-      const voices = window.speechSynthesis.getVoices();
-      const englishVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Female'))
-        || voices.find(v => v.lang.startsWith('en-US'))
-        || voices.find(v => v.lang.startsWith('en'));
-      if (englishVoice) utterance.voice = englishVoice;
-      utterance.onend = () => setPlayingWord(null);
-      utterance.onerror = () => {
-        // Web Speech failed, try server TTS
-        tryServerTTS(word);
-      };
-      window.speechSynthesis.speak(utterance);
-      return true;
-    };
-
-    // ── Fallback 2: Server-side TTS API ──
+    // ── Primary: Server-side TTS API (Gemini Kore voice — professional female American) ──
+    // This produces the highest quality, most natural-sounding pronunciation
     const tryServerTTS = (w: string) => {
       const audio = new Audio(`/api/tts/?text=${encodeURIComponent(w)}`);
       audio.onended = () => setPlayingWord(null);
-      audio.onerror = () => setPlayingWord(null);
-      audio.play().catch(() => setPlayingWord(null));
+      audio.onerror = () => {
+        // Server TTS failed, try Web Speech as fallback
+        tryWebSpeech(w);
+      };
+      audio.play().catch(() => {
+        // Playback blocked, try Web Speech
+        tryWebSpeech(w);
+      });
     };
 
-    // Try Web Speech first (instant, no network), then server TTS as fallback
-    const webSpeechWorked = tryWebSpeech();
-    if (!webSpeechWorked) {
-      tryServerTTS(word);
-    }
+    // ── Fallback: Web Speech API (browser built-in) ──
+    const tryWebSpeech = (w: string) => {
+      if (typeof window === 'undefined' || !window.speechSynthesis) {
+        setPlayingWord(null);
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(w);
+      utterance.lang = 'en-US';
+      utterance.rate = 0.85;
+      utterance.pitch = 1.0;
+      // Try to find a professional female American voice
+      const voices = window.speechSynthesis.getVoices();
+      const preferredVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Female'))
+        || voices.find(v => v.lang.startsWith('en-US'))
+        || voices.find(v => v.lang.startsWith('en'));
+      if (preferredVoice) utterance.voice = preferredVoice;
+      utterance.onend = () => setPlayingWord(null);
+      utterance.onerror = () => setPlayingWord(null);
+      window.speechSynthesis.speak(utterance);
+    };
+
+    // Try server TTS first (professional voice), then Web Speech as fallback
+    tryServerTTS(word);
   }, [playingWord]);
 
   if (words.length === 0) return null;

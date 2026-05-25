@@ -343,6 +343,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=um3YrKRfsr0",
   },
   {
     id: "cmpkmzr4m0008pwlbd9hthbpt",
@@ -352,6 +353,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=Ft17a7tyjMM",
   },
   {
     id: "cmpkmzr4n000apwlb7o8afew1",
@@ -361,6 +363,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=B-mx0NAyW7s",
   },
   {
     id: "cmpkmzr4p000epwlbwqd0c496",
@@ -380,6 +383,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=fq2tRfHu5s8",
   },
   {
     id: "cmpkmzr4q000ipwlbkabe1ytc",
@@ -389,6 +393,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=AKXDr2uoYfg",
   },
   {
     id: "cmpkmzr4r000kpwlbc18b1wd4",
@@ -398,6 +403,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=B7GiyDcr2hQ",
   },
   {
     id: "cmpkmzr4t000opwlbog1w6bs6",
@@ -407,7 +413,6 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-  
     videoUrl: "https://www.youtube.com/watch?v=w9wI5ZvZn6g",
   },
   {
@@ -418,6 +423,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=24GWC1dDyUM",
   },
   {
     id: "cmpkmzr4u000spwlbnvevf6by",
@@ -427,6 +433,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=rtdsciznDYg",
   },
   {
     id: "cmpkmzr4v000upwlblwaw9jvm",
@@ -436,6 +443,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=DPYJQSA-x50",
   },
   {
     id: "cmpkmzr4w000ypwlbo04mw2fn",
@@ -455,6 +463,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=cpER1gwQkCw",
   },
   {
     id: "cmpkmzr4y0012pwlbq3ul83wg",
@@ -464,6 +473,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=9dVoa-oXZec",
   },
   {
     id: "cmpkmzr4z0014pwlbjbko8g6v",
@@ -473,6 +483,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=xb4hzGZkpYY",
   },
   {
     id: "cmpkmzr500018pwlb8njuo71n",
@@ -482,7 +493,6 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-  
     videoUrl: "https://www.youtube.com/watch?v=nvVdIJ0las0",
   },
   {
@@ -493,6 +503,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=RDkx4J__-QY",
   },
   {
     id: "cmpkmzr52001cpwlbran8m584",
@@ -502,6 +513,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=aqJMbCvduhY",
   },
   {
     id: "cmpkmzr52001epwlbq6w4wj55",
@@ -511,6 +523,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=ZcBSJJvk2X4",
   },
   {
     id: "cmpkmzr53001ipwlbzbazbrgt",
@@ -520,7 +533,6 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-  
     videoUrl: "https://www.youtube.com/watch?v=lF0TEGXtpHE",
   },
   {
@@ -531,6 +543,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=mrNuGFLuxFY",
   },
   {
     id: "cmpkmzr54001mpwlb7d0depdv",
@@ -540,6 +553,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=ASw8ari83ug",
   },
   {
     id: "cmpkmzr55001opwlbdams7hq1",
@@ -549,6 +563,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=Y9t0xmDKdLc",
   },
   {
     id: "cmpkmzr57001spwlbekhi9gra",
@@ -558,7 +573,6 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-  
     videoUrl: "https://www.youtube.com/watch?v=WPuq-bfI1jA",
   },
   {
@@ -569,6 +583,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=feGNKChaK8s",
   },
   {
     id: "cmpkmzr59001wpwlbm2005p0q",
@@ -578,6 +593,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=Bs_yKJFRJjk",
   },
   {
     id: "cmpkmzr59001ypwlbxqb864qp",
@@ -587,6 +603,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=JSyitfauLjs",
   },
   {
     id: "cmpkmzr5b0022pwlbnt2wcgey",
@@ -596,7 +613,6 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-  
     videoUrl: "https://www.youtube.com/watch?v=43xsHPFMMOU",
   },
   {
@@ -607,6 +623,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=X5YZ3u51yJk",
   },
   {
     id: "cmpkmzr5c0026pwlbvdng712u",
@@ -616,6 +633,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=RQ0Qqarel-U",
   },
   {
     id: "cmpkmzr5d0028pwlb3dnqx6x5",
@@ -625,6 +643,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=OHJDE4hNqjs",
   },
   {
     id: "cmpkmzr5g002dpwlb41mhjt25",
@@ -644,6 +663,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=Axf1MPcQgpo",
   },
   {
     id: "cmpkmzr5h002hpwlb9foe04vk",
@@ -653,6 +673,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=H9jUV2AQphY",
   },
   {
     id: "cmpkmzr5i002jpwlblicd1a2r",
@@ -672,6 +693,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 4,
+    videoUrl: "https://www.youtube.com/watch?v=3UQsFsc66yg",
   },
   {
     id: "cmpkmzr5k002ppwlb7ynirgkd",
@@ -681,7 +703,6 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-  
     videoUrl: "https://www.youtube.com/watch?v=GNL1_tNTqpw",
   },
   {
@@ -692,6 +713,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=bguRK8G2Em4",
   },
   {
     id: "cmpkmzr5m002tpwlbxo0yhm7s",
@@ -701,6 +723,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=hKu2-tjNMok",
   },
   {
     id: "cmpkmzr5n002vpwlbv45uhypu",
@@ -710,6 +733,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "listening",
     estimatedMinutes: 12,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=YY2yjEEoB3U",
   },
   {
     id: "cmpkmzr5n002xpwlbpsehb2gn",
@@ -719,6 +743,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 4,
+    videoUrl: "https://www.youtube.com/watch?v=SFPEm09h4Qw",
   },
   {
     id: "cmpkmzr5o0031pwlbu7h2ctz3",
@@ -728,7 +753,6 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-  
     videoUrl: "https://www.youtube.com/watch?v=6hNWFy_ujAg",
   },
   {
@@ -739,6 +763,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=KVRozKu2pZs",
   },
   {
     id: "cmpkmzr5q0035pwlb4qw5l044",
@@ -748,6 +773,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=nkAyggAM1q4",
   },
   {
     id: "cmpkmzr5r0037pwlbv990mkzk",
@@ -757,6 +783,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "listening",
     estimatedMinutes: 12,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=nec6ozGJli0",
   },
   {
     id: "cmpkmzr5s0039pwlb1k685v2x",
@@ -766,6 +793,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 4,
+    videoUrl: "https://www.youtube.com/watch?v=eFmfoeTkhH0",
   },
   {
     id: "cmpkmzr5t003dpwlbpe04p37b",
@@ -775,7 +803,6 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-  
     videoUrl: "https://www.youtube.com/watch?v=81IED6Vl6GI",
   },
   {
@@ -786,6 +813,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=8vPXIsAqmjg",
   },
   {
     id: "cmpkmzr5v003hpwlbbx8db1xs",
@@ -795,6 +823,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=2qxAaCCLplI",
   },
   {
     id: "cmpkmzr5w003jpwlbjsewrodw",
@@ -804,6 +833,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "listening",
     estimatedMinutes: 12,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=6DbCTfepYgM",
   },
   {
     id: "cmpkmzr5w003lpwlb59miyua8",
@@ -813,6 +843,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 4,
+    videoUrl: "https://www.youtube.com/watch?v=V-Ro66uMBX4",
   },
   {
     id: "cmpkmzr5x003ppwlbm0kqj6mn",
@@ -822,7 +853,6 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-  
     videoUrl: "https://www.youtube.com/watch?v=adZ-LYWx95Q",
   },
   {
@@ -833,6 +863,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=l2p9R-9YxgY",
   },
   {
     id: "cmpkmzr5z003tpwlbp8dqb0bd",
@@ -842,6 +873,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=ebihvKpnE94",
   },
   {
     id: "cmpkmzr5z003vpwlbvrfn6jmv",
@@ -851,6 +883,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "listening",
     estimatedMinutes: 12,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=9oCLf_gEzhE",
   },
   {
     id: "cmpkmzr62003xpwlb72bvu1ry",
@@ -860,6 +893,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 4,
+    videoUrl: "https://www.youtube.com/watch?v=HZzXbxajz80",
   },
   {
     id: "cmpkmzr640041pwlb2bbbiuzv",
@@ -869,7 +903,6 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-  
     videoUrl: "https://www.youtube.com/watch?v=ZHenb2_eOTU",
   },
   {
@@ -880,6 +913,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=4cQt2jDqSjY",
   },
   {
     id: "cmpkmzr650045pwlbwrw63i5k",
@@ -889,6 +923,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=McgDs0LMDAg",
   },
   {
     id: "cmpkmzr650047pwlb922q5msi",
@@ -898,6 +933,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "listening",
     estimatedMinutes: 12,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=q_HL_kHzbNM",
   },
   {
     id: "cmpkmzr660049pwlbjn832fn8",
@@ -907,6 +943,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 4,
+    videoUrl: "https://www.youtube.com/watch?v=VeaRvByUCnc",
   },
   {
     id: "cmpkmzr67004dpwlb5g0h9wim",
@@ -916,7 +953,6 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-  
     videoUrl: "https://www.youtube.com/watch?v=nusFJF_O1Yg",
   },
   {
@@ -927,6 +963,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=lrLvKiDRuzk",
   },
   {
     id: "cmpkmzr67004hpwlbwta4jalx",
@@ -936,6 +973,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=XBaD6kU38tk",
   },
   {
     id: "cmpkmzr68004jpwlb3d91z0h8",
@@ -945,6 +983,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "listening",
     estimatedMinutes: 12,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=or7C7LZa1q4",
   },
   {
     id: "cmpkmzr69004lpwlbbypnnuwx",
@@ -954,6 +993,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 4,
+    videoUrl: "https://www.youtube.com/watch?v=LFhI0v-dRlE",
   },
   {
     id: "cmpkmzr6a004ppwlb45gs7aa9",
@@ -963,7 +1003,6 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-  
     videoUrl: "https://www.youtube.com/watch?v=LO21tYrTD8Y",
   },
   {
@@ -974,6 +1013,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=-m2C1vHpaHc",
   },
   {
     id: "cmpkmzr6b004tpwlbh7qe5clb",
@@ -983,6 +1023,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=uq_jvEE7tT0",
   },
   {
     id: "cmpkmzr6c004vpwlbwizr4yq1",
@@ -992,6 +1033,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "listening",
     estimatedMinutes: 12,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=iDsWkGAX5Oc",
   },
   {
     id: "cmpkmzr6d004xpwlbsz01fd2b",
@@ -1001,6 +1043,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 4,
+    videoUrl: "https://www.youtube.com/watch?v=owTINhusuYk",
   },
   {
     id: "cmpkmzr6e0051pwlbfksv55oj",
@@ -1010,7 +1053,6 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-  
     videoUrl: "https://www.youtube.com/watch?v=DxIDKZHW3-E",
   },
   {
@@ -1021,6 +1063,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=TQzrpZjabmY",
   },
   {
     id: "cmpkmzr6g0055pwlbqh22507m",
@@ -1030,6 +1073,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=e431OMJ6sVg",
   },
   {
     id: "cmpkmzr6g0057pwlb3338hrn6",
@@ -1039,6 +1083,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "listening",
     estimatedMinutes: 12,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=g9qTObcek5Y",
   },
   {
     id: "cmpkmzr6h0059pwlb61k0ppk5",
@@ -1048,6 +1093,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 4,
+    videoUrl: "https://www.youtube.com/watch?v=JuqOMSOG-XI",
   },
   {
     id: "cmpkmzr6i005dpwlbge8hzm32",
@@ -1057,7 +1103,6 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-  
     videoUrl: "https://www.youtube.com/watch?v=PBUwZ4AgKbU",
   },
   {
@@ -1068,6 +1113,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=aUpiy67_nt4",
   },
   {
     id: "cmpkmzr6j005hpwlb0u2c9l66",
@@ -1077,6 +1123,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=82TU1epxJLU",
   },
   {
     id: "cmpkmzr6j005jpwlb402qq69d",
@@ -1086,6 +1133,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "listening",
     estimatedMinutes: 12,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=0WFmZMTXqMs",
   },
   {
     id: "cmpkmzr6k005lpwlbbh4fj1oo",
@@ -1095,6 +1143,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 4,
+    videoUrl: "https://www.youtube.com/watch?v=HfPup5jPEAQ",
   },
   {
     id: "cmpkmzr6m005qpwlb8lwjilq3",
@@ -1114,6 +1163,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=Wy_CfXifyps",
   },
   {
     id: "cmpkmzr6n005upwlb0sezyalf",
@@ -1123,6 +1173,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=36ZCATJG3VQ",
   },
   {
     id: "cmpkmzr6o005wpwlbpf7snz3k",
@@ -1132,6 +1183,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "listening",
     estimatedMinutes: 12,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=ZvNmcLKdVLE",
   },
   {
     id: "cmpkmzr6o005ypwlbg4fp9e3a",
@@ -1141,6 +1193,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 4,
+    videoUrl: "https://www.youtube.com/watch?v=uew2C_t2bZI",
   },
   {
     id: "cmpkmzr6p0062pwlb5hbuwvob",
@@ -1150,7 +1203,6 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-  
     videoUrl: "https://www.youtube.com/watch?v=nJza2kfI8GU",
   },
   {
@@ -1161,6 +1213,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=-u5X_k04BeA",
   },
   {
     id: "cmpkmzr6q0066pwlb2jorbnjr",
@@ -1170,6 +1223,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=rOCQZ7QnoN0",
   },
   {
     id: "cmpkmzr6q0068pwlbtt4h8dt6",
@@ -1179,6 +1233,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "listening",
     estimatedMinutes: 12,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=Gxw2Kr_Shww",
   },
   {
     id: "cmpkmzr6r006apwlbtxgapbgg",
@@ -1188,6 +1243,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 4,
+    videoUrl: "https://www.youtube.com/watch?v=EC_j4IuIx_E",
   },
   {
     id: "cmpkmzr6r006epwlbmilbjwfy",
@@ -1197,7 +1253,6 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-  
     videoUrl: "https://www.youtube.com/watch?v=F6VW4t9kPgI",
   },
   {
@@ -1208,6 +1263,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=tfr4nfac490",
   },
   {
     id: "cmpkmzr6s006ipwlb1ei9um7c",
@@ -1217,6 +1273,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=INZqWcdjKJY",
   },
   {
     id: "cmpkmzr6t006kpwlbsttegcdy",
@@ -1226,6 +1283,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "listening",
     estimatedMinutes: 12,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=KC2HHh3jML4",
   },
   {
     id: "cmpkmzr6t006mpwlbths91pcz",
@@ -1235,6 +1293,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 4,
+    videoUrl: "https://www.youtube.com/watch?v=jY-1ewgZeCs",
   },
   {
     id: "cmpkmzr6u006qpwlb8kguk0n4",
@@ -1244,7 +1303,6 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-  
     videoUrl: "https://www.youtube.com/watch?v=h8zqcOQwTSA",
   },
   {
@@ -1255,6 +1313,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=552LX7EudZU",
   },
   {
     id: "cmpkmzr6v006upwlbla3xfrfb",
@@ -1264,6 +1323,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=WUd4fPhq9QE",
   },
   {
     id: "cmpkmzr6w006wpwlbruf5lrzd",
@@ -1273,6 +1333,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "listening",
     estimatedMinutes: 12,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=MBRrCwOuM00",
   },
   {
     id: "cmpkmzr6w006ypwlbxk0ynvac",
@@ -1282,6 +1343,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 4,
+    videoUrl: "https://www.youtube.com/watch?v=WCJo8h5b8_s",
   },
   {
     id: "cmpkmzr6x0072pwlbqgic03xu",
@@ -1291,7 +1353,6 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-  
     videoUrl: "https://www.youtube.com/watch?v=J7e_dJTHGrw",
   },
   {
@@ -1302,6 +1363,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=9p1kfkpsYzQ",
   },
   {
     id: "cmpkmzr6y0076pwlb9v9efo3o",
@@ -1311,6 +1373,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=C-uTzTTYLS8",
   },
   {
     id: "cmpkmzr6z0078pwlb0r96q9xb",
@@ -1320,6 +1383,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "listening",
     estimatedMinutes: 12,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=PdxQdo8TL9Q",
   },
   {
     id: "cmpkmzr6z007apwlbv1j1mma5",
@@ -1329,6 +1393,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 4,
+    videoUrl: "https://www.youtube.com/watch?v=FfFDQvrYgbA",
   },
   {
     id: "cmpkmzr70007epwlb4fdk1jo0",
@@ -1338,7 +1403,6 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-  
     videoUrl: "https://www.youtube.com/watch?v=EKqXWuWcJvI",
   },
   {
@@ -1349,6 +1413,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=9fBhmWT9vX4",
   },
   {
     id: "cmpkmzr71007ipwlbc1yigng0",
@@ -1358,6 +1423,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=ePD46YjYRzQ",
   },
   {
     id: "cmpkmzr72007kpwlblmvi5cpp",
@@ -1367,6 +1433,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "listening",
     estimatedMinutes: 12,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=eYIyMCoIAZY",
   },
   {
     id: "cmpkmzr73007mpwlbs2d8ia6q",
@@ -1376,6 +1443,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 4,
+    videoUrl: "https://www.youtube.com/watch?v=_sP_-dgVSvM",
   },
   {
     id: "cmpkmzr74007qpwlbz52dwc00",
@@ -1385,7 +1453,6 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-  
     videoUrl: "https://www.youtube.com/watch?v=YMyofREc5Jk",
   },
   {
@@ -1396,6 +1463,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=gP3bheM6fmg",
   },
   {
     id: "cmpkmzr75007upwlb1zww2e7g",
@@ -1405,6 +1473,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=SyJ_pNaazso",
   },
   {
     id: "cmpkmzr76007wpwlb6cshwuzo",
@@ -1414,6 +1483,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "listening",
     estimatedMinutes: 12,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=RE7mqY71zfA",
   },
   {
     id: "cmpkmzr76007ypwlb44x6nvgl",
@@ -1423,6 +1493,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 4,
+    videoUrl: "https://www.youtube.com/watch?v=lcfDjGzPie0",
   },
   {
     id: "cmpkmzr770082pwlbhyzx040e",
@@ -1432,7 +1503,6 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-  
     videoUrl: "https://www.youtube.com/watch?v=AiV26v4hkLs",
   },
   {
@@ -1443,6 +1513,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=YRl8TSvTUbo",
   },
   {
     id: "cmpkmzr780086pwlboh70chxe",
@@ -1452,6 +1523,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=2R_LGnt9Y6U",
   },
   {
     id: "cmpkmzr790088pwlbedvvr05m",
@@ -1461,6 +1533,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "listening",
     estimatedMinutes: 12,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=AZp7cPbbpiU",
   },
   {
     id: "cmpkmzr7a008apwlb2zi14zwh",
@@ -1470,6 +1543,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 4,
+    videoUrl: "https://www.youtube.com/watch?v=u0KrAESsDAc",
   },
   {
     id: "cmpkmzr7b008epwlbavqgfbyn",
@@ -1479,7 +1553,6 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-  
     videoUrl: "https://www.youtube.com/watch?v=5cDl0I3zusk",
   },
   {
@@ -1490,6 +1563,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=h_sufC5nY18",
   },
   {
     id: "cmpkmzr7c008ipwlbjs545zmb",
@@ -1499,6 +1573,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=qWjRFMqmDmw",
   },
   {
     id: "cmpkmzr7c008kpwlbk08bzwj4",
@@ -1508,6 +1583,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "listening",
     estimatedMinutes: 12,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=JRvhEttaebk",
   },
   {
     id: "cmpkmzr7d008mpwlb3qtpyemg",
@@ -1517,6 +1593,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 4,
+    videoUrl: "https://www.youtube.com/watch?v=eVaCpAKdtag",
   },
   {
     id: "cmpkmzr7e008qpwlbobj96334",
@@ -1526,7 +1603,6 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-  
     videoUrl: "https://www.youtube.com/watch?v=SdKNRtimTFk",
   },
   {
@@ -1537,6 +1613,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
+    videoUrl: "https://www.youtube.com/watch?v=tjYZ67dm2GM",
   },
   {
     id: "cmpkmzr7f008upwlbxihakjix",
@@ -1546,6 +1623,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
+    videoUrl: "https://www.youtube.com/watch?v=gFXE9n7hrOI",
   },
   {
     id: "cmpkmzr7g008wpwlb2zj6fzsb",
@@ -1555,6 +1633,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "listening",
     estimatedMinutes: 12,
     order: 3,
+    videoUrl: "https://www.youtube.com/watch?v=D3O8liMS_5s",
   },
   {
     id: "cmpkmzr7h008ypwlbaknypn4u",
@@ -1564,6 +1643,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 4,
+    videoUrl: "https://www.youtube.com/watch?v=yp6Dn4sa27Y",
   },
 ];
 
