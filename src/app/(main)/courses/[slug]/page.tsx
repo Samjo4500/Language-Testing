@@ -866,10 +866,12 @@ export default function CourseDetailPage() {
     checkEnrollment();
   }, [isAuth, slug, isValidSlug]);
 
-  // SANDBOX/PREVIEW MODE: If user is logged in but enrollment check failed,
-  // treat them as enrolled so they can preview course content without PayPal.
-  // This allows demo/preview access. Remove this block when going live with real payments.
-  const canAccessCourse = isAuth && (isEnrolled || !checkingEnrollment);
+  // SANDBOX/PREVIEW MODE:
+  // - If user is logged in and enrolled → can access
+  // - If user is logged in but not enrolled → still allow access (sandbox bypass)
+  // - If user is NOT logged in → show sign-in prompt
+  // When going live with real payments, change this to: isAuth && isEnrolled
+  const canAccessCourse = isAuth;
 
   // Fetch dynamic course data from API (optional)
   useEffect(() => {

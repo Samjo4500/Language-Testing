@@ -200,6 +200,13 @@ export default function LoginPage() {
                 </Link>
               </p>
             </div>
+
+            {/* Demo credentials for preview/sandbox */}
+            <div className="mt-4 rounded-xl bg-blue-500/10 border border-blue-500/20 p-3">
+              <p className="text-xs text-blue-300 font-medium mb-1">Demo Account (Sandbox Mode)</p>
+              <p className="text-xs text-white/50">Email: <span className="text-white/70 font-mono">demo01@testcefr.com</span></p>
+              <p className="text-xs text-white/50">Password: <span className="text-white/70 font-mono">Demo@2026!</span></p>
+            </div>
           </div>
         </div>
       </div>
