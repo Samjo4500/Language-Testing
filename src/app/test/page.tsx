@@ -1522,7 +1522,7 @@ export default function TestPage() {
                 <p className="text-sm font-semibold text-white/60 mb-3">{currentReading.title}</p>
               )}
               <p className="text-xs text-white/40 uppercase tracking-wider mb-3">Read the passage carefully</p>
-              <p className="text-white/80 leading-relaxed text-[15px]">{currentReading.passageText}</p>
+              <p className="text-white/80 leading-relaxed text-sm sm:text-[15px] break-words">{currentReading.passageText}</p>
             </div>
 
             {/* Questions */}
@@ -2210,25 +2210,25 @@ export default function TestPage() {
             </div>
 
             {/* Main Result */}
-            <div className="glass-card-neon p-8 mb-6 text-center">
+            <div className="glass-card-neon p-5 sm:p-8 mb-6 text-center">
               <div className={`inline-flex items-center justify-center h-24 w-24 rounded-2xl bg-gradient-to-br ${cefrGradients[results.assessment.cefrLevel] || 'from-purple-400 to-purple-600'} text-white text-4xl font-black shadow-2xl mb-4`}>
                 {results.assessment.cefrLevel}
               </div>
               <h2 className="text-2xl font-bold text-white mb-2">CEFR Level: {results.assessment.cefrLevel}</h2>
               <p className="text-lg text-white/60">Overall Score: {results.assessment.score}/100</p>
 
-              <div className="grid grid-cols-3 gap-4 mt-6">
-                <div className="glass-card p-4">
-                  <p className="text-2xl font-bold text-white">{results.results.correctCount}</p>
-                  <p className="text-xs text-white/40">Correct</p>
+              <div className="grid grid-cols-3 gap-2 sm:gap-4 mt-6">
+                <div className="glass-card p-3 sm:p-4">
+                  <p className="text-xl sm:text-2xl font-bold text-white">{results.results.correctCount}</p>
+                  <p className="text-[10px] sm:text-xs text-white/40">Correct</p>
                 </div>
-                <div className="glass-card p-4">
-                  <p className="text-2xl font-bold text-white">{results.results.totalQuestions}</p>
-                  <p className="text-xs text-white/40">Total Questions</p>
+                <div className="glass-card p-3 sm:p-4">
+                  <p className="text-xl sm:text-2xl font-bold text-white">{results.results.totalQuestions}</p>
+                  <p className="text-[10px] sm:text-xs text-white/40">Total Questions</p>
                 </div>
-                <div className="glass-card p-4">
-                  <p className="text-2xl font-bold text-white">{results.results.percentage}%</p>
-                  <p className="text-xs text-white/40">Accuracy</p>
+                <div className="glass-card p-3 sm:p-4">
+                  <p className="text-xl sm:text-2xl font-bold text-white">{results.results.percentage}%</p>
+                  <p className="text-[10px] sm:text-xs text-white/40">Accuracy</p>
                 </div>
               </div>
             </div>
@@ -2240,13 +2240,13 @@ export default function TestPage() {
                   <Award className="h-5 w-5 text-purple-400" />
                   <h3 className="text-lg font-semibold text-white">Your Certificate</h3>
                 </div>
-                <div className="flex items-center justify-between p-4 rounded-xl bg-white/5">
-                  <div>
-                    <p className="font-medium text-white">CEFR {results.certificate.cefrLevel} Certificate</p>
-                    <p className="text-xs text-white/40">Score: {results.certificate.score}/100 | ID: {results.certificate.verificationId}</p>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl bg-white/5 gap-3">
+                  <div className="min-w-0">
+                    <p className="font-medium text-white truncate">CEFR {results.certificate.cefrLevel} Certificate</p>
+                    <p className="text-xs text-white/40 truncate">Score: {results.certificate.score}/100 | ID: {results.certificate.verificationId}</p>
                   </div>
-                  <a href={`/api/certificates/download/${results.certificate.verificationId}`} target="_blank" rel="noopener noreferrer">
-                    <button className="flex items-center gap-1 rounded-lg px-4 py-2 text-xs font-medium bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-lg cursor-pointer">
+                  <a href={`/api/certificates/download/${results.certificate.verificationId}`} target="_blank" rel="noopener noreferrer" className="shrink-0">
+                    <button className="flex items-center gap-1 rounded-lg px-4 py-2 text-xs font-medium bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-lg cursor-pointer min-h-[44px]">
                       Download PDF
                     </button>
                   </a>

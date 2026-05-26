@@ -23,11 +23,11 @@ const siteUrl = 'https://testcefr.com';
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'TestCEFR | AI-Powered English Proficiency Assessment',
+    default: 'TestCEFR - Free English Level Test & CEFR Certification',
     template: '%s | TestCEFR',
   },
   description:
-    'Assess your English language proficiency with our AI-powered CEFR-aligned test. Get an accurate A1–C2 level rating with QR-verified certificates recognized internationally.',
+    'Take a free AI-powered English level test and get your CEFR certification. Assess reading, writing, listening, speaking, grammar & vocabulary with accurate A1–C2 ratings and QR-verified certificates.',
   keywords: [
     'CEFR',
     'English test',
@@ -63,9 +63,9 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: siteUrl,
     siteName: 'TestCEFR',
-    title: 'TestCEFR | AI-Powered English Proficiency Assessment',
+    title: 'TestCEFR - Free English Level Test & CEFR Certification',
     description:
-      'Assess your English proficiency with our AI-powered CEFR-aligned test. Get accurate A1–C2 ratings with QR-verified certificates.',
+      'Take a free AI-powered English level test and get your CEFR certification. Accurate A1–C2 ratings with QR-verified certificates.',
     images: [
       {
         url: '/og-image.png',
@@ -77,9 +77,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'TestCEFR | AI-Powered English Proficiency Assessment',
+    title: 'TestCEFR - Free English Level Test & CEFR Certification',
     description:
-      'Assess your English proficiency with our AI-powered CEFR-aligned test. Get accurate A1–C2 ratings with QR-verified certificates.',
+      'Take a free AI-powered English level test and get your CEFR certification. Accurate A1–C2 ratings with QR-verified certificates.',
     creator: '@testcefr',
     images: ['/og-image.png'],
   },

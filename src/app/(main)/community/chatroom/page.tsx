@@ -417,7 +417,7 @@ export default function ChatroomPage() {
           className={cn(
             'shrink-0 border-r border-white/5 bg-[#0A0618]/50 backdrop-blur-sm transition-all duration-300 flex flex-col',
             sidebarOpen ? 'w-64' : 'w-0 overflow-hidden',
-            'md:relative fixed inset-y-0 left-0 z-40 md:z-auto top-0 md:top-auto'
+            'md:relative fixed inset-y-0 left-0 z-40 md:z-auto top-14 md:top-auto'
           )}
         >
           {/* Sidebar header */}
@@ -721,7 +721,7 @@ export default function ChatroomPage() {
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
         <div
-          className="md:hidden fixed inset-0 bg-black/50 z-30"
+          className="md:hidden fixed inset-0 bg-black/50 z-30 top-14"
           onClick={() => setSidebarOpen(false)}
         />
       )}

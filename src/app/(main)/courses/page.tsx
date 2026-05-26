@@ -361,7 +361,7 @@ export default function CoursesPage() {
                       </div>
 
                       {/* Stats row */}
-                      <div className="flex items-center gap-4 mb-5 text-xs text-white/50">
+                      <div className="flex items-center gap-4 mb-5 text-xs text-white/50 flex-wrap">
                         <div className="flex items-center gap-1.5">
                           <Layers className="h-3.5 w-3.5" />
                           {tier.modulesCount} modules
@@ -465,7 +465,7 @@ export default function CoursesPage() {
                   </div>
 
                   {/* Stats row */}
-                  <div className="flex items-center gap-4 mb-5 text-xs text-white/50">
+                  <div className="flex items-center gap-4 mb-5 text-xs text-white/50 flex-wrap">
                     <div className="flex items-center gap-1.5">
                       <Layers className="h-3.5 w-3.5" />
                       28 modules

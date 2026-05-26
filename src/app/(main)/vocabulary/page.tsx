@@ -598,7 +598,7 @@ export default function VocabularyPage() {
               >
                 {/* Front of card */}
                 <div
-                  className="w-full min-h-[320px] rounded-2xl bg-gradient-to-br from-white/[0.07] to-white/[0.03] border border-white/10 p-8 flex flex-col items-center justify-center gap-4"
+                  className="w-full min-h-[280px] sm:min-h-[320px] rounded-2xl bg-gradient-to-br from-white/[0.07] to-white/[0.03] border border-white/10 p-5 sm:p-8 flex flex-col items-center justify-center gap-3 sm:gap-4"
                   style={{ backfaceVisibility: 'hidden' }}
                 >
                   <Badge variant="outline" className={`text-[10px] ${LEVEL_COLORS[currentWord.level] || ''}`}>
@@ -628,7 +628,7 @@ export default function VocabularyPage() {
 
                 {/* Back of card */}
                 <div
-                  className="absolute inset-0 w-full min-h-[320px] rounded-2xl bg-gradient-to-br from-purple-500/[0.12] to-violet-500/[0.06] border border-purple-400/20 p-8 flex flex-col items-center justify-center gap-3"
+                  className="absolute inset-0 w-full min-h-[280px] sm:min-h-[320px] rounded-2xl bg-gradient-to-br from-purple-500/[0.12] to-violet-500/[0.06] border border-purple-400/20 p-5 sm:p-8 flex flex-col items-center justify-center gap-2 sm:gap-3"
                   style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
                 >
                   <h3 className="text-xl font-semibold text-white mb-1">{currentWord.word}</h3>
@@ -664,7 +664,7 @@ export default function VocabularyPage() {
                   <Button
                     onClick={() => submitAnswer(currentWord.id, false)}
                     disabled={submitting}
-                    className="flex-1 max-w-[180px] bg-red-500/20 hover:bg-red-500/30 text-red-300 border border-red-400/30 transition-all"
+                    className="flex-1 max-w-[180px] min-h-[44px] bg-red-500/20 hover:bg-red-500/30 text-red-300 border border-red-400/30 transition-all"
                     size="lg"
                   >
                     {mode === 'review' ? (
@@ -682,7 +682,7 @@ export default function VocabularyPage() {
                   <Button
                     onClick={() => submitAnswer(currentWord.id, true)}
                     disabled={submitting}
-                    className="flex-1 max-w-[180px] bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-400/30 transition-all"
+                    className="flex-1 max-w-[180px] min-h-[44px] bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-400/30 transition-all"
                     size="lg"
                   >
                     {mode === 'review' ? (

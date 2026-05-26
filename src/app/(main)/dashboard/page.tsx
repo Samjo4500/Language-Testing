@@ -8,7 +8,7 @@ import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { CheckCircle2, CreditCard, ArrowRight, BookOpen, Award, Download, QrCode, Loader2, Sparkles, Shield, Zap, LogIn, BarChart3, AlertCircle, RotateCcw, GraduationCap, Compass, Trophy, Clock, Layers, Play } from 'lucide-react';
+import { CheckCircle2, CreditCard, ArrowRight, BookOpen, Award, Download, QrCode, Loader2, Sparkles, Shield, Zap, LogIn, BarChart3, AlertCircle, RotateCcw, GraduationCap, Compass, Trophy, Clock, Layers, Play, Flame, Timer, Target, TrendingUp, Activity } from 'lucide-react';
 import { isPaidPlan, getPlanLabel, getPlanBadgeClasses } from '@/lib/plan-utils';
 
 /* ============================================================
@@ -23,6 +23,15 @@ interface CertificateInfo {
   issuedAt: string;
   assessmentId: string;
   completedAt: string;
+}
+
+interface StudyAnalytics {
+  studyStreak: number;
+  totalStudyTimeSeconds: number;
+  lessonsCompleted: number;
+  averageQuizScore: number;
+  quizCount: number;
+  weeklyActivity: { date: string; label: string; minutes: number }[];
 }
 
 interface CourseEnrollment {
@@ -131,6 +140,8 @@ export default function DashboardPage() {
   const [inProgressAssessment, setInProgressAssessment] = useState<{ id: string; startedAt: string } | null>(null);
   const [courseEnrollments, setCourseEnrollments] = useState<CourseEnrollment[]>([]);
   const [coursesLoading, setCoursesLoading] = useState(true);
+  const [analytics, setAnalytics] = useState<StudyAnalytics | null>(null);
+  const [analyticsLoading, setAnalyticsLoading] = useState(true);
 
   useEffect(() => {
     if (authIsLoading || !isAuthenticated) return;
@@ -155,14 +166,20 @@ export default function DashboardPage() {
         setInProgressAssessment(progressResult.value.assessment);
       }
 
-      // Fetch user's enrolled courses
-      const coursesResult = await Promise.allSettled([
+      // Fetch user's enrolled courses and analytics in parallel
+      const [coursesResult, analyticsResult] = await Promise.allSettled([
         fetch('/api/courses/my-courses/', { credentials: 'same-origin' }).then(res => res.ok ? res.json() : Promise.reject('Failed')),
+        fetch('/api/dashboard/analytics/', { credentials: 'same-origin' }).then(res => res.ok ? res.json() : Promise.reject('Failed')),
       ]);
-      if (coursesResult[0].status === 'fulfilled') {
-        setCourseEnrollments(coursesResult[0].value.enrollments || []);
+      if (coursesResult.status === 'fulfilled') {
+        setCourseEnrollments(coursesResult.value.enrollments || []);
       }
       setCoursesLoading(false);
+
+      if (analyticsResult.status === 'fulfilled') {
+        setAnalytics(analyticsResult.value);
+      }
+      setAnalyticsLoading(false);
     };
 
     fetchDashboardData();
@@ -365,6 +382,151 @@ export default function DashboardPage() {
                   Learn more <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </div>
               </div>
+            )}
+          </div>
+
+          {/* Study Analytics */}
+          <div className="glass-card p-6">
+            <div className="flex items-center justify-between mb-5">
+              <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+                <Activity className="h-5 w-5 text-blue-400" />
+                Study Analytics
+              </h2>
+              {!analyticsLoading && analytics && (
+                <span className="text-xs text-white/30">Last 7 days</span>
+              )}
+            </div>
+
+            {analyticsLoading ? (
+              <div className="grid gap-4 grid-cols-2 sm:grid-cols-4">
+                {[1, 2, 3, 4].map(i => (
+                  <div key={i} className="p-4 rounded-xl bg-white/5 border border-white/5">
+                    <Skeleton className="h-4 w-20 bg-white/5 mb-2" />
+                    <Skeleton className="h-7 w-16 bg-white/5" />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <>
+                {/* Stats Grid */}
+                <div className="grid gap-4 grid-cols-2 sm:grid-cols-4 mb-6">
+                  {/* Study Streak */}
+                  <div className="p-4 rounded-xl bg-white/5 border border-white/5 relative overflow-hidden group hover:bg-white/8 transition-colors">
+                    <div className="absolute top-0 right-0 w-20 h-20 bg-orange-500/5 rounded-full blur-2xl -mr-4 -mt-4 pointer-events-none" />
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-orange-400 to-amber-500 text-white shadow-lg">
+                        <Flame className="h-4 w-4" />
+                      </div>
+                      <span className="text-xs text-white/40 font-medium">Study Streak</span>
+                    </div>
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="text-2xl font-bold text-white">{analytics?.studyStreak || 0}</span>
+                      <span className="text-xs text-white/30">days</span>
+                    </div>
+                  </div>
+
+                  {/* Total Study Time */}
+                  <div className="p-4 rounded-xl bg-white/5 border border-white/5 relative overflow-hidden group hover:bg-white/8 transition-colors">
+                    <div className="absolute top-0 right-0 w-20 h-20 bg-sky-500/5 rounded-full blur-2xl -mr-4 -mt-4 pointer-events-none" />
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-sky-400 to-blue-500 text-white shadow-lg">
+                        <Timer className="h-4 w-4" />
+                      </div>
+                      <span className="text-xs text-white/40 font-medium">Study Time</span>
+                    </div>
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="text-2xl font-bold text-white">
+                        {analytics?.totalStudyTimeSeconds
+                          ? analytics.totalStudyTimeSeconds >= 3600
+                            ? `${Math.floor(analytics.totalStudyTimeSeconds / 3600)}h ${Math.round((analytics.totalStudyTimeSeconds % 3600) / 60)}m`
+                            : analytics.totalStudyTimeSeconds >= 60
+                              ? `${Math.floor(analytics.totalStudyTimeSeconds / 60)}m`
+                              : `${analytics.totalStudyTimeSeconds}s`
+                          : '0m'}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Lessons Completed */}
+                  <div className="p-4 rounded-xl bg-white/5 border border-white/5 relative overflow-hidden group hover:bg-white/8 transition-colors">
+                    <div className="absolute top-0 right-0 w-20 h-20 bg-emerald-500/5 rounded-full blur-2xl -mr-4 -mt-4 pointer-events-none" />
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-400 to-teal-500 text-white shadow-lg">
+                        <Target className="h-4 w-4" />
+                      </div>
+                      <span className="text-xs text-white/40 font-medium">Lessons Done</span>
+                    </div>
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="text-2xl font-bold text-white">{analytics?.lessonsCompleted || 0}</span>
+                      <span className="text-xs text-white/30">completed</span>
+                    </div>
+                  </div>
+
+                  {/* Quiz Performance */}
+                  <div className="p-4 rounded-xl bg-white/5 border border-white/5 relative overflow-hidden group hover:bg-white/8 transition-colors">
+                    <div className="absolute top-0 right-0 w-20 h-20 bg-violet-500/5 rounded-full blur-2xl -mr-4 -mt-4 pointer-events-none" />
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-violet-400 to-purple-500 text-white shadow-lg">
+                        <TrendingUp className="h-4 w-4" />
+                      </div>
+                      <span className="text-xs text-white/40 font-medium">Quiz Score</span>
+                    </div>
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="text-2xl font-bold text-white">{analytics?.averageQuizScore || 0}%</span>
+                      {analytics && analytics.quizCount > 0 && (
+                        <span className="text-xs text-white/30">avg ({analytics.quizCount})</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Weekly Activity Chart */}
+                <div>
+                  <h3 className="text-sm font-medium text-white/50 mb-3 flex items-center gap-1.5">
+                    <BarChart3 className="h-3.5 w-3.5" />
+                    Weekly Activity
+                  </h3>
+                  {analytics?.weeklyActivity && analytics.weeklyActivity.length > 0 ? (
+                    <div className="flex items-end gap-2 h-28">
+                      {analytics.weeklyActivity.map((day, idx) => {
+                        const maxMinutes = Math.max(...analytics.weeklyActivity.map(d => d.minutes), 1);
+                        const heightPercent = Math.max((day.minutes / maxMinutes) * 100, day.minutes > 0 ? 8 : 3);
+                        const isToday = idx === analytics.weeklyActivity.length - 1;
+                        const hasActivity = day.minutes > 0;
+                        return (
+                          <div key={day.date} className="flex-1 flex flex-col items-center gap-1.5">
+                            <span className="text-[10px] text-white/30 tabular-nums">
+                              {day.minutes > 0 ? `${day.minutes}m` : ''}
+                            </span>
+                            <div className="w-full relative" style={{ height: '80px' }}>
+                              <div
+                                className={`absolute bottom-0 w-full rounded-t-md transition-all duration-500 ${
+                                  hasActivity
+                                    ? isToday
+                                      ? 'bg-gradient-to-t from-blue-500 to-cyan-400 shadow-lg shadow-blue-500/20'
+                                      : 'bg-gradient-to-t from-blue-600/60 to-blue-400/40'
+                                    : 'bg-white/5'
+                                }`}
+                                style={{ height: `${heightPercent}%` }}
+                              />
+                            </div>
+                            <span className={`text-[10px] ${isToday ? 'text-blue-400 font-semibold' : 'text-white/30'}`}>
+                              {day.label}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-center h-28 rounded-xl bg-white/5 border border-white/5">
+                      <div className="text-center">
+                        <Activity className="h-6 w-6 text-white/10 mx-auto mb-1" />
+                        <p className="text-xs text-white/20">No activity this week</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </>
             )}
           </div>
 

@@ -8,8 +8,29 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export const metadata: Metadata = {
-  title: 'CEFR English Courses | TestCEFR',
-  description: 'Learn English from A1 to C2 with structured CEFR-aligned courses.',
+  title: 'English Courses',
+  description:
+    'Learn English from A1 to C2 with structured CEFR-aligned courses. Beginner, Intermediate, and Advanced tiers with interactive lessons, AI-powered exercises, and completion certificates.',
+  keywords: [
+    'English courses',
+    'CEFR courses',
+    'learn English online',
+    'English course A1 C2',
+    'beginner English course',
+    'intermediate English course',
+    'advanced English course',
+    'English lessons',
+    'English learning platform',
+  ],
+  openGraph: {
+    images: ['https://testcefr.com/og-image.png'],
+    title: 'English Courses | TestCEFR',
+    description:
+      'Learn English from A1 to C2 with structured CEFR-aligned courses. Interactive lessons, AI-powered exercises, and completion certificates.',
+  },
+  alternates: {
+    canonical: 'https://testcefr.com/courses',
+  },
 };
 
 export default function CoursesLayout({

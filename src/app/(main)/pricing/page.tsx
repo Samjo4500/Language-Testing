@@ -973,7 +973,7 @@ export default function PricingPage() {
 
           {/* B2B links */}
           <div className="mt-8 text-center">
-            <div className="inline-flex items-center gap-4">
+            <div className="inline-flex items-center gap-4 flex-wrap justify-center">
               <Link href="/contact" className="text-sm text-blue-300 hover:text-blue-200 transition-colors">
                 Learn more about Team & Business plans
               </Link>

@@ -432,7 +432,7 @@ export default function MyCoursesPage() {
                       </div>
 
                       {/* Stats Row */}
-                      <div className="flex items-center gap-4 mb-4 text-xs text-white/50">
+                      <div className="flex items-center gap-4 mb-4 text-xs text-white/50 flex-wrap">
                         <div className="flex items-center gap-1.5">
                           <Layers className="h-3.5 w-3.5" />
                           {enrollment.course.modulesCount} modules
