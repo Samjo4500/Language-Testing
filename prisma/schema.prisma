@@ -479,6 +479,7 @@ model CourseLesson {
   vocabulary       String? // JSON: [{word, definition, example, pronunciation}]
   quizData         String? // JSON: [{question, options:[], correctIndex, explanation}]
   audioScript      String? // TTS script for listening lessons
+  videoUrl         String? // YouTube/Vimeo video URL for embedded player
   estimatedMinutes Int     @default(15)
   order            Int     @default(0)
   isPublished      Boolean @default(true)

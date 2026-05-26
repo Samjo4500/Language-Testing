@@ -1180,9 +1180,9 @@ export default function TestPage() {
                 <div className="flex items-start gap-3">
                   <AlertCircle className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-sm text-amber-300 font-medium">Speaking test requires Chrome</p>
+                    <p className="text-sm text-amber-300 font-medium">Voice input not available</p>
                     <p className="text-xs text-white/40 mt-1">
-                      The speaking section uses speech recognition that is only supported in Google Chrome. Please use Chrome for the best experience.
+                      Your browser does not support speech recognition. You can still complete the speaking section by typing your response. For voice input, use Google Chrome or Microsoft Edge.
                     </p>
                   </div>
                 </div>
@@ -1793,8 +1793,8 @@ export default function TestPage() {
                     <div className="flex items-start gap-3">
                       <AlertCircle className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
                       <div>
-                        <p className="text-amber-300 font-semibold text-sm">Browser Not Supported</p>
-                        <p className="text-white/60 text-xs mt-1">Your browser does not support speech recognition. Please use <strong>Google Chrome</strong> or <strong>Microsoft Edge</strong> for the speaking assessment, or skip to the next section.</p>
+                        <p className="text-amber-300 font-semibold text-sm">Voice Input Unavailable</p>
+                        <p className="text-white/60 text-xs mt-1">Your browser does not support speech recognition. You can type your response below instead. For the best experience with voice input, use <strong>Google Chrome</strong> or <strong>Microsoft Edge</strong>.</p>
                       </div>
                     </div>
                   </div>
@@ -1822,30 +1822,54 @@ export default function TestPage() {
                     )}
                   </div>
 
-                  {/* Waveform visualization */}
-                  <div className="flex items-center justify-center gap-[3px] h-12 mb-6">
-                    {Array.from({ length: 24 }).map((_, i) => (
-                      <div
-                        key={i}
-                        className={`waveform-bar ${isRecording ? (i % 2 === 0 ? 'active' : 'waveform-bar-alt active') : ''}`}
-                        style={{
-                          height: isRecording ? undefined : `${6 + Math.sin(i * 0.5) * 4 + 4}px`,
-                          animationDelay: `${i * 0.06}s`,
-                          opacity: isRecording ? 1 : 0.25,
-                        }}
-                      />
-                    ))}
-                  </div>
+                  {/* Waveform visualization — hidden when speech not supported */}
+                  {!speechNotSupported && (
+                    <div className="flex items-center justify-center gap-[3px] h-12 mb-6">
+                      {Array.from({ length: 24 }).map((_, i) => (
+                        <div
+                          key={i}
+                          className={`waveform-bar ${isRecording ? (i % 2 === 0 ? 'active' : 'waveform-bar-alt active') : ''}`}
+                          style={{
+                            height: isRecording ? undefined : `${6 + Math.sin(i * 0.5) * 4 + 4}px`,
+                            animationDelay: `${i * 0.06}s`,
+                            opacity: isRecording ? 1 : 0.25,
+                          }}
+                        />
+                      ))}
+                    </div>
+                  )}
 
-                  {/* Mic button */}
-                  <div className="relative mb-6">
-                    {isRecording && (
-                      <>
-                        <div className="absolute inset-[-8px] rounded-full border-2 border-red-400/30 animate-ripple" />
-                        <div className="absolute inset-[-8px] rounded-full border-2 border-red-400/20 animate-ripple" style={{ animationDelay: '0.5s' }} />
-                      </>
-                    )}
-                    <div className={`absolute -inset-6 rounded-full transition-all duration-500 ${isRecording ? 'bg-red-500/15 blur-2xl' : 'bg-purple-500/15 blur-2xl'}`} />
+                  {/* Text input fallback for non-Chrome browsers */}
+                  {speechNotSupported && (
+                    <div className="w-full mb-6">
+                      <p className="text-xs text-white/40 uppercase tracking-wider mb-2">Type Your Response</p>
+                      <textarea
+                        value={speakingTranscript}
+                        onChange={(e) => setSpeakingTranscript(e.target.value)}
+                        placeholder="Type your spoken response here. Try to write what you would say out loud, using natural spoken language..."
+                        rows={6}
+                        maxLength={2000}
+                        className="w-full bg-white/5 border border-white/10 text-white rounded-xl px-4 py-3 text-sm leading-relaxed focus:outline-none focus:border-purple-500/40 focus:ring-1 focus:ring-purple-500/20 resize-none placeholder:text-white/20"
+                      />
+                      <div className="flex items-center justify-between mt-1.5">
+                        <span className="text-xs text-white/30">Write as if you were speaking naturally</span>
+                        <span className={`text-xs ${speakingTranscript.length > 1800 ? 'text-amber-400' : 'text-white/20'}`}>
+                          {speakingTranscript.length}/2000
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Mic button — hidden when speech not supported */}
+                  {!speechNotSupported && (
+                    <div className="relative mb-6">
+                      {isRecording && (
+                        <>
+                          <div className="absolute inset-[-8px] rounded-full border-2 border-red-400/30 animate-ripple" />
+                          <div className="absolute inset-[-8px] rounded-full border-2 border-red-400/20 animate-ripple" style={{ animationDelay: '0.5s' }} />
+                        </>
+                      )}
+                      <div className={`absolute -inset-6 rounded-full transition-all duration-500 ${isRecording ? 'bg-red-500/15 blur-2xl' : 'bg-purple-500/15 blur-2xl'}`} />
                     <button
                       onClick={() => {
                         if (isRecording) {
@@ -1872,6 +1896,7 @@ export default function TestPage() {
                       )}
                     </button>
                   </div>
+                  )}
 
                   {/* Transcript */}
                   {speakingTranscript && (
@@ -1884,7 +1909,9 @@ export default function TestPage() {
                   )}
 
                   <p className="text-xs text-white/30 text-center">
-                    {isPrepTime
+                    {speechNotSupported
+                      ? 'Type your response above, then click Evaluate'
+                      : isPrepTime
                       ? 'Get ready to speak when the timer runs out...'
                       : isRecording
                       ? 'Click stop when you are done speaking'

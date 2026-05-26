@@ -5,6 +5,7 @@
  */
 
 import { StaticCourse, StaticModule, StaticLesson, STATIC_MODULES, STATIC_LESSONS_BY_MODULE_ID, STATIC_COURSE_BY_SLUG, STATIC_COURSES, STATIC_MODULES_BY_COURSE_ID } from './static-course-data';
+import { LESSON_CONTENT_MAP } from './lesson-content-map';
 
 // Level labels for content generation
 const LEVEL_LABELS: Record<string, string> = {
@@ -25,6 +26,13 @@ export function generateLessonContent(
   const lessonTitle = lesson.title;
   const moduleTitle = module.title;
 
+  // Look up real educational content first
+  const contentMap = LESSON_CONTENT_MAP[lesson.contentType];
+  if (contentMap && contentMap[lessonTitle]) {
+    return contentMap[lessonTitle];
+  }
+
+  // Fallback to generic template
   switch (lesson.contentType) {
     case 'reading':
       return generateReadingContent(lessonTitle, moduleTitle, levelLabel);
@@ -1702,38 +1710,988 @@ export function generateVocabulary(lesson: StaticLesson, module: StaticModule, c
   return JSON.stringify(fallbackWords);
 }
 
+// ─── QUIZ DATA: Real, topic-specific quiz questions for every quiz lesson ───
+const QUIZ_DATA: Record<string, { question: string; options: string[]; correctIndex: number; explanation: string }[]> = {
+  // ── Beginner (A1-A2) Quizzes ──
+  'Common Phrases': [
+    {
+      question: 'Which greeting is the most formal?',
+      options: ['Hey there!', "What's up?", 'How do you do?', 'Hiya!'],
+      correctIndex: 2,
+      explanation: '"How do you do?" is a very formal greeting typically used in professional or ceremonial situations. The other options are all casual.',
+    },
+    {
+      question: 'When meeting someone for the first time, you can say:',
+      options: ['Nice to meet you.', 'Nice to see you again!', 'Long time no see!', 'How have you been?'],
+      correctIndex: 0,
+      explanation: '"Nice to meet you" is used for first introductions. The other phrases are for people you already know.',
+    },
+    {
+      question: 'What does "Excuse me" mean in a polite context?',
+      options: ['I am angry with you', 'I would like to get your attention or apologize', 'Please pay attention', 'Go away'],
+      correctIndex: 1,
+      explanation: '"Excuse me" is a polite way to get someone\'s attention, ask to pass, or apologize for a small mistake.',
+    },
+    {
+      question: 'Which phrase is used to respond to "Thank you"?',
+      options: ['Bless you', 'No worries', 'Take care', 'You are welcome'],
+      correctIndex: 3,
+      explanation: '"You are welcome" is the standard polite response to "Thank you." The other options serve different purposes.',
+    },
+  ],
+  'Weather Vocabulary': [
+    {
+      question: 'What is a "downpour"?',
+      options: ['A gentle breeze', 'A period of hot weather', 'A heavy, sudden fall of rain', 'A light mist'],
+      correctIndex: 2,
+      explanation: 'A downpour is a heavy, sudden rain. "Breeze" is gentle wind, "heatwave" is hot weather, and "drizzle" is light rain.',
+    },
+    {
+      question: 'If the sky is "overcast," what does it look like?',
+      options: ['Completely covered with clouds', 'Partly cloudy with some sun', 'Clear and sunny', 'Full of stars'],
+      correctIndex: 0,
+      explanation: '"Overcast" means the sky is covered with clouds and not sunny at all.',
+    },
+    {
+      question: 'What does a weather "forecast" tell you?',
+      options: ['What the weather was like yesterday', 'A prediction of future weather conditions', 'The current temperature only', 'How to dress for winter'],
+      correctIndex: 1,
+      explanation: 'A forecast is a prediction of future weather conditions, not a report of past or current weather.',
+    },
+    {
+      question: 'Which word describes very light rain?',
+      options: ['Thunderstorm', 'Heatwave', 'Frost', 'Drizzle'],
+      correctIndex: 3,
+      explanation: '"Drizzle" means very light rain. A thunderstorm has heavy rain and lightning, frost is ice crystals, and a heatwave is hot weather.',
+    },
+  ],
+  'Asking for Directions': [
+    {
+      question: 'What is a "roundabout"?',
+      options: ['A straight road', 'A type of public transport', 'A circular intersection where traffic flows in one direction', 'A pedestrian crossing'],
+      correctIndex: 2,
+      explanation: 'A roundabout is a circular intersection where traffic flows in one direction around a central island.',
+    },
+    {
+      question: 'If a road is a "dead end," it means:',
+      options: ['There is no way out at the end', 'It is under construction', 'It is a one-way street', 'It leads to the highway'],
+      correctIndex: 0,
+      explanation: 'A dead end is a road with no way out at the end — you must turn around and go back.',
+    },
+    {
+      question: 'A "landmark" is:',
+      options: ['A type of map', 'A recognizable feature used for navigation', 'A traffic signal', 'A parking area'],
+      correctIndex: 1,
+      explanation: 'A landmark is a recognizable building, monument, or feature that helps people navigate and find their way.',
+    },
+    {
+      question: 'Which word means the area surrounded by four streets?',
+      options: ['Highway', 'Crosswalk', 'Intersection', 'Block'],
+      correctIndex: 3,
+      explanation: 'A block is the area surrounded by four streets. An intersection is where roads meet, a crosswalk is for pedestrians, and a highway is a main road.',
+    },
+  ],
+  'Likes & Dislikes': [
+    {
+      question: 'If you "can\'t stand" something, you:',
+      options: ['Really love it', 'Are indifferent about it', 'Strongly dislike it', 'Want to sit down'],
+      correctIndex: 2,
+      explanation: '"Can\'t stand" is an informal expression meaning to strongly dislike something.',
+    },
+    {
+      question: 'An "acquired taste" refers to:',
+      options: ['Something you learn to like over time', 'Something everyone loves immediately', 'A type of expensive food', 'A bitter flavor'],
+      correctIndex: 0,
+      explanation: 'An acquired taste is something you may not like at first but learn to enjoy over time, such as olives or black coffee.',
+    },
+    {
+      question: 'What does "I am fond of Italian food" mean?',
+      options: ['I dislike Italian food', 'I have a liking for Italian food', 'I have never tried Italian food', 'I cook Italian food professionally'],
+      correctIndex: 1,
+      explanation: '"Fond of" means having a liking or affection for something. It expresses a positive feeling.',
+    },
+    {
+      question: 'Which word means "extremely unpleasant"?',
+      options: ['Delicious', 'Appetizing', 'Crave', 'Disgusting'],
+      correctIndex: 3,
+      explanation: '"Disgusting" means extremely unpleasant. "Delicious" and "appetizing" are positive, and "crave" means to strongly desire.',
+    },
+  ],
+  'Questions & Negatives': [
+    {
+      question: 'To form a question in the present simple, you use:',
+      options: ['The verb + -s', 'The verb in past tense', 'Do/Does + subject + base verb', 'Will + subject + verb'],
+      correctIndex: 2,
+      explanation: 'In present simple questions, we use "Do" or "Does" followed by the subject and the base form of the verb.',
+    },
+    {
+      question: 'Which is the correct negative form of "She likes coffee"?',
+      options: ['She doesn\'t like coffee', 'She not likes coffee', 'She don\'t like coffee', 'She no like coffee'],
+      correctIndex: 0,
+      explanation: 'In the third person singular, we use "doesn\'t" (does not) + the base form of the verb. The -s is removed from the main verb.',
+    },
+    {
+      question: '"Do they work here?" is an example of:',
+      options: ['A negative sentence', 'A question in the present simple', 'A past tense question', 'A command'],
+      correctIndex: 1,
+      explanation: '"Do they work here?" is a present simple question formed with "Do" + subject + base verb.',
+    },
+    {
+      question: 'In "I don\'t like spicy food," the word "don\'t" is:',
+      options: ['A modal verb', 'An adverb', 'A past tense marker', 'A negative auxiliary for I/you/we/they'],
+      correctIndex: 3,
+      explanation: '"Don\'t" is the contraction of "do not," the negative auxiliary used with I, you, we, and they in the present simple.',
+    },
+  ],
+  'Asking for Help': [
+    {
+      question: 'Which phrase is the most polite way to ask for help?',
+      options: ['Give me that!', 'Help me now.', 'Could you help me, please?', 'I need that.'],
+      correctIndex: 2,
+      explanation: '"Could you help me, please?" uses a polite modal ("could") and "please" to make a respectful request.',
+    },
+    {
+      question: 'If someone says "I\'d be happy to help," they mean:',
+      options: ['They are willing and glad to help', 'They are unwilling to help', 'They want to be paid first', 'They are confused about what to do'],
+      correctIndex: 0,
+      explanation: '"I\'d be happy to help" is a friendly, willing response meaning the person is glad to assist you.',
+    },
+    {
+      question: 'What does "Can you give me a hand?" mean?',
+      options: ['Can you give me your actual hand?', 'Can you help me with something?', 'Can you physically lift me?', 'Can you applaud for me?'],
+      correctIndex: 1,
+      explanation: '"Give me a hand" is an idiom meaning "help me." It has nothing to do with an actual hand.',
+    },
+    {
+      question: 'When a store worker asks "May I help you?", they are:',
+      options: ['Asking you to leave', 'Telling you what to buy', 'Questioning your presence', 'Offering assistance in a polite way'],
+      correctIndex: 3,
+      explanation: '"May I help you?" is a standard, polite offer of assistance commonly used in shops and customer service.',
+    },
+  ],
+  'Healthy Habits': [
+    {
+      question: 'Which of these is a healthy daily habit?',
+      options: ['Skipping breakfast', 'Staying up very late', 'Drinking plenty of water', 'Eating only junk food'],
+      correctIndex: 2,
+      explanation: 'Drinking plenty of water is essential for good health. The other options are unhealthy habits.',
+    },
+    {
+      question: 'What does "a balanced diet" mean?',
+      options: ['Eating a variety of foods in proper proportions', 'Eating only vegetables', 'Eating as much as you want', 'Skipping meals to stay thin'],
+      correctIndex: 0,
+      explanation: 'A balanced diet includes a variety of foods from different food groups in proper proportions for good nutrition.',
+    },
+    {
+      question: 'If you "come down with a cold," you:',
+      options: ['Are recovering from a cold', 'Are starting to get a cold', 'Have cured a cold', 'Are allergic to cold weather'],
+      correctIndex: 1,
+      explanation: '"Come down with" means to start to suffer from an illness, such as a cold.',
+    },
+    {
+      question: 'Regular exercise helps you:',
+      options: ['Only lose weight', 'Avoid eating', 'Only build muscles', 'Improve both physical and mental health'],
+      correctIndex: 3,
+      explanation: 'Regular exercise benefits both physical health (heart, muscles, bones) and mental health (mood, stress reduction).',
+    },
+  ],
+  'Emergency Phrases': [
+    {
+      question: 'Which phrase should you use to call for urgent help?',
+      options: ['Excuse me, sir', 'Good morning', 'Help! Call an ambulance!', 'Can I have the bill?'],
+      correctIndex: 2,
+      explanation: '"Help! Call an ambulance!" is an emergency phrase used when someone needs urgent medical attention.',
+    },
+    {
+      question: '"Watch out!" means:',
+      options: ['Be careful — there is danger!', 'Look at this beautiful thing', 'Check the time', 'Wait for me'],
+      correctIndex: 0,
+      explanation: '"Watch out!" is a warning phrase meaning "be careful" or "pay attention, there is danger!"',
+    },
+    {
+      question: 'If you lose your passport while traveling, you should say:',
+      options: ['I hate this country.', 'I have lost my passport. Can you help me?', 'Where is the beach?', 'I want to go shopping.'],
+      correctIndex: 1,
+      explanation: '"I have lost my passport. Can you help me?" is the correct emergency phrase to report a lost document and seek assistance.',
+    },
+    {
+      question: 'What does "Is there a hospital near here?" ask for?',
+      options: ['The nearest shopping center', 'A recommendation for a restaurant', 'The location of a hotel', 'Directions to medical facilities'],
+      correctIndex: 3,
+      explanation: 'This question asks for directions to the nearest hospital — an important emergency phrase when you need medical care.',
+    },
+  ],
+  // ── Intermediate (B1-B2) Quizzes ──
+  'Networking': [
+    {
+      question: 'What does "to network" mean in a professional context?',
+      options: ['To fix computer networks', 'To surf the internet', 'To build relationships with other professionals', 'To attend a party'],
+      correctIndex: 2,
+      explanation: 'Professional networking means building and maintaining relationships with other professionals for career development and opportunities.',
+    },
+    {
+      question: 'At a networking event, a good conversation starter is:',
+      options: ['What brings you to this event today?', 'How much money do you make?', 'Can I have your business card immediately?', 'I don\'t really want to be here.'],
+      correctIndex: 0,
+      explanation: '"What brings you to this event today?" is a polite, open-ended question that encourages conversation without being intrusive.',
+    },
+    {
+      question: 'An "elevator pitch" is:',
+      options: ['A speech given in an elevator', 'A brief, persuasive summary of yourself or your idea', 'A formal business presentation', 'A complaint about building facilities'],
+      correctIndex: 1,
+      explanation: 'An elevator pitch is a short, compelling summary of who you are or what you offer, designed to be delivered in the time of an elevator ride (30-60 seconds).',
+    },
+    {
+      question: 'After a networking event, it is best to:',
+      options: ['Forget about the people you met', 'Send a long essay about yourself', 'Wait for them to contact you first', 'Follow up with a brief message to new contacts'],
+      correctIndex: 3,
+      explanation: 'Following up with a brief, professional message shows initiative and helps solidify the new connection.',
+    },
+  ],
+  'Critical Thinking': [
+    {
+      question: 'Critical thinking involves:',
+      options: ['Accepting information without questioning it', 'Agreeing with the majority opinion', 'Analyzing and evaluating information objectively', 'Memorizing facts quickly'],
+      correctIndex: 2,
+      explanation: 'Critical thinking means analyzing and evaluating information objectively rather than accepting it at face value.',
+    },
+    {
+      question: 'What is a "logical fallacy"?',
+      options: ['A flaw in reasoning that weakens an argument', 'A correct scientific theory', 'A type of essay structure', 'A method of critical analysis'],
+      correctIndex: 0,
+      explanation: 'A logical fallacy is an error in reasoning that makes an argument invalid or unsound, even if it seems persuasive.',
+    },
+    {
+      question: 'When evaluating a source, you should consider:',
+      options: ['Only whether you agree with it', 'The author\'s credibility, evidence, and potential bias', 'How long the source is', 'Whether it has pictures'],
+      correctIndex: 1,
+      explanation: 'Evaluating a source involves checking the author\'s credentials, the quality of evidence provided, and any potential biases that could affect reliability.',
+    },
+    {
+      question: '"Correlation does not imply causation" means:',
+      options: ['Two things that happen together must cause each other', 'You can never prove anything', 'Statistics are always wrong', 'Just because two things occur together does not mean one causes the other'],
+      correctIndex: 3,
+      explanation: 'This principle reminds us that observing a relationship between two variables does not necessarily mean one causes the other.',
+    },
+  ],
+  'Relative Clauses': [
+    {
+      question: 'Which relative pronoun is used for people?',
+      options: ['Which', 'Where', 'Who', 'Whose'],
+      correctIndex: 2,
+      explanation: '"Who" is the relative pronoun used for people. "Which" is for things, "where" is for places, and "whose" shows possession.',
+    },
+    {
+      question: 'In "The book that I read was fascinating," the relative clause is:',
+      options: ['that I read', 'The book', 'was fascinating', 'The book was fascinating'],
+      correctIndex: 0,
+      explanation: '"That I read" is the relative clause because it gives more information about "the book" and begins with the relative pronoun "that."',
+    },
+    {
+      question: 'A defining relative clause:',
+      options: ['Adds extra information that could be removed', 'Is essential to identify which person or thing we mean', 'Always uses commas', 'Can only use "which"'],
+      correctIndex: 1,
+      explanation: 'A defining (restrictive) relative clause is essential to the meaning of the sentence because it identifies exactly which person or thing is being discussed.',
+    },
+    {
+      question: 'In "My sister, who lives in Paris, is a doctor," the commas indicate:',
+      options: ['A defining relative clause', 'A list of items', 'A grammatical error', 'A non-defining relative clause with extra information'],
+      correctIndex: 3,
+      explanation: 'The commas indicate a non-defining relative clause, which adds extra information that is not essential to identifying the sister.',
+    },
+  ],
+  'British vs American English': [
+    {
+      question: 'The British English word "lorry" corresponds to which American English word?',
+      options: ['Car', 'Bus', 'Truck', 'Train'],
+      correctIndex: 2,
+      explanation: '"Lorry" is British English for "truck." Both refer to a large motor vehicle for transporting goods.',
+    },
+    {
+      question: 'Which spelling is British English?',
+      options: ['Colour', 'Honor', 'Color', 'Center'],
+      correctIndex: 0,
+      explanation: '"Colour" is the British English spelling. American English drops the "u" (color). Similarly, British uses "centre" not "center."',
+    },
+    {
+      question: 'In American English, "sneakers" are called what in British English?',
+      options: ['Wellingtons', 'Trainers', 'Sandals', 'Boots'],
+      correctIndex: 1,
+      explanation: '"Trainers" is the British English term for what Americans call "sneakers" — casual sports shoes.',
+    },
+    {
+      question: '"I\'ll ring you" (British) means the same as which American expression?',
+      options: ['I\'ll text you', 'I\'ll email you', 'I\'ll visit you', 'I\'ll call you'],
+      correctIndex: 3,
+      explanation: '"Ring" in British English means to make a phone call. "I\'ll ring you" = "I\'ll call you" in American English.',
+    },
+  ],
+  'Cybersecurity Basics': [
+    {
+      question: 'What is "phishing"?',
+      options: ['A type of computer game', 'A method of fishing online', 'A fraud attempt via email or message to steal personal information', 'A type of computer hardware'],
+      correctIndex: 2,
+      explanation: 'Phishing is a cybercrime where attackers impersonate legitimate organizations via email or messages to trick victims into revealing personal information.',
+    },
+    {
+      question: 'A strong password typically includes:',
+      options: ['A mix of uppercase, lowercase, numbers, and symbols', 'Only your name', 'The word "password"', 'Your birthday'],
+      correctIndex: 0,
+      explanation: 'A strong password combines uppercase and lowercase letters, numbers, and special symbols, making it hard to guess or crack.',
+    },
+    {
+      question: '"Two-factor authentication" means:',
+      options: ['Using two different passwords', 'Verifying your identity using two different methods', 'Logging in from two devices', 'Having two email accounts'],
+      correctIndex: 1,
+      explanation: 'Two-factor authentication (2FA) requires two different forms of verification — typically something you know (password) and something you have (phone code).',
+    },
+    {
+      question: 'What should you do if you receive a suspicious email asking for personal information?',
+      options: ['Reply with your details immediately', 'Click all links to check them', 'Forward it to all your friends', 'Do not respond and report it as phishing'],
+      correctIndex: 3,
+      explanation: 'Never respond to suspicious emails or click their links. Report them as phishing to protect yourself and others.',
+    },
+  ],
+  'Leadership Language': [
+    {
+      question: 'Which phrase best demonstrates inclusive leadership language?',
+      options: ['I want you to do this', 'That\'s not my problem', 'We should consider all options before deciding', 'Just figure it out yourself'],
+      correctIndex: 2,
+      explanation: '"We should consider all options" uses inclusive language ("we"), values collaboration, and shows thoughtful decision-making — key leadership qualities.',
+    },
+    {
+      question: '"Empowerment" in a leadership context means:',
+      options: ['Enabling and encouraging others to take initiative and make decisions', 'Giving employees all the work', 'Controlling every detail', 'Avoiding responsibility'],
+      correctIndex: 0,
+      explanation: 'Empowerment means giving people the authority, confidence, and resources to take initiative and make their own decisions.',
+    },
+    {
+      question: 'A leader who "delegates" is someone who:',
+      options: ['Does all the work themselves', 'Assigns tasks and responsibilities to team members', 'Ignores their team', 'Only gives orders without explanation'],
+      correctIndex: 1,
+      explanation: 'Delegating means assigning tasks and responsibilities to team members, which is essential for effective leadership and team development.',
+    },
+    {
+      question: 'What does "to take accountability" mean?',
+      options: ['To blame others for failures', 'To only celebrate successes', 'To avoid making decisions', 'To accept responsibility for outcomes, both good and bad'],
+      correctIndex: 3,
+      explanation: 'Taking accountability means owning up to results — both successes and failures — rather than shifting blame to others.',
+    },
+  ],
+  'Space Exploration': [
+    {
+      question: 'What is an "orbit"?',
+      options: ['A type of rocket', 'A space station', 'The curved path an object takes around a star, planet, or moon', 'A type of telescope'],
+      correctIndex: 2,
+      explanation: 'An orbit is the curved path that an object in space follows around a star, planet, or moon due to gravity.',
+    },
+    {
+      question: 'The word "launch" in space exploration means:',
+      options: ['To send a spacecraft into space', 'To land on a planet', 'To repair a satellite', 'To photograph Earth'],
+      correctIndex: 0,
+      explanation: '"Launch" means to send a rocket or spacecraft into space, typically from a launch pad.',
+    },
+    {
+      question: 'What is a "satellite"?',
+      options: ['A type of star', 'An object that orbits a larger body in space', 'A planet with rings', 'A communication cable'],
+      correctIndex: 1,
+      explanation: 'A satellite is any object that orbits a larger body. This includes natural satellites (like the Moon) and artificial ones used for communication and research.',
+    },
+    {
+      question: '"Zero gravity" refers to:',
+      options: ['The center of Earth', 'A planet with no mass', 'A type of space food', 'A condition where gravity is extremely weak or absent'],
+      correctIndex: 3,
+      explanation: '"Zero gravity" (or microgravity) refers to the condition where the effects of gravity are extremely weak, as experienced by astronauts in orbit.',
+    },
+  ],
+  'Creative Writing': [
+    {
+      question: 'What is "show, don\'t tell" in creative writing?',
+      options: ['Using pictures instead of words', 'Writing only dialogue', 'Conveying emotions and events through actions and sensory details rather than direct statements', 'Explaining everything to the reader'],
+      correctIndex: 2,
+      explanation: '"Show, don\'t tell" means using vivid descriptions, actions, and sensory details to convey emotions and events, rather than simply stating them.',
+    },
+    {
+      question: 'A "protagonist" is:',
+      options: ['The main character in a story', 'The villain of the story', 'A minor background character', 'The narrator only'],
+      correctIndex: 0,
+      explanation: 'The protagonist is the main character in a story — the person whose journey and conflicts drive the plot forward.',
+    },
+    {
+      question: 'What is "foreshadowing"?',
+      options: ['Writing the end of the story first', 'Hints or clues about events that will happen later in the story', 'Describing the weather', 'Using complicated vocabulary'],
+      correctIndex: 1,
+      explanation: 'Foreshadowing is a literary technique where the writer provides hints or clues about events that will occur later in the story.',
+    },
+    {
+      question: '"Stream of consciousness" is a writing style that:',
+      options: ['Follows strict grammar rules', 'Is written in verse form', 'Uses only short sentences', 'Presents a character\'s continuous flow of thoughts and feelings'],
+      correctIndex: 3,
+      explanation: '"Stream of consciousness" presents a character\'s unbroken flow of thoughts, feelings, and reactions as they occur, often without conventional structure.',
+    },
+  ],
+  'Work-Life Balance': [
+    {
+      question: '"Burnout" is best described as:',
+      options: ['A type of exercise', 'A cooking technique', 'Physical and emotional exhaustion from prolonged stress', 'Feeling excited about work'],
+      correctIndex: 2,
+      explanation: 'Burnout is a state of physical, emotional, and mental exhaustion caused by prolonged or excessive stress, especially from work.',
+    },
+    {
+      question: 'What does "to set boundaries" mean?',
+      options: ['To establish limits on what you will accept in terms of time and effort', 'To build physical walls', 'To stop talking to people', 'To work longer hours'],
+      correctIndex: 0,
+      explanation: 'Setting boundaries means establishing clear limits on your time, energy, and commitments to protect your well-being.',
+    },
+    {
+      question: '"Mindfulness" in the workplace involves:',
+      options: ['Working as fast as possible', 'Being fully present and aware of the current moment', 'Daydreaming during meetings', 'Avoiding all social interaction'],
+      correctIndex: 1,
+      explanation: 'Mindfulness means being fully present and consciously aware of what you are doing and experiencing in the current moment.',
+    },
+    {
+      question: 'A "sabbatical" is:',
+      options: ['A short coffee break', 'A performance review', 'A type of meeting', 'An extended period of leave for rest, study, or travel'],
+      correctIndex: 3,
+      explanation: 'A sabbatical is an extended period of paid or unpaid leave from work, typically used for rest, professional development, study, or travel.',
+    },
+  ],
+  'Cross-Cultural Communication': [
+    {
+      question: 'What is "cultural sensitivity"?',
+      options: ['Ignoring cultural differences', 'Assuming all cultures are the same', 'Being aware of and respectful toward different cultural practices and values', 'Learning only one foreign language'],
+      correctIndex: 2,
+      explanation: 'Cultural sensitivity means being aware of, understanding, and respecting the beliefs, practices, and values of different cultures.',
+    },
+    {
+      question: '"Ethnocentrism" means:',
+      options: ['Judging other cultures by the standards of your own culture', 'Appreciating all cultures equally', 'Learning multiple languages', 'Traveling frequently'],
+      correctIndex: 0,
+      explanation: 'Ethnocentrism is the tendency to evaluate other cultures according to the standards of your own, often with the assumption that your culture is superior.',
+    },
+    {
+      question: 'In some cultures, direct eye contact is seen as:',
+      options: ['Always respectful', 'Disrespectful or aggressive', 'A sign of honesty', 'Required in all conversations'],
+      correctIndex: 1,
+      explanation: 'While direct eye contact is considered respectful in many Western cultures, in some East Asian and African cultures it can be seen as disrespectful or confrontational.',
+    },
+    {
+      question: 'A "cultural faux pas" is:',
+      options: ['A delicious cultural dish', 'A type of traditional dance', 'A cultural festival', 'A social mistake or breach of etiquette in a different culture'],
+      correctIndex: 3,
+      explanation: 'A cultural faux pas is an embarrassing social mistake caused by not knowing or understanding the customs and etiquette of another culture.',
+    },
+  ],
+  // ── Advanced (C1-C2) Quizzes ──
+  'Debate Mastery': [
+    {
+      question: 'In formal debate, "rebuttal" refers to:',
+      options: ['Agreeing with the opponent', 'The opening statement', 'A counter-argument that refutes the opponent\'s point', 'A personal attack on the opponent'],
+      correctIndex: 2,
+      explanation: 'A rebuttal is a counter-argument presented to refute or contradict the opponent\'s argument. It addresses the substance, not the person.',
+    },
+    {
+      question: 'Which of these is an example of "ad hominem"?',
+      options: ['Attacking the person making the argument rather than the argument itself', 'Citing scientific evidence', 'Presenting statistical data', 'Using emotional appeals ethically'],
+      correctIndex: 0,
+      explanation: 'Ad hominem is a logical fallacy where one attacks the character or circumstances of the person making the argument instead of addressing the argument itself.',
+    },
+    {
+      question: '"Burden of proof" in a debate means:',
+      options: ['The need to be entertaining', 'The obligation to provide evidence for one\'s claims', 'The requirement to speak first', 'The duty to summarize at the end'],
+      correctIndex: 1,
+      explanation: 'Burden of proof means the obligation to provide sufficient evidence and reasoning to support one\'s claims or propositions in a debate.',
+    },
+    {
+      question: 'A "straw man" argument involves:',
+      options: ['Using strong evidence', 'Citing expert opinions', 'Building a constructive case', 'Misrepresenting an opponent\'s argument to make it easier to attack'],
+      correctIndex: 3,
+      explanation: 'A straw man fallacy occurs when someone distorts or oversimplifies an opponent\'s argument to make it easier to defeat, rather than addressing the actual position.',
+    },
+  ],
+  'Interdisciplinary Research': [
+    {
+      question: 'Interdisciplinary research involves:',
+      options: ['Studying only one field deeply', 'Ignoring all existing research', 'Integrating methods and concepts from multiple academic disciplines', 'Working alone without collaboration'],
+      correctIndex: 2,
+      explanation: 'Interdisciplinary research combines methods, theories, and perspectives from multiple academic fields to address complex problems that cannot be solved by one discipline alone.',
+    },
+    {
+      question: '"Epistemology" is the study of:',
+      options: ['The nature and scope of knowledge', 'Religious beliefs', 'Political systems', 'Economic markets'],
+      correctIndex: 0,
+      explanation: 'Epistemology is the branch of philosophy concerned with the nature, sources, and limits of knowledge — essentially, how we know what we know.',
+    },
+    {
+      question: 'A "paradigm shift" refers to:',
+      options: ['A minor change in methodology', 'A fundamental change in approach or underlying assumptions', 'Moving to a new laboratory', 'Changing research topics frequently'],
+      correctIndex: 1,
+      explanation: 'A paradigm shift, coined by Thomas Kuhn, is a fundamental change in the basic concepts and experimental practices of a scientific discipline.',
+    },
+    {
+      question: 'What is "triangulation" in research methodology?',
+      options: ['Using only one data source', 'Avoiding all quantitative data', 'A geometric measurement technique only', 'Using multiple methods or data sources to cross-validate findings'],
+      correctIndex: 3,
+      explanation: 'Triangulation involves using multiple methods, data sources, theories, or researchers to cross-validate and strengthen the credibility of research findings.',
+    },
+  ],
+  'Creative Non-Fiction': [
+    {
+      question: 'Creative non-fiction is defined as:',
+      options: ['Completely fictional stories', 'Academic journal articles', 'Factual writing that uses literary techniques typically associated with fiction', 'Poetry about real events'],
+      correctIndex: 2,
+      explanation: 'Creative non-fiction is writing based on real events and facts that employs literary techniques like narrative, character development, and vivid description.',
+    },
+    {
+      question: '"Narrative arc" in creative non-fiction refers to:',
+      options: ['The structural progression of a story from beginning to resolution', 'A curved line on a graph', 'A writing desk shape', 'The physical path of the narrator'],
+      correctIndex: 0,
+      explanation: 'A narrative arc is the structural shape of a story — its progression from setup through conflict and climax to resolution.',
+    },
+    {
+      question: 'What ethical obligation does creative non-fiction impose on writers?',
+      options: ['To entertain at all costs', 'To remain truthful to facts while using literary techniques', 'To make the story as dramatic as possible, even if fabricated', 'To avoid all personal perspective'],
+      correctIndex: 1,
+      explanation: 'Creative non-fiction must remain factually accurate. The writer can use literary techniques but cannot fabricate events or deceive the reader.',
+    },
+    {
+      question: '"Vivid detail" in creative non-fiction serves to:',
+      options: ['Make the text longer', 'Replace factual accuracy', 'Impress the reader with vocabulary', 'Bring the reader into the experience through specific, sensory language'],
+      correctIndex: 3,
+      explanation: 'Vivid details use specific, sensory language to immerse the reader in the experience, making the real events feel immediate and tangible.',
+    },
+  ],
+  'Lab Report Writing': [
+    {
+      question: 'The "abstract" in a lab report is:',
+      options: ['The detailed data analysis', 'The list of references', 'A brief summary of the experiment\'s purpose, methods, results, and conclusions', 'The introduction section'],
+      correctIndex: 2,
+      explanation: 'An abstract is a concise summary of the entire lab report, covering the purpose, methods, key results, and main conclusions.',
+    },
+    {
+      question: 'Which section of a lab report presents raw data?',
+      options: ['Results', 'Introduction', 'Discussion', 'Conclusion'],
+      correctIndex: 0,
+      explanation: 'The Results section presents the raw data and findings of the experiment without interpretation. Analysis and interpretation belong in the Discussion.',
+    },
+    {
+      question: '"Reproducibility" in scientific writing means:',
+      options: ['The report is well-written', 'The experiment can be repeated with the same results by other researchers', 'The experiment was expensive', 'Only one trial was conducted'],
+      correctIndex: 1,
+      explanation: 'Reproducibility means that other researchers should be able to repeat the experiment using the described methods and obtain the same or similar results.',
+    },
+    {
+      question: 'The "methodology" section should include:',
+      options: ['Your personal opinions', 'Conclusions and recommendations', 'The results of the experiment', 'A detailed description of procedures and materials used'],
+      correctIndex: 3,
+      explanation: 'The methodology section provides a detailed, step-by-step description of the procedures, materials, and equipment used so others can replicate the experiment.',
+    },
+  ],
+  'Crisis Communication': [
+    {
+      question: 'The first principle of effective crisis communication is:',
+      options: ['Say nothing until the crisis passes', 'Blame someone else immediately', 'Communicate quickly and transparently', 'Wait for perfect information before saying anything'],
+      correctIndex: 2,
+      explanation: 'In crisis communication, being prompt and transparent is crucial. Acknowledge the situation quickly even if you don\'t have all the details yet.',
+    },
+    {
+      question: '"Stakeholders" in a crisis include:',
+      options: ['Anyone affected by or with an interest in the situation — employees, customers, public, media', 'Only the CEO', 'Only the media', 'Only government officials'],
+      correctIndex: 0,
+      explanation: 'Stakeholders are all individuals or groups affected by or with a legitimate interest in the crisis — including employees, customers, regulators, media, and the public.',
+    },
+    {
+      question: 'A "holding statement" is:',
+      options: ['A final press release', 'An initial brief statement acknowledging the crisis while more information is gathered', 'A legal document', 'A statement denying the crisis exists'],
+      correctIndex: 1,
+      explanation: 'A holding statement is an initial, brief communication that acknowledges the crisis, expresses concern, and commits to providing more information as it becomes available.',
+    },
+    {
+      question: 'What should a spokesperson avoid during a crisis?',
+      options: ['Expressing empathy', 'Acknowledging uncertainty', 'Providing regular updates', 'Speculating about causes without confirmed facts'],
+      correctIndex: 3,
+      explanation: 'During a crisis, spokespersons should avoid speculation, making promises they can\'t keep, or assigning blame before facts are confirmed.',
+    },
+  ],
+  'Phonological Precision': [
+    {
+      question: '"Minimal pairs" are word pairs that differ by:',
+      options: ['Their spelling only', 'Their grammatical category', 'One phoneme, creating a meaning difference', 'The number of syllables only'],
+      correctIndex: 2,
+      explanation: 'Minimal pairs are words that differ by only one phoneme (sound), such as "bat/bad" or "ship/sheep," creating a difference in meaning.',
+    },
+    {
+      question: '"Assimilation" in phonology refers to:',
+      options: ['A sound changing to become more like a neighboring sound', 'Adding extra sounds to words', 'Speaking very quickly', 'Using formal register'],
+      correctIndex: 0,
+      explanation: 'Assimilation is a phonological process where a sound changes to become more similar to an adjacent sound, such as /n/ becoming /m/ before /p/ in "input."',
+    },
+    {
+      question: 'The "schwa" /ə/ is significant because:',
+      options: ['It is the rarest sound in English', 'It is the most common vowel sound in unstressed syllables in English', 'It only appears in formal speech', 'It is always stressed'],
+      correctIndex: 1,
+      explanation: 'The schwa /ə/ is the most frequent vowel sound in English and occurs in unstressed syllables, like the first syllable of "about" or the last syllable of "sofa."',
+    },
+    {
+      question: '"Intonation" can change the meaning of a sentence by:',
+      options: ['Changing the words used', 'Adding new vocabulary', 'Making sentences longer', 'Altering the pitch pattern to indicate questions, statements, or emotions'],
+      correctIndex: 3,
+      explanation: 'Intonation — the rise and fall of pitch — can change meaning: rising intonation turns a statement into a question, and falling intonation can convey certainty or finality.',
+    },
+  ],
+  'Cultural Diplomacy': [
+    {
+      question: 'Cultural diplomacy refers to:',
+      options: ['Military alliances between countries', 'Economic trade agreements only', 'The exchange of ideas, art, and cultural practices to build international relationships', 'Spying on other nations'],
+      correctIndex: 2,
+      explanation: 'Cultural diplomacy uses cultural exchange — art, education, language, and traditions — to build mutual understanding and strengthen international relationships.',
+    },
+    {
+      question: '"Soft power" differs from "hard power" because it:',
+      options: ['Influences others through attraction and persuasion rather than coercion', 'Uses military force', 'Is always less effective', 'Only applies to small countries'],
+      correctIndex: 0,
+      explanation: 'Soft power, a concept by Joseph Nye, means influencing others through appeal and attraction (culture, values, policies) rather than military or economic coercion.',
+    },
+    {
+      question: 'Which is an example of cultural diplomacy?',
+      options: ['Imposing trade sanctions', 'A government-sponsored international art exhibition', 'Military exercises with allies', 'Closing borders to immigration'],
+      correctIndex: 1,
+      explanation: 'A government-sponsored international art exhibition is a form of cultural diplomacy — using cultural exchange to foster understanding and build relationships.',
+    },
+    {
+      question: '"Cultural appropriation" differs from "cultural exchange" because appropriation:',
+      options: ['Involves respectful learning', 'Is the same as diplomacy', 'Always happens between equals', 'Takes elements from a culture without permission, understanding, or respect'],
+      correctIndex: 3,
+      explanation: 'Cultural appropriation involves taking elements from a marginalized culture without permission, understanding, or respect, often by a more dominant culture.',
+    },
+  ],
+  'Data Journalism': [
+    {
+      question: 'Data journalism combines traditional journalism with:',
+      options: ['Creative writing only', 'Fiction writing', 'Statistical analysis and data visualization', 'Gossip reporting'],
+      correctIndex: 2,
+      explanation: 'Data journalism merges traditional reporting with statistical analysis, data mining, and visualization to uncover and tell stories backed by data.',
+    },
+    {
+      question: 'A "correlation" between two data sets means:',
+      options: ['There is a statistical relationship or pattern between them', 'One causes the other', 'The data is incorrect', 'The two sets are identical'],
+      correctIndex: 0,
+      explanation: 'Correlation means a statistical relationship exists between two variables, but it does not imply that one causes the other.',
+    },
+    {
+      question: '"Data visualization" is important because:',
+      options: ['It makes articles longer', 'It helps readers understand complex data through visual representations', 'It replaces all writing', 'It is only decorative'],
+      correctIndex: 1,
+      explanation: 'Data visualization transforms complex datasets into charts, graphs, and infographics, making patterns and trends accessible to readers.',
+    },
+    {
+      question: '"Scraping" in the context of data journalism means:',
+      options: ['Physical damage to property', 'Interviewing sources informally', 'Deleting old articles', 'Automatically extracting large amounts of data from websites'],
+      correctIndex: 3,
+      explanation: 'Web scraping is the automated extraction of data from websites, allowing journalists to collect and analyze large datasets for their stories.',
+    },
+  ],
+  'Applied Ethics': [
+    {
+      question: 'Applied ethics differs from theoretical ethics because it:',
+      options: ['Deals only with abstract concepts', 'Ignores consequences', 'Addresses specific, real-world moral dilemmas and practical situations', 'Focuses only on historical texts'],
+      correctIndex: 2,
+      explanation: 'Applied ethics takes ethical theories and principles and applies them to real-world situations like medical decisions, business practices, and environmental policies.',
+    },
+    {
+      question: 'The "trolley problem" is used to explore:',
+      options: ['The tension between utilitarian and deontological ethical frameworks', 'Traffic regulations', 'Public transportation efficiency', 'Mechanical engineering'],
+      correctIndex: 0,
+      explanation: 'The trolley problem explores the conflict between utilitarianism (maximizing overall good) and deontological ethics (following moral rules regardless of outcomes).',
+    },
+    {
+      question: '"Informed consent" is a key principle in:',
+      options: ['Marketing', 'Medical and research ethics', 'Sports coaching', 'Architecture'],
+      correctIndex: 1,
+      explanation: 'Informed consent requires that patients or research participants understand and voluntarily agree to procedures or studies after being fully informed of risks and benefits.',
+    },
+    {
+      question: '"Conflict of interest" occurs when:',
+      options: ['Two people disagree', 'A debate becomes heated', 'Someone works too hard', 'Personal interests could improperly influence professional judgment or duties'],
+      correctIndex: 3,
+      explanation: 'A conflict of interest arises when someone\'s personal, financial, or secondary interests could compromise their professional obligations and judgment.',
+    },
+  ],
+  'Comprehensive Review': [
+    {
+      question: 'At C2 level, a learner should be able to:',
+      options: ['Hold a basic conversation', 'Only read simple texts', 'Understand virtually everything heard or read with ease and express themselves spontaneously', 'Communicate only in familiar topics'],
+      correctIndex: 2,
+      explanation: 'C2 (Mastery) is the highest CEFR level, indicating the ability to understand virtually everything and express oneself spontaneously, fluently, and precisely.',
+    },
+    {
+      question: '"Register" in linguistics refers to:',
+      options: ['A variety of language used in a particular social or professional context', 'A cash register', 'A list of names', 'A musical notation'],
+      correctIndex: 0,
+      explanation: 'Register is the level and style of language appropriate for a specific context — from informal (chatting with friends) to formal (academic writing).',
+    },
+    {
+      question: '"Pragmatic competence" means:',
+      options: ['Being practical in daily life', 'The ability to use language appropriately in social contexts, understanding implied meaning and cultural norms', 'Speaking very quickly', 'Using correct grammar only'],
+      correctIndex: 1,
+      explanation: 'Pragmatic competence involves understanding not just what words mean, but how to use them appropriately in social contexts — including implied meaning, politeness, and cultural norms.',
+    },
+    {
+      question: 'To maintain language proficiency at C2 level, one should:',
+      options: ['Stop studying', 'Memorize vocabulary lists', 'Only practice grammar exercises', 'Continue engaging with complex, varied content across multiple domains'],
+      correctIndex: 3,
+      explanation: 'Maintaining C2 proficiency requires ongoing engagement with diverse, challenging content — reading, writing, speaking, and listening across multiple domains and contexts.',
+    },
+  ],
+};
+
+// ─── AUDIO SCRIPTS: Real dialogues for every listening lesson ───
+const AUDIO_SCRIPTS: Record<string, string> = {
+  // ── Intermediate (B1-B2) Listening Scripts ──
+  'Presentation Skills': `Anna: Hey Tom, how did your presentation go this morning?
+Tom: Oh, hey Anna! It went really well, actually. I was quite nervous beforehand, but once I started, I felt more confident.
+Anna: That's great! How many people were in the audience?
+Tom: About thirty or so. Most of them were from the marketing department. I used a lot of visuals, which really helped keep everyone engaged.
+Anna: Smart move. I always find that slides with too much text make people lose interest. Did you get many questions at the end?
+Tom: Yeah, quite a few! Some were about the budget, but most were about the timeline for the new project. I think the Q&A was actually the best part.
+Anna: That's usually a good sign. It means people were actually listening and cared about what you had to say.
+Tom: Exactly. My manager said I should work on projecting my voice a bit more, though. Sometimes I speak too quietly when I'm nervous.
+Anna: I have the same problem. Have you tried practicing in front of a mirror or recording yourself?
+Tom: I did record myself once, and it was cringe-worthy! But it really helped me notice things I wouldn't have caught otherwise.
+Anna: Well, it sounds like it was a success overall. You should give yourself more credit!
+Tom: Thanks, Anna. Next time I'll definitely feel more prepared.`,
+
+  'Academic Discussions': `Professor Lee: Good morning, everyone. Today we're discussing the impact of social media on political participation. Sarah, would you like to start?
+Sarah: Sure. I think social media has definitely increased political engagement, especially among younger people. Platforms like Twitter and Instagram make it easier to share information and organize movements.
+James: I'd argue that it's more complicated than that. Yes, people share more political content, but does clicking "share" actually translate into real political action like voting or protesting?
+Professor Lee: That's an excellent point, James. The concept of "slacktivism" is relevant here. Sarah, how would you respond?
+Sarah: I see what James means, but I think it's a starting point. The Arab Spring and the Black Lives Matter movement both gained momentum through social media before becoming real-world action.
+James: That's fair. But we should also consider that social media creates echo chambers. People tend to follow accounts that confirm their existing beliefs, which can deepen polarization rather than encourage genuine debate.
+Professor Lee: Very well argued, both of you. This tension between increased access to information and the quality of that information is really at the heart of the issue.`,
+
+  'Reported Speech': `Emma: So, I had a really interesting meeting with the client today.
+David: Oh? What happened?
+Emma: Well, the client said that they were very happy with our proposal. But then they told me they needed more time to review the budget section.
+David: Did they say when they'd get back to us?
+Emma: They promised they would give us an answer by Friday. And they asked if we could send them the updated figures for last quarter.
+David: Okay, I can pull those numbers together tomorrow. Did they mention anything else?
+Emma: Yes, they also asked whether we could schedule a follow-up meeting next week. I told them we could do Wednesday afternoon.
+David: Sounds good. Were there any concerns?
+Emma: The finance director mentioned that the pricing was slightly higher than they expected. But he didn't say they wanted to cancel or anything. He just asked if there was any room for negotiation.
+David: That's manageable. I'll prepare some alternative pricing options just in case.
+Emma: Perfect. I told the client we'd be flexible, so they seemed reassured by that.`,
+
+  'Idioms & Expressions': `Lucy: You look exhausted, Mark. Long day?
+Mark: You can say that again. I've been burning the candle at both ends all week. Three deadlines, two meetings, and a presentation on top of everything.
+Lucy: Wow, that sounds rough. You should take it easy this weekend. Don't push yourself too hard or you'll burn out.
+Mark: I know, I know. But you know what they say — when the going gets tough, the tough get going.
+Lucy: That's easy to say, but you're not a machine! Sometimes you just have to throw in the towel and admit you need a break.
+Mark: I guess you're right. Actually, my manager said I should delegate more. She told me to stop trying to do everything by the book and trust the team more.
+Lucy: That's solid advice. Two heads are better than one, after all. And speaking of teamwork, I've been meaning to ask — are you coming to the team dinner on Friday?
+Mark: I wouldn't miss it for the world! It'll be nice to let my hair down for a change.
+Lucy: Great! It's been ages since we all went out together. It'll be a nice break from the daily grind.`,
+
+  'Social Media English': `Mia: Have you seen that viral video about the dog who learned to ride a skateboard? It's all over my feed.
+Alex: Oh my gosh, yes! I literally couldn't stop scrolling last night. It has like five million views already.
+Mia: The internet really loves animal content. My cousin's cat video went viral last month and she got thousands of followers overnight.
+Alex: That's wild. It's crazy how social media can make someone famous so quickly. One post blows up and suddenly you're an influencer.
+Mia: Right? But it's not all positive. I've been trying to limit my screen time lately. I was spending like three hours a day just mindlessly scrolling through TikTok.
+Alex: Same here. I deleted the app from my phone for a week, and honestly, I felt so much better. Less anxious, more focused.
+Mia: I've heard a lot of people say that. There's actually been a lot of research about how social media affects mental health, especially for teenagers.
+Alex: Yeah, I read something about that. The comparison culture is real — people only post their highlight reels, not their behind-the-scenes struggles.
+Mia: Exactly. I try to remind myself that what I see online isn't the full picture. But it's hard not to compare sometimes.`,
+
+  'Financial Vocabulary': `Rachel: Hi David, I was looking at the quarterly report and I have a few questions. Do you have a moment?
+David: Of course, Rachel. What's on your mind?
+Rachel: Well, our revenue increased by twelve percent, which is great, but the profit margins seem to have shrunk. Can you explain why?
+David: Good question. The main reason is that our operating expenses went up significantly. We invested heavily in new software and hired five additional staff members.
+Rachel: I see. So it's a deliberate investment rather than wasteful spending?
+David: Exactly. Sometimes you have to spend money to make money. These investments should pay off in the long run by improving efficiency and reducing costs.
+Rachel: That makes sense. What about the forecast for next quarter? Are we expecting a return on investment by then?
+David: We're projecting a modest return by Q3, but the real benefits should be visible by Q4. The board reviewed the numbers last week and they're optimistic.
+Rachel: Good to know. One more thing — I noticed our cash flow was negative last month. Is that something to worry about?
+David: Not at this stage. It was mainly due to the timing of invoice payments. We have a healthy reserve, and the accounts receivable should clear by end of month.`,
+
+  'Renewable Energy': `Kate: I attended a fascinating lecture on renewable energy yesterday. Did you know that solar power is now cheaper than coal in most parts of the world?
+Ben: Really? I had no idea the costs had come down that much. I thought solar was still quite expensive to install.
+Kate: The upfront costs can be high, but the long-term savings are significant. And the technology keeps improving — solar panels today are about forty percent more efficient than they were ten years ago.
+Ben: What about wind energy? I always see those massive turbines when I drive through the countryside.
+Kate: Wind energy is growing fast too, especially offshore wind farms. They can generate huge amounts of electricity without taking up valuable land.
+Ben: But what about the problem of storing the energy? The sun doesn't always shine and the wind doesn't always blow.
+Kate: That's the biggest challenge. Battery technology is improving, though. Some countries are using pumped hydro storage and even experimenting with hydrogen fuel cells.
+Ben: It sounds like there's still a long way to go, but at least we're moving in the right direction.
+Kate: Absolutely. The transition won't happen overnight, but every year we're making real progress toward a cleaner energy future.`,
+
+  'Art Movements': `Sophie: I just got back from the new exhibition at the city gallery. They have an incredible collection spanning from Impressionism to contemporary art.
+Daniel: Oh, nice! Which period did you find most interesting?
+Sophie: I've always loved the Impressionists — Monet, Renoir, Degas. There's something so beautiful about how they captured light and movement. It was revolutionary at the time because they broke away from the strict rules of academic painting.
+Daniel: I'm more drawn to abstract expressionism, honestly. Artists like Pollock and Rothko. It's so raw and emotional. Some people dismiss it as just splashes of paint, but I think there's real depth there.
+Sophie: I can appreciate that. Every art movement was a reaction to what came before. The Impressionists reacted against realism, and then the cubists and surrealists pushed things even further.
+Daniel: Exactly. And now contemporary art is so diverse — installations, digital art, performance pieces. The boundaries just keep expanding.
+Sophie: It makes you wonder what the next major movement will be. Maybe something driven by artificial intelligence or virtual reality?
+Daniel: That's an interesting thought. Technology has already changed how art is created and experienced. It'll be fascinating to see where it goes next.`,
+
+  'Medical Ethics': `Dr. Patel: I had a really challenging case today. An elderly patient with a terminal illness refused further treatment, but the family is insisting we continue.
+Dr. Thompson: That's always a difficult situation. Was the patient of sound mind when they made the decision?
+Dr. Patel: Yes, completely. The patient is lucid and has clearly stated they don't want to undergo any more invasive procedures. They want to focus on quality of life rather than prolonging it.
+Dr. Thompson: Then we have to respect their autonomy. The principle of informed consent means competent patients have the right to refuse treatment, even if others disagree.
+Dr. Patel: I agree, but the family is threatening legal action. They say we're giving up on their loved one.
+Dr. Thompson: It's understandable that they're emotional, but that doesn't change the ethical and legal obligations. We should arrange a meeting with the family and a patient advocate to explain the situation clearly.
+Dr. Patel: I think that's the right approach. We also need to make sure the patient's advance directive is on file and up to date.
+Dr. Thompson: Definitely. And let's involve the ethics committee if the family continues to push back. They can provide guidance and mediation.`,
+
+  'Conflict Resolution': `Lisa: So, I need your advice. Tom and I have been clashing over the project direction for weeks, and it's starting to affect the whole team.
+Marcus: That sounds stressful. What's the main point of disagreement?
+Lisa: He wants to take a conservative approach and stick to the original plan, while I think we need to be more innovative and take some risks. Every meeting turns into an argument.
+Marcus: Have you tried having a one-on-one conversation with him outside of the formal meeting setting? Sometimes people are more open when they're not performing in front of an audience.
+Lisa: Not really. We've only discussed it during team meetings. I guess that might be part of the problem.
+Marcus: Definitely. I'd also suggest focusing on shared goals. You both want the project to succeed, right? Start from that common ground and work outward.
+Lisa: That's a good point. We've been so focused on our differences that we've lost sight of what we agree on.
+Marcus: Another approach is to test both ideas on a small scale. Run a pilot for each direction and let the data guide the decision instead of personal opinions.
+Lisa: That's brilliant. It removes the personal conflict and makes it about results. I'll suggest that to him tomorrow.
+Marcus: Great. And remember — it's okay to disagree. The goal isn't to eliminate conflict, but to manage it constructively.`,
+
+  // ── Advanced (C1-C2) Listening Scripts ──
+  'Persuasive Writing': `Dr. Hayes: Today we're going to analyze what makes persuasive writing truly effective. Who can tell me the three pillars of rhetoric identified by Aristotle?
+Claire: Ethos, pathos, and logos. Ethos is the credibility of the speaker, pathos is emotional appeal, and logos is logical reasoning.
+Dr. Hayes: Perfect. Now, which of these do you think is most important in academic persuasive writing?
+Claire: I'd say logos, because academic audiences value evidence and logical argumentation above all else.
+Dr. Hayes: That's a common assumption, but I'd argue it's incomplete. Without ethos — established credibility and trust — even the most logical argument may fall flat. And without some degree of pathos, your reader may not be motivated to care about your conclusion.
+Claire: So the best persuasive writing weaves all three together seamlessly?
+Dr. Hayes: Precisely. Consider Martin Luther King Jr.'s "Letter from Birmingham Jail." It has impeccable logic, but it's his moral authority — ethos — and his emotional appeals — pathos — that make it unforgettable.
+Claire: That's a great example. How do we establish ethos in our own writing?
+Dr. Hayes: By demonstrating thorough knowledge of the subject, acknowledging counterarguments fairly, and writing with precision and intellectual honesty. Credibility is earned, not claimed.`,
+
+  'Academic Publishing': `Dr. Chen: Let's discuss the peer review process, which is the cornerstone of academic publishing. Your manuscript will typically go through three stages.
+James: I know about initial submission and revision, but could you walk us through the full process?
+Dr. Chen: Of course. First, the editor screens your paper to decide if it's suitable for the journal. If it passes that initial screening, it's sent to two or three peer reviewers who are experts in your field.
+James: And these reviewers are anonymous?
+Dr. Chen: In most cases, yes. This is called double-blind review, where neither the authors nor the reviewers know each other's identities. It's designed to reduce bias.
+James: What happens after the reviewers submit their feedback?
+Dr. Chen: The editor makes one of four decisions: accept, minor revision, major revision, or reject. Acceptance without revision is extremely rare. Most papers require at least some revision.
+James: And if you get a major revision?
+Dr. Chen: Don't panic. It means the editor sees potential in your work. Address every reviewer comment carefully, revise your paper, and submit a detailed response explaining what you changed and why. Persistence is key in academic publishing.`,
+
+  'Literary Criticism': `Professor Webb: Today we're examining how different schools of literary criticism can produce radically different readings of the same text. Let's take "The Great Gatsby" as our example. Maria, what would a Marxist critic focus on?
+Maria: Class struggle and economic inequality. They'd examine how the wealth of characters like Tom and Gatsby contrasts with the poverty of the Wilsons, and how the American Dream is portrayed as ultimately hollow and materialistic.
+Professor Webb: Excellent. And David, what about a feminist reading?
+David: A feminist critic would analyze the representation of women — Daisy, Jordan, and Myrtle — and how they're defined primarily through their relationships with men. They'd question whether the novel reinforces or challenges patriarchal structures.
+Professor Webb: Spot on. Now, here's the crucial point — neither reading is "wrong." Literary criticism isn't about finding the single correct interpretation. It's about revealing the layers of meaning that exist within a text.
+Maria: So the text itself doesn't have one fixed meaning?
+Professor Webb: That's the poststructuralist position, yes. Meaning is produced through the interaction between the text and the reader, shaped by the critical lens we bring to it. That's what makes literary criticism so endlessly fascinating.`,
+
+  'Grant Writing': `Dr. Martinez: I've reviewed your grant proposal draft, and there are several areas that need improvement before we submit it to the National Science Foundation.
+Oliver: I appreciate the feedback. What are the main issues?
+Dr. Martinez: The biggest problem is that your research question isn't clearly stated in the opening paragraph. Reviewers read hundreds of proposals — if they can't understand your central question within the first minute, they'll move on.
+Oliver: I thought I was being thorough by providing extensive background. Should I cut that section?
+Dr. Martinez: Not cut it entirely, but condense it significantly. Move the detailed literature review to the background section and lead with a clear, compelling statement of what you intend to investigate and why it matters.
+Oliver: That makes sense. What about the methodology section?
+Dr. Martinez: That was actually quite strong, but you need to address potential limitations more honestly. Reviewers respect researchers who acknowledge the constraints of their approach rather than pretending they don't exist.
+Oliver: I was worried that mentioning limitations might make the proposal seem weak.
+Dr. Martinez: On the contrary — it shows intellectual maturity. Also, your budget justification needs more detail. Every dollar requested should be clearly accounted for. Reviewers are very careful with public funds.`,
+
+  'Diplomatic Language': `Ambassador Liu: The key to diplomatic communication is saying what you mean without causing unnecessary offense. It requires precision, tact, and cultural awareness.
+Catherine: How do you handle a situation where you need to deliver a firm message without damaging the relationship?
+Ambassador Liu: You frame it carefully. Instead of saying "We reject your proposal," you might say, "We have serious concerns about several aspects of the proposal and would welcome further discussion to address these issues."
+Catherine: So it's about being direct but not blunt?
+Ambassador Liu: Exactly. The goal is to leave room for dialogue while still communicating your position clearly. In diplomacy, bridges should never be burned — they should be preserved, even when disagreements are deep.
+Catherine: What about when a counterpart makes an unacceptable demand?
+Ambassador Liu: You acknowledge their perspective without conceding your position. For example, "We appreciate the thought behind this suggestion, however, it falls outside the parameters of what we can agree to at this time."
+Catherine: That sounds almost too polite. Does it actually work?
+Ambassador Liu: More often than you'd think. Diplomatic language isn't about being insincere — it's about maintaining the conditions under which genuine negotiation can occur. Without respect and civility, dialogue collapses.`,
+
+  'Sociolinguistics': `Dr. Okafor: Let's explore how language reflects and reinforces social identity. When someone code-switches between dialects or languages, what does that tell us?
+Priya: It shows they're adapting their speech to different social contexts. Like when I speak one way with my colleagues and another way with my family.
+Dr. Okafor: Precisely. And this isn't just about vocabulary — it includes pronunciation, grammar, and even gestures. Code-switching is a sophisticated linguistic skill, not a deficiency.
+Priya: I've heard people criticize code-switching as being inauthentic. How do you respond to that?
+Dr. Okafor: That criticism reflects a fundamental misunderstanding. We all adjust our language depending on context. Would you speak to a judge the same way you speak to your closest friend?
+Priya: No, of course not. That makes total sense.
+Dr. Okafor: Research by William Labov in the 1960s demonstrated that non-standard dialects have their own consistent grammatical rules. They're not "broken English" — they're different systems with their own logic.
+Priya: So the idea that one dialect is superior to another is a social judgment, not a linguistic one?
+Dr. Okafor: Exactly. Linguistically, all dialects are equally valid. The prestige attached to certain varieties reflects social power structures, not inherent linguistic superiority.`,
+
+  'Intercultural Mediation': `Ms. Tanaka: Intercultural mediation requires understanding that conflicts often stem from differing cultural assumptions about communication, hierarchy, and conflict itself.
+Raj: Can you give an example of how cultural assumptions cause misunderstandings?
+Ms. Tanaka: Certainly. In many East Asian cultures, maintaining harmony and saving face are paramount. Direct confrontation is often avoided. In contrast, many Western cultures value directness and see avoiding conflict as dishonest.
+Raj: So what might be considered respectful in one culture could be seen as evasive in another?
+Ms. Tanaka: Exactly. I once mediated a dispute between a Japanese team and an American team. The Americans felt the Japanese were being evasive by not stating their objections directly. The Japanese felt the Americans were being aggressive and disrespectful by pushing so hard.
+Raj: How did you resolve it?
+Ms. Tanaka: First, I created a safe space where both sides could explain their communication norms without judgment. Then we established shared ground rules for discussions — balancing directness with sensitivity. It took time, but mutual understanding gradually replaced frustration.
+Raj: It sounds like patience and empathy are the most important tools.
+Ms. Tanaka: Above all else. Technical solutions only work when there's genuine willingness to understand the other perspective.`,
+
+  'Media Ethics': `Professor Aldridge: Today's case study involves a journalist who discovers that a prominent politician lied about their educational qualifications. What are the ethical considerations?
+Yuki: The public has a right to know, don't they? If a politician is dishonest about their background, it calls their integrity into question.
+Professor Aldridge: That's the utilitarian argument — the greatest good is served by exposing the truth. But what about the potential harm?
+Yuki: What kind of harm? To the politician?
+Professor Aldridge: To the politician's family, for one. And to public trust in institutions if every minor discrepancy becomes a scandal. We must weigh the public interest against proportionality.
+Yuki: So you're saying not every truth needs to be published?
+Professor Aldridge: I'm saying responsible journalism requires evaluating whether the public benefit of disclosure outweighs the potential harm. A fabricated degree from a political leader is clearly in the public interest. But what if it were a minor exaggeration on a resume from twenty years ago?
+Yuki: I see the distinction. The context and significance matter as much as the facts themselves.
+Professor Aldridge: Precisely. Ethics in journalism isn't about rigid rules — it's about thoughtful, principled decision-making in complex situations.`,
+
+  'Philosophy of Language': `Dr. Fischer: Let's consider Saussure's distinction between "langue" and "parole." Who can explain this?
+Emma: "Langue" is the abstract system of language — the rules and conventions shared by a community. "Parole" is the actual speech produced by individuals using that system.
+Dr. Fischer: Perfect. Now, why is this distinction important?
+Emma: Because it separates the study of language as a system from the study of individual utterances. It allows us to analyze patterns and structures that go beyond any single act of communication.
+Dr. Fischer: Indeed. And Wittgenstein took this further with his concept of "language games." He argued that the meaning of words is determined by their use within specific social practices.
+Emma: So "I promise" doesn't describe an internal state — it performs an action within a social framework?
+Dr. Fischer: Precisely. This is the foundation of speech act theory, developed further by Austin and Searle. Language doesn't just describe reality — it creates it. When a judge says "I sentence you," those words don't merely report a decision — they enact it.
+Emma: That's a profound insight. It means language is fundamentally a form of social action, not just a tool for representing the world.
+Dr. Fischer: Exactly. And understanding that transforms how we think about meaning, truth, and communication itself.`,
+
+  'Professional Certification': `Dr. Morrison: Earning a professional certification at the C2 level demonstrates mastery that goes far beyond fluency. It's about precision, nuance, and adaptability.
+Liam: What exactly does the certification exam involve?
+Dr. Morrison: It's a comprehensive assessment covering reading comprehension, writing, listening, and speaking. The reading component includes dense academic and professional texts. The writing section requires you to produce well-structured arguments on complex topics.
+Liam: And the speaking portion?
+Dr. Morrison: You'll participate in a structured debate and deliver a prepared presentation. Examiners evaluate your ability to articulate sophisticated ideas, handle unexpected questions, and adjust your register appropriately.
+Liam: That sounds quite demanding. How should one prepare?
+Dr. Morrison: Immerse yourself in high-level English content — academic journals, professional reports, literature, and political commentary. Practice summarizing complex arguments and expressing nuanced opinions.
+Liam: Is there a common mistake candidates make?
+Dr. Morrison: Many candidates focus on advanced vocabulary at the expense of coherence and precision. Using sophisticated words incorrectly is worse than expressing the same idea simply and clearly. True mastery lies in knowing exactly when and how to use complex language.
+Liam: That's a helpful perspective. It's not about showing off — it's about communicating effectively in any context.
+Dr. Morrison: Exactly. C2 certification isn't just a test of knowledge — it's a demonstration of professional competence.`,
+};
+
 export function generateQuizData(lesson: StaticLesson, module: StaticModule, course: StaticCourse): string | null {
   if (lesson.contentType !== 'quiz') return null;
 
   const topic = lesson.title;
-  const quizItems = [
+  const quizItems = QUIZ_DATA[topic];
+
+  if (quizItems) {
+    return JSON.stringify(quizItems);
+  }
+
+  // Fallback: generate generic but varied quiz questions
+  const fallbackItems = [
     {
-      question: `Which of the following best relates to "${topic}"?`,
-      options: ['Unrelated topic A', `The correct concept`, 'Unrelated topic B', 'Unrelated topic C'],
-      correctIndex: 1,
-      explanation: `This answer correctly identifies the key concept of ${topic}.`,
+      question: `Which concept is most closely associated with "${topic}"?`,
+      options: ['An unrelated concept', 'A related but incorrect concept', `The key concept of ${topic}`, 'A contradictory concept'],
+      correctIndex: 2,
+      explanation: `This answer correctly identifies the key concept associated with ${topic}.`,
     },
     {
-      question: `In the context of "${topic}", which statement is true?`,
-      options: ['Statement A is always false', `The correct understanding of the concept`, 'This concept only applies in rare cases', 'None of the above'],
+      question: `In the context of "${topic}", which statement is accurate?`,
+      options: ['A statement that contradicts the lesson', 'An accurate reflection of the lesson content', 'An exaggeration of the concept', 'A common misconception'],
       correctIndex: 1,
-      explanation: `This statement accurately reflects the principles covered in the ${topic} lesson.`,
+      explanation: `This statement accurately reflects what was covered in the ${topic} lesson.`,
     },
     {
-      question: `What is the most important aspect of ${topic.toLowerCase()}?`,
-      options: ['Memorizing rules without understanding', 'Understanding and practical application', 'Avoiding the topic entirely', 'Only studying advanced aspects'],
-      correctIndex: 1,
-      explanation: `Understanding and practical application are always the most important aspects of any language concept.`,
+      question: `What is a common mistake when learning about ${topic.toLowerCase()}?`,
+      options: ['Overcomplicating the concept', 'Confusing it with a different topic', 'Applying it too narrowly', 'All of the above can be common mistakes'],
+      correctIndex: 3,
+      explanation: `All of these are common mistakes learners make. Awareness of pitfalls helps you avoid them.`,
     },
     {
-      question: `How can you best improve your skills in ${topic.toLowerCase()}?`,
-      options: ['Only by reading about it', 'Through regular practice and real-world use', 'By avoiding mistakes at all costs', 'By studying only grammar rules'],
+      question: `How can you best practice what you learned about ${topic.toLowerCase()}?`,
+      options: ['Only by reading theory', 'Through real-world application and regular practice', 'By memorizing definitions only', 'By avoiding the topic until exam time'],
       correctIndex: 1,
-      explanation: `Regular practice and real-world application are the most effective ways to improve any language skill.`,
+      explanation: `Real-world application and regular practice are the most effective ways to master any language concept.`,
     },
   ];
 
-  return JSON.stringify(quizItems);
+  return JSON.stringify(fallbackItems);
 }
 
 /**
@@ -1743,6 +2701,13 @@ export function generateAudioScript(lesson: StaticLesson, module: StaticModule, 
   if (lesson.contentType !== 'listening') return null;
 
   const topic = lesson.title;
+  const script = AUDIO_SCRIPTS[topic];
+
+  if (script) {
+    return script;
+  }
+
+  // Fallback: generate a generic but functional audio script
   return `In this listening exercise for ${topic}, you will hear a conversation between two people discussing ${topic.toLowerCase()}. Listen carefully and try to understand the main points. The speakers will use vocabulary and expressions related to ${module.title.toLowerCase()}. Pay attention to pronunciation, intonation, and the natural rhythm of spoken English.`;
 }
 

@@ -163,7 +163,7 @@ export async function GET(
         quizData: lesson.quizData,
         audioScript: lesson.audioScript,
         estimatedMinutes: lesson.estimatedMinutes,
-        videoUrl: (lesson as Record<string, unknown>).videoUrl || null,
+        videoUrl: lesson.videoUrl || null,
       },
       module: {
         id: lesson.module.id,
