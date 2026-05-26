@@ -114,3 +114,26 @@ Stage Summary:
 - All features deployed to testcefr.com
 - New pages: /ai-tutor, /grammar-check, /vocabulary
 - Course completion certificates integrated into /learn and lesson viewer
+
+---
+Task ID: 1
+Agent: Main Agent
+Task: Rename Talksy to Lexi, fix certificate visibility, deploy
+
+Work Log:
+- Renamed "Talksy" to "Lexi" across AI tutor page (welcome message, header, placeholder)
+- Updated all 4 persona system prompts in /api/ai-tutor/route.ts from "Talksy" to "Lexi"
+- Updated BASE_SYSTEM_PROMPT from "Talksy" to "Lexi"
+- Renamed "AI Tutor" to "Lexi AI" in navbar dropdowns (desktop + mobile)
+- Made "Your Certificates" section visible to ALL users on dashboard (was hidden for free plan)
+- Added "Certificates" quick link in navbar profile dropdown menu
+- Updated empty certificates state to show both "Take the Test" and "Browse Courses" CTAs
+- Cleaned up .gitignore (added testcefr-app, agent-ctx, db files)
+- Force pushed to both origin and testcefr remotes
+
+Stage Summary:
+- AI companion is now branded "Lexi" (unique name, not copying HelloTalk's "Talksy")
+- Certificates are now accessible to all users from Dashboard
+- Certificates link added to navbar dropdown for quick access
+- Certificate auto-generates when course progress reaches 100%
+- Deployed to Vercel via origin push
