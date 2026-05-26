@@ -63,18 +63,19 @@ export function TypewriterBadge() {
   return (
     <div className="text-center mb-8">
       <div
-        className={`inline-flex items-center gap-2.5 rounded-full px-5 py-2.5 transition-all duration-700 ${
+        className={`inline-flex items-center gap-2.5 rounded-full px-5 py-2.5 transition-all duration-700 max-w-[90vw] sm:max-w-none flex-wrap justify-center ${
           isComplete
             ? 'bg-gradient-to-r from-blue-500/10 via-violet-500/10 to-fuchsia-500/10 border border-blue-400/30 shadow-[0_0_30px_rgba(59,130,246,0.15),0_0_60px_rgba(139,92,246,0.1)]'
             : 'bg-white/[0.03] border border-white/[0.08] shadow-none'
         }`}
         style={{
           animation: isComplete ? 'badge-complete-glow 2s ease-in-out infinite' : undefined,
+          overflow: 'visible',
         }}
       >
         {/* Animated sparkles icon */}
         <Sparkles
-          className={`h-4 w-4 transition-colors duration-500 ${
+          className={`h-4 w-4 flex-shrink-0 transition-colors duration-500 ${
             isComplete
               ? 'text-amber-300'
               : isDeleting
@@ -86,22 +87,26 @@ export function TypewriterBadge() {
           }}
         />
 
-        {/* Typewriter text */}
+        {/* Typewriter text — no truncation, auto-width */}
         <span
-          className={`text-sm font-medium transition-colors duration-700 ${
+          className={`text-sm font-medium transition-colors duration-700 whitespace-nowrap sm:whitespace-nowrap whitespace-normal ${
             isComplete
               ? 'bg-gradient-to-r from-blue-200 via-violet-200 to-fuchsia-200 bg-clip-text text-transparent'
               : isDeleting
               ? 'text-fuchsia-300/70'
               : 'text-blue-200'
           }`}
+          style={{
+            overflow: 'visible',
+            minWidth: 'max-content',
+          }}
         >
           {displayText}
         </span>
 
         {/* Blinking cursor */}
         <span
-          className={`inline-block w-[2px] h-4 rounded-full transition-colors duration-500 ${
+          className={`inline-block w-[2px] h-4 flex-shrink-0 rounded-full transition-colors duration-500 ${
             isComplete
               ? 'bg-gradient-to-b from-blue-400 to-violet-400'
               : isDeleting

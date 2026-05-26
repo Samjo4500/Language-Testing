@@ -5,10 +5,15 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   poweredByHeader: false,
 
+  // Acknowledge Turbopack (Next.js 16 default) — webpack config used for production builds
+  turbopack: {},
+
   // Optimize barrel-exported libraries — dramatically reduces bundle size
   experimental: {
     optimizePackageImports: [
       'lucide-react',
+      'framer-motion',
+      'date-fns',
       '@radix-ui/react-dropdown-menu',
       '@radix-ui/react-dialog',
       '@radix-ui/react-accordion',
@@ -25,6 +30,37 @@ const nextConfig: NextConfig = {
     removeConsole: process.env.NODE_ENV === 'production'
       ? { exclude: ['warn', 'error'] }
       : false,
+  },
+
+  // Webpack optimizations — reduce TBT by splitting vendor chunks
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendor',
+            chunks: 'all',
+            priority: 10,
+            reuseExistingChunk: true,
+          },
+          ui: {
+            test: /[\\/]node_modules[\\/](@radix-ui|framer-motion)[\\/]/,
+            name: 'ui-libs',
+            chunks: 'all',
+            priority: 20,
+          },
+        },
+      };
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+      };
+    }
+    return config;
   },
 };
 

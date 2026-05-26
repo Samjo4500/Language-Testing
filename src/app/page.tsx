@@ -28,6 +28,7 @@ import { BackgroundOrbs } from '@/components/home/background-orbs';
 import { CEFR_LEVEL_COLORS, CEFR_LEVEL_DESCS } from '@/components/home/constants';
 import { AnimatedPillars } from '@/components/home/animated-pillars';
 import { TypewriterBadge } from '@/components/home/typewriter-badge';
+import { LazySection } from '@/components/lazy-section';
 
 // Lazy-load below-fold heavy components to reduce Total Blocking Time
 const LiveVoiceDemo = React.lazy(() => import('@/components/home/live-voice-demo'));
@@ -754,6 +755,7 @@ export default function Home() {
       </section>
 
       {/* ===== PRICING — Individual ===== */}
+      <LazySection placeholderHeight={600} className="contents">
       <section ref={pricingSectionRef} className="relative py-20 md:py-28 dark-section-alt hero-pattern noise-overlay" id="pricing">
         <div className="container relative mx-auto px-4">
           <AnimatedSection>
@@ -819,8 +821,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </LazySection>
 
       {/* ===== FOR ORGANIZATIONS ===== */}
+      <LazySection placeholderHeight={500} className="contents">
       <section className="relative py-20 md:py-28 bg-[#0F0A1E] overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="orb orb-blue w-[500px] h-[500px] top-0 right-0 animate-float-slow" />
@@ -986,8 +990,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </LazySection>
 
       {/* ===== FAQ SECTION ===== */}
+      <LazySection placeholderHeight={500} className="contents">
       <section className="relative py-20 md:py-28 dark-section-alt overflow-hidden">
         <div className="container relative mx-auto px-4">
           <AnimatedSection>
@@ -1047,6 +1053,7 @@ export default function Home() {
           </AnimatedSection>
         </div>
       </section>
+      </LazySection>
 
       {/* ===== FOOTER ===== */}
       </main>

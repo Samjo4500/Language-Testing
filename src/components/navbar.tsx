@@ -56,6 +56,7 @@ export function Navbar() {
   const [mobileCefrOpen, setMobileCefrOpen] = useState(false);
   const [mobileCoursesOpen, setMobileCoursesOpen] = useState(false);
   const [mobileLearnOpen, setMobileLearnOpen] = useState(false);
+  const [communityVisible, setCommunityVisible] = useState(false);
   const mounted = useHydrated();
   const pathname = usePathname();
 
@@ -67,6 +68,20 @@ export function Navbar() {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Fetch community user count to conditionally show Community nav
+  useEffect(() => {
+    fetch('/api/community/user-count')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.count >= 50) {
+          setCommunityVisible(true);
+        }
+      })
+      .catch(() => {
+        // On error, keep Community hidden
+      });
   }, []);
 
   // Lock body scroll when mobile menu is open
@@ -290,15 +305,17 @@ export function Navbar() {
                 </Link>
               </NavigationMenuItem>
 
-              {/* Community */}
-              <NavigationMenuItem>
-                <Link href="/community" className={navigationMenuTriggerStyle()}>
-                  <span className={`text-sm flex items-center gap-1 ${isActive('/community') ? 'text-white' : 'text-white/50 hover:text-white'}`}>
-                    <Languages className="h-3.5 w-3.5" />
-                    Community
-                  </span>
-                </Link>
-              </NavigationMenuItem>
+              {/* Community — only visible when user count >= 50 */}
+              {communityVisible && (
+                <NavigationMenuItem>
+                  <Link href="/community" className={navigationMenuTriggerStyle()}>
+                    <span className={`text-sm flex items-center gap-1 ${isActive('/community') ? 'text-white' : 'text-white/50 hover:text-white'}`}>
+                      <Languages className="h-3.5 w-3.5" />
+                      Community
+                    </span>
+                  </Link>
+                </NavigationMenuItem>
+              )}
             </NavigationMenuList>
           </NavigationMenu>
 
@@ -432,7 +449,7 @@ export function Navbar() {
 
         {/* Mobile menu button */}
         <button
-          className="lg:hidden text-white hover:bg-white/10 rounded-lg p-2 transition-colors"
+          className="lg:hidden text-white hover:bg-white/10 rounded-lg p-1.5 transition-colors"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={mobileMenuOpen}
@@ -454,7 +471,7 @@ export function Navbar() {
         <div className="lg:hidden bg-[#0F0A1E]/95 backdrop-blur-xl border-t border-white/[0.04] p-3 space-y-0.5 animate-slide-down relative z-50 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
           <Link
             href="/"
-            className={`block text-sm py-2.5 px-3 rounded-lg transition-all duration-300 ${
+            className={`block text-sm py-2 px-3 rounded-lg transition-all duration-300 ${
               isActive('/') ? 'text-white bg-white/[0.06]' : 'text-white/50 hover:text-white hover:bg-white/[0.04]'
             }`}
             onClick={() => setMobileMenuOpen(false)}
@@ -465,7 +482,7 @@ export function Navbar() {
           {/* Mobile CEFR Test Accordion */}
           <div>
             <button
-              className="w-full flex items-center justify-between text-sm py-2.5 px-3 rounded-lg text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-300"
+              className="w-full flex items-center justify-between text-sm py-2 px-3 rounded-lg text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-300"
               onClick={() => setMobileCefrOpen(!mobileCefrOpen)}
             >
               CEFR Test
@@ -477,7 +494,7 @@ export function Navbar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`flex items-center gap-2 text-sm py-2 px-3 rounded-lg transition-all duration-300 ${
+                    className={`flex items-center gap-2 text-sm py-1.5 px-3 rounded-lg transition-all duration-300 ${
                       isActive(item.href) ? 'text-white bg-white/[0.06]' : 'text-white/50 hover:text-white hover:bg-white/[0.04]'
                     }`}
                     onClick={() => { setMobileMenuOpen(false); setMobileCefrOpen(false); }}
@@ -489,7 +506,7 @@ export function Navbar() {
                 {isAuth && (
                   <Link
                     href="/test"
-                    className="flex items-center gap-2 text-sm py-2 px-3 rounded-lg text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-300"
+                    className="flex items-center gap-2 text-sm py-1.5 px-3 rounded-lg text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-300"
                     onClick={() => { setMobileMenuOpen(false); setMobileCefrOpen(false); }}
                   >
                     <Trophy className="h-3.5 w-3.5" />
@@ -503,7 +520,7 @@ export function Navbar() {
           {/* Mobile Courses Accordion */}
           <div>
             <button
-              className="w-full flex items-center justify-between text-sm py-2.5 px-3 rounded-lg text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-300"
+              className="w-full flex items-center justify-between text-sm py-2 px-3 rounded-lg text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-300"
               onClick={() => setMobileCoursesOpen(!mobileCoursesOpen)}
             >
               Courses
@@ -515,7 +532,7 @@ export function Navbar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="flex items-center gap-2 text-sm py-2 px-3 rounded-lg text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-300"
+                    className="flex items-center gap-2 text-sm py-1.5 px-3 rounded-lg text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-300"
                     onClick={() => { setMobileMenuOpen(false); setMobileCoursesOpen(false); }}
                   >
                     <item.icon className="h-3.5 w-3.5" />
@@ -527,7 +544,7 @@ export function Navbar() {
                 ))}
                 <Link
                   href="/courses"
-                  className="flex items-center gap-2 text-sm py-2 px-3 rounded-lg text-white/50 hover:text-white hover:bg-white/5 transition-all duration-300"
+                  className="flex items-center gap-2 text-sm py-1.5 px-3 rounded-lg text-white/50 hover:text-white hover:bg-white/5 transition-all duration-300"
                   onClick={() => { setMobileMenuOpen(false); setMobileCoursesOpen(false); }}
                 >
                   <BookOpen className="h-3.5 w-3.5" />
@@ -540,7 +557,7 @@ export function Navbar() {
           {/* Mobile Learn Accordion */}
           <div>
             <button
-              className="w-full flex items-center justify-between text-sm py-2.5 px-3 rounded-lg text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-300"
+              className="w-full flex items-center justify-between text-sm py-2 px-3 rounded-lg text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-300"
               onClick={() => setMobileLearnOpen(!mobileLearnOpen)}
             >
               Learn
@@ -552,7 +569,7 @@ export function Navbar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`flex items-center gap-2 text-sm py-2 px-3 rounded-lg transition-all duration-300 ${
+                    className={`flex items-center gap-2 text-sm py-1.5 px-3 rounded-lg transition-all duration-300 ${
                       isActive(item.href) ? 'text-white bg-white/[0.06]' : 'text-white/50 hover:text-white hover:bg-white/[0.04]'
                     }`}
                     onClick={() => { setMobileMenuOpen(false); setMobileLearnOpen(false); }}
@@ -574,7 +591,7 @@ export function Navbar() {
 
           <Link
             href="/pricing"
-            className={`block text-sm py-2.5 px-3 rounded-lg transition-all duration-300 ${
+            className={`block text-sm py-2 px-3 rounded-lg transition-all duration-300 ${
               isActive('/pricing') ? 'text-white bg-white/[0.06]' : 'text-white/50 hover:text-white hover:bg-white/[0.04]'
             }`}
             onClick={() => setMobileMenuOpen(false)}
@@ -582,23 +599,25 @@ export function Navbar() {
             Pricing
           </Link>
 
-          <Link
-            href="/community"
-            className={`flex items-center gap-1.5 text-sm py-2.5 px-3 rounded-lg transition-all duration-300 ${
-              isActive('/community') ? 'text-white bg-white/[0.06]' : 'text-white/50 hover:text-white hover:bg-white/[0.04]'
-            }`}
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            <Languages className="h-3.5 w-3.5" />
-            Community
-          </Link>
+          {communityVisible && (
+            <Link
+              href="/community"
+              className={`flex items-center gap-1.5 text-sm py-2 px-3 rounded-lg transition-all duration-300 ${
+                isActive('/community') ? 'text-white bg-white/[0.06]' : 'text-white/50 hover:text-white hover:bg-white/[0.04]'
+              }`}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <Languages className="h-3.5 w-3.5" />
+              Community
+            </Link>
+          )}
 
           {/* Mobile Auth Section */}
           {isAuth ? (
             <>
               <Link
                 href="/learn"
-                className={`flex items-center gap-2 text-sm py-2.5 px-3 rounded-lg transition-all duration-300 ${
+                className={`flex items-center gap-2 text-sm py-2 px-3 rounded-lg transition-all duration-300 ${
                   isActive('/learn') ? 'text-white bg-white/[0.06]' : 'text-white/50 hover:text-white hover:bg-white/[0.04]'
                 }`}
                 onClick={() => setMobileMenuOpen(false)}
@@ -608,14 +627,14 @@ export function Navbar() {
               </Link>
               <Link
                 href="/profile"
-                className="block text-sm text-white/50 hover:text-white py-2.5 px-3 rounded-lg hover:bg-white/[0.04]"
+                className="block text-sm text-white/50 hover:text-white py-2 px-3 rounded-lg hover:bg-white/[0.04]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Profile
               </Link>
               <Link
                 href="/dashboard"
-                className="block text-sm text-white/50 hover:text-white py-2.5 px-3 rounded-lg hover:bg-white/[0.04]"
+                className="block text-sm text-white/50 hover:text-white py-2 px-3 rounded-lg hover:bg-white/[0.04]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Dashboard
@@ -630,7 +649,7 @@ export function Navbar() {
                   </div>
                   <Link
                     href="/admin"
-                    className="block text-sm text-blue-400/80 py-2.5 px-3 rounded-lg hover:bg-white/[0.04]"
+                    className="block text-sm text-blue-400/80 py-2 px-3 rounded-lg hover:bg-white/[0.04]"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     <Shield className="inline h-3.5 w-3.5 mr-1" />
@@ -641,7 +660,7 @@ export function Navbar() {
               <div className="pt-2 mt-1 border-t border-white/[0.06]">
                 <p className="text-sm text-white/40 mb-1 px-3">{user?.email}</p>
                 <button
-                  className="w-full text-left text-sm text-red-400/80 py-2.5 px-3 rounded-lg hover:bg-red-500/10"
+                  className="w-full text-left text-sm text-red-400/80 py-2 px-3 rounded-lg hover:bg-red-500/10"
                   onClick={handleLogout}
                 >
                   Log out
