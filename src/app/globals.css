@@ -319,10 +319,10 @@
 
 /* === NAVIGATION === */
 .glass-nav {
-  background: rgba(10, 6, 24, 0.85);
+  background: rgba(15, 10, 30, 0.85);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
 }
 
@@ -514,6 +514,62 @@
 @keyframes mic-glow-opacity {
   0%, 100% { opacity: 0.35; }
   50% { opacity: 1; }
+}
+
+/* === PILLAR CYCLING ANIMATION === */
+@keyframes pillar-enter {
+  0% { opacity: 0; transform: translateY(20px) scale(0.95); filter: blur(4px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+@keyframes pillar-exit {
+  0% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  100% { opacity: 0; transform: translateY(-20px) scale(0.95); filter: blur(4px); }
+}
+@keyframes pillar-glow-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.15); }
+}
+@keyframes pillar-dot-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.8); opacity: 0; }
+}
+@keyframes pillar-stagger-in {
+  0% { opacity: 0; transform: translateY(30px) scale(0.9); filter: blur(6px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+@keyframes pillar-cursor-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+@keyframes orbit-spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+@keyframes orbit-ring-pulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.08); }
+}
+
+/* === TYPEWRITER BADGE ANIMATIONS === */
+@keyframes badge-cursor-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+@keyframes badge-sparkle-spin {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(15deg) scale(1.1); }
+  50% { transform: rotate(0deg) scale(1); }
+  75% { transform: rotate(-15deg) scale(1.1); }
+}
+@keyframes badge-complete-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(59,130,246,0.15), 0 0 40px rgba(139,92,246,0.1);
+    border-color: rgba(96,165,250,0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(59,130,246,0.25), 0 0 60px rgba(139,92,246,0.15);
+    border-color: rgba(139,92,246,0.4);
+  }
 }
 
 /* === ANIMATION UTILITIES === */

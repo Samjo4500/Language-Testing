@@ -10,6 +10,7 @@ interface User {
   role?: string;
   accountType?: string;
   organizationName?: string | null;
+  isProfileComplete?: boolean;
 }
 
 interface AuthState {
@@ -24,7 +25,7 @@ interface AuthState {
   setAuth: (user: User, accessToken: string, refreshToken: string) => void;
   setUser: (user: User) => void;
   setLoading: (loading: boolean) => void;
-  logout: () => void;
+  logout: () => Promise<void>;
   refreshAccessToken: () => Promise<string | null>;
   updatePlan: (plan: string) => void;
 }
@@ -61,16 +62,20 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   setLoading: (loading) => set({ isLoading: loading }),
 
-  logout: () => {
-    // Fire-and-forget: increment server-side tokenVersion to invalidate all tokens
-    // Browser sends access_token cookie automatically — no need for Authorization header
-    fetch('/api/auth/logout/', {
-      method: 'POST',
-      credentials: 'same-origin',
-    }).catch(() => {}); // Ignore errors — client state is cleared regardless
+  logout: async () => {
+    // IMPORTANT: Await the server logout to ensure HttpOnly cookies are cleared
+    // BEFORE any page redirect. A fire-and-forget approach causes a race condition
+    // where the page reloads before cookies are cleared, causing instant re-login.
+    try {
+      await fetch('/api/auth/logout/', {
+        method: 'POST',
+        credentials: 'same-origin',
+      });
+    } catch {
+      // Ignore network errors — client state is still cleared below
+    }
     if (typeof window !== 'undefined') {
       localStorage.removeItem('user');
-      // HttpOnly cookies are cleared by the server's /api/auth/logout endpoint
     }
     set({
       user: null,

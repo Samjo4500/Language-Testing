@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { generateCertificatePDF } from '@/lib/certificate/pdf-generator';
+import { generateCertificatePDF, generateCourseCertificatePDF } from '@/lib/certificate/pdf-generator';
 import { db } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
@@ -32,21 +32,37 @@ export async function GET(
       console.warn(`Malformed skillBreakdown for certificate ${verificationId}`);
     }
 
-    const pdfBuffer = await generateCertificatePDF({
-      userName: certificate.userName,
-      cefrLevel: certificate.cefrLevel,
-      score: certificate.score,
-      verificationId: certificate.verificationId,
-      issuedAt: certificate.issuedAt,
-      skillBreakdown,
-    });
+    let pdfBuffer: Buffer;
+
+    if (certificate.type === 'course_completion') {
+      // Course completion certificate
+      pdfBuffer = await generateCourseCertificatePDF({
+        userName: certificate.userName,
+        cefrLevel: certificate.cefrLevel,
+        courseName: certificate.courseName || 'English Course',
+        score: certificate.score,
+        verificationId: certificate.verificationId,
+        issuedAt: certificate.issuedAt,
+        skillBreakdown,
+      });
+    } else {
+      // Assessment certificate (default)
+      pdfBuffer = await generateCertificatePDF({
+        userName: certificate.userName,
+        cefrLevel: certificate.cefrLevel,
+        score: certificate.score,
+        verificationId: certificate.verificationId,
+        issuedAt: certificate.issuedAt,
+        skillBreakdown,
+      });
+    }
 
     // Return PDF as download
     return new NextResponse(new Uint8Array(pdfBuffer), {
       status: 200,
       headers: {
         'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment; filename="TestCEFR-Certificate-${certificate.cefrLevel}-${certificate.verificationId}.pdf"`,
+        'Content-Disposition': `attachment; filename="TestCEFR-${certificate.type === 'course_completion' ? 'Course' : 'Assessment'}-Certificate-${certificate.cefrLevel}-${certificate.verificationId}.pdf"`,
         'Content-Length': pdfBuffer.length.toString(),
       },
     });

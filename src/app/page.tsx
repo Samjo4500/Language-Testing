@@ -26,6 +26,8 @@ import { trackPricingView } from '@/lib/analytics';
 import { AnimatedSection } from '@/components/home/animated-section';
 import { BackgroundOrbs } from '@/components/home/background-orbs';
 import { CEFR_LEVEL_COLORS, CEFR_LEVEL_DESCS } from '@/components/home/constants';
+import { AnimatedPillars } from '@/components/home/animated-pillars';
+import { TypewriterBadge } from '@/components/home/typewriter-badge';
 
 // Lazy-load below-fold heavy components to reduce Total Blocking Time
 const LiveVoiceDemo = React.lazy(() => import('@/components/home/live-voice-demo'));
@@ -579,25 +581,22 @@ export default function Home() {
 
         <div className="container relative mx-auto px-4 py-20 md:py-28">
           <div className="mx-auto max-w-6xl">
-            {/* Top badge */}
-            <div className="text-center mb-8">
-              <div className="animate-float inline-flex items-center gap-2 rounded-full glass-light px-5 py-2.5 animate-border-glow">
-                <Sparkles className="h-4 w-4 text-blue-300" />
-                <span className="text-sm text-blue-200 font-medium">AI-Powered Assessment Platform</span>
-                <span className="flex h-2 w-2 rounded-full bg-blue-400 animate-pulse" />
-              </div>
-            </div>
+            {/* Typewriter badge */}
+            <TypewriterBadge />
 
             {/* Main headline */}
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight text-white leading-[1.1] animate-slide-up text-center">
-              Assess Your English
-              <br />
-              <span className="gradient-text">With AI Precision</span>
+              Master English with AI
             </h1>
+
+            {/* Animated Three Pillars */}
+            <div className="mt-4 flex justify-center animate-slide-up" style={{ animationDelay: '0.2s' }}>
+              <AnimatedPillars />
+            </div>
 
             {/* Subheadline */}
             <p className="mt-6 text-lg md:text-xl text-white/60 leading-relaxed max-w-2xl mx-auto animate-fade-in delay-300 text-center">
-              Get your CEFR-scored English proficiency results in minutes. Our AI evaluates 6 core skills — reading, writing, listening, speaking, grammar, and vocabulary — with detailed feedback and actionable insights.
+              The all-in-one platform to assess your CEFR level, follow structured courses from A1 to C2, and practice with language partners worldwide — powered by AI at every step.
             </p>
 
             {/* CTA Buttons */}

@@ -65,11 +65,17 @@ export default function LoginPage() {
       }
 
       setAuth(data.user, data.accessToken, data.refreshToken);
-      // Use the redirect param if present (sanitized), otherwise go to dashboard
-      const params = new URLSearchParams(window.location.search);
-      const rawRedirect = params.get('redirect') || '/dashboard';
-      const redirectTo = rawRedirect.startsWith('/') && !rawRedirect.startsWith('//') ? rawRedirect : '/dashboard';
-      router.push(redirectTo);
+
+      // Redirect to onboarding if profile is incomplete
+      if (data.user.isProfileComplete === false) {
+        router.push('/onboarding');
+      } else {
+        // Use the redirect param if present (sanitized), otherwise go to dashboard
+        const params = new URLSearchParams(window.location.search);
+        const rawRedirect = params.get('redirect') || '/dashboard';
+        const redirectTo = rawRedirect.startsWith('/') && !rawRedirect.startsWith('//') ? rawRedirect : '/dashboard';
+        router.push(redirectTo);
+      }
     } catch (err) {
       // Network-level error (Failed to fetch)
       if (err instanceof TypeError && err.message === 'Failed to fetch') {

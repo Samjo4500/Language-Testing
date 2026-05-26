@@ -21,7 +21,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const user = await db.user.findUnique({ where: { email } });
+    const user = await db.user.findUnique({
+      where: { email },
+      select: { id: true, email: true, name: true },
+    });
 
     // Always return success to prevent email enumeration
     if (!user) {

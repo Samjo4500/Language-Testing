@@ -22,6 +22,7 @@ import {
   BarChart3,
   AlertCircle,
   RotateCcw,
+  Loader2,
 } from 'lucide-react';
 
 /* ============================================================
@@ -129,6 +130,53 @@ function getTierFromSlug(slug: string): string {
   if (slug?.includes('intermediate') || slug?.includes('b1') || slug?.includes('b2')) return 'intermediate';
   if (slug?.includes('advanced') || slug?.includes('c1') || slug?.includes('c2')) return 'advanced';
   return 'beginner';
+}
+
+/* ============================================================
+   GENERATE CERTIFICATE BUTTON
+   ============================================================ */
+function GenerateCertButton({ enrollmentId, onGenerated }: { enrollmentId: string; onGenerated: (certId: string) => void }) {
+  const [loading, setLoading] = useState(false);
+
+  const handleGenerate = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch('/api/courses/certificate/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ enrollmentId }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        onGenerated(data.certificate.verificationId);
+      }
+    } catch {
+      // Silently fail
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <button
+      onClick={handleGenerate}
+      disabled={loading}
+      className="w-full flex items-center justify-center gap-2 rounded-xl py-2.5 bg-gradient-to-r from-purple-600/80 to-pink-600/80 hover:from-purple-500 hover:to-pink-500 text-white font-medium text-sm cursor-pointer hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+      {loading ? (
+        <>
+          <Loader2 className="h-4 w-4 animate-spin" />
+          Generating...
+        </>
+      ) : (
+        <>
+          <Award className="h-4 w-4" />
+          Generate Certificate
+        </>
+      )}
+    </button>
+  );
 }
 
 /* ============================================================
@@ -433,13 +481,19 @@ export default function MyCoursesPage() {
                                 Review Course
                               </button>
                             </Link>
-                            {enrollment.certificateId && (
-                              <Link href={`/verify/${enrollment.certificateId}`}>
-                                <button className="w-full flex items-center justify-center gap-2 rounded-xl py-2.5 glass-button text-white font-medium text-sm cursor-pointer">
+                            {enrollment.certificateId ? (
+                              <Link href={`/certificate/${enrollment.certificateId}`}>
+                                <button className="w-full flex items-center justify-center gap-2 rounded-xl py-2.5 glass-button text-white font-medium text-sm cursor-pointer hover:-translate-y-0.5 transition-all duration-300">
                                   <Award className="h-4 w-4" />
                                   View Certificate
                                 </button>
                               </Link>
+                            ) : (
+                              <GenerateCertButton enrollmentId={enrollment.id} onGenerated={(certId) => {
+                                setEnrollments(prev => prev.map(e =>
+                                  e.id === enrollment.id ? { ...e, certificateId: certId } : e
+                                ));
+                              }} />
                             )}
                           </>
                         ) : (

@@ -112,7 +112,7 @@ export default function RegisterPage() {
       setAuth(data.user, data.accessToken, data.refreshToken);
       // Track account creation
       trackAccountCreate({ account_type: accountType });
-      router.push(isB2B ? '/contact' : '/pricing');
+      router.push('/onboarding');
     } catch {
       setError('An unexpected error occurred. Please try again.');
     } finally {

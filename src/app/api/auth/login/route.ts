@@ -21,7 +21,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const user = await db.user.findUnique({ where: { email } });
+    // Use select to only fetch columns needed for login — this makes login resilient
+    // to schema drift (e.g., new columns added to Prisma schema but not yet in the DB)
+    const user = await db.user.findUnique({
+      where: { email },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        passwordHash: true,
+        plan: true,
+        role: true,
+        accountType: true,
+        organizationName: true,
+        isSuspended: true,
+        isProfileComplete: true,
+        tokenVersion: true,
+      },
+    });
     if (!user) {
       return NextResponse.json(
         { error: 'Invalid email or password.' },
@@ -62,6 +79,7 @@ export async function POST(request: NextRequest) {
         role: user.role,
         accountType: user.accountType,
         organizationName: user.organizationName,
+        isProfileComplete: user.isProfileComplete,
       },
       accessToken: tokens.accessToken,
       refreshToken: tokens.refreshToken,

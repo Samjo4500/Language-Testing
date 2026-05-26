@@ -60,8 +60,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Find the user
-    const user = await db.user.findUnique({ where: { id: decoded.userId } });
+    // Find the user — use select for schema drift resilience
+    const user = await db.user.findUnique({
+      where: { id: decoded.userId },
+      select: { id: true, passwordResetAt: true },
+    });
     if (!user) {
       return NextResponse.json(
         { error: 'User not found.' },

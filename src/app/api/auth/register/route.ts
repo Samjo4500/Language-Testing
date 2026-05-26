@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { hashPassword, generateTokens, getJwtSecret } from '@/lib/auth';
 import { sendWelcomeEmail, sendEmailVerification, sendAdminNewUser } from '@/lib/email';
+import { createNotification } from '@/lib/notifications';
 import { authLimiter } from '@/lib/rate-limit';
 import { setAuthCookies } from '@/lib/cookie-auth';
 import { classifyDBError } from '@/lib/db-health';
@@ -59,7 +60,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const existingUser = await db.user.findUnique({ where: { email } });
+    const existingUser = await db.user.findUnique({ where: { email }, select: { id: true } });
     if (existingUser) {
       return NextResponse.json(
         { error: 'An account with this email already exists.' },
@@ -105,6 +106,15 @@ export async function POST(request: NextRequest) {
       console.error('Welcome email send error:', err)
     );
 
+    // Create in-app welcome notification (fire-and-forget)
+    createNotification(
+      user.id,
+      'welcome',
+      'Welcome to TestCEFR! 🎉',
+      `Hi ${user.name || user.email.split('@')[0]}! Start by taking a CEFR assessment to discover your English level, or browse our courses.`,
+      '/test'
+    ).catch((err) => console.error('Welcome notification error:', err));
+
     // Notify admin of new user signup (fire-and-forget)
     sendAdminNewUser(
       user.name || user.email.split('@')[0],
@@ -140,6 +150,7 @@ export async function POST(request: NextRequest) {
         role: user.role,
         accountType: user.accountType,
         organizationName: user.organizationName,
+        isProfileComplete: user.isProfileComplete,
       },
       accessToken: tokens.accessToken,
       refreshToken: tokens.refreshToken,

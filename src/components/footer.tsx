@@ -1,14 +1,15 @@
 'use client';
 
 import Link from 'next/link';
+import { Headphones, BookOpenCheck, PenTool, Mic, GraduationCap, Trophy, BookOpen, HelpCircle, Mail, MessageCircle, Users } from 'lucide-react';
 
 export function Footer() {
   return (
     <footer className="bg-[#0A0618] border-t border-white/5 py-12 mt-auto">
       <div className="container mx-auto px-4">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
           {/* Brand */}
-          <div>
+          <div className="lg:col-span-2">
             <div className="flex items-center gap-3.5 mb-4">
               <img src="/logo-icon.svg" alt="CEFR Test" className="h-10 w-10 sm:h-12 sm:w-12" />
               <div className="flex flex-col">
@@ -19,7 +20,7 @@ export function Footer() {
               </div>
             </div>
             <p className="text-sm text-white/60 leading-relaxed mb-4">
-              AI-powered English proficiency assessment aligned with the Common European Framework of Reference.
+              AI-powered English proficiency assessment aligned with the Common European Framework of Reference. Certify your skills with confidence.
             </p>
             <div className="flex items-center gap-3">
               {/* TikTok */}
@@ -78,41 +79,94 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Product */}
+          {/* CEFR Tests */}
           <div>
-            <p className="text-white font-semibold text-sm mb-4">Product</p>
+            <p className="text-white font-semibold text-sm mb-4">CEFR Tests</p>
             <div className="space-y-2.5">
-              <Link href="/" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Home</Link>
-              <Link href="/courses" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Courses</Link>
-              <Link href="/quick-tour" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Quick Tour</Link>
-              <Link href="/sample-certificate" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Sample Certificate</Link>
-              <Link href="/sample-report" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Sample Report</Link>
-              <Link href="/register" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Get Started</Link>
+              <Link href="/listening" className="flex items-center gap-2 text-sm text-white/60 hover:text-white/70 transition-colors">
+                <Headphones className="h-3.5 w-3.5 text-white/30" />
+                Listening
+              </Link>
+              <Link href="/reading" className="flex items-center gap-2 text-sm text-white/60 hover:text-white/70 transition-colors">
+                <BookOpenCheck className="h-3.5 w-3.5 text-white/30" />
+                Reading
+              </Link>
+              <Link href="/writing" className="flex items-center gap-2 text-sm text-white/60 hover:text-white/70 transition-colors">
+                <PenTool className="h-3.5 w-3.5 text-white/30" />
+                Writing
+              </Link>
+              <Link href="/speaking" className="flex items-center gap-2 text-sm text-white/60 hover:text-white/70 transition-colors">
+                <Mic className="h-3.5 w-3.5 text-white/30" />
+                Speaking
+              </Link>
+              <Link href="/test" className="flex items-center gap-2 text-sm text-white/60 hover:text-white/70 transition-colors">
+                <Trophy className="h-3.5 w-3.5 text-white/30" />
+                Take Full Test
+              </Link>
             </div>
           </div>
 
-          {/* Company */}
+          {/* Courses */}
           <div>
-            <p className="text-white font-semibold text-sm mb-4">Company</p>
+            <p className="text-white font-semibold text-sm mb-4">Courses</p>
             <div className="space-y-2.5">
-              <Link href="/about" className="block text-sm text-white/60 hover:text-white/70 transition-colors">About</Link>
-              <Link href="/faq" className="block text-sm text-white/60 hover:text-white/70 transition-colors">FAQ</Link>
-              <Link href="/contact" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Contact</Link>
-              <Link href="/sample-certificate" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Verify Certificate</Link>
-              <Link href="/privacy" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Privacy</Link>
-              <Link href="/terms" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Terms</Link>
+              <Link href="/courses?level=a1" className="flex items-center gap-2 text-sm text-white/60 hover:text-white/70 transition-colors">
+                <GraduationCap className="h-3.5 w-3.5 text-white/30" />
+                Beginners
+                <span className="text-[9px] font-semibold tracking-wide uppercase px-1 py-0.5 rounded bg-blue-500/15 text-blue-400">A1-A2</span>
+              </Link>
+              <Link href="/courses?level=b1" className="flex items-center gap-2 text-sm text-white/60 hover:text-white/70 transition-colors">
+                <BookOpen className="h-3.5 w-3.5 text-white/30" />
+                Intermediate
+                <span className="text-[9px] font-semibold tracking-wide uppercase px-1 py-0.5 rounded bg-cyan-500/15 text-cyan-400">B1-B2</span>
+              </Link>
+              <Link href="/courses?level=c1" className="flex items-center gap-2 text-sm text-white/60 hover:text-white/70 transition-colors">
+                <Trophy className="h-3.5 w-3.5 text-white/30" />
+                Advanced
+                <span className="text-[9px] font-semibold tracking-wide uppercase px-1 py-0.5 rounded bg-purple-500/15 text-purple-400">C1-C2</span>
+              </Link>
+              <Link href="/courses" className="flex items-center gap-2 text-sm text-white/60 hover:text-white/70 transition-colors">
+                <BookOpen className="h-3.5 w-3.5 text-white/30" />
+                All Courses
+              </Link>
+              <Link href="/pricing" className="block text-sm text-white/60 hover:text-white/70 transition-colors">
+                Pricing
+              </Link>
             </div>
           </div>
 
-          {/* Account */}
+          {/* Support & Community */}
           <div>
-            <p className="text-white font-semibold text-sm mb-4">Account</p>
+            <p className="text-white font-semibold text-sm mb-4">Support</p>
             <div className="space-y-2.5">
-              <Link href="/dashboard" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Dashboard</Link>
-              <Link href="/login" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Sign In</Link>
-              <Link href="/register" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Create Account</Link>
-              <Link href="/courses" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Courses</Link>
-              <Link href="/quick-tour" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Quick Tour</Link>
+              <Link href="/faq" className="flex items-center gap-2 text-sm text-white/60 hover:text-white/70 transition-colors">
+                <HelpCircle className="h-3.5 w-3.5 text-white/30" />
+                FAQ
+              </Link>
+              <Link href="/contact" className="flex items-center gap-2 text-sm text-white/60 hover:text-white/70 transition-colors">
+                <Mail className="h-3.5 w-3.5 text-white/30" />
+                Contact Us
+              </Link>
+              <Link href="/quick-tour" className="flex items-center gap-2 text-sm text-white/60 hover:text-white/70 transition-colors">
+                <MessageCircle className="h-3.5 w-3.5 text-white/30" />
+                Quick Tour
+              </Link>
+              <div className="pt-2 mt-2 border-t border-white/5">
+                <Link href="/community" className="flex items-center gap-2 text-sm text-white/60 hover:text-white/70 transition-colors">
+                  <Users className="h-3.5 w-3.5 text-white/30" />
+                  Community
+                  <span className="text-[9px] font-semibold tracking-wide uppercase px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400">New</span>
+                </Link>
+                <Link href="/community/chatroom" className="flex items-center gap-2 text-sm text-white/60 hover:text-white/70 transition-colors ml-4">
+                  <MessageCircle className="h-3.5 w-3.5 text-white/30" />
+                  Chatroom
+                </Link>
+              </div>
+              <div className="space-y-2.5 pt-1">
+                <Link href="/about" className="block text-sm text-white/60 hover:text-white/70 transition-colors">About</Link>
+                <Link href="/privacy" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Privacy</Link>
+                <Link href="/terms" className="block text-sm text-white/60 hover:text-white/70 transition-colors">Terms</Link>
+              </div>
             </div>
           </div>
         </div>
@@ -138,6 +192,14 @@ export function Footer() {
                   <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                 </svg>
                 <span className="text-white/50 text-xs font-medium">SSL Secure</span>
+              </div>
+
+              {/* PayPal Verified */}
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.06] hover:border-blue-500/30 transition-colors">
+                <svg className="h-5 w-5 text-blue-400" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c1.847 2.826.632 7.26-3.595 7.26h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106H9.076l.16-1.014h2.627c4.298 0 7.664-1.748 8.647-6.797.395-2.028.142-3.682-.688-5.014z" />
+                </svg>
+                <span className="text-white/50 text-xs font-medium">PayPal Verified</span>
               </div>
 
               {/* Visa */}
@@ -185,6 +247,10 @@ export function Footer() {
             </span>
           </div>
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
+            <p className="text-white/50 text-xs">
+              Secure payments powered by PayPal
+            </p>
+            <span className="hidden sm:inline text-white/10">|</span>
             <p className="text-white/50 text-xs">
               &copy; {new Date().getFullYear()} CEFR Test. All rights reserved.
             </p>

@@ -58,3 +58,8 @@ node_modules/
 .env
 .env.local
 upload/
+testcefr-app/
+agent-ctx/
+.zscripts/
+examples/
+db/*.db

@@ -32,9 +32,11 @@ export async function GET(request: NextRequest) {
         userName: cert.userName,
         cefrLevel: cert.cefrLevel,
         score: cert.score,
+        type: cert.type,
+        courseName: cert.courseName,
         issuedAt: cert.issuedAt,
         assessmentId: cert.assessmentId,
-        completedAt: cert.assessment.completedAt,
+        completedAt: cert.assessment?.completedAt || null,
       })),
     });
   } catch (error) {

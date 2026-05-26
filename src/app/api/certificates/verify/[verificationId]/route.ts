@@ -36,6 +36,10 @@ export async function GET(
         score: certificate.score,
         skillBreakdown: JSON.parse(certificate.skillBreakdown || '{}'),
         issuedAt: certificate.issuedAt,
+        type: certificate.type,
+        courseName: certificate.courseName,
+        assessmentId: certificate.assessmentId,
+        completedAt: certificate.issuedAt,
       },
     });
   } catch (error) {

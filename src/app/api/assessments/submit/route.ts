@@ -114,7 +114,10 @@ export async function POST(request: NextRequest) {
     const { v4: uuidv4 } = await import('uuid');
     const verificationId = `TC-${uuidv4().split('-')[0].toUpperCase()}-${uuidv4().split('-')[1].toUpperCase()}`;
 
-    const user = await db.user.findUnique({ where: { id: authResult.userId } });
+    const user = await db.user.findUnique({
+      where: { id: authResult.userId },
+      select: { id: true, plan: true, name: true, email: true },
+    });
     const certificate = await db.certificate.upsert({
       where: { assessmentId: assessment.id },
       create: {

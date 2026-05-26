@@ -40,10 +40,20 @@ export async function POST(request: NextRequest) {
     }
 
     // Fetch the user's CURRENT data from the database
-    // This ensures plan upgrades/downgrades are reflected immediately
-    // rather than using stale data from the old token
+    // Use select to only fetch needed columns — resilient to schema drift
     const dbUser = await db.user.findUnique({
       where: { id: payload.userId },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        plan: true,
+        role: true,
+        tokenVersion: true,
+        testCredits: true,
+        accountType: true,
+        organizationName: true,
+      },
     });
 
     if (!dbUser) {

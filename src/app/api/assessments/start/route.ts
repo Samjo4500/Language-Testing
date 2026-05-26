@@ -41,7 +41,10 @@ export async function POST(request: NextRequest) {
     const versionError = await verifyTokenVersion(authResult);
     if (versionError) return versionError;
 
-    const user = await db.user.findUnique({ where: { id: authResult.userId } });
+    const user = await db.user.findUnique({
+      where: { id: authResult.userId },
+      select: { id: true, plan: true, testCredits: true, emailVerified: true, organizationId: true },
+    });
     if (!user) {
       return NextResponse.json({ error: 'Not Found', message: 'User not found.' }, { status: 404 });
     }

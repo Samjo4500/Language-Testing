@@ -27,6 +27,7 @@ import {
   ArrowRight,
   Zap,
   HelpCircle,
+  Trophy,
 } from 'lucide-react';
 
 /* ============================================================
@@ -653,6 +654,8 @@ export default function LessonViewerPage() {
   const [quizPassed, setQuizPassed] = useState(false);
   const [ttsLoading, setTtsLoading] = useState(false);
   const [ttsPlaying, setTtsPlaying] = useState(false);
+  const [showCelebration, setShowCelebration] = useState(false);
+  const [celebrationCertId, setCelebrationCertId] = useState<string | null>(null);
 
   // Refs
   const startTimeRef = useRef<number>(Date.now());
@@ -821,6 +824,7 @@ export default function LessonViewerPage() {
 
       if (res.ok) {
         progressUpdatedRef.current = true;
+        const progressData = await res.json();
         // Refresh enrollment info to get updated progress
         await fetchEnrollmentInfo();
         // Update local lesson data progress
@@ -833,6 +837,13 @@ export default function LessonViewerPage() {
             timeSpentSeconds: timeSpent,
           },
         } : prev);
+
+        // Check if course was just completed — show celebration
+        if (progressData?.courseProgress?.status === 'completed') {
+          const certId = progressData.courseProgress.certificateId;
+          setCelebrationCertId(certId);
+          setShowCelebration(true);
+        }
       }
     } catch {
       // Silently fail — user can retry
@@ -1317,7 +1328,86 @@ export default function LessonViewerPage() {
         </main>
       </div>
 
-      {/* Custom animation for mobile sidebar */}
+      {/* ===== COURSE COMPLETION CELEBRATION ===== */}
+      {showCelebration && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-sm">
+          {/* Confetti particles */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {Array.from({ length: 40 }).map((_, i) => {
+              const colors = ['#a855f7', '#ec4899', '#3b82f6', '#06b6d4', '#10b981', '#f59e0b'];
+              const color = colors[i % colors.length];
+              const left = Math.random() * 100;
+              const delay = Math.random() * 3;
+              const duration = 2 + Math.random() * 3;
+              const size = 4 + Math.random() * 8;
+              return (
+                <div
+                  key={i}
+                  className="absolute rounded-full"
+                  style={{
+                    left: `${left}%`,
+                    top: '-10px',
+                    width: `${size}px`,
+                    height: `${size}px`,
+                    backgroundColor: color,
+                    animationDelay: `${delay}s`,
+                    animationDuration: `${duration}s`,
+                    animation: `confetti-fall ${duration}s linear ${delay}s forwards`,
+                  }}
+                />
+              );
+            })}
+          </div>
+
+          {/* Celebration Card */}
+          <div className="relative z-10 mx-4 w-full max-w-md">
+            <div className="glass-card p-8 text-center relative overflow-hidden">
+              {/* Glow effect */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl -mt-32 pointer-events-none" />
+
+              {/* Trophy icon */}
+              <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 text-white mb-6 shadow-lg shadow-purple-500/30" style={{ animation: 'celebration-bounce 2s ease-in-out infinite' }}>
+                <Trophy className="h-10 w-10" />
+              </div>
+
+              <h2 className="text-3xl font-bold text-white mb-2">Course Complete!</h2>
+              <p className="text-white/60 mb-1">Congratulations! You&apos;ve finished</p>
+              <p className="text-lg font-semibold gradient-text-static mb-6">
+                {lessonData?.course?.title || 'the course'}
+              </p>
+
+              <p className="text-white/40 text-sm mb-8">
+                Your course completion certificate is ready. You can view and download it anytime.
+              </p>
+
+              <div className="flex flex-col gap-3">
+                {celebrationCertId && (
+                  <Link href={`/certificate/${celebrationCertId}`}>
+                    <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer hover:-translate-y-0.5">
+                      <Award className="h-5 w-5" />
+                      View Your Certificate
+                    </button>
+                  </Link>
+                )}
+                <Link href="/learn">
+                  <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 glass-button text-white font-medium text-sm cursor-pointer hover:-translate-y-0.5 transition-all duration-300">
+                    <BookOpen className="h-4 w-4" />
+                    Back to My Courses
+                  </button>
+                </Link>
+                <button
+                  onClick={() => setShowCelebration(false)}
+                  className="text-white/30 text-xs hover:text-white/50 transition-colors cursor-pointer mt-2"
+                >
+                  Continue reviewing this lesson
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Custom animations */}
       <style jsx>{`
         @keyframes slide-right {
           from { transform: translateX(-100%); }
@@ -1325,6 +1415,20 @@ export default function LessonViewerPage() {
         }
         .animate-slide-right {
           animation: slide-right 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes confetti-fall {
+          0% {
+            transform: translateY(0) rotate(0deg);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(100vh) rotate(720deg);
+            opacity: 0;
+          }
+        }
+        @keyframes celebration-bounce {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.15); }
         }
       `}</style>
     </div>

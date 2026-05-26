@@ -41,15 +41,20 @@ interface CertificateInfo {
   issuedAt: string;
   assessmentId: string;
   completedAt: string;
+  type?: string;
+  courseName?: string;
 }
 
 const CEFR_LEVELS: Record<string, { title: string; gradient: string; textColor: string; barColor: string }> = {
   A1: { title: 'Beginner',          gradient: 'from-blue-500 to-blue-600',     textColor: 'text-blue-400',   barColor: 'from-blue-400 to-cyan-500' },
   A2: { title: 'Elementary',        gradient: 'from-green-500 to-green-600',   textColor: 'text-green-400',  barColor: 'from-green-400 to-emerald-500' },
+  'A1-A2': { title: 'Foundation Level', gradient: 'from-blue-500 to-green-500',  textColor: 'text-blue-400',  barColor: 'from-blue-400 to-cyan-500' },
   B1: { title: 'Intermediate',      gradient: 'from-yellow-500 to-yellow-600', textColor: 'text-yellow-400', barColor: 'from-yellow-400 to-amber-500' },
   B2: { title: 'Upper Intermediate', gradient: 'from-orange-500 to-orange-600', textColor: 'text-orange-400', barColor: 'from-orange-400 to-amber-500' },
+  'B1-B2': { title: 'Independent Level', gradient: 'from-yellow-500 to-orange-500', textColor: 'text-yellow-400', barColor: 'from-yellow-400 to-amber-500' },
   C1: { title: 'Advanced',          gradient: 'from-red-500 to-red-600',       textColor: 'text-red-400',    barColor: 'from-red-400 to-rose-500' },
   C2: { title: 'Proficient',        gradient: 'from-purple-500 to-purple-600', textColor: 'text-purple-400', barColor: 'from-purple-400 to-pink-500' },
+  'C1-C2': { title: 'Proficient Level', gradient: 'from-red-500 to-purple-500', textColor: 'text-red-400',  barColor: 'from-red-400 to-rose-500' },
 };
 
 const SKILL_LABELS: Record<string, string> = {
@@ -59,6 +64,7 @@ const SKILL_LABELS: Record<string, string> = {
   speaking: 'Speaking',
   grammar: 'Grammar',
   vocabulary: 'Vocabulary',
+  quiz: 'Quiz',
 };
 
 const SKILL_COLORS: Record<string, string> = {
@@ -162,6 +168,7 @@ export default function CertificatePage() {
   const levelInfo = CEFR_LEVELS[certificate.cefrLevel] || CEFR_LEVELS.B1;
   const skills = certificate.skillBreakdown || {};
   const skillEntries = Object.entries(skills).filter(([_, v]) => v !== undefined);
+  const isCourseCompletion = certificate.type === 'course_completion';
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
@@ -187,7 +194,7 @@ export default function CertificatePage() {
                 {/* Top header */}
                 <div className="text-center space-y-1">
                   <p className="uppercase tracking-[0.25em] text-white/60 text-xs md:text-sm font-medium">
-                    Certificate of Proficiency
+                    {isCourseCompletion ? 'Certificate of Completion' : 'Certificate of Proficiency'}
                   </p>
                 </div>
 
@@ -201,7 +208,7 @@ export default function CertificatePage() {
                       test<span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">cefr</span><span className="text-purple-300">.com</span>
                     </span>
                     <span className="text-white/40 text-[9px] uppercase tracking-[0.2em] leading-tight">
-                      English Assessment
+                      {isCourseCompletion ? 'English Course' : 'English Assessment'}
                     </span>
                   </div>
                 </div>
@@ -215,7 +222,16 @@ export default function CertificatePage() {
                   <p className="text-3xl md:text-4xl font-bold text-white tracking-wide">
                     {certificate.userName}
                   </p>
-                  <p className="text-white/50 text-sm">has achieved CEFR Level</p>
+                  {isCourseCompletion ? (
+                    <>
+                      <p className="text-white/50 text-sm">has successfully completed the</p>
+                      <p className="text-xl font-bold text-purple-300">
+                        {certificate.courseName || 'English Course'}
+                      </p>
+                    </>
+                  ) : (
+                    <p className="text-white/50 text-sm">has achieved CEFR Level</p>
+                  )}
                 </div>
 
                 {/* Level circle */}
@@ -240,7 +256,7 @@ export default function CertificatePage() {
                       {certificate.score}%
                     </p>
                     <p className="text-[10px] uppercase tracking-wider mt-1 text-white/40">
-                      Score
+                      {isCourseCompletion ? 'Completion Score' : 'Score'}
                     </p>
                   </div>
                   <div className="text-center">

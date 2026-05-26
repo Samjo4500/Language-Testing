@@ -532,105 +532,112 @@ export default function DashboardPage() {
             </div>
           )}
 
-          {/* Certificates Section */}
-          {isPaidPlan(user.plan) && (
-            <div className="glass-card p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-                    <Award className="h-5 w-5 text-blue-400" />
-                    Your Certificates
-                  </h2>
-                  <p className="text-xs text-white/40 mt-0.5">Your CEFR proficiency certificates with QR verification</p>
-                </div>
-                <span className="inline-flex items-center gap-1 rounded-full px-3 py-0.5 text-xs font-medium bg-blue-500/20 text-blue-300 border border-blue-500/30">
-                  <QrCode className="h-3 w-3" />
-                  QR Verified
-                </span>
+          {/* Certificates Section — visible to ALL users */}
+          <div className="glass-card p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+                  <Award className="h-5 w-5 text-blue-400" />
+                  Your Certificates
+                </h2>
+                <p className="text-xs text-white/40 mt-0.5">Your CEFR proficiency certificates with QR verification</p>
               </div>
+              <span className="inline-flex items-center gap-1 rounded-full px-3 py-0.5 text-xs font-medium bg-blue-500/20 text-blue-300 border border-blue-500/30">
+                <QrCode className="h-3 w-3" />
+                QR Verified
+              </span>
+            </div>
 
-              {certificatesLoading ? (
-                <div className="space-y-3">
-                  <Skeleton className="h-20 w-full bg-white/5" />
-                  <Skeleton className="h-20 w-full bg-white/5" />
-                </div>
-              ) : certificatesError ? (
-                <div className="text-center py-8 space-y-3">
-                  <AlertCircle className="h-12 w-12 text-red-400/50 mx-auto" />
-                  <p className="text-red-400/70 text-sm">{certificatesError}</p>
+            {certificatesLoading ? (
+              <div className="space-y-3">
+                <Skeleton className="h-20 w-full bg-white/5" />
+                <Skeleton className="h-20 w-full bg-white/5" />
+              </div>
+            ) : certificatesError ? (
+              <div className="text-center py-8 space-y-3">
+                <AlertCircle className="h-12 w-12 text-red-400/50 mx-auto" />
+                <p className="text-red-400/70 text-sm">{certificatesError}</p>
+                <button
+                  className="mt-2 flex items-center gap-2 mx-auto rounded-xl px-6 py-2.5 glass-button text-white font-semibold text-sm cursor-pointer"
+                  onClick={() => { setCertificatesError(null); setCertificatesLoading(true); }}
+                >
+                  <RotateCcw className="h-4 w-4" />
+                  Retry
+                </button>
+              </div>
+            ) : certificates.length === 0 ? (
+              <div className="text-center py-8 space-y-3">
+                <Award className="h-12 w-12 text-white/20 mx-auto" />
+                <p className="text-white/40">No certificates yet</p>
+                <p className="text-xs text-white/30">
+                  Complete a CEFR assessment or course to earn your certificate with QR verification.
+                </p>
+                <div className="flex items-center justify-center gap-3 mt-4">
                   <button
-                    className="mt-2 flex items-center gap-2 mx-auto rounded-xl px-6 py-2.5 glass-button text-white font-semibold text-sm cursor-pointer"
-                    onClick={() => { setCertificatesError(null); setCertificatesLoading(true); }}
-                  >
-                    <RotateCcw className="h-4 w-4" />
-                    Retry
-                  </button>
-                </div>
-              ) : certificates.length === 0 ? (
-                <div className="text-center py-8 space-y-3">
-                  <Award className="h-12 w-12 text-white/20 mx-auto" />
-                  <p className="text-white/40">No certificates yet</p>
-                  <p className="text-xs text-white/30">
-                    Complete a CEFR assessment to earn your certificate with QR verification.
-                  </p>
-                  <button
-                    className="mt-2 flex items-center gap-2 mx-auto rounded-xl px-6 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-blue-500/25 cursor-pointer"
+                    className="flex items-center gap-2 rounded-xl px-5 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-blue-500/25 cursor-pointer"
                     onClick={() => router.push('/test')}
                   >
                     <BookOpen className="h-4 w-4" />
                     Take the Test
                   </button>
+                  <button
+                    className="flex items-center gap-2 rounded-xl px-5 py-2.5 glass-button text-white font-semibold text-sm cursor-pointer hover:-translate-y-0.5 transition-all duration-300"
+                    onClick={() => router.push('/courses')}
+                  >
+                    <Sparkles className="h-4 w-4" />
+                    Browse Courses
+                  </button>
                 </div>
-              ) : (
-                <div className="space-y-3">
-                  {certificates.map((cert) => (
-                    <div
-                      key={cert.id}
-                      className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/8 transition-colors gap-3"
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className={`inline-flex items-center justify-center h-10 w-10 rounded-xl bg-gradient-to-br ${CEFR_GRADIENTS[cert.cefrLevel] || 'from-blue-400 to-blue-600'} text-white text-sm font-bold shadow-lg`}>
-                          {cert.cefrLevel}
-                        </span>
-                        <div>
-                          <p className="font-medium text-sm text-white">CEFR {cert.cefrLevel} Certificate</p>
-                          <p className="text-xs text-white/40">
-                            Score: {cert.score}/100 | Issued: {new Date(cert.issuedAt).toLocaleDateString('en-US', {
-                              year: 'numeric', month: 'short', day: 'numeric',
-                            })}
-                          </p>
-                          <p className="text-xs text-white/30 flex items-center gap-1 mt-0.5">
-                            <QrCode className="h-3 w-3" />
-                            ID: {cert.verificationId}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Link href={`/report/${cert.verificationId}`}>
-                          <button className="flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-medium bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg cursor-pointer">
-                            <BarChart3 className="h-3 w-3" />
-                            Report
-                          </button>
-                        </Link>
-                        <Link href={`/certificate/${cert.verificationId}`}>
-                          <button className="flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-medium glass-button text-white cursor-pointer">
-                            <Award className="h-3 w-3" />
-                            View
-                          </button>
-                        </Link>
-                        <a href={`/api/certificates/download/${cert.verificationId}`} target="_blank" rel="noopener noreferrer">
-                          <button className="flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-medium bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg cursor-pointer">
-                            <Download className="h-3 w-3" />
-                            PDF
-                          </button>
-                        </a>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {certificates.map((cert) => (
+                  <div
+                    key={cert.id}
+                    className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/8 transition-colors gap-3"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className={`inline-flex items-center justify-center h-10 w-10 rounded-xl bg-gradient-to-br ${CEFR_GRADIENTS[cert.cefrLevel] || 'from-blue-400 to-blue-600'} text-white text-sm font-bold shadow-lg`}>
+                        {cert.cefrLevel}
+                      </span>
+                      <div>
+                        <p className="font-medium text-sm text-white">CEFR {cert.cefrLevel} Certificate</p>
+                        <p className="text-xs text-white/40">
+                          Score: {cert.score}/100 | Issued: {new Date(cert.issuedAt).toLocaleDateString('en-US', {
+                            year: 'numeric', month: 'short', day: 'numeric',
+                          })}
+                        </p>
+                        <p className="text-xs text-white/30 flex items-center gap-1 mt-0.5">
+                          <QrCode className="h-3 w-3" />
+                          ID: {cert.verificationId}
+                        </p>
                       </div>
                     </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
+                    <div className="flex items-center gap-2">
+                      <Link href={`/report/${cert.verificationId}`}>
+                        <button className="flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-medium bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg cursor-pointer">
+                          <BarChart3 className="h-3 w-3" />
+                          Report
+                        </button>
+                      </Link>
+                      <Link href={`/certificate/${cert.verificationId}`}>
+                        <button className="flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-medium glass-button text-white cursor-pointer">
+                          <Award className="h-3 w-3" />
+                          View
+                        </button>
+                      </Link>
+                      <a href={`/api/certificates/download/${cert.verificationId}`} target="_blank" rel="noopener noreferrer">
+                        <button className="flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-medium bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg cursor-pointer">
+                          <Download className="h-3 w-3" />
+                          PDF
+                        </button>
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
 
           {/* Premium Benefits */}
           {isPaidPlan(user.plan) && (
