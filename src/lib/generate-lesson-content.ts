@@ -1,7 +1,8 @@
 /**
  * Generate lesson content dynamically based on lesson metadata.
- * This provides rich HTML content, vocabulary, quiz data, and audio scripts
- * without needing to store 600K+ of content in the codebase.
+ * Provides rich HTML content, vocabulary, quiz data, and audio scripts.
+ * Uses lesson-content-map for handcrafted content, then falls back to
+ * topic-aware template generation with real educational material.
  */
 
 import { StaticCourse, StaticModule, StaticLesson, STATIC_MODULES, STATIC_LESSONS_BY_MODULE_ID, STATIC_COURSE_BY_SLUG, STATIC_COURSES, STATIC_MODULES_BY_COURSE_ID } from './static-course-data';
@@ -12,6 +13,268 @@ const LEVEL_LABELS: Record<string, string> = {
   'A1-A2': 'beginner (A1-A2)',
   'B1-B2': 'intermediate (B1-B2)',
   'C1-C2': 'advanced (C1-C2)',
+};
+
+// Topic-specific content templates keyed by lesson title
+// Each entry provides real educational content that's far richer than generic fallbacks
+const TOPIC_CONTENT: Record<string, Record<string, string>> = {
+  reading: {
+    'Greetings & Introductions': `<h2>Greetings & Introductions</h2>
+<p>When you meet someone for the first time, the words you choose set the tone for the entire conversation. In English-speaking cultures, a warm greeting signals friendliness and respect. The most common first-time greeting is <strong>"Nice to meet you"</strong>, often accompanied by a handshake or a friendly smile.</p>
+<p>For people you already know, greetings become more casual. Friends might say <strong>"Hey!"</strong>, <strong>"How's it going?"</strong>, or <strong>"What's up?"</strong> These phrases signal a relaxed, friendly relationship. In formal situations — such as meeting a new boss or attending a business event — use <strong>"Good morning/afternoon"</strong> or <strong>"How do you do?"</strong></p>
+<p>Leaving a conversation also has its own phrases. A simple <strong>"Goodbye"</strong> works everywhere, but you can also use <strong>"Take care"</strong>, <strong>"See you later"</strong>, or <strong>"Have a great day"</strong> for a warmer farewell. The key is matching your language to the situation: formal for professional settings, casual for friends.</p>`,
+
+    'Daily Routines': `<h2>Daily Routines</h2>
+<p>Everyone has a daily routine — the sequence of actions we repeat each day. Describing your routine in English requires the <strong>present simple tense</strong>, because these are habits and regular events. For example: <strong>"I wake up at 7 AM. I eat breakfast, brush my teeth, and leave for work."</strong></p>
+<p>Native speakers often use time expressions to structure their descriptions. Words like <strong>"first"</strong>, <strong>"then"</strong>, <strong>"after that"</strong>, and <strong>"finally"</strong> help listeners follow the sequence. Try describing your own morning: <em>"First, I check my phone. Then I make coffee. After that, I take a shower and get dressed."</em></p>
+<p>Notice that routines include both actions (verbs) and the objects involved (nouns). The verb <strong>"make"</strong> goes with <strong>"coffee"</strong> or <strong>"the bed"</strong>, while <strong>"do"</strong> pairs with <strong>"homework"</strong> or <strong>"exercise"</strong>. Learning these common collocations will make your English sound much more natural.</p>`,
+
+    'Describing People': `<h2>Describing People</h2>
+<p>Being able to describe people is an essential English skill. You might need to describe a friend, identify someone in a crowd, or write a character description. The most common way to describe appearance uses the verb <strong>"to be"</strong> with adjectives: <strong>"She is tall"</strong>, <strong>"He is slim"</strong>, <strong>"They have curly hair"</strong>.</p>
+<p>When describing someone, start with the most noticeable features — height, build, and hair. Then add details like eye color, skin tone, or distinctive features such as glasses or a beard. Use <strong>"wearing"</strong> for clothing: <strong>"She's wearing a blue jacket."</strong></p>
+<p>Adjective order matters in English! The general pattern is: opinion → size → age → shape → color → origin → material → purpose. For example: <strong>"a beautiful tall young woman"</strong> or <strong>"a small old round wooden table"</strong>. Getting this order right makes your descriptions sound natural.</p>`,
+
+    'At the Restaurant': `<h2>At the Restaurant</h2>
+<p>Ordering food at a restaurant follows a predictable pattern in English. When you arrive, the host might ask <strong>"Table for how many?"</strong> or <strong>"Do you have a reservation?"</strong> Once seated, the waiter will bring a menu and ask <strong>"Are you ready to order?"</strong> or <strong>"Can I get you something to drink?"</strong></p>
+<p>When ordering, it is polite to say <strong>"I'd like..."</strong> or <strong>"Could I have..."</strong> rather than just naming the dish. For example: <strong>"I'd like the grilled salmon, please."</strong> If you need more time, say <strong>"Could we have a few more minutes?"</strong> If you have dietary needs, you can ask <strong>"Does this dish contain nuts?"</strong> or <strong>"Do you have vegetarian options?"</strong></p>
+<p>At the end of the meal, you can signal the waiter by saying <strong>"Could we have the bill, please?"</strong> In many English-speaking countries, it is customary to leave a tip of 15–20% of the total. Simply say <strong>"Keep the change"</strong> if you want the tip included in your cash payment.</p>`,
+
+    'Present Simple Tense': `<h2>Present Simple Tense</h2>
+<p>The present simple is one of the most fundamental tenses in English. We use it to describe <strong>habits</strong>, <strong>routines</strong>, <strong>general truths</strong>, and <strong>permanent situations</strong>. For example: <strong>"I drink coffee every morning"</strong> (habit), <strong>"The sun rises in the east"</strong> (general truth), <strong>"She lives in London"</strong> (permanent situation).</p>
+<p>Formation is straightforward: use the base form of the verb for <strong>I, you, we, they</strong>, and add <strong>-s</strong> or <strong>-es</strong> for <strong>he, she, it</strong>. For example: <strong>"I work"</strong> → <strong>"She works"</strong>, <strong>"I go"</strong> → <strong>"He goes"</strong>. For negatives, use <strong>"don't"</strong> or <strong>"doesn't"</strong>: <strong>"I don't like spinach"</strong>, <strong>"She doesn't drive."</strong></p>
+<p>Questions use <strong>"Do"</strong> or <strong>"Does"</strong>: <strong>"Do you speak French?"</strong>, <strong>"Does he play football?"</strong> Adverbs of frequency — <strong>always, usually, often, sometimes, rarely, never</strong> — commonly appear with the present simple: <strong>"She always arrives early."</strong></p>`,
+
+    'At the Store': `<h2>At the Store</h2>
+<p>Whether you are buying groceries, clothes, or electronics, shopping conversations in English follow common patterns. When you enter a store, a shop assistant might ask <strong>"Can I help you?"</strong> or <strong>"Are you looking for anything in particular?"</strong> If you are just browsing, a polite response is <strong>"I'm just looking, thanks."</strong></p>
+<p>When you find something you want, you will need to ask about price and size. Useful phrases include <strong>"How much is this?"</strong>, <strong>"Do you have this in a larger size?"</strong>, and <strong>"Can I try this on?"</strong> In clothing stores, the fitting room is where you try on garments. If something does not fit, you can say <strong>"It doesn't fit"</strong> or <strong>"Do you have a different color?"</strong></p>
+<p>At the checkout, the cashier might ask <strong>"Would you like a bag?"</strong> or <strong>"Are you paying by cash or card?"</strong> Understanding these common exchanges makes shopping in English-speaking countries much less stressful and far more enjoyable.</p>`,
+
+    'Body Parts': `<h2>Body Parts</h2>
+<p>Knowing the names of body parts is essential for everyday English, especially when visiting a doctor or describing symptoms. The most commonly referenced body parts include the <strong>head, arms, hands, legs, and feet</strong>. Each of these has more specific parts: the head includes the <strong>eyes, ears, nose, mouth, and chin</strong>, while the arm includes the <strong>shoulder, elbow, wrist, and fingers</strong>.</p>
+<p>English uses many idioms involving body parts. For example, <strong>"keep an eye on"</strong> means to watch something carefully, <strong>"lend a hand"</strong> means to help, and <strong>"break a leg"</strong> means good luck. Understanding these expressions will make your English more natural and colorful.</p>
+<p>When describing pain or discomfort, we use <strong>"my"</strong> with the body part: <strong>"My back hurts"</strong>, <strong>"I have a headache"</strong>, <strong>"My stomach aches."</strong> Notice that some conditions use the word <strong>"ache"</strong> (headache, stomachache, toothache), while others use <strong>"hurt"</strong> or <strong>"sore"</strong> (my throat is sore, my leg hurts).</p>`,
+
+    'At the Airport': `<h2>At the Airport</h2>
+<p>Airports have their own specific vocabulary that every traveler needs to know. When you arrive, you first go to <strong>check-in</strong>, where you show your <strong>passport</strong> and <strong>ticket</strong>, and hand over your <strong>luggage</strong>. The check-in agent will give you a <strong>boarding pass</strong> with your <strong>gate number</strong> and <strong>seat number</strong>.</p>
+<p>After check-in, you go through <strong>security</strong>, where your bags are scanned and you walk through a metal detector. Officers may ask you to remove your belt, shoes, or electronics. After security, you enter the <strong>departure lounge</strong>, where you can shop or eat while waiting for your flight.</p>
+<p>Important announcements use specific language: <strong>"Flight BA123 is now boarding at Gate 7"</strong> means it is time to get on the plane. <strong>"This is the final call for flight BA123"</strong> means you must board immediately. If your flight is <strong>delayed</strong>, listen for updates about the new departure time.</p>`,
+
+    'Email Writing': `<h2>Email Writing</h2>
+<p>Writing professional emails is a critical skill in today's workplace. A well-structured email has three main parts: a clear <strong>subject line</strong>, a concise <strong>body</strong>, and an appropriate <strong>closing</strong>. The subject line should summarize the email's purpose: <strong>"Meeting Reschedule: Q3 Review — Tuesday 2 PM"</strong> is far more useful than <strong>"Meeting"</strong>.</p>
+<p>The opening depends on your relationship with the recipient. Formal emails use <strong>"Dear [Name],"</strong> or <strong>"Dear Mr./Ms. [Surname],"</strong> Semi-formal emails use <strong>"Hi [Name],"</strong> or <strong>"Hello [Name],"</strong> The body should be direct and organized — use short paragraphs and bullet points when listing multiple items.</p>
+<p>Common closings include <strong>"Best regards"</strong> (formal), <strong>"Kind regards"</strong> (semi-formal), and <strong>"Thanks"</strong> or <strong>"Best"</strong> (informal). Always proofread before sending, paying special attention to the recipient's name and any attachments you have mentioned.</p>`,
+
+    'Essay Structure': `<h2>Essay Structure</h2>
+<p>A good essay follows a clear structure that guides the reader through your argument. The standard format consists of three parts: an <strong>introduction</strong>, <strong>body paragraphs</strong>, and a <strong>conclusion</strong>. Think of it as telling the reader what you are going to say, saying it, and then telling them what you said.</p>
+<p>The introduction should grab the reader's attention and present your <strong>thesis statement</strong> — the main argument or claim of your essay. A strong thesis is specific and debatable: <strong>"Social media has fundamentally altered how young people form political opinions"</strong> rather than <strong>"Social media is important."</strong></p>
+<p>Each body paragraph should focus on <strong>one main idea</strong> that supports your thesis. Start with a <strong>topic sentence</strong>, provide <strong>evidence</strong> (examples, data, quotes), and explain how this evidence supports your argument. Use <strong>transition words</strong> — <em>furthermore, however, in contrast, similarly</em> — to connect your ideas smoothly. The conclusion should synthesize your arguments, not simply repeat them.</p>`,
+
+    'Present Perfect': `<h2>Present Perfect Tense</h2>
+<p>The present perfect connects the past to the present. We form it with <strong>have/has + past participle</strong>: <strong>"I have visited Paris"</strong>, <strong>"She has finished her homework."</strong> This tense expresses experiences, changes, and continuing situations — always with a connection to <em>now</em>.</p>
+<p>Use the present perfect for <strong>life experiences</strong> (<strong>"I have climbed Mount Fuji"</strong>), <strong>recent actions with present results</strong> (<strong>"She has lost her keys" — she still cannot find them</strong>), and <strong>duration from past to present</strong> (<strong>"I have lived here for ten years"</strong>). The key is that the time is unfinished or unspecified.</p>
+<p>Do not use the present perfect with specific past time expressions. <strong>"I have seen that movie yesterday"</strong> is incorrect — use the past simple instead: <strong>"I saw that movie yesterday."</strong> However, you can use it with <strong>since</strong> (a point in time) and <strong>for</strong> (a period): <strong>"I have worked here since 2020"</strong> / <strong>"I have worked here for four years."</strong></p>`,
+
+    'Cultural Differences': `<h2>Cultural Differences</h2>
+<p>Cultural awareness is essential for effective communication in English. What is considered polite in one culture may be rude in another. For example, in many Western cultures, direct eye contact shows confidence and honesty, while in some Asian cultures, prolonged eye contact can be seen as disrespectful or confrontational.</p>
+<p>Greetings vary enormously across cultures. While Americans often say <strong>"Hi, how are you?"</strong> as a casual greeting (expecting only <strong>"Good, thanks!"</strong>), people from other cultures may interpret this as a genuine question and provide a detailed answer. Understanding these nuances prevents misunderstandings and builds stronger relationships.</p>
+<p>Personal space, gift-giving customs, and dining etiquette all differ across cultures. In Britain, it is common to apologize frequently — <strong>"Sorry"</strong> is used even when you are not at fault. In American business culture, small talk before meetings is expected, while in some Northern European cultures, people prefer to get straight to business.</p>`,
+
+    'Tech Vocabulary': `<h2>Tech Vocabulary</h2>
+<p>Technology vocabulary is essential in modern English. Whether you work in tech or simply use digital devices daily, understanding terms like <strong>software, hardware, algorithm, database,</strong> and <strong>interface</strong> helps you navigate the digital world confidently.</p>
+<p>Common tech expressions include <strong>"to install an app"</strong>, <strong>"to update software"</strong>, <strong>"to back up files"</strong>, and <strong>"to sync devices"</strong>. When something goes wrong, you might say <strong>"The system crashed"</strong>, <strong>"I lost my data"</strong>, or <strong>"The website is down."</strong> Understanding these phrases helps you communicate tech problems clearly.</p>
+<p>The language of technology evolves rapidly. Words like <strong>"cloud computing"</strong>, <strong>"machine learning"</strong>, and <strong>"blockchain"</strong> did not exist in everyday English a generation ago. Staying current with tech vocabulary is not just about professional development — it is about participating fully in conversations about the tools and systems that shape our daily lives.</p>`,
+
+    'Negotiations': `<h2>Negotiations</h2>
+<p>Negotiation is a skill that combines language, strategy, and psychology. In professional English, negotiations follow a structured pattern: <strong>opening</strong> (establishing positions), <strong>bargaining</strong> (exchanging concessions), and <strong>closing</strong> (reaching agreement). Each stage uses specific language.</p>
+<p>During the opening, you might say <strong>"Our starting position is..."</strong> or <strong>"We are looking for..."</strong> In the bargaining phase, conditional language is essential: <strong>"If you can offer a 10% discount, we would be willing to increase our order."</strong> This <strong>if...would</strong> structure is the language of compromise.</p>
+<p>Successful negotiators use <strong>hedging language</strong> to keep options open: <strong>"We might be able to..."</strong>, <strong>"That could work, provided that..."</strong> They also use <strong>summarizing</strong> to confirm understanding: <strong>"So, if I understand correctly, you are proposing..."</strong> These phrases prevent misunderstandings and show professionalism.</p>`,
+
+    'Climate Change': `<h2>Climate Change</h2>
+<p>Climate change is one of the most pressing issues of our time, and being able to discuss it in English is increasingly important. The core concept is straightforward: human activities — especially burning fossil fuels — release greenhouse gases that trap heat in the atmosphere, causing global temperatures to rise.</p>
+<p>Key vocabulary includes <strong>carbon emissions</strong> (CO2 released into the atmosphere), <strong>renewable energy</strong> (power from sources like wind and solar), and <strong>sustainability</strong> (meeting present needs without compromising future generations). Understanding these terms helps you follow news reports and participate in informed discussions.</p>
+<p>Individuals can contribute by reducing their <strong>carbon footprint</strong> — the total greenhouse gases generated by their actions. Simple steps include using public transport, reducing meat consumption, and supporting environmentally responsible companies. Every small action contributes to the larger goal of limiting global warming.</p>`,
+
+    'Literary Terms': `<h2>Literary Terms</h2>
+<p>Literary terms are the vocabulary we use to analyze and discuss literature. Understanding terms like <strong>metaphor, simile, imagery, symbolism,</strong> and <strong>irony</strong> allows you to read more deeply and express your interpretations clearly.</p>
+<p>A <strong>metaphor</strong> directly compares two unlike things: <strong>"Time is a thief."</strong> A <strong>simile</strong> does the same using "like" or "as": <strong>"Her eyes were as bright as stars."</strong> <strong>Imagery</strong> appeals to the senses through descriptive language, while <strong>symbolism</strong> uses objects or actions to represent abstract ideas — a dove symbolizes peace, a chain can symbolize oppression.</p>
+<p><strong>Irony</strong> comes in three forms: <strong>situational irony</strong> (the opposite of what you expect happens), <strong>dramatic irony</strong> (the audience knows something the characters do not), and <strong>verbal irony</strong> (saying the opposite of what you mean). Recognizing these devices enriches your reading experience and sharpens your analytical writing.</p>`,
+
+    'Mental Health Vocabulary': `<h2>Mental Health Vocabulary</h2>
+<p>Mental health is an essential part of overall wellbeing, and being able to discuss it in English is increasingly important. Key terms include <strong>anxiety</strong> (excessive worry or fear), <strong>depression</strong> (persistent sadness and loss of interest), <strong>stress</strong> (the body's response to pressure), and <strong>burnout</strong> (emotional exhaustion from prolonged stress).</p>
+<p>When discussing mental health, English speakers use specific phrases: <strong>"I am feeling overwhelmed"</strong> means everything feels too much to handle. <strong>"I need some time to decompress"</strong> means you need to relax after a stressful period. <strong>"I am struggling with..."</strong> is a gentle way to say you are having difficulty with something.</p>
+<p>The language around mental health has become more open in recent years. Phrases like <strong>"It is okay to not be okay"</strong> and <strong>"self-care"</strong> encourage people to prioritize their mental wellbeing. Understanding this vocabulary helps you support others and seek help when you need it.</p>`,
+
+    'Debating Skills': `<h2>Debating Skills</h2>
+<p>Debating is the art of structured argument. A good debate involves presenting a clear <strong>position</strong>, supporting it with <strong>evidence</strong>, addressing <strong>counterarguments</strong>, and delivering a persuasive <strong>conclusion</strong>. The language of debate is precise and often formal.</p>
+<p>Opening a debate, you might say: <strong>"We firmly believe that..."</strong> or <strong>"Our team will demonstrate that..."</strong> When presenting evidence, use signposting: <strong>"Our first point is..."</strong>, <strong>"Furthermore..."</strong>, <strong>"The evidence clearly shows..."</strong> When addressing the opposing side, use respectful language: <strong>"While the opposing team makes an interesting point, we would argue that..."</strong></p>
+<p>Effective debaters also master <strong>rebuttal</strong> — the skill of responding to opposing arguments. Useful phrases include <strong>"That argument fails to consider..."</strong>, <strong>"The evidence actually suggests the opposite..."</strong>, and <strong>"Even if we accept that premise, the conclusion does not follow because..."</strong></p>`,
+  },
+
+  grammar: {
+    'Basic Pronunciation': `<h2>Basic Pronunciation</h2>
+<p>English pronunciation can be challenging because the spelling of a word does not always match how it sounds. English has approximately 44 distinct sounds (phonemes), but only 26 letters to represent them. This is why learning the <strong>phonemic alphabet</strong> — the symbols used in dictionaries to show pronunciation — is so helpful.</p>
+<p>One of the most important concepts in English pronunciation is <strong>word stress</strong>. Every multi-syllable word has one syllable that is stressed more than the others. For example, in <strong>"PHO-to-graph"</strong>, the stress is on the first syllable, but in <strong>"pho-TO-graph-ic"</strong>, it shifts to the second. Getting stress wrong can make a word completely unintelligible to native speakers.</p>
+<p>English also uses <strong>connected speech</strong> — words blend together in natural conversation. <strong>"Going to"</strong> becomes <strong>"gonna"</strong>, <strong>"want to"</strong> becomes <strong>"wanna"</strong>, and <strong>"don't you"</strong> sounds like <strong>"dontcha"</strong>. Understanding these patterns helps both your listening comprehension and your speaking fluency.</p>`,
+
+    'Days, Months & Seasons': `<h2>Days, Months & Seasons</h2>
+<p>When talking about dates and time periods, English uses specific prepositions. We use <strong>"on"</strong> for days: <strong>"on Monday"</strong>, <strong>"on July 4th"</strong>. We use <strong>"in"</strong> for months, seasons, and years: <strong>"in March"</strong>, <strong>"in winter"</strong>, <strong>"in 2024"</strong>. We use <strong>"at"</strong> for specific times: <strong>"at 3 PM"</strong>, <strong>"at noon"</strong>.</p>
+<p>Capitalization rules are important: days of the week and months of the year are always capitalized in English (<strong>Monday, January</strong>), but seasons are not (<strong>spring, summer, autumn, winter</strong>). Note that Americans say <strong>"fall"</strong> while British English uses <strong>"autumn"</strong>.</p>
+<p>When writing dates, American and British English differ. Americans write <strong>month/day/year</strong> (July 4, 2024), while British English uses <strong>day/month/year</strong> (4 July 2024). This difference can cause confusion, especially in international business communication.</p>`,
+
+    'Rooms & Furniture': `<h2>Rooms & Furniture</h2>
+<p>Describing rooms and furniture requires two key grammar structures: <strong>"there is / there are"</strong> and <strong>prepositions of place</strong>. Use <strong>"there is"</strong> for singular nouns and <strong>"there are"</strong> for plural nouns: <strong>"There is a sofa in the living room. There are two lamps next to the bed."</strong></p>
+<p>Prepositions of place describe where things are: <strong>in</strong> (inside something), <strong>on</strong> (on a surface), <strong>under</strong> (below), <strong>next to / beside</strong> (at the side of), <strong>between</strong> (in the middle of two things), <strong>behind</strong> (at the back of), and <strong>in front of</strong> (facing something). For example: <strong>"The TV is in front of the sofa. The bookshelf is next to the window."</strong></p>
+<p>When describing your home, use <strong>"has"</strong> or <strong>"has got"</strong> to talk about features: <strong>"My apartment has got two bedrooms and a large kitchen."</strong> You can also use <strong>"with"</strong> to add details: <strong>"a house with a garden"</strong>, <strong>"a room with a balcony"</strong>.</p>`,
+
+    'Food Shopping': `<h2>Food Shopping Grammar</h2>
+<p>When shopping for food, two grammar points are especially important: <strong>countable vs. uncountable nouns</strong> and <strong>quantifiers</strong>. Countable nouns (apples, eggs, bottles) can be counted — <strong>"two apples"</strong>, <strong>"three bottles"</strong>. Uncountable nouns (rice, milk, bread) cannot be counted individually — we say <strong>"some rice"</strong>, not <strong>"two rices"</strong>.</p>
+<p>Different quantifiers go with different noun types. For countable nouns: <strong>many, a few, several, many</strong>. For uncountable nouns: <strong>much, a little, a bit of</strong>. For both: <strong>some, any, a lot of, plenty of</strong>. For example: <strong>"How much milk do we need?"</strong> but <strong>"How many eggs do we need?"</strong></p>
+<p>When asking for items in a shop, polite forms are preferred: <strong>"Could I have a kilo of apples, please?"</strong>, <strong>"I'd like some bread, please."</strong> Use <strong>"any"</strong> in questions: <strong>"Do you have any whole wheat flour?"</strong> and in negatives: <strong>"I don't need any sugar."</strong></p>`,
+
+    'Subject & Object Pronouns': `<h2>Subject & Object Pronouns</h2>
+<p>English pronouns change form depending on whether they are the <strong>subject</strong> (doing the action) or the <strong>object</strong> (receiving the action). Subject pronouns are: <strong>I, you, he, she, it, we, they</strong>. Object pronouns are: <strong>me, you, him, her, it, us, them</strong>.</p>
+<p>The subject comes before the verb: <strong>"She called him."</strong> The object comes after the verb or preposition: <strong>"He gave the book to her."</strong> A common mistake is using subject pronouns after prepositions: <strong>"between you and me"</strong> is correct, not <strong>"between you and I"</strong>.</p>
+<p>Possessive forms add another layer: <strong>my/mine, your/yours, his, her/hers, its, our/ours, their/theirs</strong>. Use <strong>my, your, his, her, its, our, their</strong> before a noun (<strong>"my book"</strong>), and <strong>mine, yours, his, hers, its, ours, theirs</strong> without a noun (<strong>"The book is mine"</strong>).</p>`,
+
+    'Clothes Vocabulary': `<h2>Clothes Vocabulary & Grammar</h2>
+<p>When talking about clothes, English uses the verb <strong>"wear"</strong> for things you have on: <strong>"She is wearing a red dress."</strong> Use <strong>"put on"</strong> for the action of dressing: <strong>"Put on your coat — it's cold!"</strong> Use <strong>"take off"</strong> for undressing: <strong>"Take off your shoes before entering."</strong></p>
+<p>Clothing vocabulary is uncountable when referring to the material or category: <strong>"clothing"</strong>, <strong>"luggage"</strong>, but countable for individual items: <strong>"a shirt"</strong>, <strong>"two pairs of trousers"</strong>. Note that some clothing words are always plural: <strong>trousers, jeans, shorts, pyjamas, scissors</strong> — they take plural verbs: <strong>"My trousers are too long."</strong></p>
+<p>When describing what someone is wearing, use the present continuous: <strong>"He is wearing a blue suit"</strong> (right now). For habits, use present simple: <strong>"She wears glasses"</strong> (regularly). The phrase <strong>"dressed in"</strong> is also common: <strong>"The man dressed in black is my uncle."</strong></p>`,
+
+    'Common Illnesses': `<h2>Common Illnesses & Health Grammar</h2>
+<p>When talking about health problems, English uses specific patterns. With <strong>"have"</strong>: <strong>"I have a cold / a headache / a fever."</strong> With body parts: <strong>"My back hurts"</strong> or <strong>"I have a sore throat."</strong> With the verb <strong>"feel"</strong>: <strong>"I feel sick / dizzy / tired."</strong></p>
+<p>Use <strong>"should"</strong> for advice: <strong>"You should drink plenty of water."</strong> <strong>"You should see a doctor."</strong> Use <strong>"shouldn't"</strong> for things to avoid: <strong>"You shouldn't eat heavy food."</strong> For past health issues, use the past simple: <strong>"I had the flu last week."</strong></p>
+<p>Medical instructions often use imperatives: <strong>"Take this medicine twice a day."</strong> <strong>"Rest for two days."</strong> <strong>"Don't lift anything heavy."</strong> Understanding these grammar patterns helps you communicate effectively with healthcare professionals and follow their advice.</p>`,
+
+    'Getting Around Town': `<h2>Getting Around Town</h2>
+<p>Asking for and giving directions uses the <strong>imperative mood</strong> and <strong>prepositions of movement</strong>. Common direction verbs include: <strong>turn left/right</strong>, <strong>go straight (ahead)</strong>, <strong>go past</strong>, <strong>cross</strong>, and <strong>take</strong> (a road/street). For example: <strong>"Go straight ahead, turn right at the traffic lights, and the station is on your left."</strong></p>
+<p>Prepositions of movement differ from prepositions of place. Movement prepositions emphasize the direction: <strong>go across</strong> the road, <strong>go through</strong> the park, <strong>go along</strong> the river, <strong>go towards</strong> the city center. Place prepositions describe static position: <strong>opposite</strong> the bank, <strong>next to</strong> the museum, <strong>between</strong> the shops.</p>
+<p>When giving directions, it is helpful to use landmarks: <strong>"Turn left after the post office."</strong> Distances are expressed with <strong>"about"</strong> or <strong>"approximately"</strong>: <strong>"It's about a ten-minute walk."</strong> In American English, distances are often given in blocks: <strong>"It's two blocks away."</strong></p>`,
+
+    'Phone Etiquette': `<h2>Phone Etiquette</h2>
+<p>Professional phone communication follows specific conventions. When answering a business call, state your name and company: <strong>"Good morning, ABC Company, this is Sarah speaking."</strong> When making a call, identify yourself first: <strong>"Hello, this is David Jones calling from XYZ Ltd."</strong></p>
+<p>Useful phrases for phone conversations include: <strong>"Could I speak to...?"</strong>, <strong>"I'm calling about..."</strong>, <strong>"Would you like to leave a message?"</strong>, and <strong>"Could you put me through to...?"</strong> When you need someone to wait: <strong>"Could you hold the line, please?"</strong> or <strong>"Just a moment, please."</strong></p>
+<p>If you do not understand something, it is perfectly acceptable to ask for clarification: <strong>"Could you repeat that, please?"</strong>, <strong>"I'm sorry, I didn't catch that."</strong>, or <strong>"Would you mind speaking a little more slowly?"</strong> These phrases are polite and show you are engaged in the conversation.</p>`,
+
+    'Passive Voice': `<h2>Passive Voice</h2>
+<p>The passive voice shifts focus from who does an action to who or what is affected by it. We form it with <strong>be + past participle</strong>: <strong>"The book was written in 1950"</strong> (passive) instead of <strong>"The author wrote the book in 1950"</strong> (active).</p>
+<p>Use the passive when the <strong>action is more important than the actor</strong>, when the actor is <strong>unknown</strong>, or in <strong>formal/scientific writing</strong>: <strong>"The experiment was conducted over three weeks"</strong>, <strong>"The painting was stolen last night"</strong>, <strong>"English is spoken in many countries."</strong></p>
+<p>The passive can be used in any tense: <strong>present</strong> ("is made"), <strong>past</strong> ("was made"), <strong>present perfect</strong> ("has been made"), <strong>future</strong> ("will be made"), and <strong>modals</strong> ("can be made"). To mention the actor, use <strong>"by"</strong>: <strong>"The theory was developed by Einstein."</strong> Be careful not to overuse the passive — active voice is generally clearer and more direct.</p>`,
+
+    'Media Literacy': `<h2>Media Literacy</h2>
+<p>Media literacy means the ability to critically analyze media messages. In English, expressing critical analysis requires specific language. Use <strong>hedging phrases</strong> to express uncertain conclusions: <strong>"The article appears to suggest..."</strong>, <strong>"It could be argued that..."</strong>, <strong>"This seems to imply..."</strong></p>
+<p>When comparing different sources, use contrastive language: <strong>"While Source A claims X, Source B argues Y"</strong>, <strong>"In contrast to..."</strong>, <strong>"However, an alternative perspective suggests..."</strong> Evaluating reliability uses modal verbs: <strong>"This claim might be exaggerated"</strong>, <strong>"The evidence would seem to support..."</strong></p>
+<p>Recognizing bias requires understanding loaded language — words that carry emotional weight. Compare: <strong>"freedom fighter"</strong> vs. <strong>"terrorist"</strong>, <strong>"pro-life"</strong> vs. <strong>"anti-abortion"</strong>, <strong>"undocumented worker"</strong> vs. <strong>"illegal immigrant"</strong>. The same person or situation can be described very differently depending on the writer's perspective.</p>`,
+
+    'Environmental Issues': `<h2>Environmental Issues Grammar</h2>
+<p>Discussing environmental issues in English requires several grammatical structures. <strong>Cause and effect</strong> language is essential: <strong>"Deforestation leads to habitat loss"</strong>, <strong>"Pollution causes respiratory problems"</strong>, <strong>"Rising temperatures result in more extreme weather."</strong></p>
+<p>When discussing solutions, use <strong>modal verbs of obligation and possibility</strong>: <strong>"We must reduce carbon emissions"</strong>, <strong>"Governments should invest in renewable energy"</strong>, <strong>"Individuals can make a difference by recycling."</strong> The structure <strong>"need + to be + past participle"</strong> is common: <strong>"More needs to be done to protect endangered species."</strong></p>
+<p>Conditional sentences are frequently used in environmental discussions: <strong>"If we do not act now, the consequences will be severe"</strong> (first conditional — real possibility), <strong>"If sea levels rose by two meters, many coastal cities would be flooded"</strong> (second conditional — hypothetical).</p>`,
+
+    'Film Criticism': `<h2>Film Criticism Grammar</h2>
+<p>Writing film criticism in English requires specific grammatical structures. Use the <strong>present tense</strong> when describing plot events: <strong>"The protagonist discovers the truth in the final scene."</strong> Use <strong>past tense</strong> for production details: <strong>"The director shot the film in just six weeks."</strong></p>
+<p>Expressing opinions formally uses structures like: <strong>"The film succeeds in..."</strong>, <strong>"What makes this scene remarkable is..."</strong>, <strong>"The director's use of lighting creates a sense of..."</strong> Avoid overly personal language — instead of <strong>"I think this movie is great"</strong>, write <strong>"This film stands out for its compelling narrative structure."</strong></p>
+<p>Comparing films requires comparative and superlative structures: <strong>"More compelling than its predecessor"</strong>, <strong>"The most thought-provoking film of the year"</strong>, <strong>"Less conventional than typical Hollywood productions."</strong> Use relative clauses to add detail: <strong>"The scene, which takes place at dawn, symbolizes hope."</p>`,
+
+    'Public Speaking': `<h2>Public Speaking Grammar</h2>
+<p>Effective public speaking in English relies on specific grammatical structures for clarity and impact. <strong>Rhetorical questions</strong> engage the audience: <strong>"Have you ever wondered why...?"</strong> <strong>Imperative sentences</strong> create urgency: <strong>"Consider this: ..."</strong> <strong>Triadic structures</strong> (groups of three) are memorable: <strong>"We need courage, commitment, and compassion."</strong></p>
+<p>Signposting language guides your audience through the speech: <strong>"First, let us consider..."</strong>, <strong>"Moving on to my next point..."</strong>, <strong>"This brings me to..."</strong>, <strong>"In conclusion..."</strong> These phrases help listeners follow your argument and stay engaged throughout.</p>
+<p>Emphasis structures add weight to key points. <strong>Cleft sentences</strong>: <strong>"What matters most is..."</strong> <strong>Inversion</strong>: <strong>"Not only do we face this challenge, but we also have the opportunity..."</strong> <strong>Fronting</strong>: <strong>"Crucial to our success is..."</strong> These structures make your speeches more dynamic and persuasive.</p>`,
+  },
+
+  listening: {
+    'Presentation Skills': `<h2>Presentation Skills</h2>
+<p>In this listening exercise, you will hear a conversation between two colleagues discussing a recent presentation. Pay attention to the language used to describe presentation techniques, the feedback given, and the advice shared for improving public speaking skills.</p>
+<p>Before you listen, consider: What makes a good presentation? Think about structure, visual aids, audience engagement, and delivery style. Predict what vocabulary you might hear in a conversation about presentations — words like <strong>"slides"</strong>, <strong>"audience"</strong>, <strong>"nervous"</strong>, <strong>"engaging"</strong>, and <strong>"Q&A"</strong>.</p>
+<p>As you listen, note the specific phrases used to give and receive feedback. How does Tom describe his experience? What advice does Anna give? Understanding these conversational patterns will help you in your own professional discussions about presentations and public speaking.</p>`,
+
+    'Academic Discussions': `<h2>Academic Discussions</h2>
+<p>In this listening exercise, you will hear a university seminar discussion about social media and political participation. The speakers use academic language to present arguments, offer counterarguments, and reach nuanced conclusions. Listen for phrases that signal agreement, disagreement, and clarification.</p>
+<p>Academic discussions often feature <strong>hedging language</strong> — expressions that show uncertainty or caution: <strong>"It could be argued that..."</strong>, <strong>"There seems to be evidence suggesting..."</strong> Listen for how the professor guides the discussion, prompting students to deepen their analysis rather than accept simple answers.</p>
+<p>After listening, consider: How do the speakers build on each other's points? What transition phrases do they use? Understanding these patterns will help you participate more effectively in your own academic or professional discussions.</p>`,
+
+    'Reported Speech': `<h2>Reported Speech</h2>
+<p>This listening exercise features a workplace conversation where one colleague reports what happened in a client meeting. Pay close attention to how direct speech is converted to reported speech — notice the tense changes, pronoun shifts, and time expression adjustments that occur naturally in conversation.</p>
+<p>Key patterns to listen for: <strong>"The client said that they were happy"</strong> (present → past), <strong>"They told me they needed more time"</strong> (present → past), <strong>"She promised she would give us an answer"</strong> (will → would). These shifts are the grammar of reported speech in action.</p>
+<p>Also notice how the speakers use reported speech to convey information accurately while adding their own interpretation. The phrase <strong>"They also asked whether we could..."</strong> introduces an indirect question — a common feature of professional reported speech.</p>`,
+
+    'Idioms & Expressions': `<h2>Idioms & Expressions</h2>
+<p>This listening exercise features a casual conversation between two colleagues who use many English idioms. Idioms are expressions whose meaning cannot be understood from the individual words — for example, <strong>"burning the candle at both ends"</strong> means working excessively hard, not literally burning anything.</p>
+<p>As you listen, try to identify each idiom and guess its meaning from the context before checking the vocabulary list. Pay attention to the tone — idioms often carry emotional weight that literal language lacks. <strong>"Throw in the towel"</strong> sounds more vivid than <strong>"give up"</strong>, and <strong>"let your hair down"</strong> feels more relaxed than <strong>"relax."</strong></p>
+<p>Understanding idioms is crucial for natural-sounding English. Native speakers use them constantly in casual conversation, and misinterpreting them can lead to confusion. After this exercise, try using two or three of these idioms in your own conversations this week.</p>`,
+
+    'Social Media English': `<h2>Social Media English</h2>
+<p>In this listening exercise, you will hear two friends discussing social media habits and their effects. The conversation uses informal, contemporary English with tech vocabulary, casual expressions, and current slang. Listen for how naturally the speakers switch between serious points and casual chat.</p>
+<p>Key vocabulary to listen for: <strong>"viral"</strong> (spreading rapidly online), <strong>"scrolling"</strong> (moving through content on a screen), <strong>"screen time"</strong> (time spent on devices), <strong>"influencer"</strong> (someone with a large online following), and <strong>"highlight reel"</strong> (only showing the best parts of life).</p>
+<p>Notice how the speakers express concern without sounding preachy — they share personal experiences rather than lecturing. This conversational style is common in English when discussing sensitive topics like mental health and technology use.</p>`,
+
+    'Financial Vocabulary': `<h2>Financial Vocabulary</h2>
+<p>This listening exercise features a conversation between a manager and a finance colleague discussing quarterly results. You will hear key financial terminology used in context: <strong>revenue</strong> (income), <strong>expenses</strong> (costs), <strong>profit margins</strong> (the percentage of revenue that is profit), and <strong>investment</strong> (money spent to generate future returns).</p>
+<p>Listen for how David explains financial concepts in accessible language. When Rachel asks about shrinking profit margins, David does not just cite numbers — he explains the reasoning behind them. This is a common pattern in professional English: data followed by explanation.</p>
+<p>After listening, practice using these financial terms in your own sentences. Try describing a business's performance: <strong>"Revenue increased by X%, but rising operating expenses reduced profit margins."</strong> This pattern — reporting figures and then explaining the factors — is essential in business English.</p>`,
+
+    'Renewable Energy': `<h2>Renewable Energy</h2>
+<p>In this listening exercise, you will hear experts discussing the transition to renewable energy. The conversation covers both the technical challenges and the policy dimensions of moving away from fossil fuels. Listen for how the speakers balance optimism about technology with realistic assessment of obstacles.</p>
+<p>Key terms to listen for: <strong>solar and wind power</strong> (renewable energy sources), <strong>grid infrastructure</strong> (the network that distributes electricity), <strong>energy storage</strong> (batteries and other systems to save power), and <strong>carbon neutral</strong> (producing no net carbon emissions). These terms appear frequently in discussions about energy policy.</p>
+<p>Notice how the speakers use qualifying language to express degrees of certainty: <strong>"is likely to"</strong>, <strong>"could potentially"</strong>, <strong>"remains to be seen"</strong>. This hedging is characteristic of expert discussion — acknowledging uncertainty while still making informed predictions.</p>`,
+
+    'Art Movements': `<h2>Art Movements</h2>
+<p>This listening exercise features a discussion about major art movements and their cultural significance. You will hear terms like <strong>Impressionism</strong>, <strong>Cubism</strong>, <strong>Surrealism</strong>, and <strong>Abstract Expressionism</strong> used in context, along with the language of art criticism: <strong>"composition"</strong>, <strong>"palette"</strong>, <strong>"technique"</strong>, and <strong>"influence"</strong>.</p>
+<p>Listen for how the speakers describe the relationship between art and society. Art movements are often presented as reactions to what came before — <strong>Impressionism rejected academic painting</strong>, <strong>Cubism broke with traditional perspective</strong>. This pattern of contrast is common in art historical discussion.</p>
+<p>After listening, try describing a piece of art you know using the vocabulary from this exercise. Focus on the composition, color palette, technique, and the emotional response it evokes — just as the speakers in the recording do.</p>`,
+
+    'Medical Ethics': `<h2>Medical Ethics</h2>
+<p>This listening exercise presents a discussion about ethical dilemmas in healthcare. The speakers debate complex issues using careful, nuanced language. Listen for phrases that express ethical reasoning: <strong>"On one hand... on the other hand..."</strong>, <strong>"The principle of autonomy suggests..."</strong>, <strong>"We need to balance X against Y."</strong></p>
+<p>Key ethical concepts discussed include <strong>autonomy</strong> (the patient's right to make their own decisions), <strong>beneficence</strong> (acting in the patient's best interest), <strong>informed consent</strong> (ensuring patients understand their treatment options), and <strong>confidentiality</strong> (keeping patient information private).</p>
+<p>Notice how the speakers avoid simplistic answers. In ethical discussions, English speakers often use <strong>"while"</strong> and <strong>"although"</strong> to acknowledge competing values: <strong>"While patient autonomy is important, we must also consider the broader public health implications."</strong> This balanced approach is the hallmark of mature academic and professional English.</p>`,
+
+    'Conflict Resolution': `<h2>Conflict Resolution</h2>
+<p>This listening exercise features a workplace mediation where two colleagues resolve a disagreement. The mediator uses specific language techniques: <strong>active listening</strong> (paraphrasing what each person said), <strong>validation</strong> (acknowledging feelings without taking sides), and <strong>reframing</strong> (presenting the conflict in a more constructive way).</p>
+<p>Listen for key phrases used in conflict resolution: <strong>"I hear what you're saying..."</strong>, <strong>"So, from your perspective..."</strong>, <strong>"What I'm hearing is..."</strong>, <strong>"Would you be open to..."</strong>, and <strong>"What would a good solution look like for you?"</strong> These phrases de-escalate tension and move the conversation toward resolution.</p>
+<p>After listening, practice using these phrases in role-play scenarios. The language of conflict resolution is not just for mediators — it is valuable in any professional or personal context where people disagree. Mastering these expressions will make you a more effective communicator in difficult conversations.</p>`,
+  },
+
+  quiz: {
+    'Common Phrases': `<h2>Common Phrases Quiz</h2>
+<p>This quiz tests your understanding of everyday English phrases and their appropriate contexts. You will encounter questions about formal vs. informal greetings, polite responses, and common social expressions used in English-speaking cultures.</p>
+<p>Read each question carefully and consider the <strong>context</strong> in which each phrase would be used. The same phrase can mean different things depending on the situation. For example, <strong>"How are you?"</strong> is usually a greeting (not a genuine health inquiry), while <strong>"How have you been?"</strong> suggests you have not seen the person for a while.</p>
+<p>Remember: getting the right answer is important, but understanding <strong>why</strong> it is correct matters even more. After each question, read the explanation carefully. These nuances of polite English will help you sound more natural and avoid awkward social situations.</p>`,
+
+    'Weather Vocabulary': `<h2>Weather Vocabulary Quiz</h2>
+<p>This quiz tests your knowledge of weather-related vocabulary in English. From basic terms like <strong>"rain"</strong> and <strong>"sun"</strong> to more specific expressions like <strong>"drizzle"</strong>, <strong>"overcast"</strong>, and <strong>"downpour"</strong>, understanding weather vocabulary is essential for daily conversation in English-speaking countries.</p>
+<p>Weather is a common topic for small talk in English-speaking cultures. Being able to discuss the weather naturally — not just <strong>"It's raining"</strong> but <strong>"It's pouring"</strong> or <strong>"It's drizzling"</strong> — makes your English more precise and engaging. This quiz will help you distinguish between similar weather terms.</p>
+<p>Pay close attention to the explanations after each answer. They will help you understand the subtle differences between words like <strong>"breeze"</strong> (gentle wind) and <strong>"gale"</strong> (strong wind), or <strong>"drizzle"</strong> (light rain) and <strong>"downpour"</strong> (heavy rain).</p>`,
+
+    'Asking for Directions': `<h2>Asking for Directions Quiz</h2>
+<p>This quiz tests your understanding of the language used when asking for and giving directions in English. Key concepts include direction vocabulary (<strong>left, right, straight</strong>), distance expressions (<strong>"two blocks", "a five-minute walk"</strong>), and landmark references.</p>
+<p>Many direction-related questions test your understanding of <strong>prepositions of place and movement</strong>. These small words — <strong>at, on, in, past, through, across</strong> — make a big difference in whether directions are understood correctly. Confusing <strong>"go past the bank"</strong> with <strong>"go to the bank"</strong> could lead someone to the wrong place!</p>
+<p>Think about real situations where you might need these phrases: traveling in a new city, finding a specific shop, or helping a lost tourist. The practical nature of this vocabulary makes it especially important to master.</p>`,
+
+    'Likes & Dislikes': `<h2>Likes & Dislikes Quiz</h2>
+<p>This quiz tests your ability to express preferences, likes, and dislikes in English — a fundamental part of everyday conversation. From simple expressions like <strong>"I love"</strong> and <strong>"I hate"</strong> to more nuanced phrases like <strong>"I'm quite fond of"</strong> or <strong>"I can't stand"</strong>, this quiz covers the full range.</p>
+<p>Pay attention to the <strong>strength</strong> of each expression. <strong>"I enjoy coffee"</strong> is positive but mild, while <strong>"I'm absolutely passionate about coffee"</strong> is much stronger. Similarly, <strong>"I don't really like"</strong> is gentler than <strong>"I detest"</strong>. Matching the strength of your language to the intensity of your feeling is an important communication skill.</p>
+<p>Cultural note: in English-speaking cultures, people often use understatement to express dislikes. <strong>"It's not my favorite"</strong> usually means <strong>"I don't like it at all"</strong> — it is a polite way of being negative without sounding harsh.</p>`,
+
+    'Questions & Negatives': `<h2>Questions & Negatives Quiz</h2>
+<p>This quiz tests your understanding of question formation and negation in English. Key areas include: <strong>yes/no questions</strong> (<strong>"Do you like coffee?"</strong>), <strong>wh- questions</strong> (<strong>"Where do you live?"</strong>), <strong>negative statements</strong> (<strong>"I don't understand"</strong>), and <strong>negative questions</strong> (<strong>"Don't you like it?"</strong>).</p>
+<p>Common mistakes include: forgetting the auxiliary verb (<strong>"You like coffee?"</strong> instead of <strong>"Do you like coffee?"</strong>), using the wrong auxiliary (<strong>"Does you like..."</strong> instead of <strong>"Do you like..."</strong>), and double negatives (<strong>"I don't know nothing"</strong> — incorrect in standard English).</p>
+<p>Pay special attention to <strong>question tags</strong> — the short questions at the end of statements: <strong>"It's a beautiful day, isn't it?"</strong> These are very common in spoken English and follow specific patterns that this quiz will test.</p>`,
+
+    'Asking for Help': `<h2>Asking for Help Quiz</h2>
+<p>This quiz tests your ability to ask for and offer help in English using polite language. In English-speaking cultures, direct requests like <strong>"Help me!"</strong> or <strong>"Give me that"</strong> can sound rude. Instead, we use polite structures: <strong>"Could you help me, please?"</strong>, <strong>"Would you mind...?"</strong>, or <strong>"I was wondering if you could..."</strong></p>
+<p>The quiz covers different levels of formality. With friends, <strong>"Can you give me a hand?"</strong> is fine. With strangers or in formal settings, <strong>"Would you be able to assist me?"</strong> is more appropriate. Understanding when to use each register is essential for smooth social interactions.</p>
+<p>Also covered: responding to requests. Accepting politely: <strong>"Of course, I'd be happy to help."</strong> Declining politely: <strong>"I'm afraid I can't right now, but..."</strong> These softening phrases prevent requests from feeling like demands.</p>`,
+
+    'Healthy Habits': `<h2>Healthy Habits Quiz</h2>
+<p>This quiz tests your vocabulary and understanding of health-related topics in English. From exercise and nutrition to sleep and mental wellbeing, the questions cover the language needed to discuss healthy lifestyle choices confidently.</p>
+<p>Key grammar areas tested include: <strong>should/shouldn't</strong> for advice (<strong>"You should exercise regularly"</strong>), <strong>imperatives</strong> for instructions (<strong>"Drink plenty of water"</strong>), and <strong>conditional sentences</strong> for cause and effect (<strong>"If you eat well, you will feel more energetic"</strong>).</p>
+<p>Health vocabulary includes both everyday terms (<strong>"diet"</strong>, <strong>"exercise"</strong>, <strong>"sleep"</strong>) and more specific language (<strong>"cardiovascular"</strong>, <strong>"hydration"</strong>, <strong>"metabolism"</strong>). Understanding this range helps you discuss health topics at the appropriate level for different contexts.</p>`,
+
+    'Emergency Phrases': `<h2>Emergency Phrases Quiz</h2>
+<p>This quiz tests your knowledge of essential English phrases for emergency situations. In an emergency, clear communication can be life-saving, so knowing the exact words to use is crucial. Phrases like <strong>"Call an ambulance!"</strong>, <strong>"There's been an accident"</strong>, and <strong>"I need help!"</strong> must be said immediately and clearly.</p>
+<p>The quiz also covers less dramatic but still important situations: reporting a lost item (<strong>"I've lost my passport"</strong>), asking for medical help abroad (<strong>"I need to see a doctor"</strong>), and describing symptoms (<strong>"I'm having difficulty breathing"</strong>).</p>
+<p>Remember: in emergencies, short, direct sentences work best. Instead of <strong>"I was wondering if perhaps someone might be able to assist me"</strong>, say <strong>"Help! I need a doctor!"</strong> The social rules about politeness change in emergencies — being direct is not rude, it is necessary.</p>`,
+  },
 };
 
 /**
@@ -26,13 +289,19 @@ export function generateLessonContent(
   const lessonTitle = lesson.title;
   const moduleTitle = module.title;
 
-  // Look up real educational content first
+  // Look up real educational content first (from content map)
   const contentMap = LESSON_CONTENT_MAP[lesson.contentType];
   if (contentMap && contentMap[lessonTitle]) {
     return contentMap[lessonTitle];
   }
 
-  // Fallback to generic template
+  // Look up topic-specific template content
+  const topicMap = TOPIC_CONTENT[lesson.contentType];
+  if (topicMap && topicMap[lessonTitle]) {
+    return topicMap[lessonTitle];
+  }
+
+  // Fallback to level-aware generic template
   switch (lesson.contentType) {
     case 'reading':
       return generateReadingContent(lessonTitle, moduleTitle, levelLabel);
@@ -2443,6 +2712,230 @@ const QUIZ_DATA: Record<string, { question: string; options: string[]; correctIn
       explanation: 'Maintaining C2 proficiency requires ongoing engagement with diverse, challenging content — reading, writing, speaking, and listening across multiple domains and contexts.',
     },
   ],
+  'Peer Review Ethics': [
+    {
+      question: 'A reviewer who deliberately delays a competitor\'s publication to publish their own similar work first is committing:',
+      options: ['A standard academic practice', 'An ethical breach known as reviewer misconduct or intellectual theft', 'A legitimate use of their position', 'Acceptable behavior if they cite the original author'],
+      correctIndex: 1,
+      explanation: 'Deliberately delaying a competitor\'s work for personal advantage is a serious ethical violation. Reviewers must treat all manuscripts confidentially and cannot use privileged information for their own benefit.',
+    },
+    {
+      question: '"Blind peer review" is designed primarily to:',
+      options: ['Make the process faster', 'Reduce bias by concealing author identities from reviewers', 'Prevent authors from knowing who reviewed their work only', 'Ensure all papers are accepted'],
+      correctIndex: 1,
+      explanation: 'Blind peer review conceals author identities to minimize biases related to institutional affiliation, gender, nationality, or personal relationships, promoting fairer evaluation of the work itself.',
+    },
+    {
+      question: 'If a reviewer identifies a significant ethical violation in a submitted manuscript (such as fabricated data), they should:',
+      options: ['Ignore it since it is not their responsibility', 'Contact the media immediately', 'Report the concern to the journal editor along with their review', 'Publish a critique of the paper on social media'],
+      correctIndex: 2,
+      explanation: 'Reviewers should report ethical concerns to the journal editor, who has the authority and responsibility to investigate. Public accusations or ignoring the issue are inappropriate responses.',
+    },
+    {
+      question: '"Salami slicing" in academic publishing refers to:',
+      options: ['A cooking metaphor used in methodology descriptions', 'Publishing many small papers from one dataset instead of a single comprehensive study', 'A legitimate way to increase publication count', 'The process of dividing a research team into subgroups'],
+      correctIndex: 1,
+      explanation: 'Salami slicing is the practice of splitting one substantial study into multiple smaller publications to artificially inflate publication numbers. It is considered unethical because it wastes editorial and peer review resources and can mislead readers.',
+    },
+    {
+      question: 'Which of the following is an acceptable practice for a peer reviewer?',
+      options: ['Sharing the manuscript with a colleague without editor permission', 'Using ideas from the manuscript in their own research before publication', 'Declining to review if they have a conflict of interest with the authors', 'Suggesting their own publications as required citations'],
+      correctIndex: 2,
+      explanation: 'Declining to review when a conflict of interest exists is the ethical course of action. All other options violate reviewer confidentiality, integrity, or objectivity.',
+    },
+  ],
+  'Leadership & Influence': [
+    {
+      question: '"Transformational leadership" is characterized by:',
+      options: ['Maintaining strict control over all team decisions', 'Inspiring and motivating followers to exceed expectations and embrace change', 'Avoiding all conflict within the team', 'Focusing exclusively on short-term results'],
+      correctIndex: 1,
+      explanation: 'Transformational leaders inspire and motivate their teams to go beyond expectations by creating a shared vision, fostering innovation, and encouraging personal development.',
+    },
+    {
+      question: '"Quiet influence" in leadership refers to:',
+      options: ['Leading without formal authority through expertise, relationships, and persuasion', 'Never speaking in meetings', 'Avoiding all decision-making', 'Giving orders in a soft voice'],
+      correctIndex: 0,
+      explanation: 'Quiet influence is the ability to shape outcomes and guide others without relying on formal positional power. It leverages credibility, relationships, and thoughtful persuasion instead.',
+    },
+    {
+      question: 'The "Golem effect" in leadership is the opposite of the Pygmalion effect and describes:',
+      options: ['A leader who is too supportive', 'A situation where lower expectations lead to worse performance', 'The tendency for teams to exceed all expectations', 'A type of team-building exercise'],
+      correctIndex: 1,
+      explanation: 'The Golem effect occurs when a leader\'s low expectations of a team member cause that person to perform worse. It mirrors the Pygmalion effect, where high expectations lead to improved performance.',
+    },
+    {
+      question: '"Stakeholder mapping" helps leaders by:',
+      options: ['Eliminating all stakeholders from decision-making', 'Identifying and prioritizing the interests and influence of all parties affected by decisions', 'Creating physical maps of office layouts', 'Avoiding communication with external parties'],
+      correctIndex: 1,
+      explanation: 'Stakeholder mapping systematically identifies all individuals and groups affected by a project or decision, assessing their level of influence and interest to guide communication and engagement strategies.',
+    },
+    {
+      question: 'Which phrase best reflects "servant leadership"?',
+      options: ['"I make all the decisions around here"', '"My role is to remove obstacles so my team can do their best work"', '"Results matter more than people"', '"Leadership is about power and control"'],
+      correctIndex: 1,
+      explanation: 'Servant leadership prioritizes the growth and well-being of team members. The leader\'s primary role is to serve the team by removing barriers and enabling others to succeed.',
+    },
+  ],
+  'Sociolinguistics': [
+    {
+      question: '"Linguistic prestige" refers to:',
+      options: ['The cost of learning a language', 'The social value and respect attached to a particular language variety or dialect', 'The number of speakers a language has', 'The age of a language'],
+      correctIndex: 1,
+      explanation: 'Linguistic prestige is the degree of respect and social value associated with a particular language variety. Standard dialects typically carry overt prestige, while non-standard varieties may carry covert prestige within their communities.',
+    },
+    {
+      question: '"Speech community" is defined as:',
+      options: ['Any group of people living in the same city', 'A group of people who share norms and expectations regarding language use', 'People who speak the exact same dialect', 'Only people who speak a language natively'],
+      correctIndex: 1,
+      explanation: 'A speech community is a group of people who share a set of linguistic norms and expectations about language use. Members need not speak identically but share common communicative practices and values.',
+    },
+    {
+      question: 'William Labov\'s New York department store study demonstrated that:',
+      options: ['New Yorkers all speak the same way', 'Social class correlates with linguistic variables such as the pronunciation of /r/', 'Department stores are bad places to conduct research', 'Pronunciation does not vary by social context'],
+      correctIndex: 1,
+      explanation: 'Labov\'s 1966 study showed that the frequency of post-vocalic /r/ pronunciation in New York department stores correlated with the store\'s socioeconomic status, demonstrating systematic variation between social classes.',
+    },
+    {
+      question: '"Diglossia" refers to a situation where:',
+      options: ['A person speaks exactly one language', 'Two varieties of a language coexist, each serving different social functions', 'Everyone in a community is bilingual', 'A language has only two vowels'],
+      correctIndex: 1,
+      explanation: 'Diglossia describes a stable situation where two varieties of a language coexist in a community, with a "high" variety used for formal contexts and a "low" variety for everyday conversation — such as Standard Arabic and regional dialects.',
+    },
+    {
+      question: '"Language ideology" is best described as:',
+      options: ['The scientific study of grammar', 'Shared beliefs and assumptions about language that shape social and political life', 'A personal preference for certain words', 'The rules of a standard grammar book'],
+      correctIndex: 1,
+      explanation: 'Language ideologies are the shared systems of belief about language — what constitutes "good" or "correct" speech, which varieties are prestigious, and how language should be used in society. These beliefs often reflect and reinforce power structures.',
+    },
+  ],
+  'Global Citizenship': [
+    {
+      question: '"Cosmopolitanism" in the context of global citizenship holds that:',
+      options: ['National identity should always come first', 'All human beings belong to a single community with shared moral obligations', 'Cultural differences should be erased', 'Only wealthy nations can participate in global governance'],
+      correctIndex: 1,
+      explanation: 'Cosmopolitanism asserts that all humans are members of a single moral community, and that our obligations extend beyond national borders to include all of humanity.',
+    },
+    {
+      question: 'The concept of "glocalization" refers to:',
+      options: ['Rejecting all global influences', 'Adapting global ideas and practices to fit local contexts and cultures', 'Forcing local cultures to adopt global standards', 'Trading only within one\'s own country'],
+      correctIndex: 1,
+      explanation: 'Glocalization combines "global" and "local" — it describes how global ideas, products, or practices are adapted to reflect local cultural values, needs, and traditions.',
+    },
+    {
+      question: '"Sustainable Development Goals" (SDGs) are relevant to global citizenship because they:',
+      options: ['Apply only to developing nations', 'Represent a shared global framework for addressing interconnected social, economic, and environmental challenges', 'Focus exclusively on economic growth', 'Were created by a single country'],
+      correctIndex: 1,
+      explanation: 'The UN Sustainable Development Goals are a universal call to action shared by all nations, reflecting the global citizen\'s understanding that challenges like poverty, inequality, and climate change transcend borders.',
+    },
+    {
+      question: '"Cultural relativism" as practiced by a responsible global citizen means:',
+      options: ['Judging all cultures by one\'s own standards', 'Understanding cultural practices within their own context while still being able to critique human rights violations', 'Accepting all practices without question', 'Refusing to engage with other cultures'],
+      correctIndex: 1,
+      explanation: 'Responsible cultural relativism involves seeking to understand practices within their cultural context, while maintaining the capacity for ethical critique — especially regarding universal human rights.',
+    },
+    {
+      question: 'Which action best exemplifies global citizenship?',
+      options: ['Never traveling outside your country', 'Advocating for fair trade policies that protect workers in other nations', 'Ignoring international news', 'Believing one\'s own country is superior to all others'],
+      correctIndex: 1,
+      explanation: 'Advocating for fair trade demonstrates awareness of global interconnectedness and a sense of responsibility for how one\'s own country\'s policies affect people worldwide — a core principle of global citizenship.',
+    },
+  ],
+  'Press Freedom': [
+    {
+      question: 'The "Fourth Estate" refers to:',
+      options: ['The judicial branch of government', 'The press as a check on the three branches of government', 'A rank of nobility', 'The fourth amendment of the constitution'],
+      correctIndex: 1,
+      explanation: 'The "Fourth Estate" describes the press as an unofficial fourth branch of government that holds the other three branches accountable through investigative reporting and public scrutiny.',
+    },
+    {
+      question: '"Prior restraint" in press freedom law means:',
+      options: ['Government censorship preventing publication before it occurs', 'A journalist\'s self-editing process', 'The requirement to publish all government press releases', 'A type of printing technology'],
+      correctIndex: 0,
+      explanation: 'Prior restraint is government action that prevents speech or publication before it occurs. In most democratic legal systems, prior restraint is presumptively unconstitutional and permitted only in extreme circumstances.',
+    },
+    {
+      question: '"Shield laws" protect journalists by:',
+      options: ['Preventing any criticism of journalists', 'Allowing them to refuse to reveal confidential sources in court', 'Exempting them from all laws', 'Guaranteeing them access to all government meetings'],
+      correctIndex: 1,
+      explanation: 'Shield laws allow journalists to protect the identity of confidential sources, recognizing that the ability to promise confidentiality is essential for investigative journalism and whistleblower protection.',
+    },
+    {
+      question: 'The "Chilling effect" on press freedom describes:',
+      options: ['A reduction in media coverage caused by cold weather', 'Self-censorship resulting from fear of legal or political repercussions', 'The cooling of public interest in news', 'A decrease in newspaper sales due to digital competition'],
+      correctIndex: 1,
+      explanation: 'A chilling effect occurs when the threat of legal action, surveillance, or political pressure causes journalists or publishers to self-censor, reducing the free flow of information even without direct censorship.',
+    },
+    {
+      question: 'In the context of press freedom, "public interest" justification means:',
+      options: ['The public finds the story entertaining', 'The information is what the public wants to read', 'Disclosure serves the common good by informing citizens about matters affecting society and governance', 'The story will generate high advertising revenue'],
+      correctIndex: 2,
+      explanation: 'In press freedom law, "public interest" means that publishing the information benefits society by enabling informed democratic participation — it is not the same as what interests the public.',
+    },
+  ],
+  'Existential Questions': [
+    {
+      question: 'Jean-Paul Sartre\'s claim that "existence precedes essence" means:',
+      options: ['Biological life came before consciousness', 'Humans are born without predetermined purpose and must create their own meaning through choices', 'Essential needs like food must come before philosophical thought', 'The universe has no beginning'],
+      correctIndex: 1,
+      explanation: 'Sartre\'s existentialist principle asserts that unlike objects designed for a purpose, humans exist first and then define themselves through their choices and actions. There is no predetermined human nature or essence.',
+    },
+    {
+      question: '"Absurdism," as articulated by Albert Camus, holds that:',
+      options: ['Life is inherently funny', 'The search for meaning in a meaningless universe creates a fundamental tension that must be acknowledged', 'Morality is completely subjective', 'Only scientific knowledge has value'],
+      correctIndex: 1,
+      explanation: 'Camus defined the absurd as the conflict between humanity\'s desire for meaning and the universe\'s indifference. His response was not despair but defiance — to embrace life fully while acknowledging its absurdity.',
+    },
+    {
+      question: '"Bad faith" (mauvaise foi) in existentialism refers to:',
+      options: ['Believing in a religion', 'Self-deception where one denies their freedom and responsibility by adopting societal roles unquestioningly', 'Being dishonest with other people', 'Making a mistake in logical reasoning'],
+      correctIndex: 1,
+      explanation: 'Bad faith is the act of deceiving oneself to avoid the anxiety of absolute freedom. It occurs when people pretend they have no choice — claiming they "must" act a certain way because of their role, nature, or circumstances.',
+    },
+    {
+      question: 'Simone de Beauvoir argued in "The Second Sex" that:',
+      options: ['Gender is entirely biological and fixed', 'One is not born, but rather becomes, a woman — emphasizing how social conditions shape identity', 'Women are naturally inferior to men', 'Existentialism only applies to men'],
+      correctIndex: 1,
+      explanation: 'Beauvoir\'s famous declaration that "one is not born, but rather becomes, a woman" argues that femininity is socially constructed rather than innate, applying existentialist ideas about self-creation to gender.',
+    },
+    {
+      question: '"Angst" or existential anxiety, according to Kierkegaard, arises from:',
+      options: ['Physical illness', 'The awareness of one\'s radical freedom and the infinite possibilities of choice', 'Fear of death only', 'Financial insecurity'],
+      correctIndex: 1,
+      explanation: 'Kierkegaard described angst as the dizziness of freedom — the anxiety that comes from realizing we are completely free to choose and are therefore fully responsible for who we become. This freedom is both liberating and terrifying.',
+    },
+  ],
+  'C2 Mastery Test': [
+    {
+      question: 'At C2 level, "nuance" in language use means the ability to:',
+      options: ['Speak loudly and clearly', 'Distinguish and express subtle differences in meaning, tone, and connotation', 'Use only simple vocabulary to be understood', 'Translate word-for-word between languages'],
+      correctIndex: 1,
+      explanation: 'C2-level nuance involves perceiving and producing subtle distinctions — such as the difference between "disinterested" and "uninterested," or choosing the precise word that captures the exact shade of meaning intended.',
+    },
+    {
+      question: '"Code-switching" at an advanced level demonstrates:',
+      options: ['Confusion between languages', 'Sophisticated linguistic competence in adjusting register, style, and sometimes language to match the social context', 'An inability to speak one language correctly', 'A speech disorder'],
+      correctIndex: 1,
+      explanation: 'Advanced code-switching reflects high pragmatic competence — the ability to fluidly adjust one\'s language to suit different audiences, contexts, and purposes, which is a hallmark of C2 proficiency.',
+    },
+    {
+      question: 'A C2-level speaker can "mediate" between languages and cultures by:',
+      options: ['Simply translating words literally', 'Conveying not just literal meaning but cultural context, tone, register, and pragmatic intent', 'Only interpreting in formal settings', 'Refusing to explain cultural differences'],
+      correctIndex: 1,
+      explanation: 'C2-level mediation goes beyond translation to convey cultural context, implied meanings, humor, register shifts, and pragmatic nuances — ensuring the message retains its full communicative impact across languages.',
+    },
+    {
+      question: '"Collocational competence" at C2 level means:',
+      options: ['Knowing the definition of every word', 'Understanding which words naturally combine with others, including rare and sophisticated collocations', 'Being able to explain the etymology of words', 'Memorizing all idioms in the dictionary'],
+      correctIndex: 1,
+      explanation: 'Collocational competence at C2 level includes mastery of both common and rare word combinations — knowing that we say "stark contrast" rather than "strong contrast," or "abject poverty" rather than "low poverty."',
+    },
+    {
+      question: 'Which statement best describes the difference between C1 and C2 proficiency?',
+      options: ['C2 speakers make no mistakes, ever', 'C2 speakers can use language creatively, humorously, and with stylistic precision even in the most demanding contexts', 'C2 speakers know twice as many words as C1 speakers', 'There is no meaningful difference between C1 and C2'],
+      correctIndex: 1,
+      explanation: 'The key distinction is that C2 speakers demonstrate the same flexibility, creativity, and precision as a well-educated native speaker — handling humor, irony, cultural allusion, and stylistic variation with confidence in any context.',
+    },
+  ],
 };
 
 // ─── AUDIO SCRIPTS: Real dialogues for every listening lesson ───
@@ -2651,6 +3144,71 @@ Liam: Is there a common mistake candidates make?
 Dr. Morrison: Many candidates focus on advanced vocabulary at the expense of coherence and precision. Using sophisticated words incorrectly is worse than expressing the same idea simply and clearly. True mastery lies in knowing exactly when and how to use complex language.
 Liam: That's a helpful perspective. It's not about showing off — it's about communicating effectively in any context.
 Dr. Morrison: Exactly. C2 certification isn't just a test of knowledge — it's a demonstration of professional competence.`,
+
+  'Lab Report Writing': `Dr. Nakamura: Let's go over your lab report draft. Overall, the methodology section is well-written, but there are several issues we need to address.
+Jin: Thank you, Dr. Nakamura. I struggled a bit with the results section — I wasn't sure how much interpretation to include there.
+Dr. Nakamura: That's a common difficulty. The results section should present your findings objectively, without interpretation. Save the analysis for the discussion section. Right now, you've mixed interpretation into your results, which makes it hard for the reader to distinguish what you observed from what you think it means.
+Jin: I see. So I should move the sentences about what the results "suggest" to the discussion?
+Dr. Nakamura: Exactly. Also, your abstract is currently written in future tense — it should be in past tense since the experiment has been completed. The abstract should summarize what you did, what you found, and what it means, all in about two hundred words.
+Jin: What about the figures? I included five graphs.
+Dr. Nakamura: Three of them are appropriate and well-labeled, but figures two and four don't add information that isn't already conveyed in the text. Every figure should earn its place — if the data can be stated clearly in a sentence, you don't need a graph.
+Jin: That makes sense. One more question — how detailed should the methodology be?
+Dr. Nakamura: Detailed enough that another researcher could replicate your experiment exactly. Include all equipment specifications, concentrations, temperatures, and timing. If someone can't reproduce your work from your methodology, it's not detailed enough.`,
+
+  'Board Meeting English': `Chairperson Helen: Good morning, everyone. Let's call the quarterly board meeting to order. First item on the agenda is the CEO's strategic overview. David, over to you.
+David (CEO): Thank you, Helen. I'm pleased to report that revenue increased by eighteen percent year-over-year, exceeding our forecast by three percentage points. However, operating margins compressed slightly due to rising supply chain costs.
+Board Member Sarah: David, can you elaborate on the margin compression? Is this a temporary issue or a structural shift?
+David: Good question, Sarah. Approximately sixty percent of the cost increase is tied to supply chain disruptions we expect to resolve by Q3. The remaining forty percent reflects longer-term inflationary pressure that we're addressing through strategic sourcing initiatives.
+Chairperson Helen: Before we move on, I'd like to note that the audit committee has raised a concern about our cybersecurity expenditure. Robert, could you brief the board?
+Robert (CFO): Certainly. The audit committee recommends increasing our cybersecurity budget by twenty-five percent in the next fiscal year. The investment would be substantial, but the risk exposure from a potential breach is estimated at over fifty million in regulatory fines and reputational damage.
+Board Member Sarah: What's the board's appetite for this investment?
+Chairperson Helen: I think we should consider it as risk mitigation rather than discretionary spending. Let's add it to the action items and request a detailed proposal from the CTO before the next meeting.`,
+
+  'Corpus Linguistics': `Dr. Sinclair: Welcome to our introduction to corpus linguistics. A corpus is a large, systematically collected body of text or speech that we use to study language patterns. Why is this approach valuable?
+Anika: Because it lets us look at how language is actually used, rather than relying on intuition or prescriptive rules?
+Dr. Sinclair: Precisely. Before corpus linguistics, many grammatical "rules" were based on what people thought ought to be correct. Corpora showed us that actual usage is often quite different. For example, which do you think is more common — "shall" or "will"?
+Anika: I'd guess "will" is far more common in modern English.
+Dr. Sinclair: And you'd be right. The British National Corpus shows "will" appearing approximately four times more frequently than "shall." But there's more nuance — "shall" is concentrated in legal and formal contexts, while "will" dominates everyday usage.
+Anika: How large does a corpus need to be to give reliable results?
+Dr. Sinclair: It depends on what you're studying. For common words, a million-word corpus can be sufficient. But for investigating rare constructions or specialized vocabulary, you might need a hundred million words or more. The key is representativeness — the corpus must reflect the variety of language you want to study.
+Anika: What about spoken versus written language?
+Dr. Sinclair: Excellent point. Spoken corpora are harder to collect but absolutely essential. Some of the most surprising corpus findings involve differences between spoken and written English. For instance, in spoken English, "gonna" is far more frequent than most people assume, and the grammatical structures of spontaneous speech are quite different from written prose.`,
+
+  'Media & Propaganda': `Professor Osei: Today we're examining the relationship between media and propaganda. Let's start with a key question — where is the line between persuasion and propaganda?
+Marco: I think the difference lies in intent. Persuasion aims to convince through rational argument, while propaganda manipulates emotions and suppresses opposing viewpoints.
+Professor Osei: That's a strong starting point, but some scholars argue it's more nuanced. Edward Bernays, often called the father of public relations, argued that propaganda is simply the mechanism by which ideas are disseminated — and that it can be used for good or ill.
+Marco: But doesn't that definition strip the term of its negative connotation? When most people hear "propaganda," they think of state-controlled media and misinformation.
+Professor Osei: You're right — the common usage is overwhelmingly negative. And there are clear techniques that distinguish propaganda from legitimate communication: card-stacking, which presents only one side of an argument; bandwagon appeals, which create fear of being left out; and scapegoating, which blames complex problems on a single group.
+Marco: What about social media algorithms? They often create filter bubbles that function like propaganda by limiting exposure to opposing views.
+Professor Osei: That's a brilliant contemporary observation. Algorithmic curation can achieve propaganda-like effects without any centralized control — users may believe they're getting a balanced picture when in fact they're receiving a highly filtered one. The question of who bears responsibility in that scenario is one of the most pressing media ethics issues of our time.`,
+
+  'Documentary Narration': `Director Claire: Let's discuss the narration for the opening sequence. I want it to draw the viewer in immediately — not with a dramatic voiceover, but with something more intimate and reflective.
+Narrator James: I like that approach. Should I write in first person, as if the subject is telling their own story, or third person with observational distance?
+Director Claire: First person for this section. We open with Maria's journey from Caracas to London. The narration should feel like a letter she's writing to her daughter back home — personal, slightly wistful, but not sentimental.
+Narrator James: Something like: "Every morning I cross Waterloo Bridge and think of you. The Thames is grey today, nothing like the Caribbean. But there's a kind of beauty in this grey I never expected."
+Director Claire: That's lovely. The key is restraint — let the images do the emotional work. The narration should add something the viewer can't see: the internal landscape, the private thoughts.
+Narrator James: What about the historical context section in the middle? That needs a different register entirely.
+Director Claire: Exactly. There we shift to a more authoritative third-person voice — factual, measured, slightly formal. It should convey credibility without being dry. Think of it as the voice of a knowledgeable guide, not a lecturer.
+Narrator James: And the transition between the two registers?
+Director Claire: We use Maria's voice saying "But that's not how it started" as the bridge. It returns agency to her — she's the one directing the narrative, not just a subject being described.`,
+
+  'Bioethics Discussion': `Dr. Reeves: Today's case involves a breakthrough in gene editing technology. A research team has successfully used CRISPR to correct a genetic mutation that causes a rare heart condition. The ethical question is whether this should be limited to therapeutic applications or extended to enhancement.
+Amara: I think the therapy-enhancement distinction is crucial. Correcting a life-threatening mutation is clearly therapeutic. But if we start editing for intelligence or physical traits, we're entering fundamentally different territory.
+Dr. Reeves: And why is that territory problematic?
+Amara: Because it raises issues of equity and access. If only wealthy families can afford genetic enhancements, we'd be creating a biological divide that's far more profound than any economic inequality.
+Wei: But isn't that argument also an argument against any expensive medical technology? Should we not develop treatments because not everyone can access them?
+Amara: That's a fair challenge. But there's a difference between treating disease and enhancing normal function. The former reduces inequality by bringing people up to a baseline of health. The latter could amplify existing advantages.
+Dr. Reeves: An important distinction. There's also the question of consent. When we edit the germline — the DNA passed to future generations — those future people can't consent to the changes made to their genome.
+Wei: But parents make countless decisions that affect their children's futures without the child's consent — education, nutrition, environment. Is genetic editing fundamentally different?
+Dr. Reeves: That's precisely the question we need to grapple with. Some argue it is different because it's irreversible and heritable. Others see it as a continuum of parental decision-making. There are no easy answers here, and that's why bioethics demands such rigorous, honest dialogue.`,
+
+  'Academic Conference English': `Dr. Yamamoto: Good afternoon, everyone. I'm Dr. Yamamoto from the University of Tokyo, and I'm delighted to chair this session on applied linguistics. Our first presenter is Dr. Elena Vasquez from the University of Barcelona, who will be speaking on cross-linguistic transfer in L3 acquisition.
+Dr. Vasquez: Thank you, Dr. Yamamoto. Let me begin by acknowledging that this research was conducted on the traditional lands of the Catalan people. The question driving our study is whether prior knowledge of two languages creates a unique pattern of transfer when acquiring a third.
+Dr. Yamamoto: Fascinating. Could you elaborate on your methodology?
+Dr. Vasquez: Certainly. We recruited one hundred and twenty participants divided into four groups based on their L1-L2 combinations. All participants were learning Brazilian Portuguese as their L3. We used a mixed-methods approach, combining reaction time data with qualitative interviews.
+Audience Member: Dr. Vasquez, I was wondering whether you controlled for proficiency level in the L2? Transfer patterns might differ significantly depending on how established the second language is.
+Dr. Vasquez: An excellent question, and yes, we did control for L2 proficiency using the DIALANG assessment. In fact, that turned out to be one of our most significant findings — L2 proficiency was a stronger predictor of transfer than typological similarity between the L2 and L3.
+Dr. Yamamoto: That's a striking result. I think this opens up some important avenues for future research. Dr. Vasquez, thank you for a truly stimulating presentation. We'll now have five minutes for additional questions before moving to our next speaker.`,
 };
 
 export function generateQuizData(lesson: StaticLesson, module: StaticModule, course: StaticCourse): string | null {

@@ -38,6 +38,14 @@ interface WritingEvaluation {
   feedback: string;
   strengths: string[];
   improvements: string[];
+  dimensions: {
+    grammar: { score: number; feedback: string };
+    vocabulary: { score: number; feedback: string };
+    coherence: { score: number; feedback: string };
+    taskAchievement: { score: number; feedback: string };
+    cohesion: { score: number; feedback: string };
+    range: { score: number; feedback: string };
+  };
 }
 
 type TestPhase = 'select' | 'grammar' | 'vocabulary' | 'reading' | 'listening' | 'speaking' | 'writing' | 'results';
@@ -303,7 +311,11 @@ export default function TestPage() {
   const [speechSupported, setSpeechSupported] = useState(true);
   useEffect(() => {
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    setSpeechSupported(!!SpeechRecognition);
+    const supported = !!SpeechRecognition;
+    setSpeechSupported(supported);
+    // Set speechNotSupported early so the fallback UI appears immediately
+    // in the speaking section, rather than only after the user clicks the mic button
+    setSpeechNotSupported(!supported);
   }, []);
 
   // Results state
@@ -1182,7 +1194,7 @@ export default function TestPage() {
                   <div>
                     <p className="text-sm text-amber-300 font-medium">Voice input not available</p>
                     <p className="text-xs text-white/40 mt-1">
-                      Your browser does not support speech recognition. You can still complete the speaking section by typing your response. For voice input, use Google Chrome or Microsoft Edge.
+                      Your browser doesn't support speech recognition. You can type your response instead, and our AI will still evaluate your English proficiency.
                     </p>
                   </div>
                 </div>
@@ -1794,7 +1806,7 @@ export default function TestPage() {
                       <AlertCircle className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
                       <div>
                         <p className="text-amber-300 font-semibold text-sm">Voice Input Unavailable</p>
-                        <p className="text-white/60 text-xs mt-1">Your browser does not support speech recognition. You can type your response below instead. For the best experience with voice input, use <strong>Google Chrome</strong> or <strong>Microsoft Edge</strong>.</p>
+                        <p className="text-white/60 text-xs mt-1">Your browser doesn't support speech recognition. You can type your response instead, and our AI will still evaluate your English proficiency.</p>
                       </div>
                     </div>
                   </div>
@@ -2015,6 +2027,16 @@ export default function TestPage() {
     const wc = wordCount(currentWritingText);
     const hasEvaluation = !!writingEvaluations[writingPrompt.id];
     const evaluation = writingEvaluations[writingPrompt.id];
+    const writingDimensions = evaluation?.dimensions
+      ? [
+          { key: 'grammar', label: 'Grammar (G)', ...evaluation.dimensions.grammar, color: 'from-purple-500 to-violet-500' },
+          { key: 'vocabulary', label: 'Vocabulary (V)', ...evaluation.dimensions.vocabulary, color: 'from-pink-500 to-rose-500' },
+          { key: 'coherence', label: 'Coherence (C)', ...evaluation.dimensions.coherence, color: 'from-orange-500 to-amber-500' },
+          { key: 'taskAchievement', label: 'Task Achievement (T)', ...evaluation.dimensions.taskAchievement, color: 'from-green-500 to-emerald-500' },
+          { key: 'cohesion', label: 'Cohesion (Co)', ...evaluation.dimensions.cohesion, color: 'from-blue-500 to-cyan-500' },
+          { key: 'range', label: 'Range (R)', ...evaluation.dimensions.range, color: 'from-red-500 to-pink-500' },
+        ]
+      : [];
 
     return (
       <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
@@ -2084,6 +2106,29 @@ export default function TestPage() {
                 </div>
 
                 <p className="text-sm text-white/60 mb-4">{evaluation!.feedback}</p>
+
+                {/* 6 Dimensions */}
+                {writingDimensions.length > 0 && (
+                  <div className="grid gap-3 sm:grid-cols-2 mb-4">
+                    {writingDimensions.map(dim => (
+                      <div key={dim.key} className="glass-card p-3">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm font-medium text-white">{dim.label}</span>
+                          <span className="text-sm font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                            {dim.score}/100
+                          </span>
+                        </div>
+                        <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
+                          <div
+                            className={`h-full rounded-full bg-gradient-to-r ${dim.color} transition-all duration-1000`}
+                            style={{ width: `${dim.score}%` }}
+                          />
+                        </div>
+                        <p className="text-xs text-white/40 mt-1">{dim.feedback}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
 
                 <div className="grid gap-3 sm:grid-cols-2 mb-4">
                   {evaluation!.strengths.length > 0 && (
