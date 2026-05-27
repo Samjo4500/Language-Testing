@@ -54,7 +54,7 @@ const LEVEL_COLORS: Record<string, string> = {
   A2: 'text-green-400 border-green-400/30 bg-green-400/10',
   B1: 'text-amber-400 border-amber-400/30 bg-amber-400/10',
   B2: 'text-yellow-400 border-yellow-400/30 bg-yellow-400/10',
-  C1: 'text-purple-400 border-purple-400/30 bg-purple-400/10',
+  C1: 'text-violet-400 border-violet-400/30 bg-violet-400/10',
   C2: 'text-violet-400 border-violet-400/30 bg-violet-400/10',
 };
 
@@ -63,7 +63,7 @@ const LEVEL_BG: Record<string, string> = {
   A2: 'bg-green-500',
   B1: 'bg-amber-500',
   B2: 'bg-yellow-500',
-  C1: 'bg-purple-500',
+  C1: 'bg-violet-500',
   C2: 'bg-violet-500',
 };
 
@@ -296,7 +296,7 @@ export default function VocabularyPage() {
   if (authLoading) {
     return (
       <div className="min-h-screen bg-[#0F0A1E] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-purple-400 animate-spin" />
+        <Loader2 className="w-8 h-8 text-violet-400 animate-spin" />
       </div>
     );
   }
@@ -305,14 +305,14 @@ export default function VocabularyPage() {
     return (
       <div className="min-h-screen bg-[#0F0A1E] flex items-center justify-center p-4">
         <div className="text-center max-w-md">
-          <div className="w-20 h-20 rounded-2xl bg-purple-500/20 flex items-center justify-center mx-auto mb-6">
-            <BookOpen className="w-10 h-10 text-purple-400" />
+          <div className="w-20 h-20 rounded-2xl bg-violet-500/20 flex items-center justify-center mx-auto mb-6">
+            <BookOpen className="w-10 h-10 text-violet-400" />
           </div>
           <h1 className="text-2xl font-bold text-white mb-3">Vocabulary Trainer</h1>
           <p className="text-gray-400 mb-6">Sign in to start building your English vocabulary with spaced repetition.</p>
           <Button
             onClick={() => (window.location.href = '/login')}
-            className="bg-purple-600 hover:bg-purple-700 text-white px-8"
+            className="bg-violet-600 hover:bg-violet-700 text-white px-8"
           >
             Sign In to Continue
           </Button>
@@ -332,13 +332,13 @@ export default function VocabularyPage() {
           {/* Title row */}
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-purple-500/20 flex items-center justify-center">
-                <Brain className="w-5 h-5 text-purple-400" />
+              <div className="w-10 h-10 rounded-xl bg-violet-500/20 flex items-center justify-center">
+                <Brain className="w-5 h-5 text-violet-400" />
               </div>
               <div>
                 <h1 className="text-xl font-bold flex items-center gap-2">
                   Vocabulary Trainer
-                  <Badge variant="outline" className="text-[10px] px-1.5 py-0 border-purple-400/30 text-purple-400">
+                  <Badge variant="outline" className="text-[10px] px-1.5 py-0 border-violet-400/30 text-violet-400">
                     BETA
                   </Badge>
                 </h1>
@@ -402,7 +402,7 @@ export default function VocabularyPage() {
                 onClick={() => setCategoryFilter(cat)}
                 className={`px-2.5 py-1 rounded-md text-[11px] font-medium whitespace-nowrap transition-all ${
                   categoryFilter === cat
-                    ? 'bg-purple-500/20 text-purple-300 border border-purple-400/30'
+                    ? 'bg-violet-500/20 text-violet-300 border border-violet-400/30'
                     : 'bg-white/5 text-gray-500 hover:bg-white/10 hover:text-gray-300'
                 }`}
               >
@@ -513,14 +513,14 @@ export default function VocabularyPage() {
         {/* Loading state */}
         {loading && (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-8 h-8 text-purple-400 animate-spin" />
+            <Loader2 className="w-8 h-8 text-violet-400 animate-spin" />
           </div>
         )}
 
         {/* Seeding state */}
         {seeding && (
           <div className="flex flex-col items-center justify-center py-20 gap-3">
-            <Loader2 className="w-8 h-8 text-purple-400 animate-spin" />
+            <Loader2 className="w-8 h-8 text-violet-400 animate-spin" />
             <p className="text-gray-400 text-sm">Loading vocabulary data...</p>
           </div>
         )}
@@ -628,11 +628,11 @@ export default function VocabularyPage() {
 
                 {/* Back of card */}
                 <div
-                  className="absolute inset-0 w-full min-h-[280px] sm:min-h-[320px] rounded-2xl bg-gradient-to-br from-purple-500/[0.12] to-violet-500/[0.06] border border-purple-400/20 p-5 sm:p-8 flex flex-col items-center justify-center gap-2 sm:gap-3"
+                  className="absolute inset-0 w-full min-h-[280px] sm:min-h-[320px] rounded-2xl bg-gradient-to-br from-violet-500/[0.12] to-violet-500/[0.06] border border-violet-400/20 p-5 sm:p-8 flex flex-col items-center justify-center gap-2 sm:gap-3"
                   style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
                 >
                   <h3 className="text-xl font-semibold text-white mb-1">{currentWord.word}</h3>
-                  <p className="text-purple-200 text-center leading-relaxed text-sm sm:text-base">
+                  <p className="text-violet-200 text-center leading-relaxed text-sm sm:text-base">
                     {currentWord.definition}
                   </p>
                   <div className="bg-white/5 rounded-xl px-4 py-3 mt-2 w-full">
@@ -741,7 +741,7 @@ export default function VocabularyPage() {
                 placeholder="Search your words..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-gray-600 focus:border-purple-400/50"
+                className="pl-10 bg-white/5 border-white/10 text-white placeholder:text-gray-600 focus:border-violet-400/50"
               />
             </div>
 
@@ -855,7 +855,7 @@ function EmptyState({
         <Button
           onClick={action}
           variant="outline"
-          className="border-purple-400/30 text-purple-300 hover:bg-purple-500/10 mt-2"
+          className="border-violet-400/30 text-violet-300 hover:bg-violet-500/10 mt-2"
         >
           {actionLabel}
         </Button>

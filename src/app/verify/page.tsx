@@ -28,8 +28,8 @@ export default function VerifyCertificatePage() {
         <div className="container mx-auto max-w-2xl">
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-              <QrCode className="h-3.5 w-3.5 text-purple-400" />
-              <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Certificate Verification</span>
+              <QrCode className="h-3.5 w-3.5 text-violet-400" />
+              <span className="text-xs text-violet-300 font-medium uppercase tracking-wider">Certificate Verification</span>
             </div>
             <h1 className="text-3xl md:text-5xl font-bold text-white">
               Verify a Certificate
@@ -55,7 +55,7 @@ export default function VerifyCertificatePage() {
                       value={verificationId}
                       onChange={(e) => setVerificationId(e.target.value)}
                       placeholder="e.g., TC-A1B2C3-D4E5F6"
-                      className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 transition-all"
+                      className="w-full pl-10 pr-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all"
                     />
                   </div>
                   <button
@@ -73,11 +73,11 @@ export default function VerifyCertificatePage() {
                 <p className="text-xs text-white/30 mb-3">How to find the verification ID:</p>
                 <div className="grid sm:grid-cols-2 gap-3">
                   <div className="flex items-start gap-2">
-                    <QrCode className="h-4 w-4 text-purple-400 shrink-0 mt-0.5" />
+                    <QrCode className="h-4 w-4 text-violet-400 shrink-0 mt-0.5" />
                     <span className="text-xs text-white/50">Scan the QR code on the certificate PDF</span>
                   </div>
                   <div className="flex items-start gap-2">
-                    <FileCheck className="h-4 w-4 text-purple-400 shrink-0 mt-0.5" />
+                    <FileCheck className="h-4 w-4 text-violet-400 shrink-0 mt-0.5" />
                     <span className="text-xs text-white/50">Find the ID printed below the QR code</span>
                   </div>
                 </div>
@@ -95,7 +95,7 @@ export default function VerifyCertificatePage() {
                 { icon: <FileCheck className="h-5 w-5" />, title: 'Details', desc: 'Displays test date, skills breakdown, and certificate status' },
               ].map((item) => (
                 <div key={item.title} className="text-center">
-                  <div className="flex justify-center mb-2 text-purple-400">{item.icon}</div>
+                  <div className="flex justify-center mb-2 text-violet-400">{item.icon}</div>
                   <h4 className="text-sm font-medium text-white">{item.title}</h4>
                   <p className="text-xs text-white/40 mt-1">{item.desc}</p>
                 </div>

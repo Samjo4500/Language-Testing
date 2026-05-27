@@ -54,7 +54,7 @@ function VerifyEmailContent() {
             {!token && (
               <>
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 border border-blue-500/20 mb-6">
-                  <Mail className="h-8 w-8 text-purple-400" />
+                  <Mail className="h-8 w-8 text-violet-400" />
                 </div>
                 <h1 className="text-2xl font-bold text-white mb-3">Check Your Email</h1>
                 <p className="text-white/50 text-sm mb-6 leading-relaxed">
@@ -76,7 +76,7 @@ function VerifyEmailContent() {
             {token && status === 'loading' && (
               <>
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 border border-blue-500/20 mb-6 animate-pulse">
-                  <Loader2 className="h-8 w-8 text-purple-400 animate-spin" />
+                  <Loader2 className="h-8 w-8 text-violet-400 animate-spin" />
                 </div>
                 <h1 className="text-2xl font-bold text-white mb-3">Verifying Your Email</h1>
                 <p className="text-white/50 text-sm">Please wait while we verify your email address...</p>
@@ -146,7 +146,7 @@ export default function VerifyEmailPage() {
         <div className="flex-1 flex items-center justify-center px-4 py-12">
           <div className="w-full max-w-md">
             <div className="glass-card p-8 text-center">
-              <Loader2 className="h-8 w-8 text-purple-400 animate-spin mx-auto mb-4" />
+              <Loader2 className="h-8 w-8 text-violet-400 animate-spin mx-auto mb-4" />
               <p className="text-white/50 text-sm">Loading...</p>
             </div>
           </div>

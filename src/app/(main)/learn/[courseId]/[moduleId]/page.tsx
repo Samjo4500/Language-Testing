@@ -1334,7 +1334,7 @@ export default function LessonViewerPage() {
           {/* Confetti particles */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             {Array.from({ length: 40 }).map((_, i) => {
-              const colors = ['#a855f7', '#3b82f6', '#3b82f6', '#06b6d4', '#10b981', '#f59e0b'];
+              const colors = ['#7c5cff', '#3b82f6', '#3b82f6', '#06b6d4', '#10b981', '#f59e0b'];
               const color = colors[i % colors.length];
               const left = Math.random() * 100;
               const delay = Math.random() * 3;
@@ -1363,7 +1363,7 @@ export default function LessonViewerPage() {
           <div className="relative z-10 mx-4 w-full max-w-md">
             <div className="glass-card p-8 text-center relative overflow-hidden">
               {/* Glow effect */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl -mt-32 pointer-events-none" />
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-violet-500/20 rounded-full blur-3xl -mt-32 pointer-events-none" />
 
               {/* Trophy icon */}
               <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 text-white mb-6 shadow-lg shadow-blue-500/30" style={{ animation: 'celebration-bounce 2s ease-in-out infinite' }}>

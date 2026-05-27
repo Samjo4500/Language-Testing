@@ -186,7 +186,7 @@ export const CEFR_COLORS_DARK: Record<string, string> = {
   B1: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
   B2: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
   C1: 'bg-violet-500/20 text-violet-400 border-violet-500/30',
-  C2: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
+  C2: 'bg-violet-500/20 text-violet-400 border-violet-500/30',
 };
 
 // ─── CEFR Gradients ───────────────────────────────────────────────────────────
@@ -197,7 +197,7 @@ export const CEFR_GRADIENTS: Record<string, string> = {
   B1: 'from-yellow-400 to-yellow-600',
   B2: 'from-orange-400 to-orange-600',
   C1: 'from-violet-400 to-violet-600',
-  C2: 'from-purple-400 to-purple-600',
+  C2: 'from-violet-400 to-violet-600',
 };
 
 // ─── CEFR Pie Chart Colors ────────────────────────────────────────────────────

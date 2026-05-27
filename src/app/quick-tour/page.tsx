@@ -56,7 +56,7 @@ const steps = [
     description:
       'Receive your CEFR level (A1-C2) with a detailed skill breakdown.',
     icon: FileCheck,
-    gradient: 'from-violet-400 to-purple-400',
+    gradient: 'from-violet-400 to-violet-400',
   },
   {
     number: 6,
@@ -104,7 +104,7 @@ export default function QuickTourPage() {
       {/* Hero Section */}
       <section className="relative dark-section overflow-hidden">
         {/* Floating Background Orbs */}
-        <div className="orb orb-purple w-96 h-96 top-[-10%] left-[10%] animate-float opacity-20" />
+        <div className="orb orb-violet w-96 h-96 top-[-10%] left-[10%] animate-float opacity-20" />
         <div className="orb orb-violet w-80 h-80 top-[20%] right-[5%] animate-float-slow opacity-15" />
         <div className="orb orb-blue w-64 h-64 bottom-[10%] left-[30%] animate-float-reverse opacity-10" />
 
@@ -112,7 +112,7 @@ export default function QuickTourPage() {
           <div className="container mx-auto px-4 py-24 sm:py-32 text-center relative z-10">
             {/* Badge */}
             <div className="scroll-animate inline-flex items-center gap-2 rounded-full glass-light px-4 py-1.5 mb-8">
-              <Sparkles className="h-4 w-4 text-purple-400" />
+              <Sparkles className="h-4 w-4 text-violet-400" />
               <span className="text-sm font-medium text-white/80">
                 How It Works
               </span>
@@ -140,7 +140,7 @@ export default function QuickTourPage() {
       {/* Steps Section */}
       <section className="relative bg-[#0F0A1E] py-20 sm:py-28 overflow-hidden">
         {/* Subtle background glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-600/5 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-violet-600/5 rounded-full blur-[120px] pointer-events-none" />
 
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid gap-6 lg:grid-cols-2">
@@ -188,7 +188,7 @@ export default function QuickTourPage() {
 
       {/* CTA Section */}
       <section className="relative bg-[#0F0A1E] py-20 sm:py-28 overflow-hidden">
-        <div className="orb orb-purple w-72 h-72 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10 animate-float" />
+        <div className="orb orb-violet w-72 h-72 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10 animate-float" />
 
         <div className="container mx-auto px-4 relative z-10">
           <div className="scroll-animate glass-card p-8 sm:p-12 text-center max-w-2xl mx-auto">

@@ -5,7 +5,7 @@ import { adminLimiter } from '@/lib/rate-limit';
 
 const DEFAULT_SETTINGS = {
   companyName: 'TestCEFR',
-  primaryColor: '#8B5CF6',
+  primaryColor: '#7c5cff',
   logoUrl: '',
   domain: '',
   supportEmail: '',

@@ -48,7 +48,7 @@ const TYPE_ICONS: Record<string, React.ReactNode> = {
 
 const TYPE_COLORS: Record<string, string> = {
   welcome: 'text-emerald-400 bg-emerald-500/20',
-  assessment_complete: 'text-purple-400 bg-purple-500/20',
+  assessment_complete: 'text-violet-400 bg-violet-500/20',
   partner_request: 'text-blue-400 bg-blue-500/20',
   partner_accepted: 'text-green-400 bg-green-500/20',
   course_enrolled: 'text-cyan-400 bg-cyan-500/20',

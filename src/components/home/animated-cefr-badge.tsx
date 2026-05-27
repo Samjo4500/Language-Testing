@@ -219,7 +219,7 @@ export function AnimatedCEFRBadge() {
           style={{
             width: `${1.5 + (i % 3)}px`,
             height: `${1.5 + (i % 3)}px`,
-            background: i % 2 === 0 ? activeColor : '#8B5CF6',
+            background: i % 2 === 0 ? activeColor : '#7c5cff',
             opacity: 0.2 + (i % 3) * 0.1,
             top: `${12 + ((i * 13) % 76)}%`,
             left: `${8 + ((i * 17) % 84)}%`,

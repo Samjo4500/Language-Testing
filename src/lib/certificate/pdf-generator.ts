@@ -26,10 +26,10 @@ const CEFR_COLORS: Record<string, { r: number; g: number; b: number }> = {
 // Skill bar colors (matching the website)
 const SKILL_COLORS: Record<string, { r1: number; g1: number; b1: number; r2: number; g2: number; b2: number }> = {
   reading:    { r1: 0.37, g1: 0.58, b1: 0.96, r2: 0.32, g2: 0.77, b2: 0.96 },   // blue to cyan
-  writing:    { r1: 0.55, g1: 0.30, b1: 0.96, r2: 0.60, g2: 0.22, b2: 0.96 },   // violet to purple
+  writing:    { r1: 0.49, g1: 0.36, b1: 1.0, r2: 0.55, g2: 0.30, b2: 0.96 },      // violet to deeper violet
   listening:  { r1: 0.37, g1: 0.77, b1: 0.45, r2: 0.30, g2: 0.77, b2: 0.45 },   // green to emerald
   speaking:   { r1: 0.98, g1: 0.45, b1: 0.09, r2: 0.96, g2: 0.56, b2: 0.09 },   // orange to amber
-  grammar:    { r1: 0.55, g1: 0.30, b1: 0.96, r2: 0.23, g2: 0.51, b2: 0.96 },   // purple to blue
+  grammar:    { r1: 0.49, g1: 0.36, b1: 1.0, r2: 0.23, g2: 0.51, b2: 0.96 },      // violet to blue
   vocabulary: { r1: 0.32, g1: 0.77, b1: 0.96, r2: 0.37, g2: 0.58, b2: 0.96 },   // cyan to blue
 };
 
@@ -53,8 +53,8 @@ interface CertificateData {
 
 // Color constants matching the website
 const DARK_BG      = rgb(0.06, 0.04, 0.12);   // #0F0A1E
-const PURPLE_START = rgb(0.55, 0.36, 0.96);   // #8B5CF6 purple-500
-const PINK_END     = rgb(0.23, 0.51, 0.96);   // #3b82f6 blue-500
+const VIOLET_START = rgb(0.49, 0.36, 1.0);    // #7c5cff violet
+const BLUE_END     = rgb(0.23, 0.51, 0.96);   // #3b82f6 blue-500
 const WHITE        = rgb(1, 1, 1);
 
 export async function generateCertificatePDF(data: CertificateData): Promise<Buffer> {
@@ -81,22 +81,22 @@ export async function generateCertificatePDF(data: CertificateData): Promise<Buf
     color: DARK_BG,
   });
 
-  // ── Gradient border frame (purple-to-blue gradient, 2px wide) ──
+  // ── Gradient border frame (violet-to-blue gradient, 2px wide) ──
   const borderW = 2;
   const gradientSteps = 30;
   for (let i = 0; i < gradientSteps; i++) {
     const t = i / gradientSteps;
-    const r = PURPLE_START.red * (1 - t) + PINK_END.red * t;
-    const g = PURPLE_START.green * (1 - t) + PINK_END.green * t;
-    const b = PURPLE_START.blue * (1 - t) + PINK_END.blue * t;
+    const r = VIOLET_START.red * (1 - t) + BLUE_END.red * t;
+    const g = VIOLET_START.green * (1 - t) + BLUE_END.green * t;
+    const b = VIOLET_START.blue * (1 - t) + BLUE_END.blue * t;
     const segW = width / gradientSteps;
     page.drawRectangle({ x: i * segW, y: height - borderW, width: segW + 1, height: borderW, color: rgb(r, g, b) });
     page.drawRectangle({ x: i * segW, y: 0, width: segW + 1, height: borderW, color: rgb(r, g, b) });
   }
-  // Left border (purple)
-  page.drawRectangle({ x: 0, y: 0, width: borderW, height, color: PURPLE_START });
+  // Left border (violet)
+  page.drawRectangle({ x: 0, y: 0, width: borderW, height, color: VIOLET_START });
   // Right border (blue)
-  page.drawRectangle({ x: width - borderW, y: 0, width: borderW, height, color: PINK_END });
+  page.drawRectangle({ x: width - borderW, y: 0, width: borderW, height, color: BLUE_END });
 
   const marginX = 50;
   const contentWidth = width - 2 * marginX;
@@ -487,7 +487,7 @@ export async function generateCertificatePDF(data: CertificateData): Promise<Buf
     width: 200,
     margin: 1,
     color: {
-      dark: '#a855f7',  // purple-500 matching site
+      dark: '#7c5cff',  // violet matching site
       light: '#0F0A1E', // dark bg
     },
   });
@@ -616,22 +616,22 @@ export async function generateCourseCertificatePDF(data: CourseCertificateData):
     color: DARK_BG,
   });
 
-  // ── Gradient border frame (purple-to-blue gradient, 2px wide) ──
+  // ── Gradient border frame (violet-to-blue gradient, 2px wide) ──
   const borderW = 2;
   const gradientSteps = 30;
   for (let i = 0; i < gradientSteps; i++) {
     const t = i / gradientSteps;
-    const r = PURPLE_START.red * (1 - t) + PINK_END.red * t;
-    const g = PURPLE_START.green * (1 - t) + PINK_END.green * t;
-    const b = PURPLE_START.blue * (1 - t) + PINK_END.blue * t;
+    const r = VIOLET_START.red * (1 - t) + BLUE_END.red * t;
+    const g = VIOLET_START.green * (1 - t) + BLUE_END.green * t;
+    const b = VIOLET_START.blue * (1 - t) + BLUE_END.blue * t;
     const segW = width / gradientSteps;
     page.drawRectangle({ x: i * segW, y: height - borderW, width: segW + 1, height: borderW, color: rgb(r, g, b) });
     page.drawRectangle({ x: i * segW, y: 0, width: segW + 1, height: borderW, color: rgb(r, g, b) });
   }
-  // Left border (purple)
-  page.drawRectangle({ x: 0, y: 0, width: borderW, height, color: PURPLE_START });
+  // Left border (violet)
+  page.drawRectangle({ x: 0, y: 0, width: borderW, height, color: VIOLET_START });
   // Right border (blue)
-  page.drawRectangle({ x: width - borderW, y: 0, width: borderW, height, color: PINK_END });
+  page.drawRectangle({ x: width - borderW, y: 0, width: borderW, height, color: BLUE_END });
 
   const marginX = 50;
   const contentWidth = width - 2 * marginX;
@@ -1041,7 +1041,7 @@ export async function generateCourseCertificatePDF(data: CourseCertificateData):
     width: 200,
     margin: 1,
     color: {
-      dark: '#a855f7',  // purple-500 matching site
+      dark: '#7c5cff',  // violet matching site
       light: '#0F0A1E', // dark bg
     },
   });

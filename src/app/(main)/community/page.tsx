@@ -567,7 +567,7 @@ export default function CommunityPage() {
               Connect with native speakers, practice together, and join our global chatroom.
             </p>
             <div className="mt-4 flex items-center justify-center gap-3">
-              <a href="/community/moments" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-purple-500/15 border border-purple-500/30 text-purple-400 text-sm font-medium hover:bg-purple-500/25 transition-all">
+              <a href="/community/moments" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-violet-500/15 border border-violet-500/30 text-violet-400 text-sm font-medium hover:bg-violet-500/25 transition-all">
                 <Sparkles className="h-4 w-4" />
                 Moments
               </a>
@@ -776,7 +776,7 @@ export default function CommunityPage() {
                         {partner.interests && partner.interests.length > 0 && (
                           <div className="flex flex-wrap gap-1 mt-2">
                             {partner.interests.slice(0, 4).map((interest) => (
-                              <span key={interest} className="px-1.5 py-0.5 rounded-full bg-purple-500/15 text-purple-400 text-[10px] font-medium border border-purple-500/20">
+                              <span key={interest} className="px-1.5 py-0.5 rounded-full bg-violet-500/15 text-violet-400 text-[10px] font-medium border border-violet-500/20">
                                 {interest}
                               </span>
                             ))}

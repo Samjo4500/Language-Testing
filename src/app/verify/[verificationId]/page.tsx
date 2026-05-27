@@ -91,7 +91,7 @@ export default function VerifyCertificatePage() {
         <Navbar />
         <div className="flex-1 flex items-center justify-center px-4">
           <div className="text-center space-y-4">
-            <Loader2 className="h-12 w-12 animate-spin mx-auto text-purple-400" />
+            <Loader2 className="h-12 w-12 animate-spin mx-auto text-violet-400" />
             <p className="text-white/50">Verifying certificate...</p>
           </div>
         </div>
@@ -145,19 +145,19 @@ export default function VerifyCertificatePage() {
           </div>
 
           {/* Certificate Card - Matching the blue/violet dark theme */}
-          <div className="glass-card p-2 md:p-3 purple-glow">
+          <div className="glass-card p-2 md:p-3 violet-glow">
             {/* Gradient border wrapper */}
             <div
               className="relative rounded-2xl overflow-hidden"
               style={{
-                background: 'linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%)',
+                background: 'linear-gradient(135deg, #3B82F6 0%, #7c5cff 100%)',
                 padding: '2px',
                 borderRadius: '1rem',
               }}
             >
               <div className="relative rounded-2xl overflow-hidden bg-[#0F0A1E]">
                 {/* Top accent line */}
-                <div className="h-1" style={{ background: 'linear-gradient(90deg, #3B82F6, #8B5CF6, #3B82F6)' }} />
+                <div className="h-1" style={{ background: 'linear-gradient(90deg, #3B82F6, #7c5cff, #3B82F6)' }} />
 
                 <div className="px-6 py-8 sm:px-10 sm:py-10 space-y-6">
                   {/* Header Row */}
@@ -165,7 +165,7 @@ export default function VerifyCertificatePage() {
                     <div className="flex items-center gap-3">
                       <img src="/logo-icon.svg" alt="CEFR Test" className="h-12 w-12" />
                       <div className="flex flex-col">
-                        <span className="text-white font-bold text-lg tracking-tight leading-tight">test<span className="bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent">cefr</span><span className="text-purple-300">.com</span></span>
+                        <span className="text-white font-bold text-lg tracking-tight leading-tight">test<span className="bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent">cefr</span><span className="text-violet-300">.com</span></span>
                         <span className="text-white/40 text-[10px] uppercase tracking-[0.2em] leading-tight">English Assessment</span>
                       </div>
                     </div>
@@ -299,7 +299,7 @@ export default function VerifyCertificatePage() {
                   <div className="flex items-end justify-between pt-2">
                     <div className="space-y-2">
                       <div className="flex items-center gap-1.5">
-                        <CheckCircle2 className="h-3.5 w-3.5 text-purple-400" />
+                        <CheckCircle2 className="h-3.5 w-3.5 text-violet-400" />
                         <span className="text-xs text-white/50">
                           AI-Verified Assessment
                         </span>
@@ -334,7 +334,7 @@ export default function VerifyCertificatePage() {
                 </div>
 
                 {/* Bottom accent line */}
-                <div className="h-1" style={{ background: 'linear-gradient(90deg, #3B82F6, #8B5CF6, #3B82F6)' }} />
+                <div className="h-1" style={{ background: 'linear-gradient(90deg, #3B82F6, #7c5cff, #3B82F6)' }} />
               </div>
             </div>
           </div>

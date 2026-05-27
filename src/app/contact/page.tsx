@@ -50,14 +50,14 @@ function AnimatedSection({ children, className = '', delay = 0 }: { children: Re
 function BackgroundOrbs() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {/* Main purple orb */}
-      <div className="orb orb-purple w-[500px] h-[500px] -top-32 -left-32 animate-float-slow" />
+      {/* Main violet orb */}
+      <div className="orb orb-violet w-[500px] h-[500px] -top-32 -left-32 animate-float-slow" />
       {/* Violet orb */}
       <div className="orb orb-violet w-[350px] h-[350px] top-1/3 -right-16 animate-float-reverse" />
       {/* Blue orb */}
       <div className="orb orb-blue w-[250px] h-[250px] bottom-16 left-1/4 animate-float" />
       {/* Small accent dots */}
-      <div className="absolute top-1/4 left-1/2 w-2 h-2 rounded-full bg-purple-400/40 animate-float delay-200" />
+      <div className="absolute top-1/4 left-1/2 w-2 h-2 rounded-full bg-violet-400/40 animate-float delay-200" />
       <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 rounded-full bg-blue-400/30 animate-float-reverse delay-500" />
       <div className="absolute bottom-1/3 left-1/3 w-2.5 h-2.5 rounded-full bg-blue-400/30 animate-float delay-300" />
     </div>
@@ -123,8 +123,8 @@ export default function ContactPage() {
           <div className="mx-auto max-w-4xl text-center">
             {/* Badge */}
             <div className="animate-float inline-flex items-center gap-2 rounded-full glass-light px-5 py-2 mb-8 animate-border-glow">
-              <MessageSquare className="h-4 w-4 text-purple-300" />
-              <span className="text-sm text-purple-200 font-medium">Get in Touch</span>
+              <MessageSquare className="h-4 w-4 text-violet-300" />
+              <span className="text-sm text-violet-200 font-medium">Get in Touch</span>
               <span className="flex h-2 w-2 rounded-full bg-green-400 animate-pulse" />
             </div>
 
@@ -234,7 +234,7 @@ export default function ContactPage() {
                     <p className="text-white/50 text-sm mb-6">Thank you for reaching out. We&apos;ll get back to you within 24 hours.</p>
                     <button
                       onClick={() => setFormSuccess(false)}
-                      className="text-purple-400 hover:text-purple-300 text-sm font-medium transition-colors"
+                      className="text-violet-400 hover:text-violet-300 text-sm font-medium transition-colors"
                     >
                       Send another message
                     </button>
@@ -365,8 +365,8 @@ export default function ContactPage() {
           <AnimatedSection>
             <div className="text-center mb-14">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <Sparkles className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Common Questions</span>
+                <Sparkles className="h-3.5 w-3.5 text-violet-400" />
+                <span className="text-xs text-violet-300 font-medium uppercase tracking-wider">Common Questions</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
                 Frequently Asked Questions

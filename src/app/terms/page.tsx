@@ -54,10 +54,10 @@ function AnimatedSection({ children, className = '', delay = 0 }: { children: Re
 function BackgroundOrbs() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      <div className="orb orb-purple w-[500px] h-[500px] -top-32 -left-32 animate-float-slow" />
+      <div className="orb orb-violet w-[500px] h-[500px] -top-32 -left-32 animate-float-slow" />
       <div className="orb orb-violet w-[350px] h-[350px] top-1/3 -right-16 animate-float-reverse" />
       <div className="orb orb-blue w-[250px] h-[250px] bottom-16 left-1/4 animate-float" />
-      <div className="absolute top-1/4 left-1/2 w-2 h-2 rounded-full bg-purple-400/40 animate-float delay-200" />
+      <div className="absolute top-1/4 left-1/2 w-2 h-2 rounded-full bg-violet-400/40 animate-float delay-200" />
       <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 rounded-full bg-blue-400/30 animate-float-reverse delay-500" />
       <div className="absolute bottom-1/3 left-1/3 w-2.5 h-2.5 rounded-full bg-blue-400/30 animate-float delay-300" />
     </div>
@@ -77,8 +77,8 @@ export default function TermsPage() {
           <div className="mx-auto max-w-4xl text-center">
             {/* Badge */}
             <div className="animate-float inline-flex items-center gap-2 rounded-full glass-light px-5 py-2 mb-8 animate-border-glow">
-              <Scale className="h-4 w-4 text-purple-300" />
-              <span className="text-sm text-purple-200 font-medium">Legal Agreement</span>
+              <Scale className="h-4 w-4 text-violet-300" />
+              <span className="text-sm text-violet-200 font-medium">Legal Agreement</span>
               <span className="flex h-2 w-2 rounded-full bg-green-400 animate-pulse" />
             </div>
 
@@ -109,8 +109,8 @@ export default function TermsPage() {
             <AnimatedSection>
               <div className="text-center mb-12">
                 <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                  <FileText className="h-3.5 w-3.5 text-purple-400" />
-                  <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Agreement</span>
+                  <FileText className="h-3.5 w-3.5 text-violet-400" />
+                  <span className="text-xs text-violet-300 font-medium uppercase tracking-wider">Agreement</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
                   Acceptance of Terms
@@ -141,8 +141,8 @@ export default function TermsPage() {
             <AnimatedSection>
               <div className="text-center mb-12">
                 <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                  <Sparkles className="h-3.5 w-3.5 text-purple-400" />
-                  <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Our Platform</span>
+                  <Sparkles className="h-3.5 w-3.5 text-violet-400" />
+                  <span className="text-xs text-violet-300 font-medium uppercase tracking-wider">Our Platform</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
                   Service Description
@@ -179,8 +179,8 @@ export default function TermsPage() {
             <AnimatedSection>
               <div className="text-center mb-12">
                 <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                  <UserCheck className="h-3.5 w-3.5 text-purple-400" />
-                  <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Account Management</span>
+                  <UserCheck className="h-3.5 w-3.5 text-violet-400" />
+                  <span className="text-xs text-violet-300 font-medium uppercase tracking-wider">Account Management</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
                   User Accounts
@@ -194,7 +194,7 @@ export default function TermsPage() {
                   icon: <Users className="h-5 w-5" />,
                   title: 'Registration',
                   desc: 'You must provide accurate and complete information when creating an account. You are responsible for maintaining the confidentiality of your login credentials and for all activities that occur under your account.',
-                  gradient: 'from-purple-400 to-indigo-500',
+                  gradient: 'from-violet-400 to-indigo-500',
                 },
                 {
                   icon: <Shield className="h-5 w-5" />,
@@ -233,8 +233,8 @@ export default function TermsPage() {
             <AnimatedSection>
               <div className="text-center mb-12">
                 <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                  <Award className="h-3.5 w-3.5 text-purple-400" />
-                  <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Assessment Details</span>
+                  <Award className="h-3.5 w-3.5 text-violet-400" />
+                  <span className="text-xs text-violet-300 font-medium uppercase tracking-wider">Assessment Details</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
                   Assessment & Certificates
@@ -286,8 +286,8 @@ export default function TermsPage() {
             <AnimatedSection>
               <div className="text-center mb-12">
                 <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                  <CreditCard className="h-3.5 w-3.5 text-purple-400" />
-                  <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Payment Information</span>
+                  <CreditCard className="h-3.5 w-3.5 text-violet-400" />
+                  <span className="text-xs text-violet-300 font-medium uppercase tracking-wider">Payment Information</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
                   Payment Terms
@@ -298,7 +298,7 @@ export default function TermsPage() {
             <div className="grid gap-5 sm:grid-cols-3">
               <AnimatedSection delay={100}>
                 <div className="glass-card p-6 h-full group">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-purple-400 to-indigo-500 text-white shadow-lg mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-violet-400 to-indigo-500 text-white shadow-lg mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
                     <CreditCard className="h-5 w-5" />
                   </div>
                   <h3 className="text-lg font-semibold text-white mb-2">One-Time Payment</h3>
@@ -345,8 +345,8 @@ export default function TermsPage() {
             <AnimatedSection>
               <div className="text-center mb-12">
                 <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                  <Lightbulb className="h-3.5 w-3.5 text-purple-400" />
-                  <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Legal Provisions</span>
+                  <Lightbulb className="h-3.5 w-3.5 text-violet-400" />
+                  <span className="text-xs text-violet-300 font-medium uppercase tracking-wider">Legal Provisions</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
                   Intellectual Property & Liability
@@ -402,7 +402,7 @@ export default function TermsPage() {
       {/* ===== CONTACT ===== */}
       <section className="relative py-16 md:py-20 dark-section overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="orb orb-purple w-[400px] h-[400px] -top-20 right-1/4 animate-float-slow" />
+          <div className="orb orb-violet w-[400px] h-[400px] -top-20 right-1/4 animate-float-slow" />
           <div className="orb orb-violet w-[300px] h-[300px] bottom-0 left-1/4 animate-float-reverse" />
         </div>
         <div className="container relative mx-auto px-4">

@@ -57,7 +57,7 @@ function AnimatedSection({ children, className = '', delay = 0 }: { children: Re
 function BackgroundOrbs() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      <div className="orb orb-purple w-[600px] h-[600px] -top-40 -left-40 animate-float-slow opacity-15" />
+      <div className="orb orb-violet w-[600px] h-[600px] -top-40 -left-40 animate-float-slow opacity-15" />
       <div className="orb orb-blue w-[400px] h-[400px] top-1/3 -right-20 animate-float-reverse opacity-15" />
       <div className="orb orb-blue w-[300px] h-[300px] bottom-20 left-1/4 animate-float opacity-15" />
       <div className="absolute top-1/4 left-1/2 w-2 h-2 rounded-full bg-blue-400/20 animate-float delay-200" />
@@ -436,7 +436,7 @@ export default function ReadingPage() {
       {/* ===== CTA SECTION ===== */}
       <section className="relative py-20 md:py-28 dark-section overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="orb orb-purple w-[400px] h-[400px] -top-20 right-1/4 animate-float-slow opacity-15" />
+          <div className="orb orb-violet w-[400px] h-[400px] -top-20 right-1/4 animate-float-slow opacity-15" />
           <div className="orb orb-blue w-[300px] h-[300px] bottom-0 left-1/4 animate-float-reverse opacity-15" />
         </div>
 

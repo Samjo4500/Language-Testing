@@ -40,7 +40,7 @@ const LANGUAGES: Record<string, string> = {
 const MOMENT_TAGS = [
   { value: 'grammar', label: 'Grammar', color: 'bg-blue-500/20 text-blue-400 border-blue-500/30' },
   { value: 'vocabulary', label: 'Vocabulary', color: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' },
-  { value: 'culture', label: 'Culture', color: 'bg-purple-500/20 text-purple-400 border-purple-500/30' },
+  { value: 'culture', label: 'Culture', color: 'bg-violet-500/20 text-violet-400 border-violet-500/30' },
   { value: 'pronunciation', label: 'Pronunciation', color: 'bg-amber-500/20 text-amber-400 border-amber-500/30' },
   { value: 'idioms', label: 'Idioms', color: 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30' },
   { value: 'tips', label: 'Tips', color: 'bg-violet-500/20 text-violet-400 border-violet-500/30' },
@@ -403,11 +403,11 @@ export default function MomentsPage() {
           {/* Header */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 rounded-full glass-light px-5 py-2 mb-4">
-              <Sparkles className="h-4 w-4 text-purple-300" />
-              <span className="text-sm text-purple-200 font-medium">Moments</span>
+              <Sparkles className="h-4 w-4 text-violet-300" />
+              <span className="text-sm text-violet-200 font-medium">Moments</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold text-white">
-              Share Your <span className="bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent">Language Journey</span>
+              Share Your <span className="bg-gradient-to-r from-violet-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent">Language Journey</span>
             </h1>
             <p className="mt-3 text-white/50 text-sm max-w-xl mx-auto">
               Post tips, ask questions, share cultural insights, and connect with fellow learners.
@@ -440,7 +440,7 @@ export default function MomentsPage() {
                   onChange={(e) => setNewContent(e.target.value.slice(0, 1000))}
                   placeholder="What's on your mind? Share a grammar tip, cultural insight, or ask a question..."
                   rows={4}
-                  className="w-full bg-white/5 border border-white/10 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/25 placeholder:text-white/30 resize-none"
+                  className="w-full bg-white/5 border border-white/10 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/25 placeholder:text-white/30 resize-none"
                   autoFocus
                 />
                 <p className="text-white/30 text-xs">{newContent.length}/1000</p>
@@ -451,7 +451,7 @@ export default function MomentsPage() {
                   <select
                     value={newLanguage}
                     onChange={(e) => setNewLanguage(e.target.value)}
-                    className="bg-white/5 border border-white/10 text-white rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-purple-500/50"
+                    className="bg-white/5 border border-white/10 text-white rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-violet-500/50"
                   >
                     {Object.entries(LANGUAGES).map(([code, name]) => (
                       <option key={code} value={code} className="bg-[#1a1f36]">{name}</option>
@@ -593,7 +593,7 @@ export default function MomentsPage() {
                   {/* Tags */}
                   <div className="flex flex-wrap gap-1.5 mt-3">
                     {moment.language && (
-                      <span className="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-400 text-[10px] font-medium border border-purple-500/20">
+                      <span className="px-2 py-0.5 rounded-full bg-violet-500/20 text-violet-400 text-[10px] font-medium border border-violet-500/20">
                         {LANGUAGES[moment.language] || moment.language}
                       </span>
                     )}

@@ -170,7 +170,7 @@ function ScoreCircle({ score, color }: { score: number; color: string }) {
    CONFETTI ANIMATION
    ====================================================== */
 function ConfettiOverlay() {
-  const colors = ['#7c5cff', '#14b8a6', '#3b82f6', '#22c55e', '#f59e0b', '#a855f7', '#ffffff'];
+  const colors = ['#7c5cff', '#14b8a6', '#3b82f6', '#22c55e', '#f59e0b', '#7c5cff', '#ffffff'];
   const particles = Array.from({ length: 60 }, (_, i) => ({
     id: i,
     x: Math.random() * 100,

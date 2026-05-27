@@ -23,7 +23,7 @@ const SKILLS = [
   { name: 'Reading', value: 82, color: 'from-blue-400 to-cyan-500' },
   { name: 'Listening', value: 75, color: 'from-green-400 to-emerald-500' },
   { name: 'Speaking', value: 70, color: 'from-orange-400 to-amber-500' },
-  { name: 'Writing', value: 80, color: 'from-violet-400 to-purple-500' },
+  { name: 'Writing', value: 80, color: 'from-violet-400 to-violet-500' },
 ];
 
 export default function SampleCertificatePage() {
@@ -68,7 +68,7 @@ export default function SampleCertificatePage() {
       {/* ── Hero Section ── */}
       <section className="relative dark-section overflow-hidden">
         {/* Floating Orbs */}
-        <div className="orb orb-purple w-72 h-72 top-10 -left-20 animate-float" />
+        <div className="orb orb-violet w-72 h-72 top-10 -left-20 animate-float" />
         <div className="orb orb-violet w-96 h-96 -top-20 right-0 animate-float-slow" />
         <div className="orb orb-blue w-64 h-64 bottom-0 left-1/3 animate-float-reverse" />
 
@@ -76,7 +76,7 @@ export default function SampleCertificatePage() {
           <div className="container mx-auto px-4 text-center">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 glass-light text-white/80 text-sm font-medium mb-6 scroll-animate" ref={addScrollRef(0)}>
-              <Award className="h-4 w-4 text-purple-400" />
+              <Award className="h-4 w-4 text-violet-400" />
               Sample Certificate
             </div>
 
@@ -100,7 +100,7 @@ export default function SampleCertificatePage() {
       {/* ── Certificate Preview ── */}
       <section className="relative py-16 md:py-24 bg-[#0F0A1E]">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto scroll-animate purple-glow" ref={addScrollRef(3)}>
+          <div className="max-w-3xl mx-auto scroll-animate violet-glow" ref={addScrollRef(3)}>
             <div className="glass-card p-2 md:p-3">
               {/* Gradient border wrapper */}
               <div className="p-[2px] rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500">
@@ -118,7 +118,7 @@ export default function SampleCertificatePage() {
                     <img src="/logo-icon.svg" alt="CEFR Test" className="h-11 w-11" />
                     <div className="flex flex-col">
                       <span className="text-white font-bold text-base tracking-tight leading-tight">
-                        test<span className="bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent">cefr</span><span className="text-purple-300">.com</span>
+                        test<span className="bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent">cefr</span><span className="text-violet-300">.com</span>
                       </span>
                       <span className="text-white/40 text-[9px] uppercase tracking-[0.2em] leading-tight">
                         English Assessment
@@ -199,7 +199,7 @@ export default function SampleCertificatePage() {
                       {/* QR placeholder */}
                       <div className="h-16 w-16 rounded-lg border-2 border-white/20 flex items-center justify-center bg-white/5">
                         <div className="text-center">
-                          <QrCode className="h-6 w-6 text-purple-400 mx-auto" />
+                          <QrCode className="h-6 w-6 text-violet-400 mx-auto" />
                           <span className="text-white/30 text-[8px] uppercase tracking-wider">
                             QR
                           </span>
@@ -254,7 +254,7 @@ export default function SampleCertificatePage() {
             {/* QR Verified */}
             <div className="glass-card p-6 text-center scroll-animate" ref={addScrollRef(6)}>
               <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 border border-blue-500/20 mb-4">
-                <QrCode className="h-7 w-7 text-purple-400" />
+                <QrCode className="h-7 w-7 text-violet-400" />
               </div>
               <h3 className="text-lg font-semibold text-white mb-2">QR Verified</h3>
               <p className="text-white/50 text-sm leading-relaxed">
@@ -293,7 +293,7 @@ export default function SampleCertificatePage() {
           <div className="max-w-2xl mx-auto scroll-animate" ref={addScrollRef(9)}>
             <div className="glass-card p-8 md:p-12 text-center">
               <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-gradient-to-br from-blue-500/20 to-indigo-500/20 border border-blue-500/20 mb-6">
-                <Star className="h-8 w-8 text-purple-400" />
+                <Star className="h-8 w-8 text-violet-400" />
               </div>
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
                 Get Your Certificate Today

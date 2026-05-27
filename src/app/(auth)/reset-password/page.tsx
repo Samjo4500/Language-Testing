@@ -81,7 +81,7 @@ function ResetPasswordForm() {
         <Navbar />
         <div className="flex-1 flex items-center justify-center px-4 py-12 relative">
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <div className="orb orb-purple w-[400px] h-[400px] -top-20 -right-20 animate-float-slow" />
+            <div className="orb orb-violet w-[400px] h-[400px] -top-20 -right-20 animate-float-slow" />
             <div className="orb orb-violet w-[300px] h-[300px] bottom-0 left-1/4 animate-float-reverse" />
           </div>
           <div className="w-full max-w-md relative">
@@ -114,7 +114,7 @@ function ResetPasswordForm() {
       <div className="flex-1 flex items-center justify-center px-4 py-12 relative">
         {/* Background orbs */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="orb orb-purple w-[400px] h-[400px] -top-20 -left-20 animate-float-slow" />
+          <div className="orb orb-violet w-[400px] h-[400px] -top-20 -left-20 animate-float-slow" />
           <div className="orb orb-violet w-[300px] h-[300px] bottom-0 right-1/4 animate-float-reverse" />
         </div>
 
@@ -169,7 +169,7 @@ function ResetPasswordForm() {
                         onChange={(e) => setNewPassword(e.target.value)}
                         required
                         autoComplete="new-password"
-                        className="pr-10 bg-white/5 border-white/10 text-white placeholder-white/30 rounded-xl glow-input focus:border-purple-500/50"
+                        className="pr-10 bg-white/5 border-white/10 text-white placeholder-white/30 rounded-xl glow-input focus:border-violet-500/50"
                       />
                       <button
                         type="button"
@@ -192,7 +192,7 @@ function ResetPasswordForm() {
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         required
                         autoComplete="new-password"
-                        className="pr-10 bg-white/5 border-white/10 text-white placeholder-white/30 rounded-xl glow-input focus:border-purple-500/50"
+                        className="pr-10 bg-white/5 border-white/10 text-white placeholder-white/30 rounded-xl glow-input focus:border-violet-500/50"
                       />
                       <button
                         type="button"
@@ -241,7 +241,7 @@ function ResetPasswordForm() {
 
 export default function ResetPasswordPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#0F0A1E] flex items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-purple-400" /></div>}>
+    <Suspense fallback={<div className="min-h-screen bg-[#0F0A1E] flex items-center justify-center"><Loader2 className="h-8 w-8 animate-spin text-violet-400" /></div>}>
       <ResetPasswordForm />
     </Suspense>
   );

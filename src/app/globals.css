@@ -376,8 +376,8 @@
   pointer-events: none;
 }
 
-.orb-purple {
-  background: radial-gradient(circle, #8B5CF6, #6D28D9);
+.orb-violet-alt {
+  background: radial-gradient(circle, #7c5cff, #6d4ddb);
 }
 
 .orb-violet {
@@ -737,11 +737,11 @@
   background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.4), rgba(245, 158, 11, 0.2), transparent);
 }
 
-/* === PURPLE GLOW === */
-.purple-glow {
+/* === VIOLET GLOW === */
+.violet-glow {
   position: relative;
 }
-.purple-glow::before {
+.violet-glow::before {
   content: '';
   position: absolute;
   inset: -20px;
@@ -783,12 +783,12 @@ html {
 }
 
 /* === SPEAKING SECTION DARKER BACKGROUNDS === */
-/* 1. Deepest Void — Almost black with the faintest purple tint */
+/* 1. Deepest Void — Almost black with the faintest violet tint */
 .speaking-bg-1 {
   background: linear-gradient(180deg, #08051A 0%, #060312 45%, #04020C 100%);
 }
 
-/* 2. Cosmic Depth — Dark with a subtle blue-purple gradient shift */
+/* 2. Cosmic Depth — Dark with a subtle blue-violet gradient shift */
 .speaking-bg-2 {
   background: linear-gradient(180deg, #06081E 0%, #0A0D2C 35%, #070618 70%, #04030E 100%);
 }
@@ -798,7 +798,7 @@ html {
   background: linear-gradient(180deg, #0C0515 0%, #100720 40%, #0E0618 70%, #080310 100%);
 }
 
-/* 4. Abyss Purple — Darkest purple gradient, like deep space */
+/* 4. Abyss Violet — Darkest violet gradient, like deep space */
 .speaking-bg-4 {
   background: linear-gradient(180deg, #0E0825 0%, #120A32 30%, #0A0720 60%, #060414 100%);
 }
@@ -853,7 +853,7 @@ html {
 .waveform-bar {
   width: 3px;
   border-radius: 3px;
-  background: linear-gradient(to top, #3B82F6, #8B5CF6);
+  background: linear-gradient(to top, #3B82F6, #7c5cff);
   transition: height 0.1s ease;
 }
 

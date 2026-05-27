@@ -25,7 +25,7 @@ const TYPE_ICONS: Record<string, React.ReactNode> = {
 const TYPE_COLORS: Record<string, string> = {
   admin_new_user: 'text-blue-400 bg-blue-500/20',
   admin_new_payment: 'text-green-400 bg-green-500/20',
-  admin_certificate: 'text-purple-400 bg-purple-500/20',
+  admin_certificate: 'text-violet-400 bg-violet-500/20',
   contact_notification: 'text-cyan-400 bg-cyan-500/20',
   b2b_notification: 'text-orange-400 bg-orange-500/20',
 };
@@ -113,7 +113,7 @@ export function AdminNotificationBell() {
         aria-expanded={isOpen}
       >
         {unreadCount > 0 ? (
-          <BellRing className="h-5 w-5 text-purple-400 animate-pulse" />
+          <BellRing className="h-5 w-5 text-violet-400 animate-pulse" />
         ) : (
           <Bell className="h-5 w-5" />
         )}
@@ -127,7 +127,7 @@ export function AdminNotificationBell() {
       {/* Dropdown — using inline styles instead of glass-card to avoid the hover transform that shifts the entire dropdown */}
       {isOpen && (
         <div
-          className="absolute right-0 top-12 z-50 w-80 sm:w-96 overflow-hidden shadow-2xl shadow-purple-500/10 border border-white/10 animate-slide-up rounded-2xl"
+          className="absolute right-0 top-12 z-50 w-80 sm:w-96 overflow-hidden shadow-2xl shadow-violet-500/10 border border-white/10 animate-slide-up rounded-2xl"
           style={{
             background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)',
             backdropFilter: 'blur(24px)',
@@ -137,10 +137,10 @@ export function AdminNotificationBell() {
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-white/[0.02]">
             <h4 className="text-white font-semibold text-sm flex items-center gap-2">
-              <Bell className="h-4 w-4 text-purple-400" />
+              <Bell className="h-4 w-4 text-violet-400" />
               Notifications
               {unreadCount > 0 && (
-                <span className="px-1.5 py-0.5 rounded-full bg-purple-500/20 text-purple-400 text-[10px] font-bold">
+                <span className="px-1.5 py-0.5 rounded-full bg-violet-500/20 text-violet-400 text-[10px] font-bold">
                   {unreadCount} new
                 </span>
               )}
@@ -149,7 +149,7 @@ export function AdminNotificationBell() {
               <button
                 onClick={(e) => { e.stopPropagation(); handleMarkAllRead(); }}
                 disabled={markingAll}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-purple-300 hover:text-white bg-purple-500/20 hover:bg-purple-500/40 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-violet-300 hover:text-white bg-violet-500/20 hover:bg-violet-500/40 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {markingAll ? (
                   <Loader2 className="h-3 w-3 animate-spin" />
@@ -165,7 +165,7 @@ export function AdminNotificationBell() {
           <div className="max-h-80 overflow-y-auto">
             {isLoading ? (
               <div className="p-6 text-center">
-                <Loader2 className="h-5 w-5 text-purple-400 animate-spin mx-auto mb-2" />
+                <Loader2 className="h-5 w-5 text-violet-400 animate-spin mx-auto mb-2" />
                 <p className="text-white/40 text-xs">Loading...</p>
               </div>
             ) : notifications.length === 0 ? (
@@ -183,7 +183,7 @@ export function AdminNotificationBell() {
                   onClick={() => { if (!notif.isRead) handleMarkOneRead(notif.id); }}
                   className={`px-4 py-3 border-b border-white/5 transition-colors ${
                     !notif.isRead
-                      ? 'bg-purple-500/[0.05] hover:bg-purple-500/[0.1] cursor-pointer'
+                      ? 'bg-violet-500/[0.05] hover:bg-violet-500/[0.1] cursor-pointer'
                       : 'hover:bg-white/[0.03]'
                   }`}
                   title={!notif.isRead ? 'Click to mark as read' : undefined}
@@ -202,7 +202,7 @@ export function AdminNotificationBell() {
                           {TYPE_LABELS[notif.type] || notif.type}
                         </span>
                         {!notif.isRead && (
-                          <span className="h-1.5 w-1.5 rounded-full bg-purple-400 shrink-0" />
+                          <span className="h-1.5 w-1.5 rounded-full bg-violet-400 shrink-0" />
                         )}
                       </div>
                       <p className="text-white/50 text-xs leading-relaxed truncate">{notif.subject}</p>
@@ -212,7 +212,7 @@ export function AdminNotificationBell() {
                     </div>
                     {!notif.isRead && (
                       <div className="shrink-0 self-center">
-                        <span className="text-[10px] text-purple-400/60 hover:text-purple-300 transition-colors">
+                        <span className="text-[10px] text-violet-400/60 hover:text-violet-300 transition-colors">
                           Mark read
                         </span>
                       </div>
@@ -228,7 +228,7 @@ export function AdminNotificationBell() {
             <div className="px-4 py-2.5 border-t border-white/10 bg-white/[0.02]">
               <a
                 href="/admin"
-                className="flex items-center justify-center gap-1.5 w-full text-xs text-purple-400 hover:text-purple-300 transition-colors"
+                className="flex items-center justify-center gap-1.5 w-full text-xs text-violet-400 hover:text-violet-300 transition-colors"
               >
                 View all in Admin
                 <ExternalLink className="h-3 w-3" />

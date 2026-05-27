@@ -117,15 +117,15 @@ const ROOM_COLORS: Record<string, RoomColorScheme> = {
   advanced: {
     icon: Flame,
     emoji: '🔥',
-    bg: 'bg-purple-500/15',
-    border: 'border-purple-500/30',
-    text: 'text-purple-400',
-    hover: 'hover:bg-purple-500/10',
-    activeBg: 'bg-purple-500/15',
-    gradient: 'from-purple-600 to-violet-500',
-    shadow: 'shadow-purple-500/25',
-    focusRing: 'focus:border-purple-500/50 focus:ring-purple-500/25',
-    badge: 'bg-purple-500/15 border-purple-500/30 text-purple-400',
+    bg: 'bg-violet-500/15',
+    border: 'border-violet-500/30',
+    text: 'text-violet-400',
+    hover: 'hover:bg-violet-500/10',
+    activeBg: 'bg-violet-500/15',
+    gradient: 'from-violet-600 to-violet-500',
+    shadow: 'shadow-violet-500/25',
+    focusRing: 'focus:border-violet-500/50 focus:ring-violet-500/25',
+    badge: 'bg-violet-500/15 border-violet-500/30 text-violet-400',
   },
   'study-partners': {
     icon: Target,
@@ -151,7 +151,7 @@ function getRoomColor(slug: string): RoomColorScheme {
 const LEVEL_COLORS: Record<string, string> = {
   'A1-A2': 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
   'B1-B2': 'bg-amber-500/20 text-amber-400 border-amber-500/30',
-  'C1-C2': 'bg-purple-500/20 text-purple-400 border-purple-500/30',
+  'C1-C2': 'bg-violet-500/20 text-violet-400 border-violet-500/30',
   all: 'bg-white/10 text-white/60 border-white/10',
 };
 
@@ -658,7 +658,7 @@ export default function ChatroomPage() {
                     activeRoom?.slug === 'global' && 'from-blue-600 to-cyan-500 shadow-blue-500/25 hover:from-blue-500 hover:to-cyan-400',
                     activeRoom?.slug === 'beginners' && 'from-emerald-600 to-green-500 shadow-emerald-500/25 hover:from-emerald-500 hover:to-green-400',
                     activeRoom?.slug === 'intermediate' && 'from-amber-600 to-yellow-500 shadow-amber-500/25 hover:from-amber-500 hover:to-yellow-400',
-                    activeRoom?.slug === 'advanced' && 'from-purple-600 to-violet-500 shadow-purple-500/25 hover:from-purple-500 hover:to-violet-400',
+                    activeRoom?.slug === 'advanced' && 'from-violet-600 to-violet-500 shadow-violet-500/25 hover:from-violet-500 hover:to-violet-400',
                     activeRoom?.slug === 'study-partners' && 'from-cyan-600 to-teal-500 shadow-cyan-500/25 hover:from-cyan-500 hover:to-teal-400',
                     !activeRoom?.slug && 'from-blue-600 to-cyan-500 shadow-blue-500/25'
                   )}
@@ -735,7 +735,7 @@ export default function ChatroomPage() {
             activeRoom?.slug === 'global' && 'bg-gradient-to-r from-blue-600 to-cyan-500 shadow-blue-500/25',
             activeRoom?.slug === 'beginners' && 'bg-gradient-to-r from-emerald-600 to-green-500 shadow-emerald-500/25',
             activeRoom?.slug === 'intermediate' && 'bg-gradient-to-r from-amber-600 to-yellow-500 shadow-amber-500/25',
-            activeRoom?.slug === 'advanced' && 'bg-gradient-to-r from-purple-600 to-violet-500 shadow-purple-500/25',
+            activeRoom?.slug === 'advanced' && 'bg-gradient-to-r from-violet-600 to-violet-500 shadow-violet-500/25',
             activeRoom?.slug === 'study-partners' && 'bg-gradient-to-r from-cyan-600 to-teal-500 shadow-cyan-500/25',
             !activeRoom?.slug && 'bg-gradient-to-r from-blue-600 to-cyan-500 shadow-blue-500/25'
           )}

@@ -74,12 +74,12 @@ const PERSONAS: PersonaConfig[] = [
     label: 'Exam Prep',
     icon: GraduationCap,
     emoji: '📝',
-    gradient: 'from-purple-500 to-violet-500',
-    bg: 'bg-purple-500/15',
-    border: 'border-purple-500/30',
-    text: 'text-purple-400',
-    hoverBg: 'hover:bg-purple-500/10',
-    shadow: 'shadow-purple-500/25',
+    gradient: 'from-violet-500 to-violet-500',
+    bg: 'bg-violet-500/15',
+    border: 'border-violet-500/30',
+    text: 'text-violet-400',
+    hoverBg: 'hover:bg-violet-500/10',
+    shadow: 'shadow-violet-500/25',
     description: 'IELTS & TOEFL prep',
   },
   {
@@ -728,7 +728,7 @@ export default function AiTutorPage() {
                 // Explicit gradient classes for Tailwind
                 activePersona === 'casual' && 'from-cyan-500 to-blue-500 shadow-cyan-500/25 hover:from-cyan-400 hover:to-blue-400',
                 activePersona === 'business' && 'from-amber-500 to-yellow-500 shadow-amber-500/25 hover:from-amber-400 hover:to-yellow-400',
-                activePersona === 'exam' && 'from-purple-500 to-violet-500 shadow-purple-500/25 hover:from-purple-400 hover:to-violet-400',
+                activePersona === 'exam' && 'from-violet-500 to-violet-500 shadow-violet-500/25 hover:from-violet-400 hover:to-violet-400',
                 activePersona === 'travel' && 'from-emerald-500 to-green-500 shadow-emerald-500/25 hover:from-emerald-400 hover:to-green-400',
               )}
             >

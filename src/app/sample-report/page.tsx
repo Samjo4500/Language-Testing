@@ -136,7 +136,7 @@ const SKILL_ICONS: Record<string, React.ReactNode> = {
 
 const SKILL_COLORS: Record<string, string> = {
   reading: 'from-blue-400 to-cyan-500',
-  writing: 'from-violet-400 to-purple-500',
+  writing: 'from-violet-400 to-violet-500',
   listening: 'from-green-400 to-emerald-500',
   speaking: 'from-orange-400 to-amber-500',
   grammar: 'from-blue-400 to-indigo-500',
@@ -273,7 +273,7 @@ function SkillDetailSection({ skill, score }: { skill: string; score: number }) 
           </div>
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <BookOpen className="h-4 w-4 text-purple-400" />
+              <BookOpen className="h-4 w-4 text-violet-400" />
               <h4 className="text-sm font-semibold text-white">Recommended Resources</h4>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -313,10 +313,10 @@ export default function SampleReportPage() {
       {/* ── Sample Banner ── */}
       <div className="bg-gradient-to-r from-blue-600/20 to-indigo-600/20 border-b border-blue-500/20">
         <div className="container mx-auto px-4 py-2.5 flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
-          <Eye className="h-4 w-4 text-purple-300" />
-          <span className="text-xs sm:text-sm text-purple-200 font-medium">Sample Report Preview</span>
-          <span className="text-purple-300/50 mx-1 hidden sm:inline">&mdash;</span>
-          <span className="text-xs sm:text-sm text-white/50">This is a demo. <Link href="/register" className="text-purple-300 hover:text-purple-200 underline underline-offset-2">Create an account</Link> to get your own.</span>
+          <Eye className="h-4 w-4 text-violet-300" />
+          <span className="text-xs sm:text-sm text-violet-200 font-medium">Sample Report Preview</span>
+          <span className="text-violet-300/50 mx-1 hidden sm:inline">&mdash;</span>
+          <span className="text-xs sm:text-sm text-white/50">This is a demo. <Link href="/register" className="text-violet-300 hover:text-violet-200 underline underline-offset-2">Create an account</Link> to get your own.</span>
         </div>
       </div>
 
@@ -360,7 +360,7 @@ export default function SampleReportPage() {
           {/* ── LEVEL DESCRIPTION ── */}
           <div className="glass-card p-6 md:p-8">
             <div className="flex items-center gap-2 mb-4">
-              <Award className="h-5 w-5 text-purple-400" />
+              <Award className="h-5 w-5 text-violet-400" />
               <h2 className="text-base sm:text-lg font-semibold text-white">Your Level: {DEMO_CERT.cefrLevel} — {levelInfo.title}</h2>
             </div>
             <p className="text-white/60 text-sm leading-relaxed mb-5">
@@ -385,7 +385,7 @@ export default function SampleReportPage() {
           {/* ── SKILL BREAKDOWN ── */}
           <div className="glass-card p-6 md:p-8">
             <div className="flex items-center gap-2 mb-6">
-              <BarChart3 className="h-5 w-5 text-purple-400" />
+              <BarChart3 className="h-5 w-5 text-violet-400" />
               <h2 className="text-lg font-semibold text-white">Skill Breakdown</h2>
             </div>
 
@@ -462,7 +462,7 @@ export default function SampleReportPage() {
           {nextLevel && nextLevelInfo && (
             <div className="glass-card-neon p-6 md:p-8 light-streak">
               <div className="flex items-center gap-2 mb-4">
-                <Zap className="h-5 w-5 text-purple-400" />
+                <Zap className="h-5 w-5 text-violet-400" />
                 <h2 className="text-lg font-semibold text-white">Path to {nextLevel} — {nextLevelInfo.title}</h2>
               </div>
               <p className="text-white/50 text-sm leading-relaxed mb-5">
@@ -474,7 +474,7 @@ export default function SampleReportPage() {
               <div className="grid sm:grid-cols-2 gap-3">
                 {nextLevelInfo.canDo.slice(0, 4).map((item, i) => (
                   <div key={i} className="flex items-start gap-2 text-sm rounded-lg p-3 bg-white/5">
-                    <ArrowRight className="h-3.5 w-3.5 text-purple-400 shrink-0 mt-0.5" />
+                    <ArrowRight className="h-3.5 w-3.5 text-violet-400 shrink-0 mt-0.5" />
                     <span className="text-white/60">{item}</span>
                   </div>
                 ))}
@@ -483,9 +483,9 @@ export default function SampleReportPage() {
           )}
 
           {/* ── RETEST RECOMMENDATION ── */}
-          <div className="glass-card p-6 md:p-8 border border-purple-500/20">
+          <div className="glass-card p-6 md:p-8 border border-violet-500/20">
             <div className="flex items-center gap-2 mb-4">
-              <RotateCcw className="h-5 w-5 text-purple-400" />
+              <RotateCcw className="h-5 w-5 text-violet-400" />
               <h2 className="text-lg font-semibold text-white">Retake the Test to Track Your Progress</h2>
             </div>
             <p className="text-white/50 text-sm leading-relaxed mb-4">
@@ -522,7 +522,7 @@ export default function SampleReportPage() {
                   <h2 className="text-lg font-semibold text-white">Unlock Your Full Potential with Premium</h2>
                 </div>
                 <p className="text-white/50 text-sm leading-relaxed mb-4">
-                  Your free report gives you an overview. Upgrade to <span className="text-purple-400 font-medium">Premium</span> for
+                  Your free report gives you an overview. Upgrade to <span className="text-violet-400 font-medium">Premium</span> for
                   unlimited assessments, detailed progress tracking over time, priority AI analysis, and peer comparisons.
                   Track your journey from {DEMO_CERT.cefrLevel} to {nextLevel || 'C2'} with data-driven insights.
                 </p>
@@ -535,7 +535,7 @@ export default function SampleReportPage() {
                     'Peer comparison',
                     'Full analytics suite',
                   ].map((feature) => (
-                    <span key={feature} className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 bg-purple-500/10 border border-purple-500/20 text-xs text-purple-300">
+                    <span key={feature} className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 bg-violet-500/10 border border-violet-500/20 text-xs text-violet-300">
                       <CheckCircle2 className="h-3 w-3" />
                       {feature}
                     </span>
@@ -558,19 +558,19 @@ export default function SampleReportPage() {
           <div className="grid sm:grid-cols-3 gap-4">
             <Link href="/sample-certificate">
               <div className="glass-card p-5 cursor-pointer group text-center">
-                <Download className="h-6 w-6 text-white/40 mx-auto mb-2 group-hover:text-purple-400 transition-colors" />
+                <Download className="h-6 w-6 text-white/40 mx-auto mb-2 group-hover:text-violet-400 transition-colors" />
                 <p className="text-sm font-medium text-white/60 group-hover:text-white transition-colors">View Sample Certificate</p>
               </div>
             </Link>
             <Link href="/verify/DEMO">
               <div className="glass-card p-5 cursor-pointer group text-center">
-                <Shield className="h-6 w-6 text-white/40 mx-auto mb-2 group-hover:text-purple-400 transition-colors" />
+                <Shield className="h-6 w-6 text-white/40 mx-auto mb-2 group-hover:text-violet-400 transition-colors" />
                 <p className="text-sm font-medium text-white/60 group-hover:text-white transition-colors">Certificate Verification</p>
               </div>
             </Link>
             <Link href="/quick-tour">
               <div className="glass-card p-5 cursor-pointer group text-center">
-                <QrCode className="h-6 w-6 text-white/40 mx-auto mb-2 group-hover:text-purple-400 transition-colors" />
+                <QrCode className="h-6 w-6 text-white/40 mx-auto mb-2 group-hover:text-violet-400 transition-colors" />
                 <p className="text-sm font-medium text-white/60 group-hover:text-white transition-colors">Quick Tour</p>
               </div>
             </Link>

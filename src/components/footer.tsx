@@ -123,7 +123,7 @@ export function Footer() {
               <Link href="/courses?level=c1" className="flex items-center gap-2 text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">
                 <Trophy className="h-3.5 w-3.5 text-[#9494a8]" />
                 Advanced
-                <span className="text-[9px] font-semibold tracking-wide uppercase px-1 py-0.5 rounded bg-purple-500/15 text-purple-400">C1-C2</span>
+                <span className="text-[9px] font-semibold tracking-wide uppercase px-1 py-0.5 rounded bg-violet-500/15 text-violet-400">C1-C2</span>
               </Link>
               <Link href="/courses" className="flex items-center gap-2 text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">
                 <BookOpen className="h-3.5 w-3.5 text-[#9494a8]" />

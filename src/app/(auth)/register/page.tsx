@@ -126,7 +126,7 @@ export default function RegisterPage() {
       <div className="flex-1 flex items-center justify-center px-4 py-12 relative">
         {/* Background orbs */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="orb orb-purple w-[400px] h-[400px] -top-20 -left-20 animate-float-slow" />
+          <div className="orb orb-violet w-[400px] h-[400px] -top-20 -left-20 animate-float-slow" />
           <div className="orb orb-violet w-[300px] h-[300px] bottom-0 right-1/4 animate-float-reverse" />
         </div>
 

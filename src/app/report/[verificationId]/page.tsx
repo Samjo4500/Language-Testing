@@ -174,8 +174,8 @@ const SKILL_RECOMMENDATIONS: Record<string, {
   },
   writing: {
     icon: <PenTool className="h-5 w-5" />,
-    color: 'from-violet-400 to-purple-500',
-    barColor: 'from-violet-400 to-purple-500',
+    color: 'from-violet-400 to-violet-500',
+    barColor: 'from-violet-400 to-violet-500',
     tips: {
       low: [
         'Start with simple journal entries — write 3-5 sentences about your day using basic grammar.',
@@ -396,7 +396,7 @@ function SkillDetailSection({
           {/* Resources */}
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <BookOpen className="h-4 w-4 text-purple-400" />
+              <BookOpen className="h-4 w-4 text-violet-400" />
               <h4 className="text-sm font-semibold text-white">Recommended Resources</h4>
             </div>
             <div className="flex flex-wrap gap-2">
@@ -559,7 +559,7 @@ export default function ReportPage() {
           {/* ── LEVEL DESCRIPTION ── */}
           <div className="glass-card p-6 md:p-8">
             <div className="flex items-center gap-2 mb-4">
-              <Award className="h-5 w-5 text-purple-400" />
+              <Award className="h-5 w-5 text-violet-400" />
               <h2 className="text-lg font-semibold text-white">Your Level: {certificate.cefrLevel} — {levelInfo.title}</h2>
             </div>
             <p className="text-white/60 text-sm leading-relaxed mb-5">
@@ -585,7 +585,7 @@ export default function ReportPage() {
           {/* ── SKILL BREAKDOWN OVERVIEW ── */}
           <div className="glass-card p-6 md:p-8">
             <div className="flex items-center gap-2 mb-6">
-              <BarChart3 className="h-5 w-5 text-purple-400" />
+              <BarChart3 className="h-5 w-5 text-violet-400" />
               <h2 className="text-lg font-semibold text-white">Skill Breakdown</h2>
             </div>
 
@@ -667,7 +667,7 @@ export default function ReportPage() {
           {nextLevel && nextLevelInfo && (
             <div className="glass-card-neon p-6 md:p-8 light-streak">
               <div className="flex items-center gap-2 mb-4">
-                <Zap className="h-5 w-5 text-purple-400" />
+                <Zap className="h-5 w-5 text-violet-400" />
                 <h2 className="text-lg font-semibold text-white">Path to {nextLevel} — {nextLevelInfo.title}</h2>
               </div>
               <p className="text-white/50 text-sm leading-relaxed mb-5">
@@ -679,7 +679,7 @@ export default function ReportPage() {
               <div className="grid sm:grid-cols-2 gap-3">
                 {nextLevelInfo.canDo.slice(0, 4).map((item, i) => (
                   <div key={i} className="flex items-start gap-2 text-sm rounded-lg p-3 bg-white/5">
-                    <ArrowRight className="h-3.5 w-3.5 text-purple-400 shrink-0 mt-0.5" />
+                    <ArrowRight className="h-3.5 w-3.5 text-violet-400 shrink-0 mt-0.5" />
                     <span className="text-white/60">{item}</span>
                   </div>
                 ))}
@@ -688,9 +688,9 @@ export default function ReportPage() {
           )}
 
           {/* ── RETEST RECOMMENDATION ── */}
-          <div className="glass-card p-6 md:p-8 border border-purple-500/20">
+          <div className="glass-card p-6 md:p-8 border border-violet-500/20">
             <div className="flex items-center gap-2 mb-4">
-              <RotateCcw className="h-5 w-5 text-purple-400" />
+              <RotateCcw className="h-5 w-5 text-violet-400" />
               <h2 className="text-lg font-semibold text-white">Retake the Test to Track Your Progress</h2>
             </div>
             <p className="text-white/50 text-sm leading-relaxed mb-4">
@@ -727,7 +727,7 @@ export default function ReportPage() {
                   <h2 className="text-lg font-semibold text-white">Unlock Your Full Potential with Premium</h2>
                 </div>
                 <p className="text-white/50 text-sm leading-relaxed mb-4">
-                  Your free report gives you an overview. Upgrade to <span className="text-purple-400 font-medium">Premium</span> for
+                  Your free report gives you an overview. Upgrade to <span className="text-violet-400 font-medium">Premium</span> for
                   unlimited assessments, detailed progress tracking over time, priority AI analysis, and peer comparisons.
                   Track your journey from {certificate.cefrLevel} to {nextLevel || 'C2'} with data-driven insights.
                 </p>
@@ -740,7 +740,7 @@ export default function ReportPage() {
                     'Peer comparison',
                     'Full analytics suite',
                   ].map((feature) => (
-                    <span key={feature} className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 bg-purple-500/10 border border-purple-500/20 text-xs text-purple-300">
+                    <span key={feature} className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 bg-violet-500/10 border border-violet-500/20 text-xs text-violet-300">
                       <CheckCircle2 className="h-3 w-3" />
                       {feature}
                     </span>
@@ -767,19 +767,19 @@ export default function ReportPage() {
               rel="noopener noreferrer"
             >
               <div className="glass-card p-5 cursor-pointer group text-center">
-                <Download className="h-6 w-6 text-white/40 mx-auto mb-2 group-hover:text-purple-400 transition-colors" />
+                <Download className="h-6 w-6 text-white/40 mx-auto mb-2 group-hover:text-violet-400 transition-colors" />
                 <p className="text-sm font-medium text-white/60 group-hover:text-white transition-colors">Download Certificate PDF</p>
               </div>
             </a>
             <Link href={`/certificate/${verificationId}`}>
               <div className="glass-card p-5 cursor-pointer group text-center">
-                <Award className="h-6 w-6 text-white/40 mx-auto mb-2 group-hover:text-purple-400 transition-colors" />
+                <Award className="h-6 w-6 text-white/40 mx-auto mb-2 group-hover:text-violet-400 transition-colors" />
                 <p className="text-sm font-medium text-white/60 group-hover:text-white transition-colors">View Certificate</p>
               </div>
             </Link>
             <Link href={`/verify/${verificationId}`} target="_blank">
               <div className="glass-card p-5 cursor-pointer group text-center">
-                <Shield className="h-6 w-6 text-white/40 mx-auto mb-2 group-hover:text-purple-400 transition-colors" />
+                <Shield className="h-6 w-6 text-white/40 mx-auto mb-2 group-hover:text-violet-400 transition-colors" />
                 <p className="text-sm font-medium text-white/60 group-hover:text-white transition-colors">Verification Page</p>
               </div>
             </Link>

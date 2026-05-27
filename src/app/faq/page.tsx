@@ -52,10 +52,10 @@ function AnimatedSection({ children, className = '', delay = 0 }: { children: Re
 function BackgroundOrbs() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      <div className="orb orb-purple w-[500px] h-[500px] -top-32 -left-32 animate-float-slow" />
+      <div className="orb orb-violet w-[500px] h-[500px] -top-32 -left-32 animate-float-slow" />
       <div className="orb orb-violet w-[350px] h-[350px] top-1/3 -right-16 animate-float-reverse" />
       <div className="orb orb-blue w-[250px] h-[250px] bottom-16 left-1/4 animate-float" />
-      <div className="absolute top-1/4 left-1/2 w-2 h-2 rounded-full bg-purple-400/40 animate-float delay-200" />
+      <div className="absolute top-1/4 left-1/2 w-2 h-2 rounded-full bg-violet-400/40 animate-float delay-200" />
       <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 rounded-full bg-blue-400/30 animate-float-reverse delay-500" />
       <div className="absolute bottom-1/3 left-1/3 w-2.5 h-2.5 rounded-full bg-blue-400/30 animate-float delay-300" />
     </div>
@@ -170,7 +170,7 @@ function FAQAccordion({ item, index, isOpen, onToggle }: { item: FAQItem; index:
           {item.question}
         </span>
         <ChevronDown
-          className={`h-5 w-5 shrink-0 text-purple-400 transition-transform duration-300 ${
+          className={`h-5 w-5 shrink-0 text-violet-400 transition-transform duration-300 ${
             isOpen ? 'rotate-180' : ''
           }`}
         />
@@ -219,8 +219,8 @@ export default function FAQPage() {
           <div className="mx-auto max-w-4xl text-center">
             {/* Badge */}
             <div className="animate-float inline-flex items-center gap-2 rounded-full glass-light px-5 py-2 mb-8 animate-border-glow">
-              <HelpCircle className="h-4 w-4 text-purple-300" />
-              <span className="text-sm text-purple-200 font-medium">Got Questions?</span>
+              <HelpCircle className="h-4 w-4 text-violet-300" />
+              <span className="text-sm text-violet-200 font-medium">Got Questions?</span>
               <span className="flex h-2 w-2 rounded-full bg-green-400 animate-pulse" />
             </div>
 
@@ -261,7 +261,7 @@ export default function FAQPage() {
                     <div className={`flex h-5 w-5 items-center justify-center rounded bg-gradient-to-br ${category.gradient} text-white`}>
                       {category.icon}
                     </div>
-                    <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">{category.title}</span>
+                    <span className="text-xs text-violet-300 font-medium uppercase tracking-wider">{category.title}</span>
                   </div>
                   <h2 className="text-3xl md:text-4xl font-bold text-white">
                     {category.title}
@@ -293,7 +293,7 @@ export default function FAQPage() {
       {/* ===== CTA SECTION ===== */}
       <section className="relative py-16 md:py-20 dark-section overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="orb orb-purple w-[400px] h-[400px] -top-20 right-1/4 animate-float-slow" />
+          <div className="orb orb-violet w-[400px] h-[400px] -top-20 right-1/4 animate-float-slow" />
           <div className="orb orb-violet w-[300px] h-[300px] bottom-0 left-1/4 animate-float-reverse" />
         </div>
         <div className="container relative mx-auto px-4">

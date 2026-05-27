@@ -11,7 +11,7 @@ export default function NotFound() {
       <div className="flex-1 flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-md">
           <div className="glass-card p-8 text-center">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-purple-500/10 text-purple-400 mb-6">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-violet-500/10 text-violet-400 mb-6">
               <SearchX className="h-8 w-8" />
             </div>
             <h1 className="text-3xl font-bold text-white mb-2">404</h1>

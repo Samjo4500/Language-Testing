@@ -21,7 +21,7 @@ const skillColors: Record<string, string> = {
   reading: '#3b82f6',
   listening: '#22c55e',
   speaking: '#f59e0b',
-  writing: '#a855f7',
+  writing: '#7c5cff',
 };
 
 // CEFR level badge color mapping

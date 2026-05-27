@@ -69,7 +69,7 @@ const SKILL_LABELS: Record<string, string> = {
 
 const SKILL_COLORS: Record<string, string> = {
   reading: 'from-blue-400 to-cyan-500',
-  writing: 'from-violet-400 to-purple-500',
+  writing: 'from-violet-400 to-violet-500',
   listening: 'from-green-400 to-emerald-500',
   speaking: 'from-orange-400 to-amber-500',
   grammar: 'from-blue-400 to-indigo-500',
@@ -205,7 +205,7 @@ export default function CertificatePage() {
                   </div>
                   <div className="flex flex-col">
                     <span className="text-white font-bold text-base tracking-tight leading-tight">
-                      test<span className="bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent">cefr</span><span className="text-purple-300">.com</span>
+                      test<span className="bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent">cefr</span><span className="text-violet-300">.com</span>
                     </span>
                     <span className="text-white/40 text-[9px] uppercase tracking-[0.2em] leading-tight">
                       {isCourseCompletion ? 'English Course' : 'English Assessment'}
@@ -225,7 +225,7 @@ export default function CertificatePage() {
                   {isCourseCompletion ? (
                     <>
                       <p className="text-white/50 text-sm">has successfully completed the</p>
-                      <p className="text-xl font-bold text-purple-300">
+                      <p className="text-xl font-bold text-violet-300">
                         {certificate.courseName || 'English Course'}
                       </p>
                     </>
@@ -320,7 +320,7 @@ export default function CertificatePage() {
                         value={verifyUrl}
                         size={56}
                         level="M"
-                        fgColor="#a855f7"
+                        fgColor="#7c5cff"
                         bgColor="transparent"
                       />
                     </div>

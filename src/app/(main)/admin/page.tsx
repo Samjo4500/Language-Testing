@@ -383,7 +383,7 @@ function EmailsTab({ notifUnread, onSwitchTab }: { notifUnread: number; onSwitch
     <div className="space-y-6">
       {/* Unread Notification Banner */}
       {notifUnread > 0 && (
-        <div className="glass-card p-4 border border-purple-500/30 bg-purple-500/[0.08]">
+        <div className="glass-card p-4 border border-violet-500/30 bg-violet-500/[0.08]">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 text-white shadow-lg">
@@ -396,7 +396,7 @@ function EmailsTab({ notifUnread, onSwitchTab }: { notifUnread: number; onSwitch
             </div>
             <button
               onClick={() => onSwitchTab('overview')}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs text-purple-400 hover:text-purple-300 hover:bg-purple-500/10 transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs text-violet-400 hover:text-violet-300 hover:bg-violet-500/10 transition-colors"
             >
               <ExternalLink className="h-3.5 w-3.5" /> View in Bell
             </button>
@@ -407,7 +407,7 @@ function EmailsTab({ notifUnread, onSwitchTab }: { notifUnread: number; onSwitch
       {/* Email Service Config */}
       <div className="glass-card p-5">
         <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-          <Mail className="h-4 w-4 text-purple-400" />
+          <Mail className="h-4 w-4 text-violet-400" />
           Email Service Configuration
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -449,7 +449,7 @@ function EmailsTab({ notifUnread, onSwitchTab }: { notifUnread: number; onSwitch
 
       {/* Email Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard icon={Users} label="Total Users" value={emailsData?.stats.totalUsers ?? '—'} gradient="from-purple-500 to-indigo-600" />
+        <StatCard icon={Users} label="Total Users" value={emailsData?.stats.totalUsers ?? '—'} gradient="from-violet-500 to-indigo-600" />
         <StatCard icon={CheckCircle2} label="Verified" value={emailsData?.stats.verifiedUsers ?? '—'} gradient="from-green-500 to-emerald-600" />
         <StatCard icon={AlertCircle} label="Unverified" value={emailsData?.stats.unverifiedUsers ?? '—'} gradient="from-blue-500 to-violet-600" />
         <StatCard icon={Shield} label="Verify Rate" value={emailsData?.stats.verificationRate != null ? `${emailsData.stats.verificationRate}%` : '—'} gradient="from-blue-500 to-cyan-600" />
@@ -462,7 +462,7 @@ function EmailsTab({ notifUnread, onSwitchTab }: { notifUnread: number; onSwitch
             key={f}
             onClick={() => setFilter(f)}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-              filter === f ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30' : 'text-white/50 hover:text-white hover:bg-white/5 border border-transparent'
+              filter === f ? 'bg-violet-500/20 text-violet-400 border border-violet-500/30' : 'text-white/50 hover:text-white hover:bg-white/5 border border-transparent'
             }`}
           >
             {f.charAt(0).toUpperCase() + f.slice(1)}
@@ -500,7 +500,7 @@ function EmailsTab({ notifUnread, onSwitchTab }: { notifUnread: number; onSwitch
                         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-red-500/20 text-red-400 text-xs"><AlertCircle className="h-3 w-3" />Unverified</span>
                       )}
                     </td>
-                    <td className="py-3 px-2"><span className="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-400 text-xs">{u.plan}</span></td>
+                    <td className="py-3 px-2"><span className="px-2 py-0.5 rounded-full bg-violet-500/20 text-violet-400 text-xs">{u.plan}</span></td>
                     <td className="py-3 px-2 text-white/60">{u.assessments?.[0]?.cefrLevel || '—'}</td>
                     <td className="py-3 px-2 text-white/40 text-xs">{new Date(u.createdAt).toLocaleDateString()}</td>
                   </tr>
@@ -589,7 +589,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
   // ── White-Label State ──
   const [wlSettings, setWlSettings] = useState<WhiteLabelData>({
     companyName: 'TestCEFR',
-    primaryColor: '#8B5CF6',
+    primaryColor: '#7c5cff',
     logoUrl: '',
     domain: '',
     supportEmail: '',
@@ -746,7 +746,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
   const handleResetWhiteLabel = () => {
     setWlSettings({
       companyName: 'TestCEFR',
-      primaryColor: '#8B5CF6',
+      primaryColor: '#7c5cff',
       logoUrl: '',
       domain: '',
       supportEmail: '',
@@ -803,7 +803,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
           <div className="glass-card p-5">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-white font-semibold flex items-center gap-2">
-                <Code2 className="h-4 w-4 text-purple-400" />
+                <Code2 className="h-4 w-4 text-violet-400" />
                 API & Service Health
               </h3>
               <button onClick={fetchAPIs} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs text-white/60 hover:text-white hover:bg-white/10 transition-colors">
@@ -886,7 +886,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
 
           {/* Assessment Stats */}
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-            <StatCard icon={ClipboardList} label="Total Tests" value={apisData?.assessmentStats.totalAssessments ?? '—'} gradient="from-purple-500 to-indigo-600" />
+            <StatCard icon={ClipboardList} label="Total Tests" value={apisData?.assessmentStats.totalAssessments ?? '—'} gradient="from-violet-500 to-indigo-600" />
             <StatCard icon={CheckCircle2} label="Completed" value={apisData?.assessmentStats.completedAssessments ?? '—'} gradient="from-green-500 to-emerald-600" />
             <StatCard icon={Clock} label="In Progress" value={apisData?.assessmentStats.inProgressAssessments ?? '—'} gradient="from-yellow-500 to-orange-600" />
             <StatCard icon={Timer} label="Avg Time" value={apisData?.assessmentStats.avgCompletionMinutes ? `${apisData.assessmentStats.avgCompletionMinutes}m` : '—'} gradient="from-cyan-500 to-blue-600" />
@@ -962,7 +962,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
         <>
           {/* Stats */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <StatCard icon={Key} label="Total Keys" value={apiKeys.length} gradient="from-purple-500 to-indigo-600" />
+            <StatCard icon={Key} label="Total Keys" value={apiKeys.length} gradient="from-violet-500 to-indigo-600" />
             <StatCard icon={CheckCircle2} label="Active" value={apiKeys.filter(k => k.isActive).length} gradient="from-green-500 to-emerald-600" />
             <StatCard icon={XCircle} label="Inactive" value={apiKeys.filter(k => !k.isActive).length} gradient="from-blue-500 to-violet-600" />
             <StatCard icon={Zap} label="Live Keys" value={apiKeys.filter(k => k.type === 'live').length} gradient="from-yellow-500 to-orange-600" />
@@ -971,7 +971,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
           {/* Generate Button */}
           <div className="flex items-center justify-between">
             <h3 className="text-white font-semibold flex items-center gap-2">
-              <Key className="h-4 w-4 text-purple-400" />
+              <Key className="h-4 w-4 text-violet-400" />
               API Keys
             </h3>
             <Button
@@ -1056,7 +1056,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
                         </td>
                         <td className="py-3 px-2">
                           <span className={`px-2 py-0.5 rounded-full text-xs ${
-                            k.plan === 'enterprise' ? 'bg-purple-500/20 text-purple-400' :
+                            k.plan === 'enterprise' ? 'bg-violet-500/20 text-violet-400' :
                             k.plan === 'business' ? 'bg-cyan-500/20 text-cyan-400' :
                             'bg-green-500/20 text-green-400'
                           }`}>{k.plan}</span>
@@ -1107,7 +1107,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
             <DialogContent className="bg-[#1a1035] border border-white/10 text-white max-w-lg">
               <DialogHeader>
                 <DialogTitle className="text-white flex items-center gap-2">
-                  <Key className="h-5 w-5 text-purple-400" />
+                  <Key className="h-5 w-5 text-violet-400" />
                   Generate API Key
                 </DialogTitle>
                 <DialogDescription className="text-white/50">
@@ -1123,7 +1123,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
                     value={newKeyName}
                     onChange={(e) => setNewKeyName(e.target.value)}
                     placeholder="e.g., Production Key, Staging Key"
-                    className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-purple-500/50"
+                    className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-violet-500/50"
                   />
                 </div>
 
@@ -1134,7 +1134,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
                     <select
                       value={newKeyPlan}
                       onChange={(e) => setNewKeyPlan(e.target.value)}
-                      className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500/50"
+                      className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-violet-500/50"
                     >
                       <option value="enterprise" className="bg-[#1a1035]">Enterprise</option>
                       <option value="business" className="bg-[#1a1035]">Business</option>
@@ -1146,7 +1146,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
                     <select
                       value={newKeyType}
                       onChange={(e) => setNewKeyType(e.target.value)}
-                      className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500/50"
+                      className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-violet-500/50"
                     >
                       <option value="live" className="bg-[#1a1035]">Live</option>
                       <option value="test" className="bg-[#1a1035]">Test</option>
@@ -1169,7 +1169,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
                               setNewKeyPermissions(newKeyPermissions.filter(p => p !== perm));
                             }
                           }}
-                          className="border-white/30 data-[state=checked]:bg-purple-500 data-[state=checked]:border-purple-500"
+                          className="border-white/30 data-[state=checked]:bg-violet-500 data-[state=checked]:border-violet-500"
                         />
                         <span className="text-white/60 text-sm capitalize">{perm}</span>
                       </label>
@@ -1186,7 +1186,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
                     onChange={(e) => setNewKeyRateLimit(Number(e.target.value))}
                     min={1}
                     max={100000}
-                    className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-purple-500/50"
+                    className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-violet-500/50"
                   />
                 </div>
 
@@ -1223,7 +1223,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
           <div className="lg:col-span-3 space-y-6">
             <div className="glass-card p-5">
               <h3 className="text-white font-semibold flex items-center gap-2 mb-4">
-                <Palette className="h-4 w-4 text-purple-400" />
+                <Palette className="h-4 w-4 text-violet-400" />
                 White-Label Configuration
               </h3>
 
@@ -1238,7 +1238,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
                       value={wlSettings.companyName}
                       onChange={(e) => setWlSettings({ ...wlSettings, companyName: e.target.value })}
                       placeholder="Your Company Name"
-                      className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-purple-500/50"
+                      className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-violet-500/50"
                     />
                   </div>
 
@@ -1257,8 +1257,8 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
                       <Input
                         value={wlSettings.primaryColor}
                         onChange={(e) => setWlSettings({ ...wlSettings, primaryColor: e.target.value })}
-                        placeholder="#8B5CF6"
-                        className="flex-1 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-purple-500/50 font-mono"
+                        placeholder="#7c5cff"
+                        className="flex-1 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-violet-500/50 font-mono"
                       />
                       <div
                         className="w-10 h-10 rounded-lg border border-white/20 shrink-0"
@@ -1274,7 +1274,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
                       value={wlSettings.logoUrl}
                       onChange={(e) => setWlSettings({ ...wlSettings, logoUrl: e.target.value })}
                       placeholder="https://example.com/logo.png"
-                      className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-purple-500/50"
+                      className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-violet-500/50"
                     />
                   </div>
 
@@ -1285,7 +1285,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
                       value={wlSettings.domain}
                       onChange={(e) => setWlSettings({ ...wlSettings, domain: e.target.value })}
                       placeholder="assessment.yourcompany.com"
-                      className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-purple-500/50"
+                      className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-violet-500/50"
                     />
                   </div>
 
@@ -1296,7 +1296,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
                       value={wlSettings.supportEmail}
                       onChange={(e) => setWlSettings({ ...wlSettings, supportEmail: e.target.value })}
                       placeholder="support@yourcompany.com"
-                      className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-purple-500/50"
+                      className="bg-white/5 border-white/10 text-white placeholder:text-white/30 focus:border-violet-500/50"
                     />
                   </div>
 
@@ -1306,7 +1306,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
                     <select
                       value={wlSettings.plan}
                       onChange={(e) => setWlSettings({ ...wlSettings, plan: e.target.value })}
-                      className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500/50"
+                      className="w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-violet-500/50"
                     >
                       <option value="enterprise" className="bg-[#1a1035]">Enterprise</option>
                       <option value="business" className="bg-[#1a1035]">Business</option>
@@ -1359,7 +1359,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
           <div className="lg:col-span-2">
             <div className="glass-card p-5 sticky top-6">
               <h3 className="text-white font-semibold flex items-center gap-2 mb-4">
-                <Eye className="h-4 w-4 text-purple-400" />
+                <Eye className="h-4 w-4 text-violet-400" />
                 Preview
               </h3>
               <div
@@ -1647,7 +1647,7 @@ function GovernanceTab({
   const auditTypeConfig: Record<string, { icon: React.ElementType; color: string; label: string }> = {
     admin_new_user: { icon: UserPlus, color: 'text-blue-400 bg-blue-500/20', label: 'New User' },
     admin_new_payment: { icon: CreditCard, color: 'text-green-400 bg-green-500/20', label: 'Payment' },
-    admin_certificate: { icon: Award, color: 'text-purple-400 bg-purple-500/20', label: 'Certificate' },
+    admin_certificate: { icon: Award, color: 'text-violet-400 bg-violet-500/20', label: 'Certificate' },
     admin_user: { icon: Shield, color: 'text-orange-400 bg-orange-500/20', label: 'Admin' },
     password_reset: { icon: Lock, color: 'text-yellow-400 bg-yellow-500/20', label: 'Password Reset' },
   };
@@ -1687,7 +1687,7 @@ function GovernanceTab({
         <div className="glass-card p-5">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-white font-semibold flex items-center gap-2">
-              <ScrollText className="h-4 w-4 text-purple-400" />
+              <ScrollText className="h-4 w-4 text-violet-400" />
               Admin Audit Trail
             </h3>
             <button
@@ -1720,7 +1720,7 @@ function GovernanceTab({
                       <div className="flex items-center gap-2 mb-0.5">
                         <span className="text-xs font-semibold text-white/80">{config.label}</span>
                         {entry.adminEmail && (
-                          <span className="text-xs text-purple-400/70">by {entry.adminEmail}</span>
+                          <span className="text-xs text-violet-400/70">by {entry.adminEmail}</span>
                         )}
                       </div>
                       <p className="text-white/50 text-xs leading-relaxed">{entry.description}</p>
@@ -1851,9 +1851,9 @@ function GovernanceTab({
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Seed Database */}
-              <div className="glass-card p-4 hover:border-purple-500/30 transition-colors">
+              <div className="glass-card p-4 hover:border-violet-500/30 transition-colors">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-indigo-500 text-white shadow-lg">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-indigo-500 text-white shadow-lg">
                     <Database className="h-4 w-4" />
                   </div>
                   <div>
@@ -1864,7 +1864,7 @@ function GovernanceTab({
                 <Button
                   onClick={handleSeed}
                   disabled={seeding}
-                  className="w-full bg-gradient-to-r from-purple-600 to-indigo-500 text-white hover:from-purple-500 hover:to-indigo-400 text-xs h-9"
+                  className="w-full bg-gradient-to-r from-violet-600 to-indigo-500 text-white hover:from-violet-500 hover:to-indigo-400 text-xs h-9"
                 >
                   {seeding ? <Loader2 className="h-3.5 w-3.5 animate-spin mr-1.5" /> : <Database className="h-3.5 w-3.5 mr-1.5" />}
                   {seeding ? 'Seeding...' : 'Run Seed'}
@@ -1872,7 +1872,7 @@ function GovernanceTab({
               </div>
 
               {/* Rotate Listening Scripts */}
-              <div className="glass-card p-4 hover:border-purple-500/30 transition-colors">
+              <div className="glass-card p-4 hover:border-violet-500/30 transition-colors">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 text-white shadow-lg">
                     <RefreshCw className="h-4 w-4" />
@@ -2743,8 +2743,8 @@ export default function AdminPage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-                <Shield className="h-6 w-6 text-purple-400" />
-                <span className="text-purple-400">Super Admin</span> Dashboard
+                <Shield className="h-6 w-6 text-violet-400" />
+                <span className="text-violet-400">Super Admin</span> Dashboard
               </h1>
               <p className="text-white/40 text-sm mt-1">Manage your CEFR assessment platform</p>
             </div>
@@ -2757,7 +2757,7 @@ export default function AdminPage() {
                   title="Notifications"
                 >
                   {notifUnread > 0 ? (
-                    <BellRing className="h-5 w-5 text-purple-400 animate-pulse" />
+                    <BellRing className="h-5 w-5 text-violet-400 animate-pulse" />
                   ) : (
                     <Bell className="h-5 w-5" />
                   )}
@@ -2777,16 +2777,16 @@ export default function AdminPage() {
                       {/* Header */}
                       <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-white/[0.02]">
                         <h4 className="text-white font-semibold text-sm flex items-center gap-2">
-                          <Bell className="h-4 w-4 text-purple-400" />
+                          <Bell className="h-4 w-4 text-violet-400" />
                           Notifications
                           {notifUnread > 0 && (
-                            <span className="px-1.5 py-0.5 rounded-full bg-purple-500/20 text-purple-400 text-[10px] font-bold">{notifUnread} new</span>
+                            <span className="px-1.5 py-0.5 rounded-full bg-violet-500/20 text-violet-400 text-[10px] font-bold">{notifUnread} new</span>
                           )}
                         </h4>
                         {notifUnread > 0 && (
                           <button
                             onClick={(e) => { e.stopPropagation(); handleMarkAllRead(); }}
-                            className="text-xs text-purple-400 hover:text-purple-300 transition-colors"
+                            className="text-xs text-violet-400 hover:text-violet-300 transition-colors"
                           >
                             Mark all read
                           </button>
@@ -2796,7 +2796,7 @@ export default function AdminPage() {
                       <div className="max-h-80 overflow-y-auto">
                         {notifLoading ? (
                           <div className="p-6 text-center">
-                            <Loader2 className="h-5 w-5 text-purple-400 animate-spin mx-auto mb-2" />
+                            <Loader2 className="h-5 w-5 text-violet-400 animate-spin mx-auto mb-2" />
                             <p className="text-white/40 text-xs">Loading...</p>
                           </div>
                         ) : notifList.length === 0 ? (
@@ -2824,14 +2824,14 @@ export default function AdminPage() {
                             const typeColor: Record<string, string> = {
                               admin_new_user: 'text-blue-400 bg-blue-500/20',
                               admin_new_payment: 'text-green-400 bg-green-500/20',
-                              admin_certificate: 'text-purple-400 bg-purple-500/20',
+                              admin_certificate: 'text-violet-400 bg-violet-500/20',
                               contact_notification: 'text-cyan-400 bg-cyan-500/20',
                               b2b_notification: 'text-orange-400 bg-orange-500/20',
                             };
                             return (
                               <div
                                 key={notif.id}
-                                className={`px-4 py-3 border-b border-white/5 hover:bg-white/[0.03] transition-colors ${!notif.isRead ? 'bg-purple-500/[0.05]' : ''}`}
+                                className={`px-4 py-3 border-b border-white/5 hover:bg-white/[0.03] transition-colors ${!notif.isRead ? 'bg-violet-500/[0.05]' : ''}`}
                               >
                                 <div className="flex items-start gap-2.5">
                                   <div className={`flex items-center justify-center h-7 w-7 rounded-lg shrink-0 ${typeColor[notif.type] || 'text-white/40 bg-white/10'}`}>
@@ -2841,7 +2841,7 @@ export default function AdminPage() {
                                     <div className="flex items-center gap-2 mb-0.5">
                                       <span className="text-white/80 text-xs font-semibold">{typeLabel[notif.type] || notif.type}</span>
                                       {!notif.isRead && (
-                                        <span className="h-1.5 w-1.5 rounded-full bg-purple-400 shrink-0" />
+                                        <span className="h-1.5 w-1.5 rounded-full bg-violet-400 shrink-0" />
                                       )}
                                     </div>
                                     <p className="text-white/50 text-xs leading-relaxed truncate">{notif.subject}</p>
@@ -2858,7 +2858,7 @@ export default function AdminPage() {
                         <div className="px-4 py-2.5 border-t border-white/10 bg-white/[0.02]">
                           <button
                             onClick={() => { setNotifOpen(false); setActiveTab('emails'); }}
-                            className="flex items-center justify-center gap-1.5 w-full text-xs text-purple-400 hover:text-purple-300 transition-colors"
+                            className="flex items-center justify-center gap-1.5 w-full text-xs text-violet-400 hover:text-violet-300 transition-colors"
                           >
                             View all in Emails tab
                             <ExternalLink className="h-3 w-3" />
@@ -2974,7 +2974,7 @@ export default function AdminPage() {
                 {/* Traffic Chart */}
                 <div className="lg:col-span-2 glass-card p-5">
                   <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-                    <Activity className="h-4 w-4 text-purple-400" />
+                    <Activity className="h-4 w-4 text-violet-400" />
                     Traffic &amp; Signups (30 days)
                   </h3>
                   {analyticsLoading ? (
@@ -2985,8 +2985,8 @@ export default function AdminPage() {
                         <AreaChart data={revenueChartData}>
                           <defs>
                             <linearGradient id="viewsGrad" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="5%" stopColor="#8B5CF6" stopOpacity={0.3} />
-                              <stop offset="95%" stopColor="#8B5CF6" stopOpacity={0} />
+                              <stop offset="5%" stopColor="#7c5cff" stopOpacity={0.3} />
+                              <stop offset="95%" stopColor="#7c5cff" stopOpacity={0} />
                             </linearGradient>
                             <linearGradient id="signupsGrad" x1="0" y1="0" x2="0" y2="1">
                               <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
@@ -2997,7 +2997,7 @@ export default function AdminPage() {
                           <XAxis dataKey="date" tick={{ fontSize: 11, fill: 'rgba(255,255,255,0.4)' }} />
                           <YAxis tick={{ fontSize: 11, fill: 'rgba(255,255,255,0.4)' }} />
                           <Tooltip content={<ChartTooltip />} />
-                          <Area type="monotone" dataKey="views" name="Page Views" stroke="#8B5CF6" fill="url(#viewsGrad)" strokeWidth={2} />
+                          <Area type="monotone" dataKey="views" name="Page Views" stroke="#7c5cff" fill="url(#viewsGrad)" strokeWidth={2} />
                           <Area type="monotone" dataKey="signups" name="Signups" stroke="#3b82f6" fill="url(#signupsGrad)" strokeWidth={2} />
                         </AreaChart>
                       </ResponsiveContainer>
@@ -3052,7 +3052,7 @@ export default function AdminPage() {
                     <div className="space-y-3">
                       {[
                         { label: 'Visitors', value: analytics.conversionFunnel.visitors, color: 'from-blue-500 to-cyan-500', pct: 100 },
-                        { label: 'Signups', value: analytics.conversionFunnel.signups, color: 'from-purple-500 to-indigo-500', pct: analytics.conversionFunnel.visitors ? Math.round((analytics.conversionFunnel.signups / analytics.conversionFunnel.visitors) * 100) : 0 },
+                        { label: 'Signups', value: analytics.conversionFunnel.signups, color: 'from-violet-500 to-indigo-500', pct: analytics.conversionFunnel.visitors ? Math.round((analytics.conversionFunnel.signups / analytics.conversionFunnel.visitors) * 100) : 0 },
                         { label: 'Assessments', value: analytics.conversionFunnel.assessments, color: 'from-blue-500 to-indigo-500', pct: analytics.conversionFunnel.visitors ? Math.round((analytics.conversionFunnel.assessments / analytics.conversionFunnel.visitors) * 100) : 0 },
                         { label: 'Certificates', value: analytics.conversionFunnel.certificates, color: 'from-green-500 to-emerald-500', pct: analytics.conversionFunnel.visitors ? Math.round((analytics.conversionFunnel.certificates / analytics.conversionFunnel.visitors) * 100) : 0 },
                       ].map((item) => (
@@ -3133,13 +3133,13 @@ export default function AdminPage() {
                         placeholder="Search by name or email..."
                         value={usersSearch}
                         onChange={(e) => setUsersSearch(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/30 transition-all"
+                        className="w-full pl-10 pr-4 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-violet-500/50 focus:ring-1 focus:ring-violet-500/30 transition-all"
                       />
                     </div>
                     <select
                       value={usersFilterPlan}
                       onChange={(e) => setUsersFilterPlan(e.target.value)}
-                      className="px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500/50"
+                      className="px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-violet-500/50"
                     >
                       <option value="all" className="bg-[#1a1f36]">All Plans</option>
                       <option value="free" className="bg-[#1a1f36]">Free</option>
@@ -3148,7 +3148,7 @@ export default function AdminPage() {
                     <select
                       value={usersFilterRole}
                       onChange={(e) => setUsersFilterRole(e.target.value)}
-                      className="px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500/50"
+                      className="px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-violet-500/50"
                     >
                       <option value="all" className="bg-[#1a1f36]">All Roles</option>
                       <option value="user" className="bg-[#1a1f36]">User</option>
@@ -3221,7 +3221,7 @@ export default function AdminPage() {
                                 <div className="min-w-0">
                                   <span className="text-white truncate max-w-[120px] block">{u.name || '—'}</span>
                                   <div className="flex items-center gap-1 mt-0.5">
-                                    {u.isDemo && <span className="px-1.5 py-0 rounded bg-purple-500/20 text-purple-400 text-[10px] font-medium">DEMO</span>}
+                                    {u.isDemo && <span className="px-1.5 py-0 rounded bg-violet-500/20 text-violet-400 text-[10px] font-medium">DEMO</span>}
                                     {u.isSuspended && <span className="px-1.5 py-0 rounded bg-red-500/20 text-red-400 text-[10px] font-medium">SUSPENDED</span>}
                                     {!u.emailVerified && <span className="px-1.5 py-0 rounded bg-yellow-500/20 text-yellow-400 text-[10px] font-medium">UNVERIFIED</span>}
                                   </div>
@@ -3268,7 +3268,7 @@ export default function AdminPage() {
                                 <button
                                   onClick={() => handleResetPassword(u.id)}
                                   disabled={resettingPassword}
-                                  className="p-1.5 rounded-lg text-purple-400/60 hover:text-purple-400 hover:bg-purple-500/10 transition-colors"
+                                  className="p-1.5 rounded-lg text-violet-400/60 hover:text-violet-400 hover:bg-violet-500/10 transition-colors"
                                   title="Reset Password"
                                 >
                                   <Lock className="h-3.5 w-3.5" />
@@ -3341,7 +3341,7 @@ export default function AdminPage() {
 
                   {userDetailLoading ? (
                     <div className="flex-1 flex items-center justify-center py-12">
-                      <Loader2 className="h-8 w-8 text-purple-400 animate-spin" />
+                      <Loader2 className="h-8 w-8 text-violet-400 animate-spin" />
                     </div>
                   ) : userDetailData ? (
                     <div className="flex-1 overflow-y-auto space-y-4 py-2 min-h-0">
@@ -3357,7 +3357,7 @@ export default function AdminPage() {
                         </div>
                         <div className="glass-card p-3 text-center">
                           <p className="text-white/40 text-xs mb-1">Certificates</p>
-                          <p className="text-xl font-bold text-purple-400">{userDetailData.stats.totalCertificates}</p>
+                          <p className="text-xl font-bold text-violet-400">{userDetailData.stats.totalCertificates}</p>
                         </div>
                         <div className="glass-card p-3 text-center">
                           <p className="text-white/40 text-xs mb-1">Total Spent</p>
@@ -3477,7 +3477,7 @@ export default function AdminPage() {
                               ) : userDetailData.certificates.map((c: Record<string, unknown>) => (
                                 <tr key={String(c.id)} className="border-b border-white/5 hover:bg-white/[0.02]">
                                   <td className="py-2 px-3">
-                                    <Link href={`/certificate/${c.verificationId}`} target="_blank" className="text-purple-400 hover:text-purple-300 font-mono text-xs flex items-center gap-1">
+                                    <Link href={`/certificate/${c.verificationId}`} target="_blank" className="text-violet-400 hover:text-violet-300 font-mono text-xs flex items-center gap-1">
                                       {String(c.verificationId).slice(0, 12)}...
                                       <ExternalLink className="h-3 w-3" />
                                     </Link>
@@ -3530,7 +3530,7 @@ export default function AdminPage() {
                       {userDetailSubTab === 'activity' && (
                         userActivityLoading ? (
                           <div className="flex items-center justify-center py-12">
-                            <Loader2 className="h-6 w-6 text-purple-400 animate-spin" />
+                            <Loader2 className="h-6 w-6 text-violet-400 animate-spin" />
                           </div>
                         ) : userActivity.length === 0 ? (
                           <div className="text-center text-white/30 text-sm py-12">No activity recorded</div>
@@ -3554,7 +3554,7 @@ export default function AdminPage() {
                                 payment_completed: 'text-emerald-400 bg-emerald-500/20',
                                 payment_failed: 'text-red-400 bg-red-500/20',
                                 payment_refunded: 'text-blue-400 bg-blue-500/20',
-                                certificate_issued: 'text-purple-400 bg-purple-500/20',
+                                certificate_issued: 'text-violet-400 bg-violet-500/20',
                                 email_sent: 'text-white/50 bg-white/10',
                                 email_failed: 'text-red-400 bg-red-500/20',
                                 page_view: 'text-white/40 bg-white/5',
@@ -3915,7 +3915,7 @@ export default function AdminPage() {
                 <DialogContent className="sm:max-w-[480px] bg-[#1a1f36] border-white/10 text-white">
                   <DialogHeader>
                     <DialogTitle className="text-white flex items-center gap-2">
-                      <UserCog className="h-5 w-5 text-purple-400" />
+                      <UserCog className="h-5 w-5 text-violet-400" />
                       Create Demo Accounts
                     </DialogTitle>
                     <DialogDescription className="text-white/50">Generate test accounts for development and QA.</DialogDescription>
@@ -4163,7 +4163,7 @@ export default function AdminPage() {
                   icon={CheckCircle2}
                   label="Completed Payments"
                   value={revenueKpis.completedPayments}
-                  gradient="from-purple-500 to-indigo-600"
+                  gradient="from-violet-500 to-indigo-600"
                 />
                 <StatCard
                   icon={CreditCard}
@@ -4192,7 +4192,7 @@ export default function AdminPage() {
                     <select
                     value={paymentsFilterStatus}
                     onChange={(e) => { setPaymentsFilterStatus(e.target.value); fetchPayments(1, e.target.value); }}
-                    className="px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-purple-500/50"
+                    className="px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-white text-sm focus:outline-none focus:border-violet-500/50"
                   >
                     <option value="all" className="bg-[#1a1f36]">All Status</option>
                     <option value="completed" className="bg-[#1a1f36]">Completed</option>
@@ -4298,7 +4298,7 @@ export default function AdminPage() {
                   value={assessments.length > 0
                     ? `${Math.round(assessments.filter(a => a.score != null).reduce((sum, a) => sum + (a.score || 0), 0) / Math.max(assessments.filter(a => a.score != null).length, 1))}%`
                     : '—'}
-                  gradient="from-purple-500 to-indigo-600"
+                  gradient="from-violet-500 to-indigo-600"
                 />
                 <StatCard
                   icon={Award}
@@ -4439,9 +4439,9 @@ export default function AdminPage() {
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                   <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-                    <BookOpen className="h-5 w-5 text-purple-400" />
+                    <BookOpen className="h-5 w-5 text-violet-400" />
                     Question Bank
-                    <span className="ml-2 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                    <span className="ml-2 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-violet-500/20 text-violet-300 border border-violet-500/30">
                       {questionStats?.total ?? 0} total
                     </span>
                   </h2>
@@ -4537,7 +4537,7 @@ export default function AdminPage() {
                         <XAxis dataKey="skill" tick={{ fontSize: 12, fill: 'rgba(255,255,255,0.5)' }} />
                         <YAxis tick={{ fontSize: 11, fill: 'rgba(255,255,255,0.4)' }} />
                         <Tooltip content={<ChartTooltip />} />
-                        <Bar dataKey="count" name="Questions" fill="#8B5CF6" radius={[6, 6, 0, 0]} />
+                        <Bar dataKey="count" name="Questions" fill="#7c5cff" radius={[6, 6, 0, 0]} />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
@@ -4571,7 +4571,7 @@ export default function AdminPage() {
                             key={level}
                             className={`flex items-center gap-1.5 rounded-lg border px-3 py-2 cursor-pointer transition-colors ${
                               selectedLevels.includes(level)
-                                ? 'border-purple-500/50 bg-purple-500/10'
+                                ? 'border-violet-500/50 bg-violet-500/10'
                                 : 'border-white/10 hover:border-white/20'
                             }`}
                           >
@@ -4596,7 +4596,7 @@ export default function AdminPage() {
                             key={skill}
                             className={`flex items-center gap-1.5 rounded-lg border px-3 py-2 cursor-pointer transition-colors capitalize ${
                               selectedSkills.includes(skill)
-                                ? 'border-purple-500/50 bg-purple-500/10'
+                                ? 'border-violet-500/50 bg-violet-500/10'
                                 : 'border-white/10 hover:border-white/20'
                             }`}
                           >
@@ -4683,7 +4683,7 @@ export default function AdminPage() {
               <div className="glass-card p-5">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-white font-semibold flex items-center gap-2">
-                    <Database className="h-4 w-4 text-purple-400" />
+                    <Database className="h-4 w-4 text-violet-400" />
                     Database Status
                   </h3>
                   <div className="flex items-center gap-2">
@@ -4868,7 +4868,7 @@ export default function AdminPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                    <Globe className="h-5 w-5 text-purple-400" />
+                    <Globe className="h-5 w-5 text-violet-400" />
                     Analytics & Integrations
                   </h2>
                   <p className="text-sm text-white/50 mt-1">
@@ -4880,7 +4880,7 @@ export default function AdminPage() {
               {/* ── Integration Status Cards ── */}
               <div className="grid md:grid-cols-2 gap-4">
                 {/* GA4 */}
-                <div className="glass-card p-5 hover:border-purple-500/30 transition-colors">
+                <div className="glass-card p-5 hover:border-violet-500/30 transition-colors">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
                       <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 text-white shadow-lg">
@@ -4927,7 +4927,7 @@ export default function AdminPage() {
                 </div>
 
                 {/* Search Console */}
-                <div className="glass-card p-5 hover:border-purple-500/30 transition-colors">
+                <div className="glass-card p-5 hover:border-violet-500/30 transition-colors">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
                       <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 text-white shadow-lg">
@@ -4949,7 +4949,7 @@ export default function AdminPage() {
                     </div>
                     <div className="flex items-center justify-between p-2.5 rounded-lg bg-white/5 border border-white/5">
                       <span className="text-xs text-white/50">Sitemap</span>
-                      <a href="https://testcefr.com/sitemap.xml" target="_blank" rel="noopener noreferrer" className="text-xs font-mono text-purple-400 hover:text-purple-300">
+                      <a href="https://testcefr.com/sitemap.xml" target="_blank" rel="noopener noreferrer" className="text-xs font-mono text-violet-400 hover:text-violet-300">
                         /sitemap.xml
                       </a>
                     </div>
@@ -4966,7 +4966,7 @@ export default function AdminPage() {
                 </div>
 
                 {/* PostHog */}
-                <div className="glass-card p-5 hover:border-purple-500/30 transition-colors">
+                <div className="glass-card p-5 hover:border-violet-500/30 transition-colors">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
                       <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 text-white shadow-lg">
@@ -5013,7 +5013,7 @@ export default function AdminPage() {
                 </div>
 
                 {/* Looker Studio */}
-                <div className="glass-card p-5 hover:border-purple-500/30 transition-colors">
+                <div className="glass-card p-5 hover:border-violet-500/30 transition-colors">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
                       <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-orange-500 to-amber-500 text-white shadow-lg">
@@ -5078,7 +5078,7 @@ export default function AdminPage() {
                         { event: 'account_create', trigger: 'Registration success', param: 'account_type' },
                       ].map((row) => (
                         <tr key={row.event} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-                          <td className="py-2.5 px-3 font-mono text-purple-400 text-xs">{row.event}</td>
+                          <td className="py-2.5 px-3 font-mono text-violet-400 text-xs">{row.event}</td>
                           <td className="py-2.5 px-3 text-white/70">{row.trigger}</td>
                           <td className="py-2.5 px-3 text-white/50 text-xs">{row.param}</td>
                         </tr>
@@ -5170,7 +5170,7 @@ export default function AdminPage() {
                         href={item.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-purple-400 hover:text-purple-300 transition-colors shrink-0"
+                        className="text-violet-400 hover:text-violet-300 transition-colors shrink-0"
                       >
                         <ExternalLink className="h-3.5 w-3.5" />
                       </a>

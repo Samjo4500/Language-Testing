@@ -107,9 +107,9 @@ const CATEGORY_CONFIG: Record<string, { label: string; color: string; bgColor: s
   },
   style: {
     label: 'Style',
-    color: 'text-purple-400',
-    bgColor: 'bg-purple-500/15',
-    borderColor: 'border-purple-500/25',
+    color: 'text-violet-400',
+    bgColor: 'bg-violet-500/15',
+    borderColor: 'border-violet-500/25',
     icon: <Palette className="h-3.5 w-3.5" />,
   },
 };
@@ -446,7 +446,7 @@ export default function GrammarCheckPage() {
               </Link>
               <p className="text-xs text-white/30 mt-4">
                 Don&apos;t have an account?{' '}
-                <Link href="/register" className="text-purple-400 hover:text-purple-300 transition-colors">
+                <Link href="/register" className="text-violet-400 hover:text-violet-300 transition-colors">
                   Create one
                 </Link>
               </p>
@@ -473,7 +473,7 @@ export default function GrammarCheckPage() {
                 <div>
                   <h1 className="text-2xl font-bold text-white flex items-center gap-2">
                     Grammar Checker
-                    <Badge variant="outline" className="bg-purple-500/15 text-purple-300 border-purple-500/25 text-[10px] px-2 py-0">
+                    <Badge variant="outline" className="bg-violet-500/15 text-violet-300 border-violet-500/25 text-[10px] px-2 py-0">
                       AI-Powered
                     </Badge>
                   </h1>
@@ -492,7 +492,7 @@ export default function GrammarCheckPage() {
               <div className="glass-card p-5">
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="text-sm font-semibold text-white/70 flex items-center gap-2">
-                    <Type className="h-4 w-4 text-purple-400" />
+                    <Type className="h-4 w-4 text-violet-400" />
                     Your Text
                   </h3>
                   <button
@@ -509,7 +509,7 @@ export default function GrammarCheckPage() {
                   value={text}
                   onChange={(e) => setText(e.target.value)}
                   placeholder="Type or paste your English text here for grammar analysis..."
-                  className="w-full min-h-[280px] bg-white/[0.03] border border-white/[0.08] rounded-xl p-4 text-sm text-white/90 placeholder:text-white/20 resize-y focus:outline-none focus:border-purple-500/40 focus:ring-2 focus:ring-purple-500/15 transition-all duration-300 custom-scrollbar"
+                  className="w-full min-h-[280px] bg-white/[0.03] border border-white/[0.08] rounded-xl p-4 text-sm text-white/90 placeholder:text-white/20 resize-y focus:outline-none focus:border-violet-500/40 focus:ring-2 focus:ring-violet-500/15 transition-all duration-300 custom-scrollbar"
                   disabled={isChecking}
                 />
 
@@ -578,7 +578,7 @@ export default function GrammarCheckPage() {
                         <div className="flex items-center gap-2 mb-1">
                           <span className="text-sm">{ex.icon}</span>
                           <span className="text-sm font-medium text-white/70 group-hover:text-white/90 transition-colors">{ex.label}</span>
-                          <ArrowRight className="h-3 w-3 text-white/20 ml-auto group-hover:text-purple-400 group-hover:translate-x-0.5 transition-all" />
+                          <ArrowRight className="h-3 w-3 text-white/20 ml-auto group-hover:text-violet-400 group-hover:translate-x-0.5 transition-all" />
                         </div>
                         <p className="text-xs text-white/30 line-clamp-2">{ex.text}</p>
                       </button>
@@ -595,7 +595,7 @@ export default function GrammarCheckPage() {
                 <div className="glass-card p-8 flex flex-col items-center justify-center min-h-[300px]">
                   <div className="relative mb-6">
                     <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 flex items-center justify-center animate-pulse-slow">
-                      <Sparkles className="h-8 w-8 text-purple-400 animate-pulse" />
+                      <Sparkles className="h-8 w-8 text-violet-400 animate-pulse" />
                     </div>
                     <div className="absolute -inset-4 rounded-3xl border border-blue-500/20 animate-ping-slow" />
                   </div>
@@ -607,7 +607,7 @@ export default function GrammarCheckPage() {
                     {[0, 1, 2].map(i => (
                       <div
                         key={i}
-                        className="h-2 w-2 rounded-full bg-purple-400"
+                        className="h-2 w-2 rounded-full bg-violet-400"
                         style={{
                           animation: 'chat-typing-bounce 1.4s infinite ease-in-out both',
                           animationDelay: `${i * 0.16}s`,
@@ -628,7 +628,7 @@ export default function GrammarCheckPage() {
                       <p className="text-sm text-white/40 mt-1">{error}</p>
                       <button
                         onClick={handleCheckGrammar}
-                        className="mt-3 flex items-center gap-1.5 text-xs text-purple-400 hover:text-purple-300 transition-colors cursor-pointer"
+                        className="mt-3 flex items-center gap-1.5 text-xs text-violet-400 hover:text-violet-300 transition-colors cursor-pointer"
                       >
                         <RefreshCw className="h-3 w-3" />
                         Try again
@@ -725,7 +725,7 @@ export default function GrammarCheckPage() {
                             <div className="flex items-center gap-2 mb-1 flex-wrap">
                               <span className="text-sm text-white/50 line-through">{sug.original}</span>
                               <ArrowRight className="h-3 w-3 text-white/20" />
-                              <span className="text-sm font-medium text-purple-300">{sug.suggestion}</span>
+                              <span className="text-sm font-medium text-violet-300">{sug.suggestion}</span>
                             </div>
                             <p className="text-xs text-white/40">{sug.reason}</p>
                           </div>
@@ -735,9 +735,9 @@ export default function GrammarCheckPage() {
                   )}
 
                   {/* Level Assessment */}
-                  <div className="glass-card p-5 border-purple-500/15">
+                  <div className="glass-card p-5 border-violet-500/15">
                     <h3 className="text-sm font-semibold text-white/70 mb-3 flex items-center gap-2">
-                      <GraduationCap className="h-4 w-4 text-purple-400" />
+                      <GraduationCap className="h-4 w-4 text-violet-400" />
                       CEFR Level Assessment
                     </h3>
                     <p className="text-sm text-white/60 leading-relaxed">{result.levelAssessment}</p>
