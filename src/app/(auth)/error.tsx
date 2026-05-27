@@ -29,13 +29,13 @@ export default function AuthError({
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <button
               onClick={reset}
-              className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-500 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-blue-500/25 cursor-pointer"
             >
               <RotateCcw className="h-4 w-4" />
               Try again
             </button>
             <Link href="/login">
-              <button className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 glass-button text-white font-semibold text-sm cursor-pointer">
+              <button className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 border border-[#4a4a5a] text-white/80 hover:text-white hover:border-white/30 font-semibold text-sm cursor-pointer transition-colors">
                 <Home className="h-4 w-4" />
                 Go to login
               </button>

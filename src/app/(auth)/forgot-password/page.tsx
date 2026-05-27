@@ -63,13 +63,13 @@ export default function ForgotPasswordPage() {
                 <p className="text-sm text-white/50 mt-2 leading-relaxed">
                   If an account exists for <span className="text-white/70 font-medium">{email}</span>, we&apos;ve sent a password reset link to your inbox.
                 </p>
-                <p className="text-xs text-white/30 mt-3">
+                <p className="text-xs text-[#808094] mt-3">
                   Didn&apos;t receive the email? Check your spam folder or try again.
                 </p>
                 <div className="mt-6">
                   <Link
                     href="/login"
-                    className="inline-flex items-center gap-2 rounded-xl px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5"
+                    className="inline-flex items-center gap-2 rounded-xl px-8 py-3 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5"
                   >
                     <ArrowLeft className="h-4 w-4" />
                     Back to Login
@@ -80,11 +80,11 @@ export default function ForgotPasswordPage() {
               /* ===== FORM STATE ===== */
               <>
                 <div className="text-center mb-6">
-                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 text-white mb-4 shadow-lg shadow-purple-500/25">
+                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#3b82f6] text-white mb-4 shadow-lg shadow-blue-500/25">
                     <KeyRound className="h-6 w-6" />
                   </div>
                   <h1 className="text-2xl font-bold text-white">Forgot your password?</h1>
-                  <p className="text-sm text-white/50 mt-1">
+                  <p className="text-sm text-[#808094] mt-1">
                     Enter your email address and we&apos;ll send you a link to reset your password.
                   </p>
                 </div>
@@ -113,7 +113,7 @@ export default function ForgotPasswordPage() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0 cursor-pointer"
+                    className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0 cursor-pointer"
                   >
                     {isSubmitting ? (
                       <>

@@ -57,13 +57,13 @@ function BackgroundOrbs() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {/* Main purple orb */}
-      <div className="orb orb-purple w-[500px] h-[500px] -top-32 -left-32 animate-float-slow" />
-      {/* Pink orb */}
-      <div className="orb orb-pink w-[350px] h-[350px] top-1/4 -right-16 animate-float" />
+      <div className="orb orb-purple w-[500px] h-[500px] -top-32 -left-32 animate-float-slow opacity-15" />
+      {/* Blue orb */}
+      <div className="orb orb-blue w-[350px] h-[350px] top-1/4 -right-16 animate-float opacity-15" />
       {/* Small accent orbs */}
-      <div className="absolute top-1/3 left-2/3 w-2 h-2 rounded-full bg-purple-400/40 animate-float delay-300" />
-      <div className="absolute top-2/3 right-1/4 w-1.5 h-1.5 rounded-full bg-pink-400/30 animate-float-slow delay-500" />
-      <div className="absolute bottom-1/4 left-1/4 w-2.5 h-2.5 rounded-full bg-purple-300/25 animate-float delay-200" />
+      <div className="absolute top-1/3 left-2/3 w-2 h-2 rounded-full bg-blue-400/20 animate-float delay-300" />
+      <div className="absolute top-2/3 right-1/4 w-1.5 h-1.5 rounded-full bg-blue-400/15 animate-float-slow delay-500" />
+      <div className="absolute bottom-1/4 left-1/4 w-2.5 h-2.5 rounded-full bg-violet-300/15 animate-float delay-200" />
     </div>
   );
 }
@@ -107,7 +107,7 @@ export default function SpeakingPage() {
               {isAuth ? (
                 isPaidPlan(user?.plan) ? (
                   <Link href="/test">
-                    <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                    <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold text-base transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-1 cursor-pointer">
                       Start Speaking Test
                       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </button>
@@ -115,13 +115,13 @@ export default function SpeakingPage() {
                 ) : (
                   <>
                     <Link href="/pricing">
-                      <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                      <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold text-base transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-1 cursor-pointer">
                         Get Premium Access
                         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                       </button>
                     </Link>
                     <Link href="/quick-tour">
-                      <button className="glass-button w-full sm:w-auto rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
+                      <button className="rounded-xl px-8 py-3.5 border border-[#4a4a5a] text-white/80 hover:text-white hover:border-white/30 font-medium text-base cursor-pointer transition-colors">
                         Quick Tour
                       </button>
                     </Link>
@@ -130,13 +130,13 @@ export default function SpeakingPage() {
               ) : (
                 <>
                   <Link href="/register">
-                    <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                    <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold text-base transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-1 cursor-pointer">
                       Start Speaking Test
                       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </button>
                   </Link>
                   <Link href="/quick-tour">
-                    <button className="glass-button w-full sm:w-auto rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
+                    <button className="rounded-xl px-8 py-3.5 border border-[#4a4a5a] text-white/80 hover:text-white hover:border-white/30 font-medium text-base cursor-pointer transition-colors">
                       Quick Tour
                     </button>
                   </Link>
@@ -235,14 +235,14 @@ export default function SpeakingPage() {
                 icon: <Mic className="h-7 w-7" />,
                 title: 'Record Your Voice',
                 desc: 'Read prompts and answer questions using your microphone. Our interface guides you through various speaking tasks designed for your target CEFR level.',
-                gradient: 'from-purple-500 to-violet-500',
+                gradient: 'from-amber-500 to-amber-600',
               },
               {
                 step: '02',
                 icon: <Cpu className="h-7 w-7" />,
                 title: 'AI Analyzes Speech',
                 desc: 'Our advanced AI processes your audio in real-time, evaluating pronunciation accuracy, fluency patterns, grammatical structures, and vocabulary usage.',
-                gradient: 'from-pink-500 to-rose-500',
+                gradient: 'from-[#7c5cff] to-[#6d4ddb]',
               },
               {
                 step: '03',
@@ -256,7 +256,7 @@ export default function SpeakingPage() {
                 <div className="glass-card p-6 h-full text-center group relative">
                   {/* Step number */}
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className="inline-flex items-center justify-center h-7 w-7 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-white text-xs font-bold shadow-lg shadow-purple-500/30">
+                    <span className="inline-flex items-center justify-center h-7 w-7 rounded-full bg-[#3b82f6] text-white text-xs font-bold shadow-lg shadow-blue-500/30">
                       {item.step}
                     </span>
                   </div>
@@ -379,8 +379,8 @@ export default function SpeakingPage() {
       <section className="relative py-20 md:py-28 bg-[#0F0A1E] overflow-hidden">
         {/* Background orbs for CTA */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="orb orb-purple w-[400px] h-[400px] -top-20 right-1/4 animate-float-slow" />
-          <div className="orb orb-pink w-[300px] h-[300px] bottom-0 left-1/4 animate-float" />
+          <div className="orb orb-purple w-[400px] h-[400px] -top-20 right-1/4 animate-float-slow opacity-15" />
+          <div className="orb orb-blue w-[300px] h-[300px] bottom-0 left-1/4 animate-float opacity-15" />
         </div>
 
         <div className="container relative mx-auto px-4 text-center">
@@ -401,7 +401,7 @@ export default function SpeakingPage() {
                   {isAuth ? (
                     isPaidPlan(user?.plan) ? (
                       <Link href="/test">
-                        <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                        <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold text-base transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-1 cursor-pointer">
                           Start Speaking Test
                           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </button>
@@ -409,13 +409,13 @@ export default function SpeakingPage() {
                     ) : (
                       <>
                         <Link href="/pricing">
-                          <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                          <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold text-base transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-1 cursor-pointer">
                             Upgrade to Premium
                             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                           </button>
                         </Link>
                         <Link href="/quick-tour">
-                          <button className="glass-button w-full sm:w-auto rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
+                          <button className="rounded-xl px-8 py-3.5 border border-[#4a4a5a] text-white/80 hover:text-white hover:border-white/30 font-medium text-base cursor-pointer transition-colors">
                             Quick Tour
                           </button>
                         </Link>
@@ -424,13 +424,13 @@ export default function SpeakingPage() {
                   ) : (
                     <>
                       <Link href="/register">
-                        <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                        <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold text-base transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-1 cursor-pointer">
                           Create Free Account
                           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </button>
                       </Link>
                       <Link href="/pricing">
-                        <button className="glass-button w-full sm:w-auto rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
+                        <button className="rounded-xl px-8 py-3.5 border border-[#4a4a5a] text-white/80 hover:text-white hover:border-white/30 font-medium text-base cursor-pointer transition-colors">
                           View Pricing
                         </button>
                       </Link>

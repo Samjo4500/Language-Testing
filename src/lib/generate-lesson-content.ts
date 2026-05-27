@@ -7,6 +7,17 @@
 
 import { StaticCourse, StaticModule, StaticLesson, STATIC_MODULES, STATIC_LESSONS_BY_MODULE_ID, STATIC_COURSE_BY_SLUG, STATIC_COURSES, STATIC_MODULES_BY_COURSE_ID } from './static-course-data';
 import { LESSON_CONTENT_MAP } from './lesson-content-map';
+import type { LessonStructuredContent } from './lesson-content-beginner';
+import { BEGINNER_LESSON_CONTENT } from './lesson-content-beginner';
+import { INTERMEDIATE_LESSON_CONTENT } from './lesson-content-intermediate';
+import { ADVANCED_LESSON_CONTENT } from './lesson-content-advanced';
+
+// Combined structured lesson content — checked first for rich, handcrafted material
+const STRUCTURED_CONTENT: Record<string, LessonStructuredContent> = {
+  ...BEGINNER_LESSON_CONTENT,
+  ...INTERMEDIATE_LESSON_CONTENT,
+  ...ADVANCED_LESSON_CONTENT,
+};
 
 // Level labels for content generation
 const LEVEL_LABELS: Record<string, string> = {
@@ -288,6 +299,12 @@ export function generateLessonContent(
   const levelLabel = LEVEL_LABELS[course.level] || course.level;
   const lessonTitle = lesson.title;
   const moduleTitle = module.title;
+
+  // Check structured content first (highest priority — real educational material)
+  const structured = STRUCTURED_CONTENT[lessonTitle];
+  if (structured) {
+    return structured.explanation;
+  }
 
   // Look up real educational content first (from content map)
   const contentMap = LESSON_CONTENT_MAP[lesson.contentType];
@@ -3215,6 +3232,18 @@ export function generateQuizData(lesson: StaticLesson, module: StaticModule, cou
   if (lesson.contentType !== 'quiz') return null;
 
   const topic = lesson.title;
+
+  // Check structured content for quiz data
+  const structured = STRUCTURED_CONTENT[lesson.title];
+  if (structured && structured.quiz && structured.quiz.length > 0) {
+    return JSON.stringify(structured.quiz.map(q => ({
+      question: q.question,
+      options: q.options,
+      correctIndex: q.correctAnswer,
+      explanation: q.explanation,
+    })));
+  }
+
   const quizItems = QUIZ_DATA[topic];
 
   if (quizItems) {
@@ -3374,6 +3403,8 @@ export function buildStaticLessonDetail(lessonId: string) {
       audioScript,
       estimatedMinutes: lesson.estimatedMinutes,
       videoUrl: lesson.videoUrl || null,
+      examples: STRUCTURED_CONTENT[lesson.title]?.examples || null,
+      commonMistakes: STRUCTURED_CONTENT[lesson.title]?.commonMistakes || null,
     },
     module: {
       id: module.id,

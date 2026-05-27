@@ -350,7 +350,7 @@ export default function RegisterPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0 cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0 cursor-pointer"
                 >
                   {isSubmitting ? (
                     <>
@@ -383,7 +383,7 @@ export default function RegisterPage() {
 
               <div className="mt-4 text-center text-sm text-white/40">
                 Already have an account?{' '}
-                <Link href="/login" className="text-purple-400 hover:text-purple-300 font-medium transition-colors">
+                <Link href="/login" className="text-blue-400 hover:text-blue-300 font-medium transition-colors">
                   Sign in
                 </Link>
               </div>

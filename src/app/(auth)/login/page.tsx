@@ -125,7 +125,7 @@ export default function LoginPage() {
         <div className="w-full max-w-md relative">
           <div className="glass-card p-8">
             <div className="text-center mb-6">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 text-white mb-4 shadow-lg shadow-purple-500/25">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#3b82f6] text-white mb-4 shadow-lg shadow-blue-500/25">
                 <LogIn className="h-6 w-6" />
               </div>
               <h1 className="text-2xl font-bold text-white">Welcome back</h1>
@@ -155,7 +155,7 @@ export default function LoginPage() {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password" className="text-white/70">Password</Label>
-                  <Link href="/forgot-password" className="text-xs text-purple-400 hover:text-purple-300 font-medium transition-colors">
+                  <Link href="/forgot-password" className="text-xs text-blue-400 hover:text-blue-300 font-medium transition-colors">
                     Forgot password?
                   </Link>
                 </div>
@@ -183,7 +183,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0 cursor-pointer"
+                className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0 cursor-pointer"
               >
                 {isSubmitting ? (
                   <>
@@ -199,9 +199,9 @@ export default function LoginPage() {
               </button>
             </form>
             <div className="mt-6 text-center">
-              <p className="text-sm text-white/40">
+              <p className="text-sm text-[#808094]">
                 Don&apos;t have an account?{' '}
-                <Link href="/register" className="text-purple-400 hover:text-purple-300 font-medium transition-colors">
+                <Link href="/register" className="text-blue-400 hover:text-blue-300 font-medium transition-colors">
                   Sign up
                 </Link>
               </p>

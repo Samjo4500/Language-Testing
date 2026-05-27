@@ -88,3 +88,34 @@ Stage Summary:
 - 120 outlined lessons have template-generated content
 - Seed script ready: scripts/seed-lessons-new.ts (run with DATABASE_URL set)
 - Static fallback data updated and build-verified
+---
+Task ID: 1
+Agent: main
+Task: Implement unified color theme migration across the website
+
+Work Log:
+- Read and analyzed all key component files: chat-widget, 4 skill pages, homepage, test results, auth pages
+- Updated globals.css: Changed chat widget bubble from blue gradient to dark bg (#1e1e36) with 1px solid blue border (#3b82f6), removed pink glow. Changed orb-pink CSS class from purple to blue gradient.
+- Updated speaking/page.tsx: Changed hero CTA buttons from purple-pink gradient to solid blue (#3b82f6), Quick Tour to gray outline (#4a4a5a), "AI Analyzes Speech" icon to violet (#7c5cff), "Record Your Voice" icon to amber (#f59e0b), reduced orb opacity by 50%, step badge to blue
+- Updated listening/page.tsx: Same button/icon/orb changes, connecting lines from purple/pink to blue
+- Updated reading/page.tsx: Same button/orb changes, step badge and connecting lines to blue
+- Updated writing/page.tsx: Same button/orb changes, step badge and connector lines to blue
+- Updated live-voice-demo.tsx: Fine print color from text-white/50 to text-[#808094]
+- Updated test/results/page.tsx: "Continue Testing" button from violet to blue (#3b82f6), "Continue to Vocabulary" from teal to violet (#7c5cff)
+- Updated register/page.tsx: Submit button from purple-pink to blue, "Sign in" link from purple to blue
+- Updated login/page.tsx: Icon from purple-pink to blue, submit button to blue, "Sign up"/"Forgot password" links from purple to blue, muted text improved
+- Updated forgot-password/page.tsx: Icon from purple-pink to blue, submit button to blue, success button to blue, muted text from white/30 to #808094
+- Updated reset-password/page.tsx: All buttons from purple-pink to blue, icon from purple-pink to blue
+- Updated auth error.tsx: Buttons from purple-pink to blue and glass-button to gray outline
+- Verified build passes with no errors
+
+Stage Summary:
+- All 17 color changes from the user's specification have been implemented
+- No pink, magenta, or red/maroon accents remain on the specified pages (except C2 badge and error states)
+- Chat widget is now subtle (dark bg, blue border, no glow)
+- All skill page CTAs use primary blue (#3b82f6) instead of purple-pink gradients
+- Quick Tour buttons use gray outline (#4a4a5a) instead of purple glass
+- Speaking page icons use violet (#7c5cff) for AI analysis and amber (#f59e0b) for recording
+- Auth pages all use blue buttons and blue links
+- Muted text improved to #808094 minimum for readability
+- Build verified: passes with zero errors

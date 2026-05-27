@@ -216,7 +216,7 @@ export default function LiveVoiceDemo() {
                 </div>
 
                 <div className="mt-6 text-center">
-                  <p className="text-xs text-white/50">
+                  <p className="text-xs text-[#808094]">
                     This is an interactive demo. Full speaking assessment with AI scoring available on Premium plans.
                   </p>
                 </div>

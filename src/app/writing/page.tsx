@@ -57,15 +57,15 @@ function BackgroundOrbs() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {/* Main purple orb */}
-      <div className="orb orb-purple w-[600px] h-[600px] -top-40 -left-40 animate-float-slow" />
+      <div className="orb orb-purple w-[600px] h-[600px] -top-40 -left-40 animate-float-slow opacity-15" />
       {/* Pink orb */}
-      <div className="orb orb-pink w-[400px] h-[400px] top-1/3 -right-20 animate-float" />
+      <div className="orb orb-blue w-[400px] h-[400px] top-1/3 -right-20 animate-float opacity-15" />
       {/* Blue orb */}
-      <div className="orb orb-blue w-[300px] h-[300px] bottom-20 left-1/4 animate-float-slow" />
+      <div className="orb orb-blue w-[300px] h-[300px] bottom-20 left-1/4 animate-float-slow opacity-15" />
       {/* Small accent dots */}
-      <div className="absolute top-1/4 left-1/2 w-2 h-2 rounded-full bg-purple-400/40 animate-float" />
-      <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 rounded-full bg-pink-400/30 animate-float-slow" />
-      <div className="absolute bottom-1/3 left-1/3 w-2.5 h-2.5 rounded-full bg-blue-400/30 animate-float" />
+      <div className="absolute top-1/4 left-1/2 w-2 h-2 rounded-full bg-blue-400/20 animate-float" />
+      <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 rounded-full bg-blue-400/15 animate-float-slow" />
+      <div className="absolute bottom-1/3 left-1/3 w-2.5 h-2.5 rounded-full bg-blue-400/15 animate-float" />
     </div>
   );
 }
@@ -162,7 +162,7 @@ export default function WritingPage() {
               {isAuth ? (
                 isPaidPlan(user?.plan) ? (
                   <Link href="/test">
-                    <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                    <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold text-base transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-1 cursor-pointer">
                       Start Writing Test
                       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </button>
@@ -170,13 +170,13 @@ export default function WritingPage() {
                 ) : (
                   <>
                     <Link href="/pricing">
-                      <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                      <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold text-base transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-1 cursor-pointer">
                         Get Premium Access
                         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                       </button>
                     </Link>
                     <Link href="/quick-tour">
-                      <button className="glass-button w-full sm:w-auto rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
+                      <button className="rounded-xl px-8 py-3.5 border border-[#4a4a5a] text-white/80 hover:text-white hover:border-white/30 font-medium text-base cursor-pointer transition-colors">
                         Quick Tour
                       </button>
                     </Link>
@@ -185,13 +185,13 @@ export default function WritingPage() {
               ) : (
                 <>
                   <Link href="/register">
-                    <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                    <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold text-base transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-1 cursor-pointer">
                       Start Writing Test
                       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </button>
                   </Link>
                   <Link href="/quick-tour">
-                    <button className="glass-button w-full sm:w-auto rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
+                    <button className="rounded-xl px-8 py-3.5 border border-[#4a4a5a] text-white/80 hover:text-white hover:border-white/30 font-medium text-base cursor-pointer transition-colors">
                       Quick Tour
                     </button>
                   </Link>
@@ -286,7 +286,7 @@ export default function WritingPage() {
                 <div className="glass-card p-6 h-full text-center group relative">
                   {/* Step number */}
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className="inline-flex items-center justify-center h-7 w-7 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-white text-xs font-bold shadow-lg shadow-purple-500/30">
+                    <span className="inline-flex items-center justify-center h-7 w-7 rounded-full bg-[#3b82f6] text-white text-xs font-bold shadow-lg shadow-blue-500/30">
                       {step.number}
                     </span>
                   </div>
@@ -298,7 +298,7 @@ export default function WritingPage() {
 
                   {/* Connector line (not on last item) */}
                   {index < steps.length - 1 && (
-                    <div className="hidden md:block absolute top-1/2 -right-3 w-6 h-0.5 bg-gradient-to-r from-purple-500/40 to-transparent" />
+                    <div className="hidden md:block absolute top-1/2 -right-3 w-6 h-0.5 bg-gradient-to-r from-blue-500/40 to-transparent" />
                   )}
 
                   <h3 className="text-lg font-semibold text-white mb-2">{step.title}</h3>
@@ -412,8 +412,8 @@ export default function WritingPage() {
       <section className="relative py-20 md:py-28 dark-section overflow-hidden">
         {/* Background orbs for CTA */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="orb orb-purple w-[400px] h-[400px] -top-20 right-1/4 animate-float-slow" />
-          <div className="orb orb-pink w-[300px] h-[300px] bottom-0 left-1/4 animate-float" />
+          <div className="orb orb-purple w-[400px] h-[400px] -top-20 right-1/4 animate-float-slow opacity-15" />
+          <div className="orb orb-blue w-[300px] h-[300px] bottom-0 left-1/4 animate-float opacity-15" />
         </div>
 
         <div className="container relative mx-auto px-4 text-center">
@@ -434,7 +434,7 @@ export default function WritingPage() {
                   {isAuth ? (
                     isPaidPlan(user?.plan) ? (
                       <Link href="/test">
-                        <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                        <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold text-base transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-1 cursor-pointer">
                           Start Writing Test
                           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </button>
@@ -442,13 +442,13 @@ export default function WritingPage() {
                     ) : (
                       <>
                         <Link href="/pricing">
-                          <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                          <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold text-base transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-1 cursor-pointer">
                             Upgrade to Premium
                             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                           </button>
                         </Link>
                         <Link href="/quick-tour">
-                          <button className="glass-button w-full sm:w-auto rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
+                          <button className="rounded-xl px-8 py-3.5 border border-[#4a4a5a] text-white/80 hover:text-white hover:border-white/30 font-medium text-base cursor-pointer transition-colors">
                             Quick Tour
                           </button>
                         </Link>
@@ -457,13 +457,13 @@ export default function WritingPage() {
                   ) : (
                     <>
                       <Link href="/register">
-                        <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                        <button className="group flex w-full sm:w-auto items-center gap-2 rounded-xl px-8 py-3.5 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold text-base transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-1 cursor-pointer">
                           Create Free Account
                           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </button>
                       </Link>
                       <Link href="/pricing">
-                        <button className="glass-button w-full sm:w-auto rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
+                        <button className="rounded-xl px-8 py-3.5 border border-[#4a4a5a] text-white/80 hover:text-white hover:border-white/30 font-medium text-base cursor-pointer transition-colors">
                           View Pricing
                         </button>
                       </Link>

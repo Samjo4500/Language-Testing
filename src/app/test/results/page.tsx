@@ -668,8 +668,8 @@ export default function TestResultsPage() {
                   <button
                     className="w-full flex items-center justify-center gap-2 rounded-xl py-3.5 text-white font-semibold transition-all duration-300 cursor-pointer"
                     style={{
-                      background: `linear-gradient(135deg, ${SKILL_COLORS[nextSkill] || '#8b5cf6'}, ${SKILL_COLORS[nextSkill] || '#8b5cf6'}cc)`,
-                      boxShadow: `0 4px 20px ${SKILL_COLORS[nextSkill] || '#8b5cf6'}30`,
+                      background: nextSkill === 'vocabulary' ? '#7c5cff' : `linear-gradient(135deg, ${SKILL_COLORS[nextSkill] || '#8b5cf6'}, ${SKILL_COLORS[nextSkill] || '#8b5cf6'}cc)`,
+                      boxShadow: nextSkill === 'vocabulary' ? '0 4px 20px rgba(124, 92, 255, 0.3)' : `0 4px 20px ${SKILL_COLORS[nextSkill] || '#8b5cf6'}30`,
                     }}
                   >
                     Continue to {SKILL_LABELS[nextSkill]}
@@ -678,7 +678,7 @@ export default function TestResultsPage() {
                 </Link>
               )}
               <Link href="/test" className="flex-1">
-                <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3.5 bg-gradient-to-r from-violet-600 to-violet-500 hover:from-violet-500 hover:to-violet-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-violet-500/25 cursor-pointer">
+                <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3.5 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25 cursor-pointer">
                   <Sparkles className="h-4 w-4" />
                   Continue Testing
                 </button>

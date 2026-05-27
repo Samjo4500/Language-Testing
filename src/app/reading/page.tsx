@@ -57,12 +57,12 @@ function AnimatedSection({ children, className = '', delay = 0 }: { children: Re
 function BackgroundOrbs() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      <div className="orb orb-purple w-[600px] h-[600px] -top-40 -left-40 animate-float-slow" />
-      <div className="orb orb-pink w-[400px] h-[400px] top-1/3 -right-20 animate-float-reverse" />
-      <div className="orb orb-blue w-[300px] h-[300px] bottom-20 left-1/4 animate-float" />
-      <div className="absolute top-1/4 left-1/2 w-2 h-2 rounded-full bg-purple-400/40 animate-float delay-200" />
-      <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 rounded-full bg-pink-400/30 animate-float-reverse delay-500" />
-      <div className="absolute bottom-1/3 left-1/3 w-2.5 h-2.5 rounded-full bg-blue-400/30 animate-float delay-300" />
+      <div className="orb orb-purple w-[600px] h-[600px] -top-40 -left-40 animate-float-slow opacity-15" />
+      <div className="orb orb-blue w-[400px] h-[400px] top-1/3 -right-20 animate-float-reverse opacity-15" />
+      <div className="orb orb-blue w-[300px] h-[300px] bottom-20 left-1/4 animate-float opacity-15" />
+      <div className="absolute top-1/4 left-1/2 w-2 h-2 rounded-full bg-blue-400/20 animate-float delay-200" />
+      <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 rounded-full bg-blue-400/15 animate-float-reverse delay-500" />
+      <div className="absolute bottom-1/3 left-1/3 w-2.5 h-2.5 rounded-full bg-blue-400/15 animate-float delay-300" />
     </div>
   );
 }
@@ -157,7 +157,7 @@ export default function ReadingPage() {
               {isAuth ? (
                 isPaidPlan(user?.plan) ? (
                   <Link href="/test">
-                    <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                    <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold text-base transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-1 cursor-pointer">
                       Start Reading Test
                       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </button>
@@ -165,13 +165,13 @@ export default function ReadingPage() {
                 ) : (
                   <>
                     <Link href="/pricing">
-                      <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                      <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold text-base transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-1 cursor-pointer">
                         Get Premium Access
                         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                       </button>
                     </Link>
                     <Link href="/quick-tour">
-                      <button className="glass-button rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
+                      <button className="rounded-xl px-8 py-3.5 border border-[#4a4a5a] text-white/80 hover:text-white hover:border-white/30 font-medium text-base cursor-pointer transition-colors">
                         Quick Tour
                       </button>
                     </Link>
@@ -180,13 +180,13 @@ export default function ReadingPage() {
               ) : (
                 <>
                   <Link href="/register">
-                    <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                    <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold text-base transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-1 cursor-pointer">
                       Start Reading Test
                       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </button>
                   </Link>
                   <Link href="/quick-tour">
-                    <button className="glass-button rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
+                    <button className="rounded-xl px-8 py-3.5 border border-[#4a4a5a] text-white/80 hover:text-white hover:border-white/30 font-medium text-base cursor-pointer transition-colors">
                       Quick Tour
                     </button>
                   </Link>
@@ -291,7 +291,7 @@ export default function ReadingPage() {
             {steps.map((step, index) => (
               <AnimatedSection key={index} delay={index * 150}>
                 <div className="glass-card p-6 h-full text-center group relative">
-                  <div className="absolute -top-3 -right-3 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-purple-600 to-pink-500 text-white text-xs font-bold shadow-lg shadow-purple-500/30">
+                  <div className="absolute -top-3 -right-3 flex h-8 w-8 items-center justify-center rounded-full bg-[#3b82f6] text-white text-xs font-bold shadow-lg shadow-blue-500/30">
                     {step.step}
                   </div>
                   <div className={`flex h-16 w-16 mx-auto items-center justify-center rounded-2xl bg-gradient-to-br ${step.gradient} text-white shadow-lg mb-5 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>
@@ -307,8 +307,8 @@ export default function ReadingPage() {
           {/* Connecting line visual (desktop only) */}
           <div className="hidden md:flex justify-center mt-[-120px] mb-[80px] pointer-events-none">
             <div className="flex items-center gap-0 max-w-md w-full">
-              <div className="flex-1 h-px bg-gradient-to-r from-purple-500/50 via-purple-400/30 to-pink-400/50" />
-              <div className="flex-1 h-px bg-gradient-to-r from-pink-400/50 via-purple-400/30 to-purple-500/50" />
+              <div className="flex-1 h-px bg-gradient-to-r from-blue-500/50 via-blue-400/30 to-blue-300/50" />
+              <div className="flex-1 h-px bg-gradient-to-r from-blue-300/50 via-blue-400/30 to-blue-500/50" />
             </div>
           </div>
         </div>
@@ -436,8 +436,8 @@ export default function ReadingPage() {
       {/* ===== CTA SECTION ===== */}
       <section className="relative py-20 md:py-28 dark-section overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="orb orb-purple w-[400px] h-[400px] -top-20 right-1/4 animate-float-slow" />
-          <div className="orb orb-pink w-[300px] h-[300px] bottom-0 left-1/4 animate-float-reverse" />
+          <div className="orb orb-purple w-[400px] h-[400px] -top-20 right-1/4 animate-float-slow opacity-15" />
+          <div className="orb orb-blue w-[300px] h-[300px] bottom-0 left-1/4 animate-float-reverse opacity-15" />
         </div>
 
         <div className="container relative mx-auto px-4 text-center">
@@ -458,7 +458,7 @@ export default function ReadingPage() {
                   {isAuth ? (
                     isPaidPlan(user?.plan) ? (
                       <Link href="/test">
-                        <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                        <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold text-base transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-1 cursor-pointer">
                           Start Reading Test
                           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </button>
@@ -466,13 +466,13 @@ export default function ReadingPage() {
                     ) : (
                       <>
                         <Link href="/pricing">
-                          <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                          <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold text-base transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-1 cursor-pointer">
                             Upgrade to Premium
                             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                           </button>
                         </Link>
                         <Link href="/quick-tour">
-                          <button className="glass-button rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
+                          <button className="rounded-xl px-8 py-3.5 border border-[#4a4a5a] text-white/80 hover:text-white hover:border-white/30 font-medium text-base cursor-pointer transition-colors">
                             Quick Tour
                           </button>
                         </Link>
@@ -481,13 +481,13 @@ export default function ReadingPage() {
                   ) : (
                     <>
                       <Link href="/register">
-                        <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer">
+                        <button className="group flex items-center gap-2 rounded-xl px-8 py-3.5 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold text-base transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-1 cursor-pointer">
                           Create Free Account
                           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </button>
                       </Link>
                       <Link href="/pricing">
-                        <button className="glass-button rounded-xl px-8 py-3.5 text-white font-medium text-base cursor-pointer">
+                        <button className="rounded-xl px-8 py-3.5 border border-[#4a4a5a] text-white/80 hover:text-white hover:border-white/30 font-medium text-base cursor-pointer transition-colors">
                           View Pricing
                         </button>
                       </Link>

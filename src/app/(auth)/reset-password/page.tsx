@@ -96,7 +96,7 @@ function ResetPasswordForm() {
               <div className="mt-6">
                 <Link
                   href="/forgot-password"
-                  className="inline-flex items-center gap-2 rounded-xl px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5"
+                  className="inline-flex items-center gap-2 rounded-xl px-8 py-3 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5"
                 >
                   Request New Link
                 </Link>
@@ -133,7 +133,7 @@ function ResetPasswordForm() {
                 <div className="mt-6">
                   <Link
                     href="/login"
-                    className="inline-flex items-center gap-2 rounded-xl px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5"
+                    className="inline-flex items-center gap-2 rounded-xl px-8 py-3 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5"
                   >
                     Sign in
                     <ArrowRight className="h-4 w-4" />
@@ -144,7 +144,7 @@ function ResetPasswordForm() {
               /* ===== FORM STATE ===== */
               <>
                 <div className="text-center mb-6">
-                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 text-white mb-4 shadow-lg shadow-purple-500/25">
+                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#3b82f6] text-white mb-4 shadow-lg shadow-blue-500/25">
                     <ShieldCheck className="h-6 w-6" />
                   </div>
                   <h1 className="text-2xl font-bold text-white">Reset your password</h1>
@@ -207,7 +207,7 @@ function ResetPasswordForm() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0 cursor-pointer"
+                    className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-[#3b82f6] hover:bg-[#2563eb] text-white font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0 cursor-pointer"
                   >
                     {isSubmitting ? (
                       <>
