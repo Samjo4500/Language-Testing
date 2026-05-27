@@ -6,6 +6,7 @@ import { AuthProvider } from "@/components/auth-provider";
 import { AnalyticsProvider } from "@/components/analytics-provider";
 import { LazyChatWidget } from "@/components/lazy-chat-widget";
 import { PerformanceMonitor } from "@/components/performance-monitor";
+import { CookieConsentBanner } from "@/components/cookie-consent-banner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -150,6 +151,7 @@ export default function RootLayout({
             {children}
             <LazyChatWidget />
             <PerformanceMonitor />
+            <CookieConsentBanner />
           </AnalyticsProvider>
         </AuthProvider>
         <Toaster />

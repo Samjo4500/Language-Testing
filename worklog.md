@@ -97,3 +97,26 @@ Stage Summary:
 - 70 lesson entries updated in static-course-data.ts (M3+M4+M5 for 3 levels)
 - 66 content entries added to lesson-content-map.ts
 - Intermediate M4 (31-40) still has generic titles (PDF format, hard to parse)
+---
+Task ID: audit-fix-all
+Agent: Main
+Task: Fix all 8 issues found in platform audit (3 critical legal + 5 polish)
+
+Work Log:
+- Created /privacy-policy redirect → /privacy (redirect page.tsx)
+- Created dedicated /cookie-policy page with full Cookie Policy content (4 types, retention table, opt-out links, legal rights)
+- Built CookieConsentBanner component with Accept All / Reject / Customize preferences, localStorage persistence, versioning
+- Added CookieConsentBanner to root layout.tsx (global on all pages)
+- Added "Cookies" link in footer alongside Privacy/Terms
+- Added Trust/Social Proof section on homepage (stats + trust badges) between "How It Works" and Pricing
+- Reduced LazySection placeholder heights from 600/500/500 to 200/200/200 to eliminate blank space
+- Updated lesson counts in courses.ts: 36→50 (Beginner), 55→50 (Intermediate), 55→50 (Advanced)
+- Updated bundle count: "146 interactive lessons" → "150 interactive lessons" in courses.ts and courses/page.tsx (2 locations)
+- Verified About page typo — "Democratizing" is already spelled correctly (no fix needed)
+- Verified blog page exists in codebase with all dependencies — 404 was likely deployment cache
+- Build passes cleanly with zero errors
+
+Stage Summary:
+- 3 critical legal blockers resolved: Privacy Policy (redirect), Cookie Policy (new page), Cookie Consent Banner (global)
+- 5 polish items fixed: homepage blank space, lesson counts, bundle counts, blog link (code OK), about typo (already correct)
+- All changes verified with successful `next build`

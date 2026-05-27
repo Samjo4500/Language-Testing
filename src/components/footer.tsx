@@ -169,6 +169,7 @@ export function Footer() {
               <div className="space-y-2.5 pt-1">
                 <Link href="/about" className="block text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">About</Link>
                 <Link href="/privacy" className="block text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">Privacy</Link>
+                <Link href="/cookie-policy" className="block text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">Cookies</Link>
                 <Link href="/terms" className="block text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">Terms</Link>
               </div>
             </div>

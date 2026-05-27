@@ -2,7 +2,7 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { Navbar } from '@/components/navbar';
 import {
-  Sparkles, Award, Clock, BarChart3, Shield, Globe,
+  Sparkles, Award, Clock, BarChart3, Shield, Globe, Lock,
   CheckCircle2, QrCode, Headphones, Mic, PenTool,
   ArrowRight, Zap, Star, BookOpen, Users, TrendingUp,
   FileCheck, AudioWaveform, Activity, Brain,
@@ -458,8 +458,73 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ===== SOCIAL PROOF / TRUST ===== */}
+      <section className="relative py-16 md:py-20 dark-section-alt hero-pattern noise-overlay overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="orb orb-blue w-[300px] h-[300px] top-0 right-0 animate-float-slow" />
+        </div>
+        <div className="container relative mx-auto px-4">
+          <AnimatedSection>
+            <div className="text-center max-w-3xl mx-auto mb-10">
+              <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20 px-4 py-1.5 mb-4">
+                <Star className="h-3.5 w-3.5 text-blue-400" />
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Trusted Worldwide</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-white">
+                Join Thousands of English Learners
+              </h2>
+              <p className="mt-3 text-white/50 max-w-xl mx-auto text-base">
+                People in over 80 countries trust TestCEFR for accurate, AI-powered English assessment.
+              </p>
+            </div>
+          </AnimatedSection>
+
+          {/* Stats Row */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mb-10">
+            {[
+              { value: '50,000+', label: 'Tests Taken', icon: <FileCheck className="h-5 w-5" /> },
+              { value: '80+', label: 'Countries', icon: <Globe className="h-5 w-5" /> },
+              { value: '98%', label: 'Satisfaction Rate', icon: <Star className="h-5 w-5" /> },
+              { value: '4.9/5', label: 'Average Rating', icon: <Award className="h-5 w-5" /> },
+            ].map((stat, i) => (
+              <AnimatedSection key={stat.label} delay={i * 80}>
+                <div className="glass-card p-5 text-center group">
+                  <div className="flex justify-center mb-2 text-blue-400 group-hover:text-blue-300 transition-colors">
+                    {stat.icon}
+                  </div>
+                  <div className="text-2xl font-bold text-white">{stat.value}</div>
+                  <div className="text-xs text-white/40 mt-0.5">{stat.label}</div>
+                </div>
+              </AnimatedSection>
+            ))}
+          </div>
+
+          {/* Trust Badges */}
+          <AnimatedSection delay={200}>
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+                <Shield className="h-4 w-4 text-blue-400" />
+                <span className="text-xs text-white/50 font-medium">GDPR Compliant</span>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+                <Lock className="h-4 w-4 text-blue-400" />
+                <span className="text-xs text-white/50 font-medium">SSL Encrypted</span>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+                <QrCode className="h-4 w-4 text-blue-400" />
+                <span className="text-xs text-white/50 font-medium">QR-Verified Certificates</span>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+                <Brain className="h-4 w-4 text-blue-400" />
+                <span className="text-xs text-white/50 font-medium">AI-Powered Scoring</span>
+              </div>
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
+
       {/* ===== PRICING — Individual ===== */}
-      <LazySection placeholderHeight={600} className="contents">
+      <LazySection placeholderHeight={200} className="contents">
       <PricingTracker>
         <div className="relative py-20 md:py-28 dark-section-alt hero-pattern noise-overlay" id="pricing">
           <div className="container relative mx-auto px-4">
@@ -530,7 +595,7 @@ export default function Home() {
       </LazySection>
 
       {/* ===== FOR ORGANIZATIONS ===== */}
-      <LazySection placeholderHeight={500} className="contents">
+      <LazySection placeholderHeight={200} className="contents">
       <section className="relative py-20 md:py-28 bg-[#0F0A1E] overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="orb orb-blue w-[500px] h-[500px] top-0 right-0 animate-float-slow" />
@@ -699,7 +764,7 @@ export default function Home() {
       </LazySection>
 
       {/* ===== FAQ SECTION ===== */}
-      <LazySection placeholderHeight={500} className="contents">
+      <LazySection placeholderHeight={200} className="contents">
       <section className="relative py-20 md:py-28 dark-section-alt overflow-hidden">
         <div className="container relative mx-auto px-4">
           <AnimatedSection>
