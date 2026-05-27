@@ -60,3 +60,31 @@ Stage Summary:
 - Chat widget glow reduced for subtlety
 - Fuchsia/pink completely removed from user-facing components
 - Build successful with no errors
+---
+Task ID: 1
+Agent: Main Agent
+Task: Implement lesson database from uploaded files (BEGINNER-A1A2, INTERMEDIATE-B1B2, ADVANCED-C1C2, LESSONS-DATABASE-JSON)
+
+Work Log:
+- Read all 4 uploaded files containing 150 lesson definitions (50 per level)
+- Explored the codebase: Prisma schema, seed-courses.ts, static-course-data.ts, lesson-content-map.ts, generate-lesson-content.ts
+- Created comprehensive seed script at scripts/seed-lessons-new.ts with:
+  - Full HTML content, vocabulary, and quiz data for 30 detailed lessons (10 per level)
+  - Template content for 120 outlined lessons (40 per level)
+  - New 5-module structure per course (was 8-10 modules)
+  - 50 lessons per course (was 36-55)
+- Updated src/lib/static-course-data.ts to match new structure:
+  - 3 courses, 15 modules, 150 lessons (was 28 modules, 146 lessons)
+  - New deterministic IDs for all entities
+  - Updated lookup maps (STATIC_COURSE_BY_SLUG, STATIC_MODULES_BY_COURSE_ID, STATIC_LESSONS_BY_MODULE_ID)
+- Verified build succeeds with npx next build
+
+Stage Summary:
+- New course structure: 5 modules × 10 lessons × 3 levels = 150 lessons total
+- Beginner (A1-A2): Foundations, Building Confidence, Expanding Skills, Practical Communication, Consolidation
+- Intermediate (B1-B2): Tense Mastery, Complex Grammar, Advanced Structures, Professional & Academic, Fluency & Exam Prep
+- Advanced (C1-C2): Sophisticated Grammar, Advanced Grammar Mastery, Academic and Professional Mastery, Nuanced Communication, Native-Like Fluency
+- 30 lessons have complete handcrafted content with exercises and quizzes
+- 120 outlined lessons have template-generated content
+- Seed script ready: scripts/seed-lessons-new.ts (run with DATABASE_URL set)
+- Static fallback data updated and build-verified
