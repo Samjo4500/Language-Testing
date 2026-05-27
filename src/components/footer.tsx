@@ -11,12 +11,12 @@ export function Footer() {
           {/* Brand */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3.5 mb-4">
-              <img src="/logo-icon.svg" alt="CEFR Test" className="h-10 w-10 sm:h-12 sm:w-12" />
+              <img src="/logo-icon.svg" alt="CEFR Test" className="h-12 w-12 sm:h-14 sm:w-14" />
               <div className="flex flex-col">
-                <span className="text-white font-bold text-base sm:text-lg tracking-tight leading-tight">
+                <span className="text-white font-bold text-lg sm:text-xl tracking-tight leading-tight">
                   test<span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">cefr</span><span className="text-blue-300">.com</span>
                 </span>
-                <span className="text-white/60 text-[10px] uppercase tracking-[0.2em] leading-tight">English Assessment</span>
+                <span className="text-white/60 text-[11px] uppercase tracking-[0.2em] leading-tight">English Assessment</span>
               </div>
             </div>
             <p className="text-sm text-white/60 leading-relaxed mb-4">
@@ -241,8 +241,8 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="mt-8 pt-6 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <img src="/logo-icon.svg" alt="CEFR Test" className="h-9 w-9" />
-            <span className="text-white font-semibold text-sm">
+            <img src="/logo-icon.svg" alt="CEFR Test" className="h-10 w-10" />
+            <span className="text-white font-semibold text-base">
               test<span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">cefr</span><span className="text-blue-300">.com</span>
             </span>
           </div>

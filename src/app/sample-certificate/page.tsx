@@ -115,7 +115,7 @@ export default function SampleCertificatePage() {
 
                   {/* Logo area */}
                   <div className="flex items-center justify-center gap-3">
-                    <img src="/logo-icon.svg" alt="CEFR Test" className="h-9 w-9" />
+                    <img src="/logo-icon.svg" alt="CEFR Test" className="h-11 w-11" />
                     <div className="flex flex-col">
                       <span className="text-white font-bold text-base tracking-tight leading-tight">
                         test<span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">cefr</span><span className="text-purple-300">.com</span>

@@ -112,18 +112,18 @@ export function Navbar() {
           : 'bg-[#0F0A1E]/40 backdrop-blur-sm border-b border-white/[0.02] py-2'
       }`}
     >
-      <div className="container mx-auto flex h-14 items-center justify-between px-4">
+      <div className="container mx-auto flex h-16 items-center justify-between px-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 shrink-0 group">
           <div className="relative transition-transform duration-300 group-hover:scale-105">
             <div className="absolute inset-0 bg-blue-500/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <img src="/logo-icon.svg" alt="CEFR Test" className="h-10 w-10 sm:h-12 sm:w-12 relative" />
+            <img src="/logo-icon.svg" alt="CEFR Test" className="h-12 w-12 sm:h-16 sm:w-16 relative" />
           </div>
           <div className="flex flex-col">
-            <span className="text-white font-bold text-base sm:text-lg tracking-tight leading-tight group-hover:text-blue-200 transition-colors">
+            <span className="text-white font-bold text-lg sm:text-xl tracking-tight leading-tight group-hover:text-blue-200 transition-colors">
               test<span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">cefr</span><span className="text-blue-300/80">.com</span>
             </span>
-            <span className="text-white/30 text-[9px] sm:text-[10px] uppercase tracking-[0.25em] leading-tight hidden sm:block">
+            <span className="text-white/30 text-[10px] sm:text-[11px] uppercase tracking-[0.25em] leading-tight hidden sm:block">
               AI Language Assessment
             </span>
           </div>
@@ -461,7 +461,7 @@ export function Navbar() {
       {/* Mobile backdrop overlay */}
       {mobileMenuOpen && (
         <div
-          className="lg:hidden fixed inset-0 top-14 bg-black/70 backdrop-blur-sm z-40"
+          className="lg:hidden fixed inset-0 top-16 bg-black/70 backdrop-blur-sm z-40"
           onClick={() => setMobileMenuOpen(false)}
         />
       )}
