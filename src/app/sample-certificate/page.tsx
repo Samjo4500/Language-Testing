@@ -18,7 +18,7 @@ import { useEffect, useRef } from 'react';
 import { useHydrated } from '@/hooks/use-hydrated';
 
 const SKILLS = [
-  { name: 'Grammar', value: 85, color: 'from-purple-400 to-pink-500' },
+  { name: 'Grammar', value: 85, color: 'from-blue-400 to-indigo-500' },
   { name: 'Vocabulary', value: 78, color: 'from-cyan-400 to-blue-500' },
   { name: 'Reading', value: 82, color: 'from-blue-400 to-cyan-500' },
   { name: 'Listening', value: 75, color: 'from-green-400 to-emerald-500' },
@@ -103,7 +103,7 @@ export default function SampleCertificatePage() {
           <div className="max-w-3xl mx-auto scroll-animate purple-glow" ref={addScrollRef(3)}>
             <div className="glass-card p-2 md:p-3">
               {/* Gradient border wrapper */}
-              <div className="p-[2px] rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500">
+              <div className="p-[2px] rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500">
                 {/* Inner certificate content */}
                 <div className="bg-[#0F0A1E] rounded-2xl p-6 md:p-8 space-y-6">
                   {/* Top header */}
@@ -118,7 +118,7 @@ export default function SampleCertificatePage() {
                     <img src="/logo-icon.svg" alt="CEFR Test" className="h-11 w-11" />
                     <div className="flex flex-col">
                       <span className="text-white font-bold text-base tracking-tight leading-tight">
-                        test<span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">cefr</span><span className="text-purple-300">.com</span>
+                        test<span className="bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent">cefr</span><span className="text-purple-300">.com</span>
                       </span>
                       <span className="text-white/40 text-[9px] uppercase tracking-[0.2em] leading-tight">
                         English Assessment
@@ -140,7 +140,7 @@ export default function SampleCertificatePage() {
 
                   {/* Level circle */}
                   <div className="flex justify-center">
-                    <div className="h-20 w-20 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/30 animate-pulse-glow">
+                    <div className="h-20 w-20 rounded-full bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center shadow-lg shadow-blue-500/30 animate-pulse-glow">
                       <span className="text-white text-2xl font-bold">B2</span>
                     </div>
                   </div>
@@ -253,7 +253,7 @@ export default function SampleCertificatePage() {
           <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {/* QR Verified */}
             <div className="glass-card p-6 text-center scroll-animate" ref={addScrollRef(6)}>
-              <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-500/20 mb-4">
+              <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 border border-blue-500/20 mb-4">
                 <QrCode className="h-7 w-7 text-purple-400" />
               </div>
               <h3 className="text-lg font-semibold text-white mb-2">QR Verified</h3>
@@ -292,7 +292,7 @@ export default function SampleCertificatePage() {
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto scroll-animate" ref={addScrollRef(9)}>
             <div className="glass-card p-8 md:p-12 text-center">
-              <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-500/20 mb-6">
+              <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-gradient-to-br from-blue-500/20 to-indigo-500/20 border border-blue-500/20 mb-6">
                 <Star className="h-8 w-8 text-purple-400" />
               </div>
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
@@ -302,7 +302,7 @@ export default function SampleCertificatePage() {
                 Complete a CEFR assessment and receive your personalized, verifiable certificate in minutes.
               </p>
               <Link href="/register">
-                <button className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 cursor-pointer">
+                <button className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 cursor-pointer">
                   <Sparkles className="h-4 w-4" />
                   Register Now
                   <ArrowRight className="h-4 w-4" />

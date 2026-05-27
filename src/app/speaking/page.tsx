@@ -85,8 +85,8 @@ export default function SpeakingPage() {
           <div className="mx-auto max-w-4xl text-center">
             {/* Speaking Assessment Badge - floating animation */}
             <div className="animate-float inline-flex items-center gap-2 rounded-full glass-light px-5 py-2 mb-8 animate-border-glow">
-              <Mic className="h-4 w-4 text-purple-300" />
-              <span className="text-sm text-purple-200 font-medium">Speaking Assessment</span>
+              <Mic className="h-4 w-4 text-blue-300" />
+              <span className="text-sm text-blue-200 font-medium">Speaking Assessment</span>
               <span className="flex h-2 w-2 rounded-full bg-green-400 animate-pulse" />
             </div>
 
@@ -157,8 +157,8 @@ export default function SpeakingPage() {
           <AnimatedSection>
             <div className="text-center mb-14">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <Brain className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Advanced AI Technology</span>
+                <Brain className="h-3.5 w-3.5 text-blue-400" />
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Advanced AI Technology</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
                 Speaking Assessment Features
@@ -181,7 +181,7 @@ export default function SpeakingPage() {
                 icon: <Mic className="h-6 w-6" />,
                 title: 'Pronunciation Scoring',
                 desc: 'Receive precise scores for individual phonemes, word stress, and sentence-level intonation, mapped to CEFR proficiency descriptors.',
-                gradient: 'from-pink-500 to-rose-500',
+                gradient: 'from-blue-500 to-indigo-500',
               },
               {
                 icon: <Activity className="h-6 w-6" />,
@@ -216,8 +216,8 @@ export default function SpeakingPage() {
           <AnimatedSection>
             <div className="text-center mb-14">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <CirclePlay className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Simple Process</span>
+                <CirclePlay className="h-3.5 w-3.5 text-blue-400" />
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Simple Process</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
                 How It Works
@@ -287,8 +287,8 @@ export default function SpeakingPage() {
           <AnimatedSection>
             <div className="text-center mb-14">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <Mic className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Sample Prompts</span>
+                <Mic className="h-3.5 w-3.5 text-blue-400" />
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Sample Prompts</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
                 Speaking Practice Examples
@@ -309,7 +309,7 @@ export default function SpeakingPage() {
                 </div>
                 <div className="rounded-xl bg-white/[0.03] border border-white/5 p-5 mb-4">
                   <p className="text-white/70 text-sm leading-relaxed">
-                    <span className="text-purple-400 font-medium">Prompt:</span> Record yourself introducing who you are. Talk about your name, where you live, what you do, and one hobby you enjoy. Speak for 30&ndash;60 seconds.
+                    <span className="text-blue-400 font-medium">Prompt:</span> Record yourself introducing who you are. Talk about your name, where you live, what you do, and one hobby you enjoy. Speak for 30&ndash;60 seconds.
                   </p>
                 </div>
                 <div className="space-y-2">
@@ -332,7 +332,7 @@ export default function SpeakingPage() {
                 </div>
                 <div className="rounded-xl bg-white/[0.03] border border-white/5 p-5 mb-4">
                   <p className="text-white/70 text-sm leading-relaxed">
-                    <span className="text-purple-400 font-medium">Prompt:</span> Some cities have banned cars from their city centers to reduce pollution and congestion. Do you think this is a good idea? Give reasons for your opinion and address potential counterarguments. Speak for 1&ndash;2 minutes.
+                    <span className="text-blue-400 font-medium">Prompt:</span> Some cities have banned cars from their city centers to reduce pollution and congestion. Do you think this is a good idea? Give reasons for your opinion and address potential counterarguments. Speak for 1&ndash;2 minutes.
                   </p>
                 </div>
                 <div className="space-y-2">
@@ -350,19 +350,19 @@ export default function SpeakingPage() {
             <AnimatedSection delay={300}>
               <div className="glass-card p-6 group">
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-red-500/20 text-red-400 text-xs font-bold border border-red-500/30">C1</span>
+                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-400 text-xs font-bold border border-indigo-500/30">C1</span>
                   <h3 className="text-white font-semibold">Abstract Topic Discussion</h3>
                 </div>
                 <div className="rounded-xl bg-white/[0.03] border border-white/5 p-5 mb-4">
                   <p className="text-white/70 text-sm leading-relaxed">
-                    <span className="text-purple-400 font-medium">Prompt:</span> Discuss the following statement: &ldquo;The measure of a civilization is how it treats its most vulnerable members.&rdquo; Explore different interpretations of this idea, provide concrete examples from your knowledge, and explain whether you agree or disagree. Speak for 2&ndash;3 minutes.
+                    <span className="text-blue-400 font-medium">Prompt:</span> Discuss the following statement: &ldquo;The measure of a civilization is how it treats its most vulnerable members.&rdquo; Explore different interpretations of this idea, provide concrete examples from your knowledge, and explain whether you agree or disagree. Speak for 2&ndash;3 minutes.
                   </p>
                 </div>
                 <div className="space-y-2">
                   <p className="text-white/40 text-xs font-medium uppercase tracking-wider">What the AI evaluates:</p>
                   <div className="flex flex-wrap gap-2">
                     {['Sophisticated argumentation', 'Abstract vocabulary & idioms', 'Nuanced intonation & emphasis', 'Fluency with complex ideas', 'Rhetorical structure', 'Spontaneous cohesion'].map((skill, i) => (
-                      <span key={i} className="px-2.5 py-1 rounded-lg bg-red-500/10 text-red-300 text-xs border border-red-500/20">{skill}</span>
+                      <span key={i} className="px-2.5 py-1 rounded-lg bg-indigo-500/10 text-indigo-300 text-xs border border-indigo-500/20">{skill}</span>
                     ))}
                   </div>
                 </div>
@@ -388,8 +388,8 @@ export default function SpeakingPage() {
             <div className="max-w-3xl mx-auto">
               <div className="glass-card p-10 md:p-14">
                 <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-6 animate-pulse-glow">
-                  <Sparkles className="h-4 w-4 text-purple-300" />
-                  <span className="text-sm text-purple-200 font-medium">Speaking Assessment</span>
+                  <Sparkles className="h-4 w-4 text-blue-300" />
+                  <span className="text-sm text-blue-200 font-medium">Speaking Assessment</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
                   Ready to Test Your <span className="gradient-text-static">Speaking</span>?

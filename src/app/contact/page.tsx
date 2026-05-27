@@ -58,7 +58,7 @@ function BackgroundOrbs() {
       <div className="orb orb-blue w-[250px] h-[250px] bottom-16 left-1/4 animate-float" />
       {/* Small accent dots */}
       <div className="absolute top-1/4 left-1/2 w-2 h-2 rounded-full bg-purple-400/40 animate-float delay-200" />
-      <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 rounded-full bg-pink-400/30 animate-float-reverse delay-500" />
+      <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 rounded-full bg-blue-400/30 animate-float-reverse delay-500" />
       <div className="absolute bottom-1/3 left-1/3 w-2.5 h-2.5 rounded-full bg-blue-400/30 animate-float delay-300" />
     </div>
   );
@@ -166,7 +166,7 @@ export default function ContactPage() {
               <AnimatedSection delay={100}>
                 <div className="glass-card p-6 group">
                   <div className="flex items-start gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-purple-400 to-pink-400 text-white shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-400 to-violet-400 text-white shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
                       <Mail className="h-5 w-5" />
                     </div>
                     <div>
@@ -215,7 +215,7 @@ export default function ContactPage() {
             <AnimatedSection delay={150}>
               <div className="glass-card p-8">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 text-white shadow-lg">
                     <Send className="h-4 w-4" />
                   </div>
                   <div>
@@ -293,7 +293,7 @@ export default function ContactPage() {
                           onClick={() => setFormAccountType(opt.value)}
                           className={`px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 ${
                             formAccountType === opt.value
-                              ? 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-white border border-purple-500/30 shadow-lg shadow-purple-500/10'
+                              ? 'bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-white border border-blue-500/30 shadow-lg shadow-blue-500/10'
                               : 'text-white/50 hover:text-white hover:bg-white/5 border border-white/10'
                           }`}
                         >
@@ -337,7 +337,7 @@ export default function ContactPage() {
                   <button
                     type="submit"
                     disabled={formSubmitting}
-                    className="group w-full flex items-center justify-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                    className="group w-full flex items-center justify-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                   >
                     {formSubmitting ? (
                       <>
@@ -381,7 +381,7 @@ export default function ContactPage() {
             {/* FAQ 1 */}
             <AnimatedSection delay={100}>
               <div className="glass-card p-6 h-full group">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-purple-400 to-pink-400 text-white shadow-lg mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-400 to-violet-400 text-white shadow-lg mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
                   <Sparkles className="h-5 w-5" />
                 </div>
                 <h3 className="text-lg font-semibold text-white mb-2">How accurate is the CEFR test?</h3>

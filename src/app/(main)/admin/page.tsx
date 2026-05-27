@@ -108,8 +108,8 @@ const CEFR_COLORS_DARK: Record<string, string> = {
   A2: 'bg-green-500/20 text-green-400 border-green-500/30',
   B1: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
   B2: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
-  C1: 'bg-red-500/20 text-red-400 border-red-500/30',
-  C2: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
+  C1: 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30',
+  C2: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
 };
 
 const CEFR_PIE_COLORS: Record<string, string> = {
@@ -385,7 +385,7 @@ function EmailsTab({ notifUnread, onSwitchTab }: { notifUnread: number; onSwitch
         <div className="glass-card p-4 border border-purple-500/30 bg-purple-500/[0.08]">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 text-white shadow-lg">
                 <BellRing className="h-4 w-4" />
               </div>
               <div>
@@ -782,7 +782,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
               onClick={() => setSubTab(tab.id)}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-300 ${
                 isActive
-                  ? 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-white border border-purple-500/30 shadow-lg shadow-purple-500/10'
+                  ? 'bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-white border border-blue-500/30 shadow-lg shadow-blue-500/10'
                   : 'text-white/50 hover:text-white hover:bg-white/5 border border-transparent'
               }`}
             >
@@ -889,14 +889,14 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
             <StatCard icon={CheckCircle2} label="Completed" value={apisData?.assessmentStats.completedAssessments ?? '—'} gradient="from-green-500 to-emerald-600" />
             <StatCard icon={Clock} label="In Progress" value={apisData?.assessmentStats.inProgressAssessments ?? '—'} gradient="from-yellow-500 to-orange-600" />
             <StatCard icon={Timer} label="Avg Time" value={apisData?.assessmentStats.avgCompletionMinutes ? `${apisData.assessmentStats.avgCompletionMinutes}m` : '—'} gradient="from-cyan-500 to-blue-600" />
-            <StatCard icon={TrendingUp} label="Today" value={apisData?.assessmentStats.todayAssessments ?? '—'} gradient="from-pink-500 to-rose-600" />
+            <StatCard icon={TrendingUp} label="Today" value={apisData?.assessmentStats.todayAssessments ?? '—'} gradient="from-blue-500 to-indigo-600" />
           </div>
 
           {/* CEFR Distribution */}
           {apisData?.assessmentStats.cefrDistribution && apisData.assessmentStats.cefrDistribution.length > 0 && (
             <div className="glass-card p-5">
               <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-                <TrendingUp className="h-4 w-4 text-pink-400" />
+                <TrendingUp className="h-4 w-4 text-blue-400" />
                 CEFR Level Distribution
               </h3>
               <div className="h-64">
@@ -975,7 +975,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
             </h3>
             <Button
               onClick={() => { setGenerateDialogOpen(true); setNewlyCreatedKey(null); }}
-              className="bg-gradient-to-r from-purple-600 to-pink-500 text-white hover:from-purple-500 hover:to-pink-400 shadow-lg shadow-purple-500/20"
+              className="bg-gradient-to-r from-blue-600 to-blue-500 text-white hover:from-blue-500 hover:to-blue-400 shadow-lg shadow-blue-500/20"
             >
               <Key className="h-4 w-4 mr-2" />
               Generate API Key
@@ -1201,7 +1201,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
                   <Button
                     onClick={handleGenerateKey}
                     disabled={generating || !newKeyName.trim()}
-                    className="bg-gradient-to-r from-purple-600 to-pink-500 text-white hover:from-purple-500 hover:to-pink-400"
+                    className="bg-gradient-to-r from-blue-600 to-blue-500 text-white hover:from-blue-500 hover:to-blue-400"
                   >
                     {generating ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Key className="h-4 w-4 mr-2" />}
                     Generate Key
@@ -1343,7 +1343,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
                     <Button
                       onClick={handleSaveWhiteLabel}
                       disabled={wlSaving}
-                      className="bg-gradient-to-r from-purple-600 to-pink-500 text-white hover:from-purple-500 hover:to-pink-400"
+                      className="bg-gradient-to-r from-blue-600 to-blue-500 text-white hover:from-blue-500 hover:to-blue-400"
                     >
                       {wlSaving ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <CheckCircle2 className="h-4 w-4 mr-2" />}
                       Save Configuration
@@ -1619,7 +1619,7 @@ function GovernanceTab({
               onClick={() => setSubTab(tab.id)}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-300 ${
                 isActive
-                  ? 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-white border border-purple-500/30 shadow-lg shadow-purple-500/10'
+                  ? 'bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-white border border-blue-500/30 shadow-lg shadow-blue-500/10'
                   : 'text-white/50 hover:text-white hover:bg-white/5 border border-transparent'
               }`}
             >
@@ -2610,13 +2610,13 @@ export default function AdminPage() {
               </p>
               {isAuthenticated ? (
                 <Link href="/dashboard">
-                  <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer">
+                  <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25 cursor-pointer">
                     Go to Dashboard
                   </button>
                 </Link>
               ) : (
                 <Link href="/login">
-                  <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer">
+                  <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25 cursor-pointer">
                     Sign in
                   </button>
                 </Link>
@@ -2662,7 +2662,7 @@ export default function AdminPage() {
                     <Bell className="h-5 w-5" />
                   )}
                   {notifUnread > 0 && (
-                    <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white text-[10px] font-bold shadow-lg shadow-purple-500/30">
+                    <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-[10px] font-bold shadow-lg shadow-blue-500/30">
                       {notifUnread > 9 ? '9+' : notifUnread}
                     </span>
                   )}
@@ -2673,7 +2673,7 @@ export default function AdminPage() {
                   <>
                     {/* Backdrop */}
                     <div className="fixed inset-0 z-40" onClick={() => setNotifOpen(false)} />
-                    <div className="absolute right-0 top-12 z-50 w-80 sm:w-96 glass-card p-0 overflow-hidden shadow-2xl shadow-purple-500/10 border border-white/10 animate-slide-up">
+                    <div className="absolute right-0 top-12 z-50 w-80 sm:w-96 glass-card p-0 overflow-hidden shadow-2xl shadow-blue-500/10 border border-white/10 animate-slide-up">
                       {/* Header */}
                       <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-white/[0.02]">
                         <h4 className="text-white font-semibold text-sm flex items-center gap-2">
@@ -2790,14 +2790,14 @@ export default function AdminPage() {
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-300 ${
                     isActive
-                      ? 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-white border border-purple-500/30 shadow-lg shadow-purple-500/10'
+                      ? 'bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-white border border-blue-500/30 shadow-lg shadow-blue-500/10'
                       : 'text-white/50 hover:text-white hover:bg-white/5 border border-transparent'
                   }`}
                 >
                   <Icon className="h-4 w-4" />
                   {tab.label}
                   {tab.id === 'emails' && notifUnread > 0 && (
-                    <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white text-[10px] font-bold px-1">
+                    <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-[10px] font-bold px-1">
                       {notifUnread > 9 ? '9+' : notifUnread}
                     </span>
                   )}
@@ -2881,7 +2881,7 @@ export default function AdminPage() {
                 {/* CEFR Distribution */}
                 <div className="glass-card p-5">
                   <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-                    <TrendingUp className="h-4 w-4 text-pink-400" />
+                    <TrendingUp className="h-4 w-4 text-blue-400" />
                     CEFR Distribution
                   </h3>
                   {analyticsLoading ? (
@@ -2926,7 +2926,7 @@ export default function AdminPage() {
                       {[
                         { label: 'Visitors', value: analytics.conversionFunnel.visitors, color: 'from-blue-500 to-cyan-500', pct: 100 },
                         { label: 'Signups', value: analytics.conversionFunnel.signups, color: 'from-purple-500 to-indigo-500', pct: analytics.conversionFunnel.visitors ? Math.round((analytics.conversionFunnel.signups / analytics.conversionFunnel.visitors) * 100) : 0 },
-                        { label: 'Assessments', value: analytics.conversionFunnel.assessments, color: 'from-pink-500 to-rose-500', pct: analytics.conversionFunnel.visitors ? Math.round((analytics.conversionFunnel.assessments / analytics.conversionFunnel.visitors) * 100) : 0 },
+                        { label: 'Assessments', value: analytics.conversionFunnel.assessments, color: 'from-blue-500 to-indigo-500', pct: analytics.conversionFunnel.visitors ? Math.round((analytics.conversionFunnel.assessments / analytics.conversionFunnel.visitors) * 100) : 0 },
                         { label: 'Certificates', value: analytics.conversionFunnel.certificates, color: 'from-green-500 to-emerald-500', pct: analytics.conversionFunnel.visitors ? Math.round((analytics.conversionFunnel.certificates / analytics.conversionFunnel.visitors) * 100) : 0 },
                       ].map((item) => (
                         <div key={item.label}>
@@ -3038,7 +3038,7 @@ export default function AdminPage() {
                     </button>
                     <button
                       onClick={() => setDemoDialogOpen(true)}
-                      className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-pink-500 text-white text-sm font-medium hover:from-purple-500 hover:to-pink-400 transition-all shadow-lg shadow-purple-500/20 cursor-pointer"
+                      className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 text-white text-sm font-medium hover:from-blue-500 hover:to-blue-400 transition-all shadow-lg shadow-blue-500/20 cursor-pointer"
                     >
                       <UserCog className="h-4 w-4" />
                       Demo Accounts
@@ -3088,7 +3088,7 @@ export default function AdminPage() {
                           <tr key={u.id} className={`border-b border-white/5 hover:bg-white/[0.02] transition-colors ${u.isSuspended ? 'opacity-60 bg-red-500/[0.03]' : ''}`}>
                             <td className="py-3 px-4">
                               <div className="flex items-center gap-2">
-                                <div className={`h-8 w-8 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0 ${u.isSuspended ? 'bg-gradient-to-br from-red-400 to-red-600' : 'bg-gradient-to-br from-purple-400 to-pink-400'}`}>
+                                <div className={`h-8 w-8 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0 ${u.isSuspended ? 'bg-gradient-to-br from-red-400 to-red-600' : 'bg-gradient-to-br from-blue-400 to-violet-400'}`}>
                                   {(u.name || u.email)[0].toUpperCase()}
                                 </div>
                                 <div className="min-w-0">
@@ -3186,7 +3186,7 @@ export default function AdminPage() {
                     <DialogTitle className="text-white flex items-center gap-3">
                       {selectedUser && (
                         <>
-                          <div className="h-10 w-10 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white text-sm font-bold">
+                          <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-400 to-violet-400 flex items-center justify-center text-white text-sm font-bold">
                             {(selectedUser.name || selectedUser.email)[0].toUpperCase()}
                           </div>
                           <div>
@@ -3261,7 +3261,7 @@ export default function AdminPage() {
                               }}
                               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
                                 isActive
-                                  ? 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-white border border-purple-500/30'
+                                  ? 'bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-white border border-blue-500/30'
                                   : 'text-white/50 hover:text-white hover:bg-white/5 border border-transparent'
                               }`}
                             >
@@ -3840,7 +3840,7 @@ export default function AdminPage() {
                     )}
                   </div>
                   <div className="flex justify-end gap-2">
-                    <Button onClick={handleCreateDemoUsers} disabled={creatingDemo} className="bg-gradient-to-r from-purple-600 to-pink-500 text-white gap-1.5">
+                    <Button onClick={handleCreateDemoUsers} disabled={creatingDemo} className="bg-gradient-to-r from-blue-600 to-blue-500 text-white gap-1.5">
                       {creatingDemo ? <Loader2 className="h-4 w-4 animate-spin" /> : <UserPlus className="h-4 w-4" />}
                       Create
                     </Button>
@@ -4164,7 +4164,7 @@ export default function AdminPage() {
                   </Button>
                   <Button
                     onClick={() => setDialogOpen(true)}
-                    className="bg-gradient-to-r from-purple-600 to-pink-500 text-white gap-1.5"
+                    className="bg-gradient-to-r from-blue-600 to-blue-500 text-white gap-1.5"
                   >
                     <BookOpen className="h-4 w-4" />
                     Fill Question Bank
@@ -4353,7 +4353,7 @@ export default function AdminPage() {
                     <Button
                       onClick={handleBatchGenerate}
                       disabled={generating || !selectedLevels.length || !selectedSkills.length}
-                      className="bg-gradient-to-r from-purple-600 to-pink-500 text-white gap-1.5"
+                      className="bg-gradient-to-r from-blue-600 to-blue-500 text-white gap-1.5"
                     >
                       {generating ? (
                         <><Loader2 className="h-4 w-4 animate-spin" /> Generating...</>
@@ -4453,7 +4453,7 @@ export default function AdminPage() {
                 {/* AI Service */}
                 <div className="glass-card p-5">
                   <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-                    <Cpu className="h-4 w-4 text-pink-400" />
+                    <Cpu className="h-4 w-4 text-blue-400" />
                     AI Service
                   </h3>
                   <div className="space-y-3">
@@ -4525,7 +4525,7 @@ export default function AdminPage() {
                         <p className="text-xs text-white/40 mb-1">{item.label}</p>
                         <p className="text-xl font-bold text-white">{item.value} MB</p>
                         <div className="mt-2 h-1.5 rounded-full bg-white/5 overflow-hidden">
-                          <div className="h-full rounded-full bg-gradient-to-r from-purple-500 to-pink-500" style={{ width: `${Math.min((item.value / Math.max(item.total, 1)) * 100, 100)}%` }} />
+                          <div className="h-full rounded-full bg-gradient-to-r from-blue-500 to-indigo-500" style={{ width: `${Math.min((item.value / Math.max(item.total, 1)) * 100, 100)}%` }} />
                         </div>
                       </div>
                     ))}
@@ -4673,7 +4673,7 @@ export default function AdminPage() {
                 <div className="glass-card p-5 hover:border-purple-500/30 transition-colors">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 text-white shadow-lg">
                         <MousePointerClick className="h-5 w-5" />
                       </div>
                       <div>
@@ -4709,7 +4709,7 @@ export default function AdminPage() {
                     href="https://app.posthog.com/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-sm font-medium transition-all cursor-pointer"
+                    className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white text-sm font-medium transition-all cursor-pointer"
                   >
                     <ExternalLink className="h-4 w-4" />
                     Open PostHog

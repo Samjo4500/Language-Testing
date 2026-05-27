@@ -118,7 +118,7 @@ export function AdminNotificationBell() {
           <Bell className="h-5 w-5" />
         )}
         {unreadCount > 0 && (
-          <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white text-[10px] font-bold shadow-lg shadow-purple-500/30">
+          <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-[10px] font-bold shadow-lg shadow-blue-500/30">
             {unreadCount > 9 ? '9+' : unreadCount}
           </span>
         )}

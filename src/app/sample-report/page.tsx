@@ -97,9 +97,9 @@ const CEFR_LEVELS: Record<string, {
   },
   C1: {
     title: 'Advanced',
-    gradient: 'from-red-500 to-red-600',
-    textColor: 'text-red-400',
-    barColor: 'from-red-400 to-rose-500',
+    gradient: 'from-indigo-500 to-indigo-600',
+    textColor: 'text-indigo-400',
+    barColor: 'from-indigo-400 to-indigo-500',
     description: 'You can understand a wide range of demanding, longer texts, and recognize implicit meaning. You can express ideas fluently and spontaneously without much obvious searching for expressions. You can use language flexibly and effectively for social, academic, and professional purposes.',
     canDo: [
       'Understand demanding texts and recognize implicit meaning',
@@ -111,9 +111,9 @@ const CEFR_LEVELS: Record<string, {
   },
   C2: {
     title: 'Proficient',
-    gradient: 'from-purple-500 to-purple-600',
-    textColor: 'text-purple-400',
-    barColor: 'from-purple-400 to-pink-500',
+    gradient: 'from-blue-500 to-blue-600',
+    textColor: 'text-blue-400',
+    barColor: 'from-blue-400 to-indigo-500',
     description: 'You can understand with ease virtually everything heard or read. You can summarize information from different spoken and written sources, reconstructing arguments and accounts in a coherent presentation. You can express yourself spontaneously, very fluently and precisely.',
     canDo: [
       'Understand virtually everything heard or read with ease',
@@ -139,7 +139,7 @@ const SKILL_COLORS: Record<string, string> = {
   writing: 'from-violet-400 to-purple-500',
   listening: 'from-green-400 to-emerald-500',
   speaking: 'from-orange-400 to-amber-500',
-  grammar: 'from-purple-400 to-pink-500',
+  grammar: 'from-blue-400 to-indigo-500',
   vocabulary: 'from-cyan-400 to-blue-500',
 };
 
@@ -311,7 +311,7 @@ export default function SampleReportPage() {
       <Navbar />
 
       {/* ── Sample Banner ── */}
-      <div className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 border-b border-purple-500/20">
+      <div className="bg-gradient-to-r from-blue-600/20 to-indigo-600/20 border-b border-blue-500/20">
         <div className="container mx-auto px-4 py-2.5 flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
           <Eye className="h-4 w-4 text-purple-300" />
           <span className="text-xs sm:text-sm text-purple-200 font-medium">Sample Report Preview</span>
@@ -327,7 +327,7 @@ export default function SampleReportPage() {
           <div className="glass-card p-6 md:p-8">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
               <div className="flex items-center gap-4">
-                <div className={`h-16 w-16 rounded-2xl bg-gradient-to-br ${levelInfo.gradient} flex items-center justify-center shadow-lg shadow-purple-500/30`}>
+                <div className={`h-16 w-16 rounded-2xl bg-gradient-to-br ${levelInfo.gradient} flex items-center justify-center shadow-lg shadow-blue-500/30`}>
                   <span className="text-white text-2xl font-bold">{DEMO_CERT.cefrLevel}</span>
                 </div>
                 <div>
@@ -499,7 +499,7 @@ export default function SampleReportPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <Link href="/register">
-                <button className="flex items-center gap-2 rounded-xl px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 cursor-pointer">
+                <button className="flex items-center gap-2 rounded-xl px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 cursor-pointer">
                   <RotateCcw className="h-4 w-4" />
                   Start Your Assessment
                 </button>
@@ -544,7 +544,7 @@ export default function SampleReportPage() {
               </div>
               <div className="shrink-0">
                 <Link href="/pricing">
-                  <button className="flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 cursor-pointer whitespace-nowrap">
+                  <button className="flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold transition-all duration-300 shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 cursor-pointer whitespace-nowrap">
                     <Sparkles className="h-4 w-4" />
                     Upgrade to Premium
                     <ArrowRight className="h-4 w-4" />

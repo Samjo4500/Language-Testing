@@ -135,7 +135,7 @@ export default function RegisterPage() {
           <div className="hidden md:block pt-4">
             <div className="flex items-center gap-2.5 text-2xl font-bold text-white mb-6">
               <img src="/logo-icon.svg" alt="CEFR Test" className="h-10 w-10" />
-              <span className="tracking-tight">test<span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">cefr</span><span className="text-purple-300">.com</span></span>
+              <span className="tracking-tight">test<span className="bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent">cefr</span><span className="text-blue-300">.com</span></span>
             </div>
             <h1 className="text-3xl font-bold text-white mb-4">Start your English journey</h1>
             <p className="text-white/50 mb-6">
@@ -150,7 +150,7 @@ export default function RegisterPage() {
                 'Progress tracking across all skills',
               ].map((benefit) => (
                 <li key={benefit} className="flex items-center gap-3 text-sm text-white/70">
-                  <CheckCircle2 className="h-5 w-5 text-purple-400 shrink-0" />
+                  <CheckCircle2 className="h-5 w-5 text-blue-400 shrink-0" />
                   <span>{benefit}</span>
                 </li>
               ))}
@@ -165,11 +165,11 @@ export default function RegisterPage() {
                 onClick={() => setAccountType('individual')}
                 className={`w-full flex items-center gap-3 p-3 rounded-xl border-2 transition-all text-left ${
                   accountType === 'individual'
-                    ? 'border-purple-500 bg-purple-500/10'
-                    : 'border-white/10 hover:border-purple-500/40'
+                    ? 'border-blue-500 bg-blue-500/10'
+                    : 'border-white/10 hover:border-blue-500/40'
                 }`}
               >
-                <User className={`h-5 w-5 shrink-0 ${accountType === 'individual' ? 'text-purple-400' : 'text-white/40'}`} />
+                <User className={`h-5 w-5 shrink-0 ${accountType === 'individual' ? 'text-blue-400' : 'text-white/40'}`} />
                 <div>
                   <p className={`font-semibold text-sm ${accountType === 'individual' ? 'text-white' : 'text-white/70'}`}>
                     Individual Learner
@@ -183,11 +183,11 @@ export default function RegisterPage() {
                 onClick={() => setAccountType('university')}
                 className={`w-full flex items-center gap-3 p-3 rounded-xl border-2 transition-all text-left ${
                   accountType === 'university'
-                    ? 'border-purple-500 bg-purple-500/10'
-                    : 'border-white/10 hover:border-purple-500/40'
+                    ? 'border-blue-500 bg-blue-500/10'
+                    : 'border-white/10 hover:border-blue-500/40'
                 }`}
               >
-                <GraduationCap className={`h-5 w-5 shrink-0 ${accountType === 'university' ? 'text-purple-400' : 'text-white/40'}`} />
+                <GraduationCap className={`h-5 w-5 shrink-0 ${accountType === 'university' ? 'text-blue-400' : 'text-white/40'}`} />
                 <div>
                   <p className={`font-semibold text-sm ${accountType === 'university' ? 'text-white' : 'text-white/70'}`}>
                     University / School
@@ -201,11 +201,11 @@ export default function RegisterPage() {
                 onClick={() => setAccountType('business')}
                 className={`w-full flex items-center gap-3 p-3 rounded-xl border-2 transition-all text-left ${
                   accountType === 'business'
-                    ? 'border-purple-500 bg-purple-500/10'
-                    : 'border-white/10 hover:border-purple-500/40'
+                    ? 'border-blue-500 bg-blue-500/10'
+                    : 'border-white/10 hover:border-blue-500/40'
                 }`}
               >
-                <Building2 className={`h-5 w-5 shrink-0 ${accountType === 'business' ? 'text-purple-400' : 'text-white/40'}`} />
+                <Building2 className={`h-5 w-5 shrink-0 ${accountType === 'business' ? 'text-blue-400' : 'text-white/40'}`} />
                 <div>
                   <p className={`font-semibold text-sm ${accountType === 'business' ? 'text-white' : 'text-white/70'}`}>
                     Business / Corporate
@@ -222,7 +222,7 @@ export default function RegisterPage() {
             <div className="md:hidden flex flex-col items-center mb-6">
               <div className="flex items-center gap-2 text-lg font-bold text-white mb-4">
                 <img src="/logo-icon.svg" alt="CEFR Test" className="h-8 w-8" />
-                <span className="tracking-tight">test<span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">cefr</span><span className="text-purple-300">.com</span></span>
+                <span className="tracking-tight">test<span className="bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent">cefr</span><span className="text-blue-300">.com</span></span>
               </div>
               <div className="flex gap-2 w-full">
                 {[
@@ -236,7 +236,7 @@ export default function RegisterPage() {
                     onClick={() => setAccountType(type)}
                     className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg border-2 text-sm font-medium transition-all ${
                       accountType === type
-                        ? 'border-purple-500 bg-purple-500/10 text-purple-400'
+                        ? 'border-blue-500 bg-blue-500/10 text-blue-400'
                         : 'border-white/10 text-white/50'
                     }`}
                   >
@@ -273,7 +273,7 @@ export default function RegisterPage() {
                     required
                     minLength={2}
                     autoComplete="name"
-                    className="bg-white/5 border-white/10 text-white placeholder-white/30 rounded-xl glow-input focus:border-purple-500/50"
+                    className="bg-white/5 border-white/10 text-white placeholder-white/30 rounded-xl glow-input focus:border-blue-500/50"
                   />
                 </div>
 
@@ -287,7 +287,7 @@ export default function RegisterPage() {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     autoComplete="email"
-                    className="bg-white/5 border-white/10 text-white placeholder-white/30 rounded-xl glow-input focus:border-purple-500/50"
+                    className="bg-white/5 border-white/10 text-white placeholder-white/30 rounded-xl glow-input focus:border-blue-500/50"
                   />
                 </div>
 
@@ -304,7 +304,7 @@ export default function RegisterPage() {
                       value={organizationName}
                       onChange={(e) => setOrganizationName(e.target.value)}
                       required
-                      className="bg-white/5 border-white/10 text-white placeholder-white/30 rounded-xl glow-input focus:border-purple-500/50"
+                      className="bg-white/5 border-white/10 text-white placeholder-white/30 rounded-xl glow-input focus:border-blue-500/50"
                     />
                   </div>
                 )}
@@ -320,7 +320,7 @@ export default function RegisterPage() {
                       onChange={(e) => setPassword(e.target.value)}
                       required
                       autoComplete="new-password"
-                      className="bg-white/5 border-white/10 text-white placeholder-white/30 rounded-xl glow-input focus:border-purple-500/50 pr-10"
+                      className="bg-white/5 border-white/10 text-white placeholder-white/30 rounded-xl glow-input focus:border-blue-500/50 pr-10"
                     />
                     <button
                       type="button"
@@ -343,7 +343,7 @@ export default function RegisterPage() {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     required
                     autoComplete="new-password"
-                    className="bg-white/5 border-white/10 text-white placeholder-white/30 rounded-xl glow-input focus:border-purple-500/50"
+                    className="bg-white/5 border-white/10 text-white placeholder-white/30 rounded-xl glow-input focus:border-blue-500/50"
                   />
                 </div>
 

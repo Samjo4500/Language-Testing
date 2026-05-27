@@ -43,8 +43,8 @@ const MOMENT_TAGS = [
   { value: 'culture', label: 'Culture', color: 'bg-purple-500/20 text-purple-400 border-purple-500/30' },
   { value: 'pronunciation', label: 'Pronunciation', color: 'bg-amber-500/20 text-amber-400 border-amber-500/30' },
   { value: 'idioms', label: 'Idioms', color: 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30' },
-  { value: 'tips', label: 'Tips', color: 'bg-pink-500/20 text-pink-400 border-pink-500/30' },
-  { value: 'question', label: 'Question', color: 'bg-red-500/20 text-red-400 border-red-500/30' },
+  { value: 'tips', label: 'Tips', color: 'bg-violet-500/20 text-violet-400 border-violet-500/30' },
+  { value: 'question', label: 'Question', color: 'bg-amber-500/20 text-amber-400 border-amber-500/30' },
   { value: 'progress', label: 'Progress', color: 'bg-green-500/20 text-green-400 border-green-500/30' },
 ];
 
@@ -407,7 +407,7 @@ export default function MomentsPage() {
               <span className="text-sm text-purple-200 font-medium">Moments</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold text-white">
-              Share Your <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">Language Journey</span>
+              Share Your <span className="bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent">Language Journey</span>
             </h1>
             <p className="mt-3 text-white/50 text-sm max-w-xl mx-auto">
               Post tips, ask questions, share cultural insights, and connect with fellow learners.
@@ -502,7 +502,7 @@ export default function MomentsPage() {
                     <button
                       onClick={handleCreate}
                       disabled={creating || !newContent.trim()}
-                      className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-gradient-to-r from-purple-600 to-pink-500 text-white text-xs font-medium hover:from-purple-500 hover:to-pink-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                      className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-500 text-white text-xs font-medium hover:from-blue-500 hover:to-indigo-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                     >
                       {creating ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Send className="h-3.5 w-3.5" />}
                       Post
@@ -534,7 +534,7 @@ export default function MomentsPage() {
                           className="h-10 w-10 rounded-full object-cover border border-white/10"
                         />
                       ) : (
-                        <div className="h-10 w-10 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-sm font-bold text-white">
+                        <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-400 to-indigo-400 flex items-center justify-center text-sm font-bold text-white">
                           {moment.user.name[0].toUpperCase()}
                         </div>
                       )}

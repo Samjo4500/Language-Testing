@@ -87,7 +87,7 @@ export default function WritingPage() {
       icon: <SpellCheck className="h-6 w-6" />,
       title: 'Grammar Checking',
       desc: 'Advanced grammar detection covers verb tenses, subject-verb agreement, article usage, punctuation, and complex sentence structures.',
-      gradient: 'from-pink-500 to-rose-500',
+      gradient: 'from-blue-500 to-indigo-500',
     },
     {
       icon: <BookOpen className="h-6 w-6" />,
@@ -117,7 +117,7 @@ export default function WritingPage() {
       icon: <Zap className="h-7 w-7" />,
       title: 'AI Evaluates Writing',
       desc: 'Our advanced AI engine analyzes your text across multiple dimensions — grammar accuracy, lexical range, coherence, cohesion, and task achievement — in real time.',
-      gradient: 'from-pink-500 to-rose-500',
+      gradient: 'from-blue-500 to-indigo-500',
     },
     {
       number: '03',
@@ -140,8 +140,8 @@ export default function WritingPage() {
           <div className="mx-auto max-w-4xl text-center">
             {/* Badge */}
             <div className="animate-float inline-flex items-center gap-2 rounded-full glass-light px-5 py-2 mb-8 animate-border-glow">
-              <PenTool className="h-4 w-4 text-purple-300" />
-              <span className="text-sm text-purple-200 font-medium">Writing Assessment</span>
+              <PenTool className="h-4 w-4 text-blue-300" />
+              <span className="text-sm text-blue-200 font-medium">Writing Assessment</span>
               <span className="flex h-2 w-2 rounded-full bg-green-400 animate-pulse" />
             </div>
 
@@ -231,8 +231,8 @@ export default function WritingPage() {
           <AnimatedSection>
             <div className="text-center mb-14">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <FileText className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Comprehensive Analysis</span>
+                <FileText className="h-3.5 w-3.5 text-blue-400" />
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Comprehensive Analysis</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
                 What We Evaluate
@@ -268,8 +268,8 @@ export default function WritingPage() {
           <AnimatedSection>
             <div className="text-center mb-14">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <CheckCircle2 className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Simple Process</span>
+                <CheckCircle2 className="h-3.5 w-3.5 text-blue-400" />
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Simple Process</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
                 How It Works
@@ -320,8 +320,8 @@ export default function WritingPage() {
           <AnimatedSection>
             <div className="text-center mb-14">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <PenTool className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Sample Prompts</span>
+                <PenTool className="h-3.5 w-3.5 text-blue-400" />
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Sample Prompts</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
                 Practice Writing Examples
@@ -342,14 +342,14 @@ export default function WritingPage() {
                 </div>
                 <div className="rounded-xl bg-white/[0.03] border border-white/5 p-5 mb-4">
                   <p className="text-white/70 text-sm leading-relaxed">
-                    <span className="text-purple-400 font-medium">Prompt:</span> Write an email to your friend telling them about your weekend. Include what you did, who you were with, and how you felt about it. Write 80&ndash;120 words.
+                    <span className="text-blue-400 font-medium">Prompt:</span> Write an email to your friend telling them about your weekend. Include what you did, who you were with, and how you felt about it. Write 80&ndash;120 words.
                   </p>
                 </div>
                 <div className="space-y-2">
                   <p className="text-white/40 text-xs font-medium uppercase tracking-wider">What the AI evaluates:</p>
                   <div className="flex flex-wrap gap-2">
                     {['Basic sentence structure', 'Past tense usage', 'Personal vocabulary', 'Email format conventions'].map((skill, i) => (
-                      <span key={i} className="px-2.5 py-1 rounded-lg bg-purple-500/10 text-purple-300 text-xs border border-purple-500/20">{skill}</span>
+                      <span key={i} className="px-2.5 py-1 rounded-lg bg-blue-500/10 text-blue-300 text-xs border border-blue-500/20">{skill}</span>
                     ))}
                   </div>
                 </div>
@@ -365,7 +365,7 @@ export default function WritingPage() {
                 </div>
                 <div className="rounded-xl bg-white/[0.03] border border-white/5 p-5 mb-4">
                   <p className="text-white/70 text-sm leading-relaxed">
-                    <span className="text-purple-400 font-medium">Prompt:</span> Some people believe that remote work has improved work-life balance, while others argue it has blurred the boundaries between personal and professional life. Discuss both views and give your own opinion. Write 200&ndash;250 words.
+                    <span className="text-blue-400 font-medium">Prompt:</span> Some people believe that remote work has improved work-life balance, while others argue it has blurred the boundaries between personal and professional life. Discuss both views and give your own opinion. Write 200&ndash;250 words.
                   </p>
                 </div>
                 <div className="space-y-2">
@@ -383,19 +383,19 @@ export default function WritingPage() {
             <AnimatedSection delay={300}>
               <div className="glass-card p-6 group">
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-red-500/20 text-red-400 text-xs font-bold border border-red-500/30">C1</span>
+                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-400 text-xs font-bold border border-indigo-500/30">C1</span>
                   <h3 className="text-white font-semibold">Critical Analysis</h3>
                 </div>
                 <div className="rounded-xl bg-white/[0.03] border border-white/5 p-5 mb-4">
                   <p className="text-white/70 text-sm leading-relaxed">
-                    <span className="text-purple-400 font-medium">Prompt:</span> Critically evaluate the statement: &ldquo;Artificial intelligence will render human creativity obsolete within the next two decades.&rdquo; Discuss the implications for education, employment, and cultural production, supporting your arguments with specific examples. Write 300&ndash;400 words.
+                    <span className="text-blue-400 font-medium">Prompt:</span> Critically evaluate the statement: &ldquo;Artificial intelligence will render human creativity obsolete within the next two decades.&rdquo; Discuss the implications for education, employment, and cultural production, supporting your arguments with specific examples. Write 300&ndash;400 words.
                   </p>
                 </div>
                 <div className="space-y-2">
                   <p className="text-white/40 text-xs font-medium uppercase tracking-wider">What the AI evaluates:</p>
                   <div className="flex flex-wrap gap-2">
                     {['Critical thinking & nuance', 'Sophisticated argumentation', 'Academic register & hedging', 'Advanced vocabulary & collocations', 'Thesis development & evidence', 'Rhetorical sophistication'].map((skill, i) => (
-                      <span key={i} className="px-2.5 py-1 rounded-lg bg-red-500/10 text-red-300 text-xs border border-red-500/20">{skill}</span>
+                      <span key={i} className="px-2.5 py-1 rounded-lg bg-indigo-500/10 text-indigo-300 text-xs border border-indigo-500/20">{skill}</span>
                     ))}
                   </div>
                 </div>
@@ -421,8 +421,8 @@ export default function WritingPage() {
             <div className="max-w-3xl mx-auto">
               <div className="glass-card p-10 md:p-14">
                 <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-6 animate-pulse-glow">
-                  <Sparkles className="h-4 w-4 text-purple-300" />
-                  <span className="text-sm text-purple-200 font-medium">Writing Assessment</span>
+                  <Sparkles className="h-4 w-4 text-blue-300" />
+                  <span className="text-sm text-blue-200 font-medium">Writing Assessment</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
                   Ready to Test Your <span className="gradient-text-static">Writing</span>?

@@ -170,7 +170,7 @@ function ScoreCircle({ score, color }: { score: number; color: string }) {
    CONFETTI ANIMATION
    ====================================================== */
 function ConfettiOverlay() {
-  const colors = ['#f43f5e', '#14b8a6', '#3b82f6', '#22c55e', '#f59e0b', '#a855f7', '#ffffff'];
+  const colors = ['#7c5cff', '#14b8a6', '#3b82f6', '#22c55e', '#f59e0b', '#a855f7', '#ffffff'];
   const particles = Array.from({ length: 60 }, (_, i) => ({
     id: i,
     x: Math.random() * 100,
@@ -462,7 +462,7 @@ export default function TestResultsPage() {
       <div className="min-h-screen flex flex-col bg-[#0a0618]">
         <Navbar />
         <div className="flex-1 flex items-center justify-center">
-          <Loader2 className="h-8 w-8 text-purple-400 animate-spin" />
+          <Loader2 className="h-8 w-8 text-blue-400 animate-spin" />
         </div>
       </div>
     );
@@ -503,8 +503,8 @@ export default function TestResultsPage() {
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <div className="relative mb-6">
-              <div className="h-16 w-16 rounded-full border-4 border-purple-500/20 border-t-purple-500 animate-spin mx-auto" />
-              <BarChart3 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-6 w-6 text-purple-400" />
+              <div className="h-16 w-16 rounded-full border-4 border-blue-500/20 border-t-blue-500 animate-spin mx-auto" />
+              <BarChart3 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-6 w-6 text-blue-400" />
             </div>
             <h2 className="text-xl font-semibold text-white mb-2">Calculating Your Results</h2>
             <p className="text-sm text-white/50">Analyzing your performance...</p>

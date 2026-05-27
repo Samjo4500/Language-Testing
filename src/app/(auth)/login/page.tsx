@@ -94,7 +94,7 @@ export default function LoginPage() {
       <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
         <Navbar />
         <div className="flex-1 flex items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-purple-400" />
+          <Loader2 className="h-8 w-8 animate-spin text-blue-400" />
         </div>
       </div>
     );
@@ -106,7 +106,7 @@ export default function LoginPage() {
       <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
         <Navbar />
         <div className="flex-1 flex items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-purple-400" />
+          <Loader2 className="h-8 w-8 animate-spin text-blue-400" />
         </div>
       </div>
     );
@@ -149,7 +149,7 @@ export default function LoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   autoComplete="email"
-                  className="bg-white/5 border-white/10 text-white placeholder-white/30 rounded-xl glow-input focus:border-purple-500/50"
+                  className="bg-white/5 border-white/10 text-white placeholder-white/30 rounded-xl glow-input focus:border-blue-500/50"
                 />
               </div>
               <div className="space-y-2">
@@ -168,7 +168,7 @@ export default function LoginPage() {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     autoComplete="current-password"
-                    className="bg-white/5 border-white/10 text-white placeholder-white/30 rounded-xl glow-input focus:border-purple-500/50 pr-10"
+                    className="bg-white/5 border-white/10 text-white placeholder-white/30 rounded-xl glow-input focus:border-blue-500/50 pr-10"
                   />
                   <button
                     type="button"

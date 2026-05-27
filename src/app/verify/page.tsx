@@ -61,7 +61,7 @@ export default function VerifyCertificatePage() {
                   <button
                     type="submit"
                     disabled={!verificationId.trim()}
-                    className="group flex items-center gap-2 rounded-xl px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-purple-500/25 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                    className="group flex items-center gap-2 rounded-xl px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-blue-500/25 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                   >
                     Verify
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -107,7 +107,7 @@ export default function VerifyCertificatePage() {
           <div className="text-center">
             <p className="text-sm text-white/40 mb-3">Don&apos;t have a certificate yet?</p>
             <Link href="/register">
-              <button className="group flex items-center gap-2 mx-auto rounded-xl px-6 py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer">
+              <button className="group flex items-center gap-2 mx-auto rounded-xl px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-blue-500/25 cursor-pointer">
                 Take Your Free Assessment
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </button>

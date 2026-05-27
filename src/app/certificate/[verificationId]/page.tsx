@@ -52,9 +52,9 @@ const CEFR_LEVELS: Record<string, { title: string; gradient: string; textColor: 
   B1: { title: 'Intermediate',      gradient: 'from-yellow-500 to-yellow-600', textColor: 'text-yellow-400', barColor: 'from-yellow-400 to-amber-500' },
   B2: { title: 'Upper Intermediate', gradient: 'from-orange-500 to-orange-600', textColor: 'text-orange-400', barColor: 'from-orange-400 to-amber-500' },
   'B1-B2': { title: 'Independent Level', gradient: 'from-yellow-500 to-orange-500', textColor: 'text-yellow-400', barColor: 'from-yellow-400 to-amber-500' },
-  C1: { title: 'Advanced',          gradient: 'from-red-500 to-red-600',       textColor: 'text-red-400',    barColor: 'from-red-400 to-rose-500' },
-  C2: { title: 'Proficient',        gradient: 'from-purple-500 to-purple-600', textColor: 'text-purple-400', barColor: 'from-purple-400 to-pink-500' },
-  'C1-C2': { title: 'Proficient Level', gradient: 'from-red-500 to-purple-500', textColor: 'text-red-400',  barColor: 'from-red-400 to-rose-500' },
+  C1: { title: 'Advanced',          gradient: 'from-indigo-500 to-indigo-600',       textColor: 'text-indigo-400',    barColor: 'from-indigo-400 to-indigo-500' },
+  C2: { title: 'Proficient',        gradient: 'from-blue-500 to-blue-600', textColor: 'text-blue-400', barColor: 'from-blue-400 to-indigo-500' },
+  'C1-C2': { title: 'Proficient Level', gradient: 'from-indigo-500 to-blue-500', textColor: 'text-indigo-400',  barColor: 'from-indigo-400 to-indigo-500' },
 };
 
 const SKILL_LABELS: Record<string, string> = {
@@ -72,7 +72,7 @@ const SKILL_COLORS: Record<string, string> = {
   writing: 'from-violet-400 to-purple-500',
   listening: 'from-green-400 to-emerald-500',
   speaking: 'from-orange-400 to-amber-500',
-  grammar: 'from-purple-400 to-pink-500',
+  grammar: 'from-blue-400 to-indigo-500',
   vocabulary: 'from-cyan-400 to-blue-500',
 };
 
@@ -148,13 +148,13 @@ export default function CertificatePage() {
         <div className="flex-1 flex items-center justify-center px-4 py-12">
           <div className="w-full max-w-md">
             <div className="glass-card p-8 text-center">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-red-500/20 to-rose-500/20 border border-red-500/20 text-red-400 mb-4">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-red-500/20 to-orange-500/20 border border-red-500/20 text-red-400 mb-4">
                 <Shield className="h-6 w-6" />
               </div>
               <h1 className="text-2xl font-bold text-white mb-2">Certificate Not Found</h1>
               <p className="text-sm text-white/50 mb-6">{error || 'The requested certificate could not be found.'}</p>
               <Link href="/dashboard">
-                <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer">
+                <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25 cursor-pointer">
                   Return to Dashboard
                 </button>
               </Link>
@@ -200,12 +200,12 @@ export default function CertificatePage() {
 
                 {/* Logo area - matching navbar logo */}
                 <div className="flex items-center justify-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white font-bold text-sm shadow-lg shadow-purple-500/25">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-indigo-500 text-white font-bold text-sm shadow-lg shadow-blue-500/25">
                     CE
                   </div>
                   <div className="flex flex-col">
                     <span className="text-white font-bold text-base tracking-tight leading-tight">
-                      test<span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">cefr</span><span className="text-purple-300">.com</span>
+                      test<span className="bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent">cefr</span><span className="text-purple-300">.com</span>
                     </span>
                     <span className="text-white/40 text-[9px] uppercase tracking-[0.2em] leading-tight">
                       {isCourseCompletion ? 'English Course' : 'English Assessment'}
@@ -236,7 +236,7 @@ export default function CertificatePage() {
 
                 {/* Level circle */}
                 <div className="flex justify-center">
-                  <div className={`h-20 w-20 rounded-full bg-gradient-to-br ${levelInfo.gradient} flex items-center justify-center shadow-lg shadow-purple-500/30 animate-pulse-glow`}>
+                  <div className={`h-20 w-20 rounded-full bg-gradient-to-br ${levelInfo.gradient} flex items-center justify-center shadow-lg shadow-blue-500/30 animate-pulse-glow`}>
                     <span className="text-white text-2xl font-bold">{certificate.cefrLevel}</span>
                   </div>
                 </div>
@@ -358,7 +358,7 @@ export default function CertificatePage() {
               rel="noopener noreferrer"
               onClick={() => trackCertificateDownload({ cefr_level: certificate?.cefrLevel })}
             >
-              <button className="flex items-center gap-2 rounded-xl px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 cursor-pointer">
+              <button className="flex items-center gap-2 rounded-xl px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 cursor-pointer">
                 <Download className="h-4 w-4" />
                 Download PDF
               </button>

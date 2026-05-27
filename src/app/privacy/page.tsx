@@ -57,7 +57,7 @@ function BackgroundOrbs() {
       <div className="orb orb-pink w-[350px] h-[350px] top-1/3 -right-16 animate-float-reverse" />
       <div className="orb orb-blue w-[250px] h-[250px] bottom-16 left-1/4 animate-float" />
       <div className="absolute top-1/4 left-1/2 w-2 h-2 rounded-full bg-purple-400/40 animate-float delay-200" />
-      <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 rounded-full bg-pink-400/30 animate-float-reverse delay-500" />
+      <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 rounded-full bg-blue-400/30 animate-float-reverse delay-500" />
       <div className="absolute bottom-1/3 left-1/3 w-2.5 h-2.5 rounded-full bg-blue-400/30 animate-float delay-300" />
     </div>
   );
@@ -126,7 +126,7 @@ export default function PrivacyPage() {
               <AnimatedSection delay={100}>
                 <div className="glass-card p-6 h-full group">
                   <div className="flex items-start gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-purple-400 to-pink-400 text-white shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-400 to-violet-400 text-white shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
                       <Fingerprint className="h-5 w-5" />
                     </div>
                     <div>
@@ -160,7 +160,7 @@ export default function PrivacyPage() {
               <AnimatedSection delay={250}>
                 <div className="glass-card p-6 h-full group">
                   <div className="flex items-start gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-red-400 to-rose-400 text-white shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-400 to-violet-400 text-white shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
                       <Mic className="h-5 w-5" />
                     </div>
                     <div>
@@ -274,7 +274,7 @@ export default function PrivacyPage() {
                 { icon: <Lock className="h-5 w-5" />, title: 'Encryption', desc: 'All data transmitted between your browser and our servers is encrypted using TLS 1.3. Sensitive data at rest is encrypted using AES-256 encryption standards.', gradient: 'from-purple-400 to-indigo-500' },
                 { icon: <Server className="h-5 w-5" />, title: 'Secure Servers', desc: 'Our infrastructure is hosted on enterprise-grade cloud servers with firewalls, intrusion detection systems, and regular security patching to prevent vulnerabilities.', gradient: 'from-blue-400 to-cyan-500' },
                 { icon: <AlertCircle className="h-5 w-5" />, title: 'Regular Audits', desc: 'We conduct periodic security audits and penetration testing to identify and address potential vulnerabilities before they can be exploited.', gradient: 'from-green-400 to-emerald-500' },
-                { icon: <Shield className="h-5 w-5" />, title: 'GDPR Compliance', desc: 'We are fully compliant with the General Data Protection Regulation. Users from the European Economic Area have enhanced rights over their personal data.', gradient: 'from-pink-400 to-rose-500' },
+                { icon: <Shield className="h-5 w-5" />, title: 'GDPR Compliance', desc: 'We are fully compliant with the General Data Protection Regulation. Users from the European Economic Area have enhanced rights over their personal data.', gradient: 'from-blue-400 to-indigo-500' },
               ].map((item, index) => (
                 <AnimatedSection key={index} delay={index * 100}>
                   <div className="glass-card p-6 h-full group">
@@ -313,7 +313,7 @@ export default function PrivacyPage() {
               <AnimatedSection delay={100}>
                 <div className="glass-card p-6 group">
                   <div className="flex items-start gap-4">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-purple-400 to-pink-400 text-white shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-400 to-violet-400 text-white shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
                       <CheckCircle2 className="h-5 w-5" />
                     </div>
                     <div>
@@ -427,7 +427,7 @@ export default function PrivacyPage() {
             <div className="grid gap-5 sm:grid-cols-2">
               {[
                 { icon: <Eye className="h-5 w-5" />, title: 'Access Your Data', desc: 'You have the right to request a copy of all personal data we hold about you. We will provide this within 30 days of receiving your request.', gradient: 'from-purple-400 to-indigo-500' },
-                { icon: <AlertCircle className="h-5 w-5" />, title: 'Request Deletion', desc: 'You can request that we delete your personal data at any time. Upon verification, we will remove your data from our active systems within 14 business days.', gradient: 'from-pink-400 to-rose-500' },
+                { icon: <AlertCircle className="h-5 w-5" />, title: 'Request Deletion', desc: 'You can request that we delete your personal data at any time. Upon verification, we will remove your data from our active systems within 14 business days.', gradient: 'from-blue-400 to-indigo-500' },
                 { icon: <Globe className="h-5 w-5" />, title: 'Data Portability', desc: 'You can request your data in a structured, machine-readable format (JSON or CSV) so you can transfer it to another service provider if you choose.', gradient: 'from-blue-400 to-cyan-500' },
                 { icon: <Shield className="h-5 w-5" />, title: 'Object to Processing', desc: 'You have the right to object to the processing of your personal data for specific purposes, including direct marketing and profiling activities.', gradient: 'from-green-400 to-emerald-500' },
               ].map((item, index) => (
@@ -456,7 +456,7 @@ export default function PrivacyPage() {
           <div className="max-w-2xl mx-auto">
             <AnimatedSection>
               <div className="glass-card p-8 md:p-10 text-center">
-                <div className="flex h-14 w-14 mx-auto items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg mb-6">
+                <div className="flex h-14 w-14 mx-auto items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 text-white shadow-lg mb-6">
                   <Mail className="h-6 w-6" />
                 </div>
                 <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
@@ -467,7 +467,7 @@ export default function PrivacyPage() {
                 </p>
                 <a
                   href="mailto:privacy@testcefr.com"
-                  className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5"
+                  className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5"
                 >
                   <Mail className="h-4 w-4" />
                   privacy@testcefr.com

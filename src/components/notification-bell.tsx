@@ -55,7 +55,7 @@ const TYPE_COLORS: Record<string, string> = {
   certificate_ready: 'text-yellow-400 bg-yellow-500/20',
   plan_upgrade: 'text-orange-400 bg-orange-500/20',
   system: 'text-white/40 bg-white/10',
-  chat_message: 'text-pink-400 bg-pink-500/20',
+  chat_message: 'text-blue-400 bg-blue-500/20',
 };
 
 // ─── Time ago helper ──────────────────────────────────────

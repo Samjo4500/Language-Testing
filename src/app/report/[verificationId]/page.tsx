@@ -108,9 +108,9 @@ const CEFR_LEVELS: Record<string, {
   },
   C1: {
     title: 'Advanced',
-    gradient: 'from-red-500 to-red-600',
-    textColor: 'text-red-400',
-    barColor: 'from-red-400 to-rose-500',
+    gradient: 'from-indigo-500 to-indigo-600',
+    textColor: 'text-indigo-400',
+    barColor: 'from-indigo-400 to-indigo-500',
     description: 'You can understand a wide range of demanding, longer texts, and recognize implicit meaning. You can express ideas fluently and spontaneously without much obvious searching for expressions. You can use language flexibly and effectively for social, academic, and professional purposes.',
     canDo: [
       'Understand demanding texts and recognize implicit meaning',
@@ -122,9 +122,9 @@ const CEFR_LEVELS: Record<string, {
   },
   C2: {
     title: 'Proficient',
-    gradient: 'from-purple-500 to-purple-600',
-    textColor: 'text-purple-400',
-    barColor: 'from-purple-400 to-pink-500',
+    gradient: 'from-blue-500 to-blue-600',
+    textColor: 'text-blue-400',
+    barColor: 'from-blue-400 to-indigo-500',
     description: 'You can understand with ease virtually everything heard or read. You can summarize information from different spoken and written sources, reconstructing arguments and accounts in a coherent presentation. You can express yourself spontaneously, very fluently and precisely, differentiating finer shades of meaning even in more complex situations.',
     canDo: [
       'Understand virtually everything heard or read with ease',
@@ -252,8 +252,8 @@ const SKILL_RECOMMENDATIONS: Record<string, {
   },
   grammar: {
     icon: <BarChart3 className="h-5 w-5" />,
-    color: 'from-purple-400 to-pink-500',
-    barColor: 'from-purple-400 to-pink-500',
+    color: 'from-blue-400 to-indigo-500',
+    barColor: 'from-blue-400 to-indigo-500',
     tips: {
       low: [
         'Master the basic tenses first: present simple, present continuous, past simple, and future with "will" and "going to."',
@@ -469,13 +469,13 @@ export default function ReportPage() {
         <div className="flex-1 flex items-center justify-center px-4 py-12">
           <div className="w-full max-w-md">
             <div className="glass-card p-8 text-center">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-red-500/20 to-rose-500/20 border border-red-500/20 text-red-400 mb-4">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-red-500/20 to-orange-500/20 border border-red-500/20 text-red-400 mb-4">
                 <AlertCircle className="h-6 w-6" />
               </div>
               <h1 className="text-2xl font-bold text-white mb-2">Report Not Found</h1>
               <p className="text-sm text-white/50 mb-6">{error}</p>
               <Link href="/dashboard">
-                <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer">
+                <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25 cursor-pointer">
                   Return to Dashboard
                 </button>
               </Link>
@@ -523,7 +523,7 @@ export default function ReportPage() {
           <div className="glass-card p-6 md:p-8">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
               <div className="flex items-center gap-4">
-                <div className={`h-16 w-16 rounded-2xl bg-gradient-to-br ${levelInfo.gradient} flex items-center justify-center shadow-lg shadow-purple-500/30`}>
+                <div className={`h-16 w-16 rounded-2xl bg-gradient-to-br ${levelInfo.gradient} flex items-center justify-center shadow-lg shadow-blue-500/30`}>
                   <span className="text-white text-2xl font-bold">{certificate.cefrLevel}</span>
                 </div>
                 <div>
@@ -704,7 +704,7 @@ export default function ReportPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <Link href="/test">
-                <button className="flex items-center gap-2 rounded-xl px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 cursor-pointer">
+                <button className="flex items-center gap-2 rounded-xl px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 cursor-pointer">
                   <RotateCcw className="h-4 w-4" />
                   Retake Assessment
                 </button>
@@ -749,7 +749,7 @@ export default function ReportPage() {
               </div>
               <div className="shrink-0">
                 <Link href="/pricing">
-                  <button className="flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 cursor-pointer whitespace-nowrap">
+                  <button className="flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 cursor-pointer whitespace-nowrap">
                     <Sparkles className="h-4 w-4" />
                     Upgrade to Premium
                     <ArrowRight className="h-4 w-4" />

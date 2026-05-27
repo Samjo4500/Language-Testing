@@ -165,7 +165,7 @@ export default function VerifyCertificatePage() {
                     <div className="flex items-center gap-3">
                       <img src="/logo-icon.svg" alt="CEFR Test" className="h-12 w-12" />
                       <div className="flex flex-col">
-                        <span className="text-white font-bold text-lg tracking-tight leading-tight">test<span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">cefr</span><span className="text-purple-300">.com</span></span>
+                        <span className="text-white font-bold text-lg tracking-tight leading-tight">test<span className="bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent">cefr</span><span className="text-purple-300">.com</span></span>
                         <span className="text-white/40 text-[10px] uppercase tracking-[0.2em] leading-tight">English Assessment</span>
                       </div>
                     </div>
@@ -305,7 +305,7 @@ export default function VerifyCertificatePage() {
                         </span>
                       </div>
                       <div className="flex items-center gap-1.5">
-                        <span className="text-xs text-pink-400">&#9733;</span>
+                        <span className="text-xs text-blue-400">&#9733;</span>
                         <span className="text-xs text-white/50">
                           CEFR Test — testcefr.com
                         </span>
@@ -342,7 +342,7 @@ export default function VerifyCertificatePage() {
           {/* Download + Actions */}
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a href={`/api/certificates/download/${verificationId}`} target="_blank" rel="noopener noreferrer">
-              <button className="inline-flex items-center gap-2 rounded-xl px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5">
+              <button className="inline-flex items-center gap-2 rounded-xl px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5">
                 <Download className="h-4 w-4" />
                 Download Certificate PDF
               </button>

@@ -53,7 +53,7 @@ function VerifyEmailContent() {
             {/* No token provided */}
             {!token && (
               <>
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-500/20 mb-6">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 border border-blue-500/20 mb-6">
                   <Mail className="h-8 w-8 text-purple-400" />
                 </div>
                 <h1 className="text-2xl font-bold text-white mb-3">Check Your Email</h1>
@@ -63,7 +63,7 @@ function VerifyEmailContent() {
                 </p>
                 <div className="space-y-3">
                   <Link href="/login">
-                    <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer">
+                    <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25 cursor-pointer">
                       Go to Sign In
                       <ArrowRight className="h-4 w-4" />
                     </button>
@@ -75,7 +75,7 @@ function VerifyEmailContent() {
             {/* Loading */}
             {token && status === 'loading' && (
               <>
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-500/20 mb-6 animate-pulse">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 border border-blue-500/20 mb-6 animate-pulse">
                   <Loader2 className="h-8 w-8 text-purple-400 animate-spin" />
                 </div>
                 <h1 className="text-2xl font-bold text-white mb-3">Verifying Your Email</h1>
@@ -95,7 +95,7 @@ function VerifyEmailContent() {
                 </p>
                 <div className="space-y-3">
                   <Link href="/dashboard">
-                    <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer">
+                    <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25 cursor-pointer">
                       Go to Dashboard
                       <ArrowRight className="h-4 w-4" />
                     </button>
@@ -112,7 +112,7 @@ function VerifyEmailContent() {
             {/* Error */}
             {status === 'error' && (
               <>
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-red-500/20 to-rose-500/20 border border-red-500/20 mb-6">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-red-500/20 to-orange-500/20 border border-red-500/20 mb-6">
                   <XCircle className="h-8 w-8 text-red-400" />
                 </div>
                 <h1 className="text-2xl font-bold text-white mb-3">Verification Failed</h1>
@@ -121,7 +121,7 @@ function VerifyEmailContent() {
                 </p>
                 <div className="space-y-3">
                   <Link href="/login">
-                    <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer">
+                    <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25 cursor-pointer">
                       Go to Sign In
                       <ArrowRight className="h-4 w-4" />
                     </button>

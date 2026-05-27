@@ -162,7 +162,7 @@ function GenerateCertButton({ enrollmentId, onGenerated }: { enrollmentId: strin
     <button
       onClick={handleGenerate}
       disabled={loading}
-      className="w-full flex items-center justify-center gap-2 rounded-xl py-2.5 bg-gradient-to-r from-purple-600/80 to-pink-600/80 hover:from-purple-500 hover:to-pink-500 text-white font-medium text-sm cursor-pointer hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+      className="w-full flex items-center justify-center gap-2 rounded-xl py-2.5 bg-gradient-to-r from-blue-600/80 to-indigo-600/80 hover:from-blue-500 hover:to-indigo-500 text-white font-medium text-sm cursor-pointer hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
     >
       {loading ? (
         <>

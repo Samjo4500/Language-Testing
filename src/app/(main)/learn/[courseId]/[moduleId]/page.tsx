@@ -1366,7 +1366,7 @@ export default function LessonViewerPage() {
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl -mt-32 pointer-events-none" />
 
               {/* Trophy icon */}
-              <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 text-white mb-6 shadow-lg shadow-purple-500/30" style={{ animation: 'celebration-bounce 2s ease-in-out infinite' }}>
+              <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 text-white mb-6 shadow-lg shadow-blue-500/30" style={{ animation: 'celebration-bounce 2s ease-in-out infinite' }}>
                 <Trophy className="h-10 w-10" />
               </div>
 
@@ -1383,7 +1383,7 @@ export default function LessonViewerPage() {
               <div className="flex flex-col gap-3">
                 {celebrationCertId && (
                   <Link href={`/certificate/${celebrationCertId}`}>
-                    <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer hover:-translate-y-0.5">
+                    <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-blue-500/25 cursor-pointer hover:-translate-y-0.5">
                       <Award className="h-5 w-5" />
                       View Your Certificate
                     </button>

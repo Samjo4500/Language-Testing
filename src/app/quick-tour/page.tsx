@@ -32,7 +32,7 @@ const steps = [
     description:
       'Select Free or Premium access. Premium unlocks all 6 skills and certified results.',
     icon: CreditCard,
-    gradient: 'from-purple-400 to-pink-400',
+    gradient: 'from-blue-400 to-violet-400',
   },
   {
     number: 3,
@@ -64,7 +64,7 @@ const steps = [
     description:
       'Get your QR-verified PDF certificate, shareable with employers and institutions.',
     icon: Download,
-    gradient: 'from-rose-400 to-red-400',
+    gradient: 'from-indigo-400 to-violet-400',
   },
 ];
 
@@ -202,7 +202,7 @@ export default function QuickTourPage() {
             <Link
               href={isAuth ? '/dashboard' : '/register'}
             >
-              <button className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-base font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 cursor-pointer">
+              <button className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white text-base font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 cursor-pointer">
                 {isAuth ? 'Go to Dashboard' : 'Create Free Account'}
                 <ArrowRight className="h-5 w-5" />
               </button>

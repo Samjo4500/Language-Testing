@@ -1083,7 +1083,7 @@ export default function TestPage() {
       <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
         <Navbar />
         <div className="flex-1 flex items-center justify-center">
-          <Loader2 className="h-8 w-8 text-purple-400 animate-spin" />
+          <Loader2 className="h-8 w-8 text-blue-400 animate-spin" />
         </div>
       </div>
     );
@@ -1096,7 +1096,7 @@ export default function TestPage() {
         <div className="flex-1 flex items-center justify-center px-4 py-12">
           <div className="w-full max-w-md">
             <div className="glass-card p-8 text-center">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 text-white mb-4 shadow-lg shadow-purple-500/25">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 text-white mb-4 shadow-lg shadow-blue-500/25">
                 <LogIn className="h-6 w-6" />
               </div>
               <h1 className="text-2xl font-bold text-white mb-2">Sign in to take the test</h1>
@@ -1104,14 +1104,14 @@ export default function TestPage() {
                 You need to be signed in to start your CEFR assessment.
               </p>
               <Link href="/login">
-                <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer">
+                <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25 cursor-pointer">
                   <Sparkles className="h-4 w-4" />
                   Sign in
                 </button>
               </Link>
               <p className="text-xs text-white/30 mt-4">
                 Don&apos;t have an account?{' '}
-                <Link href="/register" className="text-purple-400 hover:text-purple-300 transition-colors">
+                <Link href="/register" className="text-blue-400 hover:text-blue-300 transition-colors">
                   Create one
                 </Link>
               </p>
@@ -1132,8 +1132,8 @@ export default function TestPage() {
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <div className="relative mb-6">
-              <div className="h-16 w-16 rounded-full border-4 border-purple-500/20 border-t-purple-500 animate-spin mx-auto" />
-              <Sparkles className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-6 w-6 text-purple-400" />
+              <div className="h-16 w-16 rounded-full border-4 border-blue-500/20 border-t-blue-500 animate-spin mx-auto" />
+              <Sparkles className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-6 w-6 text-blue-400" />
             </div>
             <h2 className="text-xl font-semibold text-white mb-2">Preparing Your Assessment</h2>
             <p className="text-sm text-white/50">Selecting questions based on your level...</p>
@@ -1162,7 +1162,7 @@ export default function TestPage() {
               </p>
               <button
                 onClick={() => window.location.reload()}
-                className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer"
+                className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25 cursor-pointer"
               >
                 <RotateCcw className="h-4 w-4" />
                 Refresh Page
@@ -1184,8 +1184,8 @@ export default function TestPage() {
         title: 'Grammar',
         desc: 'Answer multiple-choice questions testing grammar at different CEFR levels.',
         icon: <SpellCheck className="h-7 w-7" />,
-        gradient: 'from-rose-500 to-pink-500',
-        bgGlow: 'rgba(244,63,94,0.15)',
+        gradient: 'from-blue-500 to-indigo-500',
+        bgGlow: 'rgba(59,130,246,0.15)',
         levels: 'A2 - C1',
         questions: grammarQuestions.length,
         estimatedTime: grammarQuestions.length > 0 ? `~${Math.max(2, Math.ceil(grammarQuestions.length * 0.7))} min` : '',
@@ -1239,7 +1239,7 @@ export default function TestPage() {
         title: 'Writing',
         desc: 'Write responses to prompts at different levels. AI evaluates grammar, vocabulary, coherence, and more.',
         icon: <PenTool className="h-7 w-7" />,
-        gradient: 'from-violet-500 to-purple-500',
+        gradient: 'from-violet-500 to-indigo-500',
         bgGlow: 'rgba(139,92,246,0.15)',
         levels: writingPrompt?.level || 'B2',
         questions: writingPrompt ? 1 : 0,
@@ -1258,8 +1258,8 @@ export default function TestPage() {
             {/* Header */}
             <div className="text-center mb-8">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <Sparkles className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">CEFR Assessment</span>
+                <Sparkles className="h-3.5 w-3.5 text-blue-400" />
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">CEFR Assessment</span>
               </div>
               <h1 className="text-3xl md:text-4xl font-bold text-white">
                 Take Your CEFR Test
@@ -1277,7 +1277,7 @@ export default function TestPage() {
               </div>
               <div className="h-2 rounded-full bg-white/5 overflow-hidden">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-500"
+                  className="h-full rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 transition-all duration-500"
                   style={{ width: `${(completedCount / totalSkills) * 100}%` }}
                 />
               </div>
@@ -1323,7 +1323,7 @@ export default function TestPage() {
                     {error.includes('credits') && (
                       <button
                         onClick={() => router.push('/pricing')}
-                        className="mt-2 text-sm text-purple-400 hover:text-purple-300 underline cursor-pointer"
+                        className="mt-2 text-sm text-blue-400 hover:text-blue-300 underline cursor-pointer"
                       >
                         Upgrade your plan
                       </button>
@@ -1346,7 +1346,7 @@ export default function TestPage() {
                         ? 'border-green-500/30 cursor-pointer hover:border-green-400/40 hover:bg-green-500/[0.03]'
                         : skill.questions === 0
                         ? 'opacity-50 cursor-not-allowed'
-                        : 'cursor-pointer hover:border-purple-500/30'
+                        : 'cursor-pointer hover:border-blue-500/30'
                     }`}
                     onClick={() => {
                       if (isCompleted) {
@@ -1394,7 +1394,7 @@ export default function TestPage() {
                           Results <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </span>
                       ) : skill.questions > 0 ? (
-                        <span className="flex items-center text-sm text-purple-400 font-medium">
+                        <span className="flex items-center text-sm text-blue-400 font-medium">
                           Start <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </span>
                       ) : null}
@@ -1410,7 +1410,7 @@ export default function TestPage() {
                 <button
                   onClick={() => submitAssessment()}
                   disabled={submitting}
-                  className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-1 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {submitting ? <Loader2 className="h-5 w-5 animate-spin" /> : <Award className="h-5 w-5" />}
                   {submitting ? 'Submitting...' : 'Submit & Get Results'}
@@ -1438,7 +1438,7 @@ export default function TestPage() {
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-rose-500 to-pink-500 text-white shadow-lg">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 text-white shadow-lg">
                   <SpellCheck className="h-5 w-5" />
                 </div>
                 <div>
@@ -1446,7 +1446,7 @@ export default function TestPage() {
                   <p className="text-xs text-white/40">Question {grammarIdx + 1} of {totalQuestions}</p>
                 </div>
               </div>
-              <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold bg-gradient-to-r from-rose-500/20 to-pink-500/20 text-rose-300 border border-rose-500/30">
+              <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-blue-300 border border-blue-500/30">
                 {currentGrammar.level}
               </span>
             </div>
@@ -1458,7 +1458,7 @@ export default function TestPage() {
                 <span className="text-xs text-white/70">{answeredCount}/{totalQuestions} answered</span>
               </div>
               <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
-                <div className="h-full rounded-full bg-gradient-to-r from-rose-500 to-pink-500 transition-all" style={{ width: `${(answeredCount / totalQuestions) * 100}%` }} />
+                <div className="h-full rounded-full bg-gradient-to-r from-blue-500 to-indigo-500 transition-all" style={{ width: `${(answeredCount / totalQuestions) * 100}%` }} />
               </div>
             </div>
 
@@ -1474,7 +1474,7 @@ export default function TestPage() {
                       onClick={() => setGrammarAnswers(prev => ({ ...prev, [currentGrammar.id]: oi }))}
                       className={`w-full text-left p-3 rounded-xl text-sm transition-all duration-300 cursor-pointer ${
                         selected === oi
-                          ? 'bg-gradient-to-r from-purple-600/30 to-pink-500/30 border border-purple-500/40 text-white'
+                          ? 'bg-gradient-to-r from-blue-600/30 to-indigo-500/30 border border-blue-500/40 text-white'
                           : 'bg-white/5 border border-white/5 text-white/60 hover:bg-white/8 hover:text-white/80'
                       }`}
                     >
@@ -1498,7 +1498,7 @@ export default function TestPage() {
               {grammarIdx < totalQuestions - 1 ? (
                 <button
                   onClick={() => setGrammarIdx(grammarIdx + 1)}
-                  className="flex items-center gap-2 rounded-xl px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-sm font-medium transition-all shadow-lg shadow-purple-500/25 cursor-pointer"
+                  className="flex items-center gap-2 rounded-xl px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white text-sm font-medium transition-all shadow-lg shadow-blue-500/25 cursor-pointer"
                 >
                   Next <ChevronRight className="h-4 w-4" />
                 </button>
@@ -1568,7 +1568,7 @@ export default function TestPage() {
                       onClick={() => setVocabAnswers(prev => ({ ...prev, [currentVocab.id]: oi }))}
                       className={`w-full text-left p-3 rounded-xl text-sm transition-all duration-300 cursor-pointer ${
                         selected === oi
-                          ? 'bg-gradient-to-r from-purple-600/30 to-pink-500/30 border border-purple-500/40 text-white'
+                          ? 'bg-gradient-to-r from-blue-600/30 to-indigo-500/30 border border-blue-500/40 text-white'
                           : 'bg-white/5 border border-white/5 text-white/60 hover:bg-white/8 hover:text-white/80'
                       }`}
                     >
@@ -1592,7 +1592,7 @@ export default function TestPage() {
               {vocabIdx < totalQuestions - 1 ? (
                 <button
                   onClick={() => setVocabIdx(vocabIdx + 1)}
-                  className="flex items-center gap-2 rounded-xl px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-sm font-medium transition-all shadow-lg shadow-purple-500/25 cursor-pointer"
+                  className="flex items-center gap-2 rounded-xl px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white text-sm font-medium transition-all shadow-lg shadow-blue-500/25 cursor-pointer"
                 >
                   Next <ChevronRight className="h-4 w-4" />
                 </button>
@@ -1673,7 +1673,7 @@ export default function TestPage() {
                           onClick={() => setReadingAnswers(prev => ({ ...prev, [q.id]: oi }))}
                           className={`w-full text-left p-3 rounded-xl text-sm transition-all duration-300 cursor-pointer ${
                             selected === oi
-                              ? 'bg-gradient-to-r from-purple-600/30 to-pink-500/30 border border-purple-500/40 text-white'
+                              ? 'bg-gradient-to-r from-blue-600/30 to-indigo-500/30 border border-blue-500/40 text-white'
                               : 'bg-white/5 border border-white/5 text-white/60 hover:bg-white/8 hover:text-white/80'
                           }`}
                         >
@@ -1699,7 +1699,7 @@ export default function TestPage() {
               {readingIdx < readingPassages.length - 1 ? (
                 <button
                   onClick={() => setReadingIdx(readingIdx + 1)}
-                  className="flex items-center gap-2 rounded-xl px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-sm font-medium transition-all shadow-lg shadow-purple-500/25 cursor-pointer"
+                  className="flex items-center gap-2 rounded-xl px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white text-sm font-medium transition-all shadow-lg shadow-blue-500/25 cursor-pointer"
                 >
                   Next <ChevronRight className="h-4 w-4" />
                 </button>
@@ -1766,7 +1766,7 @@ export default function TestPage() {
                   disabled={audioLoading}
                   className={`flex h-14 w-14 items-center justify-center rounded-full transition-all duration-300 cursor-pointer disabled:cursor-wait ${
                     audioLoading
-                      ? 'bg-gradient-to-br from-purple-500 to-purple-600 shadow-2xl shadow-purple-500/40'
+                      ? 'bg-gradient-to-br from-blue-500 to-blue-600 shadow-2xl shadow-blue-500/40'
                       : isSpeaking
                       ? 'bg-gradient-to-br from-red-500 to-red-600 shadow-2xl shadow-red-500/40 animate-pulse'
                       : 'bg-gradient-to-br from-green-500 to-emerald-500 shadow-2xl shadow-green-500/40 hover:scale-110'
@@ -1783,7 +1783,7 @@ export default function TestPage() {
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
                     {audioLoading ? (
-                      <span className="text-sm text-purple-300 font-medium flex items-center gap-1">
+                      <span className="text-sm text-blue-300 font-medium flex items-center gap-1">
                         <Loader2 className="h-4 w-4 animate-spin" /> Generating natural audio...
                       </span>
                     ) : isSpeaking ? (
@@ -1808,7 +1808,7 @@ export default function TestPage() {
                 <div className="mt-3 flex items-center gap-2">
                   <button
                     onClick={() => { setAudioError(null); playAudio(); }}
-                    className="text-xs text-purple-400 hover:text-purple-300 underline transition-colors cursor-pointer"
+                    className="text-xs text-blue-400 hover:text-blue-300 underline transition-colors cursor-pointer"
                   >
                     Try again
                   </button>
@@ -1838,7 +1838,7 @@ export default function TestPage() {
                           onClick={() => setListeningAnswers(prev => ({ ...prev, [q.id]: oi }))}
                           className={`w-full text-left p-3 rounded-xl text-sm transition-all duration-300 cursor-pointer ${
                             selected === oi
-                              ? 'bg-gradient-to-r from-purple-600/30 to-pink-500/30 border border-purple-500/40 text-white'
+                              ? 'bg-gradient-to-r from-blue-600/30 to-indigo-500/30 border border-blue-500/40 text-white'
                               : 'bg-white/5 border border-white/5 text-white/60 hover:bg-white/8 hover:text-white/80'
                           }`}
                         >
@@ -1864,7 +1864,7 @@ export default function TestPage() {
               {listeningIdx < listeningItems.length - 1 ? (
                 <button
                   onClick={() => setListeningIdx(listeningIdx + 1)}
-                  className="flex items-center gap-2 rounded-xl px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-sm font-medium transition-all shadow-lg shadow-purple-500/25 cursor-pointer"
+                  className="flex items-center gap-2 rounded-xl px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white text-sm font-medium transition-all shadow-lg shadow-blue-500/25 cursor-pointer"
                 >
                   Next <ChevronRight className="h-4 w-4" />
                 </button>
@@ -1891,12 +1891,12 @@ export default function TestPage() {
     const evaluation = speakingEvaluations[speakingPrompt.id];
     const dimensions = evaluation?.dimensions
       ? [
-          { key: 'grammar', label: 'Grammar (G)', ...evaluation.dimensions.grammar, color: 'from-purple-500 to-violet-500' },
-          { key: 'vocabulary', label: 'Vocabulary (V)', ...evaluation.dimensions.vocabulary, color: 'from-pink-500 to-rose-500' },
+          { key: 'grammar', label: 'Grammar (G)', ...evaluation.dimensions.grammar, color: 'from-blue-500 to-violet-500' },
+          { key: 'vocabulary', label: 'Vocabulary (V)', ...evaluation.dimensions.vocabulary, color: 'from-blue-500 to-indigo-500' },
           { key: 'fluency', label: 'Fluency (F)', ...evaluation.dimensions.fluency, color: 'from-blue-500 to-cyan-500' },
           { key: 'pronunciation', label: 'Pronunciation (P)', ...evaluation.dimensions.pronunciation, color: 'from-green-500 to-emerald-500' },
           { key: 'coherence', label: 'Coherence (C)', ...evaluation.dimensions.coherence, color: 'from-orange-500 to-amber-500' },
-          { key: 'interaction', label: 'Interaction (I)', ...evaluation.dimensions.interaction, color: 'from-red-500 to-pink-500' },
+          { key: 'interaction', label: 'Interaction (I)', ...evaluation.dimensions.interaction, color: 'from-violet-500 to-indigo-500' },
         ]
       : [];
 
@@ -1995,7 +1995,7 @@ export default function TestPage() {
                         placeholder="Type your spoken response here. Try to write what you would say out loud, using natural spoken language..."
                         rows={6}
                         maxLength={2000}
-                        className="w-full bg-white/5 border border-white/10 text-white rounded-xl px-4 py-3 text-sm leading-relaxed focus:outline-none focus:border-purple-500/40 focus:ring-1 focus:ring-purple-500/20 resize-none placeholder:text-white/20"
+                        className="w-full bg-white/5 border border-white/10 text-white rounded-xl px-4 py-3 text-sm leading-relaxed focus:outline-none focus:border-blue-500/40 focus:ring-1 focus:ring-blue-500/20 resize-none placeholder:text-white/20"
                       />
                       <div className="flex items-center justify-between mt-1.5">
                         <span className="text-xs text-white/30">Write as if you were speaking naturally</span>
@@ -2015,7 +2015,7 @@ export default function TestPage() {
                           <div className="absolute inset-[-8px] rounded-full border-2 border-red-400/20 animate-ripple" style={{ animationDelay: '0.5s' }} />
                         </>
                       )}
-                      <div className={`absolute -inset-6 rounded-full transition-all duration-500 ${isRecording ? 'bg-red-500/15 blur-2xl' : 'bg-purple-500/15 blur-2xl'}`} />
+                      <div className={`absolute -inset-6 rounded-full transition-all duration-500 ${isRecording ? 'bg-red-500/15 blur-2xl' : 'bg-blue-500/15 blur-2xl'}`} />
                     <button
                       onClick={() => {
                         if (isRecording) {
@@ -2030,7 +2030,7 @@ export default function TestPage() {
                           ? 'bg-gradient-to-br from-red-500 to-red-600 shadow-2xl shadow-red-500/40 animate-recording-pulse'
                           : isPrepTime
                           ? 'bg-gradient-to-br from-amber-500 to-amber-600 shadow-2xl shadow-amber-500/40'
-                          : 'bg-gradient-to-br from-purple-500 to-pink-500 shadow-2xl shadow-purple-500/40 hover:shadow-purple-500/60 hover:scale-110 animate-mic-glow'
+                          : 'bg-gradient-to-br from-blue-500 to-indigo-500 shadow-2xl shadow-blue-500/40 hover:shadow-blue-500/60 hover:scale-110 animate-mic-glow'
                       }`}
                     >
                       {isRecording ? (
@@ -2069,7 +2069,7 @@ export default function TestPage() {
                     <button
                       onClick={evaluateSpeaking}
                       disabled={evaluatingSpeaking}
-                      className="mt-4 flex items-center gap-2 rounded-xl px-6 py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-sm font-medium transition-all shadow-lg cursor-pointer disabled:opacity-50"
+                      className="mt-4 flex items-center gap-2 rounded-xl px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white text-sm font-medium transition-all shadow-lg cursor-pointer disabled:opacity-50"
                     >
                       {evaluatingSpeaking ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
                       {evaluatingSpeaking ? 'Evaluating...' : 'Evaluate Response'}
@@ -2081,9 +2081,9 @@ export default function TestPage() {
               /* Evaluation Results */
               <div className="glass-card p-6 mb-6">
                 <div className="flex items-center gap-2 mb-4">
-                  <Award className="h-5 w-5 text-purple-400" />
+                  <Award className="h-5 w-5 text-blue-400" />
                   <h3 className="text-lg font-semibold text-white">Speaking Evaluation</h3>
-                  <span className="ml-auto inline-flex items-center rounded-full px-3 py-1 text-xs font-bold bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 border border-purple-500/30">
+                  <span className="ml-auto inline-flex items-center rounded-full px-3 py-1 text-xs font-bold bg-gradient-to-r from-blue-500/20 to-indigo-500/20 text-blue-300 border border-blue-500/30">
                     {evaluation!.cefrLevel} - Score: {evaluation!.score}/100
                   </span>
                 </div>
@@ -2096,7 +2096,7 @@ export default function TestPage() {
                     <div key={dim.key} className="glass-card p-3">
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-sm font-medium text-white">{dim.label}</span>
-                        <span className="text-sm font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                        <span className="text-sm font-bold bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent">
                           {dim.score}/100
                         </span>
                       </div>
@@ -2163,12 +2163,12 @@ export default function TestPage() {
     const evaluation = writingEvaluations[writingPrompt.id];
     const writingDimensions = evaluation?.dimensions
       ? [
-          { key: 'grammar', label: 'Grammar (G)', ...evaluation.dimensions.grammar, color: 'from-purple-500 to-violet-500' },
-          { key: 'vocabulary', label: 'Vocabulary (V)', ...evaluation.dimensions.vocabulary, color: 'from-pink-500 to-rose-500' },
+          { key: 'grammar', label: 'Grammar (G)', ...evaluation.dimensions.grammar, color: 'from-blue-500 to-violet-500' },
+          { key: 'vocabulary', label: 'Vocabulary (V)', ...evaluation.dimensions.vocabulary, color: 'from-blue-500 to-indigo-500' },
           { key: 'coherence', label: 'Coherence (C)', ...evaluation.dimensions.coherence, color: 'from-orange-500 to-amber-500' },
           { key: 'taskAchievement', label: 'Task Achievement (T)', ...evaluation.dimensions.taskAchievement, color: 'from-green-500 to-emerald-500' },
           { key: 'cohesion', label: 'Cohesion (Co)', ...evaluation.dimensions.cohesion, color: 'from-blue-500 to-cyan-500' },
-          { key: 'range', label: 'Range (R)', ...evaluation.dimensions.range, color: 'from-red-500 to-pink-500' },
+          { key: 'range', label: 'Range (R)', ...evaluation.dimensions.range, color: 'from-violet-500 to-indigo-500' },
         ]
       : [];
 
@@ -2180,7 +2180,7 @@ export default function TestPage() {
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-purple-500 text-white shadow-lg">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-indigo-500 text-white shadow-lg">
                   <PenTool className="h-5 w-5" />
                 </div>
                 <div>
@@ -2188,7 +2188,7 @@ export default function TestPage() {
                   <p className="text-xs text-white/40">1 prompt</p>
                 </div>
               </div>
-              <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold bg-gradient-to-r from-violet-500/20 to-purple-500/20 text-violet-300 border border-violet-500/30">
+              <span className="inline-flex items-center rounded-full px-3 py-1 text-xs font-bold bg-gradient-to-r from-violet-500/20 to-indigo-500/20 text-violet-300 border border-indigo-500/30">
                 {writingPrompt.level}
               </span>
             </div>
@@ -2215,13 +2215,13 @@ export default function TestPage() {
                   value={currentWritingText}
                   onChange={(e) => setWritingTexts(prev => ({ ...prev, [writingPrompt.id]: e.target.value }))}
                   placeholder="Start writing your response here..."
-                  className="w-full h-64 bg-white/5 border border-white/10 rounded-xl p-4 text-white/80 text-sm leading-relaxed placeholder-white/20 focus:outline-none focus:border-purple-500/40 focus:ring-2 focus:ring-purple-500/20 transition-all resize-none"
+                  className="w-full h-64 bg-white/5 border border-white/10 rounded-xl p-4 text-white/80 text-sm leading-relaxed placeholder-white/20 focus:outline-none focus:border-blue-500/40 focus:ring-2 focus:ring-blue-500/20 transition-all resize-none"
                 />
                 <div className="mt-4 flex justify-end">
                   <button
                     onClick={evaluateWriting}
                     disabled={evaluatingWriting || wc < 10}
-                    className="flex items-center gap-2 rounded-xl px-6 py-2.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-sm font-medium transition-all shadow-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex items-center gap-2 rounded-xl px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white text-sm font-medium transition-all shadow-lg cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {evaluatingWriting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
                     {evaluatingWriting ? 'Evaluating...' : 'Evaluate Writing'}
@@ -2232,9 +2232,9 @@ export default function TestPage() {
               /* Writing Evaluation */
               <div className="glass-card p-6 mb-6">
                 <div className="flex items-center gap-2 mb-4">
-                  <Award className="h-5 w-5 text-purple-400" />
+                  <Award className="h-5 w-5 text-blue-400" />
                   <h3 className="text-lg font-semibold text-white">Writing Evaluation</h3>
-                  <span className="ml-auto inline-flex items-center rounded-full px-3 py-1 text-xs font-bold bg-gradient-to-r from-violet-500/20 to-purple-500/20 text-violet-300 border border-violet-500/30">
+                  <span className="ml-auto inline-flex items-center rounded-full px-3 py-1 text-xs font-bold bg-gradient-to-r from-violet-500/20 to-indigo-500/20 text-violet-300 border border-indigo-500/30">
                     {evaluation!.cefrLevel} - Score: {evaluation!.score}/100
                   </span>
                 </div>
@@ -2248,7 +2248,7 @@ export default function TestPage() {
                       <div key={dim.key} className="glass-card p-3">
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-sm font-medium text-white">{dim.label}</span>
-                          <span className="text-sm font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                          <span className="text-sm font-bold bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent">
                             {dim.score}/100
                           </span>
                         </div>
@@ -2324,7 +2324,7 @@ export default function TestPage() {
       B1: 'from-yellow-400 to-yellow-600',
       B2: 'from-orange-400 to-orange-600',
       C1: 'from-red-400 to-red-600',
-      C2: 'from-purple-400 to-purple-600',
+      C2: 'from-blue-400 to-violet-600',
     };
 
     return (
@@ -2335,8 +2335,8 @@ export default function TestPage() {
             {/* Header */}
             <div className="text-center mb-8">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <Award className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Assessment Complete</span>
+                <Award className="h-3.5 w-3.5 text-blue-400" />
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Assessment Complete</span>
               </div>
               <h1 className="text-3xl md:text-4xl font-bold text-white">
                 Your CEFR Results
@@ -2345,7 +2345,7 @@ export default function TestPage() {
 
             {/* Main Result */}
             <div className="glass-card-neon p-5 sm:p-8 mb-6 text-center">
-              <div className={`inline-flex items-center justify-center h-24 w-24 rounded-2xl bg-gradient-to-br ${cefrGradients[results.assessment.cefrLevel] || 'from-purple-400 to-purple-600'} text-white text-4xl font-black shadow-2xl mb-4`}>
+              <div className={`inline-flex items-center justify-center h-24 w-24 rounded-2xl bg-gradient-to-br ${cefrGradients[results.assessment.cefrLevel] || 'from-blue-400 to-violet-600'} text-white text-4xl font-black shadow-2xl mb-4`}>
                 {results.assessment.cefrLevel}
               </div>
               <h2 className="text-2xl font-bold text-white mb-2">CEFR Level: {results.assessment.cefrLevel}</h2>
@@ -2371,7 +2371,7 @@ export default function TestPage() {
             {results.certificate && (
               <div className="glass-card p-6 mb-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <Award className="h-5 w-5 text-purple-400" />
+                  <Award className="h-5 w-5 text-blue-400" />
                   <h3 className="text-lg font-semibold text-white">Your Certificate</h3>
                 </div>
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl bg-white/5 gap-3">
@@ -2380,7 +2380,7 @@ export default function TestPage() {
                     <p className="text-xs text-white/40 truncate">Score: {results.certificate.score}/100 | ID: {results.certificate.verificationId}</p>
                   </div>
                   <a href={`/api/certificates/download/${results.certificate.verificationId}`} target="_blank" rel="noopener noreferrer" className="shrink-0">
-                    <button className="flex items-center gap-1 rounded-lg px-4 py-2 text-xs font-medium bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-lg cursor-pointer min-h-[44px]">
+                    <button className="flex items-center gap-1 rounded-lg px-4 py-2 text-xs font-medium bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg cursor-pointer min-h-[44px]">
                       Download PDF
                     </button>
                   </a>
@@ -2437,7 +2437,7 @@ export default function TestPage() {
                     if (data.questions) setApiQuestions(data.questions);
                   }).catch(() => {}).finally(() => setIsLoadingQuestions(false));
                 }}
-                className="flex items-center justify-center gap-2 rounded-xl px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-medium transition-all shadow-lg cursor-pointer"
+                className="flex items-center justify-center gap-2 rounded-xl px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-medium transition-all shadow-lg cursor-pointer"
               >
                 <RotateCcw className="h-4 w-4" /> Retake Test
               </button>
@@ -2455,7 +2455,7 @@ export default function TestPage() {
     <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
       <Navbar />
       <div className="flex-1 flex items-center justify-center">
-        <Loader2 className="h-8 w-8 text-purple-400 animate-spin" />
+        <Loader2 className="h-8 w-8 text-blue-400 animate-spin" />
       </div>
     </div>
   );

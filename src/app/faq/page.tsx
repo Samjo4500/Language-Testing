@@ -56,7 +56,7 @@ function BackgroundOrbs() {
       <div className="orb orb-pink w-[350px] h-[350px] top-1/3 -right-16 animate-float-reverse" />
       <div className="orb orb-blue w-[250px] h-[250px] bottom-16 left-1/4 animate-float" />
       <div className="absolute top-1/4 left-1/2 w-2 h-2 rounded-full bg-purple-400/40 animate-float delay-200" />
-      <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 rounded-full bg-pink-400/30 animate-float-reverse delay-500" />
+      <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 rounded-full bg-blue-400/30 animate-float-reverse delay-500" />
       <div className="absolute bottom-1/3 left-1/3 w-2.5 h-2.5 rounded-full bg-blue-400/30 animate-float delay-300" />
     </div>
   );
@@ -79,7 +79,7 @@ const faqCategories: FAQCategory[] = [
   {
     title: 'General Questions',
     icon: <BookOpen className="h-5 w-5" />,
-    gradient: 'from-purple-400 to-pink-400',
+    gradient: 'from-blue-400 to-violet-400',
     items: [
       {
         question: 'Is TestCEFR really free?',
@@ -300,7 +300,7 @@ export default function FAQPage() {
           <div className="max-w-2xl mx-auto">
             <AnimatedSection>
               <div className="glass-card p-8 md:p-10 text-center">
-                <div className="flex h-14 w-14 mx-auto items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg mb-6">
+                <div className="flex h-14 w-14 mx-auto items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 text-white shadow-lg mb-6">
                   <Sparkles className="h-6 w-6" />
                 </div>
                 <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
@@ -312,7 +312,7 @@ export default function FAQPage() {
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                   <Link
                     href="/register"
-                    className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5"
+                    className="inline-flex items-center gap-2 rounded-xl px-8 py-3.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold text-base transition-all duration-300 shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5"
                   >
                     Get Started Free
                     <ArrowRight className="h-4 w-4" />

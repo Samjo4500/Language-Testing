@@ -87,7 +87,7 @@ export default function ListeningPage() {
       icon: <Globe className="h-6 w-6" />,
       title: 'Various Accents',
       desc: 'Train your ear to understand diverse English accents including British, American, Australian, and more — essential for real-world communication.',
-      gradient: 'from-pink-500 to-rose-500',
+      gradient: 'from-blue-500 to-indigo-500',
     },
     {
       icon: <Volume2 className="h-6 w-6" />,
@@ -116,7 +116,7 @@ export default function ListeningPage() {
       title: 'Answer Questions',
       desc: 'Respond to comprehension questions that evaluate your understanding of main ideas, specific details, speaker intent, and implied meanings.',
       step: '02',
-      gradient: 'from-pink-500 to-rose-500',
+      gradient: 'from-blue-500 to-indigo-500',
     },
     {
       icon: <CheckCircle2 className="h-7 w-7" />,
@@ -139,8 +139,8 @@ export default function ListeningPage() {
           <div className="mx-auto max-w-4xl text-center">
             {/* Badge */}
             <div className="animate-float inline-flex items-center gap-2 rounded-full glass-light px-5 py-2 mb-8 animate-border-glow">
-              <Headphones className="h-4 w-4 text-purple-300" />
-              <span className="text-sm text-purple-200 font-medium">Listening Assessment</span>
+              <Headphones className="h-4 w-4 text-blue-300" />
+              <span className="text-sm text-blue-200 font-medium">Listening Assessment</span>
               <span className="flex h-2 w-2 rounded-full bg-green-400 animate-pulse" />
             </div>
 
@@ -202,7 +202,7 @@ export default function ListeningPage() {
             <div className="mt-16 grid grid-cols-3 gap-2 sm:gap-4 max-w-lg mx-auto">
               <AnimatedSection delay={100}>
                 <div className="glass-card p-4 text-center group">
-                  <div className="flex justify-center mb-2 text-purple-400 group-hover:text-purple-300 transition-colors">
+                  <div className="flex justify-center mb-2 text-blue-400 group-hover:text-blue-300 transition-colors">
                     <Users className="h-5 w-5" />
                   </div>
                   <div className="text-lg sm:text-xl font-bold text-white">5K+</div>
@@ -211,7 +211,7 @@ export default function ListeningPage() {
               </AnimatedSection>
               <AnimatedSection delay={200}>
                 <div className="glass-card p-4 text-center group">
-                  <div className="flex justify-center mb-2 text-purple-400 group-hover:text-purple-300 transition-colors">
+                  <div className="flex justify-center mb-2 text-blue-400 group-hover:text-blue-300 transition-colors">
                     <Music className="h-5 w-5" />
                   </div>
                   <div className="text-lg sm:text-xl font-bold text-white">200+</div>
@@ -220,7 +220,7 @@ export default function ListeningPage() {
               </AnimatedSection>
               <AnimatedSection delay={300}>
                 <div className="glass-card p-4 text-center group">
-                  <div className="flex justify-center mb-2 text-purple-400 group-hover:text-purple-300 transition-colors">
+                  <div className="flex justify-center mb-2 text-blue-400 group-hover:text-blue-300 transition-colors">
                     <Zap className="h-5 w-5" />
                   </div>
                   <div className="text-lg sm:text-xl font-bold text-white">15 min</div>
@@ -242,8 +242,8 @@ export default function ListeningPage() {
           <AnimatedSection>
             <div className="text-center mb-14">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <Volume2 className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">What You&apos;ll Experience</span>
+                <Volume2 className="h-3.5 w-3.5 text-blue-400" />
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">What You&apos;ll Experience</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
                 Listening Features Built for You
@@ -279,8 +279,8 @@ export default function ListeningPage() {
           <AnimatedSection>
             <div className="text-center mb-14">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <Play className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Simple Process</span>
+                <Play className="h-3.5 w-3.5 text-blue-400" />
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Simple Process</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
                 How It Works
@@ -326,8 +326,8 @@ export default function ListeningPage() {
           <AnimatedSection>
             <div className="text-center mb-14">
               <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
-                <Ear className="h-3.5 w-3.5 text-purple-400" />
-                <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Sample Questions</span>
+                <Ear className="h-3.5 w-3.5 text-blue-400" />
+                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Sample Questions</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
                 Listening Practice Examples
@@ -348,8 +348,8 @@ export default function ListeningPage() {
                 </div>
                 <div className="rounded-xl bg-white/[0.03] border border-white/5 p-5 mb-4">
                   <div className="flex items-center gap-2 mb-3">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-500/20">
-                      <Headphones className="h-4 w-4 text-purple-400" />
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500/20">
+                      <Headphones className="h-4 w-4 text-blue-400" />
                     </div>
                     <span className="text-white/50 text-xs">Audio clip: A conversation between a customer and a waiter</span>
                   </div>
@@ -417,13 +417,13 @@ export default function ListeningPage() {
             <AnimatedSection delay={300}>
               <div className="glass-card p-6 group">
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-red-500/20 text-red-400 text-xs font-bold border border-red-500/30">C1</span>
+                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-400 text-xs font-bold border border-indigo-500/30">C1</span>
                   <h3 className="text-white font-semibold">Academic Lecture</h3>
                 </div>
                 <div className="rounded-xl bg-white/[0.03] border border-white/5 p-5 mb-4">
                   <div className="flex items-center gap-2 mb-3">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-red-500/20">
-                      <Headphones className="h-4 w-4 text-red-400" />
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-500/20">
+                      <Headphones className="h-4 w-4 text-indigo-400" />
                     </div>
                     <span className="text-white/50 text-xs">Audio clip: An excerpt from a university lecture on behavioral economics</span>
                   </div>
@@ -469,8 +469,8 @@ export default function ListeningPage() {
             <div className="max-w-3xl mx-auto">
               <div className="glass-card p-10 md:p-14">
                 <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-6 animate-pulse-glow">
-                  <Headphones className="h-4 w-4 text-purple-300" />
-                  <span className="text-sm text-purple-200 font-medium">Listening Assessment</span>
+                  <Headphones className="h-4 w-4 text-blue-300" />
+                  <span className="text-sm text-blue-200 font-medium">Listening Assessment</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
                   Ready to Test Your <span className="gradient-text-static">Listening</span>?

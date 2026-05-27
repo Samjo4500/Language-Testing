@@ -431,7 +431,7 @@ export default function GrammarCheckPage() {
           </div>
           <div className="w-full max-w-md relative">
             <div className="glass-card p-8 text-center">
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 text-white mb-5 shadow-lg shadow-purple-500/25">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-500 text-white mb-5 shadow-lg shadow-blue-500/25">
                 <LogIn className="h-7 w-7" />
               </div>
               <h1 className="text-2xl font-bold text-white mb-2">Sign in to continue</h1>
@@ -439,7 +439,7 @@ export default function GrammarCheckPage() {
                 Use the AI Grammar Checker to analyze your writing for errors, get corrections, and improve your English skills.
               </p>
               <Link href="/login?redirect=/grammar-check">
-                <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 cursor-pointer">
+                <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 cursor-pointer">
                   <Sparkles className="h-4 w-4" />
                   Sign in
                 </button>
@@ -467,7 +467,7 @@ export default function GrammarCheckPage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/20">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 text-white shadow-lg shadow-blue-500/20">
                   <PenLine className="h-5 w-5" />
                 </div>
                 <div>
@@ -539,7 +539,7 @@ export default function GrammarCheckPage() {
                 <button
                   onClick={handleCheckGrammar}
                   disabled={isChecking || text.trim().length < 10}
-                  className="w-full mt-4 flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 disabled:from-purple-800/50 disabled:to-pink-800/50 disabled:text-white/30 disabled:cursor-not-allowed text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 disabled:hover:translate-y-0 cursor-pointer"
+                  className="w-full mt-4 flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 disabled:from-blue-800/50 disabled:to-indigo-800/50 disabled:text-white/30 disabled:cursor-not-allowed text-white font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 disabled:hover:translate-y-0 cursor-pointer"
                 >
                   {isChecking ? (
                     <>
@@ -573,7 +573,7 @@ export default function GrammarCheckPage() {
                       <button
                         key={i}
                         onClick={() => handleTryExample(ex.text)}
-                        className="w-full text-left p-3 rounded-xl bg-white/[0.03] border border-white/[0.05] hover:bg-white/[0.06] hover:border-purple-500/20 transition-all duration-200 group cursor-pointer"
+                        className="w-full text-left p-3 rounded-xl bg-white/[0.03] border border-white/[0.05] hover:bg-white/[0.06] hover:border-blue-500/20 transition-all duration-200 group cursor-pointer"
                       >
                         <div className="flex items-center gap-2 mb-1">
                           <span className="text-sm">{ex.icon}</span>
@@ -594,10 +594,10 @@ export default function GrammarCheckPage() {
               {isChecking && (
                 <div className="glass-card p-8 flex flex-col items-center justify-center min-h-[300px]">
                   <div className="relative mb-6">
-                    <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center animate-pulse-slow">
+                    <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-blue-500/20 to-indigo-500/20 flex items-center justify-center animate-pulse-slow">
                       <Sparkles className="h-8 w-8 text-purple-400 animate-pulse" />
                     </div>
-                    <div className="absolute -inset-4 rounded-3xl border border-purple-500/20 animate-ping-slow" />
+                    <div className="absolute -inset-4 rounded-3xl border border-blue-500/20 animate-ping-slow" />
                   </div>
                   <h3 className="text-lg font-semibold text-white mb-2">Analyzing your text...</h3>
                   <p className="text-sm text-white/40 text-center max-w-xs">
@@ -677,7 +677,7 @@ export default function GrammarCheckPage() {
                   {result.errors.length > 0 && (
                     <button
                       onClick={handleCopyCorrected}
-                      className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.06] text-sm text-white/60 hover:text-white hover:bg-white/[0.08] hover:border-purple-500/20 transition-all duration-200 cursor-pointer"
+                      className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.06] text-sm text-white/60 hover:text-white hover:bg-white/[0.08] hover:border-blue-500/20 transition-all duration-200 cursor-pointer"
                     >
                       {copiedCorrected ? (
                         <>
@@ -768,7 +768,7 @@ export default function GrammarCheckPage() {
                   <button
                     onClick={handleCheckGrammar}
                     disabled={isChecking}
-                    className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.06] text-sm text-white/60 hover:text-white hover:bg-white/[0.08] hover:border-purple-500/20 transition-all duration-200 cursor-pointer"
+                    className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.06] text-sm text-white/60 hover:text-white hover:bg-white/[0.08] hover:border-blue-500/20 transition-all duration-200 cursor-pointer"
                   >
                     <RefreshCw className="h-4 w-4" />
                     Re-check text
