@@ -931,5 +931,975 @@ export const BEGINNER_LESSON_CONTENT: Record<string, LessonStructuredContent> = 
         explanation: "'In my free time, I enjoy...' is a natural way to introduce hobbies."
       }
     ]
+  },
+
+  "Ordering Food and Drinks": {
+    explanation: `<h2>Ordering Food and Drinks in English</h2>
+<p>Ordering food is one of the most common real-world English situations you will encounter. The key is being <strong>polite and clear</strong> when speaking to restaurant staff. There are several essential phrases for ordering: <em>"I'd like the ______, please"</em> is the most common and polite form. <em>"Could I have the ______?"</em> is very polite, while <em>"I'll have the ______"</em> is more casual and natural. In American and Canadian English, <em>"Can I get the ______?"</em> is very common in informal settings.</p>
+
+<p>When you need to ask about the menu, use phrases like <em>"What's in the ______?"</em> to ask about ingredients, <em>"Does this have ______ in it?"</em> for allergies or dietary concerns, and <em>"What do you recommend?"</em> when you want the waiter's suggestion. For special requests, say <em>"Could I have that without ______?"</em> or <em>"Can I get extra ______, please?"</em>. At the end of the meal, ask for the bill with <em>"Could we have the bill, please?"</em> (British English) or <em>"Could we get the check, please?"</em> (American English).</p>
+
+<p>Remember to be polite throughout your meal. If something is wrong with your order, say <em>"I'm sorry, I ordered ______, not ______"</em> rather than complaining aggressively. Saying <em>"This is delicious!"</em> when you enjoy the food is always appreciated. When paying, you can ask <em>"Is service included?"</em> to find out if a tip is already added to the bill. In the US, tipping 15-20% is expected; in the UK, tipping is optional at around 10%.</p>`,
+    examples: [
+      {
+        sentence: "I'd like the grilled chicken, please.",
+        note: "Polite ordering — the most common and natural way to order in a restaurant."
+      },
+      {
+        sentence: "Could I have the soup of the day?",
+        note: "Very polite request — using 'could' makes the request softer and more courteous."
+      },
+      {
+        sentence: "Does this dish contain nuts?",
+        note: "Allergy/dietary question — essential for safety when you have food allergies."
+      },
+      {
+        sentence: "Could we have the bill, please?",
+        note: "Asking for the bill (UK) — 'check' is used in American English instead."
+      },
+      {
+        sentence: "I'm sorry, I ordered the salad, not the soup.",
+        note: "Correcting a wrong order — polite but clear way to point out a mistake."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "I want the chicken.",
+        correction: "I'd like the chicken, please. ('Want' sounds too direct and impolite in restaurants.)"
+      },
+      {
+        mistake: "Give me the menu.",
+        correction: "Could I see the menu, please? (Use a polite request form instead of a command.)"
+      },
+      {
+        mistake: "The bill, please. (without 'Could we have')",
+        correction: "Could we have the bill, please? (Always include a polite request structure.)"
+      },
+      {
+        mistake: "I want to pay.",
+        correction: "Could we pay, please? (More natural and polite way to request payment.)"
+      }
+    ],
+    quiz: [
+      {
+        question: "Which phrase is the most polite way to order food?",
+        options: [
+          "I want the steak.",
+          "Give me the steak.",
+          "I'd like the steak, please.",
+          "The steak, now."
+        ],
+        correctAnswer: 2,
+        explanation: "'I'd like... please' is the standard polite way to order. 'Want' and 'give me' sound too direct and rude."
+      },
+      {
+        question: "What do you say in the UK when you want to pay?",
+        options: [
+          "Could we have the check, please?",
+          "Could we have the bill, please?",
+          "Give me the receipt.",
+          "I want to pay now."
+        ],
+        correctAnswer: 1,
+        explanation: "In British English, you ask for the 'bill'. 'Check' is American English. Always use a polite request form."
+      },
+      {
+        question: "How do you ask if a dish contains something you're allergic to?",
+        options: [
+          "Is there nuts in this?",
+          "Does this dish contain nuts?",
+          "No nuts in this?",
+          "You put nuts here?"
+        ],
+        correctAnswer: 1,
+        explanation: "'Does this dish contain nuts?' is grammatically correct and clearly asks about allergens. Use 'contain' for ingredients."
+      },
+      {
+        question: "What does 'Could I have that without onions?' mean?",
+        options: [
+          "I want extra onions.",
+          "I don't want any onions in my dish.",
+          "I want the onions on the side.",
+          "I love onions."
+        ],
+        correctAnswer: 1,
+        explanation: "'Without' means you do not want that ingredient in your dish. It is a way to make a special request."
+      },
+      {
+        question: "A waiter asks 'Are you ready to order?' What is a natural response?",
+        options: [
+          "Yes, I'd like the fish, please.",
+          "Food.",
+          "Give me food.",
+          "I hungry."
+        ],
+        correctAnswer: 0,
+        explanation: "'Yes, I'd like the fish, please' is a complete, polite response that includes your order."
+      }
+    ]
+  },
+
+  "Asking for and Giving Directions": {
+    explanation: `<h2>Asking for and Giving Directions</h2>
+<p>Being able to ask for and give directions is an essential survival skill in English. There are two key groups of prepositions you need: prepositions of <strong>place</strong> (next to, between, behind, in front of, opposite, near, on the corner of) and prepositions of <strong>movement</strong> (straight ahead, turn left/right, go past, cross the road, walk along, take the first/second turning). When asking for directions, always start with a polite phrase such as <em>"Excuse me, how do I get to the station?"</em> or <em>"Sorry, could you tell me where the museum is?"</em></p>
+
+<p>When giving directions, use clear and specific phrases. Common expressions include: <em>"Go straight ahead until you see the ______"</em>, <em>"Turn left/right at the traffic lights"</em>, <em>"It's on your left/right"</em>, and <em>"Go past the ______, then turn ______"</em>. You can also refer to landmarks to help the person: traffic lights, roundabouts, bridges, pedestrian crossings, bus stops, and petrol stations. The phrase <em>"You can't miss it!"</em> is commonly used to reassure someone that the place is easy to find.</p>
+
+<p>Transportation phrases are also important when asking about distance and options. Use <em>"Is it walking distance?"</em> to ask if you can walk there, <em>"How far is it?"</em> for the distance, and <em>"Is there a bus that goes there?"</em> for public transport options. Remember to thank the person who gives you directions — a simple <em>"Thank you very much!"</em> or <em>"That's very helpful!"</em> is always appreciated.</p>`,
+    examples: [
+      {
+        sentence: "Excuse me, how do I get to the train station?",
+        note: "Polite way to ask for directions — always start with 'Excuse me'."
+      },
+      {
+        sentence: "Go straight ahead and turn left at the traffic lights.",
+        note: "Giving directions using movement prepositions and a landmark (traffic lights)."
+      },
+      {
+        sentence: "It's opposite the bank, next to the post office.",
+        note: "Using place prepositions to describe an exact location."
+      },
+      {
+        sentence: "Walk along this street for about 200 metres.",
+        note: "Giving distance and direction — 'along' means following the street."
+      },
+      {
+        sentence: "You can't miss it! It's the big blue building on your right.",
+        note: "Reassuring phrase — 'You can't miss it' means it's very easy to see."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "Where is the station? (without 'Excuse me')",
+        correction: "Excuse me, could you tell me where the station is? (Always use a polite opening.)"
+      },
+      {
+        mistake: "Go to left at the traffic lights.",
+        correction: "Turn left at the traffic lights. (Use 'turn left/right', not 'go to left'.)"
+      },
+      {
+        mistake: "It's in front the bank.",
+        correction: "It's in front of the bank. ('In front of' needs 'of' before the noun.)"
+      },
+      {
+        mistake: "Walk straight to the end.",
+        correction: "Go straight ahead until you reach the end. (Use 'straight ahead' for directions.)"
+      }
+    ],
+    quiz: [
+      {
+        question: "Which is the most polite way to ask for directions?",
+        options: [
+          "Where is the museum?",
+          "Tell me where the museum is.",
+          "Excuse me, could you tell me how to get to the museum?",
+          "Museum? Where?"
+        ],
+        correctAnswer: 2,
+        explanation: "Starting with 'Excuse me' and using 'could you tell me' makes the question polite and respectful."
+      },
+      {
+        question: "What does 'It's opposite the bank' mean?",
+        options: [
+          "It's inside the bank.",
+          "It's next to the bank.",
+          "It's directly across from the bank.",
+          "It's behind the bank."
+        ],
+        correctAnswer: 2,
+        explanation: "'Opposite' means directly across from — on the other side of the street or area."
+      },
+      {
+        question: "Complete: 'Go ______ the supermarket and turn right.'",
+        options: ["past", "opposite", "between", "along"],
+        correctAnswer: 0,
+        explanation: "'Go past' means to walk by or beyond something. You pass it and continue."
+      },
+      {
+        question: "What does 'You can't miss it' mean?",
+        options: [
+          "You should avoid it.",
+          "It's very easy to find and see.",
+          "You will lose it.",
+          "It's hidden."
+        ],
+        correctAnswer: 1,
+        explanation: "'You can't miss it' is a reassuring expression meaning the place is very visible and easy to find."
+      },
+      {
+        question: "Which phrase asks about distance?",
+        options: [
+          "How do I get there?",
+          "How far is it?",
+          "Where is it?",
+          "Is it walking distance?"
+        ],
+        correctAnswer: 1,
+        explanation: "'How far is it?' specifically asks about the distance. 'Is it walking distance?' is about whether you can walk there, not the exact distance."
+      }
+    ]
+  },
+
+  "Making Appointments and Reservations": {
+    explanation: `<h2>Making Appointments and Reservations</h2>
+<p>Making appointments and reservations is an important skill for both formal and informal situations. In formal contexts — such as calling a doctor's office, booking a restaurant, or scheduling a work meeting — use polite phrases like <em>"I'd like to make an appointment with Dr. Smith, please"</em>, <em>"Could I schedule a meeting for next Tuesday?"</em>, or <em>"I'd like to book a table for four people at 7 PM."</em> Always ask about availability with <em>"Is there any availability this week?"</em> or <em>"Do you have any openings on Friday afternoon?"</em></p>
+
+<p>For informal situations with friends, the language is much more casual: <em>"Are you free on Saturday?"</em>, <em>"Do you want to meet up next week?"</em>, <em>"How about Tuesday at 3?"</em>, and <em>"What time works for you?"</em> When responding to proposals, you can accept with <em>"That works for me"</em> or <em>"Perfect!"</em>, decline politely with <em>"I'm afraid I'm busy then"</em>, or suggest alternatives with <em>"Would Thursday work instead?"</em></p>
+
+<p>Date and time expressions are essential: use <em>"on Monday"</em>, <em>"on the 15th"</em>, <em>"in the morning/afternoon/evening"</em>, and <em>"at 9 o'clock"</em>. Remember the difference between <em>"next Monday"</em> (the coming Monday) and <em>"this Monday"</em> (which could mean earlier this week). If you need to change or cancel, say <em>"Could I reschedule my appointment to next week?"</em> or <em>"I need to cancel my reservation."</em> Always confirm with <em>"Just to confirm, we're meeting at 2 PM on Friday?"</em></p>`,
+    examples: [
+      {
+        sentence: "I'd like to make an appointment with Dr. Lee, please.",
+        note: "Formal appointment request — polite and specific about who you want to see."
+      },
+      {
+        sentence: "Are you free on Saturday afternoon?",
+        note: "Informal suggestion — asking a friend about their availability."
+      },
+      {
+        sentence: "I'm afraid I'm busy then. How about Wednesday?",
+        note: "Declining politely and suggesting an alternative — a very common pattern."
+      },
+      {
+        sentence: "Could I reschedule my appointment to next week?",
+        note: "Changing an appointment — 'reschedule' means to move it to a different time."
+      },
+      {
+        sentence: "Just to confirm, we're meeting at 2 PM on Friday?",
+        note: "Confirming details — always a good idea to double-check time and date."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "I want appointment with doctor.",
+        correction: "I'd like to make an appointment with the doctor, please. (Use polite request form and articles.)"
+      },
+      {
+        mistake: "Are you free in Saturday?",
+        correction: "Are you free on Saturday? (Use 'on' with days of the week.)"
+      },
+      {
+        mistake: "I can't come Tuesday. Another day?",
+        correction: "I'm afraid I'm busy on Tuesday. Would another day work for you? (More polite and complete.)"
+      },
+      {
+        mistake: "I need cancel my reservation.",
+        correction: "I need to cancel my reservation. (Don't forget 'to' after 'need'.)"
+      }
+    ],
+    quiz: [
+      {
+        question: "Which is the most polite way to book a table at a restaurant?",
+        options: [
+          "I want a table for two tonight.",
+          "Give me a table for two.",
+          "I'd like to book a table for two at 7 PM, please.",
+          "Table for two, now."
+        ],
+        correctAnswer: 2,
+        explanation: "'I'd like to book... please' is polite, specific, and includes all the necessary information."
+      },
+      {
+        question: "Complete: 'I'm afraid I'm busy then. ______ work instead?'",
+        options: ["Is Wednesday", "Would Wednesday", "Wednesday", "Does Wednesday"],
+        correctAnswer: 1,
+        explanation: "'Would Wednesday work instead?' is the polite way to suggest an alternative day."
+      },
+      {
+        question: "Which preposition is correct? 'The meeting is ______ Monday.'",
+        options: ["in", "on", "at", "by"],
+        correctAnswer: 1,
+        explanation: "Use 'on' with days of the week: on Monday, on Tuesday, etc."
+      },
+      {
+        question: "What does 'reschedule' mean?",
+        options: [
+          "To cancel completely",
+          "To change to a different time",
+          "To arrive early",
+          "To confirm the time"
+        ],
+        correctAnswer: 1,
+        explanation: "'Reschedule' means to move an appointment to a different time or date, not to cancel it."
+      },
+      {
+        question: "How do you confirm an appointment politely?",
+        options: [
+          "We meet at 2, right?",
+          "Just to confirm, we're meeting at 2 PM on Friday?",
+          "Tell me again when we meet.",
+          "So, 2 o'clock. Don't forget."
+        ],
+        correctAnswer: 1,
+        explanation: "'Just to confirm...' is a polite way to check the details of an appointment without sounding doubtful."
+      }
+    ]
+  },
+
+  "Shopping and Negotiating Prices": {
+    explanation: `<h2>Shopping and Negotiating Prices</h2>
+<p>Shopping in English requires knowing how to ask about products, discuss sizes and colours, handle payments, and in some cases, negotiate prices. When you enter a shop, the assistant may ask <em>"Can I help you?"</em> or <em>"Are you looking for anything in particular?"</em> If you're just browsing, say <em>"I'm just looking, thank you."</em> If you need help, say <em>"Yes, I'm looking for a ______"</em> or <em>"Could you show me the ______?"</em></p>
+
+<p>When asking about products, use phrases like <em>"How much is this?"</em>, <em>"Is this on sale?"</em>, <em>"Do you have this in a smaller/larger size?"</em>, and <em>"Can I try this on?"</em> At the checkout, you can say <em>"I'll take this, please"</em> and ask <em>"Do you take credit cards?"</em> or <em>"Can I pay by card?"</em> Understanding price expressions is important: £12.99 is read as <em>"twelve pounds ninety-nine"</em> and $45.00 is <em>"forty-five dollars"</em>.</p>
+
+<p>In markets and some shops, bargaining is common. Use polite phrases like <em>"Can you give me a better price?"</em>, <em>"That's a bit expensive. Can you do it for ______?"</em>, or <em>"Is that your best price?"</em> A useful strategy is offering to buy more: <em>"I'll buy two if you give me a discount."</em> However, remember that bargaining is not appropriate in all shops — it is generally acceptable in markets and small independent shops, but not in large chain stores or supermarkets.</p>`,
+    examples: [
+      {
+        sentence: "I'm just looking, thank you.",
+        note: "Polite response when browsing — tells the assistant you don't need help yet."
+      },
+      {
+        sentence: "Do you have this in a larger size?",
+        note: "Asking about sizes — a very common question when clothes shopping."
+      },
+      {
+        sentence: "How much is this jacket?",
+        note: "Asking about price — the most basic and essential shopping question."
+      },
+      {
+        sentence: "Can I pay by card?",
+        note: "Payment question — important to ask before you reach the checkout."
+      },
+      {
+        sentence: "Is that your best price?",
+        note: "Bargaining phrase — politely asks if there's room for a discount."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "How many is this?",
+        correction: "How much is this? (Use 'how much' for price, not 'how many'.)"
+      },
+      {
+        mistake: "I want pay by card.",
+        correction: "Can I pay by card? (Use a polite question form, not a demand.)"
+      },
+      {
+        mistake: "You have this in blue?",
+        correction: "Do you have this in blue? (Always form proper questions with 'Do you have'.)"
+      },
+      {
+        mistake: "Twelve pounds ninety-nine pence.",
+        correction: "Twelve pounds ninety-nine. (Don't add 'pence' after the pennies figure.)"
+      }
+    ],
+    quiz: [
+      {
+        question: "What do you say when a shop assistant asks if you need help, but you're just browsing?",
+        options: [
+          "No.",
+          "I don't need you.",
+          "I'm just looking, thank you.",
+          "Go away."
+        ],
+        correctAnswer: 2,
+        explanation: "'I'm just looking, thank you' is polite and tells the assistant you're browsing without being rude."
+      },
+      {
+        question: "How do you read the price £24.50?",
+        options: [
+          "Twenty-four fifty pounds",
+          "Twenty-four pounds fifty",
+          "Twenty-four and fifty pounds",
+          "Pounds twenty-four fifty"
+        ],
+        correctAnswer: 1,
+        explanation: "In English, read the pounds first, then 'pounds', then the pence: 'twenty-four pounds fifty'."
+      },
+      {
+        question: "Which phrase is used for bargaining in a market?",
+        options: [
+          "I want it cheaper.",
+          "Give me a discount now.",
+          "Can you give me a better price?",
+          "Too much money."
+        ],
+        correctAnswer: 2,
+        explanation: "'Can you give me a better price?' is a polite and natural way to ask for a discount when bargaining."
+      },
+      {
+        question: "Complete: 'Can I ______ this on?' (trying clothes)",
+        options: ["wear", "try", "put", "take"],
+        correctAnswer: 1,
+        explanation: "'Can I try this on?' is the standard phrase for asking to test clothes before buying."
+      },
+      {
+        question: "What should you ask before paying in a small shop?",
+        options: [
+          "How much?",
+          "Do you take credit cards?",
+          "Money?",
+          "Pay now?"
+        ],
+        correctAnswer: 1,
+        explanation: "'Do you take credit cards?' is important to ask because some small shops only accept cash."
+      }
+    ]
+  },
+
+  "Describing People and Places": {
+    explanation: `<h2>Describing People and Places</h2>
+<p>Describing people and places requires a good range of adjectives and correct sentence structure. When describing physical appearance, use two main patterns: <strong>"He/She is + adjective"</strong> for general descriptions (<em>"She is tall and slim"</em>) and <strong>"He/She has + noun"</strong> for specific features (<em>"He has dark hair and brown eyes"</em>). Be careful with the verb choice: we say <em>"She is tall"</em> (not "She has tall") and <em>"She has blue eyes"</em> (not "She is blue eyes").</p>
+
+<p>For personality, use adjectives that describe character traits. Positive traits include: <em>friendly, kind, funny, honest, hard-working, patient, generous, calm, creative, confident, polite,</em> and <em>helpful</em>. Negative traits include: <em>rude, lazy, impatient, mean, dishonest, shy, arrogant, nervous, boring,</em> and <em>selfish</em>. You can soften descriptions with adverbs: <em>"My brother is very funny"</em> or <em>"My boss can be impatient sometimes"</em>.</p>
+
+<p>When describing places, use adjectives for size (<em>big, small, spacious, tiny</em>), appearance (<em>beautiful, modern, old, clean, colourful</em>), and atmosphere (<em>busy, quiet, lively, peaceful, dangerous, safe</em>). You can also describe location: <em>"It's a beautiful, quiet village in the mountains"</em> or <em>"The city centre is always busy and crowded"</em>. Use <em>"There is/are"</em> to describe what a place has: <em>"There are lots of nice cafés near my flat."</em></p>`,
+    examples: [
+      {
+        sentence: "She is tall with curly brown hair and green eyes.",
+        note: "Combining 'is + adjective' and 'with + features' to give a complete physical description."
+      },
+      {
+        sentence: "He has a beard and wears glasses.",
+        note: "Using 'has' for features — beard and glasses are possessions/features, not adjectives."
+      },
+      {
+        sentence: "My best friend is very funny and always makes me laugh.",
+        note: "Describing personality — 'funny' is a positive trait, and giving an example makes it more vivid."
+      },
+      {
+        sentence: "It's a beautiful, peaceful village near the coast.",
+        note: "Describing a place — combining appearance, atmosphere, and location adjectives."
+      },
+      {
+        sentence: "The city centre is always busy and crowded on weekends.",
+        note: "Describing a place's atmosphere — 'busy and crowded' paint a clear picture."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "She has tall and slim.",
+        correction: "She is tall and slim. (Use 'is' for adjectives, not 'has'.)"
+      },
+      {
+        mistake: "He is dark hair.",
+        correction: "He has dark hair. (Use 'has' for features like hair, eyes, beard.)"
+      },
+      {
+        mistake: "She is a shy person. She has shy.",
+        correction: "She is shy. (Don't repeat 'shy' — just use the adjective after 'is'.)"
+      },
+      {
+        mistake: "The place is very beauty.",
+        correction: "The place is very beautiful. ('Beautiful' is the adjective; 'beauty' is a noun.)"
+      }
+    ],
+    quiz: [
+      {
+        question: "Which sentence correctly describes someone's physical appearance?",
+        options: [
+          "She has tall and slim.",
+          "She is tall and slim.",
+          "She is tall and has slim.",
+          "She has tall and is slim."
+        ],
+        correctAnswer: 1,
+        explanation: "Use 'is' for adjective descriptions like 'tall' and 'slim'. 'Has' is for features like hair and eyes."
+      },
+      {
+        question: "Complete: 'He ______ brown eyes and short hair.'",
+        options: ["is", "has", "have", "does"],
+        correctAnswer: 1,
+        explanation: "Use 'has' for physical features like eyes, hair, and beard. 'He has' (not 'he have')."
+      },
+      {
+        question: "Which word describes a positive personality trait?",
+        options: ["arrogant", "lazy", "generous", "rude"],
+        correctAnswer: 2,
+        explanation: "'Generous' means willing to give and share — it is a positive trait. The others are negative."
+      },
+      {
+        question: "How do you describe a place that is full of people and activity?",
+        options: ["peaceful", "crowded", "tiny", "ancient"],
+        correctAnswer: 1,
+        explanation: "'Crowded' means full of people. A place that is full of activity and people is 'busy and crowded'."
+      },
+      {
+        question: "Which sentence describes a place's atmosphere?",
+        options: [
+          "The house is very old.",
+          "The café is cosy and relaxing.",
+          "The park is near the river.",
+          "The hotel has 50 rooms."
+        ],
+        correctAnswer: 1,
+        explanation: "'Cosy and relaxing' describe the atmosphere — how a place feels. 'Old' is appearance, 'near the river' is location, and '50 rooms' is a fact."
+      }
+    ]
+  },
+
+  "Talking About the Weather and Seasons": {
+    explanation: `<h2>Talking About the Weather and Seasons</h2>
+<p>Weather is one of the most common small talk topics in English-speaking cultures, especially in Britain. To describe temperature, use words like <em>hot, cold, warm,</em> and <em>cool</em>. For extreme temperatures, say <em>"It's boiling!"</em> (very hot) or <em>"It's freezing!"</em> (very cold). You can also use numbers: <em>"It's 25 degrees"</em> or <em>"It's minus 5"</em> (-5°C).</p>
+
+<p>For weather conditions, use <em>"It's + adjective"</em> or <em>"It's + verb-ing"</em>: <em>"It's sunny"</em>, <em>"It's raining"</em>, <em>"It's cloudy"</em>, <em>"It's snowing"</em>, <em>"It's windy"</em>, <em>"It's foggy"</em>. For heavy rain, say <em>"It's pouring!"</em> and for light rain, say <em>"It's drizzling."</em> A completely grey sky is <em>"overcast"</em>. Weather small talk phrases include: <em>"Nice weather, isn't it?"</em>, <em>"Terrible weather today!"</em>, and <em>"It's supposed to rain later."</em></p>
+
+<p>The four seasons each have their own characteristics. <strong>Spring</strong> (March-May): flowers bloom, temperatures rise, sometimes rainy. <strong>Summer</strong> (June-August): hot, sunny, holidays, beaches. <strong>Autumn/Fall</strong> (September-November): leaves fall, temperatures drop, windy. <strong>Winter</strong> (December-February): cold, snow in some places, dark evenings. Each season also has typical activities: walking and planting in spring, swimming and barbecues in summer, drinking hot chocolate in autumn, and skiing in winter.</p>`,
+    examples: [
+      {
+        sentence: "It's pouring outside! You'll need an umbrella.",
+        note: "'Pouring' means very heavy rain — stronger than just 'raining'."
+      },
+      {
+        sentence: "Nice weather, isn't it?",
+        note: "Classic British small talk — a friendly way to start a conversation about the weather."
+      },
+      {
+        sentence: "It's supposed to rain later this afternoon.",
+        note: "'Supposed to' means the forecast predicts it — very common weather expression."
+      },
+      {
+        sentence: "In winter, it gets dark very early here.",
+        note: "Describing a seasonal characteristic — short days are typical of winter."
+      },
+      {
+        sentence: "It's a bit chilly today. You might want a jacket.",
+        note: "'Chilly' means slightly cold — a softer way to say it's cold."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "It has rain today.",
+        correction: "It's raining today. / It's rainy today. (Use 'It's + verb-ing' or 'It's + adjective'.)"
+      },
+      {
+        mistake: "The weather is rain.",
+        correction: "The weather is rainy. / It's raining. (Don't use a noun after 'is' for weather.)"
+      },
+      {
+        mistake: "It's very sun today.",
+        correction: "It's very sunny today. ('Sunny' is the adjective; 'sun' is a noun.)"
+      },
+      {
+        mistake: "In the summer, we go to beach.",
+        correction: "In the summer, we go to the beach. (Don't forget the article 'the'.)"
+      }
+    ],
+    quiz: [
+      {
+        question: "What does 'It's pouring' mean?",
+        options: [
+          "It's very sunny.",
+          "It's raining very heavily.",
+          "It's very windy.",
+          "It's snowing lightly."
+        ],
+        correctAnswer: 1,
+        explanation: "'Pouring' means it is raining very heavily — much stronger than just 'raining'."
+      },
+      {
+        question: "Which word means 'slightly cold'?",
+        options: ["boiling", "freezing", "chilly", "scorching"],
+        correctAnswer: 2,
+        explanation: "'Chilly' means slightly cold. 'Freezing' means very cold, and 'boiling/scorching' mean very hot."
+      },
+      {
+        question: "Complete: 'It's ______ outside. The sky is completely grey.'",
+        options: ["sunny", "overcast", "windy", "warm"],
+        correctAnswer: 1,
+        explanation: "'Overcast' means the sky is completely covered with grey clouds."
+      },
+      {
+        question: "What is a common small talk phrase about weather?",
+        options: [
+          "What is the meteorological condition?",
+          "Nice weather, isn't it?",
+          "Tell me the temperature.",
+          "How much rain fell?"
+        ],
+        correctAnswer: 1,
+        explanation: "'Nice weather, isn't it?' is the classic English small talk opener about the weather."
+      },
+      {
+        question: "In which season do leaves fall from the trees?",
+        options: ["Spring", "Summer", "Autumn/Fall", "Winter"],
+        correctAnswer: 2,
+        explanation: "In Autumn/Fall, leaves change colour and fall from the trees. The season is called 'Fall' in American English precisely because leaves fall."
+      }
+    ]
+  },
+
+  "Expressing Likes, Dislikes, and Preferences": {
+    explanation: `<h2>Expressing Likes, Dislikes, and Preferences</h2>
+<p>English offers many ways to express your opinions about things you enjoy or dislike, ranging from weak to strong expressions. For likes, you can say: <em>"I like ______"</em> (general positive), <em>"I really like ______"</em> (stronger), <em>"I love ______"</em> or <em>"I'm really into ______"</em> (strong and enthusiastic), and <em>"I'm a big fan of ______"</em> (informal). The pattern <em>"I enjoy + verb-ing"</em> is used for activities: <em>"I enjoy cooking"</em> or <em>"I enjoy watching films"</em>.</p>
+
+<p>For dislikes, the expressions go from soft to strong: <em>"I don't really like ______"</em> (soft), <em>"I dislike ______"</em> (formal), <em>"I hate ______"</em> or <em>"I can't stand ______"</em> (very strong). A polite British way to express dislike is <em>"I'm not keen on + noun/verb-ing"</em>, and a gentle informal way is <em>"______ is not really my thing."</em></p>
+
+<p>When expressing preferences between two options, use: <em>"I prefer A to B"</em> (<em>"I prefer tea to coffee"</em>), <em>"I'd rather + verb + than + verb"</em> (<em>"I'd rather walk than drive"</em>), and <em>"I prefer verb-ing to verb-ing"</em> (<em>"I prefer swimming to running"</em>). When agreeing with someone's opinion, say <em>"Me too!"</em>, <em>"So do I!"</em>, or <em>"Exactly!"</em>. When disagreeing politely, say <em>"Really? I prefer ______"</em> or <em>"I see it differently."</em></p>`,
+    examples: [
+      {
+        sentence: "I'm really into jazz music lately.",
+        note: "Informal strong like — 'really into' shows enthusiasm and current interest."
+      },
+      {
+        sentence: "I can't stand waking up early.",
+        note: "Strong dislike — 'can't stand' is a very emphatic way to express dislike."
+      },
+      {
+        sentence: "I prefer tea to coffee in the morning.",
+        note: "Expressing a preference — 'prefer X to Y' compares two things directly."
+      },
+      {
+        sentence: "I'd rather stay in tonight than go out.",
+        note: "Preference with verbs — 'I'd rather + verb + than + verb' compares two actions."
+      },
+      {
+        sentence: "Horror films aren't really my thing.",
+        note: "Gentle dislike — a polite, indirect way to say you don't like something."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "I enjoy to swim in the morning.",
+        correction: "I enjoy swimming in the morning. ('Enjoy' is followed by verb-ing, not 'to + verb'.)"
+      },
+      {
+        mistake: "I prefer cats than dogs.",
+        correction: "I prefer cats to dogs. ('Prefer' uses 'to', not 'than', for comparisons.)"
+      },
+      {
+        mistake: "I rather stay home tonight.",
+        correction: "I'd rather stay home tonight. ('Rather' needs 'I'd' = 'I would' before it.)"
+      },
+      {
+        mistake: "I am not keen in early mornings.",
+        correction: "I am not keen on early mornings. ('Keen on' is the correct preposition.)"
+      }
+    ],
+    quiz: [
+      {
+        question: "Which sentence correctly uses 'enjoy'?",
+        options: [
+          "I enjoy to read books.",
+          "I enjoy reading books.",
+          "I enjoy read books.",
+          "I enjoy reads books."
+        ],
+        correctAnswer: 1,
+        explanation: "'Enjoy' is always followed by verb-ing: 'enjoy reading', not 'enjoy to read'."
+      },
+      {
+        question: "Complete: 'I prefer tea ______ coffee.'",
+        options: ["than", "to", "over", "from"],
+        correctAnswer: 1,
+        explanation: "'Prefer X to Y' is the correct pattern for comparing two things. Don't use 'than'."
+      },
+      {
+        question: "What does 'I can't stand spicy food' mean?",
+        options: [
+          "I really love spicy food.",
+          "I strongly dislike spicy food.",
+          "I can eat a little spicy food.",
+          "I sometimes enjoy spicy food."
+        ],
+        correctAnswer: 1,
+        explanation: "'Can't stand' is a strong expression meaning you really dislike something."
+      },
+      {
+        question: "Complete: 'I'd ______ walk than take the bus.'",
+        options: ["prefer", "rather", "like", "enjoy"],
+        correctAnswer: 1,
+        explanation: "'I'd rather + verb + than + verb' is the pattern for expressing preference between two actions."
+      },
+      {
+        question: "Which phrase is a polite, gentle way to say you dislike something?",
+        options: [
+          "I hate it.",
+          "It's terrible.",
+          "It's not really my thing.",
+          "I can't stand it."
+        ],
+        correctAnswer: 2,
+        explanation: "'Not really my thing' is a soft, polite way to express dislike without being harsh."
+      }
+    ]
+  },
+
+  "Making Suggestions and Plans with Friends": {
+    explanation: `<h2>Making Suggestions and Plans with Friends</h2>
+<p>When making suggestions with friends, English has several natural structures. The most common are: <em>"Let's + verb"</em> (<em>"Let's go to the cinema!"</em>), <em>"How about + verb-ing?"</em> (<em>"How about going for a walk?"</em>), <em>"What about + noun/verb-ing?"</em> (<em>"What about pizza for dinner?"</em>), <em>"Shall we + verb?"</em> (<em>"Shall we meet at the station?"</em> — British and polite), <em>"Why don't we + verb?"</em> (<em>"Why don't we try that new restaurant?"</em>), and <em>"Do you fancy + verb-ing?"</em> (<em>"Do you fancy going out tonight?"</em> — British, informal).</p>
+
+<p>When accepting suggestions, respond with enthusiasm: <em>"Yes, great idea!"</em>, <em>"Sounds good!"</em>, <em>"That sounds like fun!"</em>, <em>"Sure, why not?"</em>, or <em>"I'd love to!"</em> You can also accept and ask for details: <em>"Good idea. What time?"</em> When declining politely, never just say <em>"No"</em> — instead say <em>"I'd love to, but I can't. I have to ______"</em>, <em>"That sounds nice, but I'm busy on ______"</em>, or <em>"Maybe another time?"</em> which is a soft rejection that leaves the door open.</p>
+
+<p>When making detailed plans, use phrases like <em>"When are you free?"</em>, <em>"What time suits you?"</em>, <em>"Where shall we meet?"</em>, and <em>"Should we book tickets in advance?"</em> To confirm plans enthusiastically, say <em>"See you there!"</em>, <em>"Can't wait!"</em>, or <em>"Looking forward to it!"</em> The key to natural social English is variety — don't just say <em>"Let's..."</em> every time. Mix your suggestion structures to sound more fluent.</p>`,
+    examples: [
+      {
+        sentence: "How about going to the cinema this weekend?",
+        note: "Suggestion with 'How about + verb-ing' — friendly and open-ended."
+      },
+      {
+        sentence: "Shall we meet at the station at 6?",
+        note: "'Shall we' is a polite suggestion form — common in British English."
+      },
+      {
+        sentence: "I'd love to, but I'm busy on Saturday. How about Sunday?",
+        note: "Declining politely + suggesting an alternative — keeps the conversation positive."
+      },
+      {
+        sentence: "Sounds good! What time works for you?",
+        note: "Accepting enthusiastically + asking for details to confirm the plan."
+      },
+      {
+        sentence: "Why don't we try that new Italian restaurant?",
+        note: "Making a specific suggestion — 'Why don't we' invites discussion rather than commanding."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "How about to go to the cinema?",
+        correction: "How about going to the cinema? ('How about' is followed by verb-ing, not 'to + verb'.)"
+      },
+      {
+        mistake: "Let's going to the park.",
+        correction: "Let's go to the park. ('Let's' is followed by the base form of the verb, not verb-ing.)"
+      },
+      {
+        mistake: "I'd love to, but I can't. I must to work.",
+        correction: "I'd love to, but I can't. I have to work. (Use 'have to', not 'must to'.)"
+      },
+      {
+        mistake: "Do you fancy go out tonight?",
+        correction: "Do you fancy going out tonight? ('Fancy' is followed by verb-ing.)"
+      }
+    ],
+    quiz: [
+      {
+        question: "Which suggestion is grammatically correct?",
+        options: [
+          "How about to go for a walk?",
+          "How about going for a walk?",
+          "How about go for a walk?",
+          "How about goes for a walk?"
+        ],
+        correctAnswer: 1,
+        explanation: "'How about' is always followed by verb-ing: 'How about going?'"
+      },
+      {
+        question: "Complete: '______ we meet at the café at 3?' (British, polite)",
+        options: ["Do", "Will", "Shall", "Are"],
+        correctAnswer: 2,
+        explanation: "'Shall we...?' is a polite way to make suggestions, especially common in British English."
+      },
+      {
+        question: "How do you decline a suggestion politely?",
+        options: [
+          "No.",
+          "I don't want to.",
+          "I'd love to, but I'm busy. Maybe another time?",
+          "That's a bad idea."
+        ],
+        correctAnswer: 2,
+        explanation: "Start with appreciation ('I'd love to'), give a reason ('but I'm busy'), and offer an alternative ('Maybe another time?')."
+      },
+      {
+        question: "Complete: 'Let's ______ to the park.'",
+        options: ["going", "goes", "go", "to go"],
+        correctAnswer: 2,
+        explanation: "'Let's' is always followed by the base form of the verb: 'Let's go', not 'Let's going'."
+      },
+      {
+        question: "What does 'Do you fancy going out tonight?' mean?",
+        options: [
+          "Do you think going out is expensive?",
+          "Would you like to go out tonight?",
+          "Are you afraid of going out?",
+          "Do you imagine going out?"
+        ],
+        correctAnswer: 1,
+        explanation: "'Do you fancy + verb-ing?' is an informal British way of asking 'Would you like to...?'"
+      }
+    ]
+  },
+
+  "Travel and Transportation Essentials": {
+    explanation: `<h2>Travel and Transportation Essentials</h2>
+<p>Travelling in English-speaking countries requires knowing key phrases for airports, trains, buses, and taxis. At the airport, you need to know: <em>"Where is the check-in desk for [airline]?"</em>, <em>"I'd like to check in, please"</em>, <em>"Is this the right gate for flight BA247?"</em>, and <em>"Has the flight been delayed?"</em> Important airport vocabulary includes: departure, arrival, boarding pass, gate, terminal, delayed, cancelled, luggage, and customs.</p>
+
+<p>When booking train or bus tickets, use: <em>"I'd like a single/return ticket to ______"</em> (UK: single/return; US: one-way/round-trip), <em>"What time does the next train to London leave?"</em>, <em>"Which platform does it go from?"</em>, and <em>"Is it a direct train, or do I need to change?"</em> On public transport, useful questions include <em>"Does this bus go to the city centre?"</em>, <em>"How many stops until ______?"</em>, and <em>"Is this seat taken?"</em></p>
+
+<p>For taxis, essential phrases are: <em>"Could you take me to ______, please?"</em>, <em>"How much will it cost approximately?"</em>, <em>"Could you put the meter on?"</em>, and <em>"Keep the change"</em> (telling the driver to keep the remaining money as a tip). When travelling, it is always useful to know how to ask for help: <em>"Could you tell me when we get to ______?"</em> and <em>"Excuse me, where are the taxis?"</em> are practical phrases that can save you in unfamiliar places.</p>`,
+    examples: [
+      {
+        sentence: "I'd like a return ticket to Edinburgh, please.",
+        note: "Buying a train ticket — 'return' means a ticket for both going and coming back (UK English)."
+      },
+      {
+        sentence: "Which platform does the train to Manchester leave from?",
+        note: "Asking about the platform — essential information at any train station."
+      },
+      {
+        sentence: "Is it a direct train, or do I need to change?",
+        note: "'Direct' means no changes needed; 'change' means switching to another train."
+      },
+      {
+        sentence: "Could you take me to the city centre, please?",
+        note: "Taxi phrase — always polite and clear about your destination."
+      },
+      {
+        sentence: "Keep the change.",
+        note: "Telling the taxi driver to keep the extra money as a tip — a common courtesy."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "I want one ticket to London going and returning.",
+        correction: "I'd like a return ticket to London, please. (Use 'return ticket' for round-trip in UK English.)"
+      },
+      {
+        mistake: "What platform the train leaves from?",
+        correction: "Which platform does the train leave from? (Form a proper question with 'does'.)"
+      },
+      {
+        mistake: "Take me to city centre.",
+        correction: "Could you take me to the city centre, please? (Always use polite request forms with taxi drivers.)"
+      },
+      {
+        mistake: "Is this seat take?",
+        correction: "Is this seat taken? ('Taken' is the correct past participle, not 'take'.)"
+      }
+    ],
+    quiz: [
+      {
+        question: "What is the American English word for a 'return ticket'?",
+        options: [
+          "Double ticket",
+          "Round-trip ticket",
+          "Come-back ticket",
+          "Two-way ticket"
+        ],
+        correctAnswer: 1,
+        explanation: "In American English, a 'return ticket' is called a 'round-trip ticket'. A single ticket is a 'one-way ticket'."
+      },
+      {
+        question: "Complete: 'Has the flight been ______?' (it will leave late)",
+        options: ["deleted", "delayed", "departed", "declined"],
+        correctAnswer: 1,
+        explanation: "'Delayed' means the flight will leave later than scheduled. 'Cancelled' would mean it won't leave at all."
+      },
+      {
+        question: "What does 'Is it a direct train?' mean?",
+        options: [
+          "Is the train fast?",
+          "Does the train go straight to the destination without changing?",
+          "Is the train expensive?",
+          "Is the train on time?"
+        ],
+        correctAnswer: 1,
+        explanation: "A 'direct train' goes straight to your destination without requiring you to change to another train."
+      },
+      {
+        question: "What does 'Keep the change' mean to a taxi driver?",
+        options: [
+          "Drive carefully.",
+          "Return my money later.",
+          "Keep the extra money as a tip.",
+          "Wait here while I go inside."
+        ],
+        correctAnswer: 2,
+        explanation: "'Keep the change' means the driver can keep the extra money as a tip — you don't need exact change back."
+      },
+      {
+        question: "Complete: 'Could you tell me when we ______ to Oxford?'",
+        options: ["arrive", "get", "reach", "come"],
+        correctAnswer: 1,
+        explanation: "'Get to' is the natural phrase for arriving at a destination: 'when we get to Oxford'."
+      }
+    ]
+  },
+
+  "Handling Problems and Emergencies": {
+    explanation: `<h2>Handling Problems and Emergencies</h2>
+<p>In difficult situations, it is crucial to communicate clearly and calmly in English. To report a problem politely but firmly, use phrases like <em>"Excuse me, there's a problem with my ______"</em>, <em>"I'm sorry, but ______ doesn't seem to be working"</em>, <em>"There's something wrong with the ______"</em>, or <em>"I think there's been a mistake with my ______"</em>. For formal complaints, say <em>"I'd like to make a complaint, please."</em></p>
+
+<p>If you lose something, say <em>"I've lost my ______"</em> (passport, phone, wallet, keys). To ask if it has been found, say <em>"Has anyone handed in a ______?"</em> The lost property office is called <em>"lost property"</em> in British English and <em>"lost and found"</em> in American English. If something was stolen, report it: <em>"My ______ was stolen"</em> or <em>"I'd like to report a theft."</em> In medical situations, say <em>"I need a doctor"</em>, <em>"Where is the nearest hospital?"</em>, or <em>"I don't feel well / I feel sick / I feel dizzy."</em></p>
+
+<p>For emergencies, know the emergency numbers: <strong>999</strong> (UK), <strong>911</strong> (US), <strong>112</strong> (Europe — works everywhere). Say <em>"It's an emergency!"</em>, <em>"There's been an accident"</em>, or <em>"Someone is injured."</em> When asking for help politely in non-emergency situations, use <em>"Excuse me, could you help me, please?"</em> or <em>"I'm sorry to bother you, but could you ______?"</em> Being polite but clear is the key to getting help quickly.</p>`,
+    examples: [
+      {
+        sentence: "Excuse me, there's a problem with my room — there's no hot water.",
+        note: "Reporting a hotel problem — polite but clear, with specific details about the issue."
+      },
+      {
+        sentence: "I've lost my passport. Where is the nearest embassy?",
+        note: "Lost item + asking for help — essential when travelling abroad."
+      },
+      {
+        sentence: "I need to see a doctor. I feel very dizzy.",
+        note: "Medical situation — stating your need and describing your symptoms clearly."
+      },
+      {
+        sentence: "I'd like to report a theft. Someone stole my bag.",
+        note: "Reporting a crime — clear and factual statement to the police."
+      },
+      {
+        sentence: "Excuse me! Could someone call an ambulance, please? It's an emergency!",
+        note: "Emergency situation — urgent but still using 'please' to get help quickly."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "My bag stolen!",
+        correction: "My bag was stolen. / Someone stole my bag. (Use a complete sentence with subject and verb.)"
+      },
+      {
+        mistake: "I am not feeling good. Need doctor.",
+        correction: "I don't feel well. I need to see a doctor. (Use complete, clear sentences in emergencies.)"
+      },
+      {
+        mistake: "There is problem with my room.",
+        correction: "There's a problem with my room. (Use 'a' before 'problem'.)"
+      },
+      {
+        mistake: "Where is lost things?",
+        correction: "Where is the lost property office? / Where is lost and found? (Use the correct term for the office.)"
+      }
+    ],
+    quiz: [
+      {
+        question: "Which is the most polite way to report a problem at a hotel?",
+        options: [
+          "My room is bad. Fix it.",
+          "Excuse me, there's a problem with my room.",
+          "I hate this room.",
+          "Room problem!"
+        ],
+        correctAnswer: 1,
+        explanation: "'Excuse me, there's a problem with...' is polite but clear. Starting with 'excuse me' and using a complete sentence gets the best response."
+      },
+      {
+        question: "What is the British English term for the office where lost items are kept?",
+        options: [
+          "Lost and found",
+          "Lost property office",
+          "Missing items centre",
+          "Found things room"
+        ],
+        correctAnswer: 1,
+        explanation: "In British English, it's called the 'lost property office'. 'Lost and found' is American English."
+      },
+      {
+        question: "What emergency number works across all of Europe?",
+        options: ["999", "911", "112", "111"],
+        correctAnswer: 2,
+        explanation: "112 is the European emergency number that works in all EU countries. 999 is UK, 911 is US."
+      },
+      {
+        question: "Complete: 'I'd like to ______ a theft.'",
+        options: ["say", "report", "tell", "speak"],
+        correctAnswer: 1,
+        explanation: "'Report a theft' is the correct phrase when telling the police about a crime."
+      },
+      {
+        question: "Which sentence describes a medical emergency clearly?",
+        options: [
+          "I feel funny.",
+          "Something is wrong.",
+          "I need a doctor immediately. I'm having difficulty breathing.",
+          "I don't feel good today."
+        ],
+        correctAnswer: 2,
+        explanation: "Being specific about your need ('I need a doctor immediately') and your symptoms ('difficulty breathing') gets the fastest help."
+      }
+    ]
   }
 };

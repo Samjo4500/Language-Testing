@@ -1142,5 +1142,1065 @@ export const ADVANCED_LESSON_CONTENT: Record<string, LessonStructuredContent> = 
         explanation: "This sentence follows the pattern clearly: claim (Chen argues…), evidence (data show widening income gaps), and assessment (suggesting the claim is reductive). It is specific, well-structured, and uses precise evaluative language."
       }
     ]
+  },
+
+  "Diplomatic Language and Softening": {
+    explanation: `<h2>Diplomatic Language and Softening</h2>
+<p>At the C1-C2 level, language is not merely about being understood — it is about <strong>managing relationships, preserving face</strong>, and achieving goals without creating conflict. Directness that works in some cultures can damage professional relationships in English-speaking contexts. Diplomatic language uses three main techniques: <strong>softeners</strong>, <strong>downtoners</strong>, and <strong>restructuring</strong>.</p>
+
+<p>Softeners reduce the force of a statement. Adverb softeners include <em>"I'm afraid I can't meet the deadline"</em>, <em>"It's slightly more complicated than that"</em>, <em>"The figures are a little concerning"</em>, and <em>"I'm not entirely convinced by that approach."</em> Modal softeners use <em>might, may, could,</em> and <em>would</em> to make claims tentative: <em>"It might be worth reconsidering"</em> (not "You should reconsider"), <em>"We may need to adjust our strategy"</em>, and <em>"That wouldn't be my first choice."</em> Downtoners make criticism indirect: <em>"I'm not sure that's the most effective approach"</em> (not "That's wrong"), and <em>"I wonder if we should consider alternatives."</em></p>
+
+<p>The <strong>sandwich technique</strong> packages criticism constructively: (1) Positive: <em>"The presentation was well-structured and visually engaging"</em>, (2) Constructive: <em>"One area for development might be the pacing in the middle section"</em>, (3) Encouraging: <em>"With that adjustment, it will be even more compelling."</em> Diplomatic refusal uses phrases like <em>"I'd love to help, but I'm stretched quite thin at the moment"</em> and <em>"Under different circumstances, I'd be delighted to, but…"</em> Partial agreement to disagree uses <em>"I take your point about cost efficiency. I wonder, though, whether quality might suffer."</em></p>`,
+    examples: [
+      {
+        sentence: "I'm not entirely convinced by that approach. Perhaps we could explore some alternatives?",
+        note: "Modal softener + suggestion — 'not entirely convinced' is far more diplomatic than 'that's wrong'."
+      },
+      {
+        sentence: "It might be worth reconsidering the timeline.",
+        note: "Modal softener — 'might be worth' turns a directive into a gentle suggestion."
+      },
+      {
+        sentence: "I'd love to help, but I'm stretched quite thin at the moment. Have you spoken to Jamie?",
+        note: "Diplomatic refusal + alternative — declines without offence and offers a solution."
+      },
+      {
+        sentence: "The presentation was well-structured and visually engaging. One area for development might be the pacing. With that adjustment, it will be even more compelling.",
+        note: "Sandwich technique — positive, constructive, encouraging. Criticism is received better within a positive frame."
+      },
+      {
+        sentence: "I take your point about cost efficiency. I wonder, though, whether quality might suffer if we cut corners.",
+        note: "Partial agreement + redirect — acknowledges the other view before introducing a concern."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "Your idea won't work.",
+        correction: "I'm not entirely sure that approach would deliver the results we're hoping for. Perhaps we could explore some alternatives? (Direct criticism damages relationships.)"
+      },
+      {
+        mistake: "You need to finish this by Friday.",
+        correction: "Would it be feasible to have this completed by Friday? That would really help us stay on track. (Commands feel aggressive; questions feel collaborative.)"
+      },
+      {
+        mistake: "This report is full of mistakes.",
+        correction: "Thank you for pulling this together. There are a few areas where the figures might need double-checking before we finalise it. (Constructive feedback preserves motivation.)"
+      },
+      {
+        mistake: "That's not my job.",
+        correction: "That falls a bit outside my usual remit. I'd be happy to point you towards the right person, though. (Polite boundary-setting with a helpful alternative.)"
+      }
+    ],
+    quiz: [
+      {
+        question: "Which sentence uses a modal softener most effectively?",
+        options: [
+          "You must reconsider the timeline.",
+          "It might be worth reconsidering the timeline.",
+          "The timeline is wrong.",
+          "Change the timeline now."
+        ],
+        correctAnswer: 1,
+        explanation: "'It might be worth reconsidering' uses the modal 'might' to soften what could otherwise be a directive. It preserves the other person's autonomy while still conveying the suggestion."
+      },
+      {
+        question: "What is the sandwich technique?",
+        options: [
+          "Give three criticisms in a row",
+          "Start with something positive, give constructive feedback, then end with encouragement",
+          "Put all criticism between two jokes",
+          "Sandwich your real opinion between two lies"
+        ],
+        correctAnswer: 1,
+        explanation: "The sandwich technique frames criticism between positive and encouraging remarks, making it more likely to be received constructively rather than defensively."
+      },
+      {
+        question: "How do you refuse a request diplomatically?",
+        options: [
+          "No. I won't do it.",
+          "I refuse.",
+          "I'd love to help, but I'm stretched quite thin at the moment.",
+          "That's not my problem."
+        ],
+        correctAnswer: 2,
+        explanation: "Starting with appreciation ('I'd love to help') and giving a valid reason ('stretched quite thin') softens the refusal while maintaining the relationship."
+      },
+      {
+        question: "Which phrase uses a downtoner to make criticism indirect?",
+        options: [
+          "That's completely wrong.",
+          "I wonder if we should consider alternatives.",
+          "Your work is terrible.",
+          "I hate this idea."
+        ],
+        correctAnswer: 1,
+        explanation: "'I wonder if we should consider alternatives' implies the current approach is inadequate without directly criticising it. The downtoner 'I wonder' makes it a question rather than a judgement."
+      },
+      {
+        question: "What does 'I take your point about X, but I wonder whether Y' achieve?",
+        options: [
+          "It agrees completely",
+          "It disagrees completely",
+          "It partially agrees and then introduces a contrasting concern diplomatically",
+          "It avoids the topic"
+        ],
+        correctAnswer: 2,
+        explanation: "This structure acknowledges the other person's point ('I take your point') before introducing an alternative perspective ('I wonder whether'), making disagreement feel collaborative rather than adversarial."
+      }
+    ]
+  },
+
+  "Humour, Irony, and Figurative Language": {
+    explanation: `<h2>Humour, Irony, and Figurative Language</h2>
+<p>Understanding and using English humour is a mark of advanced proficiency. The main types include: <strong>self-deprecating humour</strong> (making fun of yourself to put others at ease, especially common in British English: <em>"Well, I'm hardly the expert here — I can barely work my own phone"</em>), <strong>understatement</strong> (saying something is small when it's actually major: <em>"It's a bit chilly"</em> when it's -10°C), <strong>wordplay and puns</strong> (using double meanings: <em>"I used to be a baker, but I couldn't make enough dough"</em>), and <strong>sarcasm</strong> (saying the opposite of what you mean, often mockingly: <em>"Oh great, another meeting. Just what I needed."</em>).</p>
+
+<p>Sarcasm and irony are distinct. <strong>Sarcasm</strong> is saying the opposite with mocking intent — tone is key. <strong>Irony</strong> is a contrast between expectation and reality — <em>"The fire station burned down"</em> is ironic, not sarcastic. Figurative language at C1-C2 includes <strong>metaphors</strong> (<em>"Time is money"</em>, <em>"The market is a roller coaster"</em>), <strong>similes</strong> (<em>"He works like a dog"</em>, <em>"It's as clear as mud"</em> — sarcastic, meaning not clear at all), and <strong>idioms</strong> (<em>"It's not rocket science"</em> = it's not difficult; <em>"The ball is in your court"</em> = it's your decision; <em>"Don't throw the baby out with the bathwater"</em> = don't discard something valuable when removing something bad).</p>
+
+<p>In professional settings, safe humour includes universal experiences (meetings, technology fails), self-deprecation, and clever wordplay. Avoid sarcasm in emails (tone doesn't translate), jokes at someone else's expense, anything about protected characteristics, and anything requiring very specific cultural knowledge. When in doubt, leave it out.</p>`,
+    examples: [
+      {
+        sentence: "My cooking is so bad the smoke alarm cheers me on.",
+        note: "Self-deprecating humour — making fun of yourself is safe and puts others at ease."
+      },
+      {
+        sentence: "It's a bit chilly. (said during a blizzard at -15°C)",
+        note: "Classic British understatement — describing something extreme as mild for comic effect."
+      },
+      {
+        sentence: "Oh great, another meeting. Just what I needed.",
+        note: "Sarcasm — saying the opposite of what you mean. Tone makes the meaning clear."
+      },
+      {
+        sentence: "The market is a roller coaster this month.",
+        note: "Metaphor — comparing the market to a roller coaster conveys volatility vividly without literal meaning."
+      },
+      {
+        sentence: "It's as clear as mud. (meaning: it's completely unclear)",
+        note: "Simile used sarcastically — the literal meaning of 'clear' is reversed for humorous effect."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "Using sarcasm in a professional email.",
+        correction: "Avoid sarcasm in writing — tone doesn't translate. What sounds playful in speech can read as rude in text. Use direct, polite language instead."
+      },
+      {
+        mistake: "Making jokes about a colleague's appearance.",
+        correction: "In professional settings, only self-deprecation is safe. Never make jokes at someone else's expense, especially about personal characteristics."
+      },
+      {
+        mistake: "Taking 'Not bad' literally as a criticism.",
+        correction: "In British English, 'Not bad' often means 'excellent'. Understatement is a cultural norm — it's praise, not criticism."
+      },
+      {
+        mistake: "Using idioms like 'touch base' with non-native speakers who may not understand.",
+        correction: "In international contexts, use plain language: 'let's discuss' instead of 'let's touch base'. Idioms often don't translate across cultures."
+      }
+    ],
+    quiz: [
+      {
+        question: "Which sentence uses self-deprecating humour?",
+        options: [
+          "You're terrible at this.",
+          "My cooking is so bad the smoke alarm cheers me on.",
+          "This company is a joke.",
+          "Nobody here knows what they're doing."
+        ],
+        correctAnswer: 1,
+        explanation: "Self-deprecating humour makes fun of yourself, not others. It's the safest form of humour in professional settings because it doesn't target anyone else."
+      },
+      {
+        question: "What is the difference between sarcasm and irony?",
+        options: [
+          "They are the same thing",
+          "Sarcasm is always funny; irony is always sad",
+          "Sarcasm is saying the opposite with mocking intent; irony is a contrast between expectation and reality",
+          "Irony requires an audience; sarcasm doesn't"
+        ],
+        correctAnswer: 2,
+        explanation: "Sarcasm is deliberate — saying the opposite to mock or convey contempt. Irony is situational — a contrast between what is expected and what actually happens."
+      },
+      {
+        question: "What does 'It's not rocket science' mean?",
+        options: [
+          "It's about space travel",
+          "It's extremely difficult",
+          "It's not difficult",
+          "It requires scientific knowledge"
+        ],
+        correctAnswer: 2,
+        explanation: "'It's not rocket science' is an idiom meaning 'it's not difficult'. Rocket science is used as a metaphor for something extremely complex."
+      },
+      {
+        question: "Why should sarcasm be avoided in professional emails?",
+        options: [
+          "Emails should never contain any humour",
+          "Tone doesn't translate in writing — sarcasm can read as rude or mean",
+          "Sarcasm is only for face-to-face arguments",
+          "Emails are always formal"
+        ],
+        correctAnswer: 1,
+        explanation: "Sarcasm relies heavily on tone of voice and facial expressions. In writing, these cues are absent, so sarcasm often comes across as genuinely mean rather than playfully ironic."
+      },
+      {
+        question: "What does 'The market is a roller coaster' use?",
+        options: [
+          "Simile",
+          "Irony",
+          "Metaphor",
+          "Sarcasm"
+        ],
+        correctAnswer: 2,
+        explanation: "A metaphor directly equates one thing to another without 'like' or 'as'. A simile would be 'The market is LIKE a roller coaster.' The metaphor is more vivid and direct."
+      }
+    ]
+  },
+
+  "Narrative Techniques and Storytelling": {
+    explanation: `<h2>Narrative Techniques and Storytelling</h2>
+<p>Compelling storytelling at the C1-C2 level uses a structured arc: <strong>hook → context → inciting incident → rising action → climax → resolution → takeaway</strong>. Beyond structure, advanced storytelling employs techniques like <strong>framing</strong> (beginning at the end or middle: <em>"The hospital corridor was silent at 3 AM. Twelve hours earlier, everything had been normal."</em>), <strong>flashbacks</strong> (<em>"It reminded me of something that happened five years ago…"</em>), and <strong>pacing control</strong> (short sentences for action: <em>"The door opened. Nobody there."</em>; longer sentences for reflection: <em>"I stood for what felt like an eternity, trying to process what I'd just heard."</em>).</p>
+
+<p>The principle of <strong>"show, don't tell"</strong> is fundamental. Instead of telling <em>"It was scary"</em>, show: <em>"My hands wouldn't stop shaking. Every shadow in the corridor seemed to move."</em> Instead of telling <em>"She was angry"</em>, show: <em>"Her voice dropped to a whisper. She set her cup down very carefully."</em> This technique creates vivid, immersive experiences for the listener or reader by conveying emotions through observable details rather than labelling them directly.</p>
+
+<p>Dialogue techniques include varied speech tags beyond "said" (<em>muttered, snapped, whispered, sighed</em>), action beats instead of tags (<em>"'I'm done.' She slammed the door."</em>), and <strong>subtext</strong> — what the character means versus what they say (<em>"'Fine. Do whatever you want.' She turned away."</em> — she is NOT fine). Withholding information builds suspense: <em>"There was one thing I hadn't told them. One thing that changed everything."</em> The skill lies in choosing the right technique for each moment and knowing when to reveal information for maximum impact.</p>`,
+    examples: [
+      {
+        sentence: "The hospital corridor was silent at 3 AM. Twelve hours earlier, everything had been normal.",
+        note: "Framing — beginning at the end creates immediate intrigue and a sense of impending drama."
+      },
+      {
+        sentence: "My hands wouldn't stop shaking. Every shadow in the corridor seemed to move.",
+        note: "Show, don't tell — instead of saying 'I was scared', physical details convey the fear vividly."
+      },
+      {
+        sentence: "'Fine. Do whatever you want.' She turned away.",
+        note: "Subtext — the words say 'fine' but the action (turning away) and tone reveal she is absolutely NOT fine."
+      },
+      {
+        sentence: "The door opened. Nobody there.",
+        note: "Pacing — short, fragmented sentences create urgency and tension in action moments."
+      },
+      {
+        sentence: "There was one thing I hadn't told them. One thing that changed everything.",
+        note: "Withholding information — creates suspense by promising revelation, keeping the audience engaged."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "It was scary. I was afraid.",
+        correction: "My hands wouldn't stop shaking. Every shadow in the corridor seemed to move. (Show emotions through physical details and observable behaviour, not labels.)"
+      },
+      {
+        mistake: "She was angry. She said she was angry.",
+        correction: "Her voice dropped to a whisper. She set her cup down very carefully. (Let actions and behaviour convey emotion instead of stating it directly.)"
+      },
+      {
+        mistake: "'I'm fine,' she said. She was not fine.",
+        correction: "'Fine. Do whatever you want.' She turned away. (Use subtext — the gap between words and actions tells the story more powerfully than explanation.)"
+      },
+      {
+        mistake: "And then this happened. And then that happened. And then...",
+        correction: "Use varied pacing: short sentences for action, longer ones for reflection. Vary sentence openings and rhythms to maintain engagement."
+      }
+    ],
+    quiz: [
+      {
+        question: "What does 'show, don't tell' mean in storytelling?",
+        options: [
+          "Use pictures instead of words",
+          "Convey emotions through observable details and actions rather than stating them directly",
+          "Always describe everything in minute detail",
+          "Never use adjectives"
+        ],
+        correctAnswer: 1,
+        explanation: "'Show, don't tell' means using physical details, actions, and dialogue to convey emotions rather than labelling them. 'Her hands trembled' shows fear; 'She was scared' tells it."
+      },
+      {
+        question: "What is 'subtext' in dialogue?",
+        options: [
+          "The literal meaning of what a character says",
+          "A summary of the conversation",
+          "The underlying meaning beneath what a character says — the gap between words and true feelings",
+          "The punctuation used in dialogue"
+        ],
+        correctAnswer: 2,
+        explanation: "Subtext is the unspoken meaning — what a character really thinks or feels, which differs from what they actually say. 'Fine. Do whatever you want' is not fine at all."
+      },
+      {
+        question: "Which sentence uses framing as a narrative technique?",
+        options: [
+          "I woke up and had breakfast.",
+          "The hospital corridor was silent at 3 AM. Twelve hours earlier, everything had been normal.",
+          "She walked to the shop.",
+          "It was a sunny day."
+        ],
+        correctAnswer: 1,
+        explanation: "Framing begins at a dramatic point (3 AM in a hospital) and then jumps back in time, creating immediate intrigue about how the narrator got there."
+      },
+      {
+        question: "How does pacing affect storytelling?",
+        options: [
+          "It doesn't matter how long or short sentences are",
+          "Short sentences create urgency and tension; longer sentences create reflection and atmosphere",
+          "All sentences should be the same length",
+          "Longer sentences are always better"
+        ],
+        correctAnswer: 1,
+        explanation: "Short, fragmented sentences accelerate the pace for action and tension. Longer, flowing sentences slow the pace for reflection and atmosphere. Varying rhythm keeps audiences engaged."
+      },
+      {
+        question: "What is the purpose of withholding information in a story?",
+        options: [
+          "To confuse the audience",
+          "To make the story shorter",
+          "To build suspense by promising a revelation, keeping the audience engaged",
+          "To avoid having to explain things"
+        ],
+        correctAnswer: 2,
+        explanation: "Withholding key information ('There was one thing I hadn't told them') creates a promise to the audience that a revelation is coming, which maintains engagement and suspense."
+      }
+    ]
+  },
+
+  "Register Shifting \u2014 Formal to Informal": {
+    explanation: `<h2>Register Shifting — Formal to Informal</h2>
+<p>Register is the level of formality in language, determined by the situation, the relationship between speakers, the medium, and the topic. The formality spectrum runs from <strong>frozen</strong> (legal oaths, <em>"hereby"</em>) through <strong>formal</strong> (academic papers, <em>"furthermore"</em>) and <strong>consultative</strong> (job interviews, <em>"I believe"</em>) to <strong>casual</strong> (chat with colleagues, <em>"anyway"</em>) and <strong>intimate</strong> (close friends, <em>"sort of thing"</em>). Mastering register shifting means choosing the right level for every context.</p>
+
+<p>The same meaning can be expressed at different registers. <em>"It is submitted that the aforementioned findings are indicative of a broader trend"</em> (extremely formal) → <em>"The findings suggest a broader trend that warrants further investigation"</em> (professional formal) → <em>"It looks like there's a bigger pattern here. We should dig into it"</em> (neutral professional) → <em>"Looks like a trend to me. Worth exploring?"</em> (casual). Key vocabulary shifts include: <em>commence → begin → start → kick off</em>, <em>terminate → end → finish → wrap up</em>, <em>sufficient → enough → plenty</em>, <em>assistance → help → a hand</em>, <em>purchase → buy → pick up</em>, and <em>approximately → about → around → -ish</em>.</p>
+
+<p>When to shift register: <strong>upward</strong> (more formal) for job interviews, first meetings with senior people, formal complaints, and writing to unknown clients; <strong>downward</strong> (less formal) once rapport is established, at team celebrations, and with industry peers at conferences. You can even shift within the same email: opening formal, body slightly less formal, closing formal again. The key skill is reading the room — noticing the register others are using and matching it appropriately.</p>`,
+    examples: [
+      {
+        sentence: "It is submitted that the aforementioned findings are indicative of a broader trend.",
+        note: "Extremely formal register — passive voice, Latinate vocabulary, legal/academic style."
+      },
+      {
+        sentence: "The findings suggest a broader trend that warrants further investigation.",
+        note: "Professional formal — still formal but more direct and readable than the frozen register."
+      },
+      {
+        sentence: "It looks like there's a bigger pattern here. We should dig into it.",
+        note: "Neutral professional — contractions, simpler vocabulary, direct but still workplace-appropriate."
+      },
+      {
+        sentence: "Looks like a trend to me. Worth exploring?",
+        note: "Casual register — ellipsis, informal phrasing, appropriate for close colleagues."
+      },
+      {
+        sentence: "Same old pattern, innit?",
+        note: "Very informal/intimate register — slang, tag question, only appropriate with close friends."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "Using casual register in a job interview: 'So, yeah, I reckon I'm pretty good at that stuff.'",
+        correction: "Using consultative register: 'I believe my experience in this area would be an asset to your team.' (Match your register to the formality of the situation.)"
+      },
+      {
+        mistake: "Using formal register with close colleagues: 'I would like to request your assistance with regard to the aforementioned matter.'",
+        correction: "Using casual register: 'Could you give me a hand with this?' (Over-formal language with colleagues creates distance, not respect.)"
+      },
+      {
+        mistake: "Mixing registers inappropriately: 'Pursuant to our discussion, I've knocked up a draft.'",
+        correction: "Keep register consistent: 'Following our discussion, I've prepared a draft.' (Don't mix legal language with slang in the same sentence.)"
+      },
+      {
+        mistake: "Using 'approximately' in casual conversation.",
+        correction: "Use 'about' or 'around' in casual speech: 'It costs about fifty pounds' not 'It costs approximately fifty pounds.' (Formal words in casual contexts sound stilted.)"
+      }
+    ],
+    quiz: [
+      {
+        question: "Which register is appropriate for a job interview?",
+        options: [
+          "Frozen",
+          "Formal to consultative",
+          "Casual",
+          "Intimate"
+        ],
+        correctAnswer: 1,
+        explanation: "Job interviews require formal to consultative register — professional but not legalistic. You want to sound competent and polished, not stiff or overly casual."
+      },
+      {
+        question: "What is the casual alternative to 'purchase'?",
+        options: [
+          "Acquire",
+          "Procure",
+          "Buy",
+          "Kick off"
+        ],
+        correctAnswer: 2,
+        explanation: "The register shift for 'purchase' goes: purchase (formal) → buy (neutral) → pick up (casual). 'Kick off' is the casual form of 'commence', not 'purchase'."
+      },
+      {
+        question: "Which sentence is in the consultative register?",
+        options: [
+          "It is hereby declared that the findings are significant.",
+          "I was wondering if you could possibly help me with this?",
+          "Fancy a coffee? I'm dying for one.",
+          "You know what I mean… that thing we talked about."
+        ],
+        correctAnswer: 1,
+        explanation: "Consultative register is standard, polite language used in professional but not extremely formal situations. The other options are frozen (A), casual (C), and intimate (D)."
+      },
+      {
+        question: "When should you shift to a MORE formal register?",
+        options: [
+          "At a team celebration",
+          "When chatting with close colleagues",
+          "In a first meeting with a senior executive",
+          "When sending a quick message to a friend"
+        ],
+        correctAnswer: 2,
+        explanation: "First meetings with senior people require upward register shift — more formal language shows respect and professionalism. Casual language would seem disrespectful."
+      },
+      {
+        question: "What does 'approximately → about → around → -ish' demonstrate?",
+        options: [
+          "Grammar errors",
+          "The same meaning expressed at progressively less formal registers",
+          "Different meanings",
+          "American vs British English"
+        ],
+        correctAnswer: 1,
+        explanation: "This shows a register gradient: 'approximately' (formal) → 'about' (neutral) → 'around' (casual) → '-ish' (very informal). Same meaning, different levels of formality."
+      }
+    ]
+  },
+
+  "Persuasion and Rhetoric": {
+    explanation: `<h2>Persuasion and Rhetoric</h2>
+<p>Classical rhetoric, originating with Aristotle, identifies three pillars of persuasion: <strong>ethos</strong> (credibility), <strong>pathos</strong> (emotion), and <strong>logos</strong> (logic). Ethos establishes your credibility: <em>"Having worked in this industry for 20 years, I've seen this pattern repeatedly."</em> Pathos appeals to emotion: <em>"Imagine telling your team their jobs are secure because you made the right call today."</em> Logos appeals to logic: <em>"The data show a 23% improvement in efficiency."</em></p>
+
+<p>Classical rhetorical devices remain powerful tools. <strong>Tripling</strong> (rule of three): <em>"This strategy is simpler, faster, and cheaper."</em> — three items create rhythm and completeness. <strong>Rhetorical questions</strong>: <em>"Can we afford to wait any longer?"</em> — used for emphasis, not to seek information. <strong>Anaphora</strong> (repetition at the start of phrases): <em>"We want safety. We want fairness. We want a future."</em> — creates momentum. <strong>Antithesis</strong> (contrasting ideas): <em>"We must learn to live together as brothers or perish together as fools."</em> — sharpens the choice. <strong>Analogies and metaphors</strong>: <em>"Changing the system now is like changing the engine while flying the plane."</em></p>
+
+<p>Modern persuasion techniques complement classical rhetoric. <strong>Social proof</strong>: <em>"Over 10,000 companies have already adopted this approach."</em> <strong>Scarcity/urgency</strong>: <em>"This pricing is only available until the end of the quarter."</em> <strong>Reciprocity</strong>: <em>"I've shared our preliminary analysis. I'd welcome your thoughts."</em> The most persuasive arguments combine all three classical appeals — ethos, pathos, and logos — with modern techniques and at least one rhetorical device for maximum impact.</p>`,
+    examples: [
+      {
+        sentence: "Having worked in this industry for 20 years, I've seen this pattern repeatedly.",
+        note: "Ethos — establishing credibility through experience. The audience is more likely to trust a speaker who demonstrates relevant expertise."
+      },
+      {
+        sentence: "Imagine telling your team their jobs are secure because you made the right call today.",
+        note: "Pathos — emotional appeal. Vivid imagery ('telling your team their jobs are secure') connects the argument to personal feelings."
+      },
+      {
+        sentence: "The data show a 23% improvement in efficiency, and the system pays for itself in 8 months.",
+        note: "Logos — logical appeal using specific data and a clear cause-effect argument."
+      },
+      {
+        sentence: "We want safety. We want fairness. We want a future.",
+        note: "Anaphora — repetition of 'We want' at the start of each phrase creates rhythmic momentum and emotional force."
+      },
+      {
+        sentence: "We can pay for wellbeing now, or we can pay for recruitment indefinitely.",
+        note: "Antithesis — presenting two contrasting options in parallel structure sharpens the choice and makes one option clearly preferable."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "Relying solely on logic without emotional appeal.",
+        correction: "Combine logos with pathos and ethos. Data alone rarely persuades — people decide with emotions and justify with logic. Add a personal story or vivid image."
+      },
+      {
+        mistake: "Using too many rhetorical questions in a row.",
+        correction: "Use rhetorical questions sparingly for emphasis — one or two in a speech is powerful; five in a row feels manipulative. Balance with statements."
+      },
+      {
+        mistake: "Making claims without supporting evidence.",
+        correction: "Every claim needs backing: statistical evidence (logos), credible sources (ethos), or relatable stories (pathos). Unsupported claims weaken your entire argument."
+      },
+      {
+        mistake: "Using 'honestly' or 'to be honest' repeatedly.",
+        correction: "These phrases actually undermine your credibility (ethos) by implying you might not always be honest. Let the strength of your evidence speak for itself."
+      }
+    ],
+    quiz: [
+      {
+        question: "Which rhetorical device is used in 'We want change. We need change. We demand change.'?",
+        options: [
+          "Antithesis",
+          "Anaphora",
+          "Metaphor",
+          "Rhetorical question"
+        ],
+        correctAnswer: 1,
+        explanation: "Anaphora is the repetition of the same word or phrase at the beginning of successive clauses. Here, 'We' + verb is repeated three times, creating rhythmic momentum."
+      },
+      {
+        question: "What appeal is used in 'As a doctor with 15 years in emergency medicine, I can tell you…'?",
+        options: [
+          "Pathos",
+          "Logos",
+          "Ethos",
+          "Anaphora"
+        ],
+        correctAnswer: 2,
+        explanation: "This is ethos — establishing credibility through professional credentials and experience. The audience trusts the speaker because of their demonstrated expertise."
+      },
+      {
+        question: "Which sentence uses antithesis?",
+        options: [
+          "We came, we saw, we conquered.",
+          "Can we afford to wait any longer?",
+          "It was the best of times, it was the worst of times.",
+          "The data show a 23% improvement."
+        ],
+        correctAnswer: 2,
+        explanation: "Antithesis places contrasting ideas in parallel structure: 'best of times' vs 'worst of times'. The contrast sharpens the difference and makes the statement more memorable."
+      },
+      {
+        question: "What is 'social proof' as a persuasion technique?",
+        options: [
+          "Proving your argument with scientific evidence",
+          "Using the behaviour or choices of others to validate your proposal",
+          "Being friendly on social media",
+          "Writing formal proofs"
+        ],
+        correctAnswer: 1,
+        explanation: "Social proof uses the fact that others have already adopted something as evidence that it's a good choice: 'Over 10,000 companies have already adopted this approach.'"
+      },
+      {
+        question: "Which combination makes the most persuasive argument?",
+        options: [
+          "Logos only",
+          "Pathos only",
+          "Ethos only",
+          "A combination of ethos, pathos, and logos"
+        ],
+        correctAnswer: 3,
+        explanation: "The most persuasive arguments combine all three classical appeals: credibility (ethos), emotion (pathos), and logic (logos). Relying on only one is significantly less effective."
+      }
+    ]
+  },
+
+  "Connotation and Word Choice Precision": {
+    explanation: `<h2>Connotation and Word Choice Precision</h2>
+<p>At the C1-C2 level, choosing the right word means understanding not just <strong>denotation</strong> (the literal dictionary definition) but <strong>connotation</strong> (the emotional and cultural associations a word carries). For example, <em>skinny</em>, <em>thin</em>, <em>slim</em>, and <em>slender</em> all mean approximately the same thing literally, but their connotations differ dramatically: <em>skinny</em> (negative — too thin), <em>thin</em> (neutral), <em>slim</em> (positive — elegant, healthy), <em>slender</em> (very positive — graceful).</p>
+
+<p>Connotative differences appear everywhere. Describing someone who doesn't talk much: <em>quiet</em> (neutral), <em>reserved</em> (positive — thoughtful), <em>withdrawn</em> (negative — possibly depressed), <em>shy</em> (slightly negative — lacking confidence), <em>contemplative</em> (positive — deeply thoughtful). Describing a plan: <em>simple</em> (neutral/positive), <em>basic</em> (neutral/possibly unsophisticated), <em>rudimentary</em> (negative — too simple, incomplete), <em>streamlined</em> (positive — efficient), <em>naive</em> (negative — oversimplified).</p>
+
+<p><strong>Loaded language</strong> uses connotation to persuade: <em>"Freedom fighters"</em> vs. <em>"terrorists"</em> (same people, different connotations). <strong>Euphemisms</strong> soften unpleasant realities: <em>"let go"</em> instead of <em>"fired"</em>, <em>"passed away"</em> instead of <em>"died"</em>, <em>"restructuring"</em> instead of <em>"closing departments"</em>. To choose the right word, ask: What's my purpose? Who's my audience? What's the context? What emotional effect do I want?</p>`,
+    examples: [
+      {
+        sentence: "She is slender, with an elegant posture.",
+        note: "'Slender' has a strongly positive connotation — suggesting grace and beauty, unlike 'skinny' which implies unattractively thin."
+      },
+      {
+        sentence: "He is rather withdrawn since the accident.",
+        note: "'Withdrawn' has a negative connotation — suggesting social isolation and possibly depression, unlike 'reserved' which is more neutral/positive."
+      },
+      {
+        sentence: "The company let go of 200 employees.",
+        note: "Euphemism — 'let go' softens the harshness of 'fired' or 'made redundant', making the statement less emotionally charged."
+      },
+      {
+        sentence: "The manager introduced a streamlined process.",
+        note: "'Streamlined' has a positive connotation — suggesting efficiency and modernisation, unlike 'simplified' or 'rudimentary'."
+      },
+      {
+        sentence: "The government described them as freedom fighters; the media called them terrorists.",
+        note: "Loaded language — the same group is described with opposite connotations depending on the speaker's perspective."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "She looks skinny in that dress. (intended as compliment)",
+        correction: "She looks slim in that dress. ('Skinny' has a negative connotation; 'slim' is positive and flattering.)"
+      },
+      {
+        mistake: "He's a very stubborn person. (intended as praise)",
+        correction: "He's a very determined person. ('Stubborn' is negative; 'determined' is the positive equivalent.)"
+      },
+      {
+        mistake: "They fired him. (in a formal, sensitive context)",
+        correction: "His position was made redundant. / He was let go. (Euphemisms are more appropriate in sensitive or formal contexts.)"
+      },
+      {
+        mistake: "The fanatical manager imposed his ridiculous scheme on the exhausted staff.",
+        correction: "The manager introduced a new scheme that staff found demanding. (Remove loaded language when neutral reporting is required.)"
+      }
+    ],
+    quiz: [
+      {
+        question: "Which word has the MOST POSITIVE connotation for describing someone's build?",
+        options: [
+          "Skinny",
+          "Bony",
+          "Thin",
+          "Slender"
+        ],
+        correctAnswer: 3,
+        explanation: "From most negative to most positive: bony → skinny → thin → slim → slender. 'Slender' suggests grace and elegance — the most positive connotation."
+      },
+      {
+        question: "What is the difference between 'freedom fighters' and 'terrorists'?",
+        options: [
+          "They refer to completely different groups",
+          "They are synonyms",
+          "They can refer to the same people but with opposite connotations — positive vs. negative framing",
+          "One is formal and the other is informal"
+        ],
+        correctAnswer: 2,
+        explanation: "These are loaded terms that can describe the same people. 'Freedom fighters' has positive connotations (fighting for liberty), while 'terrorists' has negative connotations (using violence and fear)."
+      },
+      {
+        question: "Which is a euphemism for 'died'?",
+        options: [
+          "Expired",
+          "Passed away",
+          "Kicked the bucket",
+          "Croaked"
+        ],
+        correctAnswer: 1,
+        explanation: "'Passed away' is a euphemism — a gentler, more respectful way to say 'died'. The other options are either too blunt ('expired') or too informal/disrespectful."
+      },
+      {
+        question: "What does 'loaded language' mean?",
+        options: [
+          "Language that is difficult to understand",
+          "Language heavy with words",
+          "Words chosen specifically for their emotional impact to influence the audience's perception",
+          "Academic jargon"
+        ],
+        correctAnswer: 2,
+        explanation: "Loaded language uses words with strong emotional connotations to shape how the audience perceives a topic — e.g., 'tax relief' frames tax as a burden, 'estate tax' vs. 'death tax' frames the same tax differently."
+      },
+      {
+        question: "Which word describes a plan with a NEGATIVE connotation of being too simple?",
+        options: [
+          "Streamlined",
+          "Straightforward",
+          "Rudimentary",
+          "Efficient"
+        ],
+        correctAnswer: 2,
+        explanation: "'Rudimentary' has a negative connotation — suggesting something is basic, incomplete, or lacking sophistication. 'Streamlined' and 'efficient' are positive; 'straightforward' is neutral."
+      }
+    ]
+  },
+
+  "Implying and Inferring \u2014 What's Unsaid": {
+    explanation: `<h2>Implying and Inferring — What's Unsaid</h2>
+<p>In English, especially British English, what people say and what they mean are often different. Understanding <strong>implicature</strong> — the gap between said and meant — is essential at C1-C2. British understatement is legendary: <em>"I hear what you say"</em> (I disagree and don't want to discuss it further), <em>"With the greatest respect"</em> (I think you're wrong), <em>"That's not bad"</em> (That's excellent), <em>"Quite good"</em> (a bit disappointing), and <em>"I'll bear that in mind"</em> (I've already forgotten it).</p>
+
+<p>Implicature operates in professional contexts too. Your manager says <em>"The deadline is Friday, but of course, quality is the priority."</em> Implication: The deadline IS Friday — figure out how to do both. A client says <em>"Your competitor's proposal was… interesting."</em> With a flat tone, they hated it (you're in a strong position); with rising intonation, they're genuinely considering it (you need to differentiate). <strong>Indirect speech acts</strong> perform actions without directly stating them: <em>"It's cold in here"</em> (= Please close the window). <em>"That report is due tomorrow"</em> (= You need to finish it today).</p>
+
+<p>Refusing without saying no: <em>"I'll have to check my diary"</em> (probably no), <em>"That sounds… ambitious"</em> (I think it will fail), <em>"Let's revisit this next quarter"</em> (I'm stalling). Subtext in writing: <em>"We note your concerns"</em> = We acknowledge them but may not act; <em>"We are monitoring the situation closely"</em> = We are doing nothing yet. To read implicature, consider: tone of voice, context (relationship, power dynamics, recent events), facial expressions, what is NOT said, and cultural norms.</p>`,
+    examples: [
+      {
+        sentence: "\"That's not bad.\" (British understatement)",
+        note: "In British English, 'not bad' often means 'excellent'. Understatement is a cultural norm — it's high praise, not faint praise."
+      },
+      {
+        sentence: "\"It's cold in here.\" (= Please close the window / turn on the heating)",
+        note: "Indirect speech act — stating a fact about temperature rather than making a direct request. The hearer infers the intended action."
+      },
+      {
+        sentence: "\"Your competitor's proposal was… interesting.\" (flat tone)",
+        note: "With a flat tone, 'interesting' means the client hated it. The pause before the word and the neutral adjective signal polite dismissal."
+      },
+      {
+        sentence: "\"We note your concerns.\"",
+        note: "Professional subtext — 'We acknowledge your concerns but may not act on them.' The word 'note' implies awareness without commitment."
+      },
+      {
+        sentence: "\"Let's revisit this next quarter.\"",
+        note: "Diplomatic stalling — the speaker doesn't want to say no directly but has no intention of agreeing. 'Revisit' sounds constructive while being evasive."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "Taking 'I hear what you say' as agreement.",
+        correction: "In British English, 'I hear what you say' actually means 'I disagree and don't want to discuss it further.' Don't confuse hearing with agreeing."
+      },
+      {
+        mistake: "Taking 'Quite good' as high praise.",
+        correction: "In British English, 'quite good' often means 'a bit disappointing' — it's faint praise. 'Very good' or 'excellent' are genuine compliments."
+      },
+      {
+        mistake: "Responding to 'It's cold in here' with 'Yes, it is' and doing nothing.",
+        correction: "Recognise the indirect speech act: the speaker is asking you to close the window or turn on the heating, not making a weather observation."
+      },
+      {
+        mistake: "Taking 'We are monitoring the situation closely' at face value.",
+        correction: "In corporate communication, this often means 'We are doing nothing yet but want to appear proactive.' Read between the lines of corporate speak."
+      }
+    ],
+    quiz: [
+      {
+        question: "In British English, what does 'That's not bad' typically mean?",
+        options: [
+          "It's mediocre",
+          "It's terrible",
+          "It's excellent",
+          "It's literally not bad — just acceptable"
+        ],
+        correctAnswer: 2,
+        explanation: "British understatement uses 'not bad' to mean 'excellent'. It's high praise disguised as mild approval — a cultural convention of not seeming too enthusiastic."
+      },
+      {
+        question: "What is an indirect speech act?",
+        options: [
+          "A grammatical error",
+          "Performing an action (like making a request) by saying something that doesn't directly state it",
+          "Speaking without verbs",
+          "A formal speech"
+        ],
+        correctAnswer: 1,
+        explanation: "An indirect speech act uses a statement or question to perform a different function — e.g., saying 'It's cold in here' to request that someone close the window."
+      },
+      {
+        question: "A client says 'Your competitor's proposal was… interesting' with a flat tone. What do they most likely mean?",
+        options: [
+          "They found it genuinely fascinating",
+          "They thought it was well-written",
+          "They were not impressed by it",
+          "They want to hear more about it"
+        ],
+        correctAnswer: 2,
+        explanation: "With a flat tone and the pause before 'interesting', this is polite dismissal. In professional contexts, 'interesting' with flat delivery usually means the opposite."
+      },
+      {
+        question: "What does 'We note your concerns' typically imply in a professional email?",
+        options: [
+          "We will definitely address your concerns",
+          "We acknowledge them but may not act on them",
+          "We agree with your concerns",
+          "We are grateful for your feedback"
+        ],
+        correctAnswer: 1,
+        explanation: "'Note your concerns' is professional hedging — it acknowledges receipt without committing to action. The word 'note' implies awareness, not agreement or commitment."
+      },
+      {
+        question: "How should you interpret 'Let's revisit this next quarter'?",
+        options: [
+          "They're enthusiastic and want to continue soon",
+          "They're stalling and probably hope you'll forget about it",
+          "They want to schedule a meeting for next quarter",
+          "They agree with your proposal"
+        ],
+        correctAnswer: 1,
+        explanation: "'Revisit next quarter' is diplomatic stalling — the speaker wants to defer without saying no directly. The implication is that the topic is not a priority now (and likely won't be then either)."
+      }
+    ]
+  },
+
+  "Advanced Discourse Management": {
+    explanation: `<h2>Advanced Discourse Management</h2>
+<p>Advanced discourse management is the ability to control and direct complex conversations, debates, and meetings with authority. Opening and framing: <em>"Before we dive in, let's establish what we want to achieve today"</em> and <em>"There are three critical issues on the table. I'd like us to tackle them in order of urgency."</em> Managing topics: <em>"We've spent good time on X. Let's move to Y and come back to X if we have time"</em> and <em>"That's an important point, but it's somewhat tangential. Can we park it for now?"</em></p>
+
+<p>Turn-taking management ensures balanced participation: <em>"Sarah, you haven't weighed in yet. What are your thoughts?"</em>, <em>"I'd like to hear from someone who hasn't spoken yet"</em>, and <em>"Let's go round the table and get one point from each person."</em> Dealing with dominant speakers: <em>"Thank you, Mike. Let's hear from someone else now"</em> and <em>"I want to make sure we have balanced input."</em> Dealing with silence: <em>"I sense some hesitation. Is there a concern we haven't voiced?"</em> and <em>"It's okay to push back — in fact, I'd welcome it."</em></p>
+
+<p>Redirecting derails: <em>"That's a separate issue worth its own discussion. For now, let's stay on…"</em> and <em>"Good point, but let's not get into the weeds on that today."</em> Managing conflict: <em>"I can see both sides have merit. Let's find the common ground"</em> and <em>"Where do you actually disagree? It sounds like you mostly agree on the goal but differ on method."</em> Closing with authority: <em>"Let me summarise what I've heard and check I've got it right"</em> and <em>"The action items are: X will do Y by Z. Is that correct?"</em></p>`,
+    examples: [
+      {
+        sentence: "Before we dive in, let's establish what we want to achieve today.",
+        note: "Opening and framing — sets expectations and gives the meeting purpose before discussion begins."
+      },
+      {
+        sentence: "That's an important point, but it's somewhat tangential. Can we park it for now?",
+        note: "Managing topics — acknowledges the point's value while redirecting focus. 'Park it' means set aside for later."
+      },
+      {
+        sentence: "Sarah, you haven't weighed in yet. What are your thoughts?",
+        note: "Turn-taking — actively inviting quieter members to contribute ensures balanced participation."
+      },
+      {
+        sentence: "I can see both sides have merit. Let's find the common ground.",
+        note: "Managing conflict — validating both perspectives before steering toward agreement."
+      },
+      {
+        sentence: "The action items are: Alex will draft the proposal by Friday, and Jordan will schedule the client call by Wednesday. Is that correct?",
+        note: "Closing with authority — summarises decisions, assigns clear responsibilities, and confirms agreement."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "Letting one person dominate the entire meeting without intervening.",
+        correction: "Thank you, Mike. Let's hear from someone else now. Maria, what's your view? (Active turn-taking management ensures balanced input.)"
+      },
+      {
+        mistake: "Allowing the meeting to drift off-topic for 20 minutes.",
+        correction: "That's a separate issue worth its own discussion. Let's return to our agenda item. (Redirect firmly but politely.)"
+      },
+      {
+        mistake: "Ending a meeting without summarising decisions or assigning action items.",
+        correction: "Let me summarise: we've agreed to X by Friday. Alex will lead, and Jordan will support. Correct? (Always close with clear outcomes.)"
+      },
+      {
+        mistake: "Ignoring conflict and hoping it resolves itself.",
+        correction: "I can see both sides. Where exactly do you disagree? Let's isolate the difference. (Address conflict directly but constructively.)"
+      }
+    ],
+    quiz: [
+      {
+        question: "Which phrase is used to redirect a conversation that has gone off-topic?",
+        options: [
+          "That's a stupid point.",
+          "That's an important point, but it's somewhat tangential. Can we park it for now?",
+          "Stop talking about that.",
+          "I don't care about that topic."
+        ],
+        correctAnswer: 1,
+        explanation: "'That's an important point, but it's somewhat tangential' validates the speaker while redirecting. 'Park it' means to set it aside for later — diplomatic and effective."
+      },
+      {
+        question: "How should you handle a dominant speaker in a meeting?",
+        options: [
+          "Let them talk as long as they want",
+          "Interrupt them rudely",
+          "Thank them for their input and actively invite others to speak",
+          "Ignore them completely"
+        ],
+        correctAnswer: 2,
+        explanation: "'Thank you, Mike. Let's hear from someone else now' acknowledges their contribution while creating space for others. It's firm but respectful."
+      },
+      {
+        question: "What does 'park it' mean in a meeting context?",
+        options: [
+          "Leave and come back later",
+          "Set the topic aside to discuss at a later time",
+          "End the meeting",
+          "Agree with the point"
+        ],
+        correctAnswer: 1,
+        explanation: "'Park it' means to acknowledge a point but set it aside for later discussion — it's not dismissed, just deferred. This keeps the meeting on track without ignoring valid contributions."
+      },
+      {
+        question: "Why is it important to close a meeting with a summary?",
+        options: [
+          "To make the meeting last longer",
+          "To ensure everyone leaves with the same understanding of decisions and action items",
+          "To show who was paying attention",
+          "It's not important"
+        ],
+        correctAnswer: 1,
+        explanation: "A closing summary ensures alignment — everyone knows what was decided, who is responsible for what, and by when. Without it, people may leave with different interpretations."
+      },
+      {
+        question: "How should you handle silence when you ask a question in a meeting?",
+        options: [
+          "Move on immediately",
+          "Get angry at the group",
+          "Acknowledge the hesitation and invite participation: 'I sense some hesitation. Is there a concern we haven't voiced?'",
+          "Answer your own question"
+        ],
+        correctAnswer: 2,
+        explanation: "Silence often signals disagreement, uncertainty, or fear of speaking up. Acknowledging it ('I sense some hesitation') gives permission to contribute and surfaces unspoken concerns."
+      }
+    ]
+  },
+
+  "Writing Style \u2014 Voice and Tone Development": {
+    explanation: `<h2>Writing Style — Voice and Tone Development</h2>
+<p>Voice is the <strong>personality of the writing</strong> — the sense that a real person is speaking. At C1-C2, your writing should have a recognisable voice, not sound like a textbook. Key elements include <strong>sentence length and rhythm</strong> (short sentences create urgency: <em>"The door opened. Nobody spoke. Something was wrong."</em>; long sentences create reflection: <em>"It was the kind of morning when the light seems to come from everywhere and nowhere."</em>), <strong>word choice</strong> (precise words over general ones: not "walked" but "strode, wandered, shuffled, marched, crept"), and <strong>perspective</strong> (first person for personal immediacy, second for direct engagement, third for objective distance).</p>
+
+<p>Controlling tone is about matching your writing's personality to its purpose. <strong>Authoritative</strong> tone: confident, declarative, evidence-based — for reports and expert content. <strong>Conversational</strong> tone: contractions, questions, direct address — for blogs and emails. <strong>Empathetic</strong> tone: acknowledging feelings, inclusive language — for customer support. <strong>Urgent</strong> tone: short sentences, imperative verbs, time references — for announcements. <strong>Playful</strong> tone: wordplay, unexpected comparisons — for creative content. <strong>Reflective</strong> tone: past tense, philosophical, measured — for essays and memoirs.</p>
+
+<p>Stylistic devices for voice include <strong>alliteration</strong> (<em>"The silent, steady stride of someone with somewhere to be"</em>), <strong>varied sentence openings</strong> (not every sentence starting with "The…" or "It…"), and <strong>unexpected word combinations</strong> (<em>"the silence was loud"</em>). The same topic can be written in completely different voices — a corporate memo about timesheets, a humorous social media post, or a literary novel opening — and each voice creates a fundamentally different reader experience.</p>`,
+    examples: [
+      {
+        sentence: "The door opened. Nobody spoke. Something was wrong.",
+        note: "Short sentences for urgency — each sentence adds tension. The brevity forces the reader to feel the suspense."
+      },
+      {
+        sentence: "It was the kind of morning when the light seems to come from everywhere and nowhere, when the world holds its breath between seasons.",
+        note: "Long, flowing sentence for reflection — creates atmosphere and invites the reader to slow down and imagine."
+      },
+      {
+        sentence: "Effective Monday, the new policy takes effect across all departments. Compliance is non-negotiable.",
+        note: "Authoritative tone — declarative, confident, no room for debate. Appropriate for formal announcements."
+      },
+      {
+        sentence: "I know change can feel unsettling. From Monday, we'll be implementing a new policy, and I want to make sure everyone feels supported.",
+        note: "Empathetic tone — acknowledges feelings first, then introduces the change. Creates psychological safety."
+      },
+      {
+        sentence: "Monday. The policy changes. Read this now.",
+        note: "Urgent tone — short, imperative, time-pressured. Creates immediate attention and a sense of importance."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "Writing every sentence at the same length and rhythm.",
+        correction: "Vary sentence length for rhythm and effect. Mix short, punchy sentences with longer, flowing ones. Monotone rhythm loses readers."
+      },
+      {
+        mistake: "Using 'walked' when 'strode', 'wandered', or 'crept' would be more precise.",
+        correction: "Choose precise verbs that convey manner and mood: 'strode' (purposeful), 'wandered' (aimless), 'crept' (stealthy), 'marched' (determined). General verbs create flat writing."
+      },
+      {
+        mistake: "Starting every sentence with 'The' or 'It'.",
+        correction: "Vary sentence openings: 'Despite the rain, they continued.' / 'Under normal circumstances, this would work.' / 'Rarely had she felt so certain.' Different openings create dynamic prose."
+      },
+      {
+        mistake: "Using an academic tone for a blog post or social media.",
+        correction: "Match tone to context. Blogs need conversational tone (contractions, questions, direct address). Academic tone on social media sounds stilted and disconnected."
+      }
+    ],
+    quiz: [
+      {
+        question: "What effect do short sentences create in writing?",
+        options: [
+          "Relaxation and calm",
+          "Urgency and tension",
+          "Boredom",
+          "Confusion"
+        ],
+        correctAnswer: 1,
+        explanation: "Short sentences create urgency and tension — they speed up the reading pace and create a staccato rhythm that conveys action, suspense, or importance."
+      },
+      {
+        question: "Which tone is most appropriate for a customer support message?",
+        options: [
+          "Authoritative",
+          "Playful",
+          "Empathetic",
+          "Urgent"
+        ],
+        correctAnswer: 2,
+        explanation: "Empathetic tone acknowledges the customer's feelings and creates psychological safety: 'I understand this is frustrating. Let me help you resolve this.'"
+      },
+      {
+        question: "What is the benefit of varying sentence openings?",
+        options: [
+          "It makes writing longer",
+          "It creates dynamic, engaging prose that holds the reader's attention",
+          "It's grammatically required",
+          "It makes writing more formal"
+        ],
+        correctAnswer: 1,
+        explanation: "Varying sentence openings prevents monotony and keeps readers engaged. When every sentence starts the same way, the writing feels flat and predictable."
+      },
+      {
+        question: "Which word is more precise than 'walked' for someone moving purposefully?",
+        options: [
+          "Went",
+          "Strode",
+          "Did",
+          "Got"
+        ],
+        correctAnswer: 1,
+        explanation: "'Strode' conveys purpose, confidence, and determination — it's far more vivid than 'walked'. 'Wandered' would be aimless, 'crept' would be stealthy, 'marched' would be forceful."
+      },
+      {
+        question: "What is 'voice' in writing?",
+        options: [
+          "The volume at which you read",
+          "The personality of the writing — the sense that a real person is speaking",
+          "The number of characters in a story",
+          "The tense used"
+        ],
+        correctAnswer: 1,
+        explanation: "Voice is the personality behind the words — it's what makes one writer's work distinguishable from another's. It comes from word choice, rhythm, tone, and perspective."
+      }
+    ]
+  },
+
+  "Cross-Cultural Communication Competence": {
+    explanation: `<h2>Cross-Cultural Communication Competence</h2>
+<p>Effective communication across cultures requires understanding that English is used differently around the world. Cultures are classified as <strong>high-context</strong> (meaning is embedded in context, relationships, and what's unsaid — Japan, China, Arab countries) or <strong>low-context</strong> (meaning is explicitly stated in words — Germany, US, Australia). English-speaking cultures vary: the UK is moderate-high context (indirectness, understatement), the US is low context (direct, explicit), and India is high context (relationship-driven, indirect).</p>
+
+<p>Direct vs. indirect criticism varies dramatically. American: <em>"This is wrong. Here's how to fix it."</em> British: <em>"I see what you mean. Have you considered an alternative approach?"</em> Japanese: <em>"This is very interesting. It might be worth exploring other possibilities."</em> (said with hesitation). German: <em>"This contains three factual errors."</em> Brazilian: <em>"This is great! Maybe we could also try…"</em> Time orientation also differs: monochronic cultures (UK, US, Germany — one thing at a time, schedules are sacred) vs. polychronic cultures (Latin America, Middle East — multiple things simultaneously, relationships take priority).</p>
+
+<p>When English is used as a <strong>lingua franca</strong> between non-native speakers, challenges increase: directness may sound blunter than intended, idioms cause confusion (<em>"Let's touch base"</em>), humour doesn't translate, and silence means different things (thinking in Finnish, disagreement in Japanese, confusion in many contexts). Best practices: speak clearly (not loudly), avoid idioms and phrasal verbs, check understanding both ways, be explicit about disagreement, confirm in writing, and be patient with indirectness. Remember: someone who says <em>"That might be difficult"</em> may actually mean <em>"No"</em>.</p>`,
+    examples: [
+      {
+        sentence: "A British manager says: 'If you have time, could you possibly look at this? No rush.'",
+        note: "High-context British communication — this is actually a request with urgency, not a low-priority optional task. The indirectness can mislead non-British colleagues."
+      },
+      {
+        sentence: "An American gives feedback: 'You're doing great! Just a tiny thing — maybe the report could be a bit different.'",
+        note: "Low-context American communication — the 'tiny thing' may actually be a significant issue. Germans, who prefer direct feedback, might miss the real message."
+      },
+      {
+        sentence: "'Postpone' instead of 'put off'; 'increase' instead of 'ramp up.'",
+        note: "Lingua franca best practice — using plain, international vocabulary instead of phrasal verbs and idioms that confuse non-native speakers."
+      },
+      {
+        sentence: "A Japanese colleague says: 'That might be difficult.'",
+        note: "High-context indirectness — in Japanese business culture, 'might be difficult' often means 'no' outright. Understanding this prevents false hope."
+      },
+      {
+        sentence: "'Can you confirm I've understood correctly?' AND 'Does that make sense?'",
+        note: "Checking understanding both ways — ensuring you understood them AND they understood you. Essential for international communication."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "Assuming everyone communicates the same way in English.",
+        correction: "Recognise cultural differences: British indirectness, American directness, German precision, Japanese harmony. Adapt your style to your audience."
+      },
+      {
+        mistake: "Using idioms like 'Let's touch base' with non-native speakers.",
+        correction: "Use plain language: 'Let's discuss this later.' Idioms and phrasal verbs confuse non-native speakers and can lead to misunderstanding."
+      },
+      {
+        mistake: "Taking 'That might be difficult' at face value from a Japanese colleague.",
+        correction: "In high-context cultures, 'might be difficult' often means 'no'. Read between the lines and follow up politely to clarify."
+      },
+      {
+        mistake: "Speaking louder when someone doesn't understand your English.",
+        correction: "Speak more slowly and clearly, not louder. Use simpler vocabulary and shorter sentences. Confirm understanding by asking them to paraphrase."
+      }
+    ],
+    quiz: [
+      {
+        question: "Which culture is classified as high-context?",
+        options: [
+          "Germany",
+          "United States",
+          "Japan",
+          "Australia"
+        ],
+        correctAnswer: 2,
+        explanation: "Japan is a high-context culture where meaning is embedded in relationships, context, and what's unsaid. Germany, the US, and Australia are low-context cultures where meaning is explicit."
+      },
+      {
+        question: "What does a British manager likely mean by 'If you have time, could you possibly look at this? No rush.'?",
+        options: [
+          "It's completely optional and low priority",
+          "Please do this when you have a moment, but it's not urgent",
+          "This is important — please do it soon, despite the polite framing",
+          "I'm just being friendly"
+        ],
+        correctAnswer: 2,
+        explanation: "In British high-context communication, indirectness and softening ('if you have time', 'no rush') often mask genuine urgency. The politeness is cultural, not an indication of low priority."
+      },
+      {
+        question: "Why should you avoid idioms in international meetings?",
+        options: [
+          "Idioms are always incorrect English",
+          "Idioms are too formal",
+          "Idioms often don't translate across cultures and can confuse non-native speakers",
+          "Idioms are only for written communication"
+        ],
+        correctAnswer: 2,
+        explanation: "Idioms like 'touch base', 'ball's in your court', and 'think outside the box' are confusing for non-native speakers. Use plain alternatives: 'discuss', 'your decision', 'be creative'."
+      },
+      {
+        question: "What is the best practice when speaking English as a lingua franca?",
+        options: [
+          "Speak loudly and use lots of idioms",
+          "Speak clearly (not loudly), avoid idioms, and check understanding both ways",
+          "Use only formal academic language",
+          "Speak as fast as possible to sound fluent"
+        ],
+        correctAnswer: 1,
+        explanation: "Speak clearly and slowly (not loudly), avoid idioms and phrasal verbs, and check understanding both ways: 'Can you confirm I've understood?' AND 'Does that make sense?'"
+      },
+      {
+        question: "In which culture is being 5 minutes late to a meeting considered unacceptable?",
+        options: [
+          "Brazil",
+          "Many Arab countries",
+          "Germany",
+          "India"
+        ],
+        correctAnswer: 2,
+        explanation: "Germany is a monochronic culture where schedules are sacred and punctuality is a sign of respect. In polychronic cultures (Brazil, Arab countries), relationships take priority over strict schedules."
+      }
+    ]
   }
 };

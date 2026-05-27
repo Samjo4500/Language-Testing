@@ -1107,5 +1107,1020 @@ export const INTERMEDIATE_LESSON_CONTENT: Record<string, LessonStructuredContent
         explanation: "In 'Her online business really took off,' the phrasal verb means 'became successful quickly.' The other sentences use 'take off' to mean 'remove clothing' or 'leave the ground (of an aircraft).'"
       }
     ]
+  },
+
+  "Writing Professional Emails": {
+    explanation: `<h2>Writing Professional Emails</h2>
+<p>Professional emails require a clear structure and appropriate tone. A well-structured email has four essential components: a <strong>specific subject line</strong>, an <strong>appropriate opening</strong>, a <strong>clear body</strong>, and a <strong>professional closing</strong>. The subject line should be concise and informative — instead of <em>"Meeting"</em>, write <em>"Request to reschedule Tuesday's project review meeting"</em>. This helps the recipient immediately understand the purpose and priority of your email.</p>
+
+<p>For openings, match the formality to the situation. For initial contact, use <em>"I am writing to enquire about…"</em> or <em>"I am contacting you regarding…"</em> When replying, use <em>"Thank you for your email of [date]"</em> or <em>"Further to our conversation earlier…"</em> For internal emails, a friendly <em>"I hope you're well"</em> is acceptable. The body should state the purpose in the first sentence, develop one idea per paragraph, and use bullet points for multiple items. Close with clear next steps: <em>"Please let me know if you need any further information"</em> or <em>"I look forward to hearing from you."</em></p>
+
+<p>Key phrases for different purposes include: making requests (<em>"Would it be possible to…?"</em>, <em>"I would be grateful if you could…"</em>), giving updates (<em>"I wanted to update you on…"</em>, <em>"Just to let you know that…"</em>), apologising (<em>"Please accept my apologies for…"</em>, <em>"I'm sorry for the delay in getting back to you"</em>), and following up (<em>"I'm following up on my email of [date]"</em>). Sign-offs range from formal (<em>"Yours sincerely"</em> for known names, <em>"Yours faithfully"</em> for Dear Sir/Madam) to professional (<em>"Kind regards"</em>, <em>"Best regards"</em>) to internal (<em>"Best"</em>, <em>"Thanks"</em>).</p>`,
+    examples: [
+      {
+        sentence: "I am writing to enquire about the availability of your conference facilities on 15 March.",
+        note: "Formal opening for an initial enquiry — sets context and purpose immediately."
+      },
+      {
+        sentence: "Would it be possible to extend the deadline by one week?",
+        note: "Polite request using 'Would it be possible to…' — softens the ask compared to 'Please extend…'"
+      },
+      {
+        sentence: "Please accept my apologies for the delay in submitting the quarterly report.",
+        note: "Formal apology — 'Please accept my apologies' is more professional than 'Sorry I'm late'."
+      },
+      {
+        sentence: "I look forward to hearing from you at your earliest convenience.",
+        note: "Professional closing — indicates you expect a reply without being pushy."
+      },
+      {
+        sentence: "Just to let you know that the client has approved the revised proposal.",
+        note: "Internal update — 'Just to let you know' is informal but professional for colleagues."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "Subject: Question",
+        correction: "Subject: Question about Q3 budget allocation (Vague subject lines get overlooked; be specific.)"
+      },
+      {
+        mistake: "Hey, can you send me that file?",
+        correction: "Would you mind sending me the file at your earliest convenience? (Professional emails require polite request structures.)"
+      },
+      {
+        mistake: "Sorry I'm late with this.",
+        correction: "Please accept my apologies for the delay in submitting this. (Formal context requires formal language.)"
+      },
+      {
+        mistake: "Yours sincerely, (after Dear Sir/Madam)",
+        correction: "Yours faithfully, (Use 'faithfully' with Dear Sir/Madam; 'sincerely' with a known name.)"
+      }
+    ],
+    quiz: [
+      {
+        question: "Which subject line is the most professional and specific?",
+        options: [
+          "Meeting",
+          "Tomorrow",
+          "Agenda for tomorrow's 2 PM team meeting (14 Nov)",
+          "Important!!!"
+        ],
+        correctAnswer: 2,
+        explanation: "A good subject line is specific, concise, and tells the reader exactly what the email is about. Vague or urgent-sounding subject lines are unprofessional."
+      },
+      {
+        question: "Which opening is appropriate for a first-time business email?",
+        options: [
+          "Hey there!",
+          "I am writing to enquire about your consulting services.",
+          "What's up?",
+          "So, I was thinking..."
+        ],
+        correctAnswer: 1,
+        explanation: "'I am writing to enquire about…' is the standard formal opening for initial business contact. Casual greetings are inappropriate for first-time professional emails."
+      },
+      {
+        question: "What is the correct sign-off after 'Dear Sir or Madam'?",
+        options: [
+          "Kind regards,",
+          "Best,",
+          "Yours faithfully,",
+          "Yours sincerely,"
+        ],
+        correctAnswer: 2,
+        explanation: "Use 'Yours faithfully' when you don't know the recipient's name (Dear Sir/Madam). Use 'Yours sincerely' when you know the name."
+      },
+      {
+        question: "Which phrase is the most polite way to make a request in a professional email?",
+        options: [
+          "Send me the report.",
+          "I need the report now.",
+          "I would be grateful if you could send me the report.",
+          "You should send the report."
+        ],
+        correctAnswer: 2,
+        explanation: "'I would be grateful if you could…' is a polite, professional request. Direct commands are too abrupt for professional emails."
+      },
+      {
+        question: "What should the first sentence of an email body do?",
+        options: [
+          "Ask about the weather",
+          "State the purpose of the email",
+          "Thank the reader for everything",
+          "Tell a joke to break the ice"
+        ],
+        correctAnswer: 1,
+        explanation: "The first sentence should clearly state the purpose of the email. This respects the reader's time and sets expectations immediately."
+      }
+    ]
+  },
+
+  "Participating in Meetings and Discussions": {
+    explanation: `<h2>Participating in Meetings and Discussions</h2>
+<p>Effective participation in meetings requires knowing how to express opinions, agree and disagree diplomatically, interrupt politely, and summarise discussions. To start a meeting, use <em>"Let's get started"</em> or <em>"Shall we begin?"</em> and state the purpose: <em>"The purpose of today's meeting is to…"</em> When giving your opinion, use phrases like <em>"In my opinion…"</em>, <em>"From my perspective…"</em>, or <em>"The way I see it…"</em></p>
+
+<p>Agreeing diplomatically is straightforward: <em>"I completely agree"</em>, <em>"That's a good point"</em>, or <em>"I see it the same way."</em> However, partial agreement is often more realistic: <em>"I agree up to a point, but…"</em>, <em>"That's true, but we also need to consider…"</em>, or <em>"You have a point, but on the other hand…"</em> Disagreeing diplomatically is crucial — never say <em>"You're wrong"</em>. Instead, use <em>"I'm not sure I agree with that"</em>, <em>"I see it slightly differently"</em>, or <em>"I understand where you're coming from, but…"</em></p>
+
+<p>Interrupting politely requires skill: use <em>"Sorry, could I just add something?"</em>, <em>"If I could just jump in here…"</em>, or <em>"Before we move on, I'd like to say…"</em> Clarifying is equally important: <em>"Could you clarify what you mean by…?"</em> or <em>"If I've understood correctly,…" </em> To summarise and conclude, use <em>"So, to summarise,…" </em>, <em>"Let's recap what we've agreed"</em>, or <em>"I'll send out the action points after the meeting."</em></p>`,
+    examples: [
+      {
+        sentence: "In my opinion, we should focus more on social media this year.",
+        note: "Expressing an opinion — 'In my opinion' is a clear, professional way to share your view."
+      },
+      {
+        sentence: "I agree up to a point, but we also need to consider the budget.",
+        note: "Partial agreement — acknowledges the other view while introducing a concern."
+      },
+      {
+        sentence: "I see it slightly differently. I think we should prioritise customer retention.",
+        note: "Diplomatic disagreement — 'I see it slightly differently' softens the opposition."
+      },
+      {
+        sentence: "Sorry, could I just add something before we move on?",
+        note: "Polite interruption — 'Sorry' + 'could I just' makes it respectful and non-aggressive."
+      },
+      {
+        sentence: "So, to summarise, we've agreed to launch in March and review results in June.",
+        note: "Summarising — recaps decisions clearly so everyone is aligned on next steps."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "You're wrong. That won't work.",
+        correction: "I'm not sure that approach would work in this situation. Perhaps we could consider… (Diplomatic disagreement preserves relationships.)"
+      },
+      {
+        mistake: "I don't like your idea.",
+        correction: "I see the merit in that idea, but I'm concerned about the timeline. (Express concerns constructively.)"
+      },
+      {
+        mistake: "Let me talk now.",
+        correction: "If I could just jump in here for a moment… (Polite interruption is more professional.)"
+      },
+      {
+        mistake: "What do you mean? (aggressive tone)",
+        correction: "Could you clarify what you mean by that? (Seeking understanding is more constructive.)"
+      }
+    ],
+    quiz: [
+      {
+        question: "Which phrase is the most diplomatic way to disagree in a meeting?",
+        options: [
+          "That's completely wrong.",
+          "I don't agree at all.",
+          "I see it slightly differently.",
+          "You don't know what you're talking about."
+        ],
+        correctAnswer: 2,
+        explanation: "'I see it slightly differently' expresses disagreement without being confrontational. It preserves the relationship while still allowing you to state your view."
+      },
+      {
+        question: "Complete: 'I agree up to a ______, but we also need to consider the budget.'",
+        options: ["level", "point", "degree", "stage"],
+        correctAnswer: 1,
+        explanation: "'I agree up to a point, but…' is the standard phrase for partial agreement — you accept part of the idea while raising a concern."
+      },
+      {
+        question: "Which phrase is a polite way to interrupt someone in a meeting?",
+        options: [
+          "Stop talking. I need to speak.",
+          "Be quiet for a second.",
+          "Sorry, could I just add something?",
+          "Let me finish your sentence."
+        ],
+        correctAnswer: 2,
+        explanation: "'Sorry, could I just add something?' is polite because it starts with an apology and uses a question form rather than a command."
+      },
+      {
+        question: "What is the purpose of summarising at the end of a meeting?",
+        options: [
+          "To show you were listening",
+          "To make the meeting longer",
+          "To ensure everyone is aligned on decisions and action points",
+          "To criticise what others said"
+        ],
+        correctAnswer: 2,
+        explanation: "Summarising ensures everyone leaves with the same understanding of what was agreed and who is responsible for what."
+      },
+      {
+        question: "Which phrase is best for asking someone to explain their point more clearly?",
+        options: [
+          "What are you talking about?",
+          "Could you clarify what you mean by that?",
+          "That doesn't make sense.",
+          "Explain yourself."
+        ],
+        correctAnswer: 1,
+        explanation: "'Could you clarify what you mean by that?' is a respectful way to seek understanding without implying the other person is unclear."
+      }
+    ]
+  },
+
+  "Giving Presentations in English": {
+    explanation: `<h2>Giving Presentations in English</h2>
+<p>A professional presentation follows a clear structure: <strong>opening</strong>, <strong>overview</strong>, <strong>main body</strong>, and <strong>conclusion</strong>. In the opening, grab attention with a question, surprising fact, or short anecdote: <em>"Did you know that…?"</em> or <em>"By the end of this talk, you'll understand…"</em> The overview tells the audience what you'll cover: <em>"I'll begin by… Then I'll move on to… After that,… Finally,…" </em></p>
+
+<p>Signposting language is essential for guiding your audience through the presentation. Moving on: <em>"Let's move on to the next point"</em> or <em>"Turning now to…"</em> Adding information: <em>"In addition to this,…" </em> or <em>"Furthermore,…" </em> Giving examples: <em>"For example,…" </em> or <em>"To illustrate this,…" </em> Emphasising: <em>"It's worth noting that…" </em> or <em>"The key point here is…"</em> Referring to visuals: <em>"If you look at this chart,…" </em> or <em>"As you can see from the slide,…" </em></p>
+
+<p>The conclusion should summarise and close: <em>"To sum up,…" </em>, <em>"In conclusion,…" </em>, or <em>"The main takeaway is…"</em> End with <em>"Thank you for your attention. I'd be happy to take any questions."</em> When handling Q&A, use phrases like <em>"That's a great question"</em>, <em>"I'm afraid I don't have that information to hand, but I can follow up with you after"</em>, and <em>"Does that answer your question?"</em> Good presentations are not just about content — they're about guiding your audience through that content clearly and confidently.</p>`,
+    examples: [
+      {
+        sentence: "Good morning, everyone. Did you know that 80% of projects fail due to poor communication?",
+        note: "Opening hook — a surprising statistic grabs attention and sets up the presentation topic."
+      },
+      {
+        sentence: "I'll begin by outlining the problem, then move on to our proposed solutions, and finally discuss the timeline.",
+        note: "Overview — tells the audience the structure so they can follow along."
+      },
+      {
+        sentence: "Turning now to the financial implications of this decision.",
+        note: "Signposting — 'Turning now to' signals a transition to a new section."
+      },
+      {
+        sentence: "As you can see from the slide, revenue has increased by 23% over the last quarter.",
+        note: "Referring to visuals — directs the audience's attention to supporting evidence."
+      },
+      {
+        sentence: "To sum up, the three key benefits are cost reduction, faster delivery, and improved quality.",
+        note: "Conclusion — summarises the main points clearly and concisely."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "So, yeah, I'm going to talk about stuff.",
+        correction: "Today I'd like to talk about the impact of remote working on team productivity. (Be specific and professional from the start.)"
+      },
+      {
+        mistake: "Now I will talk about the next thing.",
+        correction: "Let's move on to the next point: the financial implications. (Use signposting language to guide your audience.)"
+      },
+      {
+        mistake: "That's it. Any questions?",
+        correction: "Thank you for your attention. I'd be happy to take any questions. (A professional closing invites questions politely.)"
+      },
+      {
+        mistake: "I don't know the answer. Next question.",
+        correction: "That's a great question. I don't have the exact figures to hand, but I can follow up with you after the presentation. (Acknowledge the question and offer to follow up.)"
+      }
+    ],
+    quiz: [
+      {
+        question: "Which opening is most effective for a professional presentation?",
+        options: [
+          "Um, hi everyone. So… yeah.",
+          "Good morning. Today I'll talk about something.",
+          "Good morning, everyone. Did you know that companies lose £5,000 per employee each year due to poor communication?",
+          "Hello. Let me read my slides to you."
+        ],
+        correctAnswer: 2,
+        explanation: "A strong opening includes a greeting, a hook (surprising statistic), and sets the topic. It grabs attention immediately."
+      },
+      {
+        question: "What is the function of signposting language in a presentation?",
+        options: [
+          "To make the presentation longer",
+          "To guide the audience through the structure and signal transitions",
+          "To show off your vocabulary",
+          "To replace visual aids"
+        ],
+        correctAnswer: 1,
+        explanation: "Signposting language (like 'Turning now to…' or 'In addition…') helps the audience follow the structure and understand where they are in the presentation."
+      },
+      {
+        question: "Complete: '______ now to the financial implications of this decision.'",
+        options: ["Moving", "Turning", "Going", "Changing"],
+        correctAnswer: 1,
+        explanation: "'Turning now to…' is the standard signposting phrase for transitioning to a new topic or section."
+      },
+      {
+        question: "How should you handle a question you don't know the answer to?",
+        options: [
+          "Just guess an answer.",
+          "Say 'I don't know' and move on quickly.",
+          "Acknowledge the question and offer to follow up afterwards.",
+          "Ignore the question entirely."
+        ],
+        correctAnswer: 2,
+        explanation: "'That's a great question. I don't have that information to hand, but I can follow up' is honest and professional. Never guess or ignore."
+      },
+      {
+        question: "Which phrase is appropriate for concluding a presentation?",
+        options: [
+          "So, yeah, that's all.",
+          "I'm done.",
+          "To sum up, the main takeaway is that investing in training improves retention by 40%.",
+          "Whatever, thanks."
+        ],
+        correctAnswer: 2,
+        explanation: "'To sum up, the main takeaway is…' provides a clear summary and reinforces the key message the audience should remember."
+      }
+    ]
+  },
+
+  "Academic Writing \u2014 Essays and Reports": {
+    explanation: `<h2>Academic Writing — Essays and Reports</h2>
+<p>Academic writing follows a strict structure and uses formal vocabulary. An essay has three main parts: the <strong>introduction</strong> (10% of word count), the <strong>body paragraphs</strong> (80%), and the <strong>conclusion</strong> (10%). The introduction should include a hook, background context, a <strong>thesis statement</strong> (your main argument in one sentence), and a brief outline. A strong thesis statement might be: <em>"This essay argues that remote working increases productivity when properly managed."</em></p>
+
+<p>Each body paragraph should follow the <strong>PEEL structure</strong>: <strong>Point</strong> (topic sentence stating the main idea), <strong>Evidence</strong> (facts, data, examples, or quotes), <strong>Explanation</strong> (why this evidence supports your point), and <strong>Link</strong> (connect back to the thesis or transition to the next paragraph). This structure ensures every paragraph is focused, supported, and connected to your overall argument.</p>
+
+<p>Formal vocabulary is essential in academic writing. Replace informal words with formal alternatives: <em>"a lot of"</em> → <em>"a significant number of"</em>, <em>"big"</em> → <em>"substantial"</em>, <em>"get"</em> → <em>"obtain"</em>, <em>"show"</em> → <em>"demonstrate"</em>, <em>"say"</em> → <em>"argue"</em>, <em>"thing"</em> → <em>"factor"</em>, <em>"good/bad"</em> → <em>"beneficial/detrimental"</em>. Use linking words to connect ideas: <em>furthermore, moreover</em> (addition); <em>however, nevertheless</em> (contrast); <em>therefore, consequently</em> (cause/effect); <em>for instance, for example</em> (examples); <em>firstly, subsequently, finally, in conclusion</em> (sequence).</p>`,
+    examples: [
+      {
+        sentence: "This essay argues that social media has a detrimental effect on young people's mental health.",
+        note: "Thesis statement — a clear, single-sentence argument that guides the entire essay."
+      },
+      {
+        sentence: "A recent study by Stanford University found that remote workers save an average of 72 minutes per day on commuting.",
+        note: "Evidence — specific data from a credible source that supports a claim."
+      },
+      {
+        sentence: "Consequently, promoting bilingual education may have important implications for public health policy.",
+        note: "Link sentence — connects the paragraph's finding back to the broader argument and suggests implications."
+      },
+      {
+        sentence: "A significant number of researchers argue that climate change poses the greatest threat to global stability.",
+        note: "Formal vocabulary — 'significant number' replaces 'a lot of', 'argue' replaces 'say'."
+      },
+      {
+        sentence: "The results demonstrate that the new methodology produces substantially better outcomes.",
+        note: "Academic language — 'demonstrate' replaces 'show', 'substantially' replaces 'a lot'."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "A lot of people think social media is bad for kids.",
+        correction: "A significant number of researchers argue that social media has a detrimental effect on young people's mental health. (Use formal vocabulary and cite sources.)"
+      },
+      {
+        mistake: "This essay will talk about why renewable energy is good.",
+        correction: "This essay examines the advantages of renewable energy and argues for its expanded implementation. ('Talk about' and 'good' are too informal.)"
+      },
+      {
+        mistake: "The results show that the new method works better.",
+        correction: "The results demonstrate that the new methodology produces significantly better outcomes. (Use academic verbs and precise adverbs.)"
+      },
+      {
+        mistake: "In conclusion, I think that we should do something about it.",
+        correction: "In conclusion, the evidence strongly suggests that immediate policy intervention is necessary. (Be specific and evidence-based, not vague.)"
+      }
+    ],
+    quiz: [
+      {
+        question: "What does PEEL stand for in academic paragraph structure?",
+        options: [
+          "Plan, Explain, Examine, List",
+          "Point, Evidence, Explanation, Link",
+          "Prepare, Evaluate, Edit, Learn",
+          "Present, Explain, Explore, Locate"
+        ],
+        correctAnswer: 1,
+        explanation: "PEEL stands for Point (topic sentence), Evidence (data/quotes), Explanation (how evidence supports the point), and Link (connection to thesis or next paragraph)."
+      },
+      {
+        question: "Which sentence is a strong thesis statement?",
+        options: [
+          "This essay will talk about social media.",
+          "I think social media is interesting.",
+          "This essay argues that social media has a detrimental effect on young people's mental health.",
+          "Social media is bad."
+        ],
+        correctAnswer: 2,
+        explanation: "A strong thesis statement is specific, arguable, and presents a clear position in one sentence. It guides the entire essay."
+      },
+      {
+        question: "Which is the formal alternative to 'a lot of'?",
+        options: [
+          "many much",
+          "a significant number of",
+          "heaps of",
+          "tons of"
+        ],
+        correctAnswer: 1,
+        explanation: "'A significant number of' is the formal academic alternative to 'a lot of'. Informal quantifiers like 'heaps' or 'tons' are never used in academic writing."
+      },
+      {
+        question: "What should the conclusion of an essay do?",
+        options: [
+          "Introduce a completely new argument",
+          "Restate the thesis, summarise main points, and offer a final thought",
+          "Repeat the introduction word for word",
+          "List all the evidence again in detail"
+        ],
+        correctAnswer: 1,
+        explanation: "The conclusion restates the thesis in different words, summarises the main points, and offers a final thought or implication. It should NOT introduce new information."
+      },
+      {
+        question: "Which linking word indicates contrast?",
+        options: ["Furthermore", "Therefore", "Nevertheless", "Subsequently"],
+        correctAnswer: 2,
+        explanation: "'Nevertheless' is a contrast linker meaning 'despite that'. 'Furthermore' adds information, 'Therefore' shows cause/effect, and 'Subsequently' shows sequence."
+      }
+    ]
+  },
+
+  "Reading Academic and Professional Texts": {
+    explanation: `<h2>Reading Academic and Professional Texts</h2>
+<p>Effective reading of academic and professional texts involves three key skills: <strong>skimming</strong> for structure, <strong>identifying the main argument</strong>, and <strong>distinguishing main points from supporting evidence</strong>. Skimming means quickly reading the title, abstract/introduction, and conclusion, looking at headings and subheadings, and noticing bold text, bullet points, and charts — all within 2-3 minutes. This gives you the overall picture before you deep-read.</p>
+
+<p>The main argument (thesis) is usually found in the introduction or abstract. Look for phrases like <em>"This paper argues…"</em>, <em>"The purpose of this study is…"</em>, or <em>"We demonstrate that…"</em> In news articles, the headline and first paragraph contain the main point; in reports, the executive summary gives key findings. Distinguishing main points from supporting evidence is crucial: main points directly support the thesis, while supporting points provide evidence, examples, and data. Signal words for main points include <em>"The key finding is…"</em> and <em>"Most importantly…"</em>, while signal words for evidence include <em>"For example,…" </em> and <em>"According to…"</em></p>
+
+<p>Critical reading requires asking questions: What is the author's purpose? Who is the intended audience? What evidence is provided and is it reliable? Are there biases or assumptions? Does the conclusion follow from the evidence? For vocabulary, use context clues (the sentence around the unknown word), word parts (prefixes like un-, re-, dis- and suffixes like -tion, -ment, -ness), and note common collocations like <em>"conduct research"</em>, <em>"gather data"</em>, and <em>"draw conclusions"</em>.</p>`,
+    examples: [
+      {
+        sentence: "This study investigates the impact of remote working on employee productivity in the technology sector.",
+        note: "Thesis statement in an abstract — clearly states the research topic and scope."
+      },
+      {
+        sentence: "Results indicate a 13% increase in output among fully remote workers compared to office-based employees.",
+        note: "Key finding — specific numerical evidence that directly supports or challenges the thesis."
+      },
+      {
+        sentence: "According to a 2022 McKinsey report, 58% of employed respondents now have the option to work from home.",
+        note: "Supporting evidence — data from a credible source that backs up a main point."
+      },
+      {
+        sentence: "The data also reveal challenges in collaboration and innovation.",
+        note: "Limitation — an important qualification that shows the author has considered counter-evidence."
+      },
+      {
+        sentence: "The findings suggest that hybrid models may offer the optimal balance.",
+        note: "Conclusion/recommendation — the author's interpretation of what the evidence means for practice."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "Reading every word from beginning to end without skimming first.",
+        correction: "Skim the title, abstract, headings, and conclusion first to understand the structure, then deep-read relevant sections. (Save time and focus your reading.)"
+      },
+      {
+        mistake: "Treating all information in a text as equally important.",
+        correction: "Distinguish main points (which support the thesis) from supporting evidence (which backs up main points). Use signal words to guide you."
+      },
+      {
+        mistake: "Accepting all claims without questioning the evidence.",
+        correction: "Ask: What evidence is provided? Is it reliable? Are there biases? Critical reading means evaluating, not just absorbing."
+      },
+      {
+        mistake: "Ignoring unknown words instead of using context clues.",
+        correction: "Look at surrounding words for clues: definitions, examples, or contrast words like 'however' can hint at meaning."
+      }
+    ],
+    quiz: [
+      {
+        question: "What is the purpose of skimming before deep reading?",
+        options: [
+          "To memorise the entire text",
+          "To understand the overall structure and main ideas quickly",
+          "To avoid reading the text at all",
+          "To find spelling errors"
+        ],
+        correctAnswer: 1,
+        explanation: "Skimming gives you the big picture — structure, main arguments, and key sections — so you can focus your deep reading on what matters most."
+      },
+      {
+        question: "Where is the thesis usually found in an academic paper?",
+        options: [
+          "In the bibliography",
+          "In the introduction or abstract",
+          "In the acknowledgements",
+          "In the methodology section"
+        ],
+        correctAnswer: 1,
+        explanation: "The thesis statement is typically in the introduction or abstract, where the author states the main argument or purpose of the paper."
+      },
+      {
+        question: "Which signal word indicates supporting evidence?",
+        options: [
+          "Most importantly",
+          "The key finding is",
+          "According to",
+          "In conclusion"
+        ],
+        correctAnswer: 2,
+        explanation: "'According to' signals that evidence from a source is being cited. 'Most importantly' and 'The key finding' signal main points, and 'In conclusion' signals the end."
+      },
+      {
+        question: "What does 'the patient's condition was exacerbated — in other words, made worse — by the medication' demonstrate?",
+        options: [
+          "The author is confused",
+          "A spelling error",
+          "A context clue that defines 'exacerbated' as 'made worse'",
+          "Informal language in academic writing"
+        ],
+        correctAnswer: 2,
+        explanation: "The phrase 'in other words' is a context clue that provides the definition of the unknown word 'exacerbated' right after it appears."
+      },
+      {
+        question: "Which is a question a critical reader should ask?",
+        options: [
+          "How many pages is this?",
+          "What font was used?",
+          "Are there biases or assumptions in the argument?",
+          "When was the author born?"
+        ],
+        correctAnswer: 2,
+        explanation: "Critical readers evaluate the quality of arguments by checking for biases, assumptions, evidence quality, and whether conclusions logically follow from the evidence."
+      }
+    ]
+  },
+
+  "Negotiating and Persuading": {
+    explanation: `<h2>Negotiating and Persuading</h2>
+<p>Negotiation and persuasion are essential professional skills that require specific language patterns. Making proposals uses phrases like <em>"What if we…?"</em>, <em>"Suppose we…"</em>, <em>"One option would be to…"</em>, and <em>"I'd like to propose that…"</em> Conditional proposals are particularly powerful: <em>"If you can lower the price by 10%, we could increase our order"</em> or <em>"Provided that you deliver by Friday, we'll sign the contract today."</em></p>
+
+<p>Softening language makes demands sound like requests, which is crucial for maintaining relationships during negotiations. Use <em>"Would it be possible to…?"</em>, <em>"I was wondering if we might…"</em>, <em>"Do you think you could…?"</em>, and <em>"Ideally, we'd like to…"</em> Expressing priorities and limits shows where you stand: <em>"Our main priority is…"</em>, <em>"This is a dealbreaker for us"</em>, or <em>"We have some flexibility on price, but delivery time is non-negotiable."</em> Compromise language includes <em>"We could compromise on X if you can meet us halfway on Y."</em></p>
+
+<p>Building consensus is the art of finding common ground: <em>"It seems we both agree on…"</em>, <em>"We have common ground on…"</em>, <em>"Can we find a middle ground?"</em>, and <em>"What would a win-win solution look like?"</em> The key to successful negotiation is maintaining a collaborative tone — you're not fighting against the other party; you're working together to find a solution that satisfies both sides. Avoid ultimatums and always leave room for creative solutions.</p>`,
+    examples: [
+      {
+        sentence: "If you can lower the price by 10%, we could increase our order by 25%.",
+        note: "Conditional proposal — links your concession to their benefit, creating a win-win opportunity."
+      },
+      {
+        sentence: "Would it be possible to extend the deadline by a week?",
+        note: "Softening language — 'Would it be possible' sounds like a question, not a demand."
+      },
+      {
+        sentence: "Delivery time is non-negotiable for us, but we have some flexibility on price.",
+        note: "Expressing a fixed limit while showing flexibility elsewhere — keeps the negotiation open."
+      },
+      {
+        sentence: "It seems we both agree on the timeline. Can we find a middle ground on the budget?",
+        note: "Building consensus — starts from agreement and moves toward resolving the remaining difference."
+      },
+      {
+        sentence: "What if we split the difference and meet at £35,000?",
+        note: "Suggesting compromise — 'split the difference' means each side moves equally from their position."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "Lower the price or we walk away.",
+        correction: "If you could lower the price by 15%, we'd be prepared to place a larger order. (Conditional proposals create opportunities; ultimatums destroy them.)"
+      },
+      {
+        mistake: "I want free delivery included.",
+        correction: "Would it be possible to include free delivery? It would help us finalise the agreement this week. (Softening language preserves the relationship.)"
+      },
+      {
+        mistake: "That's our final offer. Take it or leave it.",
+        correction: "This is the best we can offer at this stage, but we're open to discussing other aspects of the deal. (Always leave the door open.)"
+      },
+      {
+        mistake: "We disagree on everything.",
+        correction: "It seems we have some differences, but we both agree on the quality standards. Let's build from there. (Start from common ground.)"
+      }
+    ],
+    quiz: [
+      {
+        question: "Which phrase is a conditional proposal?",
+        options: [
+          "You must lower the price.",
+          "If you reduce the price by 8%, we'll sign today.",
+          "We need a discount.",
+          "Give us a better deal."
+        ],
+        correctAnswer: 1,
+        explanation: "A conditional proposal links a condition ('If you reduce the price') to an outcome ('we'll sign today'). It creates a win-win incentive."
+      },
+      {
+        question: "What is the function of softening language in negotiation?",
+        options: [
+          "To make your position weaker",
+          "To make demands sound like requests, preserving the relationship",
+          "To confuse the other party",
+          "To avoid making any proposals"
+        ],
+        correctAnswer: 1,
+        explanation: "Softening language ('Would it be possible to…?') makes requests sound less aggressive, keeping negotiations collaborative rather than confrontational."
+      },
+      {
+        question: "What does 'This is a dealbreaker' mean?",
+        options: [
+          "We want to break the deal",
+          "This is something we cannot accept under any circumstances",
+          "This is a small problem",
+          "We need a break from negotiating"
+        ],
+        correctAnswer: 1,
+        explanation: "A 'dealbreaker' is a non-negotiable condition — if this term isn't met, the deal cannot proceed. It signals a firm limit."
+      },
+      {
+        question: "Complete: 'It seems we both agree on the timeline. Can we find a ______ on the budget?'",
+        options: ["difference", "middle ground", "problem", "disagreement"],
+        correctAnswer: 1,
+        explanation: "'Middle ground' means a compromise position between two sides. 'Can we find a middle ground?' proposes moving toward agreement."
+      },
+      {
+        question: "Which approach is most effective for successful negotiation?",
+        options: [
+          "Make demands and refuse to compromise",
+          "Listen only to your own priorities",
+          "Find common ground and work toward a win-win solution",
+          "Walk away at the first disagreement"
+        ],
+        correctAnswer: 2,
+        explanation: "Successful negotiation is collaborative. Finding common ground and working toward win-win solutions leads to lasting agreements that both parties respect."
+      }
+    ]
+  },
+
+  "Telephone and Video Call English": {
+    explanation: `<h2>Telephone and Video Call English</h2>
+<p>Professional phone and video calls require specific language and etiquette. When answering the phone professionally, use <em>"Good morning, [Company Name], [Your Name] speaking. How can I help you?"</em> When making a call, say <em>"Hello, could I speak to [Name], please?"</em> or <em>"Hi, this is [Name] from [Company]. I'm calling about…"</em> If the person isn't available, ask <em>"Could I leave a message?"</em> or <em>"Could you ask [Name] to call me back?"</em></p>
+
+<p>When leaving a voicemail, keep it concise: <em>"Hi, this is [Name] from [Company]. I'm calling about… Could you call me back on [number]? I'm available between [time] and [time]. Thanks, speak soon."</em> When the person you're calling isn't available, the receptionist may say <em>"I'm afraid [Name] is in a meeting"</em> or <em>"Would you like to leave a message?"</em> — respond with <em>"I'll leave a message, please"</em> or <em>"Can I take your number and ask them to call you back?"</em></p>
+
+<p>Video call etiquette includes: <em>"Can everyone hear me?"</em>, <em>"Can you see my screen?"</em>, <em>"I'm going to share my screen"</em>, <em>"Sorry, you're on mute"</em>, and <em>"The connection is a bit unstable."</em> When dealing with technical problems, say <em>"I think we have a bad connection"</em>, <em>"Your screen is frozen"</em>, or <em>"Could you repeat that? The audio cut out."</em> Always end calls professionally: <em>"I'll follow up by email"</em> or <em>"Thank you for your time."</em></p>`,
+    examples: [
+      {
+        sentence: "Good morning, Bright Solutions. How may I help you?",
+        note: "Professional phone answering — includes company name, your name, and an offer to help."
+      },
+      {
+        sentence: "Could I speak to Sarah Johnson in Marketing, please?",
+        note: "Making a call — polite request to speak to a specific person using their full name."
+      },
+      {
+        sentence: "I'm afraid Sarah's line is busy. Would you like to leave a message?",
+        note: "Handling unavailability — explains the situation and offers alternatives."
+      },
+      {
+        sentence: "Can everyone hear me? I'm going to share my screen now.",
+        note: "Video call opening — checking audio and signalling the next action."
+      },
+      {
+        sentence: "Could you repeat that? The audio cut out for a moment.",
+        note: "Dealing with technical problems — polite request with an explanation of the issue."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "Yeah? (answering a business call)",
+        correction: "Good morning, [Company Name]. [Your Name] speaking. How can I help you? (Professional greeting is essential.)"
+      },
+      {
+        mistake: "I want to talk to Sarah.",
+        correction: "Could I speak to Sarah Johnson, please? (Use polite request forms on the phone.)"
+      },
+      {
+        mistake: "She's not here. Call later.",
+        correction: "I'm afraid she's in a meeting at the moment. Would you like to leave a message? (Be helpful and offer alternatives.)"
+      },
+      {
+        mistake: "I can't hear you. Speak up!",
+        correction: "I think we have a bad connection. Could you repeat that, please? (Be polite about technical issues.)"
+      }
+    ],
+    quiz: [
+      {
+        question: "Which is the most professional way to answer a business phone call?",
+        options: [
+          "Hello?",
+          "Yeah?",
+          "Good morning, Smith Consulting. James speaking. How can I help you?",
+          "What do you want?"
+        ],
+        correctAnswer: 2,
+        explanation: "A professional greeting includes the company name, your name, and an offer to help. This immediately sets a businesslike tone."
+      },
+      {
+        question: "Complete: 'I'm afraid Mr. Chen is in a meeting. Would you like to ______ a message?'",
+        options: ["give", "leave", "take", "make"],
+        correctAnswer: 1,
+        explanation: "'Leave a message' is the correct phrase — the caller leaves a message for the person who is unavailable."
+      },
+      {
+        question: "What should you include in a professional voicemail?",
+        options: [
+          "Just your first name",
+          "Your name, company, reason for calling, and callback number",
+          "A long explanation of the problem",
+          "A joke to lighten the mood"
+        ],
+        correctAnswer: 1,
+        explanation: "A professional voicemail should include: your name, company, brief reason for calling, callback number, and when you're available."
+      },
+      {
+        question: "How do you politely tell someone on a video call that their microphone is off?",
+        options: [
+          "You're on mute! Turn it on!",
+          "Why can't I hear you?",
+          "Sorry, I think you're on mute.",
+          "Your mic is broken."
+        ],
+        correctAnswer: 2,
+        explanation: "'Sorry, I think you're on mute' is polite and doesn't blame the person. 'Sorry' softens the interruption."
+      },
+      {
+        question: "What should you do if the video call connection is poor?",
+        options: [
+          "Continue talking as normal",
+          "Hang up without explanation",
+          "Suggest switching to audio only or reconnecting",
+          "Shout so they can hear you"
+        ],
+        correctAnswer: 2,
+        explanation: "Suggesting 'Let's switch to audio only — the video is lagging' or 'I'll try logging out and joining again' addresses the problem professionally."
+      }
+    ]
+  },
+
+  "Networking and Small Talk at Work": {
+    explanation: `<h2>Networking and Small Talk at Work</h2>
+<p>Networking and small talk are essential professional skills, especially in English-speaking business cultures. To start a conversation, use icebreakers like <em>"Hi, I'm [Name]. I work in [department]"</em>, <em>"Is this your first time at one of these events?"</em>, <em>"How long have you worked at [company]?"</em>, <em>"What brings you here today?"</em>, or <em>"The speaker was excellent, wasn't she?"</em></p>
+
+<p>Maintaining the conversation requires good follow-up questions: <em>"That sounds interesting. How did you get into that?"</em>, <em>"What do you enjoy most about your work?"</em>, <em>"How do you find working in [city/industry]?"</em>, and <em>"Have you been working on anything exciting recently?"</em> Safe small talk topics include: the event itself, travel, work-related topics, hobbies, and positive current events. Topics to avoid include: personal finances, politics, religion, gossip, and anything too personal.</p>
+
+<p>Active listening phrases show engagement: <em>"That's fascinating"</em>, <em>"Really? Tell me more"</em>, <em>"I hadn't thought of it that way"</em>, and <em>"That must have been challenging."</em> Making a polite exit is just as important as starting: <em>"It's been lovely talking to you. I'm going to grab another drink"</em>, <em>"I should probably mingle a bit more. Enjoy the rest of the evening!"</em>, or <em>"Let me give you my card. It was great meeting you."</em> Always end with a positive impression and a clear next step if you want to stay in touch.</p>`,
+    examples: [
+      {
+        sentence: "Hi, I'm Priya. This is my first time at this conference. Is it yours?",
+        note: "Icebreaker — a friendly, open-ended question that invites the other person to share."
+      },
+      {
+        sentence: "That sounds interesting. How did you get into UX design?",
+        note: "Follow-up question — shows genuine interest and keeps the conversation flowing."
+      },
+      {
+        sentence: "No way — I'm in digital marketing too! We're practically neighbours in the industry.",
+        note: "Finding common ground — discovering shared interests strengthens professional connections."
+      },
+      {
+        sentence: "It's been lovely talking to you. Let me give you my card.",
+        note: "Polite exit with contact exchange — professional way to end the conversation and stay connected."
+      },
+      {
+        sentence: "Really? Tell me more about that project.",
+        note: "Active listening — showing genuine curiosity encourages the other person to share more."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "So, how much do you earn? (asking about salary)",
+        correction: "What do you enjoy most about your work? (Personal finances are not appropriate small talk topics.)"
+      },
+      {
+        mistake: "I need to go. Bye. (abrupt exit)",
+        correction: "It's been lovely talking to you. I should probably mingle a bit more. Enjoy the rest of the evening! (Polite exits leave positive impressions.)"
+      },
+      {
+        mistake: "So, who did you vote for? (politics)",
+        correction: "Have you been working on anything exciting recently? (Politics is off-limits in professional small talk.)"
+      },
+      {
+        mistake: "Uh-huh. Yeah. (not really listening)",
+        correction: "That's fascinating. Tell me more about how that worked. (Active listening shows respect and builds rapport.)"
+      }
+    ],
+    quiz: [
+      {
+        question: "Which is the best icebreaker at a professional networking event?",
+        options: [
+          "How much money do you make?",
+          "Is this your first time at this conference?",
+          "What's your religion?",
+          "Who are you voting for?"
+        ],
+        correctAnswer: 1,
+        explanation: "'Is this your first time at this conference?' is a safe, friendly opener that relates to the shared event. The other options are inappropriate professional topics."
+      },
+      {
+        question: "What is a safe topic for professional small talk?",
+        options: [
+          "Personal health issues",
+          "Office gossip",
+          "The event venue and speakers",
+          "Political opinions"
+        ],
+        correctAnswer: 2,
+        explanation: "The event itself (venue, speakers, food) is a safe, neutral topic that both parties can discuss comfortably without controversy."
+      },
+      {
+        question: "Which phrase shows active listening in a networking conversation?",
+        options: [
+          "Uh-huh. Right.",
+          "Anyway, about me...",
+          "That's fascinating. Tell me more about that.",
+          "I need to go now."
+        ],
+        correctAnswer: 2,
+        explanation: "'That's fascinating. Tell me more' shows genuine interest and encourages the speaker to continue — it's the opposite of passive listening."
+      },
+      {
+        question: "How should you exit a networking conversation politely?",
+        options: [
+          "Walk away without saying anything",
+          "I'm bored. Bye.",
+          "It's been lovely talking to you. I should probably mingle a bit more.",
+          "I don't want to talk anymore."
+        ],
+        correctAnswer: 2,
+        explanation: "A polite exit acknowledges the conversation positively, gives a natural reason for leaving, and leaves a good impression."
+      },
+      {
+        question: "What should you do when you find common ground with someone?",
+        options: [
+          "Ignore it and change the subject",
+          "Argue about who knows more",
+          "Acknowledge it and build on the connection",
+          "Compete with them"
+        ],
+        correctAnswer: 2,
+        explanation: "Finding common ground is the goal of networking — acknowledge it enthusiastically ('No way, me too!') and use it to deepen the professional connection."
+      }
+    ]
+  },
+
+  "Describing Data, Charts, and Trends": {
+    explanation: `<h2>Describing Data, Charts, and Trends</h2>
+<p>Describing data accurately is essential for presentations, reports, and meetings. Upward movement uses phrases like <em>"Sales increased/rose/grew by 20%"</em>, <em>"There was a steady increase in…"</em>, <em>"Profits surged"</em> (dramatic), and <em>"The figure reached a peak of…"</em> (highest point). Downward movement uses <em>"Revenue fell/dropped/declined by 15%"</em>, <em>"There was a sharp decrease in…"</em>, <em>"Numbers plummeted"</em> (dramatic), and <em>"The figure hit a low of…"</em></p>
+
+<p>For stability and fluctuation, use <em>"The figure remained stable/constant at…"</em>, <em>"There was little change in…"</em>, and <em>"The number fluctuated between X and Y."</em> When comparing data, use modifiers: <em>"X is significantly/substantially higher than Y"</em>, <em>"X is slightly/marginally lower than Y"</em>, or <em>"X is approximately the same as Y."</em> Proportions and approximations include: <em>"Just over/under 50%"</em>, <em>"Roughly a third"</em>, <em>"The vast majority"</em> (~80-90%), and <em>"A significant minority"</em> (~20-30%).</p>
+
+<p>Prepositions with numbers are a common source of errors. Use <em>"by"</em> for the amount of change (<em>"Sales rose by 10%"</em>), <em>"from…to"</em> for start and end points (<em>"Sales rose from £5m to £6m"</em>), <em>"to"</em> for the end point only (<em>"Sales rose to £6m"</em>), <em>"at"</em> for static figures (<em>"Profits stood at £2m"</em>), and <em>"of"</em> after a noun (<em>"an increase of 15%"</em>). Mastering these prepositions makes your data descriptions precise and professional.</p>`,
+    examples: [
+      {
+        sentence: "Company revenue showed a strong upward trend between 2020 and 2023, climbing from £2.5 million to a peak of £5.1 million.",
+        note: "Describing an upward trend — includes the direction, time period, start and end figures."
+      },
+      {
+        sentence: "The most dramatic growth occurred in 2022, when revenue surged by 50%.",
+        note: "Highlighting a dramatic change — 'surged' emphasises the significance of the increase."
+      },
+      {
+        sentence: "Sales fluctuated between £3 million and £4 million throughout the year.",
+        note: "Describing fluctuation — 'fluctuated between X and Y' shows irregular ups and downs."
+      },
+      {
+        sentence: "The number levelled off at around 500 in the final quarter.",
+        note: "Describing stability — 'levelled off' means the figure stopped changing and became stable."
+      },
+      {
+        sentence: "X is significantly higher than Y, with a difference of approximately 30%.",
+        note: "Comparing data — 'significantly higher' uses a modifier for emphasis, with specific numbers."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "Prices increased to 15%.",
+        correction: "Prices increased by 15%. ('By' indicates the amount of change; 'to' indicates the end point.)"
+      },
+      {
+        mistake: "The number fell by 100 to 500.",
+        correction: "The number fell from 600 to 500. (Use 'from…to' for start and end points; 'by' for the amount of change.)"
+      },
+      {
+        mistake: "There was a decrease on 10%.",
+        correction: "There was a decrease of 10%. (Use 'of' after a noun to indicate the amount.)"
+      },
+      {
+        mistake: "The figure stands in 25%.",
+        correction: "The figure stands at 25%. (Use 'at' for static figures.)"
+      }
+    ],
+    quiz: [
+      {
+        question: "Complete: 'Sales rose ______ 10% last quarter.'",
+        options: ["to", "by", "from", "of"],
+        correctAnswer: 1,
+        explanation: "'By' indicates the amount of change: 'rose by 10%' means the increase was 10 percentage points."
+      },
+      {
+        question: "Complete: 'Revenue climbed ______ £2m ______ £5m.'",
+        options: ["by / to", "from / to", "to / from", "of / at"],
+        correctAnswer: 1,
+        explanation: "'From…to' indicates the start and end points: 'climbed from £2m to £5m' shows the full range of change."
+      },
+      {
+        question: "Which word describes a dramatic upward movement?",
+        options: ["dipped", "surged", "levelled off", "fluctuated"],
+        correctAnswer: 1,
+        explanation: "'Surged' describes a dramatic, sudden upward movement. 'Dipped' is downward, 'levelled off' is stable, and 'fluctuated' is irregular."
+      },
+      {
+        question: "What does 'the vast majority' approximately mean?",
+        options: [
+          "About 20-30%",
+          "About 50%",
+          "About 80-90%",
+          "About 100%"
+        ],
+        correctAnswer: 2,
+        explanation: "'The vast majority' refers to approximately 80-90% — a very large proportion, but not quite all."
+      },
+      {
+        question: "Complete: 'The figure remained stable ______ £2 million throughout the year.'",
+        options: ["by", "from", "at", "of"],
+        correctAnswer: 2,
+        explanation: "'At' is used for static figures: 'remained stable at £2 million' means the figure didn't change from that level."
+      }
+    ]
+  },
+
+  "Writing CVs, Cover Letters, and Applications": {
+    explanation: `<h2>Writing CVs, Cover Letters, and Applications</h2>
+<p>A strong CV has five key sections: <strong>personal details</strong>, <strong>professional summary</strong>, <strong>work experience</strong>, <strong>education</strong>, and <strong>skills</strong>. For personal details, include your name, phone, email, and LinkedIn — but NOT your age, marital status, religion, or photo (in UK/US). The professional summary should be 3-4 lines: <em>"Results-driven marketing professional with 5+ years of experience in digital strategy and team leadership."</em></p>
+
+<p>Work experience should be listed in reverse chronological order (most recent first) using bullet points with <strong>strong action verbs</strong>: <em>"Led a team of 8 designers to deliver a £2m rebranding project"</em>, <em>"Increased social media engagement by 340% within 12 months"</em>, <em>"Streamlined the reporting process, reducing delivery time by 30%."</em> Key action verbs include: led, managed, developed, created, designed, implemented, streamlined, increased, reduced, improved, launched, negotiated, analysed, coordinated, supervised, and achieved. Always include specific numbers and results where possible.</p>
+
+<p>A cover letter has four sections: opening (state the role and where you saw it), why this company (show you've researched them), why you (match your experience to their requirements), and call to action (request an interview). Tailor every application by using keywords from the job description, addressing every requirement with evidence, and researching the company's values. Example opening: <em>"I am writing to apply for the Marketing Manager position at GreenTech Solutions, as advertised on LinkedIn."</em> Never use the same generic CV and cover letter for every application — customisation shows genuine interest and significantly improves your chances.</p>`,
+    examples: [
+      {
+        sentence: "Developed and executed a social media strategy that grew followers by 15,000 in 6 months.",
+        note: "Strong CV bullet point — starts with an action verb, includes specific results and numbers."
+      },
+      {
+        sentence: "I am writing to apply for the Marketing Manager position at GreenTech Solutions, as advertised on LinkedIn.",
+        note: "Cover letter opening — clearly states the role, company, and where you found the listing."
+      },
+      {
+        sentence: "Resolved 95% of customer complaints within 24 hours, achieving a 4.8/5 satisfaction rating.",
+        note: "Quantified achievement — specific percentages and ratings make your impact tangible and credible."
+      },
+      {
+        sentence: "Your commitment to sustainability resonates strongly with my personal values and professional experience.",
+        note: "Cover letter 'why this company' section — shows research and alignment with company values."
+      },
+      {
+        sentence: "Results-driven marketing professional with 5+ years of experience in digital strategy and team leadership.",
+        note: "Professional summary — concise, includes years of experience, key skills, and one notable strength."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "Responsible for social media.",
+        correction: "Developed and executed a social media strategy that grew followers by 15,000 in 6 months. (Start with action verbs and include specific results.)"
+      },
+      {
+        mistake: "Helped with customer service.",
+        correction: "Resolved 95% of customer complaints within 24 hours, achieving a 4.8/5 satisfaction rating. (Quantify your achievements with numbers.)"
+      },
+      {
+        mistake: "Made the website better.",
+        correction: "Redesigned the company website, improving load speed by 40% and increasing conversions by 22%. (Use strong action verbs and measurable results.)"
+      },
+      {
+        mistake: "Dear Sir/Madam, I am writing about any job you have.",
+        correction: "Dear Ms. Johnson, I am writing to apply for the Marketing Manager position advertised on your careers page. (Always address a specific person and role.)"
+      }
+    ],
+    quiz: [
+      {
+        question: "Which CV bullet point is the strongest?",
+        options: [
+          "Responsible for social media.",
+          "Managed social media.",
+          "Developed a social media strategy that grew followers by 15,000 in 6 months.",
+          "Did social media work."
+        ],
+        correctAnswer: 2,
+        explanation: "The strongest bullet point starts with an action verb ('Developed') and includes specific, measurable results ('15,000 followers in 6 months')."
+      },
+      {
+        question: "What should NOT be included in a UK/US CV?",
+        options: [
+          "Professional summary",
+          "Work experience",
+          "Photo, age, and marital status",
+          "Education"
+        ],
+        correctAnswer: 2,
+        explanation: "In UK/US CVs, personal information like photo, age, marital status, and religion should NOT be included — they're irrelevant and can lead to discrimination."
+      },
+      {
+        question: "What are the four sections of a cover letter?",
+        options: [
+          "Introduction, life story, hobbies, conclusion",
+          "Opening/purpose, why this company, why you/qualifications, call to action",
+          "Salary requirements, benefits wanted, start date, references",
+          "Name, address, phone number, email"
+        ],
+        correctAnswer: 1,
+        explanation: "A cover letter has: opening (role + source), why this company (research), why you (qualifications matching requirements), and call to action (interview request)."
+      },
+      {
+        question: "Why should you tailor each CV and cover letter?",
+        options: [
+          "It's not necessary — one CV works for all jobs",
+          "To use keywords from the job description and show genuine interest",
+          "To make each application longer",
+          "Because employers compare all applications"
+        ],
+        correctAnswer: 1,
+        explanation: "Tailoring shows you've read the job description carefully, uses their keywords (which applicant tracking systems look for), and demonstrates genuine interest."
+      },
+      {
+        question: "Which is a strong action verb for a CV?",
+        options: [
+          "Helped",
+          "Did",
+          "Streamlined",
+          "Worked on"
+        ],
+        correctAnswer: 2,
+        explanation: "'Streamlined' is a strong, specific action verb that implies efficiency improvement. 'Helped', 'Did', and 'Worked on' are vague and weak."
+      }
+    ]
   }
 };
