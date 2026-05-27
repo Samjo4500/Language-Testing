@@ -10,10 +10,11 @@ const DELETE_SPEED = 25; // ms per character when deleting
 const PAUSE_BEFORE_DELETE = 2000; // ms pause before deleting
 
 export function TypewriterBadge() {
-  const [displayText, setDisplayText] = useState('');
+  // Start with full text so SSR renders the complete badge immediately
+  const [displayText, setDisplayText] = useState(FULL_TEXT);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
-  const [isComplete, setIsComplete] = useState(false);
+  const [isPaused, setIsPaused] = useState(true); // Start paused so full text shows initially
+  const [isComplete, setIsComplete] = useState(true); // Start as complete for SSR
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {

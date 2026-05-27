@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/lib/auth-store';
 import {
@@ -20,8 +21,9 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { User, LogOut, CreditCard, Menu, X, ArrowRight, BookOpen, Shield, ChevronDown, Headphones, BookOpenCheck, Mic, PenTool, GraduationCap, Trophy, Languages, MessageSquare, PenLine, Brain, Award } from 'lucide-react';
-import { AdminNotificationBell } from '@/components/admin-notification-bell';
-import { NotificationBell } from '@/components/notification-bell';
+// Lazy-load notification bells — they only matter for authenticated users after hydration
+const AdminNotificationBell = dynamic(() => import('@/components/admin-notification-bell').then(mod => ({ default: mod.AdminNotificationBell })), { ssr: false });
+const NotificationBell = dynamic(() => import('@/components/notification-bell').then(mod => ({ default: mod.NotificationBell })), { ssr: false });
 import { useState, useEffect } from 'react';
 import { isPaidPlan, getPlanLabel, getPlanBadgeClasses } from '@/lib/plan-utils';
 import { useHydrated } from '@/hooks/use-hydrated';
@@ -71,17 +73,25 @@ export function Navbar() {
   }, []);
 
   // Fetch community user count to conditionally show Community nav
+  // Delayed with requestIdleCallback to avoid competing with critical FCP resources
   useEffect(() => {
-    fetch('/api/community/user-count')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.count >= 5) {
-          setCommunityVisible(true);
-        }
-      })
-      .catch(() => {
-        // On error, keep Community hidden
-      });
+    const doFetch = () => {
+      fetch('/api/community/user-count')
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.count >= 5) {
+            setCommunityVisible(true);
+          }
+        })
+        .catch(() => {
+          // On error, keep Community hidden
+        });
+    };
+    if (typeof requestIdleCallback !== 'undefined') {
+      requestIdleCallback(doFetch, { timeout: 3000 });
+    } else {
+      setTimeout(doFetch, 2000);
+    }
   }, []);
 
   // Lock body scroll when mobile menu is open

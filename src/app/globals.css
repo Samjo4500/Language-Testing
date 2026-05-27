@@ -129,16 +129,16 @@
 /* === GLASSMORPHISM LAYERS === */
 .glass {
   background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .glass-light {
   background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
@@ -146,8 +146,8 @@
 /* === 3D DEPTH CARD === */
 .glass-card {
   background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow:
     0 4px 6px rgba(0, 0, 0, 0.15),
@@ -156,7 +156,6 @@
     inset 0 -1px 0 rgba(0, 0, 0, 0.1);
   border-radius: 20px;
   transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
   position: relative;
   overflow: hidden;
 }
@@ -204,8 +203,8 @@
 /* === NEON CARD VARIANT === */
 .glass-card-neon {
   background: linear-gradient(135deg, rgba(139,92,246,0.1) 0%, rgba(236,72,153,0.05) 100%);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(139, 92, 246, 0.25);
   box-shadow:
     0 4px 6px rgba(0, 0, 0, 0.15),
@@ -214,7 +213,6 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.12);
   border-radius: 20px;
   transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
   position: relative;
   overflow: hidden;
 }
@@ -320,8 +318,8 @@
 /* === NAVIGATION === */
 .glass-nav {
   background: rgba(15, 10, 30, 0.85);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.03);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
 }
@@ -373,7 +371,7 @@
 .orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
+  filter: blur(40px);
   opacity: 0.35;
   pointer-events: none;
 }

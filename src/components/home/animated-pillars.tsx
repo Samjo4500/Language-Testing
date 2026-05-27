@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Trophy, GraduationCap, Globe } from 'lucide-react';
+import { useHydrated } from '@/hooks/use-hydrated';
 
 interface Pillar {
   word: string;
@@ -93,17 +94,36 @@ function OrbitalRing({ size, color, duration, delay, dotCount, dotSize }: {
 export function AnimatedPillars() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [activePulse, setActivePulse] = useState(0);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useHydrated();
 
   useEffect(() => {
-    setMounted(true);
     const interval = setInterval(() => {
       setActivePulse((prev) => (prev + 1) % PILLARS.length);
     }, 2500);
     return () => clearInterval(interval);
   }, []);
 
-  if (!mounted) return <div className="h-32 sm:h-40 md:h-52" />;
+  // SSR-friendly static fallback: show the three pillars without orbital animations
+  if (!mounted) return (
+    <div className="flex items-center justify-center gap-4 sm:gap-6 md:gap-10">
+      {PILLARS.map((pillar) => {
+        const Icon = pillar.icon;
+        return (
+          <div key={pillar.word} className="flex flex-col items-center">
+            <div
+              className={`inline-flex items-center justify-center rounded-full bg-gradient-to-br ${pillar.gradient}`}
+              style={{ width: 44, height: 44 }}
+            >
+              <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+            </div>
+            <span className={`mt-2 text-xl sm:text-2xl md:text-4xl font-bold tracking-tight ${pillar.textColor}`}>
+              {pillar.word}
+            </span>
+          </div>
+        );
+      })}
+    </div>
+  );
 
   return (
     <div className="relative flex flex-col items-center w-full select-none">
