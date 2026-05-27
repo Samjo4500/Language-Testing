@@ -32,7 +32,7 @@ export default function EmbedQuizPage() {
                   <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Widget</span>
                 </div>
                 <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">
-                  Free English Quiz <span className="gradient-text">Widget</span>
+                  Free English Quiz <span className="text-blue-400">Widget</span>
                 </h1>
                 <p className="text-lg text-white/50 leading-relaxed">
                   Add an interactive English proficiency quiz to your site in 60 seconds. Engages visitors, adds value, and creates a natural backlink to TestCEFR.
@@ -119,7 +119,7 @@ export default function EmbedQuizPage() {
             <AnimatedSection>
               <div className="text-center max-w-2xl mx-auto">
                 <h2 className="text-2xl md:text-4xl font-bold text-white mb-4">
-                  Ready to Add <span className="gradient-text">Value</span> to Your Site?
+                  Ready to Add <span className="text-blue-400">Value</span> to Your Site?
                 </h2>
                 <p className="text-white/50 mb-8 leading-relaxed">
                   Join the growing list of language learning blogs and education sites using the TestCEFR quiz widget.

@@ -109,9 +109,9 @@ export function TypewriterBadge() {
         <span
           className={`inline-block w-[2px] h-4 flex-shrink-0 rounded-full transition-colors duration-500 ${
             isComplete
-              ? 'bg-gradient-to-b from-blue-400 to-violet-400'
+              ? 'bg-gradient-to-b from-blue-400 to-blue-600'
               : isDeleting
-              ? 'bg-violet-400/60'
+              ? 'bg-blue-400/60'
               : 'bg-blue-400/60'
           }`}
           style={{ animation: 'badge-cursor-blink 0.8s steps(1) infinite' }}

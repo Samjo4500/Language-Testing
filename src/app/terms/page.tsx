@@ -413,7 +413,7 @@ export default function TermsPage() {
                   <Mail className="h-6 w-6" />
                 </div>
                 <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                  Legal <span className="gradient-text-static">Inquiries</span>
+                  Legal <span className="text-blue-400">Inquiries</span>
                 </h2>
                 <p className="text-white/50 mb-6 leading-relaxed">
                   For any legal questions, concerns about these Terms of Service, or to request a copy of our data processing agreement, please contact our legal team.

@@ -543,7 +543,7 @@ export default function PrivacyPage() {
                   <Mail className="h-6 w-6" />
                 </div>
                 <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                  Privacy <span className="gradient-text-static">Questions?</span>
+                  Privacy <span className="text-blue-400">Questions?</span>
                 </h2>
                 <p className="text-white/50 mb-6 leading-relaxed">
                   If you have any questions or concerns about this Privacy Policy or how we handle your data, please don&apos;t hesitate to contact our privacy team.

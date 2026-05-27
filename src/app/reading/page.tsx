@@ -77,13 +77,13 @@ export default function ReadingPage() {
       icon: <FileText className="h-6 w-6" />,
       title: 'Diverse Text Types',
       desc: 'Read everything from short emails and news headlines to academic papers and literary extracts — each text carefully selected to test specific comprehension skills at your level.',
-      gradient: 'from-violet-500 to-indigo-500',
+      gradient: 'from-blue-500 to-blue-600',
     },
     {
       icon: <Globe className="h-6 w-6" />,
       title: 'Authentic Materials',
       desc: 'Engage with real-world English texts drawn from newspapers, workplace documents, academic journals, and everyday communications to prepare you for real-life reading challenges.',
-      gradient: 'from-blue-500 to-indigo-500',
+      gradient: 'from-blue-500 to-blue-600',
     },
     {
       icon: <Search className="h-6 w-6" />,
@@ -105,14 +105,14 @@ export default function ReadingPage() {
       title: 'Read the Passage',
       desc: 'Engage with carefully curated reading passages featuring authentic English texts. Each passage is designed to test specific comprehension skills at your CEFR level.',
       step: '01',
-      gradient: 'from-violet-500 to-indigo-500',
+      gradient: 'from-blue-500 to-blue-600',
     },
     {
       icon: <Eye className="h-7 w-7" />,
       title: 'Answer Questions',
       desc: 'Respond to comprehension questions that evaluate your understanding of main ideas, specific details, inference, and the author\'s purpose and tone.',
       step: '02',
-      gradient: 'from-blue-500 to-indigo-500',
+      gradient: 'from-blue-500 to-blue-600',
     },
     {
       icon: <CheckCircle2 className="h-7 w-7" />,
@@ -449,7 +449,7 @@ export default function ReadingPage() {
                   <span className="text-sm text-blue-200 font-medium">Reading Assessment</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                  Ready to Test Your <span className="gradient-text-static">Reading</span>?
+                  Ready to Test Your <span className="text-blue-400">Reading</span>?
                 </h2>
                 <p className="text-lg text-white/50 max-w-xl mx-auto mb-8">
                   Discover how well you understand written English. Our AI-powered assessment adapts to your level and provides detailed feedback on your reading comprehension skills.

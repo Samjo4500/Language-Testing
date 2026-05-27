@@ -81,13 +81,13 @@ export default function ListeningPage() {
       icon: <MessageCircle className="h-6 w-6" />,
       title: 'Natural Conversations',
       desc: 'Listen to authentic, real-world dialogues between native English speakers in everyday situations — from ordering coffee to professional meetings.',
-      gradient: 'from-violet-500 to-indigo-500',
+      gradient: 'from-blue-500 to-blue-600',
     },
     {
       icon: <Globe className="h-6 w-6" />,
       title: 'Various Accents',
       desc: 'Train your ear to understand diverse English accents including British, American, Australian, and more — essential for real-world communication.',
-      gradient: 'from-blue-500 to-indigo-500',
+      gradient: 'from-blue-500 to-blue-600',
     },
     {
       icon: <Volume2 className="h-6 w-6" />,
@@ -109,14 +109,14 @@ export default function ListeningPage() {
       title: 'Listen to Audio',
       desc: 'Play carefully curated audio clips featuring native speakers in realistic scenarios. Each clip is designed to test specific listening skills at your level.',
       step: '01',
-      gradient: 'from-violet-500 to-indigo-500',
+      gradient: 'from-blue-500 to-blue-600',
     },
     {
       icon: <Ear className="h-7 w-7" />,
       title: 'Answer Questions',
       desc: 'Respond to comprehension questions that evaluate your understanding of main ideas, specific details, speaker intent, and implied meanings.',
       step: '02',
-      gradient: 'from-blue-500 to-indigo-500',
+      gradient: 'from-blue-500 to-blue-600',
     },
     {
       icon: <CheckCircle2 className="h-7 w-7" />,
@@ -473,7 +473,7 @@ export default function ListeningPage() {
                   <span className="text-sm text-blue-200 font-medium">Listening Assessment</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                  Ready to Test Your <span className="gradient-text-static">Listening</span>?
+                  Ready to Test Your <span className="text-blue-400">Listening</span>?
                 </h2>
                 <p className="text-lg text-white/50 max-w-xl mx-auto mb-8">
                   Discover how well you understand spoken English. Our AI-powered assessment adapts to your level and provides detailed feedback on your listening comprehension skills.

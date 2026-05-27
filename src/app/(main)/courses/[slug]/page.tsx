@@ -809,7 +809,7 @@ export default function CourseDetailPage() {
                   {/* Price */}
                   <div className="mb-6">
                     <div className="flex items-baseline gap-3">
-                      <span className="text-4xl sm:text-5xl font-bold gradient-text-static">${course.price}</span>
+                      <span className="text-4xl sm:text-5xl font-bold text-blue-400">${course.price}</span>
                       {course.compareAtPrice && (
                         <span className="text-xl text-white/30 line-through">${course.compareAtPrice}</span>
                       )}
@@ -1114,11 +1114,11 @@ export default function CourseDetailPage() {
                 {ICON_MAP[course.icon] || <BookOpen className="h-6 w-6" />}
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Ready to Start <span className="gradient-text-static">{course.title}</span>?
+                Ready to Start <span className="text-blue-400">{course.title}</span>?
               </h2>
               <p className="text-white/50 mb-8 max-w-lg mx-auto">
                 Join thousands of learners who have improved their English with our structured courses.
-                Get lifetime access for just <span className="gradient-text-static font-semibold">${course.price}</span>
+                Get lifetime access for just <span className="text-blue-400 font-semibold">${course.price}</span>
                 {course.compareAtPrice && (
                   <span className="text-white/30 line-through ml-2">${course.compareAtPrice}</span>
                 )}.

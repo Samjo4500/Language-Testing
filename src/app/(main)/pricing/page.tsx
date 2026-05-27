@@ -375,7 +375,7 @@ export default function PricingPage() {
                 </div>
                 <p className="text-xs text-white/40 mb-5">Full assessment with detailed report</p>
                 <div className="mb-5">
-                  <span className="text-2xl sm:text-4xl font-bold gradient-text-static">$12.99</span>
+                  <span className="text-2xl sm:text-4xl font-bold text-blue-400">$12.99</span>
                   <span className="text-white/40 ml-1 text-sm">/ one-time</span>
                 </div>
                 <div className="section-divider mb-5" />
@@ -431,7 +431,7 @@ export default function PricingPage() {
                   </div>
                   <p className="text-xs text-white/40 mb-5">Best value for serious learners</p>
                   <div className="mb-5">
-                    <span className="text-2xl sm:text-4xl font-bold gradient-text-static">$29.99</span>
+                    <span className="text-2xl sm:text-4xl font-bold text-blue-400">$29.99</span>
                     <span className="text-white/40 ml-1 text-sm">/ 3 tests</span>
                   </div>
                   <div className="section-divider mb-5" />
@@ -482,7 +482,7 @@ export default function PricingPage() {
                   </div>
                   <p className="text-xs text-white/40 mb-5">Complete learning solution</p>
                   <div className="mb-5">
-                    <span className="text-2xl sm:text-4xl font-bold gradient-text-static">$49.99</span>
+                    <span className="text-2xl sm:text-4xl font-bold text-blue-400">$49.99</span>
                     <span className="text-white/40 ml-1 text-sm">/ 6 tests</span>
                   </div>
                   <div className="section-divider mb-5" />
@@ -624,7 +624,7 @@ export default function PricingPage() {
                   </div>
                   <p className="text-xs text-white/40 mt-1 mb-4">{COURSE_TIERS.intermediate.subtitle}</p>
                   <div className="mb-5">
-                    <span className="text-2xl sm:text-3xl font-bold gradient-text-static">${COURSE_TIERS.intermediate.price}</span>
+                    <span className="text-2xl sm:text-3xl font-bold text-blue-400">${COURSE_TIERS.intermediate.price}</span>
                     {COURSE_TIERS.intermediate.compareAtPrice && (
                       <span className="ml-2 text-sm text-white/30 line-through">${COURSE_TIERS.intermediate.compareAtPrice}</span>
                     )}

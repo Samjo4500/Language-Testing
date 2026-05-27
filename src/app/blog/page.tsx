@@ -41,7 +41,7 @@ export default function BlogPage() {
                   <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Blog</span>
                 </div>
                 <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">
-                  Learn, Grow, <span className="gradient-text">Succeed</span>
+                  Learn, Grow, <span className="text-blue-400">Succeed</span>
                 </h1>
                 <p className="text-lg text-white/50 leading-relaxed">
                   Expert guides on CEFR levels, test preparation, learning strategies, and career advancement — everything you need to master English.
@@ -140,7 +140,7 @@ export default function BlogPage() {
             <AnimatedSection>
               <div className="text-center max-w-2xl mx-auto">
                 <h2 className="text-2xl md:text-4xl font-bold text-white mb-4">
-                  Never Miss a <span className="gradient-text">New Article</span>
+                  Never Miss a <span className="text-blue-400">New Article</span>
                 </h2>
                 <p className="text-white/50 mb-8 leading-relaxed">
                   Get weekly tips, guides, and strategies delivered to your inbox. Join thousands of English learners improving their skills.

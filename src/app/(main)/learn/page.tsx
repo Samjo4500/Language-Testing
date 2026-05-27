@@ -451,7 +451,7 @@ export default function MyCoursesPage() {
                       <div className="mb-5">
                         <div className="flex items-center justify-between mb-2">
                           <span className="text-sm font-medium text-white/70">Progress</span>
-                          <span className="text-sm font-bold gradient-text-static">{progressPercent}%</span>
+                          <span className="text-sm font-bold text-blue-400">{progressPercent}%</span>
                         </div>
                         <div className={`h-2.5 rounded-full ${colors.progressBg} overflow-hidden`}>
                           <div

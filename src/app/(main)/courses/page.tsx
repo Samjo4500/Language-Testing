@@ -345,7 +345,7 @@ export default function CoursesPage() {
                       {/* Price */}
                       <div className="mb-5">
                         <div className="flex items-baseline gap-2">
-                          <span className="text-2xl sm:text-4xl font-bold gradient-text-static">
+                          <span className="text-2xl sm:text-4xl font-bold text-blue-400">
                             ${tier.price}
                           </span>
                           {tier.compareAtPrice && (
@@ -449,7 +449,7 @@ export default function CoursesPage() {
                   {/* Price */}
                   <div className="mb-5">
                     <div className="flex items-baseline gap-2">
-                      <span className="text-2xl sm:text-4xl font-bold gradient-text-static">
+                      <span className="text-2xl sm:text-4xl font-bold text-blue-400">
                         ${COURSE_BUNDLE.price}
                       </span>
                       {COURSE_BUNDLE.compareAtPrice && (
@@ -646,7 +646,7 @@ export default function CoursesPage() {
                           <Clock className="h-3 w-3" />
                           {tier.estimatedHours} hours
                         </span>
-                        <span className="flex items-center gap-1 font-medium gradient-text-static">
+                        <span className="flex items-center gap-1 font-medium text-blue-400">
                           ${tier.price}
                         </span>
                       </div>
@@ -689,7 +689,7 @@ export default function CoursesPage() {
                     <span className="flex items-center gap-1">
                       <Clock className="h-3 w-3" />125 hours
                     </span>
-                    <span className="flex items-center gap-1 font-medium gradient-text-static">
+                    <span className="flex items-center gap-1 font-medium text-blue-400">
                       $179
                     </span>
                   </div>
@@ -755,7 +755,7 @@ export default function CoursesPage() {
                 </div>
                 <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
                   Ready to Begin Your{' '}
-                  <span className="gradient-text">English Journey?</span>
+                  <span className="text-blue-400">English Journey?</span>
                 </h2>
                 <p className="text-white/50 mb-8 max-w-lg mx-auto">
                   Join thousands of learners who have improved their English

@@ -175,25 +175,25 @@ export default function SpeakingPage() {
                 icon: <AudioWaveform className="h-6 w-6" />,
                 title: 'AI Speech Recognition',
                 desc: 'Advanced neural networks transcribe and analyze your speech in real-time, capturing every nuance of your pronunciation and intonation patterns.',
-                gradient: 'from-violet-500 to-indigo-500',
+                gradient: 'from-blue-500 to-blue-600',
               },
               {
                 icon: <Mic className="h-6 w-6" />,
                 title: 'Pronunciation Scoring',
                 desc: 'Receive precise scores for individual phonemes, word stress, and sentence-level intonation, mapped to CEFR proficiency descriptors.',
-                gradient: 'from-blue-500 to-indigo-500',
+                gradient: 'from-blue-500 to-blue-600',
               },
               {
                 icon: <Activity className="h-6 w-6" />,
                 title: 'Fluency Analysis',
                 desc: 'Our AI measures speaking rate, pauses, hesitations, and self-corrections to assess your fluency and natural rhythm in English conversation.',
-                gradient: 'from-violet-500 to-indigo-500',
+                gradient: 'from-blue-500 to-blue-600',
               },
               {
                 icon: <MessageSquareText className="h-6 w-6" />,
                 title: 'Real-Time Feedback',
                 desc: 'Get instant visual and textual feedback as you speak, with highlighted areas for improvement and suggestions for more natural expression.',
-                gradient: 'from-violet-500 to-indigo-500',
+                gradient: 'from-blue-500 to-blue-600',
               },
             ].map((feature, index) => (
               <AnimatedSection key={index} delay={index * 100}>
@@ -242,14 +242,14 @@ export default function SpeakingPage() {
                 icon: <Cpu className="h-7 w-7" />,
                 title: 'AI Analyzes Speech',
                 desc: 'Our advanced AI processes your audio in real-time, evaluating pronunciation accuracy, fluency patterns, grammatical structures, and vocabulary usage.',
-                gradient: 'from-[#7c5cff] to-[#6d4ddb]',
+                gradient: 'from-blue-500 to-blue-600',
               },
               {
                 step: '03',
                 icon: <ClipboardCheck className="h-7 w-7" />,
                 title: 'Get Detailed Feedback',
                 desc: 'Receive a comprehensive report with your CEFR speaking level, pronunciation scores, fluency metrics, and personalized recommendations for improvement.',
-                gradient: 'from-violet-500 to-indigo-500',
+                gradient: 'from-blue-500 to-blue-600',
               },
             ].map((item, index) => (
               <AnimatedSection key={index} delay={index * 150}>
@@ -392,7 +392,7 @@ export default function SpeakingPage() {
                   <span className="text-sm text-blue-200 font-medium">Speaking Assessment</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                  Ready to Test Your <span className="gradient-text-static">Speaking</span>?
+                  Ready to Test Your <span className="text-blue-400">Speaking</span>?
                 </h2>
                 <p className="text-lg text-white/50 max-w-xl mx-auto mb-8">
                   Discover your English speaking proficiency level with our AI-powered assessment. Get detailed feedback on pronunciation, fluency, and coherence in minutes.

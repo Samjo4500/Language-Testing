@@ -81,25 +81,25 @@ export default function WritingPage() {
       icon: <MessageSquareText className="h-6 w-6" />,
       title: 'Coherence Evaluation',
       desc: 'AI analyzes the logical flow and connectivity of your ideas, ensuring your writing progresses naturally from introduction to conclusion.',
-      gradient: 'from-violet-500 to-indigo-500',
+      gradient: 'from-blue-500 to-blue-600',
     },
     {
       icon: <SpellCheck className="h-6 w-6" />,
       title: 'Grammar Checking',
       desc: 'Advanced grammar detection covers verb tenses, subject-verb agreement, article usage, punctuation, and complex sentence structures.',
-      gradient: 'from-blue-500 to-indigo-500',
+      gradient: 'from-blue-500 to-blue-600',
     },
     {
       icon: <BookOpen className="h-6 w-6" />,
       title: 'Vocabulary Range',
       desc: 'Measures lexical diversity and appropriateness, from basic word choice at A1 level to sophisticated, nuanced expression at C2.',
-      gradient: 'from-violet-500 to-indigo-500',
+      gradient: 'from-blue-500 to-blue-600',
     },
     {
       icon: <Layers className="h-6 w-6" />,
       title: 'Structure Analysis',
       desc: 'Evaluates paragraph organization, thesis development, supporting evidence, transitions, and overall composition architecture.',
-      gradient: 'from-violet-500 to-indigo-500',
+      gradient: 'from-blue-500 to-blue-600',
     },
   ];
 
@@ -110,21 +110,21 @@ export default function WritingPage() {
       icon: <PenTool className="h-7 w-7" />,
       title: 'Write Your Response',
       desc: 'Receive a thought-provoking prompt and compose your written response. Choose from argumentative, descriptive, or analytical tasks designed for your target CEFR level.',
-      gradient: 'from-violet-500 to-indigo-500',
+      gradient: 'from-blue-500 to-blue-600',
     },
     {
       number: '02',
       icon: <Zap className="h-7 w-7" />,
       title: 'AI Evaluates Writing',
       desc: 'Our advanced AI engine analyzes your text across multiple dimensions — grammar accuracy, lexical range, coherence, cohesion, and task achievement — in real time.',
-      gradient: 'from-blue-500 to-indigo-500',
+      gradient: 'from-blue-500 to-blue-600',
     },
     {
       number: '03',
       icon: <Award className="h-7 w-7" />,
       title: 'Receive Your Score',
       desc: 'Get a detailed CEFR-aligned score with a comprehensive breakdown, personalized feedback, and actionable improvement suggestions for each writing competency.',
-      gradient: 'from-violet-500 to-indigo-500',
+      gradient: 'from-blue-500 to-blue-600',
     },
   ];
 
@@ -425,7 +425,7 @@ export default function WritingPage() {
                   <span className="text-sm text-blue-200 font-medium">Writing Assessment</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                  Ready to Test Your <span className="gradient-text-static">Writing</span>?
+                  Ready to Test Your <span className="text-blue-400">Writing</span>?
                 </h2>
                 <p className="text-lg text-white/50 max-w-xl mx-auto mb-8">
                   Discover your CEFR writing level with our AI-powered assessment. Get detailed feedback on coherence, grammar, vocabulary, and structure — and take your written English to the next level.

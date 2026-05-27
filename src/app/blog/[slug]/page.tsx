@@ -246,7 +246,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <AnimatedSection>
               <div className="text-center max-w-2xl mx-auto">
                 <h2 className="text-2xl md:text-4xl font-bold text-white mb-4">
-                  Ready to Test Your <span className="gradient-text">English Level?</span>
+                  Ready to Test Your <span className="text-blue-400">English Level?</span>
                 </h2>
                 <p className="text-white/50 mb-8 leading-relaxed">
                   Get your accurate CEFR score with our AI-powered assessment. Free to start, with detailed feedback on all 6 core skills.

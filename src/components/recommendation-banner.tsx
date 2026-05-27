@@ -76,22 +76,22 @@ const CEFR_COLORS: Record<string, { gradient: string; badge: string; text: strin
     glow: 'shadow-blue-500/20',
   },
   B2: {
-    gradient: 'from-indigo-400 to-violet-500',
-    badge: 'bg-indigo-500/15 text-indigo-300 border-indigo-500/25',
-    text: 'text-indigo-400',
-    glow: 'shadow-indigo-500/20',
+    gradient: 'from-blue-500 to-blue-600',
+    badge: 'bg-blue-500/15 text-blue-300 border-blue-500/25',
+    text: 'text-blue-400',
+    glow: 'shadow-blue-500/20',
   },
   C1: {
-    gradient: 'from-violet-400 to-purple-500',
-    badge: 'bg-violet-500/15 text-violet-300 border-violet-500/25',
-    text: 'text-violet-400',
-    glow: 'shadow-violet-500/20',
+    gradient: 'from-blue-500 to-blue-600',
+    badge: 'bg-blue-500/15 text-blue-300 border-blue-500/25',
+    text: 'text-blue-400',
+    glow: 'shadow-blue-500/20',
   },
   C2: {
-    gradient: 'from-violet-400 to-purple-500',
-    badge: 'bg-purple-500/15 text-purple-300 border-purple-500/25',
-    text: 'text-purple-400',
-    glow: 'shadow-purple-500/20',
+    gradient: 'from-blue-600 to-blue-700',
+    badge: 'bg-blue-500/15 text-blue-300 border-blue-500/25',
+    text: 'text-blue-400',
+    glow: 'shadow-blue-500/20',
   },
 };
 
@@ -152,7 +152,7 @@ export function RecommendationBanner() {
     return (
       <div className="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-6">
         <div className="flex items-center gap-3 mb-4">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-500/10 text-violet-400 animate-pulse">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-400 animate-pulse">
             <Target className="h-5 w-5" />
           </div>
           <div>
@@ -161,7 +161,7 @@ export function RecommendationBanner() {
           </div>
         </div>
         <div className="flex items-center justify-center py-8">
-          <Loader2 className="h-6 w-6 text-violet-400 animate-spin" />
+          <Loader2 className="h-6 w-6 text-blue-400 animate-spin" />
         </div>
       </div>
     );
@@ -172,7 +172,7 @@ export function RecommendationBanner() {
     return (
       <div className="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-6">
         <div className="flex items-center gap-3 mb-4">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-500/10 text-violet-400">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-400">
             <Target className="h-5 w-5" />
           </div>
           <h2 className="text-lg font-semibold text-white">Course Recommendation</h2>
@@ -190,12 +190,12 @@ export function RecommendationBanner() {
     return (
       <div className="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-6 relative overflow-hidden">
         {/* Decorative glow */}
-        <div className="absolute top-0 right-0 w-48 h-48 bg-violet-500/5 rounded-full blur-3xl -mr-12 -mt-12 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-32 h-32 bg-purple-500/5 rounded-full blur-3xl -ml-8 -mb-8 pointer-events-none" />
+        <div className="absolute top-0 right-0 w-48 h-48 bg-blue-500/5 rounded-full blur-3xl -mr-12 -mt-12 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl -ml-8 -mb-8 pointer-events-none" />
 
         <div className="relative">
           <div className="flex items-center gap-3 mb-4">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-500/10 text-violet-400">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-400">
               <Target className="h-5 w-5" />
             </div>
             <div>
@@ -205,7 +205,7 @@ export function RecommendationBanner() {
           </div>
 
           <div className="text-center py-8 space-y-4">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500/20 to-purple-500/20 text-violet-400">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-600/20 text-blue-400">
               <Sparkles className="h-8 w-8" />
             </div>
             <h3 className="text-lg font-bold text-white">Discover Your Perfect Course</h3>
@@ -213,7 +213,7 @@ export function RecommendationBanner() {
               Take a CEFR assessment to get personalized course recommendations tailored to your English proficiency level.
             </p>
             <Link href="/test">
-              <button className="mt-2 inline-flex items-center gap-2 rounded-xl px-6 py-2.5 bg-gradient-to-r from-violet-600 to-purple-500 hover:from-violet-500 hover:to-purple-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 hover:-translate-y-0.5 cursor-pointer">
+              <button className="mt-2 inline-flex items-center gap-2 rounded-xl px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 cursor-pointer">
                 <BookOpen className="h-4 w-4" />
                 Take Assessment
                 <ArrowRight className="h-4 w-4" />
@@ -242,14 +242,14 @@ export function RecommendationBanner() {
   return (
     <div className="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-6 relative overflow-hidden">
       {/* Decorative glow */}
-      <div className="absolute top-0 right-0 w-48 h-48 bg-violet-500/5 rounded-full blur-3xl -mr-12 -mt-12 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-32 h-32 bg-purple-500/5 rounded-full blur-3xl -ml-8 -mb-8 pointer-events-none" />
+      <div className="absolute top-0 right-0 w-48 h-48 bg-blue-500/5 rounded-full blur-3xl -mr-12 -mt-12 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl -ml-8 -mb-8 pointer-events-none" />
 
       <div className="relative">
         {/* Header */}
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-500/10 text-violet-400">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-400">
               <Target className="h-5 w-5" />
             </div>
             <div>
@@ -280,7 +280,7 @@ export function RecommendationBanner() {
             <div className="text-center">
               <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-white/[0.03] border border-white/[0.08]">
                 <div className="text-center">
-                  <span className="text-xl font-bold text-violet-400">{activeRecommendation.matchPercentage}%</span>
+                  <span className="text-xl font-bold text-blue-400">{activeRecommendation.matchPercentage}%</span>
                 </div>
               </div>
               <p className="text-xs text-white/40 mt-1.5">Match</p>
@@ -324,7 +324,7 @@ export function RecommendationBanner() {
             {activeRecommendation.priorityLessons.length > 0 && (
               <div>
                 <p className="text-xs text-white/30 mb-2 flex items-center gap-1.5">
-                  <Sparkles className="h-3 w-3 text-violet-400" />
+                  <Sparkles className="h-3 w-3 text-blue-400" />
                   Priority Lessons
                 </p>
                 <div className="space-y-1.5 max-h-40 overflow-y-auto custom-scrollbar">
@@ -353,7 +353,7 @@ export function RecommendationBanner() {
             {/* CTA Button */}
             <div className="flex items-center gap-3 pt-1">
               <Link href={`/learn/${activeRecommendation.courseSlug}`}>
-                <button className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 bg-gradient-to-r from-violet-600 to-purple-500 hover:from-violet-500 hover:to-purple-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 hover:-translate-y-0.5 cursor-pointer">
+                <button className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 cursor-pointer">
                   <BookOpen className="h-4 w-4" />
                   Start Course
                   <ArrowRight className="h-4 w-4" />
@@ -366,7 +366,7 @@ export function RecommendationBanner() {
                   onClick={() => setShowAlternative(!showAlternative)}
                   className={`inline-flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-medium transition-all cursor-pointer ${
                     showAlternative
-                      ? 'bg-white/[0.06] text-violet-300 border border-violet-500/20'
+                      ? 'bg-white/[0.06] text-blue-300 border border-blue-500/20'
                       : 'bg-white/[0.03] text-white/50 hover:text-white/70 border border-white/[0.08] hover:border-white/[0.15]'
                   }`}
                 >

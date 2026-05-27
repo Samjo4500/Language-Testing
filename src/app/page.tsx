@@ -50,7 +50,7 @@ const DIMENSIONS_DATA = [
     icon: <PenTool className="h-6 w-6" />,
     title: 'Writing',
     level: 'A1–C2',
-    gradient: 'from-violet-500 to-violet-400',
+    gradient: 'from-blue-500 to-blue-600',
     items: ['Cohesion and coherence', 'Grammatical accuracy', 'Lexical resource', 'Task achievement', 'Writing mechanics'],
   },
   {
@@ -78,7 +78,7 @@ const DIMENSIONS_DATA = [
     icon: <Award className="h-6 w-6" />,
     title: 'Vocabulary',
     level: 'A1–C2',
-    gradient: 'from-violet-500 to-violet-400',
+    gradient: 'from-blue-500 to-blue-600',
     items: ['Word range', 'Precision', 'Collocations', 'Register awareness', 'Topic-specific vocabulary'],
   },
 ];
@@ -737,7 +737,7 @@ export default function Home() {
               <h2 className="text-3xl md:text-5xl font-bold text-white leading-tight">
                 Ready to Transform
                 <br />
-                <span className="gradient-text">Your English?</span>
+                <span className="text-blue-400">Your English?</span>
               </h2>
               <p className="mt-6 text-lg text-white/50 leading-relaxed">
                 Get your official CEFR level in minutes — free to start, with detailed AI feedback on all 6 core skills.

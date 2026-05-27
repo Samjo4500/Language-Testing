@@ -380,7 +380,7 @@ function QuizSection({
           {passed ? 'Quiz Passed!' : 'Quiz Not Passed'}
         </h3>
         <p className="text-white/50 mb-1">
-          Your score: <span className="gradient-text-static font-bold text-lg">{score}%</span>
+          Your score: <span className="text-blue-400 font-bold text-lg">{score}%</span>
         </p>
         <p className="text-white/40 text-sm mb-6">
           {passed
@@ -416,7 +416,7 @@ function QuizSection({
           <h3 className="text-lg font-bold text-white">Lesson Quiz</h3>
           <p className="text-sm text-white/50">Question {currentQuestion + 1} of {totalQuestions}</p>
         </div>
-        <span className="text-sm font-medium gradient-text-static">{progressPercent}%</span>
+        <span className="text-sm font-medium text-blue-400">{progressPercent}%</span>
       </div>
 
       {/* Progress bar */}
@@ -1113,7 +1113,7 @@ export default function LessonViewerPage() {
                 style={{ width: `${courseProgress}%` }}
               />
             </div>
-            <span className="text-sm font-bold gradient-text-static">{courseProgress}%</span>
+            <span className="text-sm font-bold text-blue-400">{courseProgress}%</span>
           </div>
         </div>
       </div>
@@ -1372,7 +1372,7 @@ export default function LessonViewerPage() {
 
               <h2 className="text-3xl font-bold text-white mb-2">Course Complete!</h2>
               <p className="text-white/60 mb-1">Congratulations! You&apos;ve finished</p>
-              <p className="text-lg font-semibold gradient-text-static mb-6">
+              <p className="text-lg font-semibold text-blue-400 mb-6">
                 {lessonData?.course?.title || 'the course'}
               </p>
 

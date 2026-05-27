@@ -418,7 +418,7 @@ export default function AboutPage() {
                   <span className="text-sm text-purple-200 font-medium">Ready to Begin?</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                  Start Your <span className="gradient-text-static">Assessment</span>
+                  Start Your <span className="text-blue-400">Assessment</span>
                 </h2>
                 <p className="text-lg text-white/50 max-w-xl mx-auto mb-8">
                   Join thousands of learners who have already discovered their CEFR level. It only takes 30-45 minutes to get your AI-powered English proficiency certificate.

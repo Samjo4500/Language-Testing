@@ -304,7 +304,7 @@ export default function FAQPage() {
                   <Sparkles className="h-6 w-6" />
                 </div>
                 <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                  Still Have <span className="gradient-text-static">Questions?</span>
+                  Still Have <span className="text-blue-400">Questions?</span>
                 </h2>
                 <p className="text-white/50 mb-8 leading-relaxed">
                   Can&apos;t find the answer you&apos;re looking for? Feel free to reach out to our support team or get started with a free assessment today.
