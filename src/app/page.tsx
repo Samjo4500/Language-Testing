@@ -367,7 +367,7 @@ export default function Home() {
         <div className="container relative mx-auto px-4">
           <AnimatedSection>
             <div className="text-center mb-14">
-              <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
+              <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20 px-4 py-1.5 mb-4">
                 <BookOpen className="h-3.5 w-3.5 text-blue-400" />
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Comprehensive Coverage</span>
               </div>
@@ -422,7 +422,7 @@ export default function Home() {
         <div className="container relative mx-auto px-4">
           <AnimatedSection>
             <div className="text-center mb-14">
-              <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
+              <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20 px-4 py-1.5 mb-4">
                 <ClipboardCheck className="h-3.5 w-3.5 text-blue-400" />
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Simple Process</span>
               </div>
@@ -465,7 +465,7 @@ export default function Home() {
           <div className="container relative mx-auto px-4">
             <AnimatedSection>
               <div className="text-center mb-14">
-                <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
+                <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20 px-4 py-1.5 mb-4">
                   <CreditCard className="h-3.5 w-3.5 text-blue-400" />
                   <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Get Started</span>
                 </div>
@@ -540,7 +540,7 @@ export default function Home() {
         <div className="container relative mx-auto px-4">
           <AnimatedSection>
             <div className="text-center mb-14">
-              <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
+              <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20 px-4 py-1.5 mb-4">
                 <Building2 className="h-3.5 w-3.5 text-blue-400" />
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">For Organizations</span>
               </div>
@@ -603,7 +603,7 @@ export default function Home() {
         <div className="container relative mx-auto px-4">
           <AnimatedSection>
             <div className="text-center mb-14">
-              <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
+              <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20 px-4 py-1.5 mb-4">
                 <Star className="h-3.5 w-3.5 text-blue-400" />
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Success Stories</span>
               </div>
@@ -647,7 +647,7 @@ export default function Home() {
         <div className="container relative mx-auto px-4">
           <AnimatedSection>
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
+              <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20 px-4 py-1.5 mb-4">
                 <Building2 className="h-3.5 w-3.5 text-blue-400" />
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Enterprise</span>
               </div>
@@ -704,7 +704,7 @@ export default function Home() {
         <div className="container relative mx-auto px-4">
           <AnimatedSection>
             <div className="text-center mb-14">
-              <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
+              <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20 px-4 py-1.5 mb-4">
                 <HelpCircle className="h-3.5 w-3.5 text-blue-400" />
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">FAQ</span>
               </div>

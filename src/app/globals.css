@@ -344,7 +344,7 @@
 
 /* === GRADIENT TEXT === */
 .gradient-text {
-  background: linear-gradient(135deg, #60A5FA, #A78BFA, #34D399, #60A5FA);
+  background: linear-gradient(135deg, #60A5FA, #A78BFA, #F59E0B, #60A5FA);
   background-size: 300% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

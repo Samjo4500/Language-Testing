@@ -58,7 +58,7 @@ function BackgroundOrbs() {
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {/* Main purple orb */}
       <div className="orb orb-purple w-[600px] h-[600px] -top-40 -left-40 animate-float-slow opacity-15" />
-      {/* Pink orb */}
+      {/* Violet orb */}
       <div className="orb orb-blue w-[400px] h-[400px] top-1/3 -right-20 animate-float opacity-15" />
       {/* Blue orb */}
       <div className="orb orb-blue w-[300px] h-[300px] bottom-20 left-1/4 animate-float-slow opacity-15" />
@@ -139,7 +139,7 @@ export default function WritingPage() {
         <div className="container relative mx-auto px-4 py-24 md:py-36">
           <div className="mx-auto max-w-4xl text-center">
             {/* Badge */}
-            <div className="animate-float inline-flex items-center gap-2 rounded-full glass-light px-5 py-2 mb-8 animate-border-glow">
+            <div className="animate-float inline-flex items-center gap-2 rounded-full bg-blue-500/15 text-blue-400 border border-blue-500/25 px-5 py-2 mb-8 animate-border-glow">
               <PenTool className="h-4 w-4 text-blue-300" />
               <span className="text-sm text-blue-200 font-medium">Writing Assessment</span>
               <span className="flex h-2 w-2 rounded-full bg-green-400 animate-pulse" />
@@ -230,7 +230,7 @@ export default function WritingPage() {
         <div className="container relative mx-auto px-4">
           <AnimatedSection>
             <div className="text-center mb-14">
-              <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
+              <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20 px-4 py-1.5 mb-4">
                 <FileText className="h-3.5 w-3.5 text-blue-400" />
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Comprehensive Analysis</span>
               </div>
@@ -251,7 +251,7 @@ export default function WritingPage() {
                     {feature.icon}
                   </div>
                   <h3 className="text-lg font-semibold text-white mb-2">{feature.title}</h3>
-                  <p className="text-sm text-white/45 leading-relaxed">{feature.desc}</p>
+                  <p className="text-sm text-white/50 leading-relaxed">{feature.desc}</p>
                 </div>
               </AnimatedSection>
             ))}
@@ -267,7 +267,7 @@ export default function WritingPage() {
         <div className="container relative mx-auto px-4">
           <AnimatedSection>
             <div className="text-center mb-14">
-              <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
+              <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20 px-4 py-1.5 mb-4">
                 <CheckCircle2 className="h-3.5 w-3.5 text-blue-400" />
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Simple Process</span>
               </div>
@@ -302,7 +302,7 @@ export default function WritingPage() {
                   )}
 
                   <h3 className="text-lg font-semibold text-white mb-2">{step.title}</h3>
-                  <p className="text-sm text-white/45 leading-relaxed">{step.desc}</p>
+                  <p className="text-sm text-white/50 leading-relaxed">{step.desc}</p>
                 </div>
               </AnimatedSection>
             ))}
@@ -319,7 +319,7 @@ export default function WritingPage() {
         <div className="container relative mx-auto px-4">
           <AnimatedSection>
             <div className="text-center mb-14">
-              <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
+              <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20 px-4 py-1.5 mb-4">
                 <PenTool className="h-3.5 w-3.5 text-blue-400" />
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Sample Prompts</span>
               </div>

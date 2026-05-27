@@ -52,7 +52,7 @@ function BackgroundOrbs() {
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {/* Main purple orb */}
       <div className="orb orb-purple w-[500px] h-[500px] -top-32 -left-32 animate-float-slow" />
-      {/* Pink orb */}
+      {/* Violet orb */}
       <div className="orb orb-violet w-[350px] h-[350px] top-1/3 -right-16 animate-float-reverse" />
       {/* Blue orb */}
       <div className="orb orb-blue w-[250px] h-[250px] bottom-16 left-1/4 animate-float" />
@@ -385,7 +385,7 @@ export default function ContactPage() {
                   <Sparkles className="h-5 w-5" />
                 </div>
                 <h3 className="text-lg font-semibold text-white mb-2">How accurate is the CEFR test?</h3>
-                <p className="text-sm text-white/45 leading-relaxed">
+                <p className="text-sm text-white/50 leading-relaxed">
                   Our AI-powered assessment uses advanced natural language processing and machine learning models trained on millions of language samples across all proficiency levels, delivering highly accurate CEFR level determinations backed by rigorous validation.
                 </p>
               </div>
@@ -398,7 +398,7 @@ export default function ContactPage() {
                   <Clock className="h-5 w-5" />
                 </div>
                 <h3 className="text-lg font-semibold text-white mb-2">How long does the test take?</h3>
-                <p className="text-sm text-white/45 leading-relaxed">
+                <p className="text-sm text-white/50 leading-relaxed">
                   The full assessment takes approximately 30-45 minutes to complete. This includes all sections: grammar, vocabulary, reading, listening, speaking, and writing. You can take breaks between sections if needed.
                 </p>
               </div>
@@ -411,7 +411,7 @@ export default function ContactPage() {
                   <MessageSquare className="h-5 w-5" />
                 </div>
                 <h3 className="text-lg font-semibold text-white mb-2">Is the certificate recognized?</h3>
-                <p className="text-sm text-white/45 leading-relaxed">
+                <p className="text-sm text-white/50 leading-relaxed">
                   Our certificates follow the CEFR framework, which is the internationally recognized standard for language proficiency. Each certificate includes a unique QR code for instant verification by employers and institutions worldwide.
                 </p>
               </div>

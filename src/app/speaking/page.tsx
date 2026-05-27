@@ -84,7 +84,7 @@ export default function SpeakingPage() {
         <div className="container relative mx-auto px-4 py-24 md:py-36">
           <div className="mx-auto max-w-4xl text-center">
             {/* Speaking Assessment Badge - floating animation */}
-            <div className="animate-float inline-flex items-center gap-2 rounded-full glass-light px-5 py-2 mb-8 animate-border-glow">
+            <div className="animate-float inline-flex items-center gap-2 rounded-full bg-blue-500/15 text-blue-400 border border-blue-500/25 px-5 py-2 mb-8 animate-border-glow">
               <Mic className="h-4 w-4 text-blue-300" />
               <span className="text-sm text-blue-200 font-medium">Speaking Assessment</span>
               <span className="flex h-2 w-2 rounded-full bg-green-400 animate-pulse" />
@@ -156,7 +156,7 @@ export default function SpeakingPage() {
         <div className="container relative mx-auto px-4">
           <AnimatedSection>
             <div className="text-center mb-14">
-              <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
+              <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20 px-4 py-1.5 mb-4">
                 <Brain className="h-3.5 w-3.5 text-blue-400" />
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Advanced AI Technology</span>
               </div>
@@ -202,7 +202,7 @@ export default function SpeakingPage() {
                     {feature.icon}
                   </div>
                   <h3 className="text-lg font-semibold text-white mb-2">{feature.title}</h3>
-                  <p className="text-sm text-white/45 leading-relaxed">{feature.desc}</p>
+                  <p className="text-sm text-white/50 leading-relaxed">{feature.desc}</p>
                 </div>
               </AnimatedSection>
             ))}
@@ -215,7 +215,7 @@ export default function SpeakingPage() {
         <div className="container relative mx-auto px-4">
           <AnimatedSection>
             <div className="text-center mb-14">
-              <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
+              <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20 px-4 py-1.5 mb-4">
                 <CirclePlay className="h-3.5 w-3.5 text-blue-400" />
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Simple Process</span>
               </div>
@@ -267,7 +267,7 @@ export default function SpeakingPage() {
                   </div>
 
                   <h3 className="text-lg font-semibold text-white mb-2">{item.title}</h3>
-                  <p className="text-sm text-white/45 leading-relaxed">{item.desc}</p>
+                  <p className="text-sm text-white/50 leading-relaxed">{item.desc}</p>
 
                   {/* Connector line for desktop */}
                   {index < 2 && (
@@ -286,7 +286,7 @@ export default function SpeakingPage() {
         <div className="container relative mx-auto px-4">
           <AnimatedSection>
             <div className="text-center mb-14">
-              <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
+              <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20 px-4 py-1.5 mb-4">
                 <Mic className="h-3.5 w-3.5 text-blue-400" />
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Sample Prompts</span>
               </div>

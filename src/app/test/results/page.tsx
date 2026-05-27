@@ -241,7 +241,7 @@ function QuestionCard({ question, index }: { question: QuestionResult; index: nu
               {question.level}
             </span>
             {question.aiScore != null && (
-              <span className="text-[10px] text-white/40">
+              <span className="text-[10px] text-white/50">
                 AI Score: {question.aiScore}/100
               </span>
             )}
@@ -250,7 +250,7 @@ function QuestionCard({ question, index }: { question: QuestionResult; index: nu
 
         {/* Expand toggle */}
         {!question.isCorrect && (
-          <div className="shrink-0 text-white/40">
+          <div className="shrink-0 text-white/50">
             {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
           </div>
         )}
@@ -574,7 +574,7 @@ export default function TestResultsPage() {
               Your {SKILL_LABELS[skill]} Score
             </h1>
             {overall.completedAt && (
-              <p className="text-sm text-white/40">
+              <p className="text-sm text-white/50">
                 Completed {new Date(overall.completedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
               </p>
             )}
@@ -591,7 +591,7 @@ export default function TestResultsPage() {
               <div className="flex-1 space-y-5 text-center sm:text-left">
                 {/* CEFR Level Badge */}
                 <div>
-                  <p className="text-xs font-medium uppercase tracking-wider text-white/40 mb-2">Your CEFR Level</p>
+                  <p className="text-xs font-medium uppercase tracking-wider text-white/50 mb-2">Your CEFR Level</p>
                   <div
                     className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-lg font-bold"
                     style={{
@@ -609,17 +609,17 @@ export default function TestResultsPage() {
                 <div className="flex items-center justify-center sm:justify-start gap-6">
                   <div className="text-center">
                     <p className="text-2xl font-bold text-emerald-400">{correctCount}</p>
-                    <p className="text-[10px] uppercase tracking-wider text-white/40">Correct</p>
+                    <p className="text-[10px] uppercase tracking-wider text-white/50">Correct</p>
                   </div>
                   <div className="h-8 w-px bg-white/10" />
                   <div className="text-center">
                     <p className="text-2xl font-bold text-red-400">{totalQuestions - correctCount}</p>
-                    <p className="text-[10px] uppercase tracking-wider text-white/40">Incorrect</p>
+                    <p className="text-[10px] uppercase tracking-wider text-white/50">Incorrect</p>
                   </div>
                   <div className="h-8 w-px bg-white/10" />
                   <div className="text-center">
                     <p className="text-2xl font-bold text-white/80">{totalQuestions}</p>
-                    <p className="text-[10px] uppercase tracking-wider text-white/40">Total</p>
+                    <p className="text-[10px] uppercase tracking-wider text-white/50">Total</p>
                   </div>
                 </div>
               </div>
@@ -643,7 +643,7 @@ export default function TestResultsPage() {
                   <BarChart3 className="h-5 w-5 text-white/60" />
                   <h2 className="text-lg font-semibold text-white">Question Breakdown</h2>
                 </div>
-                <span className="text-xs text-white/40">
+                <span className="text-xs text-white/50">
                   {correctCount}/{totalQuestions} correct
                 </span>
               </div>
