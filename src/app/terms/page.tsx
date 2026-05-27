@@ -85,7 +85,7 @@ export default function TermsPage() {
             {/* Title */}
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight text-white leading-[1.1] animate-slide-up">
               Terms of{' '}
-              <span className="gradient-text">Service</span>
+              Service
             </h1>
 
             {/* Description */}
@@ -113,7 +113,7 @@ export default function TermsPage() {
                   <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Agreement</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
-                  Acceptance of <span className="gradient-text-static">Terms</span>
+                  Acceptance of Terms
                 </h2>
               </div>
             </AnimatedSection>
@@ -145,7 +145,7 @@ export default function TermsPage() {
                   <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Our Platform</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
-                  Service <span className="gradient-text-static">Description</span>
+                  Service Description
                 </h2>
               </div>
             </AnimatedSection>
@@ -183,7 +183,7 @@ export default function TermsPage() {
                   <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Account Management</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
-                  User <span className="gradient-text-static">Accounts</span>
+                  User Accounts
                 </h2>
               </div>
             </AnimatedSection>
@@ -237,7 +237,7 @@ export default function TermsPage() {
                   <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Assessment Details</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
-                  Assessment & <span className="gradient-text-static">Certificates</span>
+                  Assessment & Certificates
                 </h2>
               </div>
             </AnimatedSection>
@@ -290,7 +290,7 @@ export default function TermsPage() {
                   <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Payment Information</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
-                  Payment <span className="gradient-text-static">Terms</span>
+                  Payment Terms
                 </h2>
               </div>
             </AnimatedSection>
@@ -349,7 +349,7 @@ export default function TermsPage() {
                   <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Legal Provisions</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
-                  Intellectual Property & <span className="gradient-text-static">Liability</span>
+                  Intellectual Property & Liability
                 </h2>
               </div>
             </AnimatedSection>

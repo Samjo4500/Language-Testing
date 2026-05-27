@@ -83,7 +83,7 @@ export default function SampleCertificatePage() {
             {/* Title */}
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 scroll-animate" ref={addScrollRef(1)}>
               Your CEFR{' '}
-              <span className="gradient-text">Certificate</span>
+              Certificate
             </h1>
 
             {/* Description */}
@@ -243,7 +243,7 @@ export default function SampleCertificatePage() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 scroll-animate" ref={addScrollRef(5)}>
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
-              Built for <span className="gradient-text-static">Trust</span>
+              Built for Trust
             </h2>
             <p className="text-white/50 max-w-lg mx-auto">
               Every certificate is designed with security and shareability in mind.

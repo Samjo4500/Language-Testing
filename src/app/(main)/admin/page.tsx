@@ -2644,7 +2644,7 @@ export default function AdminPage() {
             <div>
               <h1 className="text-2xl font-bold text-white flex items-center gap-2">
                 <Shield className="h-6 w-6 text-purple-400" />
-                <span className="gradient-text-static">Super Admin</span> Dashboard
+                <span className="text-purple-400">Super Admin</span> Dashboard
               </h1>
               <p className="text-white/40 text-sm mt-1">Manage your CEFR assessment platform</p>
             </div>

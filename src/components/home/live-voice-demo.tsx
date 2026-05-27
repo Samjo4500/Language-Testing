@@ -81,7 +81,7 @@ export default function LiveVoiceDemo() {
               <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Live Voice Demo</span>
             </div>
             <h2 className="text-3xl md:text-5xl font-bold text-white leading-tight">
-              Interactive Speaking <span className="gradient-text-static">Assessment</span>
+              Interactive Speaking Assessment
             </h2>
             <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
               Experience our AI-powered speaking assessment with real-time feedback and analysis
@@ -216,7 +216,7 @@ export default function LiveVoiceDemo() {
                 </div>
 
                 <div className="mt-6 text-center">
-                  <p className="text-xs text-white/30">
+                  <p className="text-xs text-[#808094]">
                     This is an interactive demo. Full speaking assessment with AI scoring available on Premium plans.
                   </p>
                 </div>

@@ -121,7 +121,7 @@ export default function QuickTourPage() {
             {/* Title */}
             <h1 className="scroll-animate text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
               Your Path to{' '}
-              <span className="gradient-text">CEFR Certification</span>
+              CEFR Certification
             </h1>
 
             {/* Description */}

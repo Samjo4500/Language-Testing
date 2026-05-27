@@ -84,7 +84,7 @@ export default function PrivacyPage() {
             {/* Title */}
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight text-white leading-[1.1] animate-slide-up">
               Privacy{' '}
-              <span className="gradient-text">Policy</span>
+              Policy
             </h1>
 
             {/* Last Updated */}
@@ -113,7 +113,7 @@ export default function PrivacyPage() {
                   <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Data Collection</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
-                  Information We <span className="gradient-text-static">Collect</span>
+                  Information We Collect
                 </h2>
                 <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                   We only collect information that is necessary to provide our assessment services and improve your experience.
@@ -224,7 +224,7 @@ export default function PrivacyPage() {
                   <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Purpose & Use</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
-                  How We Use Your <span className="gradient-text-static">Information</span>
+                  How We Use Your Information
                 </h2>
               </div>
             </AnimatedSection>
@@ -261,7 +261,7 @@ export default function PrivacyPage() {
                   <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Security Measures</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
-                  Data <span className="gradient-text-static">Security</span>
+                  Data Security
                 </h2>
                 <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                   We implement industry-standard security measures to protect your personal data from unauthorized access, disclosure, or destruction.
@@ -304,7 +304,7 @@ export default function PrivacyPage() {
                   <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Cookie Policy</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
-                  <span className="gradient-text-static">Cookies</span> & Tracking
+                  Cookies & Tracking
                 </h2>
               </div>
             </AnimatedSection>
@@ -373,7 +373,7 @@ export default function PrivacyPage() {
                   <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">External Partners</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
-                  Third-Party <span className="gradient-text-static">Services</span>
+                  Third-Party Services
                 </h2>
                 <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                   We work with trusted third-party providers to deliver our services. Each partner adheres to strict data protection standards.
@@ -416,7 +416,7 @@ export default function PrivacyPage() {
                   <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Your Rights</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
-                  Your <span className="gradient-text-static">Data Rights</span>
+                  Your Data Rights
                 </h2>
                 <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                   You have full control over your personal data. Here are the rights you can exercise at any time.

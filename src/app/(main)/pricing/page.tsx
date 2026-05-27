@@ -312,7 +312,7 @@ export default function PricingPage() {
               <span className="text-sm text-blue-200 font-medium">Simple Pricing</span>
             </div>
             <h1 className="text-4xl sm:text-5xl font-bold text-white">
-              Choose Your <span className="gradient-text">Perfect Plan</span>
+              Choose Your Perfect Plan
             </h1>
             <p className="mt-4 text-lg text-white/50 max-w-2xl mx-auto">
               Start free and upgrade as you grow. All plans include our AI-powered scoring engine.
@@ -551,7 +551,7 @@ export default function PricingPage() {
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Learn & Grow</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                English <span className="gradient-text-static">Courses</span>
+                English Courses
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                 Go beyond testing — build real English skills from A1 to C2
@@ -749,7 +749,7 @@ export default function PricingPage() {
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">What You Get</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                Your <span className="gradient-text-static">Certificate</span> Preview
+                Your Certificate Preview
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                 Every paid plan includes an official CEFR proficiency certificate with QR verification. Here&apos;s what yours will look like.
@@ -868,7 +868,7 @@ export default function PricingPage() {
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">For Organizations</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                Scale English Testing <span className="gradient-text-static">Across Your Team</span>
+                Scale English Testing Across Your Team
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                 Purpose-built plans for schools, businesses, and institutions — with the tools your team actually needs.
@@ -997,7 +997,7 @@ export default function PricingPage() {
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">FAQ</span>
               </div>
               <h2 className="text-3xl font-bold text-white">
-                Frequently Asked <span className="gradient-text-static">Questions</span>
+                Frequently Asked Questions
               </h2>
             </div>
           </AnimatedSection>

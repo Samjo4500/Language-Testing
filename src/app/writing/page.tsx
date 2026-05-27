@@ -149,7 +149,7 @@ export default function WritingPage() {
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight text-white leading-[1.1] animate-slide-up">
               Excel in English
               <br />
-              <span className="gradient-text">Writing Skills</span>
+              Writing Skills
             </h1>
 
             {/* Description */}
@@ -235,7 +235,7 @@ export default function WritingPage() {
                 <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Comprehensive Analysis</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                What We <span className="gradient-text-static">Evaluate</span>
+                What We Evaluate
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                 Our AI evaluates four critical dimensions of your writing, each aligned with CEFR descriptors to provide an accurate and detailed proficiency rating.
@@ -272,7 +272,7 @@ export default function WritingPage() {
                 <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Simple Process</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                How It <span className="gradient-text-static">Works</span>
+                How It Works
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                 From prompt to score in three seamless steps. Our AI handles the complex analysis so you can focus on writing your best.
@@ -324,7 +324,7 @@ export default function WritingPage() {
                 <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Sample Prompts</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                Practice Writing <span className="gradient-text-static">Examples</span>
+                Practice Writing Examples
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                 Explore sample writing prompts at different CEFR levels. Each prompt is designed to elicit specific language competencies, from basic personal expression to sophisticated argumentation.

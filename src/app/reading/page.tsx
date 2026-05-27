@@ -144,7 +144,7 @@ export default function ReadingPage() {
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight text-white leading-[1.1] animate-slide-up">
               Master English
               <br />
-              <span className="gradient-text">Reading Skills</span>
+              Reading Skills
             </h1>
 
             {/* Description */}
@@ -242,7 +242,7 @@ export default function ReadingPage() {
                 <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">What You&apos;ll Experience</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                Reading Features <span className="gradient-text-static">Built for You</span>
+                Reading Features Built for You
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                 Our AI-powered reading assessment is designed to mirror real-world English reading challenges, preparing you for success in any academic or professional environment.
@@ -279,7 +279,7 @@ export default function ReadingPage() {
                 <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Simple Process</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                How It <span className="gradient-text-static">Works</span>
+                How It Works
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                 Our streamlined assessment process gets you from reading to results in three simple steps.
@@ -325,7 +325,7 @@ export default function ReadingPage() {
                 <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Sample Questions</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                See What to <span className="gradient-text-static">Expect</span>
+                See What to Expect
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                 Preview the types of reading passages and questions you will encounter during the assessment. Each level features progressively more complex texts and deeper comprehension challenges.

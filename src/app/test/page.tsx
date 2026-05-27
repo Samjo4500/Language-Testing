@@ -1262,7 +1262,7 @@ export default function TestPage() {
                 <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">CEFR Assessment</span>
               </div>
               <h1 className="text-3xl md:text-4xl font-bold text-white">
-                Take Your <span className="gradient-text-static">CEFR Test</span>
+                Take Your CEFR Test
               </h1>
               <p className="mt-3 text-white/50 max-w-xl mx-auto">
                 Complete all six skill sections to receive your comprehensive CEFR proficiency score and certificate.
@@ -2339,7 +2339,7 @@ export default function TestPage() {
                 <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Assessment Complete</span>
               </div>
               <h1 className="text-3xl md:text-4xl font-bold text-white">
-                Your <span className="gradient-text-static">CEFR Results</span>
+                Your CEFR Results
               </h1>
             </div>
 

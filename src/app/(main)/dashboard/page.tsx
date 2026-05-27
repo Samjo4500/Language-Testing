@@ -59,15 +59,15 @@ interface CourseEnrollment {
 }
 
 /* ============================================================
-   CEFR GRADIENTS (ALL-BLUE)
+   CEFR GRADIENTS (UNIFIED ACCENT SYSTEM)
    ============================================================ */
 const CEFR_GRADIENTS: Record<string, string> = {
-  A1: 'from-sky-400 to-blue-500',
-  A2: 'from-blue-400 to-sky-500',
-  B1: 'from-blue-500 to-indigo-500',
-  B2: 'from-indigo-400 to-blue-600',
-  C1: 'from-indigo-500 to-blue-700',
-  C2: 'from-blue-600 to-indigo-700',
+  A1: 'from-blue-400 to-blue-500',
+  A2: 'from-cyan-400 to-cyan-500',
+  B1: 'from-emerald-400 to-emerald-500',
+  B2: 'from-violet-400 to-violet-500',
+  C1: 'from-amber-400 to-amber-500',
+  C2: 'from-red-400 to-red-500',
 };
 
 /* ============================================================
@@ -263,7 +263,7 @@ export default function DashboardPage() {
           {/* Welcome Section */}
           <div>
             <h1 className="text-2xl font-bold text-white">
-              Welcome back, <span className="gradient-text-static">{user.name || user.email}</span>!
+              Welcome back, <span className="text-blue-400">{user.name || user.email}</span>!
             </h1>
             <p className="text-white/50 mt-1">
               {welcomeSubtext}
@@ -284,7 +284,7 @@ export default function DashboardPage() {
                     {getPlanLabel(user.plan)}
                   </span>
                 </div>
-                <p className="text-sm text-white/40">
+                <p className="text-sm text-[#808094]">
                   {isPaidPlan(user.plan)
                     ? 'You have full access to all assessments and features.'
                     : 'Sandbox preview — all features are available for free. Browse our courses to get started!'}

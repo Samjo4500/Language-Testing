@@ -148,7 +148,7 @@ export default function ListeningPage() {
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight text-white leading-[1.1] animate-slide-up">
               Master English
               <br />
-              <span className="gradient-text">Listening Skills</span>
+              Listening Skills
             </h1>
 
             {/* Description */}
@@ -246,7 +246,7 @@ export default function ListeningPage() {
                 <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">What You&apos;ll Experience</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                Listening Features <span className="gradient-text-static">Built for You</span>
+                Listening Features Built for You
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                 Our AI-powered listening assessment is designed to mirror real-world English comprehension challenges, preparing you for success in any environment.
@@ -283,7 +283,7 @@ export default function ListeningPage() {
                 <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Simple Process</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                How It <span className="gradient-text-static">Works</span>
+                How It Works
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                 Our streamlined assessment process gets you from listening to results in three simple steps.
@@ -330,7 +330,7 @@ export default function ListeningPage() {
                 <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Sample Questions</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                Listening Practice <span className="gradient-text-static">Examples</span>
+                Listening Practice Examples
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                 Preview the types of audio scenarios and comprehension questions you will encounter. From everyday conversations to academic lectures, each level challenges your listening skills in different ways.

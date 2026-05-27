@@ -94,7 +94,7 @@ export default function SpeakingPage() {
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight text-white leading-[1.1] animate-slide-up">
               Perfect Your English
               <br />
-              <span className="gradient-text">Speaking Skills</span>
+              Speaking Skills
             </h1>
 
             {/* Subheadline */}
@@ -161,7 +161,7 @@ export default function SpeakingPage() {
                 <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Advanced AI Technology</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                Speaking Assessment <span className="gradient-text-static">Features</span>
+                Speaking Assessment Features
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                 Our cutting-edge AI technology provides comprehensive speaking evaluation that goes beyond simple pronunciation checks.
@@ -220,7 +220,7 @@ export default function SpeakingPage() {
                 <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Simple Process</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                How It <span className="gradient-text-static">Works</span>
+                How It Works
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                 Our speaking assessment is designed to be intuitive and straightforward. Follow three simple steps to receive your comprehensive evaluation.
@@ -291,7 +291,7 @@ export default function SpeakingPage() {
                 <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Sample Prompts</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                Speaking Practice <span className="gradient-text-static">Examples</span>
+                Speaking Practice Examples
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                 Preview the types of speaking tasks you will encounter during the assessment. Each prompt is designed to evaluate different aspects of your spoken English proficiency.

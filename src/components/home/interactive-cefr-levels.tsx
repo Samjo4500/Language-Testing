@@ -24,7 +24,7 @@ export default function InteractiveCEFRLevels() {
             <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">CEFR Framework</span>
           </div>
           <h2 className="text-3xl md:text-5xl font-bold text-white">
-            Interactive <span className="gradient-text-static">CEFR Levels</span>
+            Interactive CEFR Levels
           </h2>
           <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
             Click on each level to see detailed progression from beginner to mastery.

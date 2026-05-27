@@ -319,7 +319,7 @@ export default function MyCoursesPage() {
             </div>
             <h1 className="text-4xl sm:text-5xl font-bold text-white">
               Your Learning{' '}
-              <span className="gradient-text">Journey</span>
+              Journey
             </h1>
             <p className="mt-4 text-lg text-white/50 max-w-2xl mx-auto">
               Track your progress, continue where you left off, and achieve your English learning goals.

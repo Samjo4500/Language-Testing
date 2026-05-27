@@ -268,8 +268,7 @@ export default function CoursesPage() {
               </span>
             </div>
             <h1 className="text-4xl sm:text-5xl font-bold text-white">
-              Learn English from{' '}
-              <span className="gradient-text">A1 to C2</span>
+              Learn English from A1 to C2
             </h1>
             <p className="mt-4 text-lg text-white/50 max-w-2xl mx-auto">
               Structured courses aligned with the CEFR framework. Build your
@@ -542,8 +541,7 @@ export default function CoursesPage() {
                 </span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                Everything You Need to{' '}
-                <span className="gradient-text-static">Succeed</span>
+                Everything You Need to Succeed
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                 Our courses combine proven methodology with cutting-edge
@@ -590,8 +588,7 @@ export default function CoursesPage() {
                 </span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                From Beginner to{' '}
-                <span className="gradient-text-static">Mastery</span>
+                From Beginner to Mastery
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                 Follow our structured path from A1 to C2. Each course builds on
@@ -721,8 +718,7 @@ export default function CoursesPage() {
                 </span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                Frequently Asked{' '}
-                <span className="gradient-text-static">Questions</span>
+                Frequently Asked Questions
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                 Everything you need to know about our English courses.

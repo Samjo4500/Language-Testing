@@ -227,7 +227,7 @@ export default function FAQPage() {
             {/* Title */}
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight text-white leading-[1.1] animate-slide-up">
               Frequently Asked{' '}
-              <span className="gradient-text">Questions</span>
+              Questions
             </h1>
 
             {/* Subtitle */}
@@ -264,7 +264,7 @@ export default function FAQPage() {
                     <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">{category.title}</span>
                   </div>
                   <h2 className="text-3xl md:text-4xl font-bold text-white">
-                    <span className="gradient-text-static">{category.title}</span>
+                    {category.title}
                   </h2>
                 </div>
               </AnimatedSection>

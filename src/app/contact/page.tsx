@@ -131,7 +131,7 @@ export default function ContactPage() {
             {/* Title */}
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight text-white leading-[1.1] animate-slide-up">
               Contact{' '}
-              <span className="gradient-text">Our Team</span>
+              Our Team
             </h1>
 
             {/* Description */}
@@ -155,7 +155,7 @@ export default function ContactPage() {
             <div className="space-y-5">
               <AnimatedSection>
                 <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-                  Reach Out <span className="gradient-text-static">Directly</span>
+                  Reach Out Directly
                 </h2>
                 <p className="text-white/50 mb-8">
                   We&apos;d love to hear from you. Choose the most convenient way to connect.
@@ -369,7 +369,7 @@ export default function ContactPage() {
                 <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Common Questions</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                Frequently Asked <span className="gradient-text-static">Questions</span>
+                Frequently Asked Questions
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                 Find quick answers to the most common questions about our platform and assessments.

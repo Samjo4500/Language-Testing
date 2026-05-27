@@ -768,7 +768,7 @@ export default function CourseDetailPage() {
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
                 {course.title.split(' ').slice(0, -1).join(' ')}{' '}
-                <span className="gradient-text-static">{course.title.split(' ').slice(-1)}</span>
+                {course.title.split(' ').slice(-1)}
               </h1>
 
               <p className="mt-4 text-lg sm:text-xl text-white/50 max-w-lg">
@@ -883,7 +883,7 @@ export default function CourseDetailPage() {
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Course Overview</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-                Why Choose <span className="gradient-text-static">{course.title}</span>?
+                Why Choose {course.title}?
               </h2>
               <p className="text-white/50 text-base sm:text-lg leading-relaxed max-w-3xl">
                 Our {course.title} course is designed by experienced English teachers and powered by AI technology.
@@ -933,7 +933,7 @@ export default function CourseDetailPage() {
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Learning Outcomes</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                What You&apos;ll <span className="gradient-text-static">Learn</span>
+                What You&apos;ll Learn
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto">
                 Master these core skills and be ready for real-world English communication.
@@ -969,7 +969,7 @@ export default function CourseDetailPage() {
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Included Features</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                Everything You <span className="gradient-text-static">Need</span>
+                Everything You Need
               </h2>
             </div>
           </AnimatedSection>
@@ -1005,7 +1005,7 @@ export default function CourseDetailPage() {
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Curriculum</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                Course <span className="gradient-text-static">Curriculum</span>
+                Course Curriculum
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto">
                 {course.modulesCount} modules · {course.lessonsCount} lessons · ~{course.estimatedHours} hours of content
@@ -1035,7 +1035,7 @@ export default function CourseDetailPage() {
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Student Reviews</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                What Our <span className="gradient-text-static">Students</span> Say
+                What Our Students Say
               </h2>
             </div>
           </AnimatedSection>
@@ -1083,7 +1083,7 @@ export default function CourseDetailPage() {
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">FAQ</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-white">
-                Frequently Asked <span className="gradient-text-static">Questions</span>
+                Frequently Asked Questions
               </h2>
             </div>
           </AnimatedSection>

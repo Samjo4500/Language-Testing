@@ -404,7 +404,7 @@ export default function CommunityPage() {
                   <span className="text-sm text-blue-200 font-medium">Language Partners</span>
                 </div>
                 <h1 className="text-3xl sm:text-4xl font-bold text-white">
-                  Create Your <span className="gradient-text">Language Profile</span>
+                  Create Your Language Profile
                 </h1>
                 <p className="mt-3 text-white/50 text-sm">
                   Tell us about yourself so we can find you the best language partners.
@@ -561,7 +561,7 @@ export default function CommunityPage() {
               <span className="text-sm text-blue-200 font-medium">Community</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold text-white">
-              Find Your <span className="gradient-text">Language Partner</span>
+              Find Your Language Partner
             </h1>
             <p className="mt-3 text-white/50 text-sm max-w-xl mx-auto">
               Connect with native speakers, practice together, and join our global chatroom.

@@ -101,7 +101,7 @@ export default function AboutPage() {
             {/* Title */}
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight text-white leading-[1.1] animate-slide-up">
               About{' '}
-              <span className="gradient-text">TestCEFR</span>
+              TestCEFR
             </h1>
 
             {/* Description */}
@@ -126,7 +126,7 @@ export default function AboutPage() {
                   <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Our Mission</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
-                  Why We <span className="gradient-text-static">Exist</span>
+                  Why We Exist
                 </h2>
               </div>
             </AnimatedSection>
@@ -136,7 +136,7 @@ export default function AboutPage() {
                 <div className="flex h-16 w-16 mx-auto items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-xl mb-6">
                   <Globe className="h-7 w-7" />
                 </div>
-                <h3 className="text-2xl md:text-3xl font-bold gradient-text-static mb-4">
+                <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
                   Democratizing English Proficiency Assessment Through AI Technology
                 </h3>
                 <p className="text-white/60 leading-relaxed max-w-2xl mx-auto text-base">
@@ -161,7 +161,7 @@ export default function AboutPage() {
                   <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">What We Do</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
-                  Our <span className="gradient-text-static">Platform</span>
+                  Our Platform
                 </h2>
                 <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                   TestCEFR combines advanced AI with the internationally recognized CEFR framework to deliver a complete English proficiency assessment experience.
@@ -216,7 +216,7 @@ export default function AboutPage() {
                   <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Our Journey</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
-                  Our <span className="gradient-text-static">Story</span>
+                  Our Story
                 </h2>
               </div>
             </AnimatedSection>
@@ -288,7 +288,7 @@ export default function AboutPage() {
                   <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">By the Numbers</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
-                  Our <span className="gradient-text-static">Impact</span>
+                  Our Impact
                 </h2>
               </div>
             </AnimatedSection>
@@ -314,7 +314,7 @@ export default function AboutPage() {
                   <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Comprehensive Evaluation</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
-                  6 Skills <span className="gradient-text-static">Assessed</span>
+                  6 Skills Assessed
                 </h2>
                 <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                   Our platform evaluates every dimension of English proficiency, giving you a complete picture of your language abilities.
@@ -358,7 +358,7 @@ export default function AboutPage() {
                   <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Our Stack</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white">
-                  Powered by <span className="gradient-text-static">Technology</span>
+                  Powered by Technology
                 </h2>
                 <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                   We use best-in-class technologies to deliver reliable, accurate, and secure assessment experiences.

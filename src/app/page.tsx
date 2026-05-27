@@ -43,42 +43,42 @@ const DIMENSIONS_DATA = [
     icon: <BookOpen className="h-6 w-6" />,
     title: 'Reading',
     level: 'A1–C2',
-    gradient: 'from-blue-500 to-cyan-500',
+    gradient: 'from-indigo-500 to-indigo-400',
     items: ['Main ideas and detailed comprehension', 'Understanding implicit meaning', 'Analyzing text structure', 'Vocabulary inference', 'Reading speed and accuracy'],
   },
   {
     icon: <PenTool className="h-6 w-6" />,
     title: 'Writing',
     level: 'A1–C2',
-    gradient: 'from-blue-500 to-indigo-500',
+    gradient: 'from-violet-500 to-violet-400',
     items: ['Cohesion and coherence', 'Grammatical accuracy', 'Lexical resource', 'Task achievement', 'Writing mechanics'],
   },
   {
     icon: <Headphones className="h-6 w-6" />,
     title: 'Listening',
     level: 'A1–C2',
-    gradient: 'from-sky-500 to-blue-500',
+    gradient: 'from-emerald-500 to-emerald-400',
     items: ['Main ideas and details', 'Understanding speakers\' attitude', 'Following complex arguments', 'Multiple speaker comprehension', 'Accent familiarity'],
   },
   {
     icon: <Mic className="h-6 w-6" />,
     title: 'Speaking',
     level: 'A1–C2',
-    gradient: 'from-blue-500 to-cyan-500',
+    gradient: 'from-amber-500 to-amber-400',
     items: ['Fluency and coherence', 'Lexical resource', 'Grammatical range', 'Pronunciation clarity', 'Interactive communication'],
   },
   {
     icon: <BarChart3 className="h-6 w-6" />,
     title: 'Grammar',
     level: 'A1–C2',
-    gradient: 'from-indigo-500 to-blue-600',
+    gradient: 'from-blue-500 to-blue-400',
     items: ['Sentence formation', 'Tense accuracy', 'Complex structures', 'Error patterns', 'Grammar application'],
   },
   {
     icon: <Award className="h-6 w-6" />,
     title: 'Vocabulary',
     level: 'A1–C2',
-    gradient: 'from-indigo-400 to-blue-500',
+    gradient: 'from-cyan-500 to-cyan-400',
     items: ['Word range', 'Precision', 'Collocations', 'Register awareness', 'Topic-specific vocabulary'],
   },
 ];
@@ -372,7 +372,7 @@ export default function Home() {
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Comprehensive Coverage</span>
               </div>
               <h2 className="text-3xl md:text-5xl font-bold text-white">
-                6 Dimensions of <span className="gradient-text-static">English Proficiency</span>
+                6 Dimensions of English Proficiency
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                 Our AI evaluates every aspect of your English proficiency with granular precision.
@@ -396,7 +396,7 @@ export default function Home() {
                   <ul className="space-y-2">
                     {skill.items.map((item) => (
                       <li key={item} className="flex items-center gap-2">
-                        <CheckCircle2 className="h-3.5 w-3.5 text-blue-400 shrink-0" />
+                        <CheckCircle2 className={`h-3.5 w-3.5 shrink-0 bg-gradient-to-br ${skill.gradient} bg-clip-text`} style={{color: skill.title === 'Grammar' ? '#3b82f6' : skill.title === 'Vocabulary' ? '#06b6d4' : skill.title === 'Reading' ? '#6366f1' : skill.title === 'Listening' ? '#10b981' : skill.title === 'Speaking' ? '#f59e0b' : '#7c5cff'}} />
                         <span className="text-sm text-white/60">{item}</span>
                       </li>
                     ))}
@@ -427,7 +427,7 @@ export default function Home() {
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Simple Process</span>
               </div>
               <h2 className="text-3xl md:text-5xl font-bold text-white">
-                How It <span className="gradient-text-static">Works</span>
+                How It Works
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                 Get your CEFR score in just 4 simple steps.
@@ -470,7 +470,7 @@ export default function Home() {
                   <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Get Started</span>
                 </div>
                 <h2 className="text-3xl md:text-5xl font-bold text-white">
-                  Start Learning <span className="gradient-text-static">Today</span>
+                  Start Learning Today
                 </h2>
                 <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                   Start free and upgrade as you grow. All plans include our AI-powered scoring engine.
@@ -547,7 +547,7 @@ export default function Home() {
               <h2 className="text-3xl md:text-5xl font-bold text-white">
                 Scale English Testing
                 <br />
-                <span className="gradient-text-static">Across Your Team</span>
+                Across Your Team
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                 Purpose-built plans for schools, businesses, and institutions — with the tools your team actually needs.
@@ -608,7 +608,7 @@ export default function Home() {
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Success Stories</span>
               </div>
               <h2 className="text-3xl md:text-5xl font-bold text-white">
-                Trusted by <span className="gradient-text-static">Thousands of Learners</span>
+                Trusted by Thousands of Learners
               </h2>
             </div>
           </AnimatedSection>
@@ -652,7 +652,7 @@ export default function Home() {
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Enterprise</span>
               </div>
               <h2 className="text-3xl md:text-5xl font-bold text-white">
-                Built for Teams and <span className="gradient-text-static">Organisations</span>
+                Built for Teams and Organisations
               </h2>
               <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
                 From universities to corporate training — CEFR Test scales to meet your team&apos;s English assessment needs.
@@ -709,7 +709,7 @@ export default function Home() {
                 <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">FAQ</span>
               </div>
               <h2 className="text-3xl md:text-5xl font-bold text-white">
-                Frequently Asked <span className="gradient-text-static">Questions</span>
+                Frequently Asked Questions
               </h2>
             </div>
           </AnimatedSection>

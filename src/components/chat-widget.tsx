@@ -179,7 +179,7 @@ export function ChatWidget() {
                 <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center">
                   <Bot className="w-5 h-5 text-white" />
                 </div>
-                <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border-2 border-purple-600" />
+                <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border-2 border-blue-600" />
               </div>
               <div>
                 <h3 className="text-white font-semibold text-sm">TestCEFR Assistant</h3>
@@ -219,12 +219,12 @@ export function ChatWidget() {
                   {/* Avatar */}
                   <div className="shrink-0 mt-1">
                     {msg.role === 'user' ? (
-                      <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                      <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
                         <User className="w-3.5 h-3.5 text-white" />
                       </div>
                     ) : (
                       <div className="w-7 h-7 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center">
-                        <Sparkles className="w-3.5 h-3.5 text-purple-300" />
+                        <Sparkles className="w-3.5 h-3.5 text-blue-300" />
                       </div>
                     )}
                   </div>
@@ -233,7 +233,7 @@ export function ChatWidget() {
                   <div
                     className={`max-w-[80%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed ${
                       msg.role === 'user'
-                        ? 'bg-gradient-to-br from-purple-600 to-pink-600 text-white rounded-tr-sm'
+                        ? 'bg-gradient-to-br from-blue-600 to-blue-500 text-white rounded-tr-sm'
                         : 'bg-white/[0.07] border border-white/10 text-gray-200 rounded-tl-sm'
                     }`}
                   >
@@ -253,14 +253,14 @@ export function ChatWidget() {
                 <div className="flex gap-2.5">
                   <div className="shrink-0 mt-1">
                     <div className="w-7 h-7 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center">
-                      <Sparkles className="w-3.5 h-3.5 text-purple-300" />
+                      <Sparkles className="w-3.5 h-3.5 text-blue-300" />
                     </div>
                   </div>
                   <div className="bg-white/[0.07] border border-white/10 rounded-2xl rounded-tl-sm px-4 py-3">
                     <div className="flex gap-1.5">
-                      <span className="chat-typing-dot w-2 h-2 bg-purple-400 rounded-full" style={{ animationDelay: '0ms' }} />
-                      <span className="chat-typing-dot w-2 h-2 bg-purple-400 rounded-full" style={{ animationDelay: '150ms' }} />
-                      <span className="chat-typing-dot w-2 h-2 bg-purple-400 rounded-full" style={{ animationDelay: '300ms' }} />
+                      <span className="chat-typing-dot w-2 h-2 bg-blue-400 rounded-full" style={{ animationDelay: '0ms' }} />
+                      <span className="chat-typing-dot w-2 h-2 bg-blue-400 rounded-full" style={{ animationDelay: '150ms' }} />
+                      <span className="chat-typing-dot w-2 h-2 bg-blue-400 rounded-full" style={{ animationDelay: '300ms' }} />
                     </div>
                   </div>
                 </div>
@@ -278,7 +278,7 @@ export function ChatWidget() {
                   <button
                     key={prompt}
                     onClick={() => handleQuickPrompt(prompt)}
-                    className="text-xs px-3 py-1.5 rounded-full bg-white/[0.07] border border-white/10 text-purple-300 hover:bg-white/[0.12] hover:border-purple-500/30 hover:text-purple-200 transition-all"
+                    className="text-xs px-3 py-1.5 rounded-full bg-white/[0.07] border border-white/10 text-blue-300 hover:bg-white/[0.12] hover:border-blue-500/30 hover:text-blue-200 transition-all"
                   >
                     {prompt}
                   </button>
@@ -302,7 +302,7 @@ export function ChatWidget() {
               <button
                 type="submit"
                 disabled={!input.trim() || isTyping}
-                className="shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center text-white disabled:opacity-30 disabled:cursor-not-allowed hover:shadow-lg hover:shadow-purple-500/20 transition-all"
+                className="shrink-0 w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white disabled:opacity-30 disabled:cursor-not-allowed hover:shadow-lg hover:shadow-blue-500/20 transition-all"
                 aria-label="Send message"
               >
                 <Send className="w-4 h-4" />

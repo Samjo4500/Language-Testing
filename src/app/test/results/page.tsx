@@ -84,12 +84,12 @@ const SKILL_LABELS: Record<string, string> = {
 };
 
 const SKILL_COLORS: Record<string, string> = {
-  grammar: '#f43f5e',
-  vocabulary: '#14b8a6',
-  reading: '#3b82f6',
-  listening: '#22c55e',
+  grammar: '#3b82f6',
+  vocabulary: '#06b6d4',
+  reading: '#6366f1',
+  listening: '#10b981',
   speaking: '#f59e0b',
-  writing: '#a855f7',
+  writing: '#7c5cff',
 };
 
 const SKILL_ICONS: Record<string, React.ReactNode> = {
@@ -102,10 +102,10 @@ const SKILL_ICONS: Record<string, React.ReactNode> = {
 };
 
 const CEFR_BADGE_COLORS: Record<string, string> = {
-  A1: '#94a3b8',
-  A2: '#22c55e',
-  B1: '#3b82f6',
-  B2: '#8b5cf6',
+  A1: '#3b82f6',
+  A2: '#06b6d4',
+  B1: '#10b981',
+  B2: '#7c5cff',
   C1: '#f59e0b',
   C2: '#ef4444',
 };
@@ -311,7 +311,7 @@ function LevelPerformanceBars({ levels, color }: { levels: LevelPerformance[]; c
   if (activeLevels.length === 0) {
     return (
       <div className="text-center py-4">
-        <p className="text-sm text-white/40">No level data available</p>
+        <p className="text-sm text-[#808094]">No level data available</p>
       </div>
     );
   }
@@ -475,7 +475,7 @@ export default function TestResultsPage() {
         <div className="flex-1 flex items-center justify-center px-4 py-12">
           <div className="w-full max-w-md">
             <div className="glass-card p-8 text-center">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 text-white mb-4 shadow-lg shadow-purple-500/25">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 text-white mb-4 shadow-lg shadow-blue-500/25">
                 <LogIn className="h-6 w-6" />
               </div>
               <h1 className="text-2xl font-bold text-white mb-2">Sign in to view results</h1>
@@ -483,7 +483,7 @@ export default function TestResultsPage() {
                 You need to be signed in to view your test results.
               </p>
               <Link href="/login">
-                <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer">
+                <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25 cursor-pointer">
                   <Sparkles className="h-4 w-4" />
                   Sign in
                 </button>
@@ -532,7 +532,7 @@ export default function TestResultsPage() {
               <div className="flex flex-col gap-3">
                 <button
                   onClick={fetchResults}
-                  className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 rounded-xl py-3 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-blue-500/25 cursor-pointer"
                 >
                   <RotateCcw className="h-4 w-4" />
                   Try Again
@@ -566,7 +566,7 @@ export default function TestResultsPage() {
 
           {/* ── HEADER ── */}
           <div className="text-center space-y-3">
-            <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium" style={{ backgroundColor: `${skillColor}20`, color: skillColor }}>
+            <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium bg-blue-500/15 text-blue-400 border border-blue-500/25">
               {SKILL_ICONS[skill]}
               {SKILL_LABELS[skill]} Results
             </div>
@@ -678,7 +678,7 @@ export default function TestResultsPage() {
                 </Link>
               )}
               <Link href="/test" className="flex-1">
-                <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer">
+                <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3.5 bg-gradient-to-r from-violet-600 to-violet-500 hover:from-violet-500 hover:to-violet-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-violet-500/25 cursor-pointer">
                   <Sparkles className="h-4 w-4" />
                   Continue Testing
                 </button>

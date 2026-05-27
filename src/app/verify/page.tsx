@@ -32,7 +32,7 @@ export default function VerifyCertificatePage() {
               <span className="text-xs text-purple-300 font-medium uppercase tracking-wider">Certificate Verification</span>
             </div>
             <h1 className="text-3xl md:text-5xl font-bold text-white">
-              Verify a <span className="gradient-text-static">Certificate</span>
+              Verify a Certificate
             </h1>
             <p className="mt-4 text-white/50 max-w-lg mx-auto text-base">
               Enter the verification ID from a CEFR Test certificate to confirm its authenticity. You can find this ID on the certificate or scan the QR code.
