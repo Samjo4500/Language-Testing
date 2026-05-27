@@ -158,6 +158,1675 @@ export const LESSON_CONTENT_MAP: Record<string, Record<string, string>> = {
 <p>The broadest methodological distinction is between <strong>quantitative</strong> and <strong>qualitative</strong> approaches. Quantitative research seeks to measure phenomena numerically, test hypotheses through statistical analysis, and generalize findings to broader populations. Its strengths include precision, replicability, and the ability to identify patterns across large datasets. Qualitative research, by contrast, explores the meaning and experience of social phenomena through interviews, ethnographic observation, and textual interpretation. It prioritizes depth over breadth, seeking to understand the complexity of particular contexts rather than to generalize across them.</p>
 <p>Increasingly, researchers adopt <strong>mixed-methods designs</strong> that integrate quantitative and qualitative approaches within a single study. A sequential explanatory design, for instance, might first administer a large-scale survey to identify statistical trends, then conduct in-depth interviews to explore the mechanisms underlying those trends. This triangulation of methods can yield insights that neither approach could achieve alone, though it demands expertise in multiple research paradigms and careful attention to how different types of data are integrated and reconciled.</p>
 <p>Methodological rigor also requires transparency about <strong>limitations</strong> and <strong>ethical considerations</strong>. Every research design involves trade-offs between internal validity (confidence in causal claims), external validity (generalizability), and practical constraints such as time, funding, and access to participants. Ethical research practice demands informed consent, confidentiality, and the minimization of harm — principles that are not merely procedural requirements but moral imperatives that safeguard the integrity of the research enterprise.</p>`,
+    'Connecting Sentences with And, But, So, Because': `<p><strong>Coordinating conjunctions</strong> connect two ideas of equal importance. The most common are FANBOYS: <strong>For, And, Nor, But, Or, Yet, So</strong>.</p>
+<p>At A1-A2 level, focus on these four:</p>
+<p><strong>AND</strong> — adds information (similar ideas)
+<ul><li>"I like coffee <strong>and</strong> I like tea."</li>
+<li>"She speaks English <strong>and</strong> Spanish."</li>
+<li>"He works in London <strong>and</strong> he lives there too."</li></p>
+<p><strong>BUT</strong> — shows contrast (opposite ideas)
+<li>"I like him, <strong>but</strong> I don't trust him."</li>
+<li>"It's expensive, <strong>but</strong> it's good quality."</li>
+<li>"She's very talented, <strong>but</strong> she's sometimes late."</li></p>
+<p><strong>SO</strong> — shows result (consequence)
+<li>"It was raining, <strong>so</strong> I took an umbrella."</li>
+<li>"I was tired, <strong>so</strong> I went to bed early."</li>
+<li>"The shop was closed, <strong>so</strong> we went home."</li></p>
+<p><strong>BECAUSE</strong> — shows reason (cause)
+<li>"I stayed home <strong>because</strong> I was ill."</li>
+<li>"She's happy <strong>because</strong> she passed her exam."</li>
+<li>"We left early <strong>because</strong> the traffic was bad."</li></p>
+<p><strong>Important word order:</strong>
+<li>With <strong>and/but/or</strong>: comma before the conjunction when connecting two complete sentences</li>
+  - "I like pizza, <strong>and</strong> my brother likes pasta."
+<li>With <strong>so/because</strong>: the reason can come first or second</li>
+  - "I was tired, <strong>so</strong> I slept." / "<strong>Because</strong> I was tired, I slept." (notice the comma)</p>
+<p><strong>Common mistake:</strong> "Because" and "so" together — choose ONE
+<li>❌ "Because it was raining, so I stayed home."</li>
+<li>✅ "It was raining, so I stayed home."</li>
+<li>✅ "Because it was raining, I stayed home."</li></ul></p>`,
+    'Talking About Past Experiences': `<p>The <strong>past simple</strong> is for completed actions in the past. You already know it — this lesson focuses on using it to tell stories and describe experiences.</p>
+<p><strong>Time expressions for the past:</strong>
+<ul><li><strong>ago</strong>: "I went to Paris <strong>three years ago</strong>."</li>
+<li><strong>last</strong>: "I saw him <strong>last week/month/year/Saturday</strong>."</li>
+<li><strong>yesterday</strong>: "I finished it <strong>yesterday morning/afternoon/evening</strong>."</li>
+<li><strong>in + past year</strong>: "We met <strong>in 2019</strong>."</li>
+<li><strong>when</strong>: "When I was a child, I lived in Spain."</li>
+<li><strong>previous</strong>: "My <strong>previous</strong> job was in sales."</li></p>
+<p><strong>Sequencing events (telling a story in order):</strong>
+<li><strong>First</strong>, I woke up. <strong>Then</strong>, I had breakfast. <strong>After that</strong>, I went to work. <strong>Later</strong>, I had a meeting. <strong>Finally</strong>, I went home.</li>
+<li>Other sequencing words: <strong>Next</strong>, <strong>In the end</strong>, <strong>Eventually</strong>, <strong>Suddenly</strong></li></p>
+<p><strong>Talking about childhood:</strong>
+<li>"When I was young, I used to play football every day."</li>
+<li>"As a child, I lived in a small village."</li>
+<li>"I grew up in Brazil."</li>
+<li>"My favourite toy was a red car."</li></p>
+<p><strong>Past simple irregular verbs to practise:</strong>
+<li>go → went, eat → ate, see → saw, have → had, do → did, make → made, take → took, get → got, find → found, know → knew, think → thought, come → came, say → said, tell → told</li></ul></p>`,
+    'Making Comparisons: Better, Worse, More, Less': `<p><strong>Comparatives</strong> (comparing two things):</p>
+<p><em>Short adjectives (+1-2 syllables):</em>
+<ul><li>Add <strong>-er</strong>: tall → <strong>taller</strong>, fast → <strong>faster</strong>, cheap → <strong>cheaper</strong></li>
+<li>Double final consonant: big → <strong>bigger</strong>, hot → <strong>hotter</strong>, thin → <strong>thinner</strong></li>
+<li>y → i + -er: happy → <strong>happier</strong>, easy → <strong>easier</strong></li></p>
+<p><em>Long adjectives (2+ syllables):</em>
+<li>Use <strong>more</strong>: expensive → <strong>more expensive</strong>, beautiful → <strong>more beautiful</strong></li>
+<li>Use <strong>less</strong>: interesting → <strong>less interesting</strong>, comfortable → <strong>less comfortable</strong></li></p>
+<p><em>Irregular comparatives:</em>
+<li>good → <strong>better</strong>, bad → <strong>worse</strong>, far → <strong>farther/further</strong></li>
+<li>much/many → <strong>more</strong>, little → <strong>less</strong></li></p>
+<p><strong>Using comparatives in sentences:</strong>
+<li>"London is <strong>bigger than</strong> Paris." (short adj + -er + than)</li>
+<li>"This book is <strong>more interesting than</strong> that one." (more + long adj + than)</li>
+<li>"My phone is <strong>less expensive than</strong> yours." (less + long adj + than)</li>
+<li>"She speaks English <strong>better than</strong> me." (irregular)</li></p>
+<p><strong>Superlatives</strong> (comparing 3+ things — "the most"):
+<li>Short: tall → <strong>the tallest</strong>, fast → <strong>the fastest</strong></li>
+<li>Long: expensive → <strong>the most expensive</strong>, beautiful → <strong>the most beautiful</strong></li>
+<li>Irregular: good → <strong>the best</strong>, bad → <strong>the worst</strong></li></p>
+<p><strong>Intensifiers (making comparisons stronger):</strong>
+<li>"It's <strong>much</strong> better." / "It's <strong>a lot</strong> cheaper." (big difference)</li>
+<li>"It's <strong>slightly</strong> more expensive." / "It's <strong>a bit</strong> colder." (small difference)</li>
+<li>"It's <strong>even</strong> worse than I thought."</li></ul></p>`,
+    'Expressing Future Plans: Going to vs. Will': `<p><strong>GOING TO</strong> — plans and intentions (already decided), predictions with evidence
+<ul><li>"I'm <strong>going to visit</strong> my grandmother next weekend." (plan already made)</li>
+<li>"She's <strong>going to study</strong> medicine at university." (intention)</li>
+<li>"Look at those black clouds! It's <strong>going to rain</strong>." (prediction based on visible evidence)</li></p>
+<p><strong>WILL</strong> — spontaneous decisions (made at the moment of speaking), predictions (opinions), promises, offers
+<li>"I'll have the salad, please." (deciding now, at the restaurant)</li>
+<li>"I think it <strong>will</strong> be sunny tomorrow." (opinion/prediction)</li>
+<li>"I <strong>won't forget</strong> to call you." (promise)</li>
+<li>"I'll help you with your bags." (offer)</li></p>
+<p><strong>The key difference:</strong>
+<li><strong>Going to</strong> = decision made BEFORE speaking</li>
+<li><strong>Will</strong> = decision made AT THE MOMENT of speaking</li></p>
+<p><strong>Examples showing the contrast:</strong>
+<li>"I'm going to have a quiet evening." (I decided this morning)</li>
+<li>"Actually, I'll come to the party after all!" (I just changed my mind)</li></p>
+<p><strong>Other future forms at A2:</strong>
+<li><strong>Present continuous for future:</strong> "I'm meeting John at 6." (arranged, in diary)</li>
+<li><strong>Will vs. Going to in conditionals:</strong></li></ul>
+  - "If it rains, I <strong>will</strong> stay home." (conditional = always will)
+  - "I'm <strong>going to</strong> stay home if it rains." (plan, not conditional structure)</p>`,
+    'Giving Opinions and Agreeing/Disagreeing': `<p><strong>Giving opinions:</strong>
+<ul><li>"I think (that)..." — most common, neutral</li>
+<li>"I believe (that)..." — slightly stronger, more personal</li>
+<li>"In my opinion,..." — clear, good for discussions</li>
+<li>"In my view,..." — similar to "in my opinion"</li>
+<li>"It seems to me that..." — softer, more tentative</li>
+<li>"I feel that..." — emotional/personal perspective</li>
+<li>"If you ask me,..." — informal, direct</li>
+<li>"The way I see it,..." — informal, explaining your perspective</li></p>
+<p><strong>Asking for opinions:</strong>
+<li>"What do you think?"</li>
+<li>"What's your opinion?"</li>
+<li>"How do you feel about this?"</li>
+<li>"Do you agree?"</li>
+<li>"Would you agree that...?"</li></p>
+<p><strong>Agreeing (strong to weak):</strong>
+<li>"I completely/totally agree."</li>
+<li>"I couldn't agree more." (= I agree 100%)</li>
+<li>"Exactly!" / "Absolutely!"</li>
+<li>"That's a good point."</li>
+<li>"I think you're right."</li>
+<li>"I agree up to a point." (= I partly agree)</li></p>
+<p><strong>Disagreeing (polite to direct):</strong>
+<li>"I see your point, but..." (most polite, acknowledges first)</li>
+<li>"I understand what you're saying, but..."</li>
+<li>"I'm not sure I agree."</li>
+<li>"I think it's a bit more complicated than that."</li>
+<li>"With respect, I think..." (formal)</li>
+<li>"I'm afraid I have to disagree." (more direct)</li></p>
+<p><strong>Partial agreement:</strong>
+<li>"I agree with you about X, but I'm not so sure about Y."</li>
+<li>"That's true in some cases, but..."</li>
+<li>"You have a point, but on the other hand..."</li></ul></p>`,
+    'Talking About Routines and Habits': `<p>You already know the present simple. This lesson adds <strong>variety and detail</strong> to how you talk about routines.</p>
+<p><strong>Frequency adverbs — position:</strong>
+<ul><li>Before the main verb: "I <strong>always</strong> eat breakfast."</li>
+<li>After "be": "She <strong>is usually</strong> tired on Mondays."</li>
+<li>Between auxiliary and main verb: "I <strong>have never been</strong> to Japan."</li></p>
+<p><strong>Order of frequency (most → least):</strong>
+always → usually → often / frequently → sometimes → occasionally → rarely / seldom → never</p>
+<p><strong>Other frequency expressions:</strong>
+<li>"I go to the gym <strong>three times a week</strong>."</li>
+<li>"I check my emails <strong>every morning</strong>."</li>
+<li>"I <strong>hardly ever</strong> eat fast food."</li>
+<li>"Once in a while, I treat myself to a nice dinner."</li>
+<li>"From time to time, I work from home."</li></p>
+<p><strong>Talking about routines — varied structures:</strong>
+<li>"I tend to..." (I usually...)</li>
+<li>"I'm in the habit of..." (slightly formal)</li>
+<li>"I make a point of..." (I make an effort to...)</li>
+<li>"I can't function without my morning coffee." (informal, emphatic)</li>
+<li>"No matter what, I always..." (emphatic)</li></p>
+<p><strong>Weekly routine example:</strong>
+"On weekdays, I usually wake up at 7 and get ready for work. I tend to skip breakfast — just coffee! I commute by train, which takes about 30 minutes. I work from 9 to 5, with a lunch break at midday. In the evening, I either go to the gym or meet friends. I rarely stay up past 11 because I need my sleep!"</p>
+<p><strong>Questions about habits:</strong>
+<li>"Are you a morning person or a night owl?"</li>
+<li>"What's the first thing you do when you wake up?"</li>
+<li>"How often do you exercise?"</li>
+<li>"Do you have any unusual habits?"</li></ul></p>`,
+    'Describing Health and Feelings': `<p><strong>Body parts:</strong>
+head, face, eyes, ears, nose, mouth, throat, neck, chest, stomach, back, arm, elbow, wrist, hand, finger, leg, knee, ankle, foot, toe</p>
+<p><strong>Common ailments and symptoms:</strong>
+<ul><li>"I have a headache." / "My head hurts."</li>
+<li>"I have a sore throat."</li>
+<li>"I have a cold / the flu."</li>
+<li>"I have a temperature / fever."</li>
+<li>"I feel sick / nauseous." (want to vomit)</li>
+<li>"I have a cough." / "I have a runny nose."</li>
+<li>"I have stomach ache." / "I have back pain."</li>
+<li>"I feel dizzy." (like the room is spinning)</li>
+<li>"I feel weak / tired."</li>
+<li>"I'm allergic to..." (nuts, pollen, cats, etc.)</li></p>
+<p><strong>At the doctor's:</strong>
+<li>"I've been feeling ill for three days."</li>
+<li>"It hurts when I..."</li>
+<li>"I've got a pain in my..."</li>
+<li>"I keep getting headaches."</li>
+<li>"I feel worse today."</li>
+<li>"Is it serious?"</li>
+<li>"How often should I take this?"</li></p>
+<p><strong>Emotional states:</strong>
+<li>Positive: happy, excited, relaxed, calm, grateful, proud, confident</li>
+<li>Negative: sad, worried, stressed, nervous, frustrated, bored, lonely, angry, disappointed</li>
+<li>"I feel..." (current emotion)</li>
+<li>"I'm feeling a bit..." (temporary, softer)</li>
+<li>"I've been feeling..." (over a period of time)</li></p>
+<p><strong>Describing pain (1-10 scale):</strong>
+<li>"It's just a mild pain." (1-3)</li>
+<li>"It's quite painful." (4-6)</li>
+<li>"It really hurts." (7-8)</li>
+<li>"It's unbearable." (9-10)</li></ul></p>`,
+    'Narrating a Simple Story': `<p><strong>Story structure (simple but effective):</strong></p>
+<p><strong>Beginning</strong> — set the scene (who, where, when)
+<ul><li>"Last summer, I went on holiday to Spain with my friends."</li>
+<li>"When I was a student, something funny happened to me."</li></p>
+<p><strong>Middle</strong> — the action (what happened)
+<li>Use past simple for the main events</li>
+<li>Use <strong>was/were + verb-ing</strong> (past continuous) for background actions:</li>
+  - "I <strong>was walking</strong> home when I <strong>saw</strong> a cat in a tree."
+  - "We <strong>were having</strong> dinner when the phone <strong>rang</strong>."
+  - "While I <strong>was waiting</strong> for the bus, it <strong>started</strong> to rain."</p>
+<p><strong>End</strong> — the result or lesson
+<li>"In the end, everything worked out fine."</li>
+<li>"It was the funniest thing that ever happened to me."</li>
+<li>"I learned to always check the weather forecast!"</li></p>
+<p><strong>Storytelling connectors:</strong>
+<li>Time: <strong>One day</strong>, <strong>Last year</strong>, <strong>A few weeks ago</strong></li>
+<li>Sequence: <strong>First</strong>, <strong>Then</strong>, <strong>Next</strong>, <strong>After that</strong>, <strong>A few minutes later</strong></li>
+<li>Surprise: <strong>Suddenly</strong>, <strong>All of a sudden</strong>, <strong>Out of nowhere</strong></li>
+<li>Ending: <strong>In the end</strong>, <strong>Finally</strong>, <strong>Eventually</strong>, <strong>Luckily</strong></li>
+<li>Reaction: <strong>To my surprise</strong>, <strong>I couldn't believe it</strong>, <strong>You can imagine how I felt</strong></li></p>
+<p><strong>Past continuous + past simple together:</strong>
+<li>"I <strong>was sleeping</strong> when the alarm <strong>went off</strong>." (background action + main event)</li>
+<li>"While she <strong>was cooking</strong>, she <strong>burned</strong> the chicken." (two things happening, one interrupts the other)</li></ul></p>`,
+    'Talking About Technology and Daily Devices': `<p><strong>Essential technology vocabulary:</strong>
+<ul><li><strong>Devices:</strong> smartphone, laptop, tablet, desktop computer, smartwatch, wireless headphones, charger, power bank, USB cable, webcam, microphone, speaker, printer, scanner, router, WiFi</li>
+<li><strong>Verbs:</strong> download, upload, install, update, charge, scroll, swipe, click, tap, type, search, stream, share, save, delete, back up, restart, log in / log out, sign up, set up, turn on / off</li>
+<li><strong>Apps and platforms:</strong> social media, messaging app, video call, email, cloud storage, streaming service, navigation app, online banking, password</li></p>
+<p><strong>Talking about technology habits:</strong>
+<li>"I check my phone as soon as I wake up." (informal)</li>
+<li>"I probably spend too much time on social media."</li>
+<li>"I use my laptop for work and my tablet for watching films."</li>
+<li>"I can't live without [app name] — I use it every day."</li>
+<li>"I try to limit my screen time, but it's difficult."</li></p>
+<p><strong>Describing problems:</strong>
+<li>"My phone keeps freezing." (stops working temporarily)</li>
+<li>"The battery dies really quickly."</li>
+<li>"I forgot my password." / "I got locked out of my account."</li>
+<li>"My internet connection is really slow."</li>
+<li>"The app keeps crashing." (closes unexpectedly)</li>
+<li>"I think I have a virus." / "I've been hacked."</li></p>
+<p><strong>Technology opinions:</strong>
+<li>"Technology makes life easier, but..."</li>
+<li>"I think we're too dependent on our phones."</li>
+<li>"AI is going to change everything."</li>
+<li>"I prefer face-to-face communication to texting."</li>
+<li>"Online shopping is so convenient."</li></ul></p>`,
+    'Cultural Awareness and Social Norms': `<p><strong>Greetings — formal to informal:</strong>
+<ul><li>Very formal (first meeting, business): "How do you do?" (response: "How do you do?")</li>
+<li>Formal: "Nice to meet you." / "Pleased to meet you."</li>
+<li>Standard: "Hello, I'm [name]." / "Hi, I'm [name]."</li>
+<li>Casual: "Hi there!" / "Hey! How's it going?" / "What's up?" (very informal US)</li>
+<li>British: "You alright?" / "Alright?" (means "Hello," not "Are you okay?")</li></p>
+<p><strong>First names vs. titles:</strong>
+<li>In UK/US, people usually use first names quickly — even in business</li>
+<li>"Please, call me Tom" = use my first name</li>
+<li>Titles: Mr (man), Mrs (married woman), Ms (woman — marital status unknown), Miss (unmarried woman — less common now), Dr (doctor/professor)</li>
+<li>Always use a title + surname unless invited to use first names</li></p>
+<p><strong>Small talk — safe topics:</strong>
+<li>Weather (especially in the UK!)</li>
+<li>The journey/travel</li>
+<li>The event/venue</li>
+<li>Hobbies and interests</li>
+<li>Work (but not salary!)</li>
+<li>Holidays and travel plans</li></p>
+<p><strong>Topics to avoid (especially first meetings):</strong>
+<li>Age and weight</li>
+<li>Money and salary</li>
+<li>Politics and religion</li>
+<li>Personal relationships</li>
+<li>Controversial topics</li></p>
+<p><strong>Tipping culture:</strong>
+<li><strong>UK:</strong> 10-12.5% in restaurants if service isn't included. Not expected in pubs/cafes.</li>
+<li><strong>US:</strong> 15-20% in restaurants ESSENTIAL (waiters earn very low wages). $1-2 per drink at bars.</li>
+<li><strong>Australia/NZ:</strong> Tipping not expected but appreciated for good service.</li></p>
+<p><strong>Personal space:</strong>
+<li>UK/US: about an arm's length of distance when talking</li>
+<li>Standing too close can make people uncomfortable</li>
+<li>Touching: handshake is standard. Hugs only with friends. Kissing on the cheek is less common in UK/US than in Southern Europe.</li></p>
+<p><strong>Queuing (standing in line):</strong>
+<li>Very important in the UK! Jumping the queue is extremely rude.</li>
+<li>"Sorry, is this the queue?" / "Are you in the queue?"</li>
+<li>"Excuse me, I was here first." (if someone tries to push in)</li></p>
+<p><strong>Being polite — magic words:</strong>
+<li><strong>Please</strong> — when asking for something: "A coffee, please."</li>
+<li><strong>Thank you / Thanks</strong> — constantly used in English!</li>
+<li><strong>Sorry</strong> — even when it's not your fault (British people say sorry a lot!)</li>
+<li><strong>Excuse me</strong> — to get past someone, to interrupt, or to get attention</li></ul></p>`,
+    'Relative Clauses — Defining and Non-Defining': `<p><strong>What are relative clauses?</strong>
+Relative clauses give extra information about a noun. They turn two short sentences into one sophisticated sentence.</p>
+<ul><li>"The man <strong>lives next door</strong>. He is a doctor."</li>
+<li>→ "The man <strong>who lives next door</strong> is a doctor."</li>
+<p><strong>Relative pronouns:</strong>
+| Pronoun | Used for | Example |
+|---------|----------|---------|
+| <strong>who</strong> | people | The woman <strong>who</strong> called you is my boss. |
+| <strong>which</strong> | things, animals | The car <strong>which</strong> he bought is red. |
+| <strong>that</strong> | people OR things | The book <strong>that</strong> I read was excellent. |
+| <strong>whose</strong> | possession | The man <strong>whose</strong> car was stolen is here. |
+| <strong>where</strong> | places | The city <strong>where</strong> I was born is beautiful. |
+| <strong>whom</strong> | people (object, formal) | The person <strong>whom</strong> you met is my uncle. |</p>
+<p><strong>Defining relative clauses (essential information):</strong>
+<li>No commas</li>
+<li>The information is NECESSARY to identify the noun</li>
+<li>"The students <strong>who study hard</strong> pass the exam." (only the hard-working students — not all students)</li>
+<li>"I need a computer <strong>that works quickly</strong>." (not just any computer)</li>
+<li><strong>You can use "that" instead of "who" or "which" in defining clauses.</strong></li></p>
+<p><strong>Non-defining relative clauses (extra information):</strong>
+<li>ALWAYS use commas (or pause in speech)</li>
+<li>The information is NOT essential — it's extra detail</li>
+<li>"My brother, <strong>who lives in Paris</strong>, is visiting me." (I only have one brother — "who lives in Paris" is just extra info)</li>
+<li>"The Eiffel Tower, <strong>which was built in 1889</strong>, attracts millions of visitors."</li>
+<li><strong>NEVER use "that" in non-defining clauses — only who or which.</strong></li></p>
+<p><strong>Omitting the relative pronoun:</strong>
+When the relative pronoun is the OBJECT of the relative clause, you can omit it (in defining clauses only):
+<li>"The book <strong>(that)</strong> I bought yesterday is great." (that = object of bought)</li>
+<li>"The woman <strong>(who/whom)</strong> I saw is a doctor."</li>
+But NOT when it's the subject:
+<li>"The man <strong>who</strong> called you is here." (who = subject of called — cannot omit)</li></ul></p>`,
+    'Gerunds and Infinitives — Choosing Correctly': `<p><strong>Some verbs are followed by the GERUND (verb-ing):</strong></p>
+<p>| Category | Verbs |
+|----------|-------|
+| Enjoyment/hate | enjoy, mind, suggest, recommend, avoid, can't stand, dislike, fancy |
+| Starting/stopping | start, stop, finish, quit, give up, keep, continue, postpone, delay |
+| Success/failure | succeed in, have difficulty (in), have trouble (in), be used to, look forward to |</p>
+<p><em>Examples:</em>
+<ul><li>"I <strong>enjoy reading</strong> in the evening."</li>
+<li>"She <strong>avoided answering</strong> my question."</li>
+<li>"I <strong>look forward to meeting</strong> you." (note: "to" is a preposition here, not part of the infinitive)</li>
+<li>"He <strong>gave up smoking</strong> last year."</li>
+<li>"We <strong>succeeded in finishing</strong> on time."</li></p>
+<p><strong>Some verbs are followed by the INFINITIVE (to + verb):</strong></p>
+<p>| Category | Verbs |
+|----------|-------|
+| Wants/desires | want, would like, hope, expect, wish, intend, plan, aim |
+| Promises/agreements | promise, agree, refuse, offer, decide, threaten, volunteer |
+| Needs/abilities | need, afford, manage, fail, seem, appear, tend, pretend |</p>
+<p><em>Examples:</em>
+<li>"I <strong>want to learn</strong> Japanese."</li>
+<li>"She <strong>promised to call</strong> me."</li>
+<li>"He <strong>managed to finish</strong> early."</li>
+<li>"They <strong>decided to move</strong> to London."</li></p>
+<p><strong>Some verbs can use BOTH — but the meaning changes:</strong></p>
+<p>| Verb | Gerund meaning | Infinitive meaning |
+|------|---------------|-------------------|
+| <strong>remember</strong> | I did it, and now I recall it: "I <strong>remember meeting</strong> him." | Remember to do it (don't forget): "<strong>Remember to lock</strong> the door." |
+| <strong>forget</strong> | I did it but can't recall: "I'll <strong>never forget visiting</strong> Rome." | I didn't do it: "I <strong>forgot to buy</strong> milk." |
+| <strong>stop</strong> | I quit the activity: "I <strong>stopped smoking</strong>." | I paused to do something else: "I <strong>stopped to buy</strong> coffee." |
+| <strong>try</strong> | I experimented: "<strong>Try adding</strong> more salt." | I attempted: "I <strong>tried to open</strong> the window." |
+| <strong>regret</strong> | I'm sorry about the past: "I <strong>regret telling</strong> him." | I'm sorry about what I must say: "I <strong>regret to inform</strong> you that..." |
+| <strong>mean</strong> | This involves: "Learning Japanese <strong>means studying</strong> every day." | I intend to: "I <strong>meant to call</strong> you." |</p>
+<p><strong>After prepositions — always gerund:</strong>
+<li>"I'm interested <strong>in learning</strong> French."</li>
+<li>"She's good <strong>at singing</strong>."</li>
+<li>"Thank you <strong>for helping</strong> me."</li>
+<li>"He apologised <strong>for being</strong> late."</li>
+<li>"I'm thinking <strong>about changing</strong> jobs."</li></ul></p>`,
+    'Adjective and Adverb Position and Order': `<p><strong>Adjective order — the royal rule (OSASCOMP):</strong></p>
+<p>When using multiple adjectives before a noun, they follow this order:</p>
+<p>| Order | Type | Examples |
+|-------|------|----------|
+| 1 | <strong>O</strong>pinion | beautiful, lovely, terrible, nice |
+| 2 | <strong>S</strong>ize | big, small, tiny, huge |
+| 3 | <strong>A</strong>ge | old, new, young, ancient |
+| 4 | <strong>S</strong>hape | round, square, flat |
+| 5 | <strong>C</strong>olour | red, blue, dark |
+| 6 | <strong>O</strong>rigin | French, Japanese, American |
+| 7 | <strong>M</strong>aterial | wooden, metal, silk, plastic |
+| 8 | <strong>P</strong>urpose | sleeping (bag), running (shoes), shopping (trolley) |</p>
+<p><em>Examples:</em>
+<ul><li>"a <strong>beautiful old Italian</strong> car" (opinion + age + origin)</li>
+<li>"a <strong>lovely big round wooden</strong> table" (opinion + size + shape + material)</li>
+<li>"my <strong>new black running</strong> shoes" (age + colour + purpose)</li>
+<li>"a <strong>terrible small square plastic</strong> container" (opinion + size + shape + material)</li></p>
+<p><strong>Common mistakes:</strong>
+<li>❌ "a red big car" → ✅ "a big red car" (size before colour)</li>
+<li>❌ "an Italian old beautiful car" → ✅ "a beautiful old Italian car"</li>
+<li>❌ "wooden a table" → ✅ "a wooden table" (article comes first)</li></p>
+<p><strong>Adverbs of manner — position:</strong>
+Adverbs describing HOW something is done usually go:
+<li>After the verb: "She speaks <strong>fluently</strong>."</li>
+<li>After the object: "He plays the guitar <strong>beautifully</strong>."</li>
+<li>NOT between verb and object: ❌ "He plays beautifully the guitar."</li></p>
+<p><strong>Exceptions (adverbs that can go before the main verb):</strong>
+<li>Adverbs of frequency: "She <strong>always</strong> arrives on time."</li>
+<li>Adverbs of certainty: "I <strong>definitely</strong> agree." / "I <strong>probably</strong> won't come."</li>
+<li>Adverbs of degree: "I <strong>really</strong> enjoyed it." / "I <strong>quite</strong> like it."</li></p>
+<p><strong>Adverbs with two verbs (auxiliary + main verb):</strong>
+<li>"She <strong>has always lived</strong> here." (between auxiliary and main verb)</li>
+<li>"They <strong>are probably going</strong> to win." (between auxiliary and main verb)</li>
+<li>"I <strong>don't usually eat</strong> breakfast." (after negative auxiliary)</li></ul></p>`,
+    'Ellipsis and Substitution for Fluent Speech': `<p><strong>Ellipsis</strong> = leaving out words that are understood from context</p>
+<p><em>In responses:</em>
+<ul><li>A: "Are you coming?" B: "Yes, I <strong>am</strong>." (not "Yes, I am coming.")</li>
+<li>A: "Has she finished?" B: "She <strong>has</strong>." / "I think <strong>so</strong>."</li>
+<li>A: "Do you like it?" B: "I <strong>do</strong>, actually."</li></p>
+<p><em>After auxiliaries:</em>
+<li>"I don't like coffee, but my wife <strong>does</strong>." (= likes coffee)</li>
+<li>"He can swim, but I <strong>can't</strong>." (= can't swim)</li>
+<li>"She's Italian, but her husband <strong>isn't</strong>." (= isn't Italian)</li></p>
+<p><em>With infinitives (to):</em>
+<li>"I don't want to go, but I have <strong>to</strong>." (= to go)</li>
+<li>"You should study more." "I know. I'm trying <strong>to</strong>."</li></p>
+<p><strong>Substitution words:</strong></p>
+<p><em>"One" — substitutes for a countable noun:</em>
+<li>"I need a new phone. This <strong>one</strong> is too slow."</li>
+<li>"Your jacket is nice. Where did you buy <strong>it</strong>?" (we can't use "one" with the SAME item)</li>
+<li>"Your jacket is nice. I want to buy <strong>one</strong> too." (one = a similar jacket)</li>
+<li>"The red shoes are nice, but I prefer the blue <strong>ones</strong>." (ones = shoes — plural)</li></p>
+<p><em>"So" — substitutes for "so + adjective":</em>
+<li>"I think she's angry." "If <strong>so</strong>, we should apologise." (= if she is angry)</li>
+<li>"Is it expensive?" "I hope not <strong>so</strong>."</li></p>
+<p><em>"Do/does/did so" — substitutes for a whole verb phrase:</em>
+<li>"He said he would call, and he <strong>did so</strong> immediately." (formal)</li>
+<li>More natural: "He said he would call, and he <strong>did</strong>."</li></p>
+<p><em>"Such" — for emphasis with nouns:</em>
+<li>"It was <strong>such</strong> a good film." (not "so good a film")</li>
+<li>"They're <strong>such</strong> nice people."</li>
+<li>"I've never seen <strong>such</strong> beautiful weather."</li></ul></p>`,
+    'Complex Sentence Connectors — Despite, Although, However': `<p><strong>Contrasting ideas — six ways to say "but":</strong></p>
+<p>| Structure | Grammar | Example |
+|-----------|---------|---------|
+| <strong>but</strong> | simple conjunction | It was raining, <strong>but</strong> we went out. |
+| <strong>although/though/even though</strong> | conjunction + full clause | <strong>Although</strong> it was raining, we went out. |
+| <strong>despite/in spite of</strong> | preposition + noun/verb-ing | <strong>Despite</strong> the rain, we went out. |
+| <strong>however</strong> | adverb — separate sentence | It was raining. <strong>However</strong>, we went out. |
+| <strong>nevertheless/nonetheless</strong> | adverb — formal | The task was hard. <strong>Nevertheless</strong>, we finished. |
+| <strong>while/whereas</strong> | contrast two facts | <strong>While</strong> I like tea, my sister prefers coffee. |</p>
+<p><strong>Key differences:</strong></p>
+<p><em>Although + subject + verb (full clause):</em>
+<ul><li>"<strong>Although</strong> she was tired, she finished the work."</li>
+<li>"She finished the work <strong>although</strong> she was tired."</li>
+<li>"<strong>Even though</strong> it was expensive, we bought it." (stronger contrast)</li>
+<li>❌ "Although being tired..." → Despite being tired..."</li></p>
+<p><em>Despite/In spite of + noun or verb-ing (no subject+verb):</em>
+<li>"<strong>Despite</strong> the rain, we went out." (noun)</li>
+<li>"<strong>Despite</strong> being tired, she finished." (verb-ing)</li>
+<li>"<strong>In spite of</strong> the bad weather, we had a good time."</li>
+<li>❌ "Despite it was raining..." → "Although it was raining..." or "Despite the rain..."</li></p>
+<p><em>However — punctuation is crucial:</em>
+<li>"It was raining. <strong>However,</strong> we went out." (full stop before, comma after)</li>
+<li>"It was raining; <strong>however,</strong> we went out." (semicolon before)</li>
+<li>"It was raining. We went out, <strong>however</strong>." (less common, at the end)</li></p>
+<p><em>While/Whereas — showing contrast between two things:</em>
+<li>"<strong>While</strong> Tom is very outgoing, his brother is quite shy."</li>
+<li>"I prefer tea, <strong>whereas</strong> my wife only drinks coffee."</li>
+<li>"<strong>Whereas</strong> the north is industrial, the south is mainly agricultural."</li></ul></p>`,
+    'Wishes, Regrets, and Hypothetical Past': `<p><strong>I wish / If only — three structures:</strong></p>
+<p><em>1. Wish about the PRESENT (want things to be different now):</em>
+Structure: <strong>I wish / If only + past simple</strong>
+<ul><li>"I <strong>wish I knew</strong> the answer." (I don't know it — present)</li>
+<li>"I <strong>wish I had</strong> more free time." (I don't have enough — present)</li>
+<li>"<strong>If only</strong> she <strong>lived</strong> nearer." (She lives far away — present)</li>
+<li>"I <strong>wish it weren't</strong> raining." (It IS raining — present)</li></p>
+<p><em>Important:</em> After "wish," we use <strong>were</strong> for all persons (formal/subjunctive):
+<li>"I <strong>wish I were</strong> taller." (not "was" — though "was" is common in informal English)</li>
+<li>"I <strong>wish he were</strong> here."</li></p>
+<p><em>2. Wish about the PAST (regret about something that already happened):</em>
+Structure: <strong>I wish / If only + past perfect (had + past participle)</strong>
+<li>"I <strong>wish I had studied</strong> harder." (I didn't study hard — past)</li>
+<li>"I <strong>wish I hadn't said</strong> that." (I said it, and I regret it — past)</li>
+<li>"<strong>If only</strong> we <strong>had arrived</strong> earlier!" (We arrived late — past)</li>
+<li>"I <strong>wish I had never met</strong> him." (I did meet him — past)</li></p>
+<p><em>3. Wish about the FUTURE (want someone/something to change):</em>
+Structure: <strong>I wish / If only + would + verb</strong>
+<li>"I <strong>wish you would stop</strong> talking." (Please stop!)</li>
+<li>"I <strong>wish it would stop</strong> raining." (I want the weather to change)</li>
+<li>"<strong>If only</strong> he <strong>would listen</strong> to me!" (He never listens)</li>
+<li>We only use "wish + would" for things we can't control or for other people's behaviour</li></p>
+<p><strong>I regret + verb-ing (present regret about past action):</strong>
+<li>"I <strong>regret telling</strong> everyone about it." (I told them, and now I'm sorry)</li>
+<li>"I <strong>regret not studying</strong> harder." (I didn't study, and now I'm sorry)</li>
+<li>"Do you <strong>regret moving</strong> to London?"</li></p>
+<p><strong>I should have / shouldn't have:</strong>
+<li>"I <strong>should have gone</strong> to university." (I didn't go — I regret it)</li>
+<li>"I <strong>shouldn't have eaten</strong> so much." (I ate too much — I regret it)</li>
+<li>"You <strong>should have told</strong> me earlier!"</li></ul></p>`,
+    'Expressing Probability and Certainty': `<p><strong>Modal verbs for probability (present/future):</strong></p>
+<p>| Certainty | Modal | Example |
+|-----------|-------|---------|
+| 100% certain | <strong>will</strong> | "The sun <strong>will</strong> rise tomorrow." |
+| 90% certain | <strong>must</strong> | "He <strong>must</strong> be tired — he worked 12 hours." |
+| 70% likely | <strong>should/ought to</strong> | "The train <strong>should</strong> arrive soon." |
+| 50% possible | <strong>may/might/could</strong> | "It <strong>might</strong> rain later." |
+| unlikely | <strong>might not/may not</strong> | "She <strong>might not</strong> come to the party." |
+| 90% certain (negative) | <strong>can't</strong> | "That <strong>can't</strong> be true!" |</p>
+<p><em>Note: "Must" for deduction is NOT obligation here — it's logical conclusion:</em>
+<ul><li>"He <strong>must</strong> be rich." (I'm sure he is — look at his car!)</li>
+<li>"He <strong>must</strong> work hard." (I'm sure he does — look at his success!)</li></p>
+<p><strong>Modal verbs for past probability:</strong>
+Structure: <strong>modal + have + past participle</strong></p>
+<p>| Certainty | Example |
+|-----------|---------|
+| certain (didn't happen) | "You <strong>can't have seen</strong> him — he's in Australia!" |
+| very likely | "He <strong>must have forgotten</strong> about the meeting." |
+| likely | "She <strong>should have arrived</strong> by now." |
+| possible | "They <strong>might have missed</strong> the train." |
+| possible (negative) | "He <strong>may not have received</strong> my email." |</p>
+<p><strong>Adverbs of probability:</strong>
+| Adverb | Certainty | Position in sentence |
+|--------|-----------|---------------------|
+| definitely | 100% | "I <strong>will definitely</strong> be there." |
+| certainly | 90% | "It <strong>will certainly</strong> rain." |
+| probably | 70% | "I <strong>will probably</strong> go." / "I <strong>probably won't</strong> go." |
+| possibly | 40% | "I <strong>could possibly</strong> help." |
+| perhaps/maybe | 30-50% | "<strong>Perhaps</strong> we should wait." (at the beginning) |
+| unlikely | low | "I'm <strong>unlikely</strong> to attend." |</p>
+<p><strong>Word order with adverbs:</strong>
+<li>Before the main verb: "It <strong>will probably</strong> rain."</li>
+<li>After "be": "She <strong>is definitely</strong> coming."</li>
+<li>After negative auxiliaries: "I <strong>don't probably</strong>..." ❌ → "I <strong>probably won't</strong>..." ✅</li>
+<li>In questions: "<strong>Will you definitely</strong> be there?" / "Will you <strong>definitely</strong> be there?"</li></ul></p>`,
+    'Emphasis and Focus Structures': `<p><strong>Cleft sentences (splitting for emphasis):</strong></p>
+<p><em>It-clefts — emphasising different parts:</em>
+<ul><li>"<strong>It was John</strong> who broke the window." (not Mary)</li>
+<li>"<strong>It was the window</strong> that John broke." (not the door)</li>
+<li>"<strong>It was yesterday</strong> that he arrived." (not today)</li>
+<li>"<strong>It was in Paris</strong> that they met." (not London)</li>
+<li>"<strong>It was because he was late</strong> that we left." (the reason)</li></p>
+<p>Structure: <strong>It + be + emphasised part + that/who + rest of sentence</strong></p>
+<p><em>What-clefts (pseudo-clefts):</em>
+<li>"<strong>What I need</strong> is more time."</li>
+<li>"<strong>What annoys me</strong> is his attitude."</li>
+<li>"<strong>What happened</strong> was that I lost my keys."</li>
+<li>"<strong>All I want</strong> is a quiet evening."</li></p>
+<p><em>Reversed what-clefts (more emphatic):</em>
+<li>"A quiet evening is <strong>what I need</strong>."</li>
+<li>"More time is <strong>what we're asking for</strong>."</li></p>
+<p><strong>Fronting — moving information to the beginning:</strong></p>
+<p>Normal: "I have never seen such a beautiful sunset."
+Fronted: "<strong>Never have I seen</strong> such a beautiful sunset." (more dramatic)</p>
+<p><em>Fronting with negative adverbs:</em>
+When a sentence starts with a negative adverb, we use <strong>inversion</strong> (auxiliary + subject + verb):
+<li>"<strong>Rarely does</strong> she arrive late." (She rarely arrives late.)</li>
+<li>"<strong>Hardly had</strong> I arrived when the meeting started."</li>
+<li>"<strong>Not only did</strong> he fail the exam, <strong>but</strong> he also lost his job."</li>
+<li>"<strong>Under no circumstances</strong> should you open that door."</li>
+<li>"<strong>Little did</strong> they know what was waiting for them."</li></p>
+<p><em>Fronting without inversion:</em>
+<li>"<strong>On the table</strong> was a mysterious letter."</li>
+<li>"<strong>In the corner</strong> sat an old man."</li></p>
+<p><strong>Adding emphasis with "do/does/did":</strong>
+<li>"I <strong>do</strong> like him." (I really like him — responding to doubt)</li>
+<li>"She <strong>does</strong> speak French." (contradicting someone who said she doesn't)</li>
+<li>"They <strong>did</strong> finish the project." (emphasising that it happened)</li></ul></p>`,
+    'Indirect Questions and Polite Requests': `<p><strong>Direct vs. indirect questions:</strong></p>
+<p>Direct questions can sound abrupt or rude in professional/formal contexts. Indirect questions soften them.</p>
+<p>| Direct | Indirect (polite) |
+|--------|-------------------|
+| "Where is the station?" | "Could you tell me <strong>where the station is</strong>?" |
+| "What time does the meeting start?" | "Do you know <strong>what time the meeting starts</strong>?" |
+| "How much does it cost?" | "I was wondering <strong>how much it costs</strong>." |
+| "Has the report been finished?" | "Can you tell me <strong>if the report has been finished</strong>?" |
+| "Why was the decision made?" | "I'd like to know <strong>why the decision was made</strong>." |</p>
+<p><strong>Key grammar rule:</strong> After the introductory phrase, the question becomes a statement (subject before verb, no question mark inside):
+<ul><li>Direct: "Where <strong>is</strong> he?"</li>
+<li>Indirect: "Could you tell me where he <strong>is</strong>?" (NOT "where is he")</li></p>
+<p><strong>Introductory phrases for indirect questions:</strong>
+<li>"Could you tell me...?"</li>
+<li>"Do you know...?"</li>
+<li>"Would you mind telling me...?"</li>
+<li>"I was wondering..."</li>
+<li>"I'd like to know..."</li>
+<li>"Do you happen to know...?" (very polite)</li>
+<li>"I was hoping you could tell me..."</li></p>
+<p><strong>Indirect yes/no questions:</strong>
+Use <strong>if</strong> or <strong>whether</strong>:
+<li>"Is he coming?" → "Do you know <strong>if he's coming</strong>?"</li>
+<li>"Did she finish it?" → "Could you tell me <strong>whether she finished it</strong>?"</li>
+<li>"Can we reschedule?" → "I was wondering <strong>if we could reschedule</strong>."</li></ul></p>
+<p><strong>Polite requests — softening scale:</strong></p>
+<p>| Directness | Example |
+|------------|---------|
+| Very direct | "Give me the file." |
+| Direct | "Can I have the file?" |
+| Polite | "Could I have the file, please?" |
+| Very polite | "Would it be possible to get the file?" |
+| Extremely polite | "I was wondering if I could possibly get a copy of the file." |</p>`,
+    'Writing Research Papers and Literature Reviews': `<p><strong>The IMRAD structure (standard for research papers):</strong></p>
+<p><em>Introduction:</em>
+<ul><li>Establish the research context and significance</li>
+<li>Identify the research gap (what's missing in current knowledge)</li>
+<li>State your research question and hypothesis</li>
+<li>Brief overview of methodology</li></p>
+<p><em>Methods:</em>
+<li>Describe participants/materials</li>
+<li>Explain procedures in sufficient detail for replication</li>
+<li>Use passive voice and past tense: "Participants <strong>were recruited</strong> from..."</li></p>
+<p><em>Results:</em>
+<li>Present findings objectively, without interpretation</li>
+<li>Use tables, figures, and statistics</li>
+<li>"The data <strong>showed</strong> a significant correlation between X and Y (p < 0.05)."</li></p>
+<p><em>Discussion:</em>
+<li>Interpret your results</li>
+<li>Compare with previous research</li>
+<li>Acknowledge limitations</li>
+<li>Suggest implications and future research</li></p>
+<p><strong>Literature review — not a summary, a synthesis:</strong></p>
+<p>❌ Bad: "Smith (2019) studied X. Jones (2020) studied Y. Brown (2021) studied Z."</p>
+<p>✅ Good: "While Smith (2019) and Jones (2020) both identified X as a significant factor, their findings diverge on the role of Y. Brown (2021) offers a potential resolution by demonstrating that..."</p>
+<p><strong>Synthesis techniques:</strong>
+<li><strong>Agreement:</strong> "Several studies (Smith, 2019; Jones, 2020; Lee, 2021) have confirmed that..."</li>
+<li><strong>Contrast:</strong> "Whereas Smith (2019) argues X, Jones (2020) contends Y."</li>
+<li><strong>Gap:</strong> "Despite extensive research on X, few studies have examined Y."</li>
+<li><strong>Progression:</strong> "Early studies focused on X (Smith, 2015), later shifting to Y (Jones, 2018), with recent work exploring Z (Lee, 2022)."</li></p>
+<p><strong>Academic hedging (cautious language):</strong>
+<li>"The results <strong>suggest</strong> that..." (not "prove")</li>
+<li>"It <strong>appears</strong> that X may influence Y."</li>
+<li>"This <strong>may be due to</strong>..."</li>
+<li>"One possible <strong>interpretation</strong> is..."</li>
+<li>"It is <strong>likely</strong> that..." / "It <strong>remains unclear</strong> whether..."</li></ul></p>`,
+    'Thesis Statements and Argument Architecture': `<p><strong>Thesis statement — what it is and isn't:</strong></p>
+<p>A thesis statement is NOT:
+<ul><li>❌ A fact: "Climate change is happening." (undeniable, no argument)</li>
+<li>❌ A topic: "This essay is about education." (too broad)</li>
+<li>❌ A question: "Is social media harmful?" (doesn't state a position)</li></p>
+<p>A thesis statement IS:
+<li>✅ An arguable position: "While social media connects people globally, its algorithm-driven design prioritises engagement over wellbeing, making it a net negative for adolescent mental health."</li>
+<li>✅ Specific and debatable: someone could reasonably disagree</li>
+<li>✅ A roadmap: hints at the structure to follow</li></p>
+<p><strong>The Toulmin model of argumentation:</strong></p>
+<p>| Component | Function | Example |
+|-----------|----------|---------|
+| <strong>Claim</strong> | Your position | "Remote work should be the default" |
+| <strong>Data/Evidence</strong> | Support | "A 2022 Stanford study found 13% productivity gains" |
+| <strong>Warrant</strong> | Why evidence supports claim | "Higher productivity benefits both employees and employers" |
+| <strong>Backing</strong> | Support for the warrant | "Meta-analysis of 50 studies confirms this correlation" |
+| <strong>Qualifier</strong> | Limits on the claim | "In knowledge-work industries..." |
+| <strong>Rebuttal</strong> | Counter-arguments | "Some argue remote work harms team cohesion; however..." |</p>
+<p><strong>Counterargument integration techniques:</strong></p>
+<p>1. <strong>Acknowledge-Refute:</strong> "Critics argue X. However, this overlooks Y."
+2. <strong>Concession-Pivot:</strong> "While it is true that X, this does not negate Y."
+3. <strong>Straw-man correction:</strong> "A common misconception is X. In reality, Y."
+4. <strong>Limiting scope:</strong> "This argument applies specifically to X and should not be generalised to Y."</p>
+<p><strong>Signposting in argumentative writing:</strong>
+<li>"The first line of argument supporting this thesis is..."</li>
+<li>"This position is further strengthened by..."</li>
+<li>"Turning to potential objections..."</li>
+<li>"Having established X, we now turn to Y."</li>
+<li>"In light of the evidence presented, it is clear that..."</li></ul></p>`,
+    'Data Analysis and Research Reporting': `<p><strong>Reporting statistics — precise language:</strong></p>
+<p><em>Measures of central tendency:</em>
+<ul><li>"The <strong>mean</strong> average was 45.3 years (SD = 12.4)."</li>
+<li>"The <strong>median</strong> response time was 2.3 seconds."</li>
+<li>"The <strong>mode</strong> across all groups was 'strongly agree.'"</li></p>
+<p><em>Significance and correlation:</em>
+<li>"A <strong>statistically significant</strong> difference was observed between groups (t(98) = 2.45, p = 0.016)."</li>
+<li>"There was a <strong>strong positive correlation</strong> between X and Y (r = 0.78, p < 0.001)."</li>
+<li>"The effect size was <strong>small to moderate</strong> (Cohen's d = 0.42)."</li>
+<li>"The results <strong>approached significance</strong> (p = 0.052)." (be careful — some journals reject this!)</li></p>
+<p><em>Changes over time:</em>
+<li>"X increased <strong>steadily</strong> from 20% in 2018 to 47% in 2023."</li>
+<li>"Y remained <strong>relatively stable</strong> throughout the period (range: 12-15%)."</li>
+<li>"A <strong>sharp decline</strong> was observed following the intervention (p < 0.01)."</li></p>
+<p><strong>Describing charts and figures:</strong>
+<li>"As illustrated in <strong>Figure 1</strong>, X demonstrates a clear upward trend."</li>
+<li>"<strong>Table 2</strong> presents the demographic breakdown by age and gender."</li>
+<li>"The data reveal three distinct patterns. <strong>First</strong>,... <strong>Second</strong>,... <strong>Third</strong>,..."</li></p>
+<p><strong>Methodology writing — reproducibility:</strong>
+<li>"Data <strong>were collected</strong> using [method] over a [time period]."</li>
+<li>"Participants <strong>were randomly assigned</strong> to either the experimental or control condition."</li>
+<li>"Responses <strong>were coded</strong> independently by two researchers (inter-rater reliability: κ = 0.84)."</li>
+<li>"All analyses <strong>were conducted</strong> using SPSS v28."</li></p>
+<p><strong>Qualitative reporting:</strong>
+<li>"Thematic analysis <strong>revealed</strong> four core themes:..."</li>
+<li>"Participants <strong>frequently</strong> described..."</li>
+<li>"A <strong>recurring motif</strong> across interviews was..."</li>
+<li>"Representative quotations <strong>illustrate</strong> each theme (see Appendix A)."</li></ul></p>`,
+    'Executive Communication and Leadership Language': `<p><strong>Vision statements — characteristics:</strong>
+<ul><li>Future-oriented: "We <strong>will become</strong>..." / "Our vision <strong>is to</strong>..."</li>
+<li>Inspiring but grounded: not empty hype, but aspirational</li>
+<li>Inclusive: "<strong>Together</strong>, we will..." / "<strong>Every</strong> member of our team..."</li>
+<li>Memorable: concrete imagery, not abstract jargon</li></p>
+<p><em>Examples:</em>
+<li>"To organise the world's information and make it universally accessible and useful." (Google)</li>
+<li>"We believe that we are on the face of the earth to make great products." (Apple)</li></p>
+<p><strong>Strategic framing — how leaders describe decisions:</strong></p>
+<p>| Frame | Language | Used for |
+|-------|----------|----------|
+| <strong>Opportunity</strong> | "This positions us to..." / "This opens the door to..." | Growth investments |
+| <strong>Necessity</strong> | "The market demands that we..." / "We have no option but to..." | Difficult changes |
+| <strong>Continuity</strong> | "Building on our strengths..." / "As we have always done..." | Maintaining stability |
+| <strong>Transformation</strong> | "A fundamental shift in how we..." / "Reimagining our approach to..." | Major pivots |
+| <strong>Challenge</strong> | "Rising to meet..." / "In the face of unprecedented..." | Crisis management |</p>
+<p><strong>Board presentation language:</strong>
+<li>"I'd like to walk you through <strong>three key areas</strong>..."</li>
+<li>"The numbers tell a clear story..."</li>
+<li>"This aligns with the <strong>strategic priorities</strong> we set in Q1."</li>
+<li>"I want to flag <strong>two risks</strong> that require board attention."</li>
+<li>"We are recommending X <strong>on the basis of</strong> Y."</li>
+<li>"I'll now <strong>open the floor</strong> for questions."</li></p>
+<p><strong>Shareholder letter techniques:</strong>
+<li>Acknowledge context: "In a year marked by..."</li>
+<li>Own failures: "We did not meet our target in X, and here's what we learned."</li>
+<li>Balance short-term and long-term: "While quarterly results reflect..., our investment in... positions us for..."</li>
+<li>Use "we" not "I": leadership language is collective</li></ul></p>`,
+    'Legal and Contract English': `<p><strong>Legal English characteristics:</strong>
+<ul><li>Archaic words: <strong>hereby</strong>, <strong>thereof</strong>, <strong>hereinafter</strong>, <strong>aforementioned</strong>, <strong>witnesseth</strong></li>
+<li>Latin/French terms: <strong>prima facie</strong>, <strong>pro bono</strong>, <strong>de facto</strong>, <strong>force majeure</strong>, <strong>null and void</strong></li>
+<li>Triplets: <strong>"null, void, and of no effect"</strong> / <strong>"give, devise, and bequeath"</strong> / <strong>"terms, conditions, and provisions"</strong></li>
+<li>Passive voice dominance: "Payment <strong>shall be made</strong> within 30 days."</li>
+<li>No pronouns — full nouns repeated: "The Seller shall deliver the Goods. The Seller warrants that the Goods..."</li>
+<li>Numbered clauses and sub-clauses: 1.1, 1.2, 1.2(a), etc.</li></p>
+<p><strong>Common contract clauses:</strong></p>
+<p>| Clause | Purpose | Example Language |
+|--------|---------|-----------------|
+| <strong>Recitals/Whereas</strong> | Background context | "<strong>Whereas</strong> the Company wishes to engage the Consultant..." |
+| <strong>Term</strong> | Duration | "This Agreement <strong>shall commence</strong> on [date] and <strong>continue</strong> for 12 months." |
+| <strong>Termination</strong> | Ending the contract | "Either party <strong>may terminate</strong> this Agreement upon 30 days' written notice." |
+| <strong>Force Majeure</strong> | Unforeseeable events | "Neither party <strong>shall be liable</strong> for failure to perform due to events beyond reasonable control." |
+| <strong>Indemnity</strong> | Protection against loss | "The Contractor <strong>shall indemnify</strong> the Company against all claims arising from..." |
+| <strong>Governing Law</strong> | Which law applies | "This Agreement <strong>shall be governed by</strong> and construed in accordance with the laws of England." |
+| <strong>Severability</strong> | If one part is invalid | "If any provision is held invalid, the remaining provisions <strong>shall continue</strong> in full force." |</p>
+<p><strong>"Shall" vs "will" vs "may" in contracts:</strong>
+<li><strong>Shall</strong> = obligation/mandatory: "The Seller <strong>shall deliver</strong> the goods."</li>
+<li><strong>Will</strong> = future action (less formal, sometimes weaker): "The parties <strong>will meet</strong> quarterly."</li>
+<li><strong>May</strong> = permission/discretion: "The Buyer <strong>may</strong> cancel within 14 days."</li>
+<li><strong>Shall not / May not</strong> = prohibition: "The Employee <strong>shall not</strong> disclose confidential information."</li></p>
+<p><strong>Plain English movement:</strong>
+Modern legal writing increasingly favours clarity:
+<li>❌ "The party of the first part shall hereinafter be referred to as..."</li>
+<li>✅ "'The Company' means..."</li>
+<li>❌ "Notwithstanding anything to the contrary herein contained..."</li>
+<li>✅ "Despite any other clause in this agreement..."</li></ul></p>`,
+    'Medical and Technical English': `<p><strong>Medical English — patient communication vs. professional communication:</strong></p>
+<p>| Audience | Register | Example |
+|----------|----------|---------|
+| Patient | Plain English | "Your heart isn't pumping blood as well as it should." |
+| Professional | Technical | "The patient presents with reduced ejection fraction consistent with congestive heart failure." |</p>
+<p><strong>Common medical prefixes and roots:</strong>
+| Prefix/Root | Meaning | Examples |
+|-------------|---------|----------|
+| <strong>hyper-</strong> | excessive, high | hypertension, hyperglycaemia |
+| <strong>hypo-</strong> | deficient, low | hypotension, hypothyroidism |
+| <strong>brady-</strong> | slow | bradycardia |
+| <strong>tachy-</strong> | fast | tachycardia |
+| <strong>-itis</strong> | inflammation | appendicitis, bronchitis |
+| <strong>-ectomy</strong> | removal | appendectomy, mastectomy |
+| <strong>-oscopy</strong> | visual examination | endoscopy, colonoscopy |</p>
+<p><strong>Technical English — precision and clarity:</strong></p>
+<p><em>Vague vs. precise:</em>
+<ul><li>❌ "Make sure the temperature isn't too high."</li>
+<li>✅ "Maintain the temperature below 40°C."</li>
+<li>❌ "Use the right amount of solution."</li>
+<li>✅ "Add 50ml of 0.9% sodium chloride solution."</li></p>
+<p><em>Technical writing conventions:</em>
+<li>Use imperative for instructions: "<strong>Ensure</strong> the valve <strong>is closed</strong> before proceeding."</li>
+<li>Use passive for processes: "The sample <strong>is then heated</strong> to 100°C."</li>
+<li>Define acronyms on first use: "<strong>Chronic Obstructive Pulmonary Disease (COPD)</strong>"</li>
+<li>Use numbered steps for procedures</li>
+<li>Include units with every measurement</li></ul></p>
+<p><strong>Research abstracts — structure:</strong>
+1. <strong>Background:</strong> Why this study matters (2-3 sentences)
+2. <strong>Methods:</strong> What was done (2-3 sentences)
+3. <strong>Results:</strong> Key findings with numbers (2-3 sentences)
+4. <strong>Conclusion:</strong> Implications (1-2 sentences)</p>`,
+    'Conference Presentations and Public Speaking': `<p><strong>Opening techniques for high-stakes presentations:</strong></p>
+<p><em>The hook (first 30 seconds determine everything):</em>
+<ul><li><strong>Shocking statistic:</strong> "Every year, 8 million tons of plastic enter our oceans. That's equivalent to dumping one garbage truck of plastic into the ocean every minute."</li>
+<li><strong>Provocative question:</strong> "What if everything we believe about motivation is wrong?"</li>
+<li><strong>Personal story:</strong> "Three years ago, I stood in an emergency room and watched a patient die from a preventable error. That moment changed my career."</li>
+<li><strong>Contrast:</strong> "In 1990, it took $3 billion and 13 years to sequence one human genome. Today, it costs $200 and takes 24 hours."</li></p>
+<p><strong>Structuring a keynote (different from a standard presentation):</strong>
+1. <strong>The Hook</strong> (1 min) — grab attention
+2. <strong>The Stakes</strong> (2 min) — why this matters NOW
+3. <strong>The Journey</strong> (10-15 min) — 3 key insights, each with evidence
+4. <strong>The Application</strong> (3 min) — what the audience should do differently
+5. <strong>The Closing</strong> (1 min) — memorable final thought</p>
+<p><strong>Handling difficult Q&A:</strong></p>
+<p>| Type of questioner | Strategy | Example response |
+|-------------------|----------|-----------------|
+| <strong>The Challenger</strong> (aggressive disagreement) | Acknowledge, don't escalate, bridge back | "That's an important critique. What I'd emphasise is..." |
+| <strong>The Wanderer</strong> (off-topic long question) | Gently redirect | "That's fascinating, and perhaps we can discuss it after. To return to today's focus..." |
+| <strong>The Expert</strong> (knows more than you) | Defer and appreciate | "You've clearly studied this deeply. My understanding is... What would you add?" |
+| <strong>The Confused</strong> (didn't follow) | Don't blame them; reframe | "Let me put that another way..." |
+| <strong>The Multi-parter</strong> (asks 3+ questions) | Answer one, offer follow-up | "Great questions. Let me address the first, and I'd welcome continuing this conversation after." |</p>
+<p><strong>Vocal techniques for impact:</strong>
+<li><strong>Pace variation:</strong> Slow down for key points, speed up for background</li>
+<li><strong>Pause:</strong> After a key statement, count to three in your head</li>
+<li><strong>Volume:</strong> Lower your voice for intimacy, raise for emphasis</li>
+<li>"The most important finding is this... [pause]... it changes everything we thought we knew."</li></ul></p>`,
+    'Media Interviews and Press Communication': `<p><strong>The bridging technique (staying on message):</strong>
+Journalists ask questions you don't want to answer. Bridging lets you acknowledge the question then pivot to your message.</p>
+<p>| Bridge phrase | Function |
+|--------------|----------|
+| "What's important is..." | Redirect to your priority |
+| "What I can tell you is..." | Set boundaries on what you'll discuss |
+| "Let me put that in context..." | Widen the frame |
+| "The real question is..." | Reframe the issue |
+| "I'm not at liberty to discuss X, but what I can say is..." | Decline politely then redirect |
+| "Actually, that's not quite accurate. The reality is..." | Correct a premise |</p>
+<p><em>Example:</em>
+Journalist: "Rumours say your company is facing bankruptcy. Is that true?"
+❌ Bad: "No comment." (sounds guilty)
+✅ Good: "I'm not going to speculate on rumours. What I can tell you is that we just closed our most successful quarter, with revenue up 23%, and we're investing aggressively in expansion."</p>
+<p><strong>Key messaging — the rule of three:</strong>
+Prepare exactly three key messages before any interview:
+1. "Our Q3 revenue grew 23% year-on-year."
+2. "We are expanding into three new markets."
+3. "Customer satisfaction scores reached an all-time high of 94%."</p>
+<p>Every answer should somehow connect back to one of these three messages.</p>
+<p><strong>The soundbite — crafting quotable phrases:</strong>
+Journalists need short, punchy quotes. Prepare them in advance:
+<ul><li>❌ "We have observed through extensive market research that there appears to be a significant increase in consumer preference for sustainable products."</li>
+<li>✅ "Sustainability isn't a niche anymore — it's the main event."</li></ul></p>
+<p><strong>Press release structure:</strong>
+1. <strong>Headline:</strong> Clear, active, newsworthy
+2. <strong>Dateline:</strong> City, Date —
+3. <strong>Lead paragraph:</strong> Who, what, when, where, why (most important info first)
+4. <strong>Body:</strong> Supporting details, quotes from leadership
+5. <strong>Boilerplate:</strong> "About [Company]" paragraph
+6. <strong>Contact information</strong></p>`,
+    'Editing and Proofreading at C2 Level': `<p><strong>The C2 editing checklist:</strong></p>
+<p><em>1. Clarity — is every sentence immediately understandable?</em>
+<ul><li>❌ "The committee made a decision about the issue."</li>
+<li>✅ "The committee approved the proposal." (specific)</li>
+<li>❌ "There are many factors that contribute to the problem."</li>
+<li>✅ "Three factors drive this problem: X, Y, and Z."</li></p>
+<p><em>2. Concision — cut unnecessary words:</em>
+<li>❌ "due to the fact that" → ✅ "because"</li>
+<li>❌ "in the event that" → ✅ "if"</li>
+<li>❌ "at this point in time" → ✅ "now"</li>
+<li>❌ "for the purpose of" → ✅ "to"</li>
+<li>❌ "in order to" → ✅ "to" (usually)</li>
+<li>❌ "It is important to note that" → ✅ delete entirely or say "Notably,"</li></p>
+<p><em>3. Consistency — check throughout:</em>
+<li>Spelling: British vs. American (organisation/organization)</li>
+<li>Punctuation: Oxford comma or not (be consistent)</li>
+<li>Tense: don't switch between past and present without reason</li>
+<li>Voice: active vs. passive (academic often uses both, but be intentional)</li>
+<li>Formatting: heading styles, numbering, font</li></p>
+<p><em>4. Flow — do sentences and paragraphs connect logically?</em>
+<li>Check transitional words between paragraphs</li>
+<li>Ensure each paragraph follows from the previous one</li>
+<li>Read aloud — awkward phrasing becomes obvious</li></p>
+<p><em>5. Common C2-level errors to watch for:</em>
+<li>Dangling modifiers: "Walking down the street, the building was beautiful." (Who was walking?)</li>
+<li>Faulty parallelism: "She likes swimming, running, and to ride bikes." → "swimming, running, and riding"</li>
+<li>Misplaced modifiers: "I almost ate the whole cake." vs. "I ate almost the whole cake."</li>
+<li>Pronoun reference errors: "The government and the opposition disagree because it wants change." (Who wants change?)</li></p>
+<p><strong>Proofreading techniques:</strong>
+<li><strong>Read backwards</strong> (last sentence first) to catch spelling without being distracted by meaning</li>
+<li><strong>Read aloud</strong> to catch awkward rhythm and missing words</li>
+<li><strong>Change the font</strong> to trick your brain into seeing the text as new</li>
+<li><strong>Wait 24 hours</strong> between writing and editing</li>
+<li><strong>Use a checklist</strong>, not memory</li></ul></p>`,
+    'Writing for Publication: Journals and Op-Eds': `<p><strong>Academic journal submission — what editors want:</strong></p>
+<p><em>Before writing — know your journal:</em>
+<ul><li>Read the "Aims and Scope" section</li>
+<li>Study recent articles — what's the structure? Length? Style?</li>
+<li>Check the impact factor and acceptance rate</li>
+<li>Follow the author guidelines EXACTLY (formatting, references, word count)</li></p>
+<p><em>The cover letter:</em>
+<li>State what you're submitting and to which journal</li>
+<li>Explain why your paper fits this journal specifically</li>
+<li>Highlight the contribution: "This paper is the first to..."</li>
+<li>Confirm originality: "This work has not been published elsewhere."</li>
+<li>Suggest reviewers (some journals ask for this)</li></p>
+<p><strong>Responding to peer review:</strong></p>
+<p>| Reviewer comment | Tone | Response strategy |
+|-----------------|------|-------------------|
+| "The methodology is unclear." | Critical | Thank → Clarify → Show changes |
+| "Have you considered X?" | Constructive | Thank → Address or explain why not |
+| "This has been done before by Smith (2019)." | Hostile | Thank → Distinguish your work → Cite additional evidence |
+| "The writing needs improvement." | Vague | Thank → Revise extensively → Ask colleague to proofread |</p>
+<p><em>Never respond emotionally. Always:</em>
+1. Thank the reviewer
+2. Restate the concern to show you understood
+3. Explain what you changed (or why you didn't)
+4. Reference line numbers in your revision</p>
+<p><strong>Op-ed (opinion editorial) structure:</strong></p>
+<p>Unlike academic writing, op-eds are:
+<li>Short: 600-800 words</li>
+<li>Timely: connected to current events</li>
+<li>Argumentative: clear thesis from the start</li>
+<li>Accessible: written for educated general readers, not specialists</li>
+<li>Evidence-based: supported by data, but not overwhelmed by it</li></p>
+<p><em>Op-ed structure:</em>
+1. <strong>Lede</strong> (1-2 sentences): The hook — timely, provocative, specific
+2. <strong>Thesis</strong> (1 sentence): Your clear position
+3. <strong>Evidence</strong> (3-4 paragraphs): Supporting arguments with examples/data
+4. <strong>Counter</strong> (1 paragraph): Address the strongest opposition
+5. <strong>Conclusion</strong> (1-2 sentences): Call to action or forward-looking statement</p>
+<p><em>Example lede:</em>
+<li>❌ "Artificial intelligence is changing many industries."</li>
+<li>✅ "Last month, an AI diagnosed a rare cancer that three human doctors missed. The patient survived because of a machine. This is not the future — it's yesterday, and our medical regulations are still stuck in 1995."</li></ul></p>`,
+    'Reading Practice — Signs, Menus, and Short Texts': `<p><strong>Reading strategies for short texts:</strong></p>
+<p><em>Skimming for main idea (5-10 seconds):</em>
+<ul><li>Read the title/heading</li>
+<li>Read the first sentence</li>
+<li>Look at any bold text or highlights</li>
+<li>Don't read every word — get the general meaning</li></p>
+<p><em>Scanning for details:</em>
+<li>Know what you're looking for before you read</li>
+<li>Move your eyes quickly across the text</li>
+<li>Look for numbers, names, times, prices</li>
+<li>Stop when you find the information you need</li></p>
+<p><em>Using context clues for unknown words:</em>
+<li>Look at the words AROUND the unknown word</li>
+<li>Is it positive or negative?</li>
+<li>What kind of word is it? (noun, verb, adjective?)</li>
+<li>Can you guess the meaning without a dictionary?</li></p>
+<p><strong>Common real-world texts:</strong></p>
+<p><em>Signs and notices:</em>
+<li>"<strong>Out of order</strong>" = not working</li>
+<li>"<strong>Mind the step</strong>" = be careful, there's a step</li>
+<li>"<strong>Please queue here</strong>" = stand in line here</li>
+<li>"<strong>No entry</strong>" = you cannot go in</li>
+<li>"<strong>Push / Pull</strong>" = how to open the door</li>
+<li>"<strong>Caution: Wet floor</strong>" = be careful, the floor is slippery</li></p>
+<p><em>Menus:</em>
+<li>"<strong>Starters</strong>" = small first course (appetisers)</li>
+<li>"<strong>Mains</strong>" = main course</li>
+<li>"<strong>Sides</strong>" = extra vegetables, potatoes, rice</li>
+<li>"<strong>V</strong> = vegetarian option</li>
+<li>"<strong>Allergens:</strong> please inform staff of any allergies"</li>
+<li>"<strong>Service charge included</strong>" = tip is already in the price</li></p>
+<p><em>Emails (informal):</em>
+<li>"<strong>Subject:</strong>" = what the email is about</li>
+<li>"<strong>Hi / Hey</strong> [name]" = informal greeting</li>
+<li>"<strong>How's it going?</strong>" = friendly opening</li>
+<li>"<strong>BTW</strong>" = by the way</li>
+<li>"<strong>Let me know</strong>" = tell me when you decide</li>
+<li>"<strong>See you soon / Catch you later</strong>" = informal closing</li></ul></p>`,
+    'A1-A2 Grammar Checkpoint 1': `<p>This lesson is a comprehensive review of Lessons 1-22. Key concepts to remember:</p>
+<p><strong>Present Simple vs. Present Continuous:</strong>
+<ul><li>Habits/facts → present simple: "I <strong>work</strong> in an office."</li>
+<li>Now/temporary → present continuous: "I <strong>am working</strong> from home this week."</li></p>
+<p><strong>Articles:</strong>
+<li>First mention/general: <strong>a/an</strong></li>
+<li>Specific/known: <strong>the</strong></li>
+<li>General plurals/uncountable: <strong>no article</strong></li></p>
+<p><strong>Prepositions:</strong>
+<li>Time: <strong>in</strong> July, <strong>on</strong> Monday, <strong>at</strong> 5 o'clock</li>
+<li>Place: <strong>in</strong> London, <strong>on</strong> the street, <strong>at</strong> the airport</li>
+<li>Movement: <strong>into</strong>, <strong>out of</strong>, <strong>across</strong>, <strong>through</strong></li></p>
+<p><strong>Questions:</strong>
+<li>Yes/No: Auxiliary + subject + verb? "<strong>Do</strong> you like...?"</li>
+<li>Wh-: Wh-word + auxiliary + subject + verb? "<strong>Where does</strong> she live?"</li>
+<li>Tags: Positive statement + negative tag? "You're coming, <strong>aren't you</strong>?"</li></ul></p>`,
+    'A1-A2 Grammar Checkpoint 2': `<p><strong>Past Simple vs. Past Continuous:</strong>
+<ul><li>Completed action → past simple: "I <strong>walked</strong> to school."</li>
+<li>Background action → past continuous: "I <strong>was walking</strong> when I <strong>saw</strong> her."</li></p>
+<p><strong>Modals:</strong>
+<li><strong>Can/could:</strong> ability and permission</li>
+<li><strong>Should:</strong> advice</li>
+<li><strong>Must/have to:</strong> obligation (must = speaker's opinion; have to = external rule)</li>
+<li><strong>Mustn't</strong> = prohibition / <strong>Don't have to</strong> = no obligation</li></p>
+<p><strong>Comparatives and Superlatives:</strong>
+<li>Short adj: tall → <strong>taller</strong> → <strong>the tallest</strong></li>
+<li>Long adj: expensive → <strong>more expensive</strong> → <strong>the most expensive</strong></li>
+<li>Irregular: good → <strong>better</strong> → <strong>the best</strong> / bad → <strong>worse</strong> → <strong>the worst</strong></li></p>
+<p><strong>Conjunctions:</strong>
+<li><strong>And:</strong> adding information</li>
+<li><strong>But:</strong> contrast</li>
+<li><strong>So:</strong> result</li>
+<li><strong>Because:</strong> reason</li></ul></p>`,
+    'Common A1-A2 Mistakes and How to Fix Them': `<p><strong>The top 20 A1-A2 mistakes:</strong></p>
+<p>| # | Mistake | Correction | Rule |
+|---|---------|-----------|------|
+| 1 | I am agree | I <strong>agree</strong> | State verbs = no continuous |
+| 2 | She can speaks | She <strong>can speak</strong> | Modal + base verb, no -s |
+| 3 | I don't can | I <strong>can't</strong> | Negatives go ON the modal |
+| 4 | He has 20 years | He <strong>is</strong> 20 years old | Age = be, not have |
+| 5 | I very like | I <strong>like it very much</strong> | "Very" doesn't modify verbs |
+| 6 | I am use to | I <strong>am used to</strong> + noun/-ing | "Used to" = accustomed |
+| 7 | I have cold | I <strong>have a cold</strong> | Need article with illness |
+| 8 | I am born in | I <strong>was born in</strong> | Birth is past, passive |
+| 9 | I look forward to see you | I look forward to <strong>seeing</strong> you | "to" = preposition here |
+| 10 | I am interesting | I am <strong>interested</strong> | -ed = person, -ing = thing |
+| 11 | I have lived here since 3 years | I have lived here <strong>for</strong> 3 years | Since + point, for + duration |
+| 12 | I explain you | I <strong>explain to you</strong> / I <strong>tell you</strong> | Explain needs "to" |
+| 13 | I am agree with you | I <strong>agree with you</strong> | No "am" with agree |
+| 14 | She is more taller | She is <strong>much taller</strong> | More OR -er, not both |
+| 15 | I have much time | I have <strong>a lot of</strong> time | Much = negative/question |
+| 16 | I am late because the traffic | I am late <strong>because of</strong> the traffic | Because + clause, because of + noun |
+| 17 | I like very much coffee | I like coffee <strong>very much</strong> | Adverb goes at end |
+| 18 | How many money? | How <strong>much</strong> money? | Much = uncountable |
+| 19 | I did a mistake | I <strong>made</strong> a mistake | Make + mistake (collocation) |
+| 20 | I am coming from Spain | I <strong>come from</strong> Spain | Origin = simple present |</p>`,
+    'A2 Practice Test — Listening and Reading': `<p><strong>A2 Listening — what to expect:</strong>
+<ul><li>Short dialogues (2-3 speakers)</li>
+<li>Everyday situations: shopping, travel, phone calls</li>
+<li>You hear each recording twice</li>
+<li>Question types: multiple choice, matching, gap-fill</li></p>
+<p><strong>Listening tips:</strong>
+1. Read the questions BEFORE you listen
+2. Underline keywords in the questions
+3. The first answer you hear might be wrong — listen for changes ("but," "however")
+4. For gap-fill, check the word limit ("NO MORE THAN TWO WORDS")
+5. If you miss an answer, move on — don't panic</p>
+<p><strong>A2 Reading — what to expect:</strong>
+<li>Short texts: emails, signs, adverts, articles</li>
+<li>Question types: multiple choice, true/false/not given, matching</li></p>
+<p><strong>Reading tips:</strong>
+1. Skim first — get the main idea in 30 seconds
+2. Read the questions, then scan for answers
+3. For true/false: if the text says the OPPOSITE, it's FALSE. If not mentioned, NOT GIVEN
+4. Don't use outside knowledge — answer only from the text</p>
+<p><strong>Test strategy:</strong>
+<li>Don't spend too long on one question</li>
+<li>If you don't know, guess — no marks for blank answers</li>
+<li>Check your answers at the end if you have time</li>
+<li>In gap-fill, check spelling!</li></ul></p>`,
+    'Common B1-B2 Mistakes and How to Fix Them': `<p><strong>The top 20 B1-B2 mistakes:</strong></p>
+<p>| # | Mistake | Correction | Why |
+|---|---------|-----------|-----|
+| 1 | If I <strong>would have</strong> known | If I <strong>had</strong> known | Third conditional = past perfect, not would |
+| 2 | I <strong>am agree</strong> | I <strong>agree</strong> | State verbs = no continuous |
+| 3 | I <strong>suggest you to go</strong> | I <strong>suggest (that) you go</strong> | Suggest + clause (no to) |
+| 4 | I <strong>look forward to hear</strong> | I <strong>look forward to hearing</strong> | To = preposition here |
+| 5 | I <strong>am here since</strong> 2020 | I <strong>have been here since</strong> 2020 | Since requires present perfect |
+| 6 | <strong>The</strong> nature / <strong>the</strong> society | <strong>__</strong> nature / <strong>__</strong> society | Abstract nouns = no article |
+| 7 | I <strong>very like</strong> it | I <strong>like it very much</strong> | Very doesn't modify verbs |
+| 8 | <strong>Despite</strong> it was raining | <strong>Although</strong> it was raining / <strong>Despite</strong> the rain | Despite + noun, not clause |
+| 9 | I <strong>am interesting</strong> in it | I <strong>am interested</strong> in it | -ed = person, -ing = thing |
+| 10 | <strong>In</strong> the last years | <strong>Over/During</strong> the last few years | In + period, not list |
+| 11 | <strong>I would</strong> if I <strong>can</strong> | <strong>I would</strong> if I <strong>could</strong> | Conditional consistency |
+| 12 | I <strong>have</strong> 25 years | I <strong>am</strong> 25 | Age = be, not have |
+| 13 | I <strong>explain you</strong> | I <strong>explain to you</strong> / I <strong>tell you</strong> | Explain needs to |
+| 14 | <strong>How</strong> it looks like | <strong>What</strong> it looks like | What = thing, how = manner |
+| 15 | <strong>Nowadays</strong> + simple past | <strong>Nowadays</strong> + present simple | Nowadays = present |
+| 16 | I <strong>am used to work</strong> | I <strong>am used to working</strong> | Used to + -ing |
+| 17 | <strong>Most</strong> of people | <strong>Most</strong> people / <strong>Most of the</strong> people | Most + noun directly |
+| 18 | I <strong>did a mistake</strong> | I <strong>made a mistake</strong> | Collocation |
+| 19 | <strong>It</strong> makes me to think | <strong>It</strong> makes me think | Make + bare infinitive |
+| 20 | I <strong>can't hardly</strong> hear | I <strong>can hardly</strong> hear | Hardly = almost not (already negative) |</p>`,
+    'B1-B2 Grammar Checkpoint 1': `<p><strong>Conditionals review:</strong></p>
+<p>| Type | Structure | Example |
+|------|-----------|---------|
+| <strong>Zero</strong> | If + present, present | "If you <strong>heat</strong> water to 100°C, it <strong>boils</strong>." |
+| <strong>First</strong> | If + present, will | "If it <strong>rains</strong>, we <strong>will cancel</strong> the picnic." |
+| <strong>Second</strong> | If + past, would | "If I <strong>won</strong> the lottery, I <strong>would travel</strong> the world." |
+| <strong>Third</strong> | If + past perfect, would have | "If I <strong>had studied</strong> harder, I <strong>would have passed</strong>." |
+| <strong>Mixed</strong> | If + past perfect, would | "If I <strong>had taken</strong> that job, I <strong>would be</strong> in London now." |</p>
+<p><strong>Passive voice:</strong>
+<ul><li>Form: <strong>be + past participle</strong></li>
+<li>Present simple: "The report <strong>is written</strong> every month."</li>
+<li>Past simple: "The report <strong>was written</strong> last week."</li>
+<li>Present perfect: "The report <strong>has been written</strong>."</li>
+<li>Modal: "The report <strong>must be finished</strong> by Friday."</li>
+<li>When to use: when the agent is unknown, unimportant, or when we want to be objective</li></p>
+<p><strong>Reported speech — backshifting:</strong></p>
+<p>| Direct | Reported |
+|--------|----------|
+| Present simple → | Past simple |
+| Present continuous → | Past continuous |
+| Past simple → | Past perfect |
+| Will → | Would |
+| Can → | Could |
+| Must → | Had to |</p>
+<li>"I <strong>am</strong> tired." → He said he <strong>was</strong> tired.</li>
+<li>"I <strong>will</strong> help you." → She said she <strong>would</strong> help me.</li>
+<li>"I <strong>have finished</strong>." → He said he <strong>had finished</strong>.</li>
+<li>"I <strong>can</strong> swim." → She said she <strong>could</strong> swim.</li>
+<li>"Do you <strong>like</strong> coffee?" → He <strong>asked if</strong> I <strong>liked</strong> coffee.</li></ul>`,
+    'B1-B2 Grammar Checkpoint 2': `<p><strong>Relative clauses — quick review:</strong>
+<ul><li>Defining (no commas): "The man <strong>who lives next door</strong> is a doctor."</li>
+<li>Non-defining (commas): "My brother, <strong>who lives in Paris</strong>, is visiting."</li>
+<li><strong>Never use "that" in non-defining clauses.</strong></li>
+<li>Omit the pronoun when it's the object: "The book <strong>(that)</strong> I read was great."</li></p>
+<p><strong>Gerunds vs. infinitives — quick review:</strong></p>
+<p>| Followed by gerund (-ing) | Followed by infinitive (to) | Both (different meaning) |
+|---------------------------|----------------------------|--------------------------|
+| enjoy, avoid, suggest, consider | want, decide, promise, hope | remember, forget, try, stop |</p>
+<li>"I <strong>enjoy swimming</strong>." (gerund)</li>
+<li>"I <strong>want to swim</strong>." (infinitive)</li>
+<li>"I <strong>remember meeting</strong> him." (I have a memory of it)</li>
+<li>"<strong>Remember to meet</strong> him." (don't forget)</li>
+<p><strong>Emphasis structures:</strong>
+<li>Cleft sentences: "<strong>It was John</strong> who broke the window."</li>
+<li>Fronting: "<strong>Never have I seen</strong> such beauty."</li>
+<li>"Do/does/did" emphasis: "I <strong>do</strong> like it!" / "She <strong>did</strong> finish!"</li></p>
+<p><strong>Complex connectors:</strong>
+<li>Despite/In spite of + noun/-ing: "<strong>Despite</strong> the rain, we went."</li>
+<li>Although/Though/Even though + clause: "<strong>Although</strong> it was raining, we went."</li>
+<li>However (separate sentence): "It was raining. <strong>However</strong>, we went."</li>
+<li>Whereas/While (contrast): "<strong>While</strong> I like tea, she prefers coffee."</li></ul></p>`,
+    'Exam Strategy — IELTS Band 5.5-6.5 Preparation': `<p><strong>IELTS format overview:</strong>
+<ul><li>Listening: 40 questions, 4 sections, 30 minutes + 10 minutes transfer</li>
+<li>Reading: 40 questions, 3 texts, 60 minutes</li>
+<li>Writing: 2 tasks, 60 minutes</li>
+<li>Speaking: 3 parts, 11-14 minutes</li>
+<li>Scored 0-9 in half-band increments</li></p>
+<p><strong>Listening strategies:</strong>
+<li>Section 1 (easiest): Everyday conversation — aim for 8-10/10</li>
+<li>Section 2: Monologue (tour guide, announcement) — aim for 7-8/10</li>
+<li>Section 3: Academic discussion — aim for 6-7/10</li>
+<li>Section 4 (hardest): Academic lecture — aim for 5-6/10</li>
+<li>Read ahead during the 30-second pauses between sections</li>
+<li>Write answers in ALL CAPS during the test (no spelling penalty for capitals)</li>
+<li>For gap-fill, check the word limit: "NO MORE THAN TWO WORDS AND/OR A NUMBER"</li></p>
+<p><strong>Reading strategies:</strong>
+<li>Spend 20 minutes per text</li>
+<li>Start with the easiest text (you can tell from the topic)</li>
+<li>True/False/Not Given is the hardest question type:</li>
+  - TRUE = the text agrees with the statement
+  - FALSE = the text contradicts the statement
+  - NOT GIVEN = no information about this in the text
+<li>Matching headings: read the paragraph first, THEN the headings</li></p>
+<p><strong>Writing Task 1 (Band 5.5-6.5):</strong>
+<li>150+ words, 20 minutes</li>
+<li>Describe a chart/graph/map/process</li>
+<li>Include: overview (main trend), specific data, comparisons</li>
+<li>Don't give opinions — just describe</li>
+<li>Structure: Introduction → Overview → Details 1 → Details 2</li></p>
+<p><strong>Writing Task 2 (Band 5.5-6.5):</strong>
+<li>250+ words, 40 minutes</li>
+<li>Essay: opinion, discussion, problem/solution, or advantage/disadvantage</li>
+<li>Structure: Introduction (2 sentences) → Body 1 → Body 2 → Conclusion (1-2 sentences)</li>
+<li>Include a clear thesis statement in the introduction</li>
+<li>Use linking words: Firstly, However, In conclusion</li></ul></p>`,
+    'Exam Strategy — Cambridge B2 First (FCE) Preparation': `<p><strong>B2 First format:</strong>
+<ul><li>Reading and Use of English: 7 parts, 52 questions, 75 minutes</li>
+<li>Writing: 2 parts, 80 minutes</li>
+<li>Listening: 4 parts, 30 questions, 40 minutes</li>
+<li>Speaking: 4 parts, 14 minutes (with another candidate)</li></p>
+<p><strong>Reading and Use of English — the hardest paper:</strong></p>
+<p><em>Part 1: Multiple choice cloze (vocabulary)</em>
+<li>Tests collocations, phrasal verbs, linking words, fixed phrases</li>
+<li>Strategy: read the whole text first, don't look at options yet</li></p>
+<p><em>Part 2: Open cloze (grammar)</em>
+<li>One word per gap — articles, prepositions, auxiliaries, pronouns</li>
+<li>Most common answers: the, a, of, in, it, is, are, have, has, be, been, being, to, for, on, at, by, with, from, as, that, which, who, when, where, what, how, not, no, so, too, very, much, many, more, most, some, any, all, each, every, both, either, neither, one, two (and other numbers), there, here, up, out, off, down, over, through, during, while, although, though, however, therefore, thus, hence, moreover, furthermore, additionally, also, too, either, neither, nor, but, yet, still, already, yet, still, just, only, even, rather, quite, fairly, pretty, rather, somewhat, somehow, anyway, besides, except, apart from, despite, in spite of, instead, otherwise, else, own, same, such, so, as, like, than, then, now, before, after, since, until, till, once, whenever, wherever, whatever, whichever, however, whoever, whomever, whomsoever, whatsoever, etc.</li></p>
+<p><em>Part 4: Key word transformations (the trickiest):</em>
+<li>Given a sentence + a key word → rewrite keeping the meaning</li>
+<li>Must use the key word unchanged</li>
+<li>2-5 words needed (including the key word)</li>
+<li>Tests: passive, conditionals, reported speech, comparatives, causative have, modal perfect</li></ul></p>`,
+    'B2 Practice Test — Listening and Reading': `<p><strong>Timed practice — simulate exam conditions:</strong></p>
+<p><em>Listening (45 minutes):</em>
+<ul><li>Use headphones if possible</li>
+<li>No pausing or replaying</li>
+<li>Transfer answers carefully in the last 10 minutes (IELTS) or as you go (FCE)</li>
+<li>Write clearly — unclear answers get no marks</li></p>
+<p><em>Reading (60 minutes):</em>
+<li>Strict timing — 20 minutes per text</li>
+<li>No dictionary</li>
+<li>Read questions before the text (for IELTS) or skim first (for FCE)</li>
+<li>For T/F/NG: base answers ONLY on the text, not your knowledge</li>
+<li>If stuck, mark your best guess and move on</li></p>
+<p><strong>Common traps in B2 listening:</strong>
+<li>Distractors: answers that sound right but are wrong</li>
+<li>Speakers changing their minds: "I wanted X, but actually Y..."</li>
+<li>Numbers: 15 vs. 50, £30 vs. £13 — listen carefully</li>
+<li>Similar-sounding words: "ship" vs. "sheep," "14" vs. "40"</li></p>
+<p><strong>Common traps in B2 reading:</strong>
+<li>NOT GIVEN vs. FALSE: the text doesn't say = NOT GIVEN; contradicts = FALSE</li>
+<li>Paraphrasing: the answer uses different words from the text</li>
+<li>Over-specific options: an answer that adds information not in the text</li></ul></p>`,
+    'From B2 to C1 — Transition Roadmap': `<p><strong>What's the difference between B2 and C1?</strong></p>
+<p>| Skill | B2 (Can do) | C1 (Can do) |
+|-------|-------------|-------------|
+| <strong>Fluency</strong> | Speak at length with some hesitation | Speak fluently, almost no searching for words |
+| <strong>Accuracy</strong> | Complex sentences with some errors | Consistently accurate, even in complex structures |
+| <strong>Vocabulary</strong> | Sufficient for most topics | Wide range, including idiomatic and colloquial |
+| <strong>Register</strong> | Generally appropriate | Seamlessly shifts between formal and informal |
+| <strong>Listening</strong> | Understand standard native speech | Understand fast, idiomatic, accented speech |
+| <strong>Reading</strong> | Understand articles and reports | Understand implicit meaning, tone, nuance |
+| <strong>Writing</strong> | Clear, well-structured essays | Sophisticated, nuanced, stylistically aware |</p>
+<p><strong>Gap analysis — assess yourself:</strong></p>
+<p>Rate 1-5 (1 = weak, 5 = strong):
+1. Can I use all conditional types correctly? __
+2. Can I use passive voice naturally? __
+3. Can I use reported speech without thinking? __
+4. Do I know 50+ phrasal verbs? __
+5. Can I understand films without subtitles? __
+6. Can I write a 300-word essay in 40 minutes? __
+7. Can I participate in a debate in English? __
+8. Can I understand different accents (Scottish, Australian, Indian)? __</p>
+<p>Score: 32-40 = Ready for C1 / 24-31 = Some gaps to fill / Below 24 = Focus on B2 consolidation</p>
+<p><strong>Transition strategy:</strong></p>
+<p><em>Month 1: Fill grammar gaps</em>
+<ul><li>Review conditionals, passive, reported speech</li>
+<li>Practise key word transformations (FCE/CPE style)</li>
+<li>Focus on articles and prepositions (the most persistent errors)</li></p>
+<p><em>Month 2: Expand vocabulary</em>
+<li>Learn 10 new collocations per day</li>
+<li>Study phrasal verbs in context (not lists)</li>
+<li>Read one academic article per week</li></p>
+<p><em>Month 3: Develop fluency</em>
+<li>Practise speaking for 2 minutes without hesitation</li>
+<li>Listen to podcasts at native speed</li>
+<li>Start writing more complex essays</li></p>
+<p><em>Month 4+: C1 content</em>
+<li>Move to the Advanced course on TestCEFR</li>
+<li>Focus on nuance, register, and cultural fluency</li></ul></p>`,
+    'Advanced Pronunciation — Intonation and Rhythm': `<p><strong>English as a stress-timed language:</strong>
+Unlike syllable-timed languages (Spanish, French, Italian) where each syllable takes roughly equal time, English has stressed syllables at roughly equal intervals, with unstressed syllables squeezed between them.</p>
+<p>Example: "The <strong>cat</strong> sat on the <strong>mat</strong>" — stressed syllables (cat, mat) are evenly spaced. "The," "sat on the" are rushed.</p>
+<p><strong>Sentence stress — content vs. function words:</strong></p>
+<p><em>Content words (usually stressed):</em>
+nouns, main verbs, adjectives, adverbs, question words, negatives</p>
+<p><em>Function words (usually unstressed/weak):</em>
+articles, prepositions, pronouns, auxiliary verbs, conjunctions</p>
+<p>Example: "<strong>Where</strong> are you <strong>going</strong>?" — "Where" and "going" are stressed; "are you" are weak.</p>
+<p><strong>Intonation patterns:</strong></p>
+<p><em>Falling intonation (↘):</em>
+<ul><li>Statements: "I'll <strong>see</strong> you to<strong>mor</strong>row."</li>
+<li>Wh- questions: "<strong>Where</strong> are you <strong>from</strong>?"</li>
+<li>Commands: "<strong>Close</strong> the <strong>door</strong>."</li></p>
+<p><em>Rising intonation (↗):</em>
+<li>Yes/No questions: "Are you <strong>coming</strong>?"</li>
+<li>Checking understanding: "You mean <strong>now</strong>?"</li>
+<li>Lists (before the last item): "I bought <strong>milk</strong>, <strong>bread</strong>, and <strong>eggs</strong>?"</li></p>
+<p><em>Fall-rise (↘↗):</em>
+<li>Uncertainty, reservation, implication:</li>
+<li>"I <strong>suppose</strong> so." (but I'm not fully convinced)</li>
+<li>"That's <strong>true</strong>." (but there's more to say)</li>
+<li>"I <strong>like</strong> it." (with reservation — maybe not fully)</li></ul></p>
+<p><strong>Linking and assimilation review:</strong></p>
+<p><em>Linking /r/ (British English):</em>
+"Media event" → "Medi<strong>a-r</strong>event"
+"Law and order" → "Law<strong>r</strong>and order"</p>
+<p><em>Linking /w/ and /j/:</em>
+"Go on" → "Go<strong>w</strong>on"
+"I am" → "I<strong>y</strong>am"</p>
+<p><em>Assimilation:</em>
+"Don't you" → "Don<strong>ch</strong>a"
+"Would you" → "Wou<strong>j</strong>a"
+"Last year" → "Las<strong>ch</strong>ear"
+"Ten people" → "Te<strong>m</strong> people"</p>`,
+    'Public Speaking Mastery — Keynotes and Panels': `<p><strong>Stage presence — the physical dimension:</strong></p>
+<p><em>Open body language:</em>
+<ul><li>Stand with feet shoulder-width apart (stable, confident)</li>
+<li>Use purposeful gestures — illustrate your points with hands</li>
+<li>Move deliberately — don't pace nervously, but don't stand frozen</li>
+<li>Own the space — move to different areas for different points</li></p>
+<p><em>Eye contact:</em>
+<li>Scan the room in a "W" pattern (left front → right front → left back → right back → centre)</li>
+<li>Hold contact for 3-5 seconds per person</li>
+<li>In panels, make eye contact with other panelists when responding to them</li></p>
+<p><em>Vocal variety:</em>
+<li>Pace: Slow down for key points, speed up for excitement</li>
+<li>Pause: The most powerful tool. After a key statement, pause for 3-5 seconds.</li>
+<li>Volume: Lower for intimacy and tension, raise for emphasis</li>
+<li>"The numbers tell a story. [pause] A story we cannot ignore."</li></p>
+<p><strong>Audience engagement techniques:</strong></p>
+<p><em>Opening hooks (30 seconds to capture attention):</em>
+<li><strong>Startling statistic:</strong> "Every 40 seconds, someone in the world dies by suicide."</li>
+<li><strong>Provocative question:</strong> "What if everything we believe about motivation is wrong?"</li>
+<li><strong>Personal story:</strong> "Three years ago, I stood in an emergency room and watched a patient die from a preventable error."</li>
+<li><strong>Contrast:</strong> "In 1990, it cost $3 billion to sequence one human genome. Today, it costs $200."</li></p>
+<p><em>Maintaining engagement:</em>
+<li>"Raise your hand if..." (physical participation)</li>
+<li>"Imagine you're..." (mental participation)</li>
+<li>"Turn to the person next to you and discuss..." (social participation)</li>
+<li>"By a show of hands..." (quick polling)</li></p>
+<p><strong>Impromptu speaking — the PREP method:</strong>
+When asked an unexpected question:
+<li><strong>P</strong>oint: State your main point immediately</li>
+<li><strong>R</strong>eason: Give one reason</li>
+<li><strong>E</strong>xample: Provide a concrete example</li>
+<li><strong>P</strong>oint: Restate your main point</li></ul></p>
+<p>Example: "What's your view on remote work?"
+"<strong>Point:</strong> I believe hybrid models are the future. <strong>Reason:</strong> They balance productivity with collaboration. <strong>Example:</strong> Microsoft's research showed hybrid workers were both more productive and more satisfied. <strong>Point:</strong> Hybrid isn't a compromise — it's the optimal solution."</p>`,
+    'Writing Policies, White Papers, and Proposals': `<p><strong>Policy document structure:</strong></p>
+<p>1. <strong>Purpose statement:</strong> Why this policy exists
+2. <strong>Scope:</strong> Who it applies to
+3. <strong>Definitions:</strong> Key terms
+4. <strong>Policy statement:</strong> The actual rules
+5. <strong>Procedures:</strong> How to comply
+6. <strong>Responsibilities:</strong> Who does what
+7. <strong>Enforcement:</strong> Consequences of non-compliance
+8. <strong>Review date:</strong> When it will be updated</p>
+<p>Example (simplified): "It is the policy of [Organisation] that all employees complete cybersecurity training within 30 days of joining. The IT Department is responsible for delivering training. Non-compliance may result in suspension of system access. This policy will be reviewed annually."</p>
+<p><strong>White paper — the authoritative report:</strong></p>
+<p>Unlike marketing materials, white papers are:
+<ul><li>Evidence-based, not promotional</li>
+<li>Objective in tone (even if commissioned by a company)</li>
+<li>Length: 6-12 pages typically</li>
+<li>Structured with executive summary, problem analysis, solution, case studies</li></ul></p>
+<p><em>White paper structure:</em>
+1. <strong>Title page:</strong> Clear, professional
+2. <strong>Executive summary:</strong> 1 page maximum — the only page some readers will read
+3. <strong>Introduction:</strong> Problem context and significance
+4. <strong>Current landscape:</strong> What's happening now, with data
+5. <strong>Challenges:</strong> Specific problems to solve
+6. <strong>Proposed solution:</strong> Evidence-based recommendations
+7. <strong>Case studies/examples:</strong> Proof the solution works
+8. <strong>Conclusion:</strong> Summary and call to action
+9. <strong>References:</strong> Academic and professional sources</p>
+<p><strong>Proposal — persuading decision-makers:</strong></p>
+<p><em>Structure:</em>
+1. <strong>Executive summary</strong> (write this LAST, but put it FIRST)
+2. <strong>Background/Problem:</strong> What needs fixing
+3. <strong>Proposed solution:</strong> What you recommend
+4. <strong>Implementation plan:</strong> Timeline, resources, budget
+5. <strong>Benefits:</strong> ROI, efficiency gains, risk reduction
+6. <strong>Risk assessment:</strong> What could go wrong and mitigation
+7. <strong>Conclusion:</strong> Clear recommendation</p>
+<p><em>Key principle:</em> Decision-makers are busy. The executive summary must be sufficient on its own.</p>`,
+    'Common C1-C2 Mistakes — The Final Polish': `<p><strong>Preposition errors at C1-C2:</strong></p>
+<p>| Correct | Common error |
+|---------|-------------|
+| depend <strong>on</strong> | depend of |
+| interested <strong>in</strong> | interested on |
+| arrive <strong>at/in</strong> | arrive to |
+| listen <strong>to</strong> | listen |
+| talk <strong>to/with</strong> | talk |
+| look <strong>forward to</strong> | look forward for |
+| prevent <strong>from</strong> | prevent to |
+| prohibit <strong>from</strong> | prohibit to |
+| accuse <strong>of</strong> | accuse for |
+| suspect <strong>of</strong> | suspect for |
+| consists <strong>of</strong> | consists in |
+| aware <strong>of</strong> | aware about |
+| capable <strong>of</strong> | capable to |
+| responsible <strong>for</strong> | responsible of |
+| similar <strong>to</strong> | similar with |
+| different <strong>from</strong> | different to/than (US: than is OK) |
+| married <strong>to</strong> | married with |
+| angry <strong>with</strong> (people) / angry <strong>at</strong> (situations) | angry against |
+| good <strong>at</strong> | good in |
+| bad <strong>at</strong> | bad in |
+| afraid <strong>of</strong> | afraid from |</p>
+<p><strong>Article subtleties:</strong></p>
+<p>No article with:
+<ul><li>Abstract nouns (general): "<strong>__</strong> love is powerful" BUT "<strong>The</strong> love I feel for you"</li>
+<li>Institutions (general): "go to <strong>__</strong> hospital/prison/school/church" (as patient/prisoner/pupil/worshipper) vs. "go to <strong>the</strong> hospital" (as visitor)</li>
+<li>Meals (general): "have <strong>__</strong> breakfast" BUT "<strong>The</strong> breakfast we had was excellent"</li>
+<li>Languages: "speak <strong>__</strong> French" BUT "<strong>The</strong> French spoken in Canada..."</li>
+<li>Sports/games: "play <strong>__</strong> football" BUT "<strong>The</strong> football match was exciting"</li>
+<li>Days/months: "on <strong>__</strong> Monday" / "in <strong>__</strong> July"</li></ul></p>
+<p><strong>Register slips to avoid:</strong></p>
+<p>| Context | Too informal | Correct |
+|---------|-------------|---------|
+| Academic | "This essay will talk about..." | "This essay examines/argues/analyses..." |
+| Academic | "a lot of" | "a significant number of," "a considerable amount of" |
+| Academic | "get" | "obtain," "acquire," "receive" |
+| Academic | "big problem" | "significant issue," "major challenge" |
+| Academic | "things" | "factors," "aspects," "elements" |
+| Professional | "I think..." | "I would suggest...," "It appears that..." |
+| Professional | "sorry for the delay" | "please accept my apologies for the delay" |
+| Professional | " ASAP" | "at your earliest convenience" |</p>`,
+    'Grammar — Edge Cases and Exceptions': `<p><strong>The subjunctive mood:</strong></p>
+<p>The subjunctive expresses hypothetical, desirable, or mandatory situations. It's rare in English but important at C2.</p>
+<p><em>Formulaic subjunctive (fixed phrases):</em>
+<ul><li>"God <strong>save</strong> the Queen" (not saves)</li>
+<li>"Long <strong>live</strong> the King"</li>
+<li>"God <strong>bless</strong> you"</li>
+<li>"Come what <strong>may</strong>"</li>
+<li>"Suffice it to <strong>say</strong>"</li></p>
+<p><em>Mandative subjunctive (after certain verbs/adjectives):</em>
+<li>"I <strong>suggest</strong> (that) he <strong>be</strong> informed immediately." (not "is")</li>
+<li>"It is <strong>essential</strong> (that) she <strong>attend</strong> the meeting." (not "attends")</li>
+<li>"They <strong>demanded</strong> (that) he <strong>leave</strong> at once." (not "leaves")</li></p>
+<p><em>Verbs/adjectives triggering the subjunctive:</em>
+suggest, recommend, demand, insist, propose, request, require, urge, advise, ask, command, order, prefer, propose, vital, essential, important, necessary, imperative, mandatory, crucial</p>
+<p><em>Was vs. were (unreal conditional):</em>
+<li>Formal: "If I <strong>were</strong> you..." / "I wish it <strong>were</strong> true."</li>
+<li>Informal (increasingly accepted): "If I <strong>was</strong> you..."</li>
+<li>At C2, use "were" in formal writing; "was" is acceptable in speech.</li></p>
+<p><strong>Singular "they":</strong></p>
+<p>"Someone left <strong>their</strong> laptop." — grammatically correct, increasingly standard.</p>
+<p>Historical fact: Singular "they" has been in English since the 14th century (Chaucer, Shakespeare, Austen all used it). The "he" default is a 19th-century prescription, not a historical rule.</p>
+<p>At C2: Use singular "they" confidently. It's natural, inclusive, and historically justified.</p>
+<p><strong>Preposition stranding — ending sentences with prepositions:</strong></p>
+<p>Winston Churchill (possibly apocryphally): "This is the sort of English up with which I will not put."</p>
+<p>The rule "never end a sentence with a preposition" was imported from Latin grammar and doesn't fit English well.</p>
+<p>Natural English:
+<li>"What are you talking <strong>about</strong>?" (NOT "About what are you talking?")</li>
+<li>"That's the person I was referring <strong>to</strong>."</li>
+<li>"This is something I won't put up <strong>with</strong>."</li></p>
+<p>At C2: Stranding prepositions is natural and correct. Avoiding it often creates awkward, unnatural sentences.</p>
+<p><strong>Split infinitives:</strong></p>
+<p>"To <strong>boldly</strong> go where no one has gone before." — This is fine.</p>
+<p>The "rule" against split infinitives comes from Latin (where infinitives are one word and can't be split). English infinitives are two words ("to go") — splitting them is natural and often clearer.</p>
+<p>Sometimes splitting is BETTER:
+<li>"I decided to <strong>really</strong> try hard." (split = emphasis on "really")</li>
+<li>"I decided <strong>really</strong> to try hard." (awkward — "really" seems to modify "decided")</li></ul></p>`,
+    'Writing — Style Guides (APA, MLA, Chicago, Oxford)': `<p><strong>When to use which style guide:</strong></p>
+<p>| Style | Discipline | Key feature |
+|-------|-----------|-------------|
+| <strong>APA</strong> (American Psychological Association) | Social sciences, psychology, education | Author-date in-text citations |
+| <strong>MLA</strong> (Modern Language Association) | Humanities, literature, arts | Author-page in-text citations |
+| <strong>Chicago</strong> | History, some social sciences | Footnotes or author-date |
+| <strong>Oxford (OSCOLA)</strong> | Law | Footnotes, minimal bibliography |
+| <strong>IEEE</strong> | Engineering, computer science | Numbered references |
+| <strong>Harvard</strong> | General, business | Author-date (similar to APA) |</p>
+<p><strong>Key differences — citations:</strong></p>
+<p>| Element | APA 7th | MLA 9th | Chicago |
+|---------|---------|---------|---------|
+| In-text | (Smith, 2020, p. 45) | (Smith 45) | Footnote or (Smith 2020, 45) |
+| Book ref | Smith, J. (2020). <em>Title</em>. Publisher. | Smith, John. <em>Title</em>. Publisher, 2020. | 1. John Smith, <em>Title</em> (Place: Publisher, 2020), 45. |
+| Journal | Smith, J. (2020). Title. <em>Journal</em>, 5(2), 45-60. | Smith, John. "Title." <em>Journal</em>, vol. 5, no. 2, 2020, pp. 45-60. | Smith, "Title," <em>Journal</em> 5, no. 2 (2020): 45. |
+| DOI/URL | https://doi.org/xxxxx | https://doi.org/xxxxx | Include if no page refs |</p>
+<p><strong>Key differences — formatting:</strong></p>
+<p>| Element | APA | MLA | Chicago |
+|---------|-----|-----|---------|
+| Title page | Required | Not always | Required |
+| Running head | Page number only | Last name + page | Not required |
+| Headings | 5 levels, bold | No strict system | Various systems |
+| Numbers | Words for 0-9, numerals for 10+ | No strict rule | Words for 0-100 |
+| Block quotes | 40+ words, indented | 4+ lines, indented | 5+ lines, indented |</p>
+<p><strong>Common errors:</strong>
+<ul><li>Mixing styles in one document</li>
+<li>Inconsistent formatting of the same element</li>
+<li>Missing elements (publisher, year, page numbers)</li>
+<li>Incorrect use of italics vs. quotation marks</li>
+<li>Not including DOI when available</li></ul></p>`,
+    'Maintaining C2 — Continuous Improvement Strategies': `<p><strong>The C2 plateau — why learners get stuck:</strong></p>
+<p>At lower levels, progress is visible: new tenses, new vocabulary. At C2, progress is SUBTLE: a slightly better choice of word, a more natural rhythm, a more precise register shift. This can feel like standing still.</p>
+<p>You're not standing still. The work you're doing now is refinement, not acquisition.</p>
+<p><strong>Deliberate practice for C2 maintenance:</strong></p>
+<p><em>1. Extensive reading (30 min daily):</em>
+<ul><li>Read what native professionals read: The Economist, The Atlantic, The New Yorker, Nature, Harvard Business Review</li>
+<li>Read fiction: Pulitzer winners, Booker Prize shortlists</li>
+<li>Read outside your comfort zone: if you're a scientist, read philosophy; if you're in business, read literary fiction</li></p>
+<p><em>2. Active listening (20 min daily):</em>
+<li>Podcasts: BBC World Service, NPR, TED talks, academic lectures</li>
+<li>Vary accents: British, American, Australian, Indian, African English</li>
+<li>Listen once for gist, again for language features</li></p>
+<p><em>3. Production with feedback (weekly):</em>
+<li>Write 500 words weekly — essays, reviews, journal entries</li>
+<li>Speak for 10 minutes on a topic, record yourself, listen back</li>
+<li>Get feedback from a native speaker or C2-level user</li>
+<li>Join a speaking club, debate society, or Toastmasters</li></p>
+<p><em>4. Vocabulary maintenance (10 min daily):</em>
+<li>Read with a dictionary nearby — look up words you ALMOST know</li>
+<li>Maintain a "precision notebook": words that are slightly better than what you usually use</li>
+<li>Review collocations, not isolated words</li></p>
+<p><em>5. Register flexibility (ongoing):</em>
+<li>Practise writing the same idea in 3 registers: formal, neutral, informal</li>
+<li>Notice register shifts in what you read and hear</li>
+<li>Code-switch intentionally between contexts</li></p>
+<p><strong>Warning signs of regression:</strong>
+<li>You start simplifying your vocabulary unconsciously</li>
+<li>You avoid complex structures you once used</li>
+<li>You find yourself searching for words you used to know</li>
+<li>Your accent slips back toward L1 patterns</li></ul></p>
+<p>If you notice these: increase input immediately. Regression happens quickly; recovery takes longer.</p>`,
+    'The Complete C2 Speaker — Final Integration': `<p><strong>What does "C2" really mean?</strong></p>
+<p>The CEFR says a C2 speaker "can understand with ease virtually everything heard or read" and "can express themselves spontaneously, very fluently and precisely, differentiating finer shades of meaning even in more complex situations."</p>
+<p>But here's what that looks like in practice:</p>
+<p><em>A C2 speaker can:</em>
+<ul><li>Understand a lecture on an unfamiliar topic, including humour, asides, and implied criticism</li>
+<li>Read a 500-page novel and understand not just the plot but the subtext, symbolism, and authorial intent</li>
+<li>Write a 3,000-word essay that's not just correct but compelling, with a distinctive voice</li>
+<li>Participate in a heated debate, thinking on their feet, using rhetorical devices, and adapting their register moment by moment</li>
+<li>Translate between English and their L1 at a professional level, handling nuance and cultural references</li>
+<li>Switch between formal academic English and street slang without conscious effort</li></p>
+<p><em>A C2 speaker cannot necessarily:</em>
+<li>Know every word (no one does — English has 170,000+ words in active use)</li>
+<li>Understand every regional accent immediately (some take exposure)</li>
+<li>Never make a mistake (even native speakers make errors)</li></ul></p>
+<p><strong>The C2 self-assessment:</strong></p>
+<p>Rate yourself 1-5 on each:</p>
+<p>| Skill | 1-2 (gap) | 3 (developing) | 4 (strong) | 5 (mastery) |
+|-------|-----------|----------------|------------|-------------|
+| Reading: academic papers | | | | |
+| Reading: literary fiction | | | | |
+| Listening: lectures | | | | |
+| Listening: varied accents | | | | |
+| Writing: formal essays | | | | |
+| Writing: creative pieces | | | | |
+| Speaking: presentations | | | | |
+| Speaking: debate/argument | | | | |
+| Register shifting | | | | |
+| Cultural fluency | | | | |</p>
+<p>Score: 40-50 = C2 mastery / 30-39 = C2 with gaps / Below 30 = C1+ working toward C2</p>
+<p><strong>The three pillars of lifelong English mastery:</strong></p>
+<p>1. <strong>Input:</strong> Never stop reading and listening widely. The day you stop inputting is the day you start regressing.</p>
+<p>2. <strong>Output:</strong> Never stop producing. Writing and speaking are skills that atrophy without use.</p>
+<p>3. <strong>Reflection:</strong> Regularly assess your own language. Record yourself. Read your old writing. Notice improvement and remaining gaps.</p>
+<p><strong>Your C2 commitment:</strong></p>
+<p>Complete this statement:
+"I commit to maintaining my C2 English by [specific action] for [time period], because [reason]."</p>
+<p>Example: "I commit to reading one long-form article daily for the next year, because I want to maintain the precision and breadth of vocabulary I've developed."</p>`,
+
+    'All Tenses Review — Present, Past, and Future': `<p><strong>Present Tenses — side by side:</strong></p>
+<p><strong>Key difference:</strong>
+<li>"I <strong>live</strong> in Madrid." (permanent — present simple)</li>
+<li>"I <strong>am living</strong> in Madrid." (temporary — present continuous)</li></p>
+<p><strong>Past Tenses — side by side:</strong></p>
+<p><strong>Future Forms — side by side:</strong></p>
+<p><strong>Common tense mistakes:</strong>
+<li>❌ "I am agree." → ✅ "I <strong>agree</strong>." (no continuous for state verbs)</li>
+<li>❌ "I don't can swim." → ✅ "I <strong>can't</strong> swim."</li>
+<li>❌ "Yesterday I go to the cinema." → ✅ "Yesterday I <strong>went</strong> to the cinema."</li>
+<li>❌ "I will going to travel." → ✅ "I <strong>am going to travel</strong>." / "I <strong>will travel</strong>."</li></p>
+<p><strong>Time marker words:</strong>
+<li>Present simple: always, usually, every day, often, sometimes, never</li>
+<li>Present continuous: now, at the moment, currently, this week</li>
+<li>Past simple: yesterday, last week, ago, in 2019</li>
+<li>Past continuous: while, when (for interrupted actions)</li>
+<li>Future: tomorrow, next week, soon, tonight</li></p>`,
+    'Articles and Quantifiers Masterclass': `<p><strong>A / An (indefinite articles — first mention, general):</strong>
+<li>"I saw <strong>a</strong> film last night." (first mention — any film)</li>
+<li>"She's <strong>an</strong> engineer." (profession)</li>
+<li>"I'd like <strong>a</strong> coffee, please." (one — countable)</li>
+<li>Use <strong>an</strong> before vowel sounds: <strong>an</strong> apple, <strong>an</strong> hour (silent h), <strong>an</strong> MBA</li>
+<li>Use <strong>a</strong> before consonant sounds: <strong>a</strong> university (sounds like 'y'), <strong>a</strong> one-way street</li></p>
+<p><strong>The (definite article — specific, known, unique):</strong>
+<li>"<strong>The</strong> film I saw was brilliant." (second mention — we know which film)</li>
+<li>"<strong>The</strong> sun is shining." (unique — only one sun)</li>
+<li>"I live near <strong>the</strong> station." (specific station known to speaker and listener)</li>
+<li>"<strong>The</strong> richest people live there." (superlative always uses "the")</li></p>
+<p><strong>No article (zero article):</strong>
+<li>Plural/general nouns: "I like <strong>__</strong> cats." (cats in general)</li>
+<li>Uncountable nouns (general): "I love <strong>__</strong> music."</li>
+<li>Meals: "I had <strong>__</strong> breakfast at 8."</li>
+<li>Languages: "She speaks <strong>__</strong> French."</li>
+<li>Days/months with "on/in": "on <strong>__</strong> Monday" / "in <strong>__</strong> July"</li></p>
+<p><strong>Some vs. Any:</strong>
+<li><strong>Some</strong> = positive sentences and offers/questions expecting "yes"</li>
+  - "I have <strong>some</strong> free time." / "Would you like <strong>some</strong> coffee?"
+<li><strong>Any</strong> = negative sentences and most questions</li>
+  - "I don't have <strong>any</strong> money." / "Do you have <strong>any</strong> questions?"
+<li>❌ "I don't have some money." → ✅ "I don't have <strong>any</strong> money."</li></p>
+<p><strong>Much / Many / A lot of:</strong>
+<li><strong>Much</strong> = uncountable (usually negative/question): "I don't have <strong>much</strong> time."</li>
+<li><strong>Many</strong> = countable: "I don't have <strong>many</strong> friends here."</li>
+<li><strong>A lot of / Lots of</strong> = both (informal, positive): "I have <strong>a lot of</strong> time/friends."</li>
+<li>❌ "I have much time." (too formal/unnatural in positive) → ✅ "I have <strong>a lot of</strong> time."</li></p>`,
+    'Prepositions of Time, Place, and Movement': `<p><strong>Time prepositions:</strong></p>
+<p><strong>Place prepositions:</strong></p>
+<p><strong>Transport prepositions:</strong>
+<li><strong>by</strong> + transport (no article): <strong>by</strong> car, <strong>by</strong> bus, <strong>by</strong> plane, <strong>by</strong> bike, <strong>on</strong> foot</li>
+<li><strong>in/on</strong> + article + transport: <strong>in</strong> a car, <strong>on</strong> the bus, <strong>on</strong> a plane</li></p>
+<p><strong>Movement prepositions:</strong>
+<li><strong>into</strong> = in + to (entering): "She walked <strong>into</strong> the room."</li>
+<li><strong>out of</strong> = exiting: "He got <strong>out of</strong> the taxi."</li>
+<li><strong>onto</strong> = on + to: "The cat jumped <strong>onto</strong> the table."</li>
+<li><strong>across</strong> = from one side to another: "We walked <strong>across</strong> the bridge."</li>
+<li><strong>through</strong> = from one end to another: "The train went <strong>through</strong> the tunnel."</li>
+<li><strong>along</strong> = following a line: "We walked <strong>along</strong> the river."</li>
+<li><strong>up/down</strong> = direction: "She ran <strong>up</strong> the stairs."</li></p>`,
+    'Question Formation and Tag Questions': `<p><strong>Yes/No questions (auxiliary + subject + verb):</strong>
+<li>"<strong>Do</strong> you like coffee?" / "<strong>Did</strong> she call you?"</li>
+<li>"<strong>Are</strong> they coming?" / "<strong>Have</strong> you finished?"</li>
+<li>"<strong>Can</strong> he swim?" / "<strong>Will</strong> it rain?"</li></p>
+<p><strong>Wh- questions:</strong></p>
+<p><strong>Question word order:</strong>
+Wh-word + auxiliary + subject + verb:
+<li>"<strong>Where does</strong> she <strong>work</strong>?" (NOT "Where she works?")</li>
+<li>"<strong>What did</strong> you <strong>do</strong> yesterday?"</li>
+<li>"<strong>How long have</strong> you <strong>lived</strong> here?"</li></p>
+<p><strong>Tag questions — mini questions at the end:</strong>
+<li>Positive statement → <strong>negative tag</strong>: "You're English, <strong>aren't you</strong>?"</li>
+<li>Negative statement → <strong>positive tag</strong>: "You don't like coffee, <strong>do you</strong>?"</li>
+<li>Use the same auxiliary as the main sentence</li></p>
+<p><strong>Common tag questions:</strong>
+<li>"It's cold today, <strong>isn't it</strong>?"</li>
+<li>"You've been here before, <strong>haven't you</strong>?"</li>
+<li>"He can swim, <strong>can't he</strong>?"</li>
+<li>"They won't be late, <strong>will they</strong>?"</li>
+<li>"Let's go, <strong>shall we</strong>?"</li>
+<li>"Don't forget, <strong>will you</strong>?"</li></p>
+<p><strong>Intonation matters:</strong>
+<li>Falling intonation (↘) = I'm sure, just making conversation</li>
+<li>Rising intonation (↗) = I'm really asking, I don't know the answer</li></p>`,
+    'Modal Verbs — Can, Could, Should, Must, Have To': `<p><strong>Modal verbs have NO "to" after them and NO "-s" in third person:</strong>
+<li>❌ "She <strong>cans</strong> swim." → ✅ "She <strong>can</strong> swim."</li>
+<li>❌ "I <strong>must to</strong> go." → ✅ "I <strong>must</strong> go."</li></p>
+<p><strong>Ability:</strong>
+<li><strong>Can</strong> (present ability): "I <strong>can</strong> swim."</li>
+<li><strong>Could</strong> (past ability): "I <strong>could</strong> swim when I was five."</li>
+<li><strong>Be able to</strong> (future/other tenses): "I <strong>will be able to</strong> help you tomorrow."</li></p>
+<p><strong>Permission:</strong>
+<li><strong>Can</strong> (informal): "<strong>Can</strong> I use your phone?"</li>
+<li><strong>Could</strong> (more polite): "<strong>Could</strong> I borrow your pen?"</li>
+<li><strong>May</strong> (very formal): "<strong>May</strong> I come in?"</li></p>
+<p><strong>Advice:</strong>
+<li><strong>Should</strong> / <strong>Shouldn't</strong>: "You <strong>should</strong> see a doctor." / "You <strong>shouldn't</strong> eat so late."</li>
+<li><strong>Ought to</strong>: "You <strong>ought to</strong> apologise." (slightly more formal)</li>
+<li><strong>Could</strong>: "You <strong>could</strong> try restarting it." (suggestion)</li></p>
+<p><strong>Obligation (necessity):</strong>
+<li><strong>Must</strong> (strong, speaker's opinion): "I <strong>must</strong> finish this today." (I think it's necessary)</li>
+<li><strong>Have to</strong> (external obligation): "I <strong>have to</strong> wear a uniform." (the rule says so)</li>
+<li><strong>Mustn't</strong> vs. <strong>Don't have to</strong> (VERY IMPORTANT):</li>
+  - "You <strong>mustn't</strong> smoke here." = <strong>Prohibition</strong> (it's not allowed)
+  - "You <strong>don't have to</strong> come." = <strong>No obligation</strong> (you can if you want, but it's not necessary)</p>`,
+    'Describing Processes and Instructions': `<p><strong>Imperatives (giving instructions — no subject needed):</strong>
+<li>"<strong>Mix</strong> the flour and water."</li>
+<li>"<strong>Press</strong> the red button."</li>
+<li>"<strong>Turn left</strong> at the traffic lights."</li>
+<li>For negative instructions: "<strong>Don't touch</strong> the oven." / "<strong>Do not</strong> open."</li>
+<li>Polite imperatives: "<strong>Please fill in</strong> the form." / "<strong>Kindly wait</strong> here."</li></p>
+<p><strong>Sequencing words:</strong></p>
+<p><strong>Passives for formal instructions:</strong>
+<li>"The mixture <strong>should be stirred</strong> continuously."</li>
+<li>"The form <strong>must be completed</strong> in black ink."</li>
+<li>"Your password <strong>will be sent</strong> to your email."</li></p>
+<p><strong>Checking understanding:</strong>
+<li>"Is that clear?"</li>
+<li>"Do you follow?"</li>
+<li>"Should I go over that again?"</li>
+<li>"Any questions so far?"</li></p>`,
+    'Asking for Clarification and Repetition': `<p><strong>When you don't hear or understand:</strong></p>
+<p><em>Polite (formal):</em>
+<li>"I'm sorry, could you repeat that, please?"</li>
+<li>"I beg your pardon?"</li>
+<li>"Sorry, I didn't catch that."</li>
+<li>"Could you say that again, please?"</li></p>
+<p><em>Casual (friends):</em>
+<li>"Sorry, what?"</li>
+<li>"Say that again?"</li>
+<li>"Huh?" (very informal — use carefully)</li>
+<li>"You what?" (British, informal)</li></p>
+<p><strong>When you need them to speak slower:</strong>
+<li>"Could you speak a bit more slowly, please?"</li>
+<li>"I'm still learning English. Could you slow down a little?"</li>
+<li>"Sorry, my English isn't very good. Could you say that more simply?"</li></p>
+<p><strong>When you don't understand a word:</strong>
+<li>"What does ______ mean?"</li>
+<li>"Sorry, I'm not familiar with that word."</li>
+<li>"Could you explain what ______ means?"</li>
+<li>"Is ______ similar to ______?"</li></p>
+<p><strong>When you want to confirm you understood:</strong>
+<li>"So, you're saying that... Is that right?"</li>
+<li>"If I've understood correctly, you mean..."</li>
+<li>"Just to confirm, you want me to..."</li>
+<li>"Let me make sure I've got this. You said..."</li></p>
+<p><strong>Paraphrasing (saying it in your own words):</strong>
+<li>"So basically, you want me to arrive at 9 instead of 10?"</li>
+<li>"In other words, the meeting is cancelled?"</li></p>`,
+    'Social Media and Modern Communication': `<p><strong>Common texting abbreviations:</strong></p>
+<p><strong>Social media vocabulary:</strong>
+<li><strong>post</strong> (n/v): "I saw your <strong>post</strong> about the holiday." / "Did you <strong>post</strong> the photo?"</li>
+<li><strong>share</strong>: "Please <strong>share</strong> this with your friends."</li>
+<li><strong>like</strong>: "I got 200 <strong>likes</strong> on my photo!"</li>
+<li><strong>comment</strong>: "She left a nice <strong>comment</strong> on my post."</li>
+<li><strong>follow/follower</strong>: "I have 500 <strong>followers</strong> on Instagram."</li>
+<li><strong>story</strong>: "I put it on my <strong>story</strong>."</li>
+<li><strong>go viral</strong>: "Her video <strong>went viral</strong> — 10 million views!"</li>
+<li><strong>scroll</strong>: "I was just <strong>scrolling</strong> through TikTok."</li>
+<li><strong>unfriend/unfollow</strong>: "I <strong>unfollowed</strong> him because his posts are annoying."</li>
+<li><strong>block</strong>: "She <strong>blocked</strong> me after our argument."</li></p>
+<p><strong>Online etiquette (netiquette):</strong>
+<li>Don't write in ALL CAPS — it looks like shouting</li>
+<li>Use emojis to show tone, but not too many in formal contexts 😊</li>
+<li>Reply to messages within a reasonable time</li>
+<li>Don't share other people's photos without asking</li>
+<li>Be careful what you post — it stays online forever</li></p>`,
+    'Talking About Goals and Ambitions': `<p><strong>Structures for goals and ambitions:</strong></p>
+<p><em>Want to / Would like to (desires):</em>
+<li>"I <strong>want to</strong> travel the world."</li>
+<li>"I <strong>would like to</strong> learn Japanese." (more polite/soft)</li></p>
+<p><em>Plan to / Intend to (intentions):</em>
+<li>"I <strong>plan to</strong> start my own business."</li>
+<li>"I <strong>intend to</strong> finish my degree next year."</li></p>
+<p><em>Hope to / Dream of (aspirations):</em>
+<li>"I <strong>hope to</strong> get promoted this year."</li>
+<li>"I <strong>dream of</strong> becoming a famous writer." (dream of + verb-ing)</li></p>
+<p><em>Aim to / Goal is to (targets):</em>
+<li>"My <strong>aim is to</strong> save enough money to buy a house."</li>
+<li>"Our <strong>goal is to</strong> double sales by 2026."</li></p>
+<p><em>Would love to (enthusiastic desire):</em>
+<li>"I <strong>would love to</strong> work abroad someday."</li>
+<li>"She <strong>would love to</strong> meet her favourite singer."</li></p>
+<p><strong>Time frames:</strong>
+<li>Short-term: "In the near future..." / "This year, I want to..."</li>
+<li>Medium-term: "In the next few years..." / "By 2027, I plan to..."</li>
+<li>Long-term: "Eventually, I hope to..." / "In the long run, my dream is to..."</li>
+<li>Lifelong: "I've always wanted to..." / "My ultimate ambition is to..."</li></p>`,
+    'Listening Practice — Conversations and Announcements': `<p><strong>Two types of listening:</strong></p>
+<p><em>Listening for gist (general understanding):</em>
+<li>What is the conversation about?</li>
+<li>Who is speaking? Where are they?</li>
+<li>What is the main point?</li>
+<li>You don't need to understand every word — just the overall meaning</li></p>
+<p><em>Listening for detail (specific information):</em>
+<li>What time does the train leave?</li>
+<li>How much does it cost?</li>
+<li>What gate number?</li>
+<li>Focus on numbers, times, names, and key facts</li></p>
+<p><strong>Common announcement types and key phrases:</strong></p>
+<p><em>At the airport:</em>
+<li>"Flight BA284 <strong>to</strong> London Heathrow <strong>is now boarding</strong> at Gate 14."</li>
+<li>"Would passenger Smith please <strong>proceed to</strong> Gate 12 immediately."</li>
+<li>"This is the <strong>final call</strong> for Flight EZY205 to Berlin."</li>
+<li>"Due to <strong>adverse weather conditions</strong>, all flights are delayed."</li>
+<li>"Passengers are reminded <strong>not to leave</strong> luggage unattended."</li></p>
+<p><em>At the train station:</em>
+<li>"The 14:30 service <strong>to</strong> Manchester Piccadilly <strong>will depart from</strong> Platform 4."</li>
+<li>"We <strong>apologise for</strong> the delay to the 15:45 service."</li>
+<li>"This train <strong>terminates at</strong> London Victoria."</li>
+<li>"Please <strong>mind the gap</strong> between the train and the platform."</li></p>
+<p><em>In shops/restaurants:</em>
+<li>"<strong>Closing in</strong> 15 minutes. Please bring your items to the checkout."</li>
+<li>"<strong>Today's special</strong> is grilled salmon with vegetables."</li>
+<li>"Table 5, your order <strong>is ready</strong>."</li></p>
+<p><strong>Active listening strategies:</strong>
+1. <strong>Predict:</strong> Before listening, think about what you might hear
+2. <strong>Listen for keywords:</strong> Don't try to understand every word
+3. <strong>Infer from context:</strong> Use what you already know to fill gaps
+4. <strong>Take notes:</strong> Write down numbers, names, and times
+5. <strong>Don't panic if you miss something:</strong> Keep listening — the answer might come later</p>`,
+
   },
 
   vocabulary: {
@@ -302,6 +1971,269 @@ export const LESSON_CONTENT_MAP: Record<string, Record<string, string>> = {
 <p>Linguistic vocabulary provides the metalanguage — the language used to describe language — that enables precise discussion of how English works at every level. This lesson covers terms from phonology (sound systems) and morphology (word structure) to syntax (sentence structure) and semantics (meaning).</p>
 <p>Core linguistic terms include <strong>phoneme</strong> (the smallest unit of sound that distinguishes meaning), <strong>morpheme</strong> (the smallest unit of meaning), <strong>syntax</strong> (the rules governing sentence structure), <strong>pragmatics</strong> (how context affects meaning), and <strong>discourse</strong> (language use beyond the sentence level). These concepts provide the analytical tools for understanding how language functions systematically.</p>
 <p>Sociolinguistic vocabulary covers <strong>register</strong> (language variety appropriate to a context), <strong>code-switching</strong> (alternating between languages or dialects), <strong>pidgin</strong> (a simplified contact language), and <strong>creole</strong> (a pidgin that has developed into a full language). These terms illuminate the relationship between language and social identity, power, and community.</p>`,
+    'Confusing Words and False Friends': `<p><strong>Commonly confused word pairs:</strong></p>
+<p>| Word | Meaning | Word | Meaning |
+|------|---------|------|---------|
+| <strong>affect</strong> (v) | to influence | <strong>effect</strong> (n) | result |
+| <strong>advice</strong> (n) | recommendation | <strong>advise</strong> (v) | to recommend |
+| <strong>practice</strong> (n) | rehearsal | <strong>practise</strong> (v) | to rehearse |
+| <strong>licence</strong> (n) | permit (UK) | <strong>license</strong> (v) | to permit |
+| <strong>principal</strong> (adj/n) | main / head of school | <strong>principle</strong> (n) | moral rule |
+| <strong>complement</strong> (v/n) | complete/match | <strong>compliment</strong> (n) | praise |
+| <strong>stationary</strong> (adj) | not moving | <strong>stationery</strong> (n) | paper, pens |
+| <strong>weather</strong> (n) | rain, sun, etc. | <strong>whether</strong> (conj) | if |
+| <strong>lose</strong> (v) | to misplace | <strong>loose</strong> (adj) | not tight |
+| <strong>accept</strong> (v) | to agree to receive | <strong>except</strong> (prep) | excluding |</p>
+<p><strong>Examples:</strong>
+<ul><li>"The weather <strong>affected</strong> my mood." / "The <strong>effect</strong> was immediate."</li>
+<li>"Can you give me some <strong>advice</strong>?" / "I <strong>advise</strong> you to study."</li>
+<li>"I need more <strong>practice</strong>." / "I need to <strong>practise</strong> more."</li></p>
+<p><strong>False friends (words that look similar to your language but mean something different):</strong></p>
+<p>| Word | Looks like... | Actually means | Common mistake |
+|------|--------------|----------------|----------------|
+| <strong>actually</strong> | "aktuell" (German: current) | in reality | "Actually, I live in Berlin" = In fact... |
+| <strong>eventual</strong> | "eventual" (Spanish: possible) | final/ultimate | "The eventual result" = the final result |
+| <strong>sensible</strong> | "sensible" (French: sensitive) | reasonable, wise | "A sensible decision" = a wise decision |
+| <strong>sympathetic</strong> | "simpatico" (friendly, nice) | showing compassion | "She was sympathetic" = she felt sorry for me |
+| <strong>library</strong> | "libreria" (bookshop) | place to borrow books | NOT a bookshop |
+| <strong>realise</strong> | "realiser" (to accomplish) | to become aware | "I realised I was wrong" |</p>
+<p><strong>Other tricky words:</strong>
+<li><strong>bring</strong> (towards the speaker) vs. <strong>take</strong> (away from the speaker)</li>
+<li><strong>borrow</strong> (receive temporarily) vs. <strong>lend</strong> (give temporarily)</li>
+<li><strong>raise</strong> (transitive — raise your hand) vs. <strong>rise</strong> (intransitive — the sun rises)</li>
+<li><strong>say</strong> (focus on words) vs. <strong>tell</strong> (focus on listener — tell someone something)</li>
+<li><strong>look</strong> (intentional) vs. <strong>see</strong> (accidental) vs. <strong>watch</strong> (focused attention over time)</li>
+<li><strong>hear</strong> (accidental) vs. <strong>listen</strong> (intentional)</li></ul></p>`,
+    'Vocabulary Expansion — Everyday Nouns and Verbs': `<p><strong>The most important everyday nouns (grouped by topic):</strong></p>
+<p><em>Home:</em>
+furniture, appliance, blanket, curtain, cushion, shelf, drawer, bin, mop, vacuum</p>
+<p><em>Food:</em>
+ingredients, recipe, flavour, portion, leftovers, takeaway, snack, dessert, spicy, raw</p>
+<p><em>Transport:</em>
+pedestrian, passenger, platform, departure, arrival, traffic jam, petrol station, parking space, motorway, roundabout</p>
+<p><em>Work:</em>
+colleague, employer, employee, salary, deadline, meeting, presentation, promotion, cv/resume, experience</p>
+<p><em>Health:</em>
+appointment, prescription, symptom, temperature, bandage, pharmacy, vitamins, allergic, injured, exhausted</p>
+<p><strong>Word families — one root, many forms:</strong></p>
+<p>| Noun | Verb | Adjective | Adverb |
+|------|------|-----------|--------|
+| help | help | helpful | helpfully |
+| comfort | comfort | comfortable | comfortably |
+| success | succeed | successful | successfully |
+| difference | differ | different | differently |
+| importance | matter (to be important) | important | importantly |
+| choice | choose | chosen | — |
+| strength | strengthen | strong | strongly |
+| happiness | — | happy | happily |
+| sadness | sadden | sad | sadly |
+| beauty | beautify | beautiful | beautifully |</p>
+<p><strong>Learning strategy:</strong>
+Don't learn words in isolation. Learn them in CHUNKS:
+<ul><li>❌ "make" + "decision" (separate)</li>
+<li>✅ "make a decision" (together)</li></ul></p>`,
+    'Vocabulary Expansion — Describing Words and Expressions': `<p><strong>Common adjective-noun pairs (collocations):</strong></p>
+<p><em>Weather:</em>
+heavy rain, strong wind, bright sun, thick fog, freezing cold, boiling hot</p>
+<p><em>People:</em>
+close friend, best friend, old friend, hard worker, fast learner, heavy sleeper</p>
+<p><em>Feelings:</em>
+broken heart, deep sadness, pure joy, bright smile, warm welcome</p>
+<p><em>Places:</em>
+busy street, quiet village, crowded city, empty room, dirty kitchen, tidy garden</p>
+<p><strong>Extreme adjectives (use with "absolutely," not "very"):</strong></p>
+<p>| Normal | Extreme | Example |
+|--------|---------|---------|
+| very good | excellent, outstanding, brilliant | "The food was <strong>absolutely excellent</strong>." |
+| very bad | terrible, awful, dreadful | "The weather was <strong>absolutely terrible</strong>." |
+| very big | huge, enormous, massive | "The stadium is <strong>absolutely enormous</strong>." |
+| very small | tiny, minute | "The kitten was <strong>absolutely tiny</strong>." |
+| very tired | exhausted | "I'm <strong>absolutely exhausted</strong>." |
+| very hungry | starving | "I'm <strong>absolutely starving</strong>!" |
+| very angry | furious | "She was <strong>absolutely furious</strong>." |
+| very happy | delighted, ecstatic | "I was <strong>absolutely delighted</strong>." |
+| very surprised | astonished, amazed | "We were <strong>absolutely amazed</strong>." |
+| very beautiful | gorgeous, stunning | "The view was <strong>absolutely stunning</strong>." |</p>
+<p><strong>Set phrases (sounds natural when used together):</strong>
+<ul><li>"Make yourself at home."</li>
+<li>"Take your time."</li>
+<li>"It's up to you." (you decide)</li>
+<li>"I'm on my way." (I'm coming)</li>
+<li>"It's not worth it." (the effort is too much for the result)</li>
+<li>"That's a shame." (that's unfortunate)</li>
+<li>"You never know." (anything is possible)</li>
+<li>"Fair enough." (I accept your point)</li></ul></p>`,
+    'Vocabulary — Idioms and Phrasal Verbs at B2': `<p><strong>Essential B2 idioms — work and professional:</strong></p>
+<p>| Idiom | Meaning | Example |
+|-------|---------|---------|
+| <strong>raise the bar</strong> | set higher standards | "Her presentation really <strong>raised the bar</strong> for the team." |
+| <strong>hit the ground running</strong> | start immediately with energy | "The new manager <strong>hit the ground running</strong> — changes by day two." |
+| <strong>get the ball rolling</strong> | start a process | "Let's <strong>get the ball rolling</strong> on the new project." |
+| <strong>think outside the box</strong> | be creative | "We need to <strong>think outside the box</strong> to solve this." |
+| <strong>back to the drawing board</strong> | start again | "The client rejected the design — <strong>back to the drawing board</strong>." |
+| <strong>cut corners</strong> | do something cheaply/quickly | "Don't <strong>cut corners</strong> on safety." |
+| <strong>the bottom line</strong> | the essential point | "<strong>The bottom line</strong> is we need more funding." |
+| <strong>on the same page</strong> | in agreement | "Before we start, let's make sure we're <strong>on the same page</strong>." |</p>
+<p><strong>Separable vs. inseparable phrasal verbs:</strong></p>
+<p><em>Separable (object can go between or after):</em>
+<ul><li>"Turn <strong>the music</strong> down" = "Turn down <strong>the music</strong>"</li>
+<li>"Pick <strong>him</strong> up" = "Pick up <strong>him</strong>" (but: "Pick <strong>him</strong> up" — pronouns go in the middle!)</li>
+<li>"Fill <strong>it</strong> out" = "Fill out <strong>the form</strong>"</li></p>
+<p><em>Inseparable (object always after):</em>
+<li>"Look <strong>after</strong> the children" (NOT "look the children after")</li>
+<li>"Run <strong>into</strong> an old friend"</li>
+<li>"Get <strong>on</strong> with someone"</li>
+<li>"Come <strong>across</strong> something"</li></p>
+<p><strong>Three-part phrasal verbs:</strong>
+<li>"look <strong>forward to</strong>" (anticipate)</li>
+<li>"catch <strong>up with</strong>" (reach the same level)</li>
+<li>"put <strong>up with</strong>" (tolerate)</li>
+<li>"get <strong>away with</strong>" (avoid punishment)</li>
+<li>"live <strong>up to</strong>" (meet expectations)</li>
+<li>"make <strong>up for</strong>" (compensate)</li></ul></p>`,
+    'Vocabulary — Academic and Formal Word Lists': `<p><strong>AWL Sub-lists 1-5 — essential academic words:</strong></p>
+<p>| Word family | Noun | Verb | Adjective | Adverb |
+|-------------|------|------|-----------|--------|
+| <strong>analyse</strong> | analysis | analyse/analyze | analytical | analytically |
+| <strong>approach</strong> | approach | approach | approachable | — |
+| <strong>area</strong> | area | — | — | — |
+| <strong>assess</strong> | assessment | assess | assessable | — |
+| <strong>assume</strong> | assumption | assume | assumed | — |
+| <strong>authority</strong> | authority | authorise | authoritative | authoritatively |
+| <strong>available</strong> | availability | — | available | — |
+| <strong>benefit</strong> | benefit | benefit | beneficial | beneficially |
+| <strong>concept</strong> | concept | conceptualise | conceptual | conceptually |
+| <strong>consist</strong> | consistency | consist | consistent | consistently |
+| <strong>constitute</strong> | constituent | constitute | constituent | — |
+| <strong>context</strong> | context | contextualise | contextual | contextually |
+| <strong>contract</strong> | contract | contract | contractual | — |
+| <strong>create</strong> | creation | create | creative | creatively |
+| <strong>data</strong> | data | — | — | — |
+| <strong>define</strong> | definition | define | definitive | definitively |
+| <strong>derive</strong> | derivation | derive | derivative | — |
+| <strong>distribute</strong> | distribution | distribute | distributive | — |
+| <strong>economy</strong> | economy | economise | economic/economical | economically |
+| <strong>environment</strong> | environment | — | environmental | environmentally |
+| <strong>establish</strong> | establishment | establish | established | — |
+| <strong>estimate</strong> | estimate | estimate | estimated | — |
+| <strong>evident</strong> | evidence | — | evident | evidently |
+| <strong>export</strong> | export | export | exported | — |
+| <strong>factor</strong> | factor | factor | — | — |
+| <strong>finance</strong> | finance | finance | financial | financially |
+| <strong>formula</strong> | formula | formulate | formulaic | — |
+| <strong>function</strong> | function | function | functional | functionally |
+| <strong>identify</strong> | identity/identification | identify | identifiable/identical | identifiably |
+| <strong>income</strong> | income | — | — | — |
+| <strong>indicate</strong> | indication | indicate | indicative | — |
+| <strong>individual</strong> | individual | — | individual | individually |
+| <strong>interpret</strong> | interpretation | interpret | interpretive | interpretively |
+| <strong>involve</strong> | involvement | involve | involved | — |
+| <strong>issue</strong> | issue | issue | — | — |
+| <strong>labour</strong> | labour | labour | — | — |
+| <strong>legal</strong> | legality | legalise | legal | legally |
+| <strong>legislate</strong> | legislation | legislate | legislative | legislatively |
+| <strong>major</strong> | majority | — | major | majorly |
+| <strong>method</strong> | method | — | methodical | methodically |
+| <strong>occur</strong> | occurrence | occur | — | — |
+| <strong>percent</strong> | percentage | — | — | — |
+| <strong>period</strong> | period | — | periodic | periodically |
+| <strong>policy</strong> | policy | — | — | — |
+| <strong>principle</strong> | principle | — | principal/principled | principally |
+| <strong>proceed</strong> | procedure/proceeds | proceed | procedural | procedurally |
+| <strong>process</strong> | process | process | processed | — |
+| <strong>require</strong> | requirement | require | required | — |
+| <strong>research</strong> | research | research | — | — |
+| <strong>respond</strong> | response | respond | responsive | responsively |
+| <strong>role</strong> | role | — | — | — |
+| <strong>section</strong> | section | section | sectional | — |
+| <strong>sector</strong> | sector | sectorise | sectoral | — |
+| <strong>significant</strong> | significance | signify | significant | significantly |
+| <strong>similar</strong> | similarity | — | similar | similarly |
+| <strong>source</strong> | source | source | — | — |
+| <strong>specific</strong> | specificity | specify | specific | specifically |
+| <strong>structure</strong> | structure | structure | structural | structurally |
+| <strong>theory</strong> | theory | theorise | theoretical | theoretically |
+| <strong>vary</strong> | variety/variation/variance | vary | variable/various | variably/variously |</p>
+<p><strong>Formal alternatives for informal words:</strong></p>
+<p>| Informal | Formal | Example |
+|----------|--------|---------|
+| get | obtain/acquire/receive | "Please <strong>obtain</strong> permission first." |
+| keep | maintain/preserve/retain | "We must <strong>maintain</strong> high standards." |
+| show | demonstrate/indicate/illustrate | "The data <strong>demonstrate</strong> a clear trend." |
+| help | assist/aid/facilitate | "Technology can <strong>facilitate</strong> learning." |
+| end | conclude/terminate/cease | "The meeting <strong>concluded</strong> at 5 PM." |
+| big | substantial/significant/considerable | "A <strong>substantial</strong> amount of money" |
+| good | beneficial/effective/advantageous | "An <strong>effective</strong> solution" |
+| bad | detrimental/adverse/negative | "The <strong>adverse</strong> effects of..." |
+| use | utilise/employ/apply | "We <strong>employed</strong> a mixed-methods approach." |
+| make | produce/generate/create/construct | "The factory <strong>produces</strong> 500 units daily." |</p>`,
+    'Vocabulary — Rare and Academic Word Mastery': `<p><strong>Academic Word List (AWL) sub-lists 6-10 — advanced tier:</strong></p>
+<p>| Word | Meaning | Example |
+|------|---------|---------|
+| <strong>ubiquitous</strong> | present everywhere | "Smartphones are now <strong>ubiquitous</strong> in developed nations." |
+| <strong>paradigm</strong> | model, framework | "This represents a <strong>paradigm</strong> shift in our approach." |
+| <strong>dichotomy</strong> | division into two | "The <strong>dichotomy</strong> between work and life is artificial." |
+| <strong>pragmatic</strong> | practical, realistic | "We need a <strong>pragmatic</strong> solution, not an idealistic one." |
+| <strong>nuance</strong> | subtle distinction | "The <strong>nuance</strong> of her argument was lost in summary." |
+| <strong>juxtapose</strong> | place side by side | "The film <strong>juxtaposes</strong> wealth and poverty." |
+| <strong>ambiguity</strong> | openness to interpretation | "The <strong>ambiguity</strong> of the law creates confusion." |
+| <strong>reiterate</strong> | say again | "Let me <strong>reiterate</strong>: this decision is final." |
+| <strong>underpin</strong> | support, form basis | "Trust <strong>underpins</strong> every successful relationship." |
+| <strong>extrapolate</strong> | infer from known data | "We can <strong>extrapolate</strong> from these findings." |
+| <strong>mitigate</strong> | make less severe | "Measures to <strong>mitigate</strong> climate change are urgent." |
+| <strong>amalgamate</strong> | combine, merge | "The two departments were <strong>amalgamated</strong>." |
+| <strong>cohesive</strong> | unified, connected | "The team was remarkably <strong>cohesive</strong>." |
+| <strong>disseminate</strong> | spread widely | "The research was <strong>disseminated</strong> globally." |
+| <strong>ephemeral</strong> | fleeting, short-lived | "Fame is <strong>ephemeral</strong>; impact is enduring." |
+| <strong>fortuitous</strong> | lucky, accidental | "Their meeting was entirely <strong>fortuitous</strong>." |
+| <strong>gregarious</strong> | sociable | "She was naturally <strong>gregarious</strong> and outgoing." |
+| <strong>hegemony</strong> | dominance | "Cultural <strong>hegemony</strong> shapes our values." |
+| <strong>idiosyncratic</strong> | unique to an individual | "His <strong>idiosyncratic</strong> style made him recognisable." |
+| <strong>juxtaposition</strong> | placing things side by side | "The <strong>juxtaposition</strong> of old and new was striking." |</p>
+<p><strong>Literary vocabulary:</strong>
+<ul><li><strong>Exegesis</strong> — critical interpretation of a text</li>
+<li><strong>Synecdoche</strong> — part representing whole ("all hands on deck")</li>
+<li><strong>Metonymy</strong> — associated word substituted ("the Crown" = the monarchy)</li>
+<li><strong>Parataxis</strong> — short, equal clauses (Hemingway's style)</li>
+<li><strong>Hypotaxis</strong> — subordinate clauses (academic style)</li>
+<li><strong>Litotes</strong> — understatement for emphasis ("not bad" = very good)</li>
+<li><strong>Chiasmus</strong> — reversed structure ("Ask not what your country can do for you — ask what you can do for your country.")</li></ul></p>`,
+    'Vocabulary — Idioms, Proverbs, and Cultural References': `<p><strong>Biblical allusions (very common in English):</strong></p>
+<p>| Expression | Origin | Meaning |
+|------------|--------|---------|
+| <strong>a doubting Thomas</strong> | Thomas doubted Jesus's resurrection | someone who refuses to believe without proof |
+| <strong>the prodigal son</strong> | Parable of the lost son | someone who returns after a long absence |
+| <strong>a Good Samaritan</strong> | Parable of the Samaritan | someone who helps strangers |
+| <strong>the writing on the wall</strong> | Belshazzar's feast | warning of impending disaster |
+| <strong>an eye for an eye</strong> | Old Testament law | revenge proportional to the offence |
+| <strong>salt of the earth</strong> | Jesus's Sermon on the Mount | fundamentally good people |
+| <strong>pearls before swine</strong> | Jesus's teaching | giving something valuable to those who won't appreciate it |
+| <strong>scapegoat</strong> | Ancient Hebrew ritual | someone blamed for others' faults |</p>
+<p><strong>Classical/Greek allusions:</strong></p>
+<p>| Expression | Origin | Meaning |
+|------------|--------|---------|
+| <strong>Achilles' heel</strong> | Greek myth | fatal weakness |
+| <strong>Pandora's box</strong> | Greek myth | source of many unforeseen problems |
+| <strong>Sisyphean task</strong> | Greek myth | endless, frustrating labour |
+| <strong>a Trojan horse</strong> | Greek myth | something that seems harmless but contains a threat |
+| <strong>crossing the Rubicon</strong> | Julius Caesar | passing a point of no return |
+| <strong>the die is cast</strong> | Julius Caesar | a decision has been made that cannot be changed |
+| <strong>Et tu, Brute?</strong> | Julius Caesar | expression of betrayal |</p>
+<p><strong>Regional British idioms:</strong>
+<ul><li>"It's all gone pear-shaped" = it's all gone wrong</li>
+<li>"Bob's your uncle" = there you have it / it's that simple</li>
+<li>"Taking the mickey" = making fun of someone</li>
+<li>"Gone to pot" = deteriorated</li>
+<li>"Spend a penny" = use the toilet (euphemism)</li>
+<li>"Not my cup of tea" = not something I enjoy</li></p>
+<p><strong>Pop culture references C2 speakers should recognise:</strong>
+<li>"Orwellian" = surveillance state, propaganda (from George Orwell's <em>1984</em>)</li>
+<li>"Kafkaesque" = absurd bureaucratic nightmare (from Franz Kafka)</li>
+<li>"Catch-22" = a no-win situation (from Joseph Heller's novel)</li>
+<li>"Big Brother" = oppressive surveillance (from <em>1984</em>)</li>
+<li>"The emperor's new clothes" = collective denial of an obvious truth</li>
+<li>"Sisyphean" = endless, futile labour</li></ul></p>`,
+
   },
 
   grammar: {

@@ -72,3 +72,28 @@ Stage Summary:
 - Each lesson has: HTML explanation, 5 examples, 4 common mistakes, 5 quiz questions
 - Lesson titles in content files exactly match static-course-data.ts entries
 - Build passes successfully
+
+---
+Task ID: 1
+Agent: Main Agent
+Task: Fix pink/magenta colors + integrate lessons 21-50
+
+Work Log:
+- Found root cause: Tailwind `purple-*` classes render as pink/magenta, not violet
+- Bulk replaced all `purple` → `violet` across 47 .tsx files
+- Replaced hex colors: #8B5CF6 → #7c5cff, #a855f7 → #7c5cff, #6D28D9 → #6d4ddb
+- Fixed CSS class names: .orb-purple → .orb-violet-alt, .purple-glow → .violet-glow
+- Fixed PDF generator: PURPLE_START → VIOLET_START, PINK_END → BLUE_END
+- Verified: grep "purple" src/ → 0 results
+- Replaced M3 lessons (21-30) in static-course-data.ts from lessons-21-30.json
+- Replaced M5 lessons (41-50) in static-course-data.ts from lessons-41-50.json
+- Replaced Beginner M4 lessons (31-40) from BEGINNER-A1A2-LESSONS-31-40.md
+- Added 49 reading entries + 7 vocabulary entries to lesson-content-map.ts from JSON
+- Added 10 Beginner M4 content entries to lesson-content-map.ts
+- Build verification: ✅ passes
+
+Stage Summary:
+- All purple/pink colors eliminated from codebase
+- 70 lesson entries updated in static-course-data.ts (M3+M4+M5 for 3 levels)
+- 66 content entries added to lesson-content-map.ts
+- Intermediate M4 (31-40) still has generic titles (PDF format, hard to parse)
