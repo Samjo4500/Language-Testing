@@ -19,7 +19,7 @@ const CEFR_COLORS: Record<string, { r: number; g: number; b: number }> = {
   A2: { r: 0.13, g: 0.77, b: 0.37 },  // Green
   B1: { r: 0.92, g: 0.70, b: 0.03 },  // Yellow
   B2: { r: 0.98, g: 0.45, b: 0.09 },  // Orange
-  C1: { r: 0.94, g: 0.27, b: 0.27 },  // Red
+  C1: { r: 0.49, g: 0.36, b: 1.0 },   // Violet (#7c5cff)
   C2: { r: 0.66, g: 0.33, b: 0.97 },  // Purple
 };
 

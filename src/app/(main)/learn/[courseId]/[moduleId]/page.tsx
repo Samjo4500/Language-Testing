@@ -1334,7 +1334,7 @@ export default function LessonViewerPage() {
           {/* Confetti particles */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             {Array.from({ length: 40 }).map((_, i) => {
-              const colors = ['#a855f7', '#ec4899', '#3b82f6', '#06b6d4', '#10b981', '#f59e0b'];
+              const colors = ['#a855f7', '#3b82f6', '#3b82f6', '#06b6d4', '#10b981', '#f59e0b'];
               const color = colors[i % colors.length];
               const left = Math.random() * 100;
               const delay = Math.random() * 3;

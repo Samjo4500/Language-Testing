@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
     body { margin:0; padding:0; background:#0a0a0a; font-family:Arial,sans-serif; }
     .wrapper { width:100%; background:#0a0a0a; padding:40px 16px; }
     .card { max-width:560px; margin:0 auto; background:linear-gradient(145deg,#1a1a2e,#16213e); border-radius:16px; border:1px solid rgba(139,92,246,0.2); overflow:hidden; }
-    .header { background:linear-gradient(135deg,#7c3aed,#db2777); padding:32px 40px; text-align:center; }
+    .header { background:linear-gradient(135deg,#7c3aed,#3b82f6); padding:32px 40px; text-align:center; }
     .header h1 { margin:0; color:#fff; font-size:22px; font-weight:700; }
     .content { padding:32px 40px; color:#e2e8f0; }
     .content p { margin:0 0 16px; line-height:1.7; font-size:15px; color:#cbd5e1; }

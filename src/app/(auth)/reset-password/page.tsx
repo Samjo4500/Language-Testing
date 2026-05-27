@@ -86,7 +86,7 @@ function ResetPasswordForm() {
           </div>
           <div className="w-full max-w-md relative">
             <div className="glass-card p-8 text-center">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-red-500 to-orange-500 text-white mb-4 shadow-lg shadow-red-500/25">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-violet-500 text-white mb-4 shadow-lg shadow-blue-500/25">
                 <ShieldCheck className="h-6 w-6" />
               </div>
               <h1 className="text-2xl font-bold text-white">Invalid Link</h1>

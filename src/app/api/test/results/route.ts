@@ -16,7 +16,7 @@ const typeToSkill: Record<string, string> = {
 
 // Skill color mapping
 const skillColors: Record<string, string> = {
-  grammar: '#f43f5e',
+  grammar: '#3b82f6',
   vocabulary: '#14b8a6',
   reading: '#3b82f6',
   listening: '#22c55e',
@@ -31,7 +31,7 @@ const cefrBadgeColors: Record<string, string> = {
   B1: '#3b82f6',
   B2: '#8b5cf6',
   C1: '#f59e0b',
-  C2: '#ef4444',
+  C2: '#A855F7',
 };
 
 interface QuestionResult {

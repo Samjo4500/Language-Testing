@@ -161,7 +161,7 @@ function ScoreGauge({ score }: { score: number }) {
     if (s >= 90) return { stroke: '#3b82f6', glow: 'shadow-blue-500/30', text: 'text-blue-400', label: 'Excellent' };
     if (s >= 70) return { stroke: '#22c55e', glow: 'shadow-green-500/30', text: 'text-green-400', label: 'Good' };
     if (s >= 50) return { stroke: '#eab308', glow: 'shadow-yellow-500/30', text: 'text-yellow-400', label: 'Fair' };
-    return { stroke: '#ef4444', glow: 'shadow-red-500/30', text: 'text-red-400', label: 'Needs Work' };
+    return { stroke: '#f59e0b', glow: 'shadow-amber-500/30', text: 'text-amber-400', label: 'Needs Work' };
   };
 
   const config = getColor(score);

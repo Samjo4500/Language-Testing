@@ -117,7 +117,7 @@ const CEFR_PIE_COLORS: Record<string, string> = {
   A2: '#22C55E',
   B1: '#EAB308',
   B2: '#F97316',
-  C1: '#EF4444',
+  C1: '#7c5cff',
   C2: '#A855F7',
 };
 
@@ -450,7 +450,7 @@ function EmailsTab({ notifUnread, onSwitchTab }: { notifUnread: number; onSwitch
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard icon={Users} label="Total Users" value={emailsData?.stats.totalUsers ?? '—'} gradient="from-purple-500 to-indigo-600" />
         <StatCard icon={CheckCircle2} label="Verified" value={emailsData?.stats.verifiedUsers ?? '—'} gradient="from-green-500 to-emerald-600" />
-        <StatCard icon={AlertCircle} label="Unverified" value={emailsData?.stats.unverifiedUsers ?? '—'} gradient="from-red-500 to-rose-600" />
+        <StatCard icon={AlertCircle} label="Unverified" value={emailsData?.stats.unverifiedUsers ?? '—'} gradient="from-blue-500 to-violet-600" />
         <StatCard icon={Shield} label="Verify Rate" value={emailsData?.stats.verificationRate != null ? `${emailsData.stats.verificationRate}%` : '—'} gradient="from-blue-500 to-cyan-600" />
       </div>
 
@@ -963,7 +963,7 @@ function APIsTab({ onToast }: { onToast: (msg: string, type: 'success' | 'error'
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <StatCard icon={Key} label="Total Keys" value={apiKeys.length} gradient="from-purple-500 to-indigo-600" />
             <StatCard icon={CheckCircle2} label="Active" value={apiKeys.filter(k => k.isActive).length} gradient="from-green-500 to-emerald-600" />
-            <StatCard icon={XCircle} label="Inactive" value={apiKeys.filter(k => !k.isActive).length} gradient="from-red-500 to-rose-600" />
+            <StatCard icon={XCircle} label="Inactive" value={apiKeys.filter(k => !k.isActive).length} gradient="from-blue-500 to-violet-600" />
             <StatCard icon={Zap} label="Live Keys" value={apiKeys.filter(k => k.type === 'live').length} gradient="from-yellow-500 to-orange-600" />
           </div>
 
@@ -2862,8 +2862,8 @@ export default function AdminPage() {
                               <stop offset="95%" stopColor="#8B5CF6" stopOpacity={0} />
                             </linearGradient>
                             <linearGradient id="signupsGrad" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="5%" stopColor="#EC4899" stopOpacity={0.3} />
-                              <stop offset="95%" stopColor="#EC4899" stopOpacity={0} />
+                              <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
+                              <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
                             </linearGradient>
                           </defs>
                           <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
@@ -2871,7 +2871,7 @@ export default function AdminPage() {
                           <YAxis tick={{ fontSize: 11, fill: 'rgba(255,255,255,0.4)' }} />
                           <Tooltip content={<ChartTooltip />} />
                           <Area type="monotone" dataKey="views" name="Page Views" stroke="#8B5CF6" fill="url(#viewsGrad)" strokeWidth={2} />
-                          <Area type="monotone" dataKey="signups" name="Signups" stroke="#EC4899" fill="url(#signupsGrad)" strokeWidth={2} />
+                          <Area type="monotone" dataKey="signups" name="Signups" stroke="#3b82f6" fill="url(#signupsGrad)" strokeWidth={2} />
                         </AreaChart>
                       </ResponsiveContainer>
                     </div>

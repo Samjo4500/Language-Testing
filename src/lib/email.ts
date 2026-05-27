@@ -80,13 +80,13 @@ export function emailShell(title: string, bodyHtml: string): string {
     body { margin:0; padding:0; background:#0a0a0a; font-family:Arial,sans-serif; }
     .wrapper { width:100%; background:#0a0a0a; padding:40px 16px; }
     .card { max-width:560px; margin:0 auto; background:linear-gradient(145deg,#1a1a2e,#16213e); border-radius:16px; border:1px solid rgba(139,92,246,0.2); overflow:hidden; }
-    .header { background:linear-gradient(135deg,#7c3aed,#db2777); padding:32px 40px; text-align:center; }
+    .header { background:linear-gradient(135deg,#7c3aed,#3b82f6); padding:32px 40px; text-align:center; }
     .header h1 { margin:0; color:#fff; font-size:22px; font-weight:700; }
     .content { padding:32px 40px; color:#e2e8f0; }
     .content p { margin:0 0 16px; line-height:1.7; font-size:15px; color:#cbd5e1; }
     .greeting { font-size:18px; font-weight:600; color:#f1f5f9; margin-bottom:20px; }
-    .btn { display:inline-block; padding:14px 32px; background:linear-gradient(135deg,#7c3aed,#db2777); color:#fff !important; text-decoration:none; border-radius:10px; font-weight:600; font-size:15px; margin:8px 0 24px; }
-    .badge { display:inline-block; padding:8px 20px; background:linear-gradient(135deg,#7c3aed,#db2777); color:#fff; border-radius:8px; font-size:28px; font-weight:700; margin:8px 0 16px; }
+    .btn { display:inline-block; padding:14px 32px; background:linear-gradient(135deg,#7c3aed,#3b82f6); color:#fff !important; text-decoration:none; border-radius:10px; font-weight:600; font-size:15px; margin:8px 0 24px; }
+    .badge { display:inline-block; padding:8px 20px; background:linear-gradient(135deg,#7c3aed,#3b82f6); color:#fff; border-radius:8px; font-size:28px; font-weight:700; margin:8px 0 16px; }
     .divider { border:none; border-top:1px solid rgba(139,92,246,0.15); margin:24px 0; }
     .footer { padding:20px 40px 28px; text-align:center; }
     .footer p { margin:0 0 6px; font-size:12px; color:#64748b; }
