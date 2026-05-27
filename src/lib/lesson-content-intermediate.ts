@@ -2122,5 +2122,1067 @@ export const INTERMEDIATE_LESSON_CONTENT: Record<string, LessonStructuredContent
         explanation: "'Streamlined' is a strong, specific action verb that implies efficiency improvement. 'Helped', 'Did', and 'Worked on' are vague and weak."
       }
     ]
+  },
+
+  "Listening — Accents and Fast Speech": {
+    explanation: `<h2>Understanding Accents and Fast Connected Speech</h2>
+<p>One of the greatest challenges for intermediate listeners is understanding English as it is naturally spoken by people from different regions and backgrounds. <strong>Connected speech</strong> refers to the way native speakers blend words together in natural conversation, making them sound quite different from the isolated words you may have learned in class. There are three main features of connected speech that you need to recognise: <strong>assimilation</strong>, where sounds change to become more like neighbouring sounds (e.g., "ten bikes" sounds like "tem bikes"); <strong>elision</strong>, where sounds disappear entirely (e.g., "next door" sounds like "nex door"); and <strong>linking</strong>, where words are joined together smoothly (e.g., "an apple" sounds like "a-napple"). These features are not optional — they are a fundamental part of how English is spoken by virtually all native speakers, regardless of accent.</p>
+<p>English accents vary enormously, even within the same country. In the United Kingdom alone, you will encounter significant differences between Received Pronunciation (RP, often called "BBC English"), Cockney, Scottish English, Geordie, and many others. In the United States, General American, Southern, New York, and African American Vernacular English (AAVE) each have distinct phonological features. For instance, some American speakers <strong>rhotically</strong> pronounce the /r/ sound in "car" and "hard," while most British speakers do not. Australian English features a distinctive vowel shift, and Indian English has its own rhythm and intonation patterns. Understanding these variations does not mean you need to adopt every accent, but you should be able to <em>comprehend</em> speakers from major English-speaking regions.</p>
+<p>When dealing with fast speech, a key strategy is to focus on <strong>stressed words</strong> rather than trying to catch every syllable. In English, content words (nouns, main verbs, adjectives, adverbs) are stressed, while function words (articles, prepositions, auxiliary verbs, pronouns) are often reduced or swallowed. For example, in the sentence "What are you going to do?" the stressed words are "what" and "do," while the rest may sound like "whaddaya gonna." Training your ear to pick out stressed words allows you to reconstruct the meaning even when you miss the unstressed elements. Another effective technique is <strong>shadowing</strong> — repeating after a speaker in real time, imitating their rhythm and intonation, which builds your familiarity with natural speech patterns.</p>
+<p>Finally, context is your most powerful tool for decoding fast or accented speech. Before listening, consider what you already know about the topic, the speaker, and the situation. While listening, use <strong>predictive listening</strong>: anticipate what the speaker is likely to say next based on the flow of the conversation. If you miss a word, do not stop and dwell on it — keep listening and use the surrounding information to fill in the gaps. With regular exposure to varied accents through podcasts, films, and conversations with diverse speakers, your comprehension will improve dramatically over time.</p>`,
+    examples: [
+      {
+        sentence: "\"I'm going to\" → \"I'm gonna\" (or even \"I'muna\")",
+        note: "Reduction of 'going to' is one of the most common fast-speech features. The vowel in 'to' is reduced and the consonants blend together."
+      },
+      {
+        sentence: "\"What do you\" → \"Whaddaya\" (e.g., \"Whaddaya think?\")",
+        note: "Multiple reductions: 'what' loses its final /t/, 'do' becomes /də/, and 'you' becomes /yə/. This is extremely common in casual American and British speech."
+      },
+      {
+        sentence: "\"Hand bag\" → \"Hambag\" (assimilation: /d/ + /b/ → /m/ + /b/)",
+        note: "The /d/ sound at the end of 'hand' assimilates to become /m/ because the lips are preparing for the /b/ in 'bag.' This makes the transition between sounds smoother."
+      },
+      {
+        sentence: "\"Next day\" → \"Nex day\" (elision: the /t/ is dropped)",
+        note: "In clusters of consonants, the middle consonant /t/ is often elided (dropped) because it is difficult to articulate quickly. 'Next day,' 'last time,' and 'must go' all exhibit this pattern."
+      },
+      {
+        sentence: "\"An English teacher\" → \"a-Nenglish teacher\" (linking)",
+        note: "The consonant /n/ at the end of 'an' links directly to the vowel /e/ at the beginning of 'English,' creating the impression of a single word 'Nenglish.' This linking is a defining feature of natural English rhythm."
+      },
+      {
+        sentence: "Scottish speaker: \"I haven't seen him\" (with a rolled /r/ and distinct vowel in 'haven't')",
+        note: "Scottish English often rolls the /r/ sound and uses different vowel qualities. Recognising these features helps you identify the accent and adjust your expectations for pronunciation patterns."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "Expecting every word to be pronounced clearly and separately in natural speech.",
+        correction: "Train yourself to listen for stressed content words and use context to fill in the reduced function words."
+      },
+      {
+        mistake: "Asking a speaker to 'speak slowly and clearly' instead of developing skills to understand natural speech.",
+        correction: "Practise listening to authentic materials (podcasts, interviews, films) at normal speed to build tolerance for connected speech."
+      },
+      {
+        mistake: "Assuming that unfamiliar pronunciation means the speaker is making a mistake.",
+        correction: "Recognise that pronunciation varies across accents — what sounds 'wrong' may simply be a different regional variety of English."
+      },
+      {
+        mistake: "Stopping to think about a missed word and losing the rest of the conversation.",
+        correction: "Keep listening and use surrounding context to infer the missed word. Stopping breaks the flow and causes you to miss even more information."
+      }
+    ],
+    quiz: [
+      {
+        question: "What is 'assimilation' in connected speech?",
+        options: [
+          "Sounds disappearing entirely between words",
+          "Sounds changing to become more like neighbouring sounds",
+          "Words being linked together smoothly without a gap",
+          "Stress shifting from content words to function words"
+        ],
+        correctAnswer: 1,
+        explanation: "Assimilation occurs when a sound changes to become more like an adjacent sound, making the transition smoother. For example, 'ten bikes' sounds like 'tem bikes' because /n/ assimilates to /m/ before the /b/ sound."
+      },
+      {
+        question: "In the phrase 'next day,' what feature of connected speech causes the /t/ to disappear?",
+        options: [
+          "Linking",
+          "Assimilation",
+          "Elision",
+          "Reduction"
+        ],
+        correctAnswer: 2,
+        explanation: "Elision is the dropping or omission of sounds in connected speech. In 'next day,' the /t/ is elided because it sits in a consonant cluster that is difficult to articulate quickly, resulting in 'nex day.'"
+      },
+      {
+        question: "Which listening strategy is most effective for understanding fast speech?",
+        options: [
+          "Trying to hear every single syllable clearly",
+          "Focusing on stressed content words and using context to fill in gaps",
+          "Asking the speaker to repeat every sentence",
+          "Reading a transcript before listening"
+        ],
+        correctAnswer: 1,
+        explanation: "In natural English, content words (nouns, main verbs, adjectives, adverbs) are stressed and clearly pronounced, while function words are often reduced. Focusing on stressed words and using context to reconstruct the rest is the most effective strategy."
+      },
+      {
+        question: "What does 'Whaddaya think?' represent?",
+        options: [
+          "A Scottish accent pronunciation",
+          "A formal way of asking for opinions",
+          "The reduction of 'What do you' in fast connected speech",
+          "An example of assimilation only"
+        ],
+        correctAnswer: 2,
+        explanation: "'Whaddaya' is the reduced form of 'What do you' in fast casual speech. It involves multiple reductions: the /t/ in 'what' is dropped, 'do' becomes /də/, and 'you' becomes /yə/. This is a very common feature of connected speech."
+      },
+      {
+        question: "Why is it important for intermediate learners to expose themselves to different English accents?",
+        options: [
+          "Because they need to learn to speak with every accent",
+          "Because real-world English is spoken with diverse accents, and comprehension requires familiarity with variations",
+          "Because exams always test multiple accents",
+          "Because only British English is correct"
+        ],
+        correctAnswer: 1,
+        explanation: "In the real world, English is spoken with many different accents. While you do not need to speak with every accent, you need to be able to understand speakers from various regions. Exposure to different accents builds the flexibility needed for real communication."
+      }
+    ]
+  },
+
+  "Listening — Lectures and Podcasts": {
+    explanation: `<h2>Listening to Lectures and Podcasts Effectively</h2>
+<p>At the B1-B2 level, you should be developing the ability to follow extended spoken discourse such as university lectures, TED Talks, and educational podcasts. Unlike everyday conversations, lectures and podcasts are <strong>monologues</strong> — one person speaks at length on a topic, often using formal or semi-formal language with complex sentence structures and specialised vocabulary. The key challenge is maintaining concentration over a longer period while identifying the most important information. A lecture is not a dictation exercise; you do not need to capture every word. Instead, you need to identify the <strong>main ideas</strong>, the <strong>supporting details</strong>, and the <strong>logical structure</strong> that holds them together.</p>
+<p>Most lectures and well-structured podcasts follow a predictable organisational pattern. Speakers typically begin with an <strong>introduction</strong> that previews the main topic and outlines what they will cover. This is followed by the <strong>body</strong>, where each main point is presented, explained, and illustrated with examples or evidence. Finally, a <strong>conclusion</strong> summarises the key takeaways. Recognising these <strong>signpost phrases</strong> — expressions that signal the structure — is essential for following along. Common signposts include: "Today I'm going to talk about...", "Let's move on to...", "The next point is...", "For example...", "To sum up...", and "In conclusion..." These phrases act as road signs, telling you where the speaker is going and what is most important.</p>
+<p>Effective note-taking is a crucial companion skill for listening to lectures and podcasts. The <strong>Cornell Method</strong> is widely recommended: divide your page into three sections — a narrow left column for key words and questions, a wider right column for notes, and a bottom section for a summary. During the lecture, write your notes in the right column, focusing on main ideas rather than full sentences. Use abbreviations, symbols, and bullet points to keep up with the speaker. After the lecture, write key terms and questions in the left column and a brief summary at the bottom. This method forces you to process the information actively rather than passively transcribing it, which significantly improves retention and understanding.</p>
+<p>Podcasts offer an excellent opportunity to develop your listening skills in a more flexible format. Unlike live lectures, podcasts can be paused, rewound, and replayed, allowing you to work through difficult sections at your own pace. Start with podcasts designed for language learners, which feature slower speech and simpler vocabulary, then gradually move to native-level content. When you encounter an unfamiliar word, try to infer its meaning from context before reaching for a dictionary. Pay attention to the speaker's <strong>intonation</strong> and <strong>emphasis</strong> — a speaker's voice often rises on important points and falls on less significant details. With consistent practice, your ability to follow extended speech will grow, and you will find yourself understanding more with less effort.</p>`,
+    examples: [
+      {
+        sentence: "\"So, today we're going to look at three main causes of the Industrial Revolution.\"",
+        note: "A typical lecture introduction that previews the structure. The signpost 'three main causes' tells you to expect three distinct sections in the body of the talk."
+      },
+      {
+        sentence: "\"Let's move on to the second factor, which is technological innovation.\"",
+        note: "A transition signpost that signals a shift from one main point to the next. 'Let's move on to' alerts the listener that a new section is beginning."
+      },
+      {
+        sentence: "\"To illustrate this point, consider the case of Japan in the 1980s.\"",
+        note: "An example signpost. 'To illustrate this point' signals that the speaker is about to provide a concrete example to support a general claim."
+      },
+      {
+        sentence: "\"In summary, the three key drivers were population growth, new technologies, and access to resources.\"",
+        note: "A conclusion signpost. 'In summary' tells the listener that the speaker is recapping the main points — this is crucial information for note-taking."
+      },
+      {
+        sentence: "\"Now, this is really important — the deadline for submissions is next Friday.\"",
+        note: "Emphasis marker: 'this is really important' signals that the following information is a key point. Speakers use emphasis markers to draw attention to critical details."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "Trying to write down every word the speaker says during a lecture.",
+        correction: "Focus on main ideas, key terms, and supporting examples. Use abbreviations and your own words rather than attempting verbatim transcription."
+      },
+      {
+        mistake: "Not paying attention during the introduction of a lecture because it seems 'obvious.'",
+        correction: "The introduction often contains the outline and main thesis — this is the most valuable part for understanding the overall structure and anticipating what comes next."
+      },
+      {
+        mistake: "Stopping to look up every unknown word in a dictionary while listening to a podcast.",
+        correction: "Keep listening and try to infer meaning from context. Pause and look up words only after finishing a section, so you don't lose the thread of the argument."
+      },
+      {
+        mistake: "Treating all information in a lecture as equally important.",
+        correction: "Listen for signpost phrases and emphasis markers that distinguish main points from minor details. Not every sentence carries equal weight."
+      }
+    ],
+    quiz: [
+      {
+        question: "What is the primary purpose of signpost phrases in a lecture?",
+        options: [
+          "To make the lecture sound more formal and academic",
+          "To signal the structure and guide the listener through the organisation of the talk",
+          "To test whether the audience is paying attention",
+          "To fill time between sections of the lecture"
+        ],
+        correctAnswer: 1,
+        explanation: "Signpost phrases like 'Let's move on to...' and 'In conclusion...' signal the structure of the lecture, helping listeners follow the logical flow and identify what is most important."
+      },
+      {
+        question: "In the Cornell note-taking method, what goes in the right column during the lecture?",
+        options: [
+          "Key words and questions written after the lecture",
+          "A summary of the entire lecture",
+          "Main notes — key ideas, abbreviations, and bullet points",
+          "The lecturer's exact words, transcribed verbatim"
+        ],
+        correctAnswer: 2,
+        explanation: "In the Cornell Method, the right column is used during the lecture for main notes — key ideas, abbreviations, and bullet points. The left column and summary section are completed after the lecture."
+      },
+      {
+        question: "Why are podcasts particularly useful for developing listening skills at the intermediate level?",
+        options: [
+          "They always use very simple vocabulary",
+          "They can be paused, rewound, and replayed, allowing self-paced learning",
+          "They are always shorter than lectures",
+          "They never contain unfamiliar accents"
+        ],
+        correctAnswer: 1,
+        explanation: "Podcasts can be paused, rewound, and replayed, which allows learners to work through difficult sections at their own pace — something that is not possible during a live lecture."
+      },
+      {
+        question: "Which of the following is an example of a 'transition' signpost?",
+        options: [
+          "\"For instance, in Germany...\"",
+          "\"Let's move on to the next factor...\"",
+          "\"In conclusion, we can see that...\"",
+          "\"This is crucial: the exam is on Monday.\""
+        ],
+        correctAnswer: 1,
+        explanation: "'Let's move on to the next factor' is a transition signpost — it signals a shift from one main point to the next. 'For instance' is an example signpost, 'In conclusion' is a summary signpost, and 'This is crucial' is an emphasis marker."
+      },
+      {
+        question: "What should you do when you hear an unfamiliar word during a lecture or podcast?",
+        options: [
+          "Immediately stop and look it up in a dictionary",
+          "Ignore it completely and never think about it again",
+          "Try to infer its meaning from the surrounding context and continue listening",
+          "Raise your hand and ask the speaker to define it"
+        ],
+        correctAnswer: 2,
+        explanation: "The best approach is to try to infer the meaning from context and continue listening. Stopping to look up a word will cause you to miss the rest of the speaker's point, and ignoring it entirely means you might miss important meaning. Context clues often provide enough information to understand the general idea."
+      }
+    ]
+  },
+
+  "Speaking — Fluency and Coherence Techniques": {
+    explanation: `<h2>Building Fluency and Coherence in Speaking</h2>
+<p>Fluency and coherence are two distinct but closely related qualities of effective speaking. <strong>Fluency</strong> refers to the ability to speak smoothly, continuously, and at an appropriate speed, without excessive hesitation, repetition, or self-correction. <strong>Coherence</strong> refers to the logical organisation of your ideas — how clearly your thoughts connect to each other and how easily a listener can follow your argument. At the intermediate level, many learners can produce grammatically correct sentences in isolation but struggle to maintain a smooth, well-organised flow of speech over an extended turn. Developing both skills together is essential for confident, effective communication.</p>
+<p>One of the most important techniques for improving fluency is learning to use <strong>fillers and discourse markers</strong> strategically. Fillers such as "well," "you know," "I mean," and "let me think" give you a moment to plan your next sentence without creating an awkward silence. Discourse markers like "on the other hand," "in addition," "as a result," and "however" signal the relationship between your ideas and help the listener follow your train of thought. The key is to use these expressions naturally — overusing fillers can make you sound uncertain, while using too few can make your speech sound choppy and disconnected. Aim for a balance where fillers serve as brief planning pauses and discourse markers provide clear signposting.</p>
+<p>Coherence is achieved through several interlocking strategies. First, use a clear <strong>organisational structure</strong>: introduce your topic, develop your points in a logical order, and conclude with a summary or opinion. Second, use <strong>linking words and phrases</strong> to connect your sentences: "First of all," "Another reason is," "Furthermore," "In contrast," and "Therefore" all show the relationship between ideas. Third, use <strong>referencing</strong> to avoid repetition — instead of repeating a noun, use pronouns ("it," "they," "this") or synonyms. For example, instead of saying "The environment is important. The environment is threatened by pollution. We must protect the environment," say "The environment is important. It is threatened by pollution, and we must protect it." These techniques create a smooth, connected flow that is much easier to follow.</p>
+<p>Practical fluency-building exercises include <strong>timed speaking</strong> (talk about a topic for one minute without stopping), <strong>4/3/2 technique</strong> (deliver the same content three times, first in four minutes, then three, then two, forcing yourself to become more concise and fluent), and <strong>shadowing</strong> (repeating after a native speaker to internalise natural rhythm and intonation). Recording yourself and analysing the playback is also invaluable — you will notice hesitation patterns, repeated fillers, and organisational gaps that you might not be aware of while speaking. The goal is not perfection but <em>continuous improvement</em>: each practice session should feel slightly smoother than the last.</p>`,
+    examples: [
+      {
+        sentence: "\"Well, I think that social media has both positive and negative effects. On the one hand, it connects people. On the other hand, it can be quite addictive.\"",
+        note: "'Well' is a filler that gives a moment to plan. 'On the one hand / On the other hand' is a discourse marker pair that signals contrasting ideas, improving coherence."
+      },
+      {
+        sentence: "\"There are several reasons for this. First of all, the cost of living has risen. Furthermore, wages have not kept pace with inflation.\"",
+        note: "'First of all' and 'Furthermore' are sequential discourse markers that organise ideas in a logical order, making the argument easy to follow."
+      },
+      {
+        sentence: "\"I went to Paris last year. It was amazing. This city has so much to offer — the food, the architecture, everything.\"",
+        note: "'It' and 'This city' are referencing devices that avoid repeating 'Paris.' Using pronouns and demonstratives creates a smooth, connected flow."
+      },
+      {
+        sentence: "\"I mean, the situation is complicated. Let me put it this way — the government wants to reduce emissions, but at the same time, the economy depends on industry.\"",
+        note: "'I mean' and 'Let me put it this way' are fillers that buy thinking time and signal a clarification. 'At the same time' signals a contrast within the same situation."
+      },
+      {
+        sentence: "\"So, to sum up, I believe that education is the key to solving this problem. Therefore, we should invest more in schools and training programmes.\"",
+        note: "'So' signals a shift to conclusion. 'To sum up' explicitly marks the summary. 'Therefore' signals a logical consequence, linking the belief to the recommendation."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "Using long silences instead of fillers when searching for words, making the speech sound broken.",
+        correction: "Use brief fillers like 'well,' 'let me think,' or 'you see' to fill the pause naturally while you plan your next words."
+      },
+      {
+        mistake: "Overusing a single filler (e.g., saying 'like' or 'you know' in every sentence).",
+        correction: "Vary your fillers and discourse markers. Use 'well,' 'I mean,' 'actually,' 'basically,' and others to avoid repetition and sound more natural."
+      },
+      {
+        mistake: "Jumping between ideas without linking words, creating a disconnected, hard-to-follow narrative.",
+        correction: "Use discourse markers (however, furthermore, as a result) and referencing (it, this, such) to connect your ideas into a coherent whole."
+      },
+      {
+        mistake: "Repeating the same noun over and over instead of using pronouns or synonyms.",
+        correction: "Use referencing: replace repeated nouns with 'it,' 'they,' 'this,' 'that,' or synonyms. For example, 'the project ... it ... this initiative.'"
+      }
+    ],
+    quiz: [
+      {
+        question: "What is the difference between fluency and coherence?",
+        options: [
+          "Fluency is about grammar; coherence is about vocabulary",
+          "Fluency is about speaking smoothly without excessive hesitation; coherence is about organising ideas logically",
+          "Fluency is about using big words; coherence is about using short sentences",
+          "There is no real difference — they mean the same thing"
+        ],
+        correctAnswer: 1,
+        explanation: "Fluency refers to the smoothness and continuity of speech — speaking without too many pauses, hesitations, or self-corrections. Coherence refers to how logically and clearly your ideas are organised and connected. Both are needed for effective communication."
+      },
+      {
+        question: "Which of the following is a discourse marker that signals a contrast?",
+        options: [
+          "Furthermore",
+          "On the other hand",
+          "Therefore",
+          "First of all"
+        ],
+        correctAnswer: 1,
+        explanation: "'On the other hand' introduces a contrasting or opposing idea. 'Furthermore' adds information, 'Therefore' shows a result, and 'First of all' begins a sequence."
+      },
+      {
+        question: "What is the 4/3/2 technique for building fluency?",
+        options: [
+          "Speak for 4 minutes, then 3 minutes, then 2 minutes on the same topic, becoming more concise each time",
+          "Read a text 4 times, summarise it in 3 sentences, then discuss it for 2 minutes",
+          "Listen to a 4-minute audio, take 3 minutes of notes, then speak for 2 minutes",
+          "Write 4 paragraphs, reduce to 3, then deliver in 2 minutes"
+        ],
+        correctAnswer: 0,
+        explanation: "The 4/3/2 technique involves delivering the same content three times — first in four minutes, then three, then two. This forces you to become more concise, reduce hesitation, and speak more fluently with each repetition."
+      },
+      {
+        question: "Why is it important to use fillers like 'well' or 'I mean' in spoken English?",
+        options: [
+          "They make you sound more intelligent",
+          "They give you a moment to plan your next sentence without creating an awkward silence",
+          "They are required by English grammar rules",
+          "They replace the need for discourse markers"
+        ],
+        correctAnswer: 1,
+        explanation: "Fillers like 'well' and 'I mean' serve a practical purpose: they fill a brief pause while you plan your next words, preventing awkward silences and keeping the flow of speech. They are a natural part of spoken English, not a sign of weakness."
+      },
+      {
+        question: "Which sentence uses referencing effectively to avoid repetition?",
+        options: [
+          "\"Climate change is a serious problem. Climate change affects everyone. We must address climate change.\"",
+          "\"Climate change is a serious problem. It affects everyone, and we must address it.\"",
+          "\"Climate change is a serious problem. This thing affects everyone. We must address the thing.\"",
+          "\"Climate change is serious. Everyone is affected. Address it now.\""
+        ],
+        correctAnswer: 1,
+        explanation: "Option B uses 'it' as a pronoun to reference 'climate change,' avoiding the repetitive and awkward re-statement of the full noun phrase. This creates a smooth, natural flow while maintaining clarity."
+      }
+    ]
+  },
+
+  "Speaking — Describing and Comparing in Detail": {
+    explanation: `<h2>Describing and Comparing in Detail</h2>
+<p>At the intermediate level, you need to move beyond simple descriptions like "It's nice" or "They are different" towards richer, more detailed comparisons and descriptions. Effective description involves using a range of <strong>adjectives and adverbs</strong> with appropriate degree modifiers (e.g., "slightly larger," "significantly more expensive," "by far the most impressive"), as well as <strong>spatial and sequential language</strong> to organise your description logically. When describing an object, place, or process, you should cover key aspects such as appearance, function, size, material, and distinctive features. When comparing, you should identify both <strong>similarities</strong> and <strong>differences</strong>, using structures that highlight the degree and nature of the comparison.</p>
+<p>For detailed comparisons, intermediate speakers should master several key structures. <strong>Comparative + than</strong> is the foundation: "The new model is considerably faster than the old one." <strong>Not as... as</strong> expresses a negative comparison: "The hotel was not as luxurious as we expected." <strong>Whereas / while</strong> introduces a contrast: "City life is fast-paced, whereas rural life tends to be more relaxed." <strong>Similar to / different from</strong> states comparison directly: "The Japanese education system is similar to the Korean one in many respects." <strong>In contrast / on the contrary</strong> signals a strong difference: "The north of the country is mountainous; in contrast, the south is mostly flat." Using a variety of these structures, rather than repeating "more than" or "different," makes your speech more sophisticated and precise.</p>
+<p>When describing something in detail, it is important to follow a <strong>logical order</strong>. For physical objects or places, you might move from general to specific: start with an overall impression, then describe individual features. For processes, use <strong>sequential language</strong>: "First, the raw materials are collected. Next, they are processed. Then, they are assembled. Finally, the finished product is inspected." For people, you might cover appearance, personality, and achievements in sequence. Using organisational patterns like these helps the listener form a clear mental image and demonstrates your ability to structure extended speech — a skill assessed in exams like IELTS and Cambridge B2 First.</p>
+<p>A common pitfall is relying on vague or generic adjectives. Words like "nice," "good," "bad," "big," and "small" convey very little specific information. Instead, use more precise alternatives: "spacious" instead of "big," "dilapidated" instead of "bad condition," "breathtaking" instead of "nice," and "minute" instead of "small." Degree modifiers add further precision: rather than saying "very different," say "strikingly different" or "marginally different" depending on the actual degree. Building a rich descriptive vocabulary is one of the most impactful things you can do to improve your speaking at this level.</p>`,
+    examples: [
+      {
+        sentence: "\"The cathedral is significantly older than the town hall, dating back to the 12th century, whereas the town hall was built in the 18th century.\"",
+        note: "'Significantly older' uses a degree modifier for precision. 'Whereas' introduces a clear contrast between the two buildings' ages."
+      },
+      {
+        sentence: "\"The two cities are similar in terms of population size, but they differ markedly in their cultural offerings.\"",
+        note: "'Similar in terms of' and 'differ markedly in' are sophisticated comparative structures that go beyond simple 'same/different' language."
+      },
+      {
+        sentence: "\"The apartment is not as spacious as we were led to believe — the living room is barely large enough for a sofa and a coffee table.\"",
+        note: "'Not as spacious as' expresses a negative comparison, followed by a specific detail that illustrates the point, making the description vivid and convincing."
+      },
+      {
+        sentence: "\"First, you'll see the main entrance with its ornate wooden doors. Moving inside, the foyer features a marble floor and a grand staircase. Beyond that, the gallery rooms are arranged in a circular layout.\"",
+        note: "Spatial organisation using sequencing phrases ('First,' 'Moving inside,' 'Beyond that') guides the listener through a physical space in a logical order."
+      },
+      {
+        sentence: "\"The landscape here is strikingly different from what I'm used to — instead of rolling green hills, there are dramatic red sandstone cliffs stretching to the horizon.\"",
+        note: "'Strikingly different from' is a strong comparative phrase. The description then provides a vivid contrast using specific imagery rather than vague terms."
+      },
+      {
+        sentence: "\"While both courses cover the same core topics, the online version is considerably more flexible, allowing students to study at their own pace.\"",
+        note: "'While' introduces a concession (similarity), and 'considerably more flexible' introduces the key difference with a precise degree modifier."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "\"It is more big than the other one.\"",
+        correction: "\"It is bigger than the other one.\" (Short adjectives use -er, not 'more + adjective.')"
+      },
+      {
+        mistake: "\"The weather is same as yesterday.\"",
+        correction: "\"The weather is the same as yesterday.\" (The definite article 'the' is required before 'same.')"
+      },
+      {
+        mistake: "Using vague language: \"The city is very nice and very big and very different from my town.\"",
+        correction: "Use precise vocabulary: \"The city is vibrant and sprawling, with a cultural scene that contrasts sharply with my quiet hometown.\""
+      },
+      {
+        mistake: "\"It is different of what I expected.\"",
+        correction: "\"It is different from what I expected.\" (The correct preposition after 'different' is 'from,' not 'of.')"
+      }
+    ],
+    quiz: [
+      {
+        question: "Which sentence uses a precise degree modifier correctly?",
+        options: [
+          "The new phone is very more expensive than the old one.",
+          "The new phone is slightly more expensive than the old one.",
+          "The new phone is more expensiver than the old one.",
+          "The new phone is much expensive than the old one."
+        ],
+        correctAnswer: 1,
+        explanation: "'Slightly more expensive' correctly uses a degree modifier ('slightly') before a comparative adjective ('more expensive'). 'Very more expensive' is incorrect ('very' doesn't modify comparatives), 'more expensiver' is a double comparative, and 'much expensive' lacks the comparative form."
+      },
+      {
+        question: "Which structure is used to express a negative comparison?",
+        options: [
+          "more... than",
+          "not as... as",
+          "whereas",
+          "similar to"
+        ],
+        correctAnswer: 1,
+        explanation: "'Not as... as' expresses a negative comparison, meaning something is less than something else in quality or degree. For example: 'The film was not as exciting as the book.'"
+      },
+      {
+        question: "What is the best way to organise a description of a physical place?",
+        options: [
+          "List random features as they come to mind",
+          "Use only superlative adjectives",
+          "Follow a logical spatial order, such as general impression → exterior → interior → details",
+          "Describe the smallest details first, then the largest"
+        ],
+        correctAnswer: 2,
+        explanation: "A logical spatial order — moving from general impression to specific features — helps the listener build a clear mental image. Jumping randomly between features makes the description confusing and hard to follow."
+      },
+      {
+        question: "Which of the following is a more precise alternative to 'very big'?",
+        options: [
+          "Really large",
+          "Spacious or sprawling (depending on context)",
+          "Big big",
+          "More big"
+        ],
+        correctAnswer: 1,
+        explanation: "'Spacious' or 'sprawling' are precise, vivid alternatives to 'very big.' 'Spacious' implies generous interior space, while 'sprawling' suggests something spread out over a large area. Using specific vocabulary is always better than stacking intensifiers."
+      },
+      {
+        question: "Complete the comparison: 'The two programmes are similar ___ many respects, but they differ markedly ___ their approach to assessment.'",
+        options: [
+          "in / from",
+          "in / in",
+          "to / from",
+          "from / in"
+        ],
+        correctAnswer: 1,
+        explanation: "The correct phrases are 'similar in many respects' and 'differ in their approach.' Both use the preposition 'in' to specify the area of similarity or difference. 'Different from' is the standard preposition for 'different,' but 'differ in' is correct for specifying the aspect."
+      }
+    ]
+  },
+
+  "Speaking — Expressing and Justifying Opinions": {
+    explanation: `<h2>Expressing and Justifying Opinions Effectively</h2>
+<p>At the B1-B2 level, you are expected not only to state your opinion but also to <strong>justify</strong> it with reasons, examples, and evidence. Simply saying "I think it is good" or "I disagree" is no longer sufficient — you need to explain <em>why</em> you hold that view and support it with logical arguments. There are several useful phrases for introducing opinions: <strong>"In my opinion," "I firmly believe that," "From my perspective," "As far as I am concerned,"</strong> and <strong>"It seems to me that."</strong> These expressions signal to the listener that what follows is your personal viewpoint, not a fact, and they give your speech a more considered, mature quality.</p>
+<p>Justifying an opinion requires a clear <strong>reason-result structure</strong>. After stating your opinion, use phrases like "because," "since," "The main reason is that," or "This is due to" to introduce your reasoning. Then, provide a <strong>concrete example</strong> or piece of evidence: "For instance," "A good example of this is," or "This can be seen in the case of..." For example: "In my opinion, remote work should be encouraged. The main reason is that it reduces commuting time, which improves work-life balance. For instance, a friend of mine saved two hours a day after switching to remote work, and her productivity actually increased." This three-part structure — <strong>opinion → reason → example</strong> — is the foundation of persuasive spoken argument.</p>
+<p>It is equally important to be able to express <strong>disagreement politely</strong> and <strong>acknowledge opposing views</strong>. Phrases like "I see your point, but..." "I understand what you are saying, however..." and "That may be true, but I would argue that..." allow you to disagree without being confrontational. Acknowledging the other side before presenting your own view is a sign of strong argumentation: "While it is true that social media can be a useful tool for communication, I believe its negative effects on mental health outweigh the benefits." This balanced approach demonstrates both linguistic skill and critical thinking.</p>
+<p>A common weakness at this level is the overuse of "I think" as the only opinion phrase. While "I think" is perfectly correct, repeating it in every sentence makes your speech sound monotonous and limits your expressive range. Vary your opinion phrases according to the strength of your view: "I tend to think that" (mild), "I believe that" (moderate), "I am convinced that" (strong), "I strongly believe that" (very strong). Similarly, when you are unsure, use hedging language: "It could be argued that," "It seems likely that," or "There is a chance that." These nuances allow you to express degrees of certainty and make your arguments more sophisticated.</p>`,
+    examples: [
+      {
+        sentence: "\"In my opinion, learning a second language should be compulsory in schools. The main reason is that it broadens students' cultural understanding and improves cognitive skills.\"",
+        note: "The opinion is introduced with 'In my opinion,' followed by justification with 'The main reason is that.' This creates a clear opinion-reason structure."
+      },
+      {
+        sentence: "\"I see your point about the cost, but I would argue that the long-term benefits of investing in renewable energy far outweigh the initial expenses.\"",
+        note: "A polite disagreement that acknowledges the opposing view ('I see your point') before presenting a counter-argument ('but I would argue that')."
+      },
+      {
+        sentence: "\"I am convinced that universal healthcare is essential. For instance, countries like Sweden and Japan, which have such systems, consistently rank highest in quality-of-life indices.\"",
+        note: "'I am convinced that' expresses a strong opinion. 'For instance' introduces concrete evidence from specific countries to support the claim."
+      },
+      {
+        sentence: "\"While it is true that technology can be distracting, it seems to me that its benefits — particularly in education and healthcare — are undeniable.\"",
+        note: "'While it is true that' acknowledges a counter-argument. 'It seems to me that' introduces the speaker's opposing view in a balanced, non-confrontational way."
+      },
+      {
+        sentence: "\"I tend to think that remote learning works better for some students than others, since it requires a high degree of self-discipline.\"",
+        note: "'I tend to think that' expresses a mild or qualified opinion. 'Since' introduces a reason that explains the nuance in the opinion."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "Stating an opinion without any justification: \"I think it is bad.\"",
+        correction: "Always follow your opinion with a reason and ideally an example: \"I think it is bad because it discourages creativity, and for instance, students in strict systems often report lower motivation.\""
+      },
+      {
+        mistake: "Using 'I think' in every sentence when expressing opinions.",
+        correction: "Vary your opinion phrases: 'In my view,' 'I firmly believe,' 'From my perspective,' 'As far as I'm concerned,' and 'I am convinced that' all provide variety and nuance."
+      },
+      {
+        mistake: "Disagreeing too bluntly: \"You are wrong.\"",
+        correction: "Disagree politely: \"I see your point, but I have a different perspective on this,\" or \"I understand what you're saying, but I would argue that...\""
+      },
+      {
+        mistake: "Presenting opinions as facts: \"This is the best approach.\"",
+        correction: "Use hedging language to signal that this is your view: \"In my opinion, this seems to be the best approach,\" or \"It could be argued that this is the most effective approach.\""
+      }
+    ],
+    quiz: [
+      {
+        question: "Which phrase expresses a STRONG opinion?",
+        options: [
+          "I tend to think that",
+          "I am convinced that",
+          "It could be argued that",
+          "It seems to me that"
+        ],
+        correctAnswer: 1,
+        explanation: "'I am convinced that' expresses a strong, firm opinion. 'I tend to think that' is mild, 'It could be argued that' is a hedge (not even the speaker's own opinion necessarily), and 'It seems to me that' is moderate."
+      },
+      {
+        question: "What is the three-part structure recommended for justifying an opinion?",
+        options: [
+          "Fact → Opinion → Conclusion",
+          "Opinion → Reason → Example",
+          "Example → Reason → Opinion",
+          "Introduction → Body → Conclusion"
+        ],
+        correctAnswer: 1,
+        explanation: "The recommended structure is Opinion → Reason → Example. First state your view, then explain why you hold it, then provide a concrete example or piece of evidence to support your reasoning."
+      },
+      {
+        question: "Which phrase is used to politely disagree with someone?",
+        options: [
+          "You are completely wrong.",
+          "I see your point, but I would argue that...",
+          "That is a stupid idea.",
+          "No, I disagree completely."
+        ],
+        correctAnswer: 1,
+        explanation: "'I see your point, but I would argue that...' acknowledges the other person's view before presenting your counter-argument. This is polite and shows you have considered the opposing view, which strengthens your own argument."
+      },
+      {
+        question: "What is 'hedging' in the context of expressing opinions?",
+        options: [
+          "Avoiding expressing any opinion at all",
+          "Using language that expresses uncertainty or qualification, such as 'It could be argued that'",
+          "Repeating your opinion several times for emphasis",
+          "Agreeing with every viewpoint to avoid conflict"
+        ],
+        correctAnswer: 1,
+        explanation: "Hedging means using language that softens or qualifies a claim, expressing a degree of uncertainty. Phrases like 'It could be argued that,' 'It seems likely that,' and 'There is a chance that' are all hedging devices. They make your arguments more nuanced and careful."
+      },
+      {
+        question: "Why should you avoid using only 'I think' when expressing opinions?",
+        options: [
+          "Because 'I think' is grammatically incorrect",
+          "Because it makes your speech sound monotonous and limits your ability to express different degrees of certainty",
+          "Because native speakers never use 'I think'",
+          "Because 'I think' is too informal for any situation"
+        ],
+        correctAnswer: 1,
+        explanation: "While 'I think' is grammatically correct and commonly used, relying on it exclusively makes your speech repetitive and prevents you from expressing the strength of your conviction. Using a range of phrases ('I believe,' 'I am convinced,' 'I tend to think') allows you to convey varying degrees of certainty."
+      }
+    ]
+  },
+
+  "Reading — Inference and Critical Analysis": {
+    explanation: `<h2>Reading Between the Lines: Inference and Critical Analysis</h2>
+<p>At the intermediate level, reading comprehension goes well beyond understanding the literal meaning of words on a page. <strong>Inference</strong> is the ability to read between the lines — to understand meanings that are implied but not directly stated. Writers often suggest ideas through tone, word choice, and context rather than spelling them out explicitly. For example, if a text describes a character who "forced a smile and turned away," you can infer that the character is unhappy or uncomfortable, even though the text never says "she was sad." Developing inference skills allows you to understand the full meaning of a text, including the author's attitudes, the subtext, and the implications that lie beneath the surface.</p>
+<p>Critical analysis takes inference a step further by asking you to <strong>evaluate</strong> what you read, not just understand it. This means questioning the author's purpose, identifying bias, assessing the strength of evidence, and recognising persuasive techniques. When reading critically, you should ask questions like: <em>What is the author trying to achieve? Is the argument supported by evidence? Are there logical fallacies? Does the author use emotional language to manipulate the reader? Are alternative viewpoints acknowledged?</em> Critical readers do not accept information passively — they engage with the text, weighing its strengths and weaknesses before forming their own judgement. This skill is essential not only for academic reading but also for navigating the vast amounts of information encountered in daily life, from news articles to advertisements.</p>
+<p>Several language clues can help you make inferences while reading. <strong>Connotation</strong> — the emotional associations of words beyond their literal meaning — is a powerful signal. For instance, describing a government policy as "draconian" (harsh, oppressive) conveys strong disapproval, while calling it "robust" (strong, effective) conveys approval. <strong>Tone</strong> — the author's attitude towards the subject — can be identified through word choice, sentence structure, and rhetorical devices. A text that uses ironic statements, rhetorical questions, or loaded vocabulary may be expressing a very different meaning from what the words literally say. Recognising these clues is key to accurate inference.</p>
+<p>Practising critical analysis involves reading a variety of text types — opinion pieces, editorials, reviews, and persuasive essays — where the author's viewpoint is central. As you read, annotate the text: highlight claims, underline supporting evidence, and note any logical gaps or unsupported assertions. Compare how different sources treat the same topic and consider why they might differ. Over time, you will develop the habit of reading with a questioning mind, which is the hallmark of a proficient, independent reader at B2 level and beyond.</p>`,
+    examples: [
+      {
+        sentence: "\"The company described its recent losses as 'a temporary adjustment period.'\"",
+        note: "Inference: The company is downplaying its financial troubles. The euphemistic phrase 'temporary adjustment period' implies the situation may be more serious than the company admits."
+      },
+      {
+        sentence: "\"Despite the new regulations, factories continue to discharge waste into the river, and local residents report a noticeable increase in skin complaints.\"",
+        note: "Critical analysis: The word 'despite' signals that the regulations are ineffective. The juxtaposition of continued pollution with health effects implies a causal link the author wants the reader to draw."
+      },
+      {
+        sentence: "\"The so-called 'reform' has done nothing but increase the burden on ordinary families.\"",
+        note: "The phrase 'so-called' and the quotation marks around 'reform' show the author's scepticism — they do not believe the policy deserves to be called a reform. This is an example of critical tone through word choice."
+      },
+      {
+        sentence: "\"While some experts claim the technology is safe, others have raised concerns about its long-term environmental impact.\"",
+        note: "The author presents both sides but uses 'while' to signal a contrast. The structure suggests the author may lean towards the concerns, as the second clause is given more weight by being the main clause."
+      },
+      {
+        sentence: "\"She stared at the letter for a long time before carefully placing it in the drawer, unread.\"",
+        note: "Inference: The character's hesitation and the act of putting the letter away unread suggest she is afraid of or unwilling to face its contents. The emotional subtext is conveyed entirely through actions, not statements."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "Confusing inference with guessing without evidence — making assumptions that are not supported by the text.",
+        correction: "Inferences must be based on textual evidence. Always ask: 'What specific words or phrases in the text support my inference?' If you cannot point to evidence, it is a guess, not an inference."
+      },
+      {
+        mistake: "Taking everything the author writes at face value without considering bias or purpose.",
+        correction: "Ask critical questions: What is the author's purpose? What evidence is provided? Are alternative viewpoints considered? Is the language neutral or loaded?"
+      },
+      {
+        mistake: "Assuming that a text's meaning is always straightforward and literal.",
+        correction: "Pay attention to connotation, tone, irony, and implied meanings. Writers often communicate more between the lines than directly on them."
+      },
+      {
+        mistake: "Confusing the author's opinion with fact in persuasive or opinion texts.",
+        correction: "Distinguish between factual statements (verifiable claims) and opinions (judgements or beliefs). Language clues like 'I believe,' 'arguably,' and 'perhaps' signal opinions."
+      }
+    ],
+    quiz: [
+      {
+        question: "What is the key difference between inference and a guess?",
+        options: [
+          "There is no difference; they mean the same thing",
+          "An inference is based on textual evidence, while a guess is not supported by the text",
+          "An inference is always correct, while a guess is always wrong",
+          "A guess is made before reading, while an inference is made after"
+        ],
+        correctAnswer: 1,
+        explanation: "An inference is a logical conclusion drawn from evidence in the text, while a guess is an assumption made without supporting evidence. Inferences must always be grounded in what the text actually says or implies."
+      },
+      {
+        question: "If an author describes a policy as 'draconian,' what can you infer about their attitude?",
+        options: [
+          "They approve of the policy",
+          "They are neutral about the policy",
+          "They strongly disapprove of the policy",
+          "They are confused about the policy"
+        ],
+        correctAnswer: 2,
+        explanation: "'Draconian' means extremely harsh and oppressive. By choosing this word with strongly negative connotations, the author signals disapproval of the policy. This is an inference based on word choice (connotation)."
+      },
+      {
+        question: "What does the phrase 'so-called' before a word typically signal?",
+        options: [
+          "The author agrees with the term being used",
+          "The author is sceptical or dismissive of the term",
+          "The author is defining the term for the reader",
+          "The author is quoting a scientific source"
+        ],
+        correctAnswer: 1,
+        explanation: "'So-called' typically signals the author's scepticism or distancing — they do not fully accept the validity of the term that follows. For example, 'the so-called experts' implies the author questions whether these people are truly experts."
+      },
+      {
+        question: "Which of the following is a question a critical reader should ask?",
+        options: [
+          "How many pages does this text have?",
+          "Is the argument supported by evidence, or are there logical gaps?",
+          "What font is the text written in?",
+          "Who printed this text?"
+        ],
+        correctAnswer: 1,
+        explanation: "Critical readers evaluate the quality of arguments by asking whether claims are supported by evidence and whether the reasoning is sound. This is the core of critical analysis — engaging with the content rather than accepting it passively."
+      },
+      {
+        question: "In the sentence 'She forced a smile and turned away,' what can be inferred?",
+        options: [
+          "She was genuinely happy",
+          "She was pretending to be happy but was actually upset or uncomfortable",
+          "She was laughing at a joke",
+          "She was excited about something"
+        ],
+        correctAnswer: 1,
+        explanation: "The verb 'forced' implies the smile was not genuine — it required effort because her real emotion was different. 'Turned away' suggests she did not want the other person to see her true feelings. Together, these details imply she was masking unhappiness or discomfort."
+      }
+    ]
+  },
+
+  "Reading — Skimming and Scanning Mastery": {
+    explanation: `<h2>Mastering Skimming and Scanning Techniques</h2>
+<p><strong>Skimming</strong> and <strong>scanning</strong> are two essential rapid-reading techniques that every intermediate learner must master. Skimming means reading quickly to get a <strong>general overview</strong> of a text — its main topic, structure, and key ideas — without reading every word. Scanning means searching a text quickly for <strong>specific information</strong> — a name, a date, a number, or a particular keyword — without reading the surrounding text in detail. Both skills are distinct from careful reading and serve different purposes, but together they allow you to navigate long texts efficiently and locate information quickly, which is crucial in academic, professional, and exam settings.</p>
+<p>Effective skimming involves reading strategically rather than randomly. Start with the <strong>title and headings</strong> — these tell you the topic and structure. Read the <strong>first sentence of each paragraph</strong> (the topic sentence), which usually contains the main idea. Glance at the <strong>first and last paragraphs</strong> of the text, as these typically contain the introduction and conclusion. Look at any <strong>visual elements</strong> such as charts, graphs, or images with captions, as they often summarise key data. Skip detailed examples, statistics, and supporting evidence on your first pass — you can always return to them if needed. The goal is to answer the question "What is this text about, and what are its main points?" in a fraction of the time it would take to read every word.</p>
+<p>Scanning requires a different approach. Before scanning, you must know exactly what you are looking for — a <strong>specific piece of information</strong>. If you are looking for a name, train your eyes to sweep the page looking for capitalised words. If you are looking for a date, look for numbers. If you are looking for a definition, scan for terms in bold or italic, or for phrases like "is defined as" or "refers to." Do not read complete sentences while scanning — your eyes should move rapidly across and down the page in a systematic pattern (often an S-shape or Z-shape), stopping only when they register the target information. Once you locate it, you can read the surrounding context carefully to confirm it answers your question.</p>
+<p>Both skills improve with practice and are tested directly in exams such as IELTS, TOEFL, and Cambridge B2 First. A common mistake is trying to read every word when you only need a general overview (skimming situation) or when you only need one specific fact (scanning situation). This wastes time and can actually reduce comprehension because you lose sight of the bigger picture while focusing on irrelevant details. The most effective readers move fluidly between skimming, scanning, and careful reading depending on the task, choosing the appropriate strategy for each situation. Developing this flexibility is a hallmark of a confident, efficient reader.</p>`,
+    examples: [
+      {
+        sentence: "Task: Find out what year the company was founded. → Scan for numbers and the keyword 'founded' or 'established.'",
+        note: "When scanning for a date, let your eyes move rapidly over the text, stopping only when you see a number near the keywords 'founded' or 'established.' Do not read full sentences."
+      },
+      {
+        sentence: "Task: Get the general idea of a 3-page article on renewable energy. → Skim by reading the title, subheadings, first sentence of each paragraph, and the conclusion.",
+        note: "Skimming strategy: title gives the topic, subheadings reveal the structure, first sentences give main ideas, and the conclusion summarises the argument. This takes 2-3 minutes instead of 15."
+      },
+      {
+        sentence: "Task: Find the author's definition of 'sustainability.' → Scan for the word in bold/italic or phrases like 'is defined as' or 'means.'",
+        note: "Definitions are often highlighted typographically or signalled by phrases like 'is defined as,' 'refers to,' or 'by X we mean.' Scan for these patterns rather than reading the whole text."
+      },
+      {
+        sentence: "Task: Determine whether an article supports or opposes a new law. → Skim the introduction and conclusion, and look for opinion markers like 'should,' 'must,' 'unfortunately,' or 'fortunately.'",
+        note: "The author's stance is usually clearest in the introduction and conclusion. Opinion markers reveal attitude without needing to read every supporting paragraph."
+      },
+      {
+        sentence: "Task: Find the price of a specific product in a catalogue. → Scan for the product name (capitalised or bold), then look for a currency symbol near it.",
+        note: "Scanning for prices: locate the product name first, then narrow your search to the immediately surrounding text for a number with a currency symbol (£, $, €)."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "Reading every word when you only need a general overview of the text.",
+        correction: "Use skimming: read the title, headings, first sentence of each paragraph, and the conclusion. Skip details, examples, and statistics on your first pass."
+      },
+      {
+        mistake: "Reading entire sentences when scanning for a specific name, date, or number.",
+        correction: "When scanning, let your eyes move quickly across the page looking only for the visual pattern of your target (capitalised words for names, digits for dates/numbers). Stop only when you find it."
+      },
+      {
+        mistake: "Skimming without a clear purpose — just 'glancing' at the text without trying to identify main ideas.",
+        correction: "Always skim with a question in mind: 'What is the main topic?' 'What are the key arguments?' This focuses your attention and makes skimming purposeful."
+      },
+      {
+        mistake: "Using only one reading strategy for all tasks instead of choosing the appropriate technique.",
+        correction: "Match your strategy to the task: skim for general understanding, scan for specific facts, and read carefully for detailed comprehension. Flexibility is key."
+      }
+    ],
+    quiz: [
+      {
+        question: "What is the main difference between skimming and scanning?",
+        options: [
+          "Skimming is for short texts; scanning is for long texts",
+          "Skimming gets a general overview; scanning finds specific information",
+          "Skimming is slower than scanning",
+          "There is no real difference between them"
+        ],
+        correctAnswer: 1,
+        explanation: "Skimming is reading quickly for a general understanding of the text's main ideas and structure. Scanning is searching rapidly for a specific piece of information like a name, date, or keyword. They serve different purposes and use different techniques."
+      },
+      {
+        question: "When skimming a text, which part should you always read?",
+        options: [
+          "Every word in every paragraph",
+          "Only the last paragraph",
+          "The title, headings, and the first sentence of each paragraph",
+          "The bibliography and footnotes"
+        ],
+        correctAnswer: 2,
+        explanation: "When skimming, focus on the title and headings (for topic and structure) and the first sentence of each paragraph (for main ideas). This gives you the overall picture without reading every word."
+      },
+      {
+        question: "You need to find the population of Tokyo in a 500-page report. Which strategy should you use?",
+        options: [
+          "Skim the entire report from beginning to end",
+          "Read every page carefully until you find the information",
+          "Scan for the word 'Tokyo' and numbers near it, possibly using the index first",
+          "Read only the introduction and conclusion"
+        ],
+        correctAnswer: 2,
+        explanation: "This is a scanning task — you need a specific piece of information. Scan for 'Tokyo' and nearby numbers, or check the index first to locate the relevant page. Reading the whole report or just the introduction/conclusion would be inefficient."
+      },
+      {
+        question: "When scanning a text for a person's name, what visual feature should your eyes look for?",
+        options: [
+          "Numbers and dates",
+          "Capitalised words",
+          "Words in bold or italic",
+          "Short paragraphs"
+        ],
+        correctAnswer: 1,
+        explanation: "Proper names are always capitalised in English. When scanning for a name, train your eyes to pick out capitalised words, which will help you locate the name quickly without reading every word."
+      },
+      {
+        question: "Which of the following is NOT an effective skimming technique?",
+        options: [
+          "Reading the first and last paragraphs carefully",
+          "Reading every supporting example in detail",
+          "Noting headings and subheadings",
+          "Reading the first sentence of each body paragraph"
+        ],
+        correctAnswer: 1,
+        explanation: "Reading every supporting example in detail is the opposite of skimming — it is careful reading. Skimming involves skipping examples, statistics, and supporting evidence on your first pass, focusing only on main ideas and structure."
+      }
+    ]
+  },
+
+  "Writing — Cohesion and Coherence in Essays": {
+    explanation: `<h2>Achieving Cohesion and Coherence in Essay Writing</h2>
+<p><strong>Cohesion</strong> and <strong>coherence</strong> are two fundamental qualities of effective writing that are often confused but distinctly different. Cohesion refers to the <strong>surface-level connections</strong> between sentences and paragraphs — the grammatical and lexical links that hold a text together. These include linking words (however, furthermore, therefore), referencing (it, this, such), substitution (one, do, so), and ellipsis (omitting words that are understood from context). Coherence refers to the <strong>logical organisation of ideas</strong> — the underlying structure that makes a text make sense as a whole. A text can be cohesive (full of linking words) without being coherent (the ideas don't follow a logical progression), and vice versa. Both must work together for writing to be effective.</p>
+<p>Paragraph structure is the backbone of coherence. Each paragraph should contain <strong>one main idea</strong>, expressed in a clear <strong>topic sentence</strong> (usually the first sentence). The remaining sentences in the paragraph should support, explain, or illustrate this main idea with reasons, examples, and evidence. The final sentence may provide a conclusion or transition to the next paragraph. This pattern — sometimes called the <strong>PEEL structure</strong> (Point, Evidence, Explanation, Link) — ensures that every paragraph is focused and purposeful. A common mistake at the intermediate level is writing paragraphs that contain multiple unrelated ideas, making it difficult for the reader to follow the argument.</p>
+<p>Linking words and phrases are the most visible tools of cohesion, but they must be used <strong>accurately and appropriately</strong>. Each linking word expresses a specific logical relationship: <strong>addition</strong> (furthermore, in addition, moreover), <strong>contrast</strong> (however, nevertheless, on the other hand), <strong>cause and effect</strong> (therefore, consequently, as a result), <strong>concession</strong> (although, despite, even though), and <strong>sequencing</strong> (firstly, subsequently, finally). Using the wrong linking word distorts the logical relationship between your ideas — for example, using 'furthermore' (addition) when you mean 'however' (contrast) will confuse the reader completely. Equally, overusing linking words — starting every sentence with one — makes writing feel mechanical and unnatural. Use them where they genuinely clarify a relationship, not as decoration.</p>
+<p>Beyond linking words, <strong>referencing and substitution</strong> are subtle but powerful cohesion devices. Instead of repeating a noun phrase, use pronouns ("it," "they"), demonstratives ("this," "these"), or synonyms ("the scheme," "the initiative," "the programme" for a government plan). Instead of repeating a verb phrase, use substitution: "Some students enjoy group work, but others <em>do not</em>" (instead of repeating "enjoy group work"). These devices create a smooth, flowing text where ideas connect naturally without awkward repetition. Mastering them is a sign of mature, confident writing at B2 level and above.</p>`,
+    examples: [
+      {
+        sentence: "\"The government has introduced a new recycling policy. This initiative aims to reduce household waste by 50% over the next decade.\"",
+        note: "'This initiative' is a referencing device that connects the second sentence to the first, avoiding repetition of 'new recycling policy' while maintaining clarity."
+      },
+      {
+        sentence: "\"Many people believe that technology has improved education. However, critics argue that excessive screen time can harm children's concentration.\"",
+        note: "'However' signals a contrast between the two sentences. It tells the reader that the second sentence presents an opposing viewpoint."
+      },
+      {
+        sentence: "\"Some employees prefer working from home; others do not, citing feelings of isolation and lack of collaboration.\"",
+        note: "'Others do not' uses substitution — 'do not' replaces the full phrase 'do not prefer working from home.' This avoids repetition while keeping the meaning clear."
+      },
+      {
+        sentence: "\"Firstly, renewable energy reduces carbon emissions. Secondly, it creates new jobs in emerging industries. Finally, it decreases dependence on imported fossil fuels.\"",
+        note: "'Firstly,' 'Secondly,' and 'Finally' are sequencing linking words that organise three parallel arguments in a clear, logical order."
+      },
+      {
+        sentence: "\"Although the project was ambitious, it was completed on time. Consequently, the team received a commendation from the board.\"",
+        note: "'Although' introduces a concession (the project was ambitious), and 'Consequently' signals the result or effect (receiving a commendation). Both words accurately express the logical relationships."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "Starting every sentence with a linking word, making the writing sound mechanical.",
+        correction: "Use linking words only where they genuinely clarify a logical relationship. Alternate between linked sentences and independent ones to create a natural rhythm."
+      },
+      {
+        mistake: "Using the wrong linking word: \"The weather was terrible. Furthermore, we decided to stay home.\"",
+        correction: "'Furthermore' adds information, but here a result is needed: \"The weather was terrible. Consequently, we decided to stay home.\" or \"As a result, we decided to stay home.\""
+      },
+      {
+        mistake: "Repeating the same noun in every sentence: \"The environment is important. The environment is in danger. We must save the environment.\"",
+        correction: "Use referencing: \"The environment is important. It is currently in danger, and we must take action to protect it.\""
+      },
+      {
+        mistake: "Writing paragraphs that contain multiple unrelated ideas without a clear topic sentence.",
+        correction: "Each paragraph should focus on one main idea, introduced in a topic sentence. Start a new paragraph when you shift to a new point."
+      }
+    ],
+    quiz: [
+      {
+        question: "What is the difference between cohesion and coherence?",
+        options: [
+          "They are the same thing",
+          "Cohesion is about surface-level connections (linking words, referencing); coherence is about the logical organisation of ideas",
+          "Cohesion is about ideas; coherence is about grammar",
+          "Cohesion is for paragraphs; coherence is for sentences"
+        ],
+        correctAnswer: 1,
+        explanation: "Cohesion refers to the visible connections between sentences and paragraphs — linking words, pronouns, and substitution devices. Coherence refers to whether the ideas are logically organised and make sense as a whole. Both are needed for effective writing."
+      },
+      {
+        question: "Which linking word correctly expresses a CAUSE-AND-EFFECT relationship?",
+        options: [
+          "Furthermore",
+          "Nevertheless",
+          "Consequently",
+          "Whereas"
+        ],
+        correctAnswer: 2,
+        explanation: "'Consequently' means 'as a result' and expresses cause and effect. 'Furthermore' adds information, 'Nevertheless' introduces a contrast despite something, and 'Whereas' compares two contrasting facts."
+      },
+      {
+        question: "What is the PEEL structure for paragraphs?",
+        options: [
+          "Plan, Edit, Evaluate, Link",
+          "Point, Evidence, Explanation, Link",
+          "Purpose, Example, Effect, Language",
+          "Position, Emphasis, Evidence, Logic"
+        ],
+        correctAnswer: 1,
+        explanation: "PEEL stands for Point (topic sentence stating the main idea), Evidence (data or examples), Explanation (analysing the evidence), and Link (connecting back to the main argument or transitioning to the next paragraph)."
+      },
+      {
+        question: "Which sentence uses referencing effectively?",
+        options: [
+          "\"The government announced a new policy. The new policy will affect millions of people. The new policy has been controversial.\"",
+          "\"The government announced a new policy. It will affect millions of people and has already proved controversial.\"",
+          "\"The government announced a new policy. That thing will affect people. That thing is controversial.\"",
+          "\"The government announced a new policy. A policy will affect millions. A policy is controversial.\""
+        ],
+        correctAnswer: 1,
+        explanation: "Option B uses 'it' to reference 'new policy' and combines the ideas into a flowing sentence. The other options either repeat the noun awkwardly, use vague references ('that thing'), or omit the article incorrectly."
+      },
+      {
+        question: "Identify the error: \"The team worked overtime. However, they met the deadline.\"",
+        options: [
+          "'However' should be replaced with a word showing result, such as 'Consequently' or 'As a result'",
+          "'However' should be replaced with 'Furthermore'",
+          "The sentence is correct as written",
+          "'However' should be replaced with 'Although'"
+        ],
+        correctAnswer: 0,
+        explanation: "Meeting the deadline is a RESULT of working overtime, not a contrast. 'However' implies contrast, which is illogical here. 'Consequently' or 'As a result' correctly expresses the cause-and-effect relationship: working overtime → meeting the deadline."
+      }
+    ]
+  },
+
+  "Writing — Argumentative and Persuasive Essays": {
+    explanation: `<h2>Writing Argumentative and Persuasive Essays</h2>
+<p>Argumentative and persuasive essays require you to take a position on an issue and defend it with logical reasoning and evidence. While the two types overlap, there is an important distinction: an <strong>argumentative essay</strong> presents a balanced, reasoned case for a particular viewpoint, acknowledging counter-arguments and refuting them with evidence. A <strong>persuasive essay</strong> goes further — it aims to convince the reader to adopt a specific position or take action, often using emotional appeals alongside logical ones. At the B1-B2 level, you should be able to write both types, but the argumentative approach is more commonly required in academic and exam contexts because it demonstrates critical thinking and balanced judgement.</p>
+<p>The structure of an argumentative essay follows a clear pattern. The <strong>introduction</strong> presents the topic, provides background context, and states your thesis — the position you will argue for. Each <strong>body paragraph</strong> develops one main argument in support of your thesis, using the PEEL structure: Point (your claim), Evidence (data, examples, expert opinion), Explanation (how the evidence supports your claim), and Link (connecting back to the thesis). A strong essay also includes a <strong>counter-argument paragraph</strong>, where you acknowledge an opposing view and then refute it, explaining why it is weaker or less valid than your position. The <strong>conclusion</strong> restates the thesis in different words, summarises the key arguments, and may end with a call to action or a final thought. This structure ensures your essay is logical, balanced, and persuasive.</p>
+<p>Effective argumentative writing depends on the quality of your evidence and reasoning. Avoid <strong>logical fallacies</strong> — errors in reasoning that undermine your argument. Common fallacies include: <strong>ad hominem</strong> (attacking the person instead of the argument), <strong>straw man</strong> (misrepresenting the opposing view to make it easier to attack), <strong>hasty generalisation</strong> (drawing a broad conclusion from limited evidence), and <strong>false dichotomy</strong> (presenting only two options when more exist). For example, saying "Either we ban cars or the planet is doomed" is a false dichotomy — there are many intermediate policies such as congestion charges, electric vehicles, and improved public transport. Recognising and avoiding these fallacies strengthens your argument and demonstrates intellectual honesty.</p>
+<p>The language of argumentation includes several key features. Use <strong>hedging</strong> to avoid overclaiming: "This suggests that..." rather than "This proves that..." Use <strong>reporting verbs</strong> to introduce sources: "Smith (2020) argues that..." "Jones contends that..." "Brown acknowledges that..." Use <strong>conditional structures</strong> to explore implications: "If this policy were implemented, it would lead to..." And use <strong>comparative structures</strong> to evaluate options: "While approach A has some merits, approach B is more sustainable in the long term." These language features give your writing an academic, authoritative tone that is appropriate for formal argumentation.</p>`,
+    examples: [
+      {
+        sentence: "\"This essay will argue that university education should be free for all students, as the social benefits far outweigh the financial costs.\"",
+        note: "A clear thesis statement that presents the position and previews the main line of reasoning. The phrase 'This essay will argue that' is a standard academic introduction."
+      },
+      {
+        sentence: "\"Opponents of free education argue that it would place an unsustainable burden on taxpayers. However, this view overlooks the long-term economic returns of an educated workforce.\"",
+        note: "A counter-argument followed by a refutation. 'Opponents argue that' presents the opposing view fairly, and 'However, this view overlooks' introduces the refutation."
+      },
+      {
+        sentence: "\"According to a 2022 OECD report, countries with tuition-free higher education have 15% higher graduation rates among low-income students.\"",
+        note: "Using statistical evidence from a credible source to support a claim. 'According to' is a reporting phrase that attributes the evidence correctly."
+      },
+        {
+        sentence: "\"If tuition fees were abolished, more students from disadvantaged backgrounds would be able to pursue higher education, leading to greater social mobility.\"",
+        note: "A Second Conditional structure explores a hypothetical scenario and its consequences — a powerful technique in argumentative writing for showing implications."
+      },
+      {
+        sentence: "\"In conclusion, while the financial cost of free university education is significant, the evidence demonstrates that the long-term benefits to society — including higher employment, greater innovation, and reduced inequality — are substantially greater.\"",
+        note: "A conclusion that restates the thesis, acknowledges a counter-argument ('while the financial cost is significant'), and summarises the key evidence."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "Failing to state a clear thesis — writing an essay that discusses a topic without taking a position.",
+        correction: "Always include a thesis statement in your introduction that clearly states your position. For example: 'This essay will argue that...' or 'I firmly believe that...'"
+      },
+      {
+        mistake: "Making claims without evidence: \"Social media is harmful to teenagers.\"",
+        correction: "Support every claim with evidence: \"Social media is harmful to teenagers; a 2021 study by the Royal Society for Public Health found that Instagram was rated the worst platform for young people's mental health.\""
+      },
+      {
+        mistake: "Ignoring counter-arguments entirely, making the essay one-sided and unpersuasive.",
+        correction: "Include a counter-argument paragraph: acknowledge the opposing view, then refute it with evidence or reasoning. This shows you have considered the issue from multiple perspectives."
+      },
+      {
+        mistake: "Using a false dichotomy: \"We must either ban all cars or accept the destruction of the planet.\"",
+        correction: "Present a more nuanced position that acknowledges intermediate options: \"While private car use contributes significantly to emissions, a combination of congestion pricing, investment in public transport, and incentives for electric vehicles offers a more balanced and achievable solution.\""
+      }
+    ],
+    quiz: [
+      {
+        question: "What is the key difference between an argumentative essay and a persuasive essay?",
+        options: [
+          "An argumentative essay is longer than a persuasive essay",
+          "An argumentative essay presents a balanced case with counter-arguments; a persuasive essay aims to convince the reader, often using emotional appeals",
+          "A persuasive essay is always about politics; an argumentative essay is about any topic",
+          "There is no difference between them"
+        ],
+        correctAnswer: 1,
+        explanation: "An argumentative essay presents a reasoned case for a position, acknowledging and refuting counter-arguments. A persuasive essay aims to convince the reader to adopt a position or take action, and may use emotional as well as logical appeals. The argumentative approach is more balanced and academic."
+      },
+      {
+        question: "What is a 'straw man' fallacy?",
+        options: [
+          "Attacking the person making the argument rather than the argument itself",
+          "Misrepresenting an opposing view to make it easier to attack",
+          "Drawing a broad conclusion from very limited evidence",
+          "Presenting only two options when more exist"
+        ],
+        correctAnswer: 1,
+        explanation: "A straw man fallacy involves misrepresenting or oversimplifying an opponent's argument to make it easier to attack. Instead of engaging with the actual argument, you create a weaker version (a 'straw man') and knock it down."
+      },
+      {
+        question: "Which sentence is a properly hedged academic claim?",
+        options: [
+          "This proves that the policy is a complete failure.",
+          "The evidence suggests that the policy may not be achieving its intended outcomes.",
+          "Everyone knows the policy is terrible.",
+          "The policy is definitely the worst in history."
+        ],
+        correctAnswer: 1,
+        explanation: "'The evidence suggests that the policy may not be achieving its intended outcomes' uses hedging ('suggests,' 'may not') to make a measured, cautious claim. The other options use absolute or emotionally charged language that overclaims."
+      },
+      {
+        question: "Where should the thesis statement appear in an argumentative essay?",
+        options: [
+          "In the conclusion",
+          "In the first body paragraph",
+          "In the introduction",
+          "In the counter-argument paragraph"
+        ],
+        correctAnswer: 2,
+        explanation: "The thesis statement should appear in the introduction, typically at the end, so the reader knows your position before you begin presenting your arguments. It provides the roadmap for the entire essay."
+      },
+      {
+        question: "What is the purpose of a counter-argument paragraph in an argumentative essay?",
+        options: [
+          "To change the topic and discuss something different",
+          "To acknowledge an opposing view and then refute it, showing you have considered multiple perspectives",
+          "To repeat your main argument in different words",
+          "To list all the reasons you disagree with the reader"
+        ],
+        correctAnswer: 1,
+        explanation: "A counter-argument paragraph acknowledges an opposing viewpoint, then refutes it with evidence or reasoning. This demonstrates that you have considered the issue from multiple perspectives, which strengthens your overall argument and shows critical thinking."
+      }
+    ]
+  },
+
+  "Vocabulary — Collocations and Natural Word Pairs": {
+    explanation: `<h2>Mastering Collocations and Natural Word Pairs</h2>
+<p><strong>Collocations</strong> are combinations of words that naturally occur together in English — they "collocate" or sit beside each other so frequently that any other combination sounds unnatural to a native speaker. For example, we say "make a decision" (not "do a decision"), "heavy rain" (not "strong rain"), "commit a crime" (not "do a crime"), and "fast food" (not "quick food"). These are not rules of grammar — you could argue that "strong rain" makes logical sense — but they are patterns of usage that have become established over centuries of English. Learning collocations is one of the most effective ways to make your English sound natural and fluent, because using the wrong collocation is one of the fastest ways to sound unnatural, even if your grammar is perfect.</p>
+<p>Collocations can be categorised into several types. <strong>Adjective + noun</strong> collocations are very common: "strong coffee," "deep breath," "heavy traffic," "utter nonsense." <strong>Verb + noun</strong> collocations are equally important: "pay attention," "break a habit," "catch a cold," "raise awareness." <strong>Verb + adverb</strong> collocations describe how actions are performed: "deeply appreciate," "strongly recommend," "bitterly complain," "widely accepted." <strong>Adverb + adjective</strong> collocations modify the intensity of descriptions: "absolutely essential," "highly unlikely," "perfectly normal," "broadly similar." Each of these patterns has its own conventions that must be learned individually — there are few reliable rules that predict which words go together.</p>
+<p>One of the biggest challenges for learners is that collocations often differ between English and their first language, leading to <strong>L1 interference</strong>. A Spanish speaker might say "make a party" (translating from "hacer una fiesta"), but in English we "throw a party" or "have a party." A Chinese speaker might say "open the light" (translating from 开灯), but in English we "turn on the light." A German speaker might say "make homework" (translating from "Hausaufgaben machen"), but in English we "do homework." These errors are entirely logical from the learner's perspective but immediately mark the speaker as non-native. The only solution is to learn collocations as <strong>fixed chunks</strong> rather than individual words — when you learn a new word, always learn the words it commonly collocates with.</p>
+<p>Effective strategies for learning collocations include: keeping a <strong>collocation notebook</strong> organised by keyword (e.g., under "decision," record: make a decision, reach a decision, a tough decision, a unanimous decision); using a <strong>collocation dictionary</strong> (such as the Oxford Collocations Dictionary) to check natural word combinations; reading extensively and <strong>noticing</strong> which words appear together; and practising with collocation-focused exercises such as gap-fills and matching activities. Over time, you will develop an intuitive sense of what "sounds right" in English — this is the fluency that collocation knowledge provides.</p>`,
+    examples: [
+      {
+        sentence: "\"We need to make a decision before the end of the day.\"",
+        note: "'Make a decision' is a standard verb + noun collocation. We do NOT say 'do a decision.' Under 'decision,' also note: 'reach a decision,' 'take a decision' (more British), 'a tough decision.'"
+      },
+      {
+        sentence: "\"There was heavy traffic on the motorway this morning, so I was late for work.\"",
+        note: "'Heavy traffic' is the natural adjective + noun collocation. We do NOT say 'big traffic,' 'strong traffic,' or 'much traffic.' Other collocations with 'heavy': heavy rain, heavy smoker, heavy burden."
+      },
+      {
+        sentence: "\"I would strongly recommend this restaurant to anyone visiting the city.\"",
+        note: "'Strongly recommend' is a natural adverb + verb collocation. We do NOT say 'heavily recommend' or 'powerfully recommend.' Other adverb collocations with 'recommend': highly recommend, warmly recommend."
+      },
+      {
+        sentence: "\"It is absolutely essential that you submit the form before the deadline.\"",
+        note: "'Absolutely essential' is an adverb + adjective collocation. We do NOT say 'very essential' — because 'essential' is a strong adjective, it takes 'absolutely' or 'completely,' not 'very.'"
+      },
+      {
+        sentence: "\"The company needs to take immediate action to address the problem.\"",
+        note: "'Take action' and 'immediate action' are both common collocations. We do NOT say 'make action' or 'do action.' Under 'action,' note: take action, prompt action, decisive action, urgent action."
+      },
+      {
+        sentence: "\"She was bitterly disappointed by the results of the exam.\"",
+        note: "'Bitterly disappointed' is an adverb + adjective collocation. 'Bitterly' collocates with a small set of negative emotions: bitterly disappointed, bitterly complain, bitterly regret, bitterly cold."
+      }
+    ],
+    commonMistakes: [
+      {
+        mistake: "\"Do a decision\" (translating from L1)",
+        correction: "\"Make a decision.\" In English, we 'make' decisions, we 'do' tasks and homework. This is a fixed verb + noun collocation."
+      },
+      {
+        mistake: "\"Strong rain\" or \"big rain\"",
+        correction: "\"Heavy rain.\" The natural collocation for rain intensity is 'heavy,' not 'strong' or 'big.' We also say 'heavy snow' and 'heavy fog.'"
+      },
+      {
+        mistake: "\"Very essential\" or \"very impossible\"",
+        correction: "\"Absolutely essential\" or \"completely impossible.\" Strong adjectives like 'essential,' 'impossible,' 'perfect,' and 'devastated' take 'absolutely' or 'completely,' not 'very.'"
+      },
+      {
+        mistake: "\"Open the light\" (L1 interference)",
+        correction: "\"Turn on the light.\" In English, we 'turn on' and 'turn off' lights, devices, and machines. We 'open' and 'close' doors, windows, and containers."
+      }
+    ],
+    quiz: [
+      {
+        question: "Which is the correct collocation?",
+        options: [
+          "Do a mistake",
+          "Make a mistake",
+          "Create a mistake",
+          "Build a mistake"
+        ],
+        correctAnswer: 1,
+        explanation: "'Make a mistake' is the standard English collocation. We do not say 'do a mistake' or any other variation. This is a fixed verb + noun combination that must be memorised."
+      },
+      {
+        question: "Which adverb naturally collocates with 'disappointed'?",
+        options: [
+          "Heavily disappointed",
+          "Bitterly disappointed",
+          "Strongly disappointed",
+          "Powerfully disappointed"
+        ],
+        correctAnswer: 1,
+        explanation: "'Bitterly disappointed' is the natural collocation. 'Bitterly' collocates with a small set of negative emotions and weather: bitterly disappointed, bitterly cold, bitterly complain. The other adverbs do not naturally collocate with 'disappointed.'"
+      },
+      {
+        question: "Why is learning collocations important for language learners?",
+        options: [
+          "Because using the wrong collocation sounds unnatural even if the grammar is correct",
+          "Because collocations are tested in every English exam",
+          "Because collocations are grammatical rules that must be followed",
+          "Because you cannot speak English without knowing collocations"
+        ],
+        correctAnswer: 0,
+        explanation: "Collocations are not grammatical rules — they are patterns of natural usage. However, using the wrong collocation (e.g., 'do a decision' instead of 'make a decision') immediately sounds unnatural to native speakers, even though the grammar may be technically correct. Learning collocations makes your English sound fluent and natural."
+      },
+      {
+        question: "Which modifier correctly collocates with the strong adjective 'essential'?",
+        options: [
+          "Very essential",
+          "Really essential",
+          "Absolutely essential",
+          "Fairly essential"
+        ],
+        correctAnswer: 2,
+        explanation: "Strong adjectives (like essential, impossible, perfect, enormous) take 'absolutely' or 'completely,' not 'very' or 'fairly.' We say 'absolutely essential,' not 'very essential,' because 'essential' already expresses an extreme degree."
+      },
+      {
+        question: "Complete the collocation: \"The government needs to ______ action to reduce pollution.\"",
+        options: [
+          "make",
+          "do",
+          "take",
+          "perform"
+        ],
+        correctAnswer: 2,
+        explanation: "'Take action' is the standard collocation. We do not say 'make action,' 'do action,' or 'perform action.' Other common collocations with 'action': immediate action, decisive action, urgent action, prompt action."
+      }
+    ]
   }
 };
