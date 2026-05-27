@@ -20,7 +20,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
-import { User, LogOut, CreditCard, Menu, X, ArrowRight, BookOpen, Shield, ChevronDown, Headphones, BookOpenCheck, Mic, PenTool, GraduationCap, Trophy, Languages, MessageSquare, PenLine, Brain, Award } from 'lucide-react';
+import { User, LogOut, CreditCard, Menu, X, ArrowRight, BookOpen, Shield, ChevronDown, Headphones, BookOpenCheck, Mic, PenTool, GraduationCap, Trophy, Languages, MessageSquare, PenLine, Brain, Award, Newspaper } from 'lucide-react';
 // Lazy-load notification bells — they only matter for authenticated users after hydration
 const AdminNotificationBell = dynamic(() => import('@/components/admin-notification-bell').then(mod => ({ default: mod.AdminNotificationBell })), { ssr: false });
 const NotificationBell = dynamic(() => import('@/components/notification-bell').then(mod => ({ default: mod.NotificationBell })), { ssr: false });
@@ -311,6 +311,16 @@ export function Navbar() {
                 <Link href="/pricing" className={navigationMenuTriggerStyle()}>
                   <span className={`text-sm ${isActive('/pricing') ? 'text-white' : 'text-white/50 hover:text-white'}`}>
                     Pricing
+                  </span>
+                </Link>
+              </NavigationMenuItem>
+
+              {/* Blog */}
+              <NavigationMenuItem>
+                <Link href="/blog" className={navigationMenuTriggerStyle()}>
+                  <span className={`text-sm flex items-center gap-1 ${isActive('/blog') ? 'text-white' : 'text-white/50 hover:text-white'}`}>
+                    <Newspaper className="h-3.5 w-3.5" />
+                    Blog
                   </span>
                 </Link>
               </NavigationMenuItem>
@@ -607,6 +617,17 @@ export function Navbar() {
             onClick={() => setMobileMenuOpen(false)}
           >
             Pricing
+          </Link>
+
+          <Link
+            href="/blog"
+            className={`flex items-center gap-1.5 text-sm py-2 px-3 rounded-lg transition-all duration-300 ${
+              isActive('/blog') ? 'text-white bg-white/[0.06]' : 'text-white/50 hover:text-white hover:bg-white/[0.04]'
+            }`}
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <Newspaper className="h-3.5 w-3.5" />
+            Blog
           </Link>
 
           {communityVisible && (

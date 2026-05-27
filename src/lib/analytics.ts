@@ -100,6 +100,131 @@ export function trackCertificateDownload(params?: { cefr_level?: string }) {
 }
 
 // ────────────────────────────────────────────
+// Blog & Content Events
+// ────────────────────────────────────────────
+
+/** Blog listing page viewed */
+export function trackBlogView(params?: { category?: string }) {
+  trackEvent('blog_view', { category: params?.category });
+}
+
+/** Individual blog post viewed */
+export function trackBlogPostView(params: { slug: string; category: string; read_time?: number }) {
+  trackEvent('blog_post_view', params);
+}
+
+/** Blog post shared on social media */
+export function trackBlogShare(params: { platform: string; slug: string }) {
+  trackEvent('blog_share', params);
+}
+
+/** Newsletter signup from blog page */
+export function trackNewsletterSignup(params?: { source?: string }) {
+  trackEvent('newsletter_signup', { source: params?.source || 'blog' });
+}
+
+// ────────────────────────────────────────────
+// Navigation & Engagement Events
+// ────────────────────────────────────────────
+
+/** CTA button clicked (hero, final CTA, nav, etc.) */
+export function trackCTAClick(params: { cta_name: string; location: string; destination?: string }) {
+  trackEvent('cta_click', params);
+}
+
+/** Skill page viewed (reading, writing, listening, speaking) */
+export function trackSkillPageView(params: { skill: string }) {
+  trackEvent('skill_page_view', params);
+}
+
+/** Pricing plan selected */
+export function trackPricingSelect(params: { plan_name: string; price?: number }) {
+  trackEvent('pricing_select', params);
+}
+
+// ────────────────────────────────────────────
+// Community & Social Events
+// ────────────────────────────────────────────
+
+/** Community page viewed */
+export function trackCommunityView() {
+  trackEvent('community_view');
+}
+
+/** Chat message sent in community */
+export function trackCommunityChat() {
+  trackEvent('community_chat_message');
+}
+
+/** Language exchange partner requested */
+export function trackLanguageExchangeRequest() {
+  trackEvent('language_exchange_request');
+}
+
+// ────────────────────────────────────────────
+// Learning & Course Events
+// ────────────────────────────────────────────
+
+/** Course enrollment completed */
+export function trackCourseEnroll(params: { course_id?: string; level?: string }) {
+  trackEvent('course_enroll', params);
+}
+
+/** Lesson started */
+export function trackLessonStart(params: { lesson_id?: string; level?: string }) {
+  trackEvent('lesson_start', params);
+}
+
+/** Lesson completed */
+export function trackLessonComplete(params: { lesson_id?: string; level?: string; duration_seconds?: number }) {
+  trackEvent('lesson_complete', params);
+}
+
+/** AI Tutor conversation started */
+export function trackAITutorStart() {
+  trackEvent('ai_tutor_start');
+}
+
+/** AI Tutor message sent */
+export function trackAITutorMessage(params?: { message_length?: number }) {
+  trackEvent('ai_tutor_message', params);
+}
+
+// ────────────────────────────────────────────
+// User Lifecycle Events
+// ────────────────────────────────────────────
+
+/** User logged in */
+export function trackLogin(params?: { method?: string }) {
+  trackEvent('login', { method: params?.method });
+}
+
+/** User logged out */
+export function trackLogout() {
+  trackEvent('logout');
+}
+
+/** Profile updated */
+export function trackProfileUpdate() {
+  trackEvent('profile_update');
+}
+
+/** Email verified */
+export function trackEmailVerified() {
+  trackEvent('email_verified');
+}
+
+/** Onboarding step completed */
+export function trackOnboardingStep(params: { step: number; step_name: string }) {
+  trackEvent('onboarding_step', params);
+}
+
+/** Password reset requested */
+export function trackPasswordReset() {
+  trackEvent('password_reset_request');
+}
+
+// ────────────────────────────────────────────
 // Server-side GA4 Measurement Protocol
 // ────────────────────────────────────────────
 

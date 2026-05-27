@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Headphones, BookOpenCheck, PenTool, Mic, GraduationCap, Trophy, BookOpen, HelpCircle, Mail, MessageCircle, Users } from 'lucide-react';
+import { Headphones, BookOpenCheck, PenTool, Mic, GraduationCap, Trophy, BookOpen, HelpCircle, Mail, MessageCircle, Users, Newspaper } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -131,6 +131,10 @@ export function Footer() {
               </Link>
               <Link href="/pricing" className="block text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">
                 Pricing
+              </Link>
+              <Link href="/blog" className="flex items-center gap-2 text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">
+                <Newspaper className="h-3.5 w-3.5 text-[#9494a8]" />
+                Blog
               </Link>
             </div>
           </div>
