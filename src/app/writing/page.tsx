@@ -99,7 +99,7 @@ export default function WritingPage() {
       icon: <Layers className="h-6 w-6" />,
       title: 'Structure Analysis',
       desc: 'Evaluates paragraph organization, thesis development, supporting evidence, transitions, and overall composition architecture.',
-      gradient: 'from-fuchsia-500 to-pink-500',
+      gradient: 'from-violet-500 to-purple-500',
     },
   ];
 

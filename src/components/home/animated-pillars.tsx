@@ -31,10 +31,10 @@ const PILLARS: Pillar[] = [
   {
     word: 'Learn',
     icon: GraduationCap,
-    gradient: 'from-violet-500 via-purple-400 to-fuchsia-400',
-    gradientCSS: '#8b5cf6, #a855f7, #e879f9',
+    gradient: 'from-violet-500 via-violet-400 to-purple-400',
+    gradientCSS: '#8b5cf6, #a78bfa, #c084fc',
     ringColor: 'border-violet-400/30',
-    textColor: 'text-transparent bg-clip-text bg-gradient-to-r from-violet-300 via-purple-200 to-fuchsia-200',
+    textColor: 'text-transparent bg-clip-text bg-gradient-to-r from-violet-300 via-purple-200 to-violet-200',
     description: 'Structured Courses',
     orbitDotColor: '#8b5cf6',
     glowRGBA: 'rgba(139,92,246,',

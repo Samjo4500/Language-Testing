@@ -193,7 +193,7 @@ export default function SpeakingPage() {
                 icon: <MessageSquareText className="h-6 w-6" />,
                 title: 'Real-Time Feedback',
                 desc: 'Get instant visual and textual feedback as you speak, with highlighted areas for improvement and suggestions for more natural expression.',
-                gradient: 'from-fuchsia-500 to-pink-500',
+                gradient: 'from-violet-500 to-purple-500',
               },
             ].map((feature, index) => (
               <AnimatedSection key={index} delay={index * 100}>
@@ -249,7 +249,7 @@ export default function SpeakingPage() {
                 icon: <ClipboardCheck className="h-7 w-7" />,
                 title: 'Get Detailed Feedback',
                 desc: 'Receive a comprehensive report with your CEFR speaking level, pronunciation scores, fluency metrics, and personalized recommendations for improvement.',
-                gradient: 'from-fuchsia-500 to-purple-500',
+                gradient: 'from-violet-500 to-indigo-500',
               },
             ].map((item, index) => (
               <AnimatedSection key={index} delay={index * 150}>

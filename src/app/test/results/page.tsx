@@ -89,7 +89,7 @@ const SKILL_COLORS: Record<string, string> = {
   reading: '#6366f1',
   listening: '#10b981',
   speaking: '#f59e0b',
-  writing: '#7c5cff',
+  writing: '#8b5cf6',
 };
 
 const SKILL_ICONS: Record<string, React.ReactNode> = {
@@ -103,11 +103,11 @@ const SKILL_ICONS: Record<string, React.ReactNode> = {
 
 const CEFR_BADGE_COLORS: Record<string, string> = {
   A1: '#3b82f6',
-  A2: '#06b6d4',
+  A2: '#38bdf8',
   B1: '#10b981',
-  B2: '#7c5cff',
-  C1: '#f59e0b',
-  C2: '#ef4444',
+  B2: '#8b5cf6',
+  C1: '#6366f1',
+  C2: '#1e40af',
 };
 
 /* ======================================================
@@ -311,7 +311,7 @@ function LevelPerformanceBars({ levels, color }: { levels: LevelPerformance[]; c
   if (activeLevels.length === 0) {
     return (
       <div className="text-center py-4">
-        <p className="text-sm text-[#808094]">No level data available</p>
+        <p className="text-sm text-white/50">No level data available</p>
       </div>
     );
   }

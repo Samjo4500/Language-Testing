@@ -396,7 +396,7 @@ export default function Home() {
                   <ul className="space-y-2">
                     {skill.items.map((item) => (
                       <li key={item} className="flex items-center gap-2">
-                        <CheckCircle2 className={`h-3.5 w-3.5 shrink-0 bg-gradient-to-br ${skill.gradient} bg-clip-text`} style={{color: skill.title === 'Grammar' ? '#3b82f6' : skill.title === 'Vocabulary' ? '#06b6d4' : skill.title === 'Reading' ? '#6366f1' : skill.title === 'Listening' ? '#10b981' : skill.title === 'Speaking' ? '#f59e0b' : '#7c5cff'}} />
+                        <CheckCircle2 className={`h-3.5 w-3.5 shrink-0`} style={{color: skill.title === 'Grammar' ? '#3b82f6' : skill.title === 'Vocabulary' ? '#06b6d4' : skill.title === 'Reading' ? '#6366f1' : skill.title === 'Listening' ? '#10b981' : skill.title === 'Speaking' ? '#f59e0b' : '#8b5cf6'}} />
                         <span className="text-sm text-white/60">{item}</span>
                       </li>
                     ))}

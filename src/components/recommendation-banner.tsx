@@ -88,7 +88,7 @@ const CEFR_COLORS: Record<string, { gradient: string; badge: string; text: strin
     glow: 'shadow-violet-500/20',
   },
   C2: {
-    gradient: 'from-purple-400 to-fuchsia-500',
+    gradient: 'from-violet-400 to-purple-500',
     badge: 'bg-purple-500/15 text-purple-300 border-purple-500/25',
     text: 'text-purple-400',
     glow: 'shadow-purple-500/20',

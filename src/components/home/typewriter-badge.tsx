@@ -66,7 +66,7 @@ export function TypewriterBadge() {
       <div
         className={`inline-flex items-center gap-2.5 rounded-full px-5 py-2.5 transition-all duration-700 max-w-[90vw] sm:max-w-none flex-wrap justify-center ${
           isComplete
-            ? 'bg-gradient-to-r from-blue-500/10 via-violet-500/10 to-fuchsia-500/10 border border-blue-400/30 shadow-[0_0_30px_rgba(59,130,246,0.15),0_0_60px_rgba(139,92,246,0.1)]'
+            ? 'bg-gradient-to-r from-blue-500/10 via-violet-500/10 to-emerald-500/10 border border-blue-400/30 shadow-[0_0_30px_rgba(59,130,246,0.15),0_0_60px_rgba(139,92,246,0.1)]'
             : 'bg-white/[0.03] border border-white/[0.08] shadow-none'
         }`}
         style={{
@@ -80,7 +80,7 @@ export function TypewriterBadge() {
             isComplete
               ? 'text-amber-300'
               : isDeleting
-              ? 'text-fuchsia-400'
+              ? 'text-violet-400'
               : 'text-blue-300'
           }`}
           style={{
@@ -92,9 +92,9 @@ export function TypewriterBadge() {
         <span
           className={`text-sm font-medium transition-colors duration-700 whitespace-nowrap sm:whitespace-nowrap whitespace-normal ${
             isComplete
-              ? 'bg-gradient-to-r from-blue-200 via-violet-200 to-fuchsia-200 bg-clip-text text-transparent'
+              ? 'bg-gradient-to-r from-blue-200 via-violet-200 to-emerald-200 bg-clip-text text-transparent'
               : isDeleting
-              ? 'text-fuchsia-300/70'
+              ? 'text-violet-300/70'
               : 'text-blue-200'
           }`}
           style={{
@@ -111,7 +111,7 @@ export function TypewriterBadge() {
             isComplete
               ? 'bg-gradient-to-b from-blue-400 to-violet-400'
               : isDeleting
-              ? 'bg-fuchsia-400/60'
+              ? 'bg-violet-400/60'
               : 'bg-blue-400/60'
           }`}
           style={{ animation: 'badge-cursor-blink 0.8s steps(1) infinite' }}

@@ -29,12 +29,12 @@ interface CertificateInfo {
 }
 
 const CEFR_LEVELS: Record<string, { title: string; color: string; bgColor: string; accent: string }> = {
-  A1: { title: 'Beginner',           color: '#60a5fa', bgColor: 'rgba(96,165,250,0.15)',  accent: '#60a5fa' },
-  A2: { title: 'Elementary',         color: '#4ade80', bgColor: 'rgba(74,222,128,0.15)',  accent: '#4ade80' },
-  B1: { title: 'Intermediate',       color: '#c084fc', bgColor: 'rgba(192,132,252,0.15)', accent: '#c084fc' },
-  B2: { title: 'Upper Intermediate', color: '#a78bfa', bgColor: 'rgba(167,139,250,0.15)', accent: '#a78bfa' },
-  C1: { title: 'Advanced',           color: '#f472b6', bgColor: 'rgba(244,114,182,0.15)', accent: '#f472b6' },
-  C2: { title: 'Proficient',         color: '#e879f9', bgColor: 'rgba(232,121,249,0.15)', accent: '#e879f9' },
+  A1: { title: 'Beginner',           color: '#3b82f6', bgColor: 'rgba(59,130,246,0.15)',  accent: '#3b82f6' },
+  A2: { title: 'Elementary',         color: '#38bdf8', bgColor: 'rgba(56,189,248,0.15)',  accent: '#38bdf8' },
+  B1: { title: 'Intermediate',       color: '#10b981', bgColor: 'rgba(16,185,129,0.15)',  accent: '#10b981' },
+  B2: { title: 'Upper Intermediate', color: '#8b5cf6', bgColor: 'rgba(139,92,246,0.15)',  accent: '#8b5cf6' },
+  C1: { title: 'Advanced',           color: '#6366f1', bgColor: 'rgba(99,102,241,0.15)',  accent: '#6366f1' },
+  C2: { title: 'Proficient',         color: '#1e40af', bgColor: 'rgba(30,64,175,0.15)',   accent: '#1e40af' },
 };
 
 const SKILL_LABELS: Record<string, string> = {
@@ -150,14 +150,14 @@ export default function VerifyCertificatePage() {
             <div
               className="relative rounded-2xl overflow-hidden"
               style={{
-                background: 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)',
+                background: 'linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%)',
                 padding: '2px',
                 borderRadius: '1rem',
               }}
             >
               <div className="relative rounded-2xl overflow-hidden bg-[#0F0A1E]">
                 {/* Top accent line */}
-                <div className="h-1" style={{ background: 'linear-gradient(90deg, #8B5CF6, #EC4899, #8B5CF6)' }} />
+                <div className="h-1" style={{ background: 'linear-gradient(90deg, #3B82F6, #8B5CF6, #3B82F6)' }} />
 
                 <div className="px-6 py-8 sm:px-10 sm:py-10 space-y-6">
                   {/* Header Row */}
@@ -334,7 +334,7 @@ export default function VerifyCertificatePage() {
                 </div>
 
                 {/* Bottom accent line */}
-                <div className="h-1" style={{ background: 'linear-gradient(90deg, #8B5CF6, #EC4899, #8B5CF6)' }} />
+                <div className="h-1" style={{ background: 'linear-gradient(90deg, #3B82F6, #8B5CF6, #3B82F6)' }} />
               </div>
             </div>
           </div>

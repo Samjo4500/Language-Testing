@@ -85,7 +85,7 @@ const INTEREST_COLORS = [
   'bg-violet-500/20 text-violet-400 border-violet-500/30',
   'bg-sky-500/20 text-sky-400 border-sky-500/30',
   'bg-rose-500/20 text-rose-400 border-rose-500/30',
-  'bg-fuchsia-500/20 text-fuchsia-400 border-fuchsia-500/30',
+  'bg-violet-500/20 text-violet-400 border-violet-500/30',
   'bg-green-500/20 text-green-400 border-green-500/30',
   'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
   'bg-slate-500/20 text-slate-400 border-slate-500/30',

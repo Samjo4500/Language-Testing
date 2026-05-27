@@ -63,11 +63,11 @@ interface CourseEnrollment {
    ============================================================ */
 const CEFR_GRADIENTS: Record<string, string> = {
   A1: 'from-blue-400 to-blue-500',
-  A2: 'from-cyan-400 to-cyan-500',
+  A2: 'from-sky-400 to-sky-500',
   B1: 'from-emerald-400 to-emerald-500',
   B2: 'from-violet-400 to-violet-500',
-  C1: 'from-amber-400 to-amber-500',
-  C2: 'from-red-400 to-red-500',
+  C1: 'from-indigo-400 to-indigo-500',
+  C2: 'from-blue-600 to-blue-800',
 };
 
 /* ============================================================
@@ -284,7 +284,7 @@ export default function DashboardPage() {
                     {getPlanLabel(user.plan)}
                   </span>
                 </div>
-                <p className="text-sm text-[#808094]">
+                <p className="text-sm text-white/50">
                   {isPaidPlan(user.plan)
                     ? 'You have full access to all assessments and features.'
                     : 'Sandbox preview — all features are available for free. Browse our courses to get started!'}

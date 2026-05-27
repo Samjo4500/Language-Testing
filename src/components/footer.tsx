@@ -84,23 +84,23 @@ export function Footer() {
             <p className="text-white font-semibold text-sm mb-4">CEFR Tests</p>
             <div className="space-y-2.5">
               <Link href="/listening" className="flex items-center gap-2 text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">
-                <Headphones className="h-3.5 w-3.5 text-[#808094]" />
+                <Headphones className="h-3.5 w-3.5 text-[#9494a8]" />
                 Listening
               </Link>
               <Link href="/reading" className="flex items-center gap-2 text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">
-                <BookOpenCheck className="h-3.5 w-3.5 text-[#808094]" />
+                <BookOpenCheck className="h-3.5 w-3.5 text-[#9494a8]" />
                 Reading
               </Link>
               <Link href="/writing" className="flex items-center gap-2 text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">
-                <PenTool className="h-3.5 w-3.5 text-[#808094]" />
+                <PenTool className="h-3.5 w-3.5 text-[#9494a8]" />
                 Writing
               </Link>
               <Link href="/speaking" className="flex items-center gap-2 text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">
-                <Mic className="h-3.5 w-3.5 text-[#808094]" />
+                <Mic className="h-3.5 w-3.5 text-[#9494a8]" />
                 Speaking
               </Link>
               <Link href="/test" className="flex items-center gap-2 text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">
-                <Trophy className="h-3.5 w-3.5 text-[#808094]" />
+                <Trophy className="h-3.5 w-3.5 text-[#9494a8]" />
                 Take Full Test
               </Link>
             </div>
@@ -111,22 +111,22 @@ export function Footer() {
             <p className="text-white font-semibold text-sm mb-4">Courses</p>
             <div className="space-y-2.5">
               <Link href="/courses?level=a1" className="flex items-center gap-2 text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">
-                <GraduationCap className="h-3.5 w-3.5 text-[#808094]" />
+                <GraduationCap className="h-3.5 w-3.5 text-[#9494a8]" />
                 Beginners
                 <span className="text-[9px] font-semibold tracking-wide uppercase px-1 py-0.5 rounded bg-blue-500/15 text-blue-400">A1-A2</span>
               </Link>
               <Link href="/courses?level=b1" className="flex items-center gap-2 text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">
-                <BookOpen className="h-3.5 w-3.5 text-[#808094]" />
+                <BookOpen className="h-3.5 w-3.5 text-[#9494a8]" />
                 Intermediate
                 <span className="text-[9px] font-semibold tracking-wide uppercase px-1 py-0.5 rounded bg-cyan-500/15 text-cyan-400">B1-B2</span>
               </Link>
               <Link href="/courses?level=c1" className="flex items-center gap-2 text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">
-                <Trophy className="h-3.5 w-3.5 text-[#808094]" />
+                <Trophy className="h-3.5 w-3.5 text-[#9494a8]" />
                 Advanced
                 <span className="text-[9px] font-semibold tracking-wide uppercase px-1 py-0.5 rounded bg-purple-500/15 text-purple-400">C1-C2</span>
               </Link>
               <Link href="/courses" className="flex items-center gap-2 text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">
-                <BookOpen className="h-3.5 w-3.5 text-[#808094]" />
+                <BookOpen className="h-3.5 w-3.5 text-[#9494a8]" />
                 All Courses
               </Link>
               <Link href="/pricing" className="block text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">
@@ -140,25 +140,25 @@ export function Footer() {
             <p className="text-white font-semibold text-sm mb-4">Support</p>
             <div className="space-y-2.5">
               <Link href="/faq" className="flex items-center gap-2 text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">
-                <HelpCircle className="h-3.5 w-3.5 text-[#808094]" />
+                <HelpCircle className="h-3.5 w-3.5 text-[#9494a8]" />
                 FAQ
               </Link>
               <Link href="/contact" className="flex items-center gap-2 text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">
-                <Mail className="h-3.5 w-3.5 text-[#808094]" />
+                <Mail className="h-3.5 w-3.5 text-[#9494a8]" />
                 Contact Us
               </Link>
               <Link href="/quick-tour" className="flex items-center gap-2 text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">
-                <MessageCircle className="h-3.5 w-3.5 text-[#808094]" />
+                <MessageCircle className="h-3.5 w-3.5 text-[#9494a8]" />
                 Quick Tour
               </Link>
               <div className="pt-2 mt-2 border-t border-white/5">
                 <Link href="/community" className="flex items-center gap-2 text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">
-                  <Users className="h-3.5 w-3.5 text-[#808094]" />
+                  <Users className="h-3.5 w-3.5 text-[#9494a8]" />
                   Community
                   <span className="text-[9px] font-semibold tracking-wide uppercase px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400">New</span>
                 </Link>
                 <Link href="/community/chatroom" className="flex items-center gap-2 text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors ml-4">
-                  <MessageCircle className="h-3.5 w-3.5 text-[#808094]" />
+                  <MessageCircle className="h-3.5 w-3.5 text-[#9494a8]" />
                   Chatroom
                 </Link>
               </div>
@@ -247,11 +247,11 @@ export function Footer() {
             </span>
           </div>
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
-            <p className="text-[#808094] text-xs">
+            <p className="text-[#9494a8] text-xs">
               Secure payments powered by PayPal
             </p>
             <span className="hidden sm:inline text-white/10">|</span>
-            <p className="text-[#808094] text-xs">
+            <p className="text-[#9494a8] text-xs">
               &copy; {new Date().getFullYear()} CEFR Test. All rights reserved.
             </p>
           </div>
