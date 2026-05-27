@@ -441,18 +441,54 @@ export default function TestPage() {
   };
 
   /* ======================================================
+     SAVE SKILL RESPONSES (Progressive save for per-skill results)
+     ====================================================== */
+  const saveSkillResponses = async (skillName: string, responses: any[]) => {
+    if (!assessmentId || !isAuthenticated || responses.length === 0) return;
+    try {
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+      if (accessToken && accessToken !== 'null' && accessToken !== 'undefined') {
+        headers['Authorization'] = `Bearer ${accessToken}`;
+      }
+      await fetch('/api/assessments/save-responses/', {
+        method: 'POST',
+        headers,
+        credentials: 'same-origin',
+        body: JSON.stringify({ assessmentId, responses }),
+      });
+    } catch (e) {
+      console.error('Failed to save skill responses:', e);
+      // Don't block the user — results can still be viewed later
+    }
+  };
+
+  /* ======================================================
      GRAMMAR LOGIC
      ====================================================== */
   const grammarQuestions = apiQuestions?.grammar || [];
   const currentGrammar = grammarQuestions[grammarIdx];
 
-  const submitGrammar = () => {
+  const submitGrammar = async () => {
     completeSkill('grammar');
+    // Save grammar responses progressively so results can be viewed immediately
+    const grammarResponses = grammarQuestions.map(q => {
+      const answer = grammarAnswers[q.id];
+      return {
+        questionId: q.id,
+        questionType: 'mcq',
+        answer: answer !== undefined ? String(answer) : '',
+        level: q.level,
+        category: 'grammar',
+      };
+    });
+    await saveSkillResponses('grammar', grammarResponses);
+
     const allDone = Object.values({ ...skillStatuses, grammar: 'completed' }).every(s => s === 'completed');
     if (allDone) {
       submitAssessment();
     } else {
-      setPhase('select');
+      // Redirect to results page for this skill — the "dopamine hit"
+      router.push(`/test/results?skill=grammar`);
     }
   };
 
@@ -462,13 +498,26 @@ export default function TestPage() {
   const vocabQuestions = apiQuestions?.vocabulary || [];
   const currentVocab = vocabQuestions[vocabIdx];
 
-  const submitVocabulary = () => {
+  const submitVocabulary = async () => {
     completeSkill('vocabulary');
+    // Save vocabulary responses progressively
+    const vocabResponses = vocabQuestions.map(q => {
+      const answer = vocabAnswers[q.id];
+      return {
+        questionId: q.id,
+        questionType: 'mcq',
+        answer: answer !== undefined ? String(answer) : '',
+        level: q.level,
+        category: 'vocabulary',
+      };
+    });
+    await saveSkillResponses('vocabulary', vocabResponses);
+
     const allDone = Object.values({ ...skillStatuses, vocabulary: 'completed' }).every(s => s === 'completed');
     if (allDone) {
       submitAssessment();
     } else {
-      setPhase('select');
+      router.push(`/test/results?skill=vocabulary`);
     }
   };
 
@@ -478,13 +527,26 @@ export default function TestPage() {
   const readingPassages = apiQuestions?.reading || [];
   const currentReading = readingPassages[readingIdx];
 
-  const submitReading = () => {
+  const submitReading = async () => {
     completeSkill('reading');
+    // Save reading responses progressively
+    const readingResponses = readingPassages.flatMap(passage =>
+      passage.questions.map(q => ({
+        questionId: q.id,
+        questionType: 'reading',
+        parentItemId: passage.id,
+        answer: readingAnswers[q.id] !== undefined ? String(readingAnswers[q.id]) : '',
+        level: passage.level,
+        category: 'reading',
+      }))
+    );
+    await saveSkillResponses('reading', readingResponses);
+
     const allDone = Object.values({ ...skillStatuses, reading: 'completed' }).every(s => s === 'completed');
     if (allDone) {
       submitAssessment();
     } else {
-      setPhase('select');
+      router.push(`/test/results?skill=reading`);
     }
   };
 
@@ -645,13 +707,26 @@ export default function TestPage() {
     setIsSpeaking(false);
   };
 
-  const submitListening = () => {
+  const submitListening = async () => {
     completeSkill('listening');
+    // Save listening responses progressively
+    const listeningResponses = listeningItems.flatMap(item =>
+      item.questions.map(q => ({
+        questionId: q.id,
+        questionType: 'listening',
+        parentItemId: item.id,
+        answer: listeningAnswers[q.id] !== undefined ? String(listeningAnswers[q.id]) : '',
+        level: item.level,
+        category: 'listening',
+      }))
+    );
+    await saveSkillResponses('listening', listeningResponses);
+
     const allDone = Object.values({ ...skillStatuses, listening: 'completed' }).every(s => s === 'completed');
     if (allDone) {
       submitAssessment();
     } else {
-      setPhase('select');
+      router.push(`/test/results?skill=listening`);
     }
   };
 
@@ -774,13 +849,28 @@ export default function TestPage() {
     }
   };
 
-  const submitSpeaking = () => {
+  const submitSpeaking = async () => {
     completeSkill('speaking');
+    // Save speaking response progressively
+    if (speakingPrompt) {
+      const eval_ = speakingEvaluations[speakingPrompt.id];
+      const speakingResponses = [{
+        questionId: speakingPrompt.id,
+        questionType: 'speaking',
+        answer: speakingTranscript || 'No response',
+        level: speakingPrompt.level,
+        category: 'speaking',
+        aiScore: eval_ ? eval_.score : undefined,
+        aiFeedback: eval_ ? eval_.feedback : undefined,
+      }];
+      await saveSkillResponses('speaking', speakingResponses);
+    }
+
     const allDone = Object.values({ ...skillStatuses, speaking: 'completed' }).every(s => s === 'completed');
     if (allDone) {
       submitAssessment();
     } else {
-      setPhase('select');
+      router.push(`/test/results?skill=speaking`);
     }
   };
 
@@ -823,13 +913,29 @@ export default function TestPage() {
     }
   };
 
-  const submitWriting = () => {
+  const submitWriting = async () => {
     completeSkill('writing');
+    // Save writing response progressively
+    if (writingPrompt) {
+      const eval_ = writingEvaluations[writingPrompt.id];
+      const text = writingTexts[writingPrompt.id] || '';
+      const writingResponses = [{
+        questionId: writingPrompt.id,
+        questionType: 'writing',
+        answer: text || 'No response',
+        level: writingPrompt.level,
+        category: 'writing',
+        aiScore: eval_ ? eval_.score : undefined,
+        aiFeedback: eval_ ? eval_.feedback : undefined,
+      }];
+      await saveSkillResponses('writing', writingResponses);
+    }
+
     const allDone = Object.values({ ...skillStatuses, writing: 'completed' }).every(s => s === 'completed');
     if (allDone) {
       submitAssessment();
     } else {
-      setPhase('select');
+      router.push(`/test/results?skill=writing`);
     }
   };
 
@@ -1082,6 +1188,7 @@ export default function TestPage() {
         bgGlow: 'rgba(244,63,94,0.15)',
         levels: 'A2 - C1',
         questions: grammarQuestions.length,
+        estimatedTime: grammarQuestions.length > 0 ? `~${Math.max(2, Math.ceil(grammarQuestions.length * 0.7))} min` : '',
       },
       {
         key: 'vocabulary',
@@ -1092,6 +1199,7 @@ export default function TestPage() {
         bgGlow: 'rgba(20,184,166,0.15)',
         levels: 'A2 - C1',
         questions: vocabQuestions.length,
+        estimatedTime: vocabQuestions.length > 0 ? `~${Math.max(2, Math.ceil(vocabQuestions.length * 0.7))} min` : '',
       },
       {
         key: 'reading',
@@ -1102,6 +1210,7 @@ export default function TestPage() {
         bgGlow: 'rgba(59,130,246,0.15)',
         levels: 'B1 - B2',
         questions: readingPassages.length,
+        estimatedTime: readingPassages.length > 0 ? `~${Math.max(3, readingPassages.length * 3)} min` : '',
       },
       {
         key: 'listening',
@@ -1112,6 +1221,7 @@ export default function TestPage() {
         bgGlow: 'rgba(34,197,94,0.15)',
         levels: 'B1 - B2',
         questions: listeningItems.length,
+        estimatedTime: listeningItems.length > 0 ? `~${Math.max(3, listeningItems.length * 3)} min` : '',
       },
       {
         key: 'speaking',
@@ -1122,6 +1232,7 @@ export default function TestPage() {
         bgGlow: 'rgba(249,115,22,0.15)',
         levels: speakingPrompt?.level || 'B2',
         questions: speakingPrompt ? 1 : 0,
+        estimatedTime: speakingPrompt ? '~4 min' : '',
       },
       {
         key: 'writing',
@@ -1132,6 +1243,7 @@ export default function TestPage() {
         bgGlow: 'rgba(139,92,246,0.15)',
         levels: writingPrompt?.level || 'B2',
         questions: writingPrompt ? 1 : 0,
+        estimatedTime: writingPrompt ? '~5 min' : '',
       },
     ];
 
@@ -1225,25 +1337,33 @@ export default function TestPage() {
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {skills.map(skill => {
                 const status = skillStatuses[skill.key];
+                const isCompleted = status === 'completed';
                 return (
                   <div
                     key={skill.key}
-                    className={`glass-card p-6 cursor-pointer group transition-all duration-300 ${
-                      status === 'completed'
-                        ? 'border-green-500/30'
+                    className={`glass-card p-6 group transition-all duration-300 ${
+                      isCompleted
+                        ? 'border-green-500/30 cursor-pointer hover:border-green-400/40 hover:bg-green-500/[0.03]'
                         : skill.questions === 0
                         ? 'opacity-50 cursor-not-allowed'
-                        : 'hover:border-purple-500/30'
+                        : 'cursor-pointer hover:border-purple-500/30'
                     }`}
-                    onClick={() => status !== 'completed' && skill.questions > 0 && startSkill(skill.key as TestPhase)}
+                    onClick={() => {
+                      if (isCompleted) {
+                        // Completed cards → view results
+                        router.push(`/test/results?skill=${skill.key}`);
+                      } else if (skill.questions > 0) {
+                        startSkill(skill.key as TestPhase);
+                      }
+                    }}
                   >
                     <div className="flex items-start justify-between mb-4">
                       <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${skill.gradient} text-white shadow-lg transition-transform duration-300 group-hover:scale-110`}>
                         {skill.icon}
                       </div>
-                      {status === 'completed' ? (
+                      {isCompleted ? (
                         <span className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium bg-green-500/20 text-green-400 border border-green-500/30">
-                          <CheckCircle2 className="h-3 w-3" /> Completed
+                          <CheckCircle2 className="h-3 w-3" /> View Results
                         </span>
                       ) : status === 'in_progress' ? (
                         <span className="inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium bg-amber-500/20 text-amber-400 border border-amber-500/30">
@@ -1258,12 +1378,26 @@ export default function TestPage() {
                     <h3 className="text-lg font-semibold text-white mb-1">{skill.title}</h3>
                     <p className="text-sm text-white/50 leading-relaxed">{skill.desc}</p>
                     <div className="mt-4 flex items-center justify-between">
-                      <span className="text-xs text-white/30">{skill.questions} {skill.key === 'speaking' || skill.key === 'writing' ? 'prompt' : 'questions'}</span>
-                      {status !== 'completed' && skill.questions > 0 && (
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-white/30">{skill.questions} {skill.key === 'speaking' || skill.key === 'writing' ? 'prompt' : 'questions'}</span>
+                        {skill.estimatedTime && (
+                          <>
+                            <span className="text-xs text-white/15">·</span>
+                            <span className="text-xs text-white/30 flex items-center gap-1">
+                              <Clock className="h-3 w-3" /> {skill.estimatedTime}
+                            </span>
+                          </>
+                        )}
+                      </div>
+                      {isCompleted ? (
+                        <span className="flex items-center text-sm text-green-400 font-medium">
+                          Results <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </span>
+                      ) : skill.questions > 0 ? (
                         <span className="flex items-center text-sm text-purple-400 font-medium">
                           Start <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
                         </span>
-                      )}
+                      ) : null}
                     </div>
                   </div>
                 );

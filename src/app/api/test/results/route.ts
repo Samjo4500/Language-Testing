@@ -85,13 +85,16 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Find the user's latest completed assessment
+    // Find the user's latest assessment (completed OR in-progress to support per-skill results)
     const assessment = await db.assessment.findFirst({
       where: {
         userId: authUser.userId,
-        status: 'completed',
+        status: { in: ['completed', 'in_progress'] },
       },
-      orderBy: { completedAt: 'desc' },
+      orderBy: [
+        { completedAt: 'desc' },
+        { startedAt: 'desc' },
+      ],
       include: {
         responses: true,
       },
@@ -99,7 +102,7 @@ export async function GET(request: NextRequest) {
 
     if (!assessment) {
       return NextResponse.json(
-        { error: 'Not Found', message: 'No completed assessment found.' },
+        { error: 'Not Found', message: 'No assessment found. Take a test to see your results.' },
         { status: 404 }
       );
     }

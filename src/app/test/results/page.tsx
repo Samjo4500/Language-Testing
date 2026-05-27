@@ -678,9 +678,9 @@ export default function TestResultsPage() {
                 </Link>
               )}
               <Link href="/test" className="flex-1">
-                <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3.5 border border-white/10 text-white/70 hover:text-white hover:border-white/20 transition-colors font-semibold cursor-pointer">
-                  <RotateCcw className="h-4 w-4" />
-                  Retake Test
+                <button className="w-full flex items-center justify-center gap-2 rounded-xl py-3.5 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold transition-all duration-300 shadow-lg shadow-purple-500/25 cursor-pointer">
+                  <Sparkles className="h-4 w-4" />
+                  Continue Testing
                 </button>
               </Link>
               <Link href="/courses" className="flex-1">

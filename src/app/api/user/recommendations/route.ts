@@ -19,14 +19,18 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Fetch user's completed assessments (most recent first)
+    // Fetch user's completed AND in-progress assessments (most recent first)
+    // Including in-progress allows recommendations after completing just 1 skill
     const assessments = await db.assessment.findMany({
       where: {
         userId: user.userId,
-        status: 'completed',
+        status: { in: ['completed', 'in_progress'] },
       },
-      orderBy: { completedAt: 'desc' },
-      take: 5, // Use last 5 assessments for trend analysis
+      orderBy: [
+        { completedAt: 'desc' },
+        { startedAt: 'desc' },
+      ],
+      take: 5,
       include: {
         responses: {
           select: {

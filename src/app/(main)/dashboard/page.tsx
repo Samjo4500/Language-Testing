@@ -130,6 +130,7 @@ export default function DashboardPage() {
   const [certificatesLoading, setCertificatesLoading] = useState(true);
   const [certificatesError, setCertificatesError] = useState<string | null>(null);
   const [inProgressAssessment, setInProgressAssessment] = useState<{ id: string; startedAt: string } | null>(null);
+  const [latestAssessment, setLatestAssessment] = useState<{ id: string; status: string; cefrLevel: string | null; score: number | null; completedAt: string | null; startedAt: string } | null>(null);
   const [courseEnrollments, setCourseEnrollments] = useState<CourseEnrollment[]>([]);
   const [coursesLoading, setCoursesLoading] = useState(true);
 
@@ -154,6 +155,26 @@ export default function DashboardPage() {
       // Process in-progress assessment
       if (progressResult.status === 'fulfilled' && progressResult.value.hasInProgress && progressResult.value.assessment) {
         setInProgressAssessment(progressResult.value.assessment);
+      }
+
+      // Also fetch the latest assessment (completed or in-progress) for the results banner
+      try {
+        const latestResult = await fetch('/api/test/results?skill=grammar', { credentials: 'same-origin' });
+        if (latestResult.ok) {
+          const latestData = await latestResult.json();
+          if (latestData.overall) {
+            setLatestAssessment({
+              id: latestData.overall.assessmentId,
+              status: latestData.overall.cefrLevel ? 'completed' : 'in_progress',
+              cefrLevel: latestData.overall.cefrLevel,
+              score: latestData.overall.score,
+              completedAt: latestData.overall.completedAt,
+              startedAt: '',
+            });
+          }
+        }
+      } catch {
+        // Silently fail — this is a nice-to-have
       }
 
       // Fetch user's enrolled courses
@@ -297,6 +318,35 @@ export default function DashboardPage() {
                   </p>
                 </div>
                 <ArrowRight className="h-5 w-5 text-blue-400 shrink-0 transition-transform group-hover:translate-x-1" />
+              </div>
+            </div>
+          )}
+
+          {/* Latest Test Results Banner */}
+          {!inProgressAssessment && latestAssessment && (
+            <div className="glass-card p-5 border-emerald-500/30 bg-emerald-500/5 cursor-pointer group" onClick={() => router.push('/test/results?skill=grammar')}>
+              <div className="flex items-center gap-4">
+                <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${CEFR_GRADIENTS[latestAssessment.cefrLevel || 'A1'] || 'from-blue-400 to-blue-600'} text-white shadow-lg transition-transform duration-300 group-hover:scale-110`}>
+                  {latestAssessment.cefrLevel ? (
+                    <span className="text-lg font-black">{latestAssessment.cefrLevel}</span>
+                  ) : (
+                    <BarChart3 className="h-6 w-6" />
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-white text-base">Your Latest Results</h3>
+                  <p className="text-xs text-emerald-300/80 mt-0.5">
+                    {latestAssessment.cefrLevel
+                      ? `CEFR Level: ${latestAssessment.cefrLevel} — Score: ${latestAssessment.score}/100`
+                      : 'View your test results and skill breakdown'}
+                  </p>
+                  {latestAssessment.completedAt && (
+                    <p className="text-xs text-white/30 mt-1">
+                      Completed {new Date(latestAssessment.completedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                    </p>
+                  )}
+                </div>
+                <ArrowRight className="h-5 w-5 text-emerald-400 shrink-0 transition-transform group-hover:translate-x-1" />
               </div>
             </div>
           )}

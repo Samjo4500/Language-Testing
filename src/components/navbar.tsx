@@ -75,7 +75,7 @@ export function Navbar() {
     fetch('/api/community/user-count')
       .then((res) => res.json())
       .then((data) => {
-        if (data.count >= 50) {
+        if (data.count >= 5) {
           setCommunityVisible(true);
         }
       })

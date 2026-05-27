@@ -49,9 +49,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Not Found', message: 'User not found.' }, { status: 404 });
     }
 
-    if (!user.emailVerified) {
+    // Allow first test without email verification (only block after first test)
+    // This removes the friction of requiring email verification before experiencing the product
+    const previousAssessments = await db.assessment.count({
+      where: { userId: authResult.userId },
+    });
+    if (!user.emailVerified && previousAssessments > 0) {
       return NextResponse.json(
-        { error: 'Email Not Verified', message: 'Please verify your email before taking a test.', code: 'EMAIL_NOT_VERIFIED' },
+        { error: 'Email Not Verified', message: 'Please verify your email before taking another test. Check your inbox for the verification link.', code: 'EMAIL_NOT_VERIFIED' },
         { status: 403 }
       );
     }

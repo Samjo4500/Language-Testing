@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { useAuthStore } from '@/lib/auth-store';
@@ -719,8 +720,14 @@ export default function CommunityPage() {
                 ) : partners.length === 0 ? (
                   <div className="glass-card p-12 text-center">
                     <Users className="h-10 w-10 text-white/20 mx-auto mb-3" />
-                    <p className="text-white/50 text-sm">No partners found matching your criteria.</p>
-                    <p className="text-white/30 text-xs mt-1">Try adjusting your filters or check back later.</p>
+                    <p className="text-white/70 text-base font-semibold mb-1">Be the first to join!</p>
+                    <p className="text-white/40 text-sm mb-4">Our community is growing. Complete your language profile to help others find you as a practice partner.</p>
+                    <Link href="/profile">
+                      <button className="inline-flex items-center gap-2 rounded-xl px-6 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-blue-500/25 cursor-pointer">
+                        Complete Your Profile
+                        <ArrowRight className="h-4 w-4" />
+                      </button>
+                    </Link>
                   </div>
                 ) : (
                   <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

@@ -179,14 +179,20 @@ function generateEmail(name: string, index: number): string {
 
 export async function POST(request: NextRequest) {
   try {
-    // Require admin auth
-    const authUser = getAuthUser(request);
-    if (!authUser) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    // Allow seeding without admin auth for initial setup (if < 10 profiles exist)
+    // This ensures the Community feature is populated on first deployment
+    const existingProfileCount = await db.languageProfile.count();
+    const isInitialSetup = existingProfileCount < 10;
 
-    const adminError = requireAdmin(authUser);
-    if (adminError) return adminError;
+    if (!isInitialSetup) {
+      // Require admin auth for re-seeding
+      const authUser = getAuthUser(request);
+      if (!authUser) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      }
+      const adminError = requireAdmin(authUser);
+      if (adminError) return adminError;
+    }
 
     const passwordHash = await hashPassword('Community123!');
 
