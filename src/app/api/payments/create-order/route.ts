@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createPayPalOrder } from '@/lib/paypal';
 import { getAuthUser } from '@/lib/auth-middleware';
 import { paymentLimiter } from '@/lib/rate-limit';
+import { enqueueCartRecovery } from '@/lib/email-queue';
+import type { CartRecoveryPayload } from '@/lib/email-queue';
+import { PLAN_CONFIG } from '@/lib/plans';
 
 // Plan pricing configuration
 const PLAN_PRICES: Record<string, { amount: number; label: string }> = {
@@ -39,6 +42,25 @@ export async function POST(request: NextRequest) {
     const description = planConfig.label;
 
     const order = await createPayPalOrder(amount, currency, description, planType);
+
+    // Enqueue cart recovery email (1hr delay — cancelled if payment captured)
+    try {
+      const dbUser = await (await import('@/lib/db')).db.user.findUnique({
+        where: { id: user.userId },
+        select: { id: true, name: true, email: true },
+      });
+      if (dbUser) {
+        const config = PLAN_CONFIG[planType] || PLAN_CONFIG.single;
+        const cartPayload: CartRecoveryPayload = {
+          name: dbUser.name || dbUser.email.split('@')[0],
+          email: dbUser.email,
+          planType,
+          planName: config.planName,
+          price: config.price,
+        };
+        enqueueCartRecovery(dbUser.id, order.id, cartPayload).catch(() => {});
+      }
+    } catch {}
 
     return NextResponse.json({
       orderID: order.id,

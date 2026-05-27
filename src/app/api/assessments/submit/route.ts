@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { getAuthUser, verifyTokenVersion } from '@/lib/auth-middleware';
 import { sendAssessmentComplete } from '@/lib/email';
+import { enqueueNurtureSequence } from '@/lib/email-queue';
+import type { NurturePayload } from '@/lib/email-queue';
 
 export async function POST(request: NextRequest) {
   try {
@@ -135,6 +137,33 @@ export async function POST(request: NextRequest) {
     if (user) {
       sendAssessmentComplete(user.name || user.email.split('@')[0], user.email, cefrLevel, score, user.id)
         .catch((err) => console.error('Assessment complete email error:', err));
+
+      // Enqueue nurture sequence for free-tier users (7 emails over 6 days)
+      if (user.plan === 'free') {
+        // Find weakest skill from breakdown
+        const categories = ['reading', 'writing', 'listening', 'speaking', 'grammar', 'vocabulary'] as const;
+        let weakestSkill = 'grammar';
+        let weakestScore = 100;
+        const breakdown = skillBreakdown as unknown as Record<string, number>;
+        for (const cat of categories) {
+          if (breakdown[cat] < weakestScore) {
+            weakestScore = breakdown[cat];
+            weakestSkill = cat;
+          }
+        }
+
+        const nurturePayload: NurturePayload = {
+          name: user.name || user.email.split('@')[0],
+          email: user.email,
+          cefrLevel,
+          score,
+          weakestSkill,
+          weakestScore,
+        };
+
+        enqueueNurtureSequence(user.id, nurturePayload)
+          .catch((err) => console.error('Nurture sequence enqueue error:', err));
+      }
     }
 
     return NextResponse.json({

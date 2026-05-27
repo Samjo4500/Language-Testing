@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminFromRequest, adminErrorResponse } from '@/lib/admin-auth';
 import { db } from '@/lib/db';
+import { sendTicketReplyImmediate } from '@/lib/email-queue';
+import type { TicketReplyPayload } from '@/lib/email-queue';
 
 export async function GET(request: NextRequest) {
   try {
@@ -118,6 +120,20 @@ export async function PATCH(request: NextRequest) {
         details: JSON.stringify({ before: { status: ticket.status, priority: ticket.priority }, after: updateData }),
       },
     });
+
+    // Send ticket reply email to user (fire-and-forget)
+    if (action === 'respond' && data?.response) {
+      const ticketReplyPayload: TicketReplyPayload = {
+        name: updatedTicket.user.name || updatedTicket.user.email.split('@')[0],
+        email: updatedTicket.user.email,
+        ticketSubject: ticket.subject,
+        adminResponse: data.response,
+        ticketId: ticket.id,
+      };
+      sendTicketReplyImmediate(updatedTicket.user.id, ticketReplyPayload).catch((err) =>
+        console.error('Ticket reply email error:', err)
+      );
+    }
 
     return NextResponse.json({ ticket: updatedTicket });
   } catch (error) {

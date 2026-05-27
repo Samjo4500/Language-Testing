@@ -8,6 +8,7 @@ import { setAuthCookies } from '@/lib/cookie-auth';
 import { PLAN_CONFIG } from '@/lib/plans';
 import { trackPurchaseServerSide } from '@/lib/analytics';
 import { paymentLimiter } from '@/lib/rate-limit';
+import { cancelCartRecovery, cancelNurtureSequence } from '@/lib/email-queue';
 
 export async function POST(request: NextRequest) {
   // Rate limit: 5 payment requests per minute per IP
@@ -130,6 +131,12 @@ export async function POST(request: NextRequest) {
         amount,
         captureId || orderID
       ).catch((err) => console.error('Admin new payment email error:', err));
+
+      // Cancel cart recovery email (no longer needed — payment completed)
+      cancelCartRecovery(dbUser.id).catch(() => {});
+
+      // Cancel any pending nurture emails (user upgraded — no need to nurture)
+      cancelNurtureSequence(dbUser.id).catch(() => {});
     }
 
     // Server-side purchase tracking via GA4 Measurement Protocol (fire-and-forget)

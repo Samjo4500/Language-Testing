@@ -58,6 +58,7 @@ model User {
   momentLikes      MomentLike[]      @relation("UserMomentLikes")
   vocabProgress    UserVocabProgress[] @relation("UserVocabProgress")
   supportTickets   SupportTicket[]      @relation("UserSupportTickets")
+  emailQueue       EmailQueue[]         @relation("UserEmailQueue")
   reports          Report[]             @relation("UserReports")
 
   @@index([organizationId])
@@ -222,7 +223,7 @@ model EmailLog {
   to        String // Recipient email
   from      String // Sender email
   subject   String // Email subject
-  type      String // "welcome" | "verification" | "password_reset" | "payment" | "certificate" | "assessment" | "contact_auto_reply" | "contact_notification" | "b2b_auto_reply" | "b2b_notification" | "admin_new_user" | "admin_new_payment" | "admin_certificate" | "general"
+  type      String // "welcome" | "verification" | "password_reset" | "payment" | "certificate" | "assessment" | "contact_auto_reply" | "contact_notification" | "b2b_auto_reply" | "b2b_notification" | "admin_new_user" | "admin_new_payment" | "admin_certificate" | "nurture_day0" | "nurture_day1" | "nurture_day2" | "nurture_day3" | "nurture_day4" | "nurture_day5" | "nurture_day6" | "cart_recovery" | "ticket_reply" | "general"
   status    String   @default("sent") // "sent" | "failed"
   isRead    Boolean  @default(false) // Whether admin has viewed this notification
   userId    String? // If email was sent to a registered user
@@ -875,6 +876,30 @@ model Coupon {
   @@index([code])
   @@index([isActive])
   @@index([expiresAt])
+}
+
+// ═══════════════════════════════════════════════════════════
+//  EMAIL QUEUE — Scheduled email delivery for automation
+// ═══════════════════════════════════════════════════════════
+
+model EmailQueue {
+  id           String   @id @default(cuid())
+  userId       String   // Recipient user ID
+  to           String   // Recipient email
+  emailType    String   // "nurture_day0" | "nurture_day1" ... "nurture_day6" | "cart_recovery" | "ticket_reply"
+  status       String   @default("pending") // "pending" | "sent" | "failed" | "cancelled"
+  sendAt       DateTime // When to send (UTC)
+  sentAt       DateTime? // When actually sent
+  payload      String?  // JSON: template-specific data (cefrLevel, score, planType, ticketId, etc.)
+  error        String?  // Error message if failed
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user User? @relation("UserEmailQueue", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([status, sendAt])
+  @@index([userId, emailType, status])
+  @@index([sendAt])
 }
 
 model ErrorLog {
