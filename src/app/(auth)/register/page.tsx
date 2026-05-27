@@ -127,7 +127,7 @@ export default function RegisterPage() {
         {/* Background orbs */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="orb orb-purple w-[400px] h-[400px] -top-20 -left-20 animate-float-slow" />
-          <div className="orb orb-pink w-[300px] h-[300px] bottom-0 right-1/4 animate-float-reverse" />
+          <div className="orb orb-violet w-[300px] h-[300px] bottom-0 right-1/4 animate-float-reverse" />
         </div>
 
         <div className="relative w-full max-w-4xl grid md:grid-cols-2 gap-8 items-start">

@@ -43,7 +43,7 @@ const DIMENSIONS_DATA = [
     icon: <BookOpen className="h-6 w-6" />,
     title: 'Reading',
     level: 'A1–C2',
-    gradient: 'from-indigo-500 to-indigo-400',
+    gradient: 'from-blue-500 to-blue-400',
     items: ['Main ideas and detailed comprehension', 'Understanding implicit meaning', 'Analyzing text structure', 'Vocabulary inference', 'Reading speed and accuracy'],
   },
   {
@@ -57,7 +57,7 @@ const DIMENSIONS_DATA = [
     icon: <Headphones className="h-6 w-6" />,
     title: 'Listening',
     level: 'A1–C2',
-    gradient: 'from-emerald-500 to-emerald-400',
+    gradient: 'from-amber-500 to-amber-400',
     items: ['Main ideas and details', 'Understanding speakers\' attitude', 'Following complex arguments', 'Multiple speaker comprehension', 'Accent familiarity'],
   },
   {
@@ -78,7 +78,7 @@ const DIMENSIONS_DATA = [
     icon: <Award className="h-6 w-6" />,
     title: 'Vocabulary',
     level: 'A1–C2',
-    gradient: 'from-cyan-500 to-cyan-400',
+    gradient: 'from-violet-500 to-violet-400',
     items: ['Word range', 'Precision', 'Collocations', 'Register awareness', 'Topic-specific vocabulary'],
   },
 ];
@@ -396,7 +396,7 @@ export default function Home() {
                   <ul className="space-y-2">
                     {skill.items.map((item) => (
                       <li key={item} className="flex items-center gap-2">
-                        <CheckCircle2 className={`h-3.5 w-3.5 shrink-0`} style={{color: skill.title === 'Grammar' ? '#3b82f6' : skill.title === 'Vocabulary' ? '#06b6d4' : skill.title === 'Reading' ? '#6366f1' : skill.title === 'Listening' ? '#10b981' : skill.title === 'Speaking' ? '#f59e0b' : '#8b5cf6'}} />
+                        <CheckCircle2 className={`h-3.5 w-3.5 shrink-0`} style={{color: skill.title === 'Grammar' ? '#3b82f6' : skill.title === 'Vocabulary' ? '#7c5cff' : skill.title === 'Reading' ? '#3b82f6' : skill.title === 'Listening' ? '#f59e0b' : skill.title === 'Speaking' ? '#f59e0b' : '#8b5cf6'}} />
                         <span className="text-sm text-white/60">{item}</span>
                       </li>
                     ))}

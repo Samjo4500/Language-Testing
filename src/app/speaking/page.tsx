@@ -175,7 +175,7 @@ export default function SpeakingPage() {
                 icon: <AudioWaveform className="h-6 w-6" />,
                 title: 'AI Speech Recognition',
                 desc: 'Advanced neural networks transcribe and analyze your speech in real-time, capturing every nuance of your pronunciation and intonation patterns.',
-                gradient: 'from-purple-500 to-indigo-500',
+                gradient: 'from-violet-500 to-indigo-500',
               },
               {
                 icon: <Mic className="h-6 w-6" />,
@@ -187,13 +187,13 @@ export default function SpeakingPage() {
                 icon: <Activity className="h-6 w-6" />,
                 title: 'Fluency Analysis',
                 desc: 'Our AI measures speaking rate, pauses, hesitations, and self-corrections to assess your fluency and natural rhythm in English conversation.',
-                gradient: 'from-violet-500 to-purple-500',
+                gradient: 'from-violet-500 to-indigo-500',
               },
               {
                 icon: <MessageSquareText className="h-6 w-6" />,
                 title: 'Real-Time Feedback',
                 desc: 'Get instant visual and textual feedback as you speak, with highlighted areas for improvement and suggestions for more natural expression.',
-                gradient: 'from-violet-500 to-purple-500',
+                gradient: 'from-violet-500 to-indigo-500',
               },
             ].map((feature, index) => (
               <AnimatedSection key={index} delay={index * 100}>

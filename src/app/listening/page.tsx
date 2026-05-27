@@ -81,7 +81,7 @@ export default function ListeningPage() {
       icon: <MessageCircle className="h-6 w-6" />,
       title: 'Natural Conversations',
       desc: 'Listen to authentic, real-world dialogues between native English speakers in everyday situations — from ordering coffee to professional meetings.',
-      gradient: 'from-purple-500 to-indigo-500',
+      gradient: 'from-violet-500 to-indigo-500',
     },
     {
       icon: <Globe className="h-6 w-6" />,
@@ -93,13 +93,13 @@ export default function ListeningPage() {
       icon: <Volume2 className="h-6 w-6" />,
       title: 'Real-World Scenarios',
       desc: 'Engage with audio drawn from practical contexts: airport announcements, workplace instructions, news broadcasts, and academic lectures.',
-      gradient: 'from-cyan-400 to-blue-500',
+      gradient: 'from-blue-400 to-blue-500',
     },
     {
       icon: <BarChart3 className="h-6 w-6" />,
       title: 'Progressive Difficulty',
       desc: 'Questions adapt from A1 beginner level through C2 mastery, automatically calibrating to challenge your current listening comprehension level.',
-      gradient: 'from-green-400 to-emerald-500',
+      gradient: 'from-amber-500 to-amber-600',
     },
   ];
 
@@ -109,7 +109,7 @@ export default function ListeningPage() {
       title: 'Listen to Audio',
       desc: 'Play carefully curated audio clips featuring native speakers in realistic scenarios. Each clip is designed to test specific listening skills at your level.',
       step: '01',
-      gradient: 'from-purple-500 to-indigo-500',
+      gradient: 'from-violet-500 to-indigo-500',
     },
     {
       icon: <Ear className="h-7 w-7" />,
@@ -123,7 +123,7 @@ export default function ListeningPage() {
       title: 'Get Your Score',
       desc: 'Receive an instant CEFR-aligned listening score with detailed analytics on your strengths, weaknesses, and personalized improvement recommendations.',
       step: '03',
-      gradient: 'from-cyan-400 to-blue-500',
+      gradient: 'from-blue-400 to-blue-500',
     },
   ];
 

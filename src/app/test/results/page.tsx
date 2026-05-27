@@ -104,7 +104,7 @@ const SKILL_ICONS: Record<string, React.ReactNode> = {
 const CEFR_BADGE_COLORS: Record<string, string> = {
   A1: '#3b82f6',
   A2: '#38bdf8',
-  B1: '#10b981',
+  B1: '#7c5cff',
   B2: '#8b5cf6',
   C1: '#6366f1',
   C2: '#1e40af',

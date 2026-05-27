@@ -105,7 +105,7 @@ export default function QuickTourPage() {
       <section className="relative dark-section overflow-hidden">
         {/* Floating Background Orbs */}
         <div className="orb orb-purple w-96 h-96 top-[-10%] left-[10%] animate-float opacity-20" />
-        <div className="orb orb-pink w-80 h-80 top-[20%] right-[5%] animate-float-slow opacity-15" />
+        <div className="orb orb-violet w-80 h-80 top-[20%] right-[5%] animate-float-slow opacity-15" />
         <div className="orb orb-blue w-64 h-64 bottom-[10%] left-[30%] animate-float-reverse opacity-10" />
 
         <div className="hero-pattern noise-overlay relative">

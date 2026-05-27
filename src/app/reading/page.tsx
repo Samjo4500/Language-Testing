@@ -77,7 +77,7 @@ export default function ReadingPage() {
       icon: <FileText className="h-6 w-6" />,
       title: 'Diverse Text Types',
       desc: 'Read everything from short emails and news headlines to academic papers and literary extracts — each text carefully selected to test specific comprehension skills at your level.',
-      gradient: 'from-purple-500 to-indigo-500',
+      gradient: 'from-violet-500 to-indigo-500',
     },
     {
       icon: <Globe className="h-6 w-6" />,
@@ -89,13 +89,13 @@ export default function ReadingPage() {
       icon: <Search className="h-6 w-6" />,
       title: 'Skimming & Scanning',
       desc: 'Develop essential reading strategies through exercises that test your ability to quickly locate key information, identify main ideas, and understand text structure efficiently.',
-      gradient: 'from-cyan-400 to-blue-500',
+      gradient: 'from-blue-400 to-blue-500',
     },
     {
       icon: <BarChart3 className="h-6 w-6" />,
       title: 'Progressive Difficulty',
       desc: 'Questions adapt from A1 beginner level through C2 mastery, automatically calibrating to challenge your current reading comprehension level with increasing text complexity.',
-      gradient: 'from-green-400 to-emerald-500',
+      gradient: 'from-amber-500 to-amber-600',
     },
   ];
 
@@ -105,7 +105,7 @@ export default function ReadingPage() {
       title: 'Read the Passage',
       desc: 'Engage with carefully curated reading passages featuring authentic English texts. Each passage is designed to test specific comprehension skills at your CEFR level.',
       step: '01',
-      gradient: 'from-purple-500 to-indigo-500',
+      gradient: 'from-violet-500 to-indigo-500',
     },
     {
       icon: <Eye className="h-7 w-7" />,
@@ -119,7 +119,7 @@ export default function ReadingPage() {
       title: 'Get Your Score',
       desc: 'Receive an instant CEFR-aligned reading score with detailed analytics on your strengths, weaknesses, and personalized improvement recommendations.',
       step: '03',
-      gradient: 'from-cyan-400 to-blue-500',
+      gradient: 'from-blue-400 to-blue-500',
     },
   ];
 

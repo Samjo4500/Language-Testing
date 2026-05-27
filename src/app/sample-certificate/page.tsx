@@ -69,7 +69,7 @@ export default function SampleCertificatePage() {
       <section className="relative dark-section overflow-hidden">
         {/* Floating Orbs */}
         <div className="orb orb-purple w-72 h-72 top-10 -left-20 animate-float" />
-        <div className="orb orb-pink w-96 h-96 -top-20 right-0 animate-float-slow" />
+        <div className="orb orb-violet w-96 h-96 -top-20 right-0 animate-float-slow" />
         <div className="orb orb-blue w-64 h-64 bottom-0 left-1/3 animate-float-reverse" />
 
         <div className="hero-pattern noise-overlay relative z-10 py-20 md:py-28">

@@ -53,7 +53,7 @@ function BackgroundOrbs() {
       {/* Main purple orb */}
       <div className="orb orb-purple w-[500px] h-[500px] -top-32 -left-32 animate-float-slow" />
       {/* Pink orb */}
-      <div className="orb orb-pink w-[350px] h-[350px] top-1/3 -right-16 animate-float-reverse" />
+      <div className="orb orb-violet w-[350px] h-[350px] top-1/3 -right-16 animate-float-reverse" />
       {/* Blue orb */}
       <div className="orb orb-blue w-[250px] h-[250px] bottom-16 left-1/4 animate-float" />
       {/* Small accent dots */}

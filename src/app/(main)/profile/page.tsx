@@ -546,7 +546,7 @@ export default function ProfilePage() {
                 {/* Interests */}
                 <div className="glass-card p-5">
                   <h3 className="text-sm font-semibold text-white/70 mb-4 flex items-center gap-2">
-                    <Heart className="h-4 w-4 text-pink-400" />
+                    <Heart className="h-4 w-4 text-blue-400" />
                     Interests
                   </h3>
                   {profile?.interests ? (
@@ -744,7 +744,7 @@ export default function ProfilePage() {
                 {/* Interests */}
                 <div>
                   <label className="block text-sm font-medium text-white/70 mb-2">
-                    <Heart className="inline h-3.5 w-3.5 mr-1 text-pink-400" />
+                    <Heart className="inline h-3.5 w-3.5 mr-1 text-blue-400" />
                     Interests
                   </label>
                   <div className="flex flex-wrap gap-1.5">

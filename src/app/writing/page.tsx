@@ -81,7 +81,7 @@ export default function WritingPage() {
       icon: <MessageSquareText className="h-6 w-6" />,
       title: 'Coherence Evaluation',
       desc: 'AI analyzes the logical flow and connectivity of your ideas, ensuring your writing progresses naturally from introduction to conclusion.',
-      gradient: 'from-purple-500 to-indigo-500',
+      gradient: 'from-violet-500 to-indigo-500',
     },
     {
       icon: <SpellCheck className="h-6 w-6" />,
@@ -93,13 +93,13 @@ export default function WritingPage() {
       icon: <BookOpen className="h-6 w-6" />,
       title: 'Vocabulary Range',
       desc: 'Measures lexical diversity and appropriateness, from basic word choice at A1 level to sophisticated, nuanced expression at C2.',
-      gradient: 'from-violet-500 to-purple-500',
+      gradient: 'from-violet-500 to-indigo-500',
     },
     {
       icon: <Layers className="h-6 w-6" />,
       title: 'Structure Analysis',
       desc: 'Evaluates paragraph organization, thesis development, supporting evidence, transitions, and overall composition architecture.',
-      gradient: 'from-violet-500 to-purple-500',
+      gradient: 'from-violet-500 to-indigo-500',
     },
   ];
 
@@ -110,7 +110,7 @@ export default function WritingPage() {
       icon: <PenTool className="h-7 w-7" />,
       title: 'Write Your Response',
       desc: 'Receive a thought-provoking prompt and compose your written response. Choose from argumentative, descriptive, or analytical tasks designed for your target CEFR level.',
-      gradient: 'from-purple-500 to-indigo-500',
+      gradient: 'from-violet-500 to-indigo-500',
     },
     {
       number: '02',
@@ -124,7 +124,7 @@ export default function WritingPage() {
       icon: <Award className="h-7 w-7" />,
       title: 'Receive Your Score',
       desc: 'Get a detailed CEFR-aligned score with a comprehensive breakdown, personalized feedback, and actionable improvement suggestions for each writing competency.',
-      gradient: 'from-violet-500 to-purple-500',
+      gradient: 'from-violet-500 to-indigo-500',
     },
   ];
 

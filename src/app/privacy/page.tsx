@@ -54,7 +54,7 @@ function BackgroundOrbs() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       <div className="orb orb-purple w-[500px] h-[500px] -top-32 -left-32 animate-float-slow" />
-      <div className="orb orb-pink w-[350px] h-[350px] top-1/3 -right-16 animate-float-reverse" />
+      <div className="orb orb-violet w-[350px] h-[350px] top-1/3 -right-16 animate-float-reverse" />
       <div className="orb orb-blue w-[250px] h-[250px] bottom-16 left-1/4 animate-float" />
       <div className="absolute top-1/4 left-1/2 w-2 h-2 rounded-full bg-purple-400/40 animate-float delay-200" />
       <div className="absolute top-1/3 right-1/3 w-1.5 h-1.5 rounded-full bg-blue-400/30 animate-float-reverse delay-500" />
@@ -450,7 +450,7 @@ export default function PrivacyPage() {
       <section className="relative py-16 md:py-20 dark-section overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="orb orb-purple w-[400px] h-[400px] -top-20 right-1/4 animate-float-slow" />
-          <div className="orb orb-pink w-[300px] h-[300px] bottom-0 left-1/4 animate-float-reverse" />
+          <div className="orb orb-violet w-[300px] h-[300px] bottom-0 left-1/4 animate-float-reverse" />
         </div>
         <div className="container relative mx-auto px-4">
           <div className="max-w-2xl mx-auto">

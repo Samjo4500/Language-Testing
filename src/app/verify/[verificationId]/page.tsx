@@ -144,7 +144,7 @@ export default function VerifyCertificatePage() {
             <Shield className="h-4 w-4 ml-1" />
           </div>
 
-          {/* Certificate Card - Matching the purple/pink dark theme */}
+          {/* Certificate Card - Matching the blue/violet dark theme */}
           <div className="glass-card p-2 md:p-3 purple-glow">
             {/* Gradient border wrapper */}
             <div

@@ -29,7 +29,7 @@ const SKILL_COLORS: Record<string, { r1: number; g1: number; b1: number; r2: num
   writing:    { r1: 0.55, g1: 0.30, b1: 0.96, r2: 0.60, g2: 0.22, b2: 0.96 },   // violet to purple
   listening:  { r1: 0.37, g1: 0.77, b1: 0.45, r2: 0.30, g2: 0.77, b2: 0.45 },   // green to emerald
   speaking:   { r1: 0.98, g1: 0.45, b1: 0.09, r2: 0.96, g2: 0.56, b2: 0.09 },   // orange to amber
-  grammar:    { r1: 0.55, g1: 0.30, b1: 0.96, r2: 0.96, g2: 0.22, b2: 0.55 },   // purple to pink
+  grammar:    { r1: 0.55, g1: 0.30, b1: 0.96, r2: 0.23, g2: 0.51, b2: 0.96 },   // purple to blue
   vocabulary: { r1: 0.32, g1: 0.77, b1: 0.96, r2: 0.37, g2: 0.58, b2: 0.96 },   // cyan to blue
 };
 
@@ -54,7 +54,7 @@ interface CertificateData {
 // Color constants matching the website
 const DARK_BG      = rgb(0.06, 0.04, 0.12);   // #0F0A1E
 const PURPLE_START = rgb(0.55, 0.36, 0.96);   // #8B5CF6 purple-500
-const PINK_END     = rgb(0.93, 0.28, 0.60);   // #EC4899 pink-500
+const PINK_END     = rgb(0.23, 0.51, 0.96);   // #3b82f6 blue-500
 const WHITE        = rgb(1, 1, 1);
 
 export async function generateCertificatePDF(data: CertificateData): Promise<Buffer> {
@@ -81,7 +81,7 @@ export async function generateCertificatePDF(data: CertificateData): Promise<Buf
     color: DARK_BG,
   });
 
-  // ── Gradient border frame (purple-to-pink gradient, 2px wide) ──
+  // ── Gradient border frame (purple-to-blue gradient, 2px wide) ──
   const borderW = 2;
   const gradientSteps = 30;
   for (let i = 0; i < gradientSteps; i++) {
@@ -95,7 +95,7 @@ export async function generateCertificatePDF(data: CertificateData): Promise<Buf
   }
   // Left border (purple)
   page.drawRectangle({ x: 0, y: 0, width: borderW, height, color: PURPLE_START });
-  // Right border (pink)
+  // Right border (blue)
   page.drawRectangle({ x: width - borderW, y: 0, width: borderW, height, color: PINK_END });
 
   const marginX = 50;
@@ -616,7 +616,7 @@ export async function generateCourseCertificatePDF(data: CourseCertificateData):
     color: DARK_BG,
   });
 
-  // ── Gradient border frame (purple-to-pink gradient, 2px wide) ──
+  // ── Gradient border frame (purple-to-blue gradient, 2px wide) ──
   const borderW = 2;
   const gradientSteps = 30;
   for (let i = 0; i < gradientSteps; i++) {
@@ -630,7 +630,7 @@ export async function generateCourseCertificatePDF(data: CourseCertificateData):
   }
   // Left border (purple)
   page.drawRectangle({ x: 0, y: 0, width: borderW, height, color: PURPLE_START });
-  // Right border (pink)
+  // Right border (blue)
   page.drawRectangle({ x: width - borderW, y: 0, width: borderW, height, color: PINK_END });
 
   const marginX = 50;
