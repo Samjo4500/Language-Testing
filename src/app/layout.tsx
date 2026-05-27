@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/components/auth-provider";
 import { AnalyticsProvider } from "@/components/analytics-provider";
 import { LazyChatWidget } from "@/components/lazy-chat-widget";
+import { PerformanceMonitor } from "@/components/performance-monitor";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -148,6 +149,7 @@ export default function RootLayout({
             />
             {children}
             <LazyChatWidget />
+            <PerformanceMonitor />
           </AnalyticsProvider>
         </AuthProvider>
         <Toaster />

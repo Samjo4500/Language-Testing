@@ -664,7 +664,7 @@ export default function TestResultsPage() {
           <div className="glass-card p-6">
             <div className="flex flex-col sm:flex-row gap-3">
               {nextSkill && (
-                <Link href={`/test/results?skill=${nextSkill}`} className="flex-1">
+                <Link href="/test" className="flex-1">
                   <button
                     className="w-full flex items-center justify-center gap-2 rounded-xl py-3.5 text-white font-semibold transition-all duration-300 cursor-pointer"
                     style={{

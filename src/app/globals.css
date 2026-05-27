@@ -1188,6 +1188,27 @@ html {
   }
 }
 
+/* === TYPEWRITER BADGE TRUNCATION SAFETY NET === */
+/* Ensures the hero badge text never gets clipped, even on narrow viewports */
+.hero-typewriter-container,
+[class*="TypewriterBadge"] {
+  overflow: visible !important;
+  max-width: 90vw;
+}
+
+@media (max-width: 480px) {
+  .hero-typewriter-container,
+  [class*="TypewriterBadge"] {
+    white-space: normal !important;
+    text-align: center;
+  }
+  .hero-typewriter-container span,
+  [class*="TypewriterBadge"] span {
+    white-space: normal !important;
+    font-size: 0.7rem !important;
+  }
+}
+
 /* === CUSTOM SCROLLBAR FOR QUESTION LIST === */
 .custom-scrollbar::-webkit-scrollbar {
   width: 4px;

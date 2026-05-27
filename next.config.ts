@@ -51,6 +51,12 @@ const nextConfig: NextConfig = {
             chunks: 'all',
             priority: 20,
           },
+          analytics: {
+            test: /[\\/]node_modules[\\/](@vercel\/analytics|@vercel\/speed-insights|posthog-js)[\\/]/,
+            name: 'analytics',
+            chunks: 'all',
+            priority: 15,
+          },
         },
       };
       config.resolve.fallback = {
