@@ -41,6 +41,7 @@
     "skills",
     "examples",
     "scripts",
-    "test-branded-email.ts"
+    "test-branded-email.ts",
+    "testcefr-app"
   ]
 }
