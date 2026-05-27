@@ -46,3 +46,24 @@ Stage Summary:
 - Analytics enhancement: COMPLETE. Added 21 new event tracking functions (was 9, now 30 total)
 - Navigation integration: COMPLETE. Blog link in navbar + footer
 - Build status: SUCCESSFUL — /blog (static), /blog/[slug] (SSG with 9 paths)
+
+---
+Task ID: 3
+Agent: Main Agent
+Task: Add 6 high-intent blog posts, embeddable quiz widget, and outreach pitch templates
+
+Work Log:
+- Added 6 new high-intent blog posts to blog-data.ts: CEFR-IELTS conversion, remote work English, AI scoring accuracy, B1-to-B2 timeline, HR team assessment, writing skills improvement
+- Created /src/app/api/quiz-widget/route.ts — API endpoint serving 15 CEFR-aligned quiz questions with count/level params
+- Created /src/app/embed-quiz/page.tsx — embed code page with benefits, customization docs, and copy-to-clipboard widget
+- Created /src/app/embed-quiz/embed-code-block.tsx — client-side copyable code block
+- Created /public/quiz-widget.js — standalone JS widget that third-party sites embed (fetches questions, renders interactive quiz, links back to TestCEFR)
+- Created /download/guest-post-pitch-templates.md — 6 outreach email templates + follow-up template + outreach tips for: language blogs, HR sites, university ESL depts, EdTech publications, remote work communities, general education blogs
+- All 15 blog posts now pre-rendered at build time (verified: 15 HTML files in .next/server/app/blog/)
+- Build verified: npm run build SUCCESSFUL
+
+Stage Summary:
+- 6 high-intent blog posts added (total now 15), targeting: CEFR-IELTS conversion, remote work English, AI scoring accuracy, B1→B2 timeline, HR team assessment, writing improvement
+- Embeddable quiz widget complete: API endpoint + embed code page + standalone JS widget in /public/
+- 6 guest post pitch templates created at /download/guest-post-pitch-templates.md
+- Build: CLEAN — all 15 blog posts SSG, embed-quiz page static, quiz-widget API dynamic
