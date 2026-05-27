@@ -107,7 +107,7 @@ const SKILL_LABELS: Record<string, string> = {
 const RELEVANCE_STYLING: Record<string, { icon: React.ReactNode; badge: string }> = {
   critical: {
     icon: <Zap className="h-3 w-3" />,
-    badge: 'bg-red-500/10 text-red-300 border-red-500/20',
+    badge: 'bg-blue-500/15 text-blue-300 border-blue-500/25',
   },
   recommended: {
     icon: <TrendingUp className="h-3 w-3" />,

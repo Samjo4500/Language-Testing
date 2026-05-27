@@ -405,6 +405,89 @@ export default function PrivacyPage() {
 
       <div className="section-divider max-w-4xl mx-auto" />
 
+      {/* ===== CONTENT MODERATION & SAFETY ===== */}
+      <section className="relative py-16 md:py-20 dark-section-alt hero-pattern noise-overlay">
+        <div className="container relative mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <AnimatedSection>
+              <div className="text-center mb-12">
+                <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 mb-4">
+                  <Shield className="h-3.5 w-3.5 text-blue-400" />
+                  <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Community Safety</span>
+                </div>
+                <h2 className="text-3xl md:text-4xl font-bold text-white">
+                  Content Moderation & Safety
+                </h2>
+                <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
+                  For the safety of our community, we implement robust moderation practices while respecting your privacy.
+                </p>
+              </div>
+            </AnimatedSection>
+
+            <AnimatedSection delay={100}>
+              <div className="glass-card p-8">
+                <div className="space-y-5">
+                  <div className="flex items-start gap-4">
+                    <div className="text-blue-400 mt-0.5 shrink-0"><CheckCircle2 className="h-5 w-5" /></div>
+                    <p className="text-white/60 text-sm leading-relaxed">
+                      We automatically scan messages for harmful content using AI, detecting patterns related to spam, scams, and harassment. This helps protect all community members from abusive or fraudulent behavior.
+                    </p>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <div className="text-blue-400 mt-0.5 shrink-0"><CheckCircle2 className="h-5 w-5" /></div>
+                    <p className="text-white/60 text-sm leading-relaxed">
+                      We store conversation history so users can review past conversations and report issues. This ensures accountability and provides evidence for moderation decisions.
+                    </p>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <div className="text-blue-400 mt-0.5 shrink-0"><CheckCircle2 className="h-5 w-5" /></div>
+                    <p className="text-white/60 text-sm leading-relaxed">
+                      When a user clicks &ldquo;Report&rdquo;, our moderation team examines the reported conversation. All reports are handled confidentially and reviewed by trained moderators.
+                    </p>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <div className="text-blue-400 mt-0.5 shrink-0"><CheckCircle2 className="h-5 w-5" /></div>
+                    <p className="text-white/60 text-sm leading-relaxed">
+                      We log all moderator actions for accountability, tracking who accessed what information and when. This audit trail ensures moderation is fair, transparent, and reviewable.
+                    </p>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <div className="text-blue-400 mt-0.5 shrink-0"><CheckCircle2 className="h-5 w-5" /></div>
+                    <p className="text-white/60 text-sm leading-relaxed">
+                      We share data with law enforcement when legally required, such as in response to a subpoena or court order. We only comply with valid legal processes and will notify affected users when permitted.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-8 pt-6 border-t border-white/10">
+                  <h3 className="text-lg font-semibold text-white mb-4">What We Do NOT Do</h3>
+                  <div className="space-y-4">
+                    <div className="flex items-start gap-4">
+                      <div className="text-red-400 mt-0.5 shrink-0"><AlertCircle className="h-5 w-5" /></div>
+                      <p className="text-white/60 text-sm leading-relaxed">We do <strong className="text-white/80">NOT</strong> read private messages proactively. Message scanning is automated and only flags patterns matching known harmful content.</p>
+                    </div>
+                    <div className="flex items-start gap-4">
+                      <div className="text-red-400 mt-0.5 shrink-0"><AlertCircle className="h-5 w-5" /></div>
+                      <p className="text-white/60 text-sm leading-relaxed">We do <strong className="text-white/80">NOT</strong> share conversation content with third parties for any commercial purpose.</p>
+                    </div>
+                    <div className="flex items-start gap-4">
+                      <div className="text-red-400 mt-0.5 shrink-0"><AlertCircle className="h-5 w-5" /></div>
+                      <p className="text-white/60 text-sm leading-relaxed">We do <strong className="text-white/80">NOT</strong> use message content for advertising or marketing targeting.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-6 p-4 rounded-xl bg-blue-500/5 border border-blue-500/15">
+                  <p className="text-blue-300 text-sm leading-relaxed">
+                    By using the community feature, you consent to this moderation process. Our goal is to create a safe, respectful learning environment for all members.
+                  </p>
+                </div>
+              </div>
+            </AnimatedSection>
+          </div>
+        </div>
+      </section>
+
       {/* ===== YOUR RIGHTS ===== */}
       <section className="relative py-16 md:py-20 bg-[#0F0A1E]">
         <div className="container mx-auto px-4">

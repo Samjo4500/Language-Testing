@@ -294,7 +294,7 @@ export default function ProfilePage() {
   const getCompletenessColor = (pct: number) => {
     if (pct >= 80) return 'from-emerald-500 to-green-400';
     if (pct >= 50) return 'from-yellow-500 to-amber-400';
-    return 'from-red-500 to-orange-400';
+    return 'from-amber-500 to-amber-400';
   };
 
   if (!mounted || loading) {

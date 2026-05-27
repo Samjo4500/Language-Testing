@@ -2323,7 +2323,7 @@ export default function TestPage() {
       A2: 'from-green-400 to-green-600',
       B1: 'from-yellow-400 to-yellow-600',
       B2: 'from-orange-400 to-orange-600',
-      C1: 'from-red-400 to-red-600',
+      C1: 'from-violet-400 to-violet-600',
       C2: 'from-blue-400 to-violet-600',
     };
 

@@ -31,6 +31,7 @@ const PROTECTED_ROUTES = ['/dashboard', '/test', '/payment-success'];
 
 // Routes that require admin role
 const ADMIN_ROUTES = ['/admin'];
+const ADMIN_API_ROUTES = ['/api/admin'];
 
 // Routes that should redirect to dashboard if already authenticated
 const AUTH_ROUTES = ['/login', '/register', '/forgot-password', '/reset-password'];
@@ -120,8 +121,33 @@ function addSecurityHeaders(response: NextResponse): NextResponse {
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Skip API routes and static files
-  if (pathname.startsWith('/api/') || pathname.startsWith('/_next/') || pathname.includes('.')) {
+  // Skip API routes (except admin API) and static files
+  if (pathname.startsWith('/api/')) {
+    // Admin API routes require admin role — return 401/403 instead of redirecting
+    if (ADMIN_API_ROUTES.some(route => pathname.startsWith(route))) {
+      const accessToken = request.cookies.get('access_token')?.value;
+      const tokenPayload = accessToken ? await verifyTokenSafely(accessToken) : null;
+      const userRole = tokenPayload?.role || 'user';
+
+      if (!tokenPayload) {
+        const response = NextResponse.json({ error: 'Authentication required' }, { status: 401 });
+        addSecurityHeaders(response);
+        return response;
+      }
+
+      if (userRole !== 'admin') {
+        const response = NextResponse.json({ error: 'Admin access required' }, { status: 403 });
+        addSecurityHeaders(response);
+        return response;
+      }
+    }
+
+    const response = NextResponse.next();
+    addSecurityHeaders(response);
+    return response;
+  }
+
+  if (pathname.startsWith('/_next/') || pathname.includes('.')) {
     const response = NextResponse.next();
     addSecurityHeaders(response);
     return response;

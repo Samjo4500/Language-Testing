@@ -1,39 +1,35 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { requireAdminFromRequest, adminErrorResponse } from '@/lib/admin-auth';
 import { db } from '@/lib/db';
-import { getAuthUser, requireAdmin } from '@/lib/auth-middleware';
-import { adminLimiter } from '@/lib/rate-limit';
 
-/**
- * GET /api/admin/users
- * List users with pagination and search.
- * Query params: page, limit, search (by email or name)
- */
 export async function GET(request: NextRequest) {
-  // Rate limit: 60 requests per minute per IP
-  const limitError = adminLimiter(request);
-  if (limitError) return limitError;
-
   try {
-    const authResult = getAuthUser(request);
-    if (!authResult) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-    const adminCheck = requireAdmin(authResult);
-    if (adminCheck) return adminCheck;
+    await requireAdminFromRequest(request);
 
     const { searchParams } = new URL(request.url);
-    const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10));
-    const limit = Math.min(100, Math.max(1, parseInt(searchParams.get('limit') || '20', 10)));
-    const search = searchParams.get('search')?.trim() || '';
+    const search = searchParams.get('search') || '';
+    const status = searchParams.get('status') || '';
+    const plan = searchParams.get('plan') || '';
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '20');
+    const skip = (page - 1) * limit;
 
-    const where = search
-      ? {
-          OR: [
-            { email: { contains: search, mode: 'insensitive' as const } },
-            { name: { contains: search, mode: 'insensitive' as const } },
-          ],
-        }
-      : {};
+    const where: Record<string, unknown> = {};
+
+    if (search) {
+      where.OR = [
+        { name: { contains: search, mode: 'insensitive' } },
+        { email: { contains: search, mode: 'insensitive' } },
+      ];
+    }
+
+    if (status) {
+      where.status = status;
+    }
+
+    if (plan) {
+      where.plan = plan;
+    }
 
     const [users, total] = await Promise.all([
       db.user.findMany({
@@ -42,13 +38,13 @@ export async function GET(request: NextRequest) {
           id: true,
           email: true,
           name: true,
-          plan: true,
           role: true,
-          isDemo: true,
+          plan: true,
+          status: true,
           isSuspended: true,
           emailVerified: true,
+          englishLevel: true,
           country: true,
-          testCredits: true,
           createdAt: true,
           updatedAt: true,
           _count: {
@@ -60,7 +56,7 @@ export async function GET(request: NextRequest) {
           },
         },
         orderBy: { createdAt: 'desc' },
-        skip: (page - 1) * limit,
+        skip,
         take: limit,
       }),
       db.user.count({ where }),
@@ -76,88 +72,89 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('List users error:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch users.' },
-      { status: 500 }
-    );
+    return adminErrorResponse(error);
   }
 }
 
-/**
- * PATCH /api/admin/users
- * Update a user's role or plan.
- * Body: { userId: string, role?: string, plan?: string }
- * For password resets, use POST /api/admin/users/reset-password instead.
- */
 export async function PATCH(request: NextRequest) {
-  // Rate limit: 60 requests per minute per IP
-  const limitError = adminLimiter(request);
-  if (limitError) return limitError;
-
   try {
-    const authResult = getAuthUser(request);
-    if (!authResult) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-    const adminCheck = requireAdmin(authResult);
-    if (adminCheck) return adminCheck;
+    const admin = await requireAdminFromRequest(request);
 
     const body = await request.json();
-    const { userId, role, plan } = body;
+    const { userId, action, data } = body;
 
-    if (!userId) {
-      return NextResponse.json(
-        { error: 'userId is required.' },
-        { status: 400 }
-      );
-    }
-
-    if (!role && !plan) {
-      return NextResponse.json(
-        { error: 'At least one of role or plan must be provided.' },
-        { status: 400 }
-      );
-    }
-
-    // Validate role if provided
-    if (role && !['user', 'admin'].includes(role)) {
-      return NextResponse.json(
-        { error: 'Invalid role. Must be "user" or "admin".' },
-        { status: 400 }
-      );
-    }
-
-    // Validate plan if provided
-    if (plan && !['free', 'premium', 'pro'].includes(plan)) {
-      return NextResponse.json(
-        { error: 'Invalid plan. Must be "free", "premium", or "pro".' },
-        { status: 400 }
-      );
+    if (!userId || !action) {
+      return NextResponse.json({ error: 'userId and action are required' }, { status: 400 });
     }
 
     const user = await db.user.findUnique({ where: { id: userId } });
     if (!user) {
-      return NextResponse.json({ error: 'User not found.' }, { status: 404 });
+      return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    const updateData: Record<string, unknown> = {
-      tokenVersion: { increment: 1 },
-    };
-    if (role) updateData.role = role;
-    if (plan) updateData.plan = plan;
+    // Prevent admin from modifying themselves
+    if (userId === admin.userId) {
+      return NextResponse.json({ error: 'Cannot modify your own account' }, { status: 400 });
+    }
 
-    await db.user.update({
+    let updateData: Record<string, unknown> = {};
+
+    switch (action) {
+      case 'suspend':
+        updateData = { isSuspended: true, status: 'suspended' };
+        break;
+      case 'unsuspend':
+        updateData = { isSuspended: false, status: 'active' };
+        break;
+      case 'ban':
+        updateData = { status: 'banned', isSuspended: true };
+        break;
+      case 'unban':
+        updateData = { status: 'active', isSuspended: false };
+        break;
+      case 'update_plan':
+        if (!data?.plan) return NextResponse.json({ error: 'plan is required' }, { status: 400 });
+        updateData = { plan: data.plan };
+        break;
+      case 'update_role':
+        if (!data?.role) return NextResponse.json({ error: 'role is required' }, { status: 400 });
+        updateData = { role: data.role };
+        break;
+      case 'update_status':
+        if (!data?.status) return NextResponse.json({ error: 'status is required' }, { status: 400 });
+        updateData = { status: data.status };
+        break;
+      default:
+        return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
+    }
+
+    const updatedUser = await db.user.update({
       where: { id: userId },
       data: updateData,
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        role: true,
+        plan: true,
+        status: true,
+        isSuspended: true,
+      },
     });
 
-    return NextResponse.json({ message: 'User updated successfully.' });
+    // Create audit log
+    await db.auditLog.create({
+      data: {
+        adminId: admin.userId,
+        action: `user_${action}`,
+        targetType: 'user',
+        targetId: userId,
+        details: JSON.stringify({ before: { status: user.status, plan: user.plan, role: user.role }, after: updateData }),
+      },
+    });
+
+    return NextResponse.json({ user: updatedUser });
   } catch (error) {
-    console.error('Update user error:', error);
-    return NextResponse.json(
-      { error: 'Failed to update user.' },
-      { status: 500 }
-    );
+    return adminErrorResponse(error);
   }
 }

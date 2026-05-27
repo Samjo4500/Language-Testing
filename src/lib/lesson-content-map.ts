@@ -447,6 +447,269 @@ export const LESSON_CONTENT_MAP: Record<string, Record<string, string>> = {
 <p>The language of peer review is governed by its own conventions and grammatical patterns. Reviewers frequently employ <strong>evaluative adjectives</strong> such as <strong>"compelling", "rigorous", "problematic",</strong> and <strong>"insufficient"</strong> alongside <strong>hedging constructions</strong> that soften criticism: <strong>"The authors might consider..."</strong>, <strong>"It would strengthen the paper if..."</strong>, <strong>"One potential concern is that..."</strong>. This diplomatic register reflects both professional courtesy and the understanding that scholarly disagreement is legitimate — a reviewer is not rejecting a colleague's work outright but identifying areas where the argument could be more robust.</p>
 <p>From a grammatical standpoint, peer review reports are notable for their extensive use of <strong>conditional and modal constructions</strong>. Recommendations are typically framed with <strong>should</strong>, <strong>could</strong>, or <strong>would</strong> rather than imperative commands: <strong>"The methodology section should be expanded to include..."</strong>, <strong>"The authors could address this limitation by..."</strong>. This modal language preserves the author's intellectual autonomy while still conveying substantive critique. The <strong>passive voice</strong> is also prevalent: <strong>"It is recommended that..."</strong>, <strong>"Further justification is needed for..."</strong> — a construction that depersonalizes the critique and frames suggestions as objective requirements rather than individual preferences.</p>
 <p>The peer review process, while foundational to academic publishing, is not without its critics. Concerns about <strong>reviewer bias</strong> — whether ideological, institutional, or based on the identity of the author — have prompted many journals to adopt <strong>double-blind review</strong>, in which neither authors nor reviewers know each other's identities. More radical alternatives include <strong>open peer review</strong>, where reports and reviewer names are published alongside the article, and <strong>post-publication review</strong>, where evaluation occurs after the work becomes publicly available. Understanding these debates is essential for any scholar navigating the contemporary publishing landscape.</p>`,
+
+    // ═══════════════════════════════════════════════════════════
+    //  BEGINNER (A1-A2) — 10 Lessons from Course Markdown
+    // ═══════════════════════════════════════════════════════════
+
+    'Present Simple — Daily Routines': `<h3>Present Simple — Daily Routines</h3>
+<p>The present simple describes <strong>habits, routines, and facts</strong>. It's the most common tense in English.</p>
+<p><strong>Structure:</strong></p>
+<ul>
+<li>I / You / We / They + base verb → "I <strong>work</strong> at 9 AM."</li>
+<li>He / She / It + base verb + <strong>-s/-es</strong> → "She <strong>works</strong> at 9 AM."</li>
+</ul>
+<p><strong>Spelling rules for -s:</strong> Most verbs add -s (works, eats). Verbs ending in -ch, -sh, -ss, -x, -o, -z add -es (watches, washes, goes). Verbs ending in consonant + y change y to i and add -es (studies, flies). Verbs ending in vowel + y add -s (plays, stays).</p>
+<p><strong>Common time expressions:</strong> every day, always, usually, often, sometimes, rarely, never, in the morning, at night, on weekends.</p>
+<p><strong>Practice:</strong> She ___ (work) in a hospital. / They ___ (not/live) in the city centre. / ___ he ___ (speak) French? / We ___ (usually/eat) dinner at 7 PM.</p>
+<p><strong>Answers:</strong> works / don't live / Does, speak / usually eat</p>`,
+
+    'Present Continuous — Right Now': `<h3>Present Continuous — Right Now</h3>
+<p>The present continuous describes <strong>actions happening now</strong> or <strong>temporary situations</strong>.</p>
+<p><strong>Structure:</strong> Subject + am/is/are + verb-ing</p>
+<p><strong>Forming -ing:</strong> Most verbs add -ing (working, reading). Verbs ending in -e: remove -e, add -ing (making, writing). Short verbs (CVC): double final letter, add -ing (running, sitting, swimming).</p>
+<p><strong>Present simple vs present continuous:</strong> "I <strong>drink</strong> coffee every day." (habit) vs. "I <strong>am drinking</strong> coffee right now." (happening now). "I <strong>live</strong> in Paris." (permanent) vs. "I <strong>am living</strong> with my parents this month." (temporary).</p>
+<p><strong>Practice:</strong> She usually ___ (drive) to work, but today she ___ (take) the bus. / Listen! The baby ___ (cry). / Every summer, we ___ (go) to the beach.</p>
+<p><strong>Answers:</strong> drives, is taking / is crying / go</p>`,
+
+    'Articles — A, An, The': `<h3>Articles — A, An, The</h3>
+<p><strong>A / An</strong> = one of many, not specific: "I have <strong>a</strong> car." / "She is <strong>an</strong> engineer." Use <strong>an</strong> before vowel sounds: an apple, an hour (silent h), an umbrella. Use <strong>a</strong> before consonant sounds: a book, a university (sounds like "y"), a horse.</p>
+<p><strong>The</strong> = specific, known, unique: "<strong>The</strong> car in the garage is mine." / "<strong>The</strong> sun is hot." / "I saw <strong>the</strong> film you recommended."</p>
+<p><strong>No article (∅):</strong> Plural general nouns: "I like ∅ cats." Uncountable general nouns: "I drink ∅ water." Proper nouns: "She lives in ∅ Paris." Meals: "I have ∅ breakfast at 8."</p>
+<p><strong>Practice:</strong> I am ___ student. / She is ___ honest person. / ___ book on the table is mine. / I like ___ music. / He plays ___ guitar.</p>
+<p><strong>Answers:</strong> a / an / The / ∅ / the</p>`,
+
+    'Prepositions of Place — In, On, At': `<h3>Prepositions of Place — In, On, At</h3>
+<p><strong>In</strong> = inside a space or large area: in a room, in a building, in a city, in a country.</p>
+<p><strong>On</strong> = surface contact or specific days: on the table, on the wall, on the floor, on Monday, on Christmas Day.</p>
+<p><strong>At</strong> = specific point or general location: at the bus stop, at the door, at the top, at home, at work, at school.</p>
+<p><strong>Common phrases to memorize:</strong> at home / at work / at school. in the morning / in the afternoon / in the evening. on Monday / on the weekend (US). at night / at the weekend (UK). in summer / in March. on time (punctual) / in time (before the deadline).</p>
+<p><strong>Practice:</strong> She lives ___ London. / The book is ___ the table. / I am ___ home. / We met ___ Monday. / My birthday is ___ July.</p>
+<p><strong>Answers:</strong> in / on / at / on / in</p>`,
+
+    'Past Simple — Regular Verbs': `<h3>Past Simple — Regular Verbs</h3>
+<p>The past simple describes <strong>completed actions</strong> at a specific time in the past.</p>
+<p><strong>Regular verbs: add -ed</strong> Most verbs: play → <strong>played</strong>, work → <strong>worked</strong>. Verbs ending in -e: dance → <strong>danced</strong>, like → <strong>liked</strong>. Verbs ending in consonant + y: study → <strong>studied</strong>, carry → <strong>carried</strong>. Short verbs (CVC): stop → <strong>stopped</strong>, plan → <strong>planned</strong>.</p>
+<p><strong>Time expressions:</strong> yesterday, last week, last month, last year, ago (two days ago, three weeks ago), in 2019.</p>
+<p><strong>Common mistakes:</strong> ❌ "I have visited Paris last year." → ✅ "I <strong>visited</strong> Paris last year." ❌ "Did you went?" → ✅ "<strong>Did</strong> you <strong>go</strong>?"</p>
+<p><strong>Practice:</strong> She ___ (walk) to school yesterday. / They ___ (not/finish) the project on time. / ___ he ___ (call) you last night?</p>
+<p><strong>Answers:</strong> walked / didn't finish / Did, call</p>`,
+
+    'Past Simple — Irregular Verbs Part 1': `<h3>Past Simple — Irregular Verbs (Part 1)</h3>
+<p>Irregular verbs do NOT add -ed. You must memorize the past form.</p>
+<p><strong>Group 1: Same form</strong> (base = past = past participle): cut → cut → cut, put → put → put, read → read → read</p>
+<p><strong>Group 2: Vowel change</strong> (i → a → u): begin → began → begun, drink → drank → drunk, sing → sang → sung, swim → swam → swum</p>
+<p><strong>Group 3: Other common patterns:</strong> go → went → gone, come → came → come, know → knew → known, think → thought → thought, bring → brought → brought, buy → bought → bought, teach → taught → taught, catch → caught → caught</p>
+<p><strong>Practice:</strong> Complete the table — go → ___ / ___ | see → ___ / ___ | eat → ___ / ___ | take → ___ / ___ | give → ___ / ___</p>
+<p><strong>Answers:</strong> went/gone, saw/seen, ate/eaten, took/taken, gave/given</p>`,
+
+    'Can / Can\'t — Ability and Possibility': `<h3>Can / Can't — Ability and Possibility</h3>
+<p><strong>Can</strong> is a modal verb — it does NOT change for he/she/it.</p>
+<p><strong>Ability:</strong> "I <strong>can</strong> swim." / "She <strong>can</strong> speak three languages." / "He <strong>can't</strong> drive."</p>
+<p><strong>Possibility:</strong> "You <strong>can</strong> take the bus. It's faster." / "We <strong>can't</strong> go to the beach. It's raining."</p>
+<p><strong>Requests:</strong> "<strong>Can</strong> you help me?" / "<strong>Can</strong> I use your phone?" / "<strong>Can</strong> you open the window, please?"</p>
+<p><strong>Offers:</strong> "I <strong>can</strong> help you with that." / "I <strong>can</strong> carry your bag."</p>
+<p><strong>Pronunciation note:</strong> "Can't" in British English sounds like /kɑːnt/. In American English, it sounds like /kænt/.</p>
+<p><strong>Practice:</strong> I ___ swim very well. / She ___ play the piano. She never learned. / ___ you speak more slowly, please?</p>
+<p><strong>Answers:</strong> can / can't / Can</p>`,
+
+    'Question Formation': `<h3>Question Formation</h3>
+<p><strong>Yes/No questions (with auxiliary):</strong> Present simple: Do/Does + subject + verb? → "<strong>Do</strong> you <strong>like</strong> pizza?" Past simple: Did + subject + verb? → "<strong>Did</strong> she <strong>go</strong> to school?" Present continuous: Am/Is/Are + subject + verb-ing? → "<strong>Are</strong> they <strong>coming</strong>?"</p>
+<p><strong>WH- questions:</strong> What (thing/action), Where (place), When (time), Who (person), Why (reason), How (manner), How much (uncountable price), How many (countable quantity).</p>
+<p><strong>Subject questions (no auxiliary!):</strong> "<strong>Who</strong> broke the window?" (NOT "Who did break...") / "<strong>What</strong> happened?" (NOT "What did happen?")</p>
+<p><strong>Practice:</strong> ___ (you/live)? / ___ (she/work) yesterday? / ___ (they/coming) to the party? / ___ (why/he/leave) early?</p>
+<p><strong>Answers:</strong> Where do you live? / Did she work yesterday? / Are they coming to the party? / Why did he leave early?</p>`,
+
+    'Countable & Uncountable Nouns (Detailed)': `<h3>Countable & Uncountable Nouns</h3>
+<p><strong>Countable nouns:</strong> Things you can count. Have singular and plural forms. "How <strong>many</strong> books?"</p>
+<p><strong>Uncountable nouns:</strong> Things you cannot count. No plural form. water, rice, advice, information, money, luggage. "How <strong>much</strong> water?"</p>
+<p><strong>Common uncountable nouns that confuse learners:</strong> ❌ "an information" → ✅ "some information". ❌ "two advices" → ✅ "two pieces of advice". ❌ "many money" → ✅ "much money / a lot of money". ❌ "furnitures" → ✅ "some furniture".</p>
+<p><strong>Quantifiers:</strong> Countable: some / a lot of / many (positive), any / not many (negative). Uncountable: some / a lot of / much (positive), any / not much (negative).</p>
+<p><strong>Practice:</strong> rice ___ | chair ___ | music ___ | homework ___ | bottle ___</p>
+<p><strong>Answers:</strong> uncountable / countable / uncountable / uncountable / countable</p>`,
+
+    'Basic Conversation — Introducing Yourself': `<h3>Introducing Yourself</h3>
+<p><strong>Introducing yourself:</strong> "Hello, my name is [Name]. Nice to meet you." / "Hi, I'm [Name]. I'm from [Country/City]." / "Good morning. I'm [Name]. I work as a [Job]."</p>
+<p><strong>Asking about someone:</strong> "What's your name?" / "Where are you from?" / "What do you do?" (= What is your job?) / "How old are you?" / "Do you speak [language]?" / "Where do you live?"</p>
+<p><strong>Common responses:</strong> "I'm from Spain. / I come from Spain." / "I work as a teacher. / I'm a teacher." / "I'm 25 years old." / "Yes, I speak a little English."</p>
+<p><strong>Polite phrases:</strong> "Nice to meet you too." / "Pardon? / Sorry?" (when you don't understand) / "Could you repeat that, please?" / "I don't understand." / "How do you say [word] in English?"</p>
+<p><strong>Practice:</strong> Complete the dialogue — A: Hello! ___? B: Hi! I'm Marco. ___? A: I'm Sarah. ___? B: I'm from Italy. ___?</p>
+<p><strong>Answers:</strong> What's your name? / And you? / Where are you from? / What about you?</p>`,
+
+    // ═══════════════════════════════════════════════════════════
+    //  INTERMEDIATE (B1-B2) — 10 Lessons from Course Markdown
+    // ═══════════════════════════════════════════════════════════
+
+    'Present Perfect Continuous': `<h3>Present Perfect Continuous</h3>
+<p>The present perfect continuous connects the past with the present. It emphasizes <strong>duration</strong> and <strong>ongoing activity</strong>.</p>
+<p><strong>Structure:</strong> Subject + has/have + been + verb-ing</p>
+<p><strong>Examples:</strong> "I <strong>have been working</strong> here for three years." / "She <strong>has been studying</strong> English since 2020." / "It <strong>has been raining</strong> all morning."</p>
+<p><strong>When to use it:</strong> 1) Actions that started in the past and continue to now (with for/since). 2) Recently completed actions with visible results. 3) Temporary situations that may change.</p>
+<p><strong>Common mistakes:</strong> ❌ "I am working here for 3 years." → ✅ "I <strong>have been working</strong> here for 3 years." ❌ "She has been knowing him for years." → ✅ "She <strong>has known</strong> him for years." (Stative verbs don't use continuous)</p>
+<p><strong>Practice:</strong> He ___ (work) on this project ___ last Monday. / They ___ (live) in London ___ six months. / I ___ (wait) for the bus ___ 20 minutes.</p>
+<p><strong>Answers:</strong> has been working, since / have been living, for / have been waiting, for</p>`,
+
+    'Comparative & Superlative Adjectives': `<h3>Comparative & Superlative Adjectives</h3>
+<p><strong>Comparatives</strong> (comparing two things): Short adjectives add <strong>-er</strong> → "taller," "faster," "bigger." Long adjectives use <strong>more</strong> → "more expensive." <strong>Irregulars:</strong> good → better, bad → worse, far → farther/further.</p>
+<p><strong>Superlatives</strong> (comparing 3+ things): Short adjectives add <strong>-est</strong> → "tallest," "fastest." Long adjectives use <strong>most</strong> → "most expensive." <strong>Irregulars:</strong> good → best, bad → worst, far → farthest/furthest.</p>
+<p><strong>Spelling rules:</strong> Big → <strong>bigg</strong>er (double final consonant). Easy → <strong>eas</strong>ier (y → i). Expensive → <strong>more expensive</strong> (no change).</p>
+<p><strong>Practice:</strong> Living in the city is ___ (expensive) than the countryside. / That was the ___ (bad) meal I have ever had. / My English is getting ___ (good) every day. / Japan is the ___ (beautiful) country I have visited.</p>
+<p><strong>Answers:</strong> more expensive / worst / better / most beautiful</p>`,
+
+    'First Conditional (Real Future)': `<h3>First Conditional — Real Future</h3>
+<p>The first conditional talks about <strong>real, possible future situations</strong>.</p>
+<p><strong>Structure:</strong> If + present simple, will + base verb</p>
+<p><strong>Examples:</strong> "<strong>If it rains tomorrow, I will stay home.</strong>" / "<strong>If you study hard, you will pass the exam.</strong>"</p>
+<p><strong>Variations:</strong> Instead of "will," you can use <strong>can, may, might, should</strong>: "If you finish early, <strong>you can leave</strong>." (permission) / "If the weather is good, <strong>we might go</strong> hiking." (possibility) / "If you feel sick, <strong>you should see</strong> a doctor." (advice)</p>
+<p><strong>Common mistakes:</strong> ❌ "If it will rain, I stay home." → ✅ "If it <strong>rains</strong>, I <strong>will stay</strong> home." (No "will" after "if")</p>
+<p><strong>Practice:</strong> If I ___ (have) time tomorrow, I ___ (help) you. / If it ___ (not/stop) raining, we ___ (cancel) the picnic. / If he ___ (arrive) late, he ___ (miss) the meeting.</p>
+<p><strong>Answers:</strong> have, will help / doesn't stop, will cancel / arrives, will miss</p>`,
+
+    'Second Conditional (Unreal Present/Future)': `<h3>Second Conditional — Unreal Present/Future</h3>
+<p>The second conditional talks about <strong>unreal, hypothetical, or unlikely situations</strong>.</p>
+<p><strong>Structure:</strong> If + past simple, would + base verb</p>
+<p><strong>Examples:</strong> "<strong>If I had a million dollars, I would travel the world.</strong>" / "<strong>If she were here, she would know what to do.</strong>"</p>
+<p><strong>Important note on "were":</strong> For all subjects (I, he, she, it), use <strong>were</strong> in formal English: "If I <strong>were</strong> you" (not "If I was you").</p>
+<p><strong>Using "could" and "might":</strong> "If I spoke French, I <strong>could work</strong> in Paris." (ability) / "If we left now, we <strong>might catch</strong> the train." (possibility)</p>
+<p><strong>Practice:</strong> If I ___ (be) you, I ___ (take) the job. / If she ___ (have) more time, she ___ (learn) Japanese. / If I ___ (win) the lottery, I ___ (buy) a house.</p>
+<p><strong>Answers:</strong> were, would take / had, would learn / won, would buy</p>`,
+
+    'Third Conditional (Unreal Past)': `<h3>Third Conditional — Unreal Past</h3>
+<p>The third conditional is about <strong>regrets, missed opportunities, and hypothetical past</strong>.</p>
+<p><strong>Structure:</strong> If + past perfect, would have + past participle</p>
+<p><strong>Examples:</strong> "<strong>If I had studied harder, I would have passed the exam.</strong>" / "<strong>If she had left earlier, she wouldn't have missed the train.</strong>"</p>
+<p><strong>Contractions:</strong> "I would have" → "I'd have" or "I'd've." "If I had" → "If I'd."</p>
+<p><strong>Using "could have" and "might have":</strong> "If I had taken the job, I <strong>could have moved</strong> to New York." (past possibility) / "If he had been more careful, he <strong>might not have broken</strong> it." (uncertainty)</p>
+<p><strong>Practice:</strong> If I ___ (arrive) earlier, I ___ (get) a better seat. / If she ___ (listen) to me, she ___ (not/make) that mistake. / If they ___ (invite) me, I ___ (come) to the party.</p>
+<p><strong>Answers:</strong> had arrived, would have gotten / had listened, wouldn't have made / had invited, would have come</p>`,
+
+    'Mixed Conditionals (Past → Present)': `<h3>Mixed Conditionals — Past → Present</h3>
+<p>Mixed conditionals combine <strong>different time frames</strong>. The most common connects a past hypothetical cause with a present consequence.</p>
+<p><strong>Structure:</strong> If + past perfect (hypothetical past), would + base verb (present consequence)</p>
+<p><strong>Examples:</strong> "<strong>If I had studied medicine, I would be a doctor now.</strong>" / "<strong>If she had taken that job, she would be living in London.</strong>" / "<strong>If we had invested in that company, we would be rich.</strong>"</p>
+<p><strong>Other combinations:</strong> Past cause → present result: "If I <strong>had studied</strong> more, I <strong>would know</strong> the answer." Present cause → past result: "If I <strong>spoke</strong> better English, I <strong>would have gotten</strong> that job." (less common)</p>
+<p><strong>Practice:</strong> If I had gone to bed earlier last night, I ___ (not/be) so tired now. / If she had saved more money, she ___ (be able to) afford the trip. / If he had learned to drive, he ___ (not/need) to take the bus.</p>
+<p><strong>Answers:</strong> wouldn't be / would be able to / wouldn't need</p>`,
+
+    'Passive Voice (All Tenses)': `<h3>Passive Voice — All Tenses</h3>
+<p>The passive voice shifts focus from <strong>who did the action</strong> to <strong>what happened</strong>.</p>
+<p><strong>Structure:</strong> Subject + be (in correct tense) + past participle</p>
+<p><strong>All tenses in passive:</strong> Present simple: "The report <strong>is written</strong>." Present continuous: "The report <strong>is being written</strong>." Past simple: "The report <strong>was written</strong>." Past continuous: "The report <strong>was being written</strong>." Present perfect: "The report <strong>has been written</strong>." Future: "The report <strong>will be written</strong>." Modal: "The report <strong>must be written</strong>."</p>
+<p><strong>When to use passive:</strong> 1) The agent is unknown: "My car <strong>was stolen</strong>." 2) The agent is obvious: "He <strong>was arrested</strong>." 3) Focus on the action: "The new policy <strong>has been implemented</strong>." 4) Formal/academic writing: "It <strong>has been suggested</strong> that..."</p>
+<p><strong>Practice:</strong> Someone has stolen my bicycle. → My bicycle ___. / They will announce the results tomorrow. → The results ___. / They are building a new hospital. → A new hospital ___.</p>
+<p><strong>Answers:</strong> has been stolen / will be announced tomorrow / is being built</p>`,
+
+    'Reported Speech (Detailed)': `<h3>Reported Speech</h3>
+<p>When we report what someone said, we usually move the verb <strong>one step back in time</strong>.</p>
+<p><strong>Tense changes:</strong> Present simple → Past simple. Present continuous → Past continuous. Past simple → Past perfect. Will → Would. Can → Could. May → Might. Must → Had to.</p>
+<p><strong>Example:</strong> Direct: "I <strong>am tired</strong>," she said. → Reported: She said that she <strong>was tired</strong>. Direct: "I <strong>will help</strong> you," he promised. → Reported: He promised that he <strong>would help</strong> me.</p>
+<p><strong>Time/place changes:</strong> today → that day, yesterday → the day before, tomorrow → the next day, now → then, here → there, this → that.</p>
+<p><strong>Question reporting:</strong> "Where <strong>are</strong> you going?" → He asked where I <strong>was</strong> going. / "Did you <strong>see</strong> him?" → He asked if I <strong>had seen</strong> him.</p>
+<p><strong>Practice:</strong> "I am busy," she said. → She said ___. / "He will come tomorrow," she told me. → She told me ___. / "Where do you live?" he asked. → He asked ___.</p>
+<p><strong>Answers:</strong> she was busy / he would come the next day / where I lived</p>`,
+
+    'Modal Verbs of Deduction': `<h3>Modal Verbs of Deduction</h3>
+<p>We use modal verbs to express how <strong>certain</strong> we are about something.</p>
+<p><strong>Present deductions:</strong> <strong>must</strong> (Very sure - 95%): "She <strong>must be</strong> tired. She worked 12 hours." / <strong>might/may/could</strong> (Possible - 50%): "He <strong>might be</strong> at home." / <strong>can't</strong> (Impossible - 0%): "That <strong>can't be</strong> true."</p>
+<p><strong>Past deductions:</strong> <strong>must have</strong> (Very sure): "She <strong>must have forgotten</strong>." / <strong>might/may/could have</strong> (Possible): "He <strong>might have left</strong> already." / <strong>can't have</strong> (Impossible): "He <strong>can't have stolen</strong> it."</p>
+<p><strong>Important distinction:</strong> "He <strong>must</strong> be rich." (deduction: I'm sure he's rich) vs. "He <strong>has to</strong> be rich." (obligation: someone requires it).</p>
+<p><strong>Practice:</strong> She ___ (must/might) be at work. Her car is not here. / They ___ (can't/might) have finished already. It's too early. / That ___ (must/can't) be the right answer. It doesn't make sense.</p>
+<p><strong>Answers:</strong> must / can't / can't</p>`,
+
+    'Hedging Language & Softening': `<h3>Hedging Language & Softening</h3>
+<p><strong>Hedging</strong> means softening what you say so you don't sound too direct or rude. It's essential for professional and academic English.</p>
+<p><strong>Why hedge?</strong> ❌ "This is the best solution." (too absolute) → ✅ "This <strong>appears to be</strong> one of the <strong>most viable</strong> solutions <strong>available at present</strong>." (more diplomatic)</p>
+<p><strong>Hedging phrases:</strong> Tentative opinions: I think / I believe / It seems to me that. Uncertainty: perhaps, maybe, possibly, probably. Limited commitment: as far as I know, to the best of my knowledge. Generalization: tends to, generally, in most cases. Softening disagreement: I see your point, but... / That's a valid perspective, however... / I understand where you're coming from, but...</p>
+<p><strong>Practice:</strong> Soften: "You are wrong about this." → ___ / Soften: "This plan will fail." → ___ / Soften: "The data is incorrect." → ___</p>
+<p><strong>Answers:</strong> "I'm not sure I agree with that point." / "I'm concerned this plan might face some challenges." / "The data may need to be reviewed."</p>`,
+
+    // ═══════════════════════════════════════════════════════════
+    //  ADVANCED (C1-C2) — 10 Lessons from Course Markdown
+    // ═══════════════════════════════════════════════════════════
+
+    'Subjunctive Mood (Advanced)': `<h3>The Subjunctive Mood</h3>
+<p>The subjunctive mood is used in <strong>formal English</strong> to express wishes, demands, suggestions, and hypothetical scenarios.</p>
+<p><strong>Type 1: Bare infinitive subjunctive (formal)</strong> — After verbs like demand, insist, suggest, recommend, propose, require: "I <strong>suggest that he go</strong> early." (NOT "he goes") / "The manager <strong>demanded that she finish</strong> the report by Friday." / "It is <strong>essential that every applicant submit</strong> two references."</p>
+<p><strong>Type 2: "Were" for all subjects (unreal)</strong> — "If I <strong>were</strong> you, I would accept." / "If she <strong>were</strong> here, she would agree." / "I wish I <strong>were</strong> taller."</p>
+<p><strong>Type 3: Fixed expressions</strong> — "God <strong>bless</strong> you." / "Long <strong>live</strong> the Queen." / "Come what <strong>may</strong>, I will finish this." / "Be that as it <strong>may</strong>, we must proceed."</p>
+<p><strong>Practice:</strong> I suggest that he ___ (leave) early. / It is important that she ___ (be) on time. / If I ___ (be) in charge, things would be different.</p>
+<p><strong>Answers:</strong> leave / be / were</p>`,
+
+    'Cleft Sentences and Emphasis': `<h3>Cleft Sentences and Emphasis</h3>
+<p>Cleft sentences allow you to <strong>emphasise specific information</strong> by splitting a simple sentence into two clauses.</p>
+<p><strong>It-clefts:</strong> Subject: "<strong>It was John</strong> who broke the window." Object: "<strong>It was the window</strong> that John broke." Time: "<strong>It was yesterday</strong> that he arrived." Place: "<strong>It was in Paris</strong> that they met." Reason: "<strong>It was because he was late</strong> that we left."</p>
+<p><strong>Wh-clefts (pseudo-clefts):</strong> "<strong>What I need</strong> is more time." / "<strong>What surprised me</strong> was his reaction." / "<strong>Where we went</strong> was a complete secret."</p>
+<p><strong>Reversed wh-clefts:</strong> "More time is <strong>what I need</strong>." / "His reaction is <strong>what surprised me</strong>."</p>
+<p><strong>All-clefts:</strong> "<strong>All I want</strong> is a fair chance." / "<strong>All she did</strong> was complain."</p>
+<p><strong>Practice:</strong> Emphasise: <u>My brother</u> taught me to drive. → ___ / I need <u>a new laptop</u>. → ___ / They met <u>at a conference</u>. → ___</p>
+<p><strong>Answers:</strong> It was my brother who taught me to drive. / What I need is a new laptop. / It was at a conference that they met.</p>`,
+
+    'Hedging and Tentative Language (Advanced)': `<h3>Advanced Hedging and Tentative Language</h3>
+<p>At C1-C2, direct statements sound immature. <strong>Hedging</strong> shows intellectual humility and precision.</p>
+<p><strong>Modal hedges:</strong> "The data <strong>would appear to suggest</strong> that..." / "One <strong>might reasonably argue</strong> that..." / "This <strong>could potentially indicate</strong> that..."</p>
+<p><strong>Probability adverbs:</strong> "The results <strong>arguably/presumably/ostensibly</strong> support this theory." / "It is <strong>conceivably/potentially/plausibly</strong> the case that..."</p>
+<p><strong>Verbal hedges:</strong> "It <strong>tends to be the case</strong> that..." / "The evidence <strong>seems to point toward</strong>..." / "This <strong>appears to corroborate</strong> the hypothesis that..."</p>
+<p><strong>Noun phrases:</strong> "There is <strong>a strong possibility</strong> that..." / "It is <strong>a reasonable assumption</strong> that..." / "There is <strong>growing evidence</strong> to suggest that..."</p>
+<p><strong>Shield hedges:</strong> "<strong>According to recent studies</strong>, climate change is accelerating." / "<strong>It is widely held that</strong> free markets drive innovation."</p>
+<p><strong>Practice:</strong> Transform: "This method is the best." → ___ / Transform: "The results prove the theory." → ___</p>
+<p><strong>Answers:</strong> "This method <strong>would appear to be</strong> among the most effective currently available." / "The results <strong>provide strong support for</strong> the theory, <strong>although further research would be beneficial</strong>."</p>`,
+
+    'Nominalisation (Advanced)': `<h3>Nominalisation</h3>
+<p><strong>Nominalisation</strong> turns actions and qualities into noun phrases. It makes writing more formal, concise, and abstract.</p>
+<p><strong>Verb → Noun:</strong> decide → <strong>the decision</strong> to, investigate → <strong>an investigation</strong> into, argue → <strong>the argument</strong> that, analyse → <strong>an analysis</strong> of, improve → <strong>an improvement</strong> in, develop → <strong>the development</strong> of.</p>
+<p><strong>Adjective → Noun:</strong> important → <strong>the importance</strong> of, possible → <strong>the possibility</strong> of, likely → <strong>the likelihood</strong> of, difficult → <strong>the difficulty</strong> of.</p>
+<p><strong>Example transformations:</strong> ❌ "The government decided to increase taxes, and this caused protests." → ✅ "<strong>The decision</strong> to increase taxes <strong>led to</strong> widespread protests." ❌ "We analysed the data carefully, and we found some interesting results." → ✅ "<strong>Careful analysis</strong> of the data <strong>revealed</strong> some interesting findings."</p>
+<p><strong>Warning:</strong> Don't overuse. Mix nominalised and verbal sentences for rhythm.</p>
+<p><strong>Practice:</strong> Nominalise: "She argued that the policy was unfair, but nobody listened." → ___ / "Scientists investigated the phenomenon for decades." → ___</p>
+<p><strong>Answers:</strong> "<strong>Her argument</strong> that the policy was unfair <strong>fell on deaf ears</strong>." / "<strong>Decades of investigation</strong> into the phenomenon <strong>were conducted</strong> by scientists."</p>`,
+
+    'Discourse Markers for Sophisticated Writing': `<h3>Discourse Markers for Sophisticated Writing</h3>
+<p><strong>Discourse markers</strong> connect ideas and show relationships between sentences. At C1-C2, you need sophisticated ones — not just "but" and "so."</p>
+<p><strong>Adding information:</strong> "<strong>Furthermore</strong>," "<strong>Moreover</strong>," "<strong>In addition</strong>," "<strong>What is more</strong>," "<strong>Not only... but also</strong>."</p>
+<p><strong>Contrasting:</strong> "<strong>Nevertheless</strong>," "<strong>Nonetheless</strong>," "<strong>Conversely</strong>," "<strong>By contrast</strong>," "<strong>On the other hand</strong>," "<strong>Having said that</strong>."</p>
+<p><strong>Cause and effect:</strong> "<strong>Consequently</strong>," "<strong>As a result</strong>," "<strong>Hence</strong>," "<strong>Therefore</strong>," "<strong>This means that</strong>."</p>
+<p><strong>Giving examples:</strong> "<strong>To illustrate</strong>," "<strong>A case in point is</strong>," "<strong>By way of illustration</strong>."</p>
+<p><strong>Concluding:</strong> "<strong>To sum up</strong>," "<strong>All in all</strong>," "<strong>Taking everything into account</strong>," "<strong>On balance</strong>."</p>
+<p><strong>Reformulating:</strong> "<strong>In other words</strong>," "<strong>To put it another way</strong>," "<strong>That is to say</strong>," "<strong>Put simply</strong>."</p>`,
+
+    'Inversion for Emphasis (Advanced)': `<h3>Inversion for Emphasis</h3>
+<p>Inversion (reversing subject-verb order) adds <strong>dramatic emphasis</strong> and is expected at C1-C2.</p>
+<p><strong>Negative adverbials at the beginning:</strong> "<strong>Never before</strong> have I witnessed such behaviour." / "<strong>Rarely</strong> does a film live up to its hype." / "<strong>Seldom</strong> have I been so impressed." / "<strong>Hardly had</strong> the meeting started when the fire alarm went off." / "<strong>No sooner had</strong> I arrived than it began to rain."</p>
+<p><strong>After "only":</strong> "<strong>Only later</strong> did I realise my mistake." / "<strong>Only when</strong> the report was published did the government respond." / "<strong>Only by</strong> working together can we solve this."</p>
+<p><strong>After "so/such...that":</strong> "<strong>So beautiful</strong> was the sunset that we stopped to watch." / "<strong>Such was</strong> the confusion that nobody knew what to do."</p>
+<p><strong>Conditional inversion (without "if"):</strong> "<strong>Had I known</strong>, I would have acted differently." (= If I had known) / "<strong>Were she to agree</strong>, we could proceed." (= If she were to agree) / "<strong>Should you need</strong> assistance, please contact us." (= If you should need)</p>`,
+
+    'Advanced Reporting Verbs': `<h3>Advanced Reporting Verbs</h3>
+<p>At B1-B2, you use "He said that..." At C1-C2, you choose verbs that show <strong>attitude</strong>.</p>
+<p><strong>Neutral:</strong> state, report, mention, note, observe, point out, acknowledge. <strong>Agreement:</strong> agree, confirm, support, affirm, endorse, corroborate. <strong>Disagreement:</strong> argue, claim, contend, challenge, dispute, reject, refute, dismiss. <strong>Tentativeness:</strong> suggest, imply, indicate, speculate, hypothesise, postulate. <strong>Emphasis:</strong> assert, insist, maintain, emphasise, stress, underscore. <strong>Criticism:</strong> criticise, condemn, denounce, disparage, question.</p>
+<p><strong>Structure patterns:</strong> verb + that: "She <strong>argued that</strong> the policy was flawed." / verb + noun: "He <strong>rejected</strong> the proposal." / verb + -ing: "She <strong>admitted</strong> making a mistake." / verb + to + infinitive: "He <strong>claimed to have</strong> discovered the solution." / verb + object + to + infinitive: "They <strong>persuaded him to</strong> reconsider."</p>
+<p><strong>Practice:</strong> "The results prove nothing," she ___. (dispute/insist/speculate) / "We need to act now," he ___. (mention/insist/imply) / "It might work," she ___. (demand/speculate/assert)</p>
+<p><strong>Answers:</strong> disputed / insisted / speculated</p>`,
+
+    'Academic Writing — Cohesion and Coherence': `<h3>Cohesion and Coherence</h3>
+<p><strong>Cohesion</strong> (how sentences connect) + <strong>Coherence</strong> (how ideas flow logically) = excellent academic writing.</p>
+<p><strong>1. Reference:</strong> "The experiment <strong>was conducted</strong> over three weeks. <strong>It</strong> yielded significant results. <strong>These findings</strong> suggest that..."</p>
+<p><strong>2. Substitution:</strong> "The first proposal was rejected. <strong>A revised one</strong> was submitted." / "Organic food is expensive. <strong>So is</strong> free-range meat."</p>
+<p><strong>3. Ellipsis:</strong> "Some people prefer tea; others [prefer] coffee." / "The first study was large; the second [study was] small."</p>
+<p><strong>4. Lexical chains:</strong> "<strong>Education</strong> policy... <strong>curriculum</strong> reform... <strong>student</strong> outcomes... <strong>learning</strong> objectives... <strong>teaching</strong> methods"</p>
+<p><strong>5. Conjunction:</strong> Addition: furthermore, moreover. Contrast: however, conversely. Cause: consequently, therefore. Example: for instance, specifically.</p>
+<p><strong>6. Semantic patterns:</strong> Problem → Solution → Evaluation. General → Specific → Example. Claim → Evidence → Conclusion.</p>`,
+
+    'Metaphorical and Idiomatic Language': `<h3>Metaphorical and Idiomatic Language</h3>
+<p>Native speakers use <strong>metaphor</strong> constantly. At C1-C2, you need to understand and produce it.</p>
+<p><strong>Business metaphors:</strong> "We need to <strong>get the ball rolling</strong>." (start) / "Let's <strong>touch base</strong> next week." (meet briefly) / "We <strong>hit a roadblock</strong>." (encountered a problem) / "The project is <strong>on track</strong>." (progressing well) / "We <strong>moved the goalposts</strong>." (changed the criteria)</p>
+<p><strong>Academic metaphors:</strong> "This research <strong>sheds light on</strong> the problem." / "The study <strong>builds on</strong> previous work." / "These findings <strong>challenge</strong> the dominant paradigm." / "The theory <strong>falls apart</strong> under scrutiny."</p>
+<p><strong>War/sports metaphors:</strong> "The government <strong>fought</strong> the recession." / "Scientists are <strong>battling</strong> to find a cure." / "The two companies are in a <strong>price war</strong>."</p>
+<p><strong>Nature metaphors:</strong> "The economy is <strong>blooming</strong>." / "A <strong>wave</strong> of protests swept the country." / "The idea <strong>took root</strong> quickly."</p>
+<p><strong>Important:</strong> Academic writing prefers <strong>dead metaphors</strong> (so common they're literal: "field of study") over creative metaphors.</p>`,
+
+    'Critical Thinking and Evaluation Language': `<h3>Critical Thinking and Evaluation Language</h3>
+<p>At C1-C2, you don't just describe — you <strong>evaluate, critique, and synthesise</strong>.</p>
+<p><strong>Evaluating strengths:</strong> "The principal strength of this approach lies in..." / "A notable advantage is..." / "This is particularly valuable because..." / "The methodology is robust in that..."</p>
+<p><strong>Evaluating weaknesses:</strong> "A potential limitation is..." / "One drawback worth noting is..." / "The study is not without its shortcomings..." / "This raises questions about..."</p>
+<p><strong>Evaluating evidence:</strong> "The evidence <strong>overwhelmingly supports</strong>..." / "There is <strong>insufficient evidence</strong> to conclude that..." / "The data <strong>appears to corroborate</strong>..." / "These findings <strong>should be interpreted with caution</strong> due to..."</p>
+<p><strong>Synthesising multiple sources:</strong> "While Smith (2020) argues that..., Jones (2021) contends that..." / "Both studies converge on the point that..., though they differ regarding..." / "This aligns with earlier research by..., but contradicts..."</p>
+<p><strong>Drawing measured conclusions:</strong> "On balance, the evidence suggests that..." / "Bearing these limitations in mind, it would be premature to conclude that..." / "Future research would benefit from investigating..."</p>`,
   },
 
   listening: {

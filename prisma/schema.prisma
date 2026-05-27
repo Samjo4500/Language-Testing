@@ -20,6 +20,8 @@ model User {
   organizationId   String? // FK to Organization (for B2B users)
   isDemo           Boolean   @default(false) // true for auto-generated demo accounts
   isSuspended      Boolean   @default(false) // Admin can suspend user accounts
+  status           String    @default("active") // "active" | "suspended" | "banned" | "deactivated"
+  referralCode     String?   @unique // Unique referral code for the user
   emailVerified    Boolean   @default(false)
   testCredits      Int       @default(0) // number of tests remaining
   country          String? // user's country from IP at signup
@@ -55,6 +57,8 @@ model User {
   momentComments   MomentComment[]   @relation("UserMomentComments")
   momentLikes      MomentLike[]      @relation("UserMomentLikes")
   vocabProgress    UserVocabProgress[] @relation("UserVocabProgress")
+  supportTickets   SupportTicket[]      @relation("UserSupportTickets")
+  reports          Report[]             @relation("UserReports")
 
   @@index([organizationId])
 }
@@ -773,4 +777,148 @@ model UserVocabProgress {
   @@unique([userId, wordId])
   @@index([userId, nextReview])
   @@index([userId, wordId])
+}
+
+// ═══════════════════════════════════════════════════════════
+//  ADMIN DASHBOARD — Support, Reports, Audit
+// ═══════════════════════════════════════════════════════════
+
+model SupportTicket {
+  id          String   @id @default(cuid())
+  userId      String
+  subject     String
+  description String
+  status      String   @default("open") // "open" | "in_progress" | "resolved" | "closed"
+  priority    String   @default("medium") // "low" | "medium" | "high" | "urgent"
+  category    String? // "technical" | "billing" | "account" | "content" | "other"
+  assignedTo  String? // Admin user ID
+  response    String? // Admin response
+  respondedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation("UserSupportTickets", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+  @@index([priority])
+  @@index([createdAt])
+}
+
+model Report {
+  id          String   @id @default(cuid())
+  reporterId  String
+  targetId    String   // ID of the reported user/content
+  targetType  String   // "user" | "message" | "moment" | "comment"
+  reason      String   // "spam" | "harassment" | "inappropriate" | "cheating" | "other"
+  description String?
+  status      String   @default("pending") // "pending" | "reviewed" | "dismissed" | "actioned"
+  reviewedBy  String?  // Admin user ID who reviewed
+  reviewNote  String?  // Admin's note
+  reviewedAt  DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  reporter User @relation("UserReports", fields: [reporterId], references: [id], onDelete: Cascade)
+
+  @@index([reporterId])
+  @@index([targetType, targetId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  adminId   String?  // Admin who performed the action
+  action    String   // "user_suspend" | "user_ban" | "user_update" | "report_review" | "ticket_respond" | "coupon_create" | "settings_update" | "data_export"
+  targetType String  // "user" | "report" | "ticket" | "coupon" | "system"
+  targetId  String?  // ID of the affected entity
+  details   String?  // JSON string with action details
+  ipAddress String?
+  createdAt DateTime @default(now())
+
+  @@index([adminId])
+  @@index([action])
+  @@index([targetType, targetId])
+  @@index([createdAt])
+}
+
+model Announcement {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  type      String   @default("info") // "info" | "warning" | "maintenance" | "feature"
+  isActive  Boolean  @default(true)
+  startsAt  DateTime @default(now())
+  expiresAt DateTime?
+  createdBy String?  // Admin user ID
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive, startsAt])
+  @@index([createdAt])
+}
+
+model Coupon {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  discountPct Int      // Discount percentage (e.g., 20 for 20% off)
+  maxUses     Int      @default(100) // Maximum number of uses
+  currentUses Int      @default(0)
+  plan        String   @default("premium") // Which plan it applies to
+  isActive    Boolean  @default(true)
+  expiresAt   DateTime?
+  createdBy   String?  // Admin user ID
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([code])
+  @@index([isActive])
+  @@index([expiresAt])
+}
+
+model ErrorLog {
+  id         String   @id @default(cuid())
+  errorType  String   // "runtime" | "api" | "database" | "auth" | "payment"
+  message    String
+  stack      String?  // Stack trace
+  url        String?  // Request URL
+  userId     String?  // User involved (if any)
+  resolved   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  @@index([errorType, createdAt])
+  @@index([resolved])
+  @@index([createdAt])
+}
+
+model DeploymentLog {
+  id          String   @id @default(cuid())
+  version     String
+  environment String   @default("production") // "production" | "staging" | "development"
+  status      String   @default("pending") // "pending" | "deploying" | "success" | "failed" | "rolled_back"
+  notes       String?
+  deployedBy  String?  // Admin user ID
+  startedAt   DateTime @default(now())
+  completedAt DateTime?
+  createdAt   DateTime @default(now())
+
+  @@index([environment, status])
+  @@index([startedAt])
+}
+
+model SharedMedia {
+  id          String   @id @default(cuid())
+  uploaderId  String
+  url         String
+  type        String   // "image" | "video" | "audio" | "document"
+  mimeType    String?
+  sizeBytes   Int?
+  filename    String?
+  status      String   @default("active") // "active" | "flagged" | "removed"
+  createdAt   DateTime @default(now())
+
+  @@index([uploaderId])
+  @@index([type, status])
+  @@index([createdAt])
 }

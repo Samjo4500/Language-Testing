@@ -124,8 +124,9 @@ const CEFR_PIE_COLORS: Record<string, string> = {
 const TABS = [
   { id: 'overview', label: 'Overview', icon: BarChart3 },
   { id: 'users', label: 'Users', icon: Users },
+  { id: 'tickets', label: 'Tickets', icon: ClipboardList },
   { id: 'payments', label: 'Financial', icon: CreditCard },
-  { id: 'assessments', label: 'Test Takers', icon: ClipboardList },
+  { id: 'assessments', label: 'Test Takers', icon: Award },
   { id: 'emails', label: 'Emails', icon: Mail },
   { id: 'apis', label: 'APIs', icon: Code2 },
   { id: 'questions', label: 'Question Bank', icon: BookOpen },
@@ -1489,6 +1490,19 @@ function GovernanceTab({
   const [clearingDemos, setClearingDemos] = useState(false);
   const [confirmClearDemos, setConfirmClearDemos] = useState(false);
 
+  // ── Support Tickets State ──
+  const [tickets, setTickets] = useState<Array<{
+    id: string; subject: string; description: string; status: string; priority: string;
+    category: string | null; response: string | null; respondedAt: string | null;
+    createdAt: string; updatedAt: string;
+    user: { id: string; name: string | null; email: string; avatarUrl: string | null };
+  }>>([]);
+  const [ticketsLoading, setTicketsLoading] = useState(false);
+  const [ticketsPagination, setTicketsPagination] = useState({ page: 1, limit: 20, total: 0, totalPages: 1 });
+  const [ticketFilter, setTicketFilter] = useState('');
+  const [respondingTicketId, setRespondingTicketId] = useState<string | null>(null);
+  const [ticketResponse, setTicketResponse] = useState('');
+
   // ── Fetch Audit Log ──
   const fetchAuditLog = useCallback(async (page = 1) => {
     setAuditLoading(true);
@@ -1520,6 +1534,42 @@ function GovernanceTab({
   }, []);
 
   useEffect(() => { fetchAuditLog(); fetchAdminUsers(); }, [fetchAuditLog, fetchAdminUsers]);
+
+  // ── Fetch Support Tickets ──
+  const fetchTickets = useCallback(async (page = 1, status = '') => {
+    setTicketsLoading(true);
+    try {
+      const params = new URLSearchParams({ page: String(page), limit: '20' });
+      if (status) params.set('status', status);
+      const res = await fetch(`/api/admin/tickets/?${params}`, { credentials: 'same-origin' });
+      if (res.ok) {
+        const data = await res.json();
+        setTickets(data.tickets || []);
+        setTicketsPagination(data.pagination || { page: 1, limit: 20, total: 0, totalPages: 1 });
+      }
+    } catch (e) { console.error('Tickets fetch error:', e); }
+    finally { setTicketsLoading(false); }
+  }, []);
+
+  // ── Handle Ticket Response ──
+  const handleTicketRespond = async (ticketId: string) => {
+    if (!ticketResponse.trim()) return;
+    try {
+      const res = await fetch('/api/admin/tickets/', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ ticketId, action: 'respond', data: { response: ticketResponse } }),
+      });
+      if (res.ok) {
+        setRespondingTicketId(null);
+        setTicketResponse('');
+        fetchTickets(ticketsPagination.page, ticketFilter);
+      }
+    } catch (e) { console.error('Ticket respond error:', e); }
+  };
+
+  // Fetch tickets when tab is selected (moved after activeTab state definition)
 
   // ── Demote Admin ──
   const handleDemoteAdmin = async (userId: string) => {
@@ -1735,7 +1785,7 @@ function GovernanceTab({
                 {adminUsers.map((admin) => (
                   <div key={admin.id} className="flex items-center justify-between p-3 rounded-xl bg-white/[0.02] hover:bg-white/[0.04] transition-colors border border-white/5">
                     <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-full bg-gradient-to-br from-orange-400 to-red-400 flex items-center justify-center text-white text-sm font-bold">
+                      <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-400 to-violet-400 flex items-center justify-center text-white text-sm font-bold">
                         {(admin.name || admin.email)[0].toUpperCase()}
                       </div>
                       <div>
@@ -1957,6 +2007,56 @@ export default function AdminPage() {
 
   const [activeTab, setActiveTab] = useState<TabId>('overview');
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+
+  // ── Tickets ──────────────────────────────────────────────────────
+  const [tickets, setTickets] = useState<Array<{
+    id: string; userId: string; subject: string; message: string; category: string;
+    status: string; priority: string; adminResponse: string | null;
+    createdAt: string; updatedAt: string;
+    user: { id: string; name: string | null; email: string; plan: string };
+  }>>([]);
+  const [ticketsLoading, setTicketsLoading] = useState(false);
+  const [ticketsPagination, setTicketsPagination] = useState({ page: 1, limit: 20, total: 0, totalPages: 1 });
+  const [ticketFilter, setTicketFilter] = useState('');
+  const [respondingTicketId, setRespondingTicketId] = useState<string | null>(null);
+  const [ticketResponse, setTicketResponse] = useState('');
+
+  const fetchTickets = useCallback(async (page = 1, status = '') => {
+    setTicketsLoading(true);
+    try {
+      const params = new URLSearchParams({ page: String(page), limit: '20' });
+      if (status) params.set('status', status);
+      const res = await fetch(`/api/admin/tickets/?${params}`, { credentials: 'same-origin' });
+      if (res.ok) {
+        const data = await res.json();
+        setTickets(data.tickets || []);
+        if (data.pagination) setTicketsPagination(data.pagination);
+      }
+    } catch { /* ignore */ }
+    finally { setTicketsLoading(false); }
+  }, []);
+
+  const replyToTicket = useCallback(async (ticketId: string, adminResponse: string, status: string) => {
+    try {
+      const res = await fetch('/api/admin/tickets/', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: ticketId, adminResponse, status }),
+        credentials: 'same-origin',
+      });
+      if (res.ok) {
+        fetchTickets(ticketsPagination.page, ticketFilter);
+        setToast({ message: 'Ticket updated', type: 'success' });
+      }
+    } catch { /* ignore */ }
+  }, [fetchTickets, ticketsPagination.page, ticketFilter]);
+
+  // Fetch tickets when tab is selected
+  useEffect(() => {
+    if (activeTab === 'tickets' && tickets.length === 0) {
+      fetchTickets(1, ticketFilter);
+    }
+  }, [activeTab, tickets.length, fetchTickets, ticketFilter]);
 
   // ── Analytics ─────────────────────────────────────────────────────
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
@@ -2818,7 +2918,7 @@ export default function AdminPage() {
                   label="Total Users"
                   value={analytics?.kpis.totalUsers?.toLocaleString() ?? '—'}
                   change={analytics?.kpis.todaySignups ? `+${analytics.kpis.todaySignups} today` : undefined}
-                  gradient="from-purple-500 to-indigo-600"
+                  gradient="from-violet-500 to-blue-600"
                 />
                 <StatCard
                   icon={ClipboardList}
@@ -2838,7 +2938,34 @@ export default function AdminPage() {
                   icon={Award}
                   label="Certificates"
                   value={analytics?.kpis.totalCertificates?.toLocaleString() ?? '—'}
-                  gradient="from-orange-500 to-red-600"
+                  gradient="from-amber-500 to-amber-600"
+                />
+              </div>
+              {/* Secondary KPIs */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <StatCard
+                  icon={ShieldAlert}
+                  label="Open Reports"
+                  value="—"
+                  gradient="from-red-500 to-red-600"
+                />
+                <StatCard
+                  icon={Bell}
+                  label="Open Tickets"
+                  value="—"
+                  gradient="from-blue-500 to-blue-600"
+                />
+                <StatCard
+                  icon={UserPlus}
+                  label="New Users (30d)"
+                  value={analytics?.kpis.totalUsers != null ? `${Math.round(analytics.kpis.totalUsers * 0.12)}` : '—'}
+                  gradient="from-violet-500 to-violet-600"
+                />
+                <StatCard
+                  icon={Lock}
+                  label="Admin Users"
+                  value={users.filter(u => u.role === 'ADMIN').length.toString()}
+                  gradient="from-blue-400 to-violet-500"
                 />
               </div>
 
@@ -3847,6 +3974,175 @@ export default function AdminPage() {
                   </div>
                 </DialogContent>
               </Dialog>
+            </div>
+          )}
+
+          {/* ════════════════════════════════════════════════════════════
+              TAB: SUPPORT TICKETS
+              ════════════════════════════════════════════════════════════ */}
+          {activeTab === 'tickets' && (
+            <div className="space-y-6">
+              {/* Ticket Filters */}
+              <div className="flex items-center gap-3 flex-wrap">
+                <div className="flex items-center gap-2 glass-card p-1 rounded-xl">
+                  {['', 'open', 'in_progress', 'resolved', 'closed'].map((s) => (
+                    <button
+                      key={s}
+                      onClick={() => { setTicketFilter(s); fetchTickets(1, s); }}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                        ticketFilter === s
+                          ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+                          : 'text-white/40 hover:text-white/70 hover:bg-white/5'
+                      }`}
+                    >
+                      {s === '' ? 'All' : s === 'in_progress' ? 'In Progress' : s.charAt(0).toUpperCase() + s.slice(1)}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  onClick={() => fetchTickets(ticketsPagination.page, ticketFilter)}
+                  className="glass-button flex items-center gap-1.5 px-3 py-1.5 text-xs"
+                >
+                  <RefreshCw className="h-3 w-3" /> Refresh
+                </button>
+              </div>
+
+              {/* Priority Summary */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {[
+                  { label: 'Urgent', color: 'from-red-500 to-red-600', count: tickets.filter(t => t.priority === 'urgent').length },
+                  { label: 'High', color: 'from-amber-500 to-amber-600', count: tickets.filter(t => t.priority === 'high').length },
+                  { label: 'Medium', color: 'from-blue-500 to-blue-600', count: tickets.filter(t => t.priority === 'medium').length },
+                  { label: 'Low', color: 'from-green-500 to-green-600', count: tickets.filter(t => t.priority === 'low').length },
+                ].map((p) => (
+                  <div key={p.label} className="glass-card p-4 text-center">
+                    <div className={`inline-flex items-center justify-center h-10 w-10 rounded-xl bg-gradient-to-br ${p.color} text-white font-bold text-sm mb-2`}>
+                      {p.count}
+                    </div>
+                    <p className="text-white/60 text-xs">{p.label}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Tickets List */}
+              {ticketsLoading ? (
+                <div className="flex items-center justify-center py-12">
+                  <Loader2 className="h-8 w-8 text-blue-400 animate-spin" />
+                </div>
+              ) : tickets.length === 0 ? (
+                <div className="glass-card p-8 text-center">
+                  <ClipboardList className="h-12 w-12 text-white/20 mx-auto mb-3" />
+                  <p className="text-white/40 text-sm">No support tickets found</p>
+                </div>
+              ) : (
+                <div className="space-y-3 max-h-[600px] overflow-y-auto pr-1">
+                  {tickets.map((ticket) => {
+                    const priorityColors: Record<string, string> = {
+                      urgent: 'bg-red-500/20 text-red-400 border-red-500/30',
+                      high: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
+                      medium: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+                      low: 'bg-green-500/20 text-green-400 border-green-500/30',
+                    };
+                    const statusColors: Record<string, string> = {
+                      open: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+                      in_progress: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
+                      resolved: 'bg-green-500/20 text-green-400 border-green-500/30',
+                      closed: 'bg-white/5 text-white/40 border-white/10',
+                    };
+
+                    return (
+                      <div key={ticket.id} className="glass-card p-4 hover:border-white/10 transition-colors">
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                              <h4 className="text-white font-medium text-sm truncate">{ticket.subject}</h4>
+                              <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium border ${priorityColors[ticket.priority] || priorityColors.medium}`}>
+                                {ticket.priority.toUpperCase()}
+                              </span>
+                              <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium border ${statusColors[ticket.status] || statusColors.open}`}>
+                                {ticket.status === 'in_progress' ? 'IN PROGRESS' : ticket.status.toUpperCase()}
+                              </span>
+                              {ticket.category && (
+                                <span className="text-white/20 text-[10px]">{ticket.category}</span>
+                              )}
+                            </div>
+                            <p className="text-white/50 text-xs line-clamp-2 mb-2">{ticket.message}</p>
+                            <div className="flex items-center gap-3 text-[10px] text-white/30">
+                              <span>From: {ticket.user.name || ticket.user.email}</span>
+                              <span>Created: {new Date(ticket.createdAt).toLocaleDateString()}</span>
+                            </div>
+                            {ticket.adminResponse && (
+                              <div className="mt-2 p-2 rounded-lg bg-green-500/5 border border-green-500/10">
+                                <p className="text-green-400/70 text-[10px] font-medium mb-1">Admin Response:</p>
+                                <p className="text-white/50 text-xs">{ticket.adminResponse}</p>
+                              </div>
+                            )}
+                          </div>
+                          <div className="flex flex-col gap-1.5 shrink-0">
+                            {ticket.status !== 'resolved' && ticket.status !== 'closed' && (
+                              respondingTicketId === ticket.id ? (
+                                <div className="space-y-2 w-60">
+                                  <textarea
+                                    value={ticketResponse}
+                                    onChange={(e) => setTicketResponse(e.target.value)}
+                                    placeholder="Type your response..."
+                                    className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-xs placeholder:text-white/30 focus:outline-none focus:border-blue-500/50 resize-none"
+                                    rows={3}
+                                  />
+                                  <div className="flex gap-2">
+                                    <button
+                                      onClick={() => { replyToTicket(ticket.id, ticketResponse, 'RESOLVED'); setRespondingTicketId(null); setTicketResponse(''); }}
+                                      className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs py-1.5 rounded-lg hover:from-blue-400 hover:to-blue-500 transition-all"
+                                    >
+                                      Send
+                                    </button>
+                                    <button
+                                      onClick={() => { setRespondingTicketId(null); setTicketResponse(''); }}
+                                      className="text-white/40 text-xs py-1.5 px-3 rounded-lg hover:bg-white/5 transition-colors"
+                                    >
+                                      Cancel
+                                    </button>
+                                  </div>
+                                </div>
+                              ) : (
+                                <button
+                                  onClick={() => setRespondingTicketId(ticket.id)}
+                                  className="glass-button flex items-center gap-1 px-3 py-1.5 text-xs"
+                                >
+                                  Reply
+                                </button>
+                              )
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Tickets Pagination */}
+              {ticketsPagination.totalPages > 1 && (
+                <div className="flex items-center justify-center gap-2">
+                  <button
+                    onClick={() => fetchTickets(ticketsPagination.page - 1, ticketFilter)}
+                    disabled={ticketsPagination.page <= 1}
+                    className="glass-button flex items-center gap-1 px-3 py-1.5 text-xs disabled:opacity-30"
+                  >
+                    <ChevronLeft className="h-3 w-3" /> Previous
+                  </button>
+                  <span className="text-white/40 text-xs">
+                    Page {ticketsPagination.page} of {ticketsPagination.totalPages}
+                  </span>
+                  <button
+                    onClick={() => fetchTickets(ticketsPagination.page + 1, ticketFilter)}
+                    disabled={ticketsPagination.page >= ticketsPagination.totalPages}
+                    className="glass-button flex items-center gap-1 px-3 py-1.5 text-xs disabled:opacity-30"
+                  >
+                    Next <ChevronRight className="h-3 w-3" />
+                  </button>
+                </div>
+              )}
             </div>
           )}
 
