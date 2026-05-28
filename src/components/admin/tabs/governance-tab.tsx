@@ -22,6 +22,7 @@ import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription,
 } from '@/components/ui/dialog';
 
+// Governance Tab — 6 sub-tabs: Moderation Queue, Community, Reports, Bans, Auto-Mod Rules, Audit Log
 interface GovernanceTabProps {
   onToast: (msg: string, type: 'success' | 'error') => void;
   onRefreshUsers?: () => void;
