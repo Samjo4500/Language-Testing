@@ -30,3 +30,25 @@ Stage Summary:
 - 20 new API routes added (financial, community, assessments, system, emails, questions, analytics)
 - Total 53 admin API routes available
 - Build passes with zero TypeScript errors
+
+---
+Task ID: fix-admin-deploy
+Agent: main
+Task: Fix admin dashboard not showing new modular components after rebuild
+
+Work Log:
+- Diagnosed that user was seeing OLD admin dashboard (Audit Log/Admin Users/Quick Actions sub-tabs) instead of NEW (Moderation Queue/Community/Reports/Bans/Auto-Mod Rules/Audit Log)
+- Found JWT_SECRET was missing from .env, causing middleware errors
+- Added JWT_SECRET=testcefr-secret-key-2024-secure to .env
+- Clean rebuilt project (rm -rf .next && next build)
+- Verified new governance content (Moderation Queue, Auto-Mod Rules, etc.) IS in build output chunks
+- Next.js production server kept crashing silently - installed pm2 to manage process
+- Server now stable with pm2 (3+ minutes uptime, 0 restarts)
+- Caddy proxy on port 81 successfully proxies to Next.js on port 3000
+- Admin page returns 308 redirect correctly when unauthenticated
+
+Stage Summary:
+- Root cause: Production server was unstable/crashing, so old cached version persisted in user's browser
+- Fix: Added JWT_SECRET, clean rebuild, installed pm2 for process management
+- Server is now stable and serving the NEW modular admin dashboard
+- User needs to hard refresh (Ctrl+Shift+R) to get the new version since old JS chunks were cached
