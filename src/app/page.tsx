@@ -13,7 +13,7 @@ import {
   Circle, CircleDot, Settings
 } from 'lucide-react';
 import { AnimatedSection } from '@/components/home/animated-section';
-import { HeroCTA } from '@/components/home/hero-cta';
+import { HeroSection } from '@/components/home/hero-section-new';
 import { FinalCTAButtons } from '@/components/home/final-cta-buttons';
 import { FAQItem } from '@/components/home/faq-item';
 import { PricingTracker } from '@/components/home/pricing-tracker';
@@ -296,62 +296,8 @@ export default function Home() {
       <Navbar />
 
       <main>
-      {/* ===== HERO SECTION ===== */}
-      <section className="relative overflow-hidden dark-section hero-pattern noise-overlay mesh-gradient">
-        <BackgroundOrbsDynamic />
-
-        <div className="container relative mx-auto px-4 py-20 md:py-28">
-          <div className="mx-auto max-w-6xl">
-            {/* Typewriter badge */}
-            <TypewriterBadge />
-
-            {/* Main headline */}
-            <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight text-white leading-[1.1] animate-slide-up text-center">
-              Master English with AI
-            </h1>
-
-            {/* Animated Three Pillars */}
-            <div className="mt-4 flex justify-center animate-slide-up" style={{ animationDelay: '0.2s' }}>
-              <AnimatedPillars />
-            </div>
-
-            {/* Subheadline */}
-            <p className="mt-6 text-lg md:text-xl text-white/60 leading-relaxed max-w-2xl mx-auto animate-fade-in delay-300 text-center">
-              The all-in-one platform to assess your CEFR level, follow structured courses from A1 to C2, and practice with language partners worldwide — powered by AI at every step.
-            </p>
-
-            {/* CTA Buttons */}
-            <HeroCTA />
-
-            {/* Animated CEFR Badge */}
-            <div className="mt-10 flex justify-center animate-scale-in delay-400">
-              <AnimatedCEFRBadge />
-            </div>
-
-            {/* Stats bar — 4 glass cards */}
-            <div className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-              {[
-                { value: 'A1–C2', label: 'All CEFR Levels', icon: <Globe className="h-5 w-5" /> },
-                { value: '6', label: 'Core Skills', icon: <Brain className="h-5 w-5" /> },
-                { value: 'AI', label: 'Powered Scoring', icon: <Cpu className="h-5 w-5" /> },
-                { value: 'Free', label: 'To Get Started', icon: <Zap className="h-5 w-5" /> },
-              ].map((stat, i) => (
-                <AnimatedSection key={stat.label} delay={i * 100}>
-                  <div className="glass-card p-3 sm:p-5 text-center group">
-                    <div className="flex justify-center mb-2 text-blue-400 group-hover:text-blue-300 transition-colors">
-                      {stat.icon}
-                    </div>
-                    <div className="text-xl sm:text-2xl font-bold text-white mb-1">{stat.value}</div>
-                    <div className="text-xs text-white/50">{stat.label}</div>
-                  </div>
-                </AnimatedSection>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0F0A1E] to-transparent" />
-      </section>
+      {/* ===== HERO SECTION — "YOUR ENGLISH. CERTIFIED." ===== */}
+      <HeroSection />
 
       {/* ===== LIVE VOICE DEMO ===== */}
       <section className="relative py-20 md:py-28 speaking-bg-5 overflow-hidden">

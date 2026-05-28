@@ -1,0 +1,9 @@
+skills/
+download/
+.archived/
+.zscripts/
+agent-ctx/
+docs/
+mini-services/
+*.log
+dev.log

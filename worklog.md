@@ -147,3 +147,34 @@ Stage Summary:
 - 0 unsanitized dangerouslySetInnerHTML remaining
 - Demo credentials hidden in production
 - Auto-seed endpoint now requires POST + auth
+
+---
+Task ID: HERO-1
+Agent: Main Agent
+Task: Implement new hero section "YOUR ENGLISH. CERTIFIED." redesign
+
+Work Log:
+- Read the hero spec from user's message (BUILDER-PROMPT-HERO.md content)
+- Created /src/components/home/hero-section-new.tsx with:
+  - "YOUR ENGLISH. CERTIFIED." headline with font-weight 800 and clamp(3rem, 8vw, 6rem)
+  - Gradient text effect (blue-400 → blue-500 → violet-500) on "CERTIFIED."
+  - bg-[#0a0a1a] background with subtle blue radial glow at 6% opacity
+  - Secondary violet radial glow at 4% opacity
+  - Gradient CTA pill (blue-500 → violet-500, rounded-full) "Take Free Test"
+  - Secondary "View Plans" button with glass border
+  - 6 trust signals with emerald CheckCircle2 icons
+  - 4 stats cards (A1–C2, 6 Core Skills, 30min, Free)
+  - Staggered entrance animations (7 delays from 0 to 500ms+)
+  - Mobile responsive layout
+  - Eyebrow badge with ping animation
+- Updated /src/app/page.tsx:
+  - Replaced old hero imports (HeroCTA → HeroSection)
+  - Replaced entire old hero section JSX with <HeroSection />
+- Verified build passes successfully
+- Deployed to production via Vercel CLI
+- Confirmed new hero component is in production JS bundle
+
+Stage Summary:
+- New hero "YOUR ENGLISH. CERTIFIED." is live on testcefr.com
+- Old hero ("Master English with AI" + TypewriterBadge + AnimatedPillars) replaced
+- All spec requirements met: typography, colors, gradient CTA, trust signals, animations, responsive
