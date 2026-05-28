@@ -52,3 +52,24 @@ Stage Summary:
 - Fix: Added JWT_SECRET, clean rebuild, installed pm2 for process management
 - Server is now stable and serving the NEW modular admin dashboard
 - User needs to hard refresh (Ctrl+Shift+R) to get the new version since old JS chunks were cached
+---
+Task ID: 1
+Agent: Main Agent
+Task: Fix stale admin dashboard rendering (old version shown despite new code on disk)
+
+Work Log:
+- Investigated why old admin dashboard kept showing despite new code being on disk
+- Found Next.js was pre-rendering the admin page as static HTML (`admin.html` - 22,393 bytes) and serving from internal ISR cache (`x-nextjs-cache: HIT` with 300s stale time)
+- Even incognito mode showed old content because the SERVER was caching, not the browser
+- Added `export const dynamic = 'force-dynamic'` and `export const revalidate = 0` to `/src/app/(main)/admin/layout.tsx`
+- Completely removed `.next` directory and did a clean rebuild
+- Verified in build output: admin page now shows `ƒ /admin` (Dynamic) instead of `○ /admin` (Static)
+- Confirmed NO `admin.html` pre-rendered file exists in `.next/server/app/` anymore
+- Confirmed NO `x-nextjs-cache` header in server responses
+- Restarted pm2 next-server
+
+Stage Summary:
+- Root cause: Next.js was pre-rendering the admin page as static HTML and serving stale cached version
+- Fix: Added `dynamic = 'force-dynamic'` to layout.tsx forces server-rendered on every request
+- Build now marks admin as dynamic (ƒ) and no longer creates cached HTML files
+- User should now see the new Super Admin Dashboard v2.0 with 10 tabs and Governance sub-tabs

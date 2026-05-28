@@ -1,5 +1,9 @@
 import type { Metadata } from 'next';
 
+// Force dynamic rendering — never cache this page (fixes stale pre-render cache)
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: 'Admin Dashboard v2.0 — Modular',
   description:
