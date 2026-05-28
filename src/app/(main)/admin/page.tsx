@@ -1,5 +1,8 @@
 'use client';
 
+// Admin Dashboard v2.0 — 10 tabs, 40+ controls, modular architecture
+// Governance tab includes: Moderation Queue, Community, Reports, Bans, Auto-Mod Rules, Audit Log
+
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/auth-store';
