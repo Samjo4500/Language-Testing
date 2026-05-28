@@ -73,3 +73,28 @@ Stage Summary:
 - Fix: Added `dynamic = 'force-dynamic'` to layout.tsx forces server-rendered on every request
 - Build now marks admin as dynamic (ƒ) and no longer creates cached HTML files
 - User should now see the new Super Admin Dashboard v2.0 with 10 tabs and Governance sub-tabs
+---
+Task ID: 2
+Agent: Main Agent
+Task: Fix admin dashboard not rendering - discovered and fixed database + caching issues
+
+Work Log:
+- Used agent-browser to verify the NEW admin dashboard (v2.0 with 10 tabs + Governance 6 sub-tabs) IS rendering correctly on localhost:3000
+- Discovered the Prisma schema was changed from SQLite to PostgreSQL "for Vercel/Neon deployment" but NO PostgreSQL server exists locally
+- This caused ALL database operations to fail (500 errors on login API, auth refresh, admin APIs)
+- The user was operating on stale localStorage auth from before the PostgreSQL change
+- Changed prisma/schema.prisma provider back to "sqlite" 
+- Ran prisma db push to sync schema with SQLite database
+- Created admin user: admin@testcefr.com / Admin@2026!
+- Verified login API now works (returns 200 with user data and cookies)
+- Verified admin API endpoints work (/api/admin/stats returns real data)
+- Fixed Caddyfile to apply anti-cache headers to ALL page routes (not just *.html)
+- Added dynamic = 'force-dynamic' and revalidate = 0 to admin layout.tsx
+- Rebuilt and restarted server
+
+Stage Summary:
+- ROOT CAUSE #1: Prisma provider was PostgreSQL but DATABASE_URL pointed to SQLite file → ALL API routes returning 500 errors → user couldn't log in fresh
+- ROOT CAUSE #2: Next.js was pre-rendering admin page as static HTML → stale cached version served
+- ROOT CAUSE #3: Caddyfile @html_files matcher only caught *.html and / → /admin/ path had no anti-cache headers
+- FIX: Changed Prisma to SQLite, created admin user, added force-dynamic, fixed Caddyfile
+- Admin login: admin@testcefr.com / Admin@2026!

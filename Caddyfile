@@ -3,8 +3,15 @@
                 query XTransformPort=*
         }
 
-        @html_files {
-                path *.html /
+        # Static assets — long cache (immutable, content-hashed filenames)
+        @static_assets {
+                path /_next/static/*
+                path *.js *.css *.woff2 *.woff *.ttf
+                path *.png *.jpg *.svg *.ico *.webp
+        }
+
+        # All HTML/page routes — never cache (always serve fresh)
+        @page_routes {
                 not path /_next/*
                 not path /api/*
                 not path *.js
@@ -16,6 +23,8 @@
                 not path *.jpg
                 not path *.svg
                 not path *.ico
+                not path *.webp
+                not path *.map
         }
 
         handle @transform_port_query {
@@ -27,7 +36,17 @@
                 }
         }
 
-        handle @html_files {
+        handle @static_assets {
+                reverse_proxy localhost:3000 {
+                        header_up Host {host}
+                        header_up X-Forwarded-For {remote_host}
+                        header_up X-Forwarded-Proto {scheme}
+                        header_up X-Real-IP {remote_host}
+                        header_down Cache-Control "public, max-age=31536000, immutable"
+                }
+        }
+
+        handle @page_routes {
                 reverse_proxy localhost:3000 {
                         header_up Host {host}
                         header_up X-Forwarded-For {remote_host}
@@ -46,6 +65,10 @@
                         header_up X-Forwarded-For {remote_host}
                         header_up X-Forwarded-Proto {scheme}
                         header_up X-Real-IP {remote_host}
+                        header_down Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate"
+                        header_down Pragma "no-cache"
+                        header_down Expires "0"
+                        header_down -X-Nextjs-Cache
                 }
         }
 }
