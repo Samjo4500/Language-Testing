@@ -116,6 +116,7 @@ export default function AdminDashboard() {
             <h1 className="text-2xl font-bold text-white flex items-center gap-3">
               <Shield className="h-7 w-7 text-violet-400" />
               Super Admin Dashboard
+              <span className="text-xs bg-violet-500/20 text-violet-400 px-2 py-0.5 rounded-full border border-violet-500/30">v2.0</span>
             </h1>
             <p className="text-white/40 text-sm mt-1">Platform management & analytics</p>
           </div>

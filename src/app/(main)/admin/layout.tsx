@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Admin Dashboard',
+  title: 'Admin Dashboard v2.0 — Modular',
   description:
     'Super Admin dashboard for managing the TestCEFR platform — users, payments, assessments, question bank, and system health.',
   robots: {
