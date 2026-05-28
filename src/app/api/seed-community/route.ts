@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Seed community error:', error);
     return NextResponse.json(
-      { error: 'Internal server error during seeding.', details: error instanceof Error ? error.message : String(error) },
+      { error: 'Internal server error during seeding.' },
       { status: 500 }
     );
   }

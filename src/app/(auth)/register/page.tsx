@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useAuthStore } from '@/lib/auth-store';
 import { Navbar } from '@/components/navbar';
 import { trackAccountCreate } from '@/lib/analytics';
@@ -134,7 +135,7 @@ export default function RegisterPage() {
           {/* Left Panel - Benefits & Account Type */}
           <div className="hidden md:block pt-4">
             <div className="flex items-center gap-2.5 text-2xl font-bold text-white mb-6">
-              <img src="/logo-icon.svg" alt="CEFR Test" className="h-10 w-10" />
+              <Image src="/logo-icon.svg" alt="CEFR Test" width={40} height={40} className="h-10 w-10" />
               <span className="tracking-tight">test<span className="bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent">cefr</span><span className="text-blue-300">.com</span></span>
             </div>
             <h1 className="text-3xl font-bold text-white mb-4">Start your English journey</h1>
@@ -221,7 +222,7 @@ export default function RegisterPage() {
             {/* Mobile: Account type selector */}
             <div className="md:hidden flex flex-col items-center mb-6">
               <div className="flex items-center gap-2 text-lg font-bold text-white mb-4">
-                <img src="/logo-icon.svg" alt="CEFR Test" className="h-8 w-8" />
+                <Image src="/logo-icon.svg" alt="CEFR Test" width={32} height={32} className="h-8 w-8" />
                 <span className="tracking-tight">test<span className="bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent">cefr</span><span className="text-blue-300">.com</span></span>
               </div>
               <div className="flex gap-2 w-full">

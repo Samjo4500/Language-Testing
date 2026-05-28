@@ -7,6 +7,7 @@ import { Footer } from '@/components/footer';
 import { useAuthStore } from '@/lib/auth-store';
 import { useHydrated } from '@/hooks/use-hydrated';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 import {
   Globe,
   Send,
@@ -587,7 +588,7 @@ export default function ChatroomPage() {
                           `bg-gradient-to-br ${activeColor.gradient}`
                         )}>
                           {msg.userAvatar ? (
-                            <img src={msg.userAvatar} alt={msg.userName} className="h-8 w-8 rounded-full object-cover" />
+                            <Image src={msg.userAvatar} alt={msg.userName} width={32} height={32} unoptimized className="h-8 w-8 rounded-full object-cover" />
                           ) : (
                             msg.userName[0].toUpperCase()
                           )}
@@ -694,7 +695,7 @@ export default function ChatroomPage() {
                 <div key={u.userId} className="flex items-center gap-2 p-2 rounded-lg hover:bg-white/5 transition-all">
                   <div className="relative shrink-0">
                     {u.userAvatar ? (
-                      <img src={u.userAvatar} alt={u.userName} className="h-7 w-7 rounded-full object-cover" />
+                      <Image src={u.userAvatar} alt={u.userName} width={28} height={28} unoptimized className="h-7 w-7 rounded-full object-cover" />
                     ) : (
                       <div className={cn(
                         'h-7 w-7 rounded-full flex items-center justify-center text-xs font-bold text-white',

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Headphones, BookOpenCheck, PenTool, Mic, GraduationCap, Trophy, BookOpen, HelpCircle, Mail, MessageCircle, Users, Newspaper } from 'lucide-react';
 
 export function Footer() {
@@ -11,7 +12,7 @@ export function Footer() {
           {/* Brand */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3.5 mb-4">
-              <img src="/logo-icon.svg" alt="CEFR Test" className="h-12 w-12 sm:h-14 sm:w-14" />
+              <Image src="/logo-icon.svg" alt="TestCEFR home" width={56} height={56} className="h-12 w-12 sm:h-14 sm:w-14" />
               <div className="flex flex-col">
                 <span className="text-white font-bold text-lg sm:text-xl tracking-tight leading-tight">
                   test<span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">cefr</span><span className="text-blue-300">.com</span>
@@ -246,7 +247,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="mt-8 pt-6 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <img src="/logo-icon.svg" alt="CEFR Test" className="h-10 w-10" />
+            <Image src="/logo-icon.svg" alt="TestCEFR home" width={40} height={40} className="h-10 w-10" />
             <span className="text-white font-semibold text-base">
               test<span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">cefr</span><span className="text-blue-300">.com</span>
             </span>

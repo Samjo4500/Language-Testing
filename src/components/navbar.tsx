@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/lib/auth-store';
@@ -127,7 +128,7 @@ export function Navbar() {
         <Link href="/" className="flex items-center gap-3 shrink-0 group">
           <div className="relative transition-transform duration-300 group-hover:scale-105">
             <div className="absolute inset-0 bg-blue-500/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <img src="/logo-icon.svg" alt="CEFR Test" className="h-12 w-12 sm:h-16 sm:w-16 relative" />
+            <Image src="/logo-icon.svg" alt="TestCEFR home" width={64} height={64} className="h-12 w-12 sm:h-16 sm:w-16 relative" />
           </div>
           <div className="flex flex-col">
             <span className="text-white font-bold text-lg sm:text-xl tracking-tight leading-tight group-hover:text-blue-200 transition-colors">
@@ -504,6 +505,7 @@ export function Navbar() {
             <button
               className="w-full flex items-center justify-between text-sm py-2 px-3 rounded-lg text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-300"
               onClick={() => setMobileCefrOpen(!mobileCefrOpen)}
+              aria-expanded={mobileCefrOpen}
             >
               CEFR Test
               <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${mobileCefrOpen ? 'rotate-180' : ''}`} />
@@ -542,6 +544,7 @@ export function Navbar() {
             <button
               className="w-full flex items-center justify-between text-sm py-2 px-3 rounded-lg text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-300"
               onClick={() => setMobileCoursesOpen(!mobileCoursesOpen)}
+              aria-expanded={mobileCoursesOpen}
             >
               Courses
               <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${mobileCoursesOpen ? 'rotate-180' : ''}`} />
@@ -579,6 +582,7 @@ export function Navbar() {
             <button
               className="w-full flex items-center justify-between text-sm py-2 px-3 rounded-lg text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-300"
               onClick={() => setMobileLearnOpen(!mobileLearnOpen)}
+              aria-expanded={mobileLearnOpen}
             >
               Learn
               <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${mobileLearnOpen ? 'rotate-180' : ''}`} />

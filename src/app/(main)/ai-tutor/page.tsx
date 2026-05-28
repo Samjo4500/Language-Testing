@@ -19,6 +19,7 @@ import {
   Volume2,
   RotateCcw,
 } from 'lucide-react';
+import { sanitizeHtml } from '@/lib/sanitize';
 
 // ─── Types ─────────────────────────────────────────────────
 interface ChatMessage {
@@ -608,7 +609,7 @@ export default function AiTutorPage() {
                         ) : (
                           <div
                             className="chat-markdown whitespace-pre-wrap"
-                            dangerouslySetInnerHTML={{ __html: formatContent(msg.content) }}
+                            dangerouslySetInnerHTML={{ __html: sanitizeHtml(formatContent(msg.content)) }}
                           />
                         )}
                       </div>

@@ -7,6 +7,7 @@ import { AnimatedSection } from '@/components/home/animated-section';
 import { getBlogPost, getAllBlogSlugs, BLOG_POSTS } from '@/lib/blog-data';
 import { BookOpen, Clock, ArrowLeft, ArrowRight, Calendar, Share2 } from 'lucide-react';
 import { BlogShareButtons } from './blog-share-buttons';
+import { sanitizeHtml } from '@/lib/sanitize';
 
 type BlogPostPageProps = {
   params: Promise<{ slug: string }>;
@@ -133,7 +134,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               <AnimatedSection>
                 <article
                   className="lesson-content prose-invert max-w-none"
-                  dangerouslySetInnerHTML={{ __html: post.content }}
+                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
                 />
               </AnimatedSection>
 

@@ -7,6 +7,7 @@ import { Footer } from '@/components/footer';
 import { useAuthStore } from '@/lib/auth-store';
 import { useHydrated } from '@/hooks/use-hydrated';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 import {
   Heart,
   MessageCircle,
@@ -528,9 +529,12 @@ export default function MomentsPage() {
                   <div className="flex items-start gap-3">
                     <div className="relative shrink-0">
                       {moment.user.avatarUrl ? (
-                        <img
+                        <Image
                           src={moment.user.avatarUrl}
                           alt={moment.user.name}
+                          width={40}
+                          height={40}
+                          unoptimized
                           className="h-10 w-10 rounded-full object-cover border border-white/10"
                         />
                       ) : (
@@ -586,7 +590,7 @@ export default function MomentsPage() {
                   {/* Image */}
                   {moment.imageUrl && (
                     <div className="mt-3">
-                      <img src={moment.imageUrl} alt="Moment" className="rounded-xl max-h-64 w-full object-cover" />
+                      <Image src={moment.imageUrl} alt="Moment" width={800} height={256} unoptimized className="rounded-xl max-h-64 w-full object-cover" />
                     </div>
                   )}
 

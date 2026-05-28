@@ -6,6 +6,7 @@ import { AnimatedSection } from '@/components/home/animated-section';
 import { BLOG_POSTS, BLOG_CATEGORIES, getFeaturedPosts } from '@/lib/blog-data';
 import { BookOpen, Clock, ArrowRight, Tag } from 'lucide-react';
 import { BlogCategoryFilter } from './blog-category-filter';
+import { NewsletterForm } from './newsletter-form';
 
 export const metadata: Metadata = {
   title: 'Blog - English Learning Tips, CEFR Guides & More',
@@ -145,16 +146,7 @@ export default function BlogPage() {
                 <p className="text-white/50 mb-8 leading-relaxed">
                   Get weekly tips, guides, and strategies delivered to your inbox. Join thousands of English learners improving their skills.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-                  <input
-                    type="email"
-                    placeholder="Enter your email"
-                    className="flex-1 px-4 py-3 rounded-xl bg-white/[0.05] border border-white/[0.1] text-white text-sm placeholder:text-white/30 focus:outline-none focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 transition-all"
-                  />
-                  <button className="px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white text-sm font-medium transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 cursor-pointer whitespace-nowrap">
-                    Subscribe
-                  </button>
-                </div>
+                <NewsletterForm />
                 <p className="text-xs text-white/30 mt-3">No spam. Unsubscribe anytime.</p>
               </div>
             </AnimatedSection>

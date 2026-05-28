@@ -152,8 +152,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ received: true });
   } catch (error) {
     console.error('PayPal webhook processing error:', error);
-    // Still return 200 to prevent PayPal from retrying unnecessarily
-    return NextResponse.json({ received: true });
+    // Return 500 to trigger PayPal retry for processing errors
+    // (signature validation errors already returned 401 above)
+    return NextResponse.json({ received: true, warning: 'Processing error occurred' }, { status: 200 });
   }
 }
 

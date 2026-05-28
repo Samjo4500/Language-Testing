@@ -1,16 +1,9 @@
 import Link from 'next/link';
-import type { Metadata } from 'next';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { AnimatedSection } from '@/components/home/animated-section';
 import { Code, Copy, Check, Globe, BarChart3, Zap } from 'lucide-react';
 import { EmbedCodeBlock } from './embed-code-block';
-
-export const metadata: Metadata = {
-  title: 'Free English Quiz Widget — Embed on Your Site',
-  description:
-    'Add a free CEFR English quiz widget to your website or blog. Engages visitors, adds interactivity, and links back to TestCEFR. Copy and paste — no signup required.',
-};
 
 export default function EmbedQuizPage() {
   return (

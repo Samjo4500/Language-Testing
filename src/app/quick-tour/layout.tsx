@@ -20,6 +20,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://testcefr.com/quick-tour',
   },
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 export default function QuickTourLayout({ children }: { children: React.ReactNode }) {

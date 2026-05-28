@@ -1,16 +1,24 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { hashPassword } from '@/lib/auth';
+import { getAuthUser, requireAdmin } from '@/lib/auth-middleware';
 
-// GET /api/community/auto-seed
+// POST /api/community/auto-seed
 // Automatically seeds community profiles if the platform has fewer than 10 profiles.
-// This is called unauthenticated on first deployment to populate the community.
-// Once 10+ profiles exist, this endpoint becomes a no-op.
-export async function GET() {
+// Once 10+ profiles exist, requires admin auth to re-seed.
+export async function POST(request: NextRequest) {
   try {
     const existingCount = await db.languageProfile.count();
 
     if (existingCount >= 10) {
+      // Require admin auth for re-seeding
+      const authUser = getAuthUser(request);
+      if (!authUser) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      }
+      const adminError = requireAdmin(authUser);
+      if (adminError) return adminError;
+
       return NextResponse.json({
         seeded: false,
         message: `Community already has ${existingCount} profiles. No seeding needed.`,
@@ -134,7 +142,7 @@ export async function GET() {
   } catch (error) {
     console.error('Auto-seed error:', error);
     return NextResponse.json(
-      { seeded: false, error: 'Auto-seed failed', details: error instanceof Error ? error.message : String(error) },
+      { seeded: false, error: 'Auto-seed failed' },
       { status: 500 }
     );
   }

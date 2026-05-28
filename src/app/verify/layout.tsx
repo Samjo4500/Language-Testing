@@ -20,6 +20,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://testcefr.com/verify',
   },
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 export default function VerifyLayout({ children }: { children: React.ReactNode }) {

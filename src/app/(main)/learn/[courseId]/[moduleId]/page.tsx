@@ -29,6 +29,7 @@ import {
   HelpCircle,
   Trophy,
 } from 'lucide-react';
+import { sanitizeHtml } from '@/lib/sanitize';
 
 /* ============================================================
    TYPES
@@ -1206,7 +1207,7 @@ export default function LessonViewerPage() {
             {lesson.content && (
               <div
                 className={`lesson-content max-w-none ${lesson.videoUrl ? 'mt-6' : 'mb-8'}`}
-                dangerouslySetInnerHTML={{ __html: lesson.content }}
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(lesson.content) }}
               />
             )}
 

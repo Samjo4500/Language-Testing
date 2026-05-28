@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { CheckCircle2, XCircle, Download, Shield, Loader2 } from 'lucide-react';
 import QRCode from 'react-qr-code';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface SkillBreakdown {
   reading?: number;
@@ -163,7 +164,7 @@ export default function VerifyCertificatePage() {
                   {/* Header Row */}
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
-                      <img src="/logo-icon.svg" alt="CEFR Test" className="h-12 w-12" />
+                      <Image src="/logo-icon.svg" alt="CEFR Test" width={48} height={48} className="h-12 w-12" />
                       <div className="flex flex-col">
                         <span className="text-white font-bold text-lg tracking-tight leading-tight">test<span className="bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent">cefr</span><span className="text-violet-300">.com</span></span>
                         <span className="text-white/40 text-[10px] uppercase tracking-[0.2em] leading-tight">English Assessment</span>

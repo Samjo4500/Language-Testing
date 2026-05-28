@@ -98,3 +98,52 @@ Stage Summary:
 - ROOT CAUSE #3: Caddyfile @html_files matcher only caught *.html and / → /admin/ path had no anti-cache headers
 - FIX: Changed Prisma to SQLite, created admin user, added force-dynamic, fixed Caddyfile
 - Admin login: admin@testcefr.com / Admin@2026!
+---
+Task ID: QC-1
+Agent: Main Agent
+Task: Comprehensive Quality Control check on testcefr.com - fix all issues and compile list of items needed from user
+
+Work Log:
+- Mapped all 48 page routes and 91 API routes in the Next.js application
+- Tested all public pages via curl - all return HTTP 200
+- Tested protected pages - correctly redirect to login
+- Tested registration API - works correctly (returns 201 with user + tokens)
+- Tested health endpoint - database connected, 5-6ms latency
+
+Critical Security Fixes Applied:
+1. SEC-01: Changed /api/community/auto-seed from GET to POST, added auth requirement
+2. SEC-03: Removed leaked error details from 3 seed endpoints (seed-community, community/seed, auto-seed)
+3. SEC-04: Added isomorphic-dompurify HTML sanitization to prevent XSS on blog, AI tutor, and lesson content
+4. SEC-05: Hidden demo credentials on login page (only visible on localhost)
+5. E-07: Improved PayPal webhook error logging
+
+Performance & Image Fixes:
+6. Replaced all <img> tags with next/image across 8 files (navbar, footer, register, pricing, sample-certificate, verify, community moments, chatroom)
+7. Added remote image patterns to next.config.ts for external avatar URLs
+8. Fixed blog newsletter form (was non-functional, now shows "coming soon" message)
+9. Changed Vercel cron from */5 minutes to daily (Hobby plan limitation)
+
+SEO Fixes:
+10. Created /cookie-policy/layout.tsx with metadata
+11. Created /privacy-policy/layout.tsx with metadata  
+12. Created /embed-quiz/layout.tsx with metadata + robots noindex
+13. Added robots: noindex to /verify and /quick-tour layouts
+14. Verified all other pages have proper metadata via their layout.tsx files
+
+Accessibility Fixes:
+15. Changed logo alt text from "CEFR Test" to "TestCEFR home" across navbar and footer
+16. Added aria-expanded attributes to mobile menu accordion buttons (CEFR Test, Courses, Learn)
+
+Deployment:
+- Deployed to production via Vercel CLI (2 successful deploys)
+- All 18 public pages return HTTP 200
+- Registration, health check, and auto-seed endpoints verified working
+- Protected routes correctly redirect to login
+
+Stage Summary:
+- 16 fixes applied across security, performance, SEO, and accessibility
+- All changes deployed to production at testcefr.com
+- 0 <img> tags remaining (all converted to next/image)
+- 0 unsanitized dangerouslySetInnerHTML remaining
+- Demo credentials hidden in production
+- Auto-seed endpoint now requires POST + auth

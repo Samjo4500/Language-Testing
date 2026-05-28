@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import {
@@ -115,7 +116,7 @@ export default function SampleCertificatePage() {
 
                   {/* Logo area */}
                   <div className="flex items-center justify-center gap-3">
-                    <img src="/logo-icon.svg" alt="CEFR Test" className="h-11 w-11" />
+                    <Image src="/logo-icon.svg" alt="CEFR Test" width={44} height={44} className="h-11 w-11" />
                     <div className="flex flex-col">
                       <span className="text-white font-bold text-base tracking-tight leading-tight">
                         test<span className="bg-gradient-to-r from-blue-400 to-violet-400 bg-clip-text text-transparent">cefr</span><span className="text-violet-300">.com</span>

@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useHydrated } from '@/hooks/use-hydrated';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useAuthStore } from '@/lib/auth-store';
 import { isPaidPlan, getPlanLabel } from '@/lib/plan-utils';
 import { Navbar } from '@/components/navbar';
@@ -767,7 +768,7 @@ export default function PricingPage() {
                     <div className="text-center mb-4">
                       <p className="text-xs text-white/40 uppercase tracking-widest mb-1">Certificate of Proficiency</p>
                       <div className="flex items-center justify-center gap-2 mb-2">
-                        <img src="/logo-icon.svg" alt="" className="h-5 w-5" />
+                        <Image src="/logo-icon.svg" alt="" width={20} height={20} className="h-5 w-5" />
                         <span className="text-sm font-bold text-white">test<span className="text-blue-400">cefr</span><span className="text-blue-300">.com</span></span>
                       </div>
                     </div>
