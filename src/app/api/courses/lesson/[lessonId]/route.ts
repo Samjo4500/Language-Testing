@@ -124,7 +124,7 @@ export async function GET(
       siblingLessons = await db.courseLesson.findMany({
         where: { moduleId: lesson.moduleId, isPublished: true },
         orderBy: [{ order: 'asc' }, { lessonNumber: 'asc' }],
-        select: { id: true, lessonNumber: true, title: true, contentType: true, estimatedMinutes: true },
+        select: { id: true, lessonNumber: true, title: true, contentType: true, estimatedMinutes: true, videoUrl: true },
       });
     } catch {
       siblingLessons = [];
@@ -144,7 +144,7 @@ export async function GET(
           lessons: {
             where: { isPublished: true },
             orderBy: [{ order: 'asc' }, { lessonNumber: 'asc' }],
-            select: { id: true, lessonNumber: true, title: true, contentType: true, estimatedMinutes: true },
+            select: { id: true, lessonNumber: true, title: true, contentType: true, estimatedMinutes: true, videoUrl: true },
           },
         },
       });

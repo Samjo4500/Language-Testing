@@ -49,7 +49,8 @@ const COURSE_ITEMS = [
 const LEARN_ITEMS = [
   { href: '/ai-tutor', label: 'Lexi AI', icon: MessageSquare, description: 'Practice with AI conversation partner', tag: 'AI' },
   { href: '/grammar-check', label: 'Grammar Checker', icon: PenLine, description: 'Check your writing for errors', tag: 'AI' },
-  { href: '/vocabulary', label: 'Vocabulary Trainer', icon: Brain, description: 'Learn words with spaced repetition', tag: 'NEW' },
+  { href: '/vocabulary', label: 'Vocabulary Trainer', icon: Brain, description: 'Learn words with spaced repetition', tag: '' },
+  { href: '/practice/vocabulary', label: 'Vocabulary Practice', icon: GraduationCap, description: 'Fill-in-the-gap exercises by level', tag: 'NEW' },
 ];
 
 export function Navbar() {

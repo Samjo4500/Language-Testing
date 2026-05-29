@@ -25,6 +25,7 @@ function getStaticCourseEnrollments() {
         title: l.title,
         contentType: l.contentType,
         estimatedMinutes: l.estimatedMinutes,
+        videoUrl: l.videoUrl || null,
       })),
     }));
 
@@ -88,7 +89,7 @@ export async function GET(request: NextRequest) {
                 lessons: {
                   where: { isPublished: true },
                   orderBy: [{ order: 'asc' }, { lessonNumber: 'asc' }],
-                  select: { id: true, lessonNumber: true, title: true, contentType: true, estimatedMinutes: true },
+                  select: { id: true, lessonNumber: true, title: true, contentType: true, estimatedMinutes: true, videoUrl: true },
                 },
               },
             },
@@ -155,7 +156,7 @@ export async function GET(request: NextRequest) {
                 lessons: {
                   where: { isPublished: true },
                   orderBy: [{ order: 'asc' }, { lessonNumber: 'asc' }],
-                  select: { id: true, lessonNumber: true, title: true, contentType: true, estimatedMinutes: true },
+                  select: { id: true, lessonNumber: true, title: true, contentType: true, estimatedMinutes: true, videoUrl: true },
                 },
               },
             },
@@ -211,7 +212,7 @@ export async function GET(request: NextRequest) {
                   lessons: {
                     where: { isPublished: true },
                     orderBy: [{ order: 'asc' }, { lessonNumber: 'asc' }],
-                    select: { id: true, lessonNumber: true, title: true, contentType: true, estimatedMinutes: true },
+                    select: { id: true, lessonNumber: true, title: true, contentType: true, estimatedMinutes: true, videoUrl: true },
                   },
                 },
               },

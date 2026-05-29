@@ -189,6 +189,11 @@ const VOCAB_DATA = [
 ];
 
 export async function POST(request: NextRequest) {
+  // Block in production
+  if (process.env.NODE_ENV === 'production') {
+    return NextResponse.json({ error: 'Seed endpoints disabled in production' }, { status: 403 });
+  }
+
   try {
     const user = getAuthUser(request);
     if (!user) {

@@ -9,38 +9,38 @@ datasource db {
 }
 
 model User {
-  id               String    @id @default(cuid())
-  email            String    @unique
-  name             String?
-  passwordHash     String
-  plan             String    @default("free") // "free" | "premium" | "pro"
-  role             String    @default("user") // "user" | "admin"
-  accountType      String    @default("individual") // "individual" | "university" | "business"
-  organizationName String? // Name of university/company (for B2B accounts)
-  organizationId   String? // FK to Organization (for B2B users)
-  isDemo           Boolean   @default(false) // true for auto-generated demo accounts
-  isSuspended      Boolean   @default(false) // Admin can suspend user accounts
-  status           String    @default("active") // "active" | "suspended" | "banned" | "deactivated"
-  referralCode     String?   @unique // Unique referral code for the user
-  emailVerified    Boolean   @default(false)
-  testCredits      Int       @default(0) // number of tests remaining
-  country          String? // user's country from IP at signup
-  avatarUrl        String? // Profile photo URL
-  phone            String? // Phone number
-  gender           String? // "male" | "female" | "non-binary" | "prefer-not-to-say"
-  dateOfBirth      DateTime? // Date of birth
-  bio              String? // Short bio about themselves (max 500 chars)
-  englishLevel     String? // Self-reported: "A1" | "A2" | "B1" | "B2" | "C1" | "C2"
-  occupation       String? // Job title or "Student", "Teacher", etc.
-  isProfileComplete Boolean  @default(false) // Whether user has filled in their profile
-  interests        String? // JSON array: ["travel","photography","cooking","sports","music","movies","technology","art","reading","gaming"]
-  isVerified       Boolean  @default(false) // Email verified + profile complete
-  trustScore       Int      @default(0) // 0-100 score based on activity
-  tokenVersion     Int       @default(0) // incremented on logout/password change to invalidate old tokens
-  planExpiresAt    DateTime? // when the plan expires (for subscriptions)
-  passwordResetAt  DateTime? // timestamp of last successful password reset (used to invalidate old reset tokens)
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
+  id                String    @id @default(cuid())
+  email             String    @unique
+  name              String?
+  passwordHash      String
+  plan              String    @default("free") // "free" | "premium" | "pro"
+  role              String    @default("user") // "user" | "admin"
+  accountType       String    @default("individual") // "individual" | "university" | "business"
+  organizationName  String? // Name of university/company (for B2B accounts)
+  organizationId    String? // FK to Organization (for B2B users)
+  isDemo            Boolean   @default(false) // true for auto-generated demo accounts
+  isSuspended       Boolean   @default(false) // Admin can suspend user accounts
+  status            String    @default("active") // "active" | "suspended" | "banned" | "deactivated"
+  referralCode      String?   @unique // Unique referral code for the user
+  emailVerified     Boolean   @default(false)
+  testCredits       Int       @default(0) // number of tests remaining
+  country           String? // user's country from IP at signup
+  avatarUrl         String? // Profile photo URL
+  phone             String? // Phone number
+  gender            String? // "male" | "female" | "non-binary" | "prefer-not-to-say"
+  dateOfBirth       DateTime? // Date of birth
+  bio               String? // Short bio about themselves (max 500 chars)
+  englishLevel      String? // Self-reported: "A1" | "A2" | "B1" | "B2" | "C1" | "C2"
+  occupation        String? // Job title or "Student", "Teacher", etc.
+  isProfileComplete Boolean   @default(false) // Whether user has filled in their profile
+  interests         String? // JSON array: ["travel","photography","cooking","sports","music","movies","technology","art","reading","gaming"]
+  isVerified        Boolean   @default(false) // Email verified + profile complete
+  trustScore        Int       @default(0) // 0-100 score based on activity
+  tokenVersion      Int       @default(0) // incremented on logout/password change to invalidate old tokens
+  planExpiresAt     DateTime? // when the plan expires (for subscriptions)
+  passwordResetAt   DateTime? // timestamp of last successful password reset (used to invalidate old reset tokens)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
 
   payments          Payment[]            @relation("UserPayments")
   assessments       Assessment[]         @relation("UserAssessments")
@@ -50,16 +50,16 @@ model User {
   seenQuestions     SeenQuestion[]       @relation("UserSeenQuestions")
   orgMembership     OrganizationMember[] @relation("UserOrgMembership")
   courseEnrollments CourseEnrollment[]   @relation("UserCourseEnrollments")
-  languageProfile  LanguageProfile?  @relation("UserLanguageProfile")
-  chatMessages     ChatRoomMessage[] @relation("UserChatMessages")
-  notifications    Notification[]    @relation("UserNotifications")
-  moments          Moment[]         @relation("UserMoments")
-  momentComments   MomentComment[]   @relation("UserMomentComments")
-  momentLikes      MomentLike[]      @relation("UserMomentLikes")
-  vocabProgress    UserVocabProgress[] @relation("UserVocabProgress")
-  supportTickets   SupportTicket[]      @relation("UserSupportTickets")
-  emailQueue       EmailQueue[]         @relation("UserEmailQueue")
-  reports          Report[]             @relation("UserReports")
+  languageProfile   LanguageProfile?     @relation("UserLanguageProfile")
+  chatMessages      ChatRoomMessage[]    @relation("UserChatMessages")
+  notifications     Notification[]       @relation("UserNotifications")
+  moments           Moment[]             @relation("UserMoments")
+  momentComments    MomentComment[]      @relation("UserMomentComments")
+  momentLikes       MomentLike[]         @relation("UserMomentLikes")
+  vocabProgress     UserVocabProgress[]  @relation("UserVocabProgress")
+  supportTickets    SupportTicket[]      @relation("UserSupportTickets")
+  emailQueue        EmailQueue[]         @relation("UserEmailQueue")
+  reports           Report[]             @relation("UserReports")
 
   @@index([organizationId])
 }
@@ -156,13 +156,13 @@ model Certificate {
   score          Int
   skillBreakdown String   @default("{}") // JSON: { reading: 80, writing: 80, listening: 60, speaking: 80, grammar: 100, vocabulary: 80 }
   type           String   @default("assessment") // "assessment" | "course_completion"
-  courseName     String?  // For course_completion certificates: the course title
+  courseName     String? // For course_completion certificates: the course title
   issuedAt       DateTime @default(now())
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
   user       User        @relation("UserCertificates", fields: [userId], references: [id], onDelete: Cascade)
-  assessment Assessment?  @relation("AssessmentCertificate", fields: [assessmentId], references: [id], onDelete: Cascade)
+  assessment Assessment? @relation("AssessmentCertificate", fields: [assessmentId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([issuedAt])
@@ -542,17 +542,17 @@ model LessonProgress {
 // ═══════════════════════════════════════════════════════════
 
 model LanguageProfile {
-  id              String   @id @default(cuid())
-  userId          String   @unique
-  nativeLanguage  String   // ISO 639-1 code: "en", "es", "fr", "zh", "ja", "ko", "de", "pt", "ar", "ru", "it", "hi", "tr", "nl", "sv"
-  targetLanguages String   // JSON array of ISO codes: ["en","es"]
-  proficiencyLevel String  @default("intermediate") // "beginner" | "intermediate" | "advanced" | "native"
-  timezone        String?  // IANA timezone: "America/New_York"
-  isOnline        Boolean  @default(false)
-  lastSeenAt      DateTime @default(now())
-  isDiscoverable  Boolean  @default(true) // Whether they appear in partner search
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id               String   @id @default(cuid())
+  userId           String   @unique
+  nativeLanguage   String // ISO 639-1 code: "en", "es", "fr", "zh", "ja", "ko", "de", "pt", "ar", "ru", "it", "hi", "tr", "nl", "sv"
+  targetLanguages  String // JSON array of ISO codes: ["en","es"]
+  proficiencyLevel String   @default("intermediate") // "beginner" | "intermediate" | "advanced" | "native"
+  timezone         String? // IANA timezone: "America/New_York"
+  isOnline         Boolean  @default(false)
+  lastSeenAt       DateTime @default(now())
+  isDiscoverable   Boolean  @default(true) // Whether they appear in partner search
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   user             User             @relation("UserLanguageProfile", fields: [userId], references: [id], onDelete: Cascade)
   sentRequests     PartnerRequest[] @relation("SentRequests")
@@ -569,7 +569,7 @@ model PartnerRequest {
   id         String   @id @default(cuid())
   fromUserId String
   toUserId   String
-  message    String?  // Optional introduction message
+  message    String? // Optional introduction message
   status     String   @default("pending") // "pending" | "accepted" | "declined" | "cancelled"
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -584,12 +584,12 @@ model PartnerRequest {
 }
 
 model Conversation {
-  id           String    @id @default(cuid())
-  user1Id      String    // The user who initiated
-  user2Id      String    // The partner
-  lastMessageAt DateTime  @default(now())
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  id            String   @id @default(cuid())
+  user1Id       String // The user who initiated
+  user2Id       String // The partner
+  lastMessageAt DateTime @default(now())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   user1    LanguageProfile @relation("User1Conversations", fields: [user1Id], references: [userId], onDelete: Cascade)
   user2    LanguageProfile @relation("User2Conversations", fields: [user2Id], references: [userId], onDelete: Cascade)
@@ -602,15 +602,15 @@ model Conversation {
 }
 
 model Message {
-  id             String   @id @default(cuid())
-  conversationId String
-  senderId       String   // userId of the sender
-  content        String   // Message text
-  type           String   @default("text") // "text" | "system" | "correction"
-  correctionOriginal String? // For correction type: the original text being corrected
+  id                    String   @id @default(cuid())
+  conversationId        String
+  senderId              String // userId of the sender
+  content               String // Message text
+  type                  String   @default("text") // "text" | "system" | "correction"
+  correctionOriginal    String? // For correction type: the original text being corrected
   correctionExplanation String? // For correction type: explanation of the correction
-  isRead         Boolean  @default(false)
-  createdAt      DateTime @default(now())
+  isRead                Boolean  @default(false)
+  createdAt             DateTime @default(now())
 
   conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 
@@ -626,12 +626,12 @@ model Message {
 
 model ChatRoom {
   id          String   @id @default(cuid())
-  name        String   // "Global English Chat", "Beginners Corner", etc.
+  name        String // "Global English Chat", "Beginners Corner", etc.
   slug        String   @unique // "global", "beginners", "intermediate", etc.
-  description String?  // Room description
-  language    String?  // ISO 639-1 code or "multilingual"
-  levelRange  String?  // "A1-A2", "B1-B2", "C1-C2", or "all"
-  imageUrl    String?  // Room icon/banner
+  description String? // Room description
+  language    String? // ISO 639-1 code or "multilingual"
+  levelRange  String? // "A1-A2", "B1-B2", "C1-C2", or "all"
+  imageUrl    String? // Room icon/banner
   isPublic    Boolean  @default(true)
   maxMembers  Int      @default(0) // 0 = unlimited
   createdAt   DateTime @default(now())
@@ -644,16 +644,16 @@ model ChatRoom {
 }
 
 model ChatRoomMessage {
-  id          String   @id @default(cuid())
-  roomId      String
-  userId      String
-  userName    String   // Denormalized for fast display
-  userAvatar  String?  // Denormalized avatar URL
-  content     String   // Message text
-  type        String   @default("text") // "text" | "system" | "image"
-  imageUrl    String?  // For image type messages
-  isDeleted   Boolean  @default(false)
-  createdAt   DateTime @default(now())
+  id         String   @id @default(cuid())
+  roomId     String
+  userId     String
+  userName   String // Denormalized for fast display
+  userAvatar String? // Denormalized avatar URL
+  content    String // Message text
+  type       String   @default("text") // "text" | "system" | "image"
+  imageUrl   String? // For image type messages
+  isDeleted  Boolean  @default(false)
+  createdAt  DateTime @default(now())
 
   room ChatRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
   user User     @relation("UserChatMessages", fields: [userId], references: [id], onDelete: Cascade)
@@ -668,14 +668,14 @@ model ChatRoomMessage {
 // ═══════════════════════════════════════════════════════════
 
 model Notification {
-  id         String   @id @default(cuid())
-  userId     String
-  type       String   // "welcome" | "assessment_complete" | "partner_request" | "partner_accepted" | "course_enrolled" | "certificate_ready" | "plan_upgrade" | "system" | "chat_message"
-  title      String
-  message    String
-  isRead     Boolean  @default(false)
-  actionUrl  String?  // URL to navigate when clicked
-  createdAt  DateTime @default(now())
+  id        String   @id @default(cuid())
+  userId    String
+  type      String // "welcome" | "assessment_complete" | "partner_request" | "partner_accepted" | "course_enrolled" | "certificate_ready" | "plan_upgrade" | "system" | "chat_message"
+  title     String
+  message   String
+  isRead    Boolean  @default(false)
+  actionUrl String? // URL to navigate when clicked
+  createdAt DateTime @default(now())
 
   user User @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
 
@@ -688,20 +688,20 @@ model Notification {
 // ═══════════════════════════════════════════════════════════
 
 model Moment {
-  id          String   @id @default(cuid())
-  userId      String
-  content     String   // Text content (max 1000 chars)
-  imageUrl    String?  // Optional attached image
-  audioUrl    String?  // Optional audio recording (base64 or URL)
-  language    String?  // ISO code of the language this post is in
-  tags        String?  // JSON array of tags: ["grammar","vocabulary","culture"]
-  likesCount  Int      @default(0)
-  commentsCount Int    @default(0)
-  isDeleted   Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            String   @id @default(cuid())
+  userId        String
+  content       String // Text content (max 1000 chars)
+  imageUrl      String? // Optional attached image
+  audioUrl      String? // Optional audio recording (base64 or URL)
+  language      String? // ISO code of the language this post is in
+  tags          String? // JSON array of tags: ["grammar","vocabulary","culture"]
+  likesCount    Int      @default(0)
+  commentsCount Int      @default(0)
+  isDeleted     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
-  user     User           @relation("UserMoments", fields: [userId], references: [id], onDelete: Cascade)
+  user     User            @relation("UserMoments", fields: [userId], references: [id], onDelete: Cascade)
   comments MomentComment[]
   likes    MomentLike[]
 
@@ -711,13 +711,13 @@ model Moment {
 }
 
 model MomentComment {
-  id        String   @id @default(cuid())
-  momentId  String
-  userId    String
-  content   String   // Max 500 chars
-  isCorrection Boolean @default(false)
+  id            String   @id @default(cuid())
+  momentId      String
+  userId        String
+  content       String // Max 500 chars
+  isCorrection  Boolean  @default(false)
   correctedText String? // If this is a correction comment
-  createdAt DateTime @default(now())
+  createdAt     DateTime @default(now())
 
   moment Moment @relation(fields: [momentId], references: [id], onDelete: Cascade)
   user   User   @relation("UserMomentComments", fields: [userId], references: [id], onDelete: Cascade)
@@ -742,18 +742,24 @@ model MomentLike {
 // ═══════════════════════════════════════════════════════════
 
 model VocabWord {
-  id           String   @id @default(cuid())
-  word         String
-  definition   String
-  example      String
+  id            String   @id @default(cuid())
+  word          String
+  definition    String
+  example       String
   pronunciation String?
-  level        String   // "A1" | "A2" | "B1" | "B2" | "C1" | "C2"
-  category     String   // "general" | "business" | "travel" | "academic" | "idioms" | "phrasal_verbs"
-  audioUrl     String?
-  isActive     Boolean  @default(true)
-  createdAt    DateTime @default(now())
+  level         String // "A1" | "A2" | "B1" | "B2" | "C1" | "C2"
+  category      String // "general" | "business" | "travel" | "academic" | "idioms" | "phrasal_verbs"
+  audioUrl      String?
+  isActive      Boolean  @default(true)
+  gapSentence   String? // Sentence with ___ for gap exercise
+  synonyms      String? // JSON array of synonyms
+  antonyms      String? // JSON array of antonyms
+  partOfSpeech  String? // noun, verb, adjective, etc.
+  distractors   String? // JSON array of 3 distractor words for MC exercises
+  createdAt     DateTime @default(now())
 
-  progress     UserVocabProgress[]
+  progress  UserVocabProgress[]
+  exercises ExerciseAttempt[]
 
   @@unique([word, level, category])
   @@index([level, category, isActive])
@@ -761,23 +767,46 @@ model VocabWord {
 }
 
 model UserVocabProgress {
-  id            String   @id @default(cuid())
-  userId        String
-  wordId        String
-  box           Int      @default(1) // 1-5 (Leitner box system)
-  nextReview    DateTime @default(now())
-  correctStreak Int      @default(0)
-  totalReviews  Int      @default(0)
-  lastReviewed  DateTime?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id             String    @id @default(cuid())
+  userId         String
+  wordId         String
+  box            Int       @default(1) // 1-5 (Leitner box system)
+  nextReview     DateTime  @default(now())
+  correctStreak  Int       @default(0)
+  totalReviews   Int       @default(0)
+  lastReviewed   DateTime?
+  timesIncorrect Int       @default(0)
+  masteryScore   Float     @default(0) // 0-100
+  status         String    @default("new") // new, learning, mastered, needs_review
+  bestScore      Int       @default(0)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 
-  user User       @relation("UserVocabProgress", fields: [userId], references: [id], onDelete: Cascade)
-  word VocabWord  @relation(fields: [wordId], references: [id], onDelete: Cascade)
+  user User      @relation("UserVocabProgress", fields: [userId], references: [id], onDelete: Cascade)
+  word VocabWord @relation(fields: [wordId], references: [id], onDelete: Cascade)
 
   @@unique([userId, wordId])
   @@index([userId, nextReview])
   @@index([userId, wordId])
+}
+
+model ExerciseAttempt {
+  id           String   @id @default(cuid())
+  userId       String
+  wordId       String
+  exerciseType String // fill_gap, sentence_builder, multiple_choice
+  isCorrect    Boolean
+  score        Int
+  timeSpentMs  Int // Time taken in milliseconds
+  usedHint     Boolean  @default(false)
+  attempts     Int      @default(1) // How many tries before correct/wrong
+  createdAt    DateTime @default(now())
+
+  word VocabWord @relation(fields: [wordId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([wordId])
+  @@index([createdAt])
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -785,18 +814,18 @@ model UserVocabProgress {
 // ═══════════════════════════════════════════════════════════
 
 model SupportTicket {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   userId      String
   subject     String
   description String
-  status      String   @default("open") // "open" | "in_progress" | "resolved" | "closed"
-  priority    String   @default("medium") // "low" | "medium" | "high" | "urgent"
+  status      String    @default("open") // "open" | "in_progress" | "resolved" | "closed"
+  priority    String    @default("medium") // "low" | "medium" | "high" | "urgent"
   category    String? // "technical" | "billing" | "account" | "content" | "other"
   assignedTo  String? // Admin user ID
   response    String? // Admin response
   respondedAt DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   user User @relation("UserSupportTickets", fields: [userId], references: [id], onDelete: Cascade)
 
@@ -807,18 +836,18 @@ model SupportTicket {
 }
 
 model Report {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   reporterId  String
-  targetId    String   // ID of the reported user/content
-  targetType  String   // "user" | "message" | "moment" | "comment"
-  reason      String   // "spam" | "harassment" | "inappropriate" | "cheating" | "other"
+  targetId    String // ID of the reported user/content
+  targetType  String // "user" | "message" | "moment" | "comment"
+  reason      String // "spam" | "harassment" | "inappropriate" | "cheating" | "other"
   description String?
-  status      String   @default("pending") // "pending" | "reviewed" | "dismissed" | "actioned"
-  reviewedBy  String?  // Admin user ID who reviewed
-  reviewNote  String?  // Admin's note
+  status      String    @default("pending") // "pending" | "reviewed" | "dismissed" | "actioned"
+  reviewedBy  String? // Admin user ID who reviewed
+  reviewNote  String? // Admin's note
   reviewedAt  DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   reporter User @relation("UserReports", fields: [reporterId], references: [id], onDelete: Cascade)
 
@@ -829,14 +858,14 @@ model Report {
 }
 
 model AuditLog {
-  id        String   @id @default(cuid())
-  adminId   String?  // Admin who performed the action
-  action    String   // "user_suspend" | "user_ban" | "user_update" | "report_review" | "ticket_respond" | "coupon_create" | "settings_update" | "data_export"
-  targetType String  // "user" | "report" | "ticket" | "coupon" | "system"
-  targetId  String?  // ID of the affected entity
-  details   String?  // JSON string with action details
-  ipAddress String?
-  createdAt DateTime @default(now())
+  id         String   @id @default(cuid())
+  adminId    String? // Admin who performed the action
+  action     String // "user_suspend" | "user_ban" | "user_update" | "report_review" | "ticket_respond" | "coupon_create" | "settings_update" | "data_export"
+  targetType String // "user" | "report" | "ticket" | "coupon" | "system"
+  targetId   String? // ID of the affected entity
+  details    String? // JSON string with action details
+  ipAddress  String?
+  createdAt  DateTime @default(now())
 
   @@index([adminId])
   @@index([action])
@@ -845,33 +874,33 @@ model AuditLog {
 }
 
 model Announcement {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   title     String
   content   String
-  type      String   @default("info") // "info" | "warning" | "maintenance" | "feature"
-  isActive  Boolean  @default(true)
-  startsAt  DateTime @default(now())
+  type      String    @default("info") // "info" | "warning" | "maintenance" | "feature"
+  isActive  Boolean   @default(true)
+  startsAt  DateTime  @default(now())
   expiresAt DateTime?
-  createdBy String?  // Admin user ID
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdBy String? // Admin user ID
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   @@index([isActive, startsAt])
   @@index([createdAt])
 }
 
 model Coupon {
-  id          String   @id @default(cuid())
-  code        String   @unique
-  discountPct Int      // Discount percentage (e.g., 20 for 20% off)
-  maxUses     Int      @default(100) // Maximum number of uses
-  currentUses Int      @default(0)
-  plan        String   @default("premium") // Which plan it applies to
-  isActive    Boolean  @default(true)
+  id          String    @id @default(cuid())
+  code        String    @unique
+  discountPct Int // Discount percentage (e.g., 20 for 20% off)
+  maxUses     Int       @default(100) // Maximum number of uses
+  currentUses Int       @default(0)
+  plan        String    @default("premium") // Which plan it applies to
+  isActive    Boolean   @default(true)
   expiresAt   DateTime?
-  createdBy   String?  // Admin user ID
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdBy   String? // Admin user ID
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   @@index([code])
   @@index([isActive])
@@ -883,17 +912,17 @@ model Coupon {
 // ═══════════════════════════════════════════════════════════
 
 model EmailQueue {
-  id           String   @id @default(cuid())
-  userId       String   // Recipient user ID
-  to           String   // Recipient email
-  emailType    String   // "nurture_day0" | "nurture_day1" ... "nurture_day6" | "cart_recovery" | "ticket_reply"
-  status       String   @default("pending") // "pending" | "sent" | "failed" | "cancelled"
-  sendAt       DateTime // When to send (UTC)
-  sentAt       DateTime? // When actually sent
-  payload      String?  // JSON: template-specific data (cefrLevel, score, planType, ticketId, etc.)
-  error        String?  // Error message if failed
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id        String    @id @default(cuid())
+  userId    String // Recipient user ID
+  to        String // Recipient email
+  emailType String // "nurture_day0" | "nurture_day1" ... "nurture_day6" | "cart_recovery" | "ticket_reply"
+  status    String    @default("pending") // "pending" | "sent" | "failed" | "cancelled"
+  sendAt    DateTime // When to send (UTC)
+  sentAt    DateTime? // When actually sent
+  payload   String? // JSON: template-specific data (cefrLevel, score, planType, ticketId, etc.)
+  error     String? // Error message if failed
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   user User? @relation("UserEmailQueue", fields: [userId], references: [id], onDelete: Cascade)
 
@@ -903,14 +932,14 @@ model EmailQueue {
 }
 
 model ErrorLog {
-  id         String   @id @default(cuid())
-  errorType  String   // "runtime" | "api" | "database" | "auth" | "payment"
-  message    String
-  stack      String?  // Stack trace
-  url        String?  // Request URL
-  userId     String?  // User involved (if any)
-  resolved   Boolean  @default(false)
-  createdAt  DateTime @default(now())
+  id        String   @id @default(cuid())
+  errorType String // "runtime" | "api" | "database" | "auth" | "payment"
+  message   String
+  stack     String? // Stack trace
+  url       String? // Request URL
+  userId    String? // User involved (if any)
+  resolved  Boolean  @default(false)
+  createdAt DateTime @default(now())
 
   @@index([errorType, createdAt])
   @@index([resolved])
@@ -918,30 +947,30 @@ model ErrorLog {
 }
 
 model DeploymentLog {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   version     String
-  environment String   @default("production") // "production" | "staging" | "development"
-  status      String   @default("pending") // "pending" | "deploying" | "success" | "failed" | "rolled_back"
+  environment String    @default("production") // "production" | "staging" | "development"
+  status      String    @default("pending") // "pending" | "deploying" | "success" | "failed" | "rolled_back"
   notes       String?
-  deployedBy  String?  // Admin user ID
-  startedAt   DateTime @default(now())
+  deployedBy  String? // Admin user ID
+  startedAt   DateTime  @default(now())
   completedAt DateTime?
-  createdAt   DateTime @default(now())
+  createdAt   DateTime  @default(now())
 
   @@index([environment, status])
   @@index([startedAt])
 }
 
 model SharedMedia {
-  id          String   @id @default(cuid())
-  uploaderId  String
-  url         String
-  type        String   // "image" | "video" | "audio" | "document"
-  mimeType    String?
-  sizeBytes   Int?
-  filename    String?
-  status      String   @default("active") // "active" | "flagged" | "removed"
-  createdAt   DateTime @default(now())
+  id         String   @id @default(cuid())
+  uploaderId String
+  url        String
+  type       String // "image" | "video" | "audio" | "document"
+  mimeType   String?
+  sizeBytes  Int?
+  filename   String?
+  status     String   @default("active") // "active" | "flagged" | "removed"
+  createdAt  DateTime @default(now())
 
   @@index([uploaderId])
   @@index([type, status])

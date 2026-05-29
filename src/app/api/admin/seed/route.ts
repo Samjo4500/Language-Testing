@@ -9,6 +9,11 @@ import { adminLimiter } from '@/lib/rate-limit';
  * speaking prompts, and writing prompts. Ensures admin has proper access.
  */
 export async function POST(request: NextRequest) {
+  // Block in production
+  if (process.env.NODE_ENV === 'production') {
+    return NextResponse.json({ error: 'Seed endpoints disabled in production' }, { status: 403 });
+  }
+
   // Rate limit: 60 requests per minute per IP
   const limitError = adminLimiter(request);
   if (limitError) return limitError;

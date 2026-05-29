@@ -178,6 +178,11 @@ function generateEmail(name: string, index: number): string {
 // ─── Seed Route ───────────────────────────────────────────
 
 export async function POST(request: NextRequest) {
+  // Block in production
+  if (process.env.NODE_ENV === 'production') {
+    return NextResponse.json({ error: 'Seed endpoints disabled in production' }, { status: 403 });
+  }
+
   try {
     // Allow seeding without admin auth for initial setup (if < 10 profiles exist)
     // This ensures the Community feature is populated on first deployment

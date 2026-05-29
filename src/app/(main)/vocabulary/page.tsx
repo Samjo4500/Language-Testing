@@ -15,6 +15,7 @@ import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent } from '@/components/ui/card';
+import InteractiveVocabulary from '@/components/InteractiveVocabulary';
 
 // ── Types ──
 interface VocabWord {
@@ -131,7 +132,7 @@ export default function VocabularyPage() {
   const { user, isAuthenticated, isLoading: authLoading } = useAuthStore();
 
   // ── State ──
-  const [mode, setMode] = useState<'learn' | 'review' | 'mywords'>('learn');
+  const [mode, setMode] = useState<'learn' | 'review' | 'mywords' | 'practice'>('learn');
   const [levelFilter, setLevelFilter] = useState('All');
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [words, setWords] = useState<VocabWord[]>([]);
@@ -471,7 +472,7 @@ export default function VocabularyPage() {
 
       {/* ── Mode tabs ── */}
       <div className="max-w-4xl mx-auto px-4 py-2">
-        <Tabs value={mode} onValueChange={(v) => setMode(v as 'learn' | 'review' | 'mywords')}>
+        <Tabs value={mode} onValueChange={(v) => setMode(v as 'learn' | 'review' | 'mywords' | 'practice')}>
           <TabsList className="bg-white/5 border border-white/10 w-full">
             <TabsTrigger
               value="learn"
@@ -498,6 +499,13 @@ export default function VocabularyPage() {
               )}
             </TabsTrigger>
             <TabsTrigger
+              value="practice"
+              className="flex-1 data-[state=active]:bg-violet-500/20 data-[state=active]:text-violet-300 text-gray-400 text-xs"
+            >
+              <Zap className="w-3.5 h-3.5 mr-1.5" />
+              Practice
+            </TabsTrigger>
+            <TabsTrigger
               value="mywords"
               className="flex-1 data-[state=active]:bg-blue-500/20 data-[state=active]:text-blue-300 text-gray-400 text-xs"
             >
@@ -510,15 +518,25 @@ export default function VocabularyPage() {
 
       {/* ── Main content ── */}
       <div className="max-w-4xl mx-auto px-4 py-4">
+        {/* Practice mode: InteractiveVocabulary component */}
+        {mode === 'practice' && (
+          <InteractiveVocabulary
+            onComplete={(results) => {
+              // Refresh stats after a practice session completes
+              fetchStats();
+            }}
+          />
+        )}
+
         {/* Loading state */}
-        {loading && (
+        {mode !== 'practice' && loading && (
           <div className="flex items-center justify-center py-20">
             <Loader2 className="w-8 h-8 text-violet-400 animate-spin" />
           </div>
         )}
 
         {/* Seeding state */}
-        {seeding && (
+        {mode !== 'practice' && seeding && (
           <div className="flex flex-col items-center justify-center py-20 gap-3">
             <Loader2 className="w-8 h-8 text-violet-400 animate-spin" />
             <p className="text-gray-400 text-sm">Loading vocabulary data...</p>

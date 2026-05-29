@@ -72,7 +72,8 @@ export async function GET(request: NextRequest) {
     await ensureDefaultRooms();
 
     // Auto-seed: if rooms have 0 messages, seed the community (run once per server lifecycle)
-    if (!autoSeedChecked) {
+    // Disabled in production — seed data should not be auto-created in live environments
+    if (!autoSeedChecked && process.env.NODE_ENV !== 'production') {
       autoSeedChecked = true;
       try {
         const totalMessages = await db.chatRoomMessage.count({ where: { isDeleted: false } });

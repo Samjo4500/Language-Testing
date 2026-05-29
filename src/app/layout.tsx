@@ -24,12 +24,9 @@ const siteUrl = 'https://testcefr.com';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: {
-    default: 'TestCEFR - Free English Level Test & CEFR Certification',
-    template: '%s | TestCEFR',
-  },
+  title: 'TestCEFR — AI-Powered English Certification',
   description:
-    'Take a free AI-powered English level test and get your CEFR certification. Assess reading, writing, listening, speaking, grammar & vocabulary with accurate A1–C2 ratings and QR-verified certificates.',
+    'Take a free CEFR assessment and get your English certificate. AI-powered testing for A1-C2 levels with instant results.',
   keywords: [
     'CEFR',
     'English test',
@@ -61,39 +58,31 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
+    images: ['/og-image.png'],
+    title: 'TestCEFR — AI-Powered English Certification',
+    description: 'Take a free CEFR assessment and get your English certificate.',
     type: 'website',
-    locale: 'en_US',
     url: siteUrl,
     siteName: 'TestCEFR',
-    title: 'TestCEFR - Free English Level Test & CEFR Certification',
-    description:
-      'Take a free AI-powered English level test and get your CEFR certification. Accurate A1–C2 ratings with QR-verified certificates.',
-    images: [
-      {
-        url: '/og-image.png',
-        width: 1344,
-        height: 768,
-        alt: 'TestCEFR — AI-Powered English Proficiency Assessment',
-      },
-    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'TestCEFR - Free English Level Test & CEFR Certification',
-    description:
-      'Take a free AI-powered English level test and get your CEFR certification. Accurate A1–C2 ratings with QR-verified certificates.',
-    creator: '@testcefr',
     images: ['/og-image.png'],
+    title: 'TestCEFR — AI-Powered English Certification',
+    description: 'Take a free CEFR assessment and get your English certificate.',
   },
   alternates: {
     canonical: siteUrl,
   },
   icons: {
     icon: [
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
       { url: '/favicon.ico', sizes: '48x48' },
-      { url: '/favicon.png', sizes: '1024x1024', type: 'image/png' },
     ],
-    apple: '/apple-touch-icon.png',
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180' },
+    ],
   },
 };
 

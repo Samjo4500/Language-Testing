@@ -3,7 +3,8 @@ import { capturePayPalOrder } from '@/lib/paypal';
 import { getAuthUser, verifyTokenVersion } from '@/lib/auth-middleware';
 import { db } from '@/lib/db';
 import { generateTokens } from '@/lib/auth';
-import { sendPaymentConfirmation, sendAdminNewPayment } from '@/lib/email';
+import { sendAdminNewPayment } from '@/lib/email';
+import { send as sendBrandedPaymentConfirm } from '@/lib/email/templates/payment-confirm';
 import { setAuthCookies } from '@/lib/cookie-auth';
 import { PLAN_CONFIG } from '@/lib/plans';
 import { trackPurchaseServerSide } from '@/lib/analytics';
@@ -112,16 +113,18 @@ export async function POST(request: NextRequest) {
       return { payment, dbUser };
     });
 
-    // Send payment confirmation email (fire-and-forget)
+    // Send branded payment confirmation email (fire-and-forget, won't break on failure)
     if (dbUser) {
-      sendPaymentConfirmation(
-        dbUser.name || dbUser.email.split('@')[0],
-        dbUser.email,
-        config.planName,
-        amount,
-        captureId || orderID,
-        dbUser.id
-      ).catch((err) => console.error('Payment confirmation email error:', err));
+      const formattedAmount = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+      const isCertificate = planType === 'single';
+      sendBrandedPaymentConfirm(dbUser.email, {
+        firstName: dbUser.name || 'there',
+        amount: formattedAmount,
+        planName: config.planName,
+        transactionId: captureId || orderID,
+        paymentDate: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+        isCertificate,
+      }).catch((err) => console.error('Payment confirmation email error:', err));
 
       // Notify admin of new payment (fire-and-forget)
       sendAdminNewPayment(

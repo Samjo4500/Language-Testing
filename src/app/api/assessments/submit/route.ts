@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { getAuthUser, verifyTokenVersion } from '@/lib/auth-middleware';
-import { sendAssessmentComplete } from '@/lib/email';
+import { send as sendBrandedTestResults } from '@/lib/email/templates/test-results';
 import { enqueueNurtureSequence } from '@/lib/email-queue';
 import type { NurturePayload } from '@/lib/email-queue';
 
@@ -135,8 +135,16 @@ export async function POST(request: NextRequest) {
     });
 
     if (user) {
-      sendAssessmentComplete(user.name || user.email.split('@')[0], user.email, cefrLevel, score, user.id)
-        .catch((err) => console.error('Assessment complete email error:', err));
+      // Send branded test results email (fire-and-forget, won't break on failure)
+      const breakdown = skillBreakdown as unknown as Record<string, number>;
+      sendBrandedTestResults(user.email, {
+        firstName: user.name || 'there',
+        cefrLevel,
+        grammarScore: breakdown.grammar || 0,
+        vocabScore: breakdown.vocabulary || 0,
+        readingScore: breakdown.reading || 0,
+        listeningScore: breakdown.listening || 0,
+      }).catch((err) => console.error('Test results email send error:', err));
 
       // Enqueue nurture sequence for free-tier users (7 emails over 6 days)
       if (user.plan === 'free') {
@@ -144,7 +152,6 @@ export async function POST(request: NextRequest) {
         const categories = ['reading', 'writing', 'listening', 'speaking', 'grammar', 'vocabulary'] as const;
         let weakestSkill = 'grammar';
         let weakestScore = 100;
-        const breakdown = skillBreakdown as unknown as Record<string, number>;
         for (const cat of categories) {
           if (breakdown[cat] < weakestScore) {
             weakestScore = breakdown[cat];

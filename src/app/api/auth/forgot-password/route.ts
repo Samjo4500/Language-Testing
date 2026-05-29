@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { sendPasswordReset } from '@/lib/email';
+import { send as sendBrandedPasswordReset } from '@/lib/email/templates/password-reset';
 import { authLimiter } from '@/lib/rate-limit';
 import { getJwtSecret } from '@/lib/auth';
 import jwt from 'jsonwebtoken';
@@ -44,8 +44,15 @@ export async function POST(request: NextRequest) {
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://testcefr.com';
     const resetLink = `${appUrl}/reset-password?token=${resetToken}`;
 
-    // Send the email
-    await sendPasswordReset(user.name || user.email.split('@')[0], user.email, resetLink);
+    // Send the branded password reset email
+    try {
+      await sendBrandedPasswordReset(user.email, {
+        firstName: user.name || 'there',
+        resetUrl: resetLink,
+      });
+    } catch (err) {
+      console.error('Password reset email send error:', err);
+    }
 
     return NextResponse.json({
       message: 'If an account with that email exists, we have sent a password reset link.',

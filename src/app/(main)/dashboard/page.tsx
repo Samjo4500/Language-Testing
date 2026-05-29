@@ -8,7 +8,7 @@ import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { CheckCircle2, CreditCard, ArrowRight, BookOpen, Award, Download, QrCode, Loader2, Sparkles, Shield, Zap, LogIn, BarChart3, AlertCircle, RotateCcw, GraduationCap, Compass, Trophy, Clock, Layers, Play } from 'lucide-react';
+import { CheckCircle2, CreditCard, ArrowRight, BookOpen, Award, Download, QrCode, Loader2, Sparkles, Shield, Zap, LogIn, BarChart3, AlertCircle, RotateCcw, GraduationCap, Compass, Trophy, Clock, Layers, Play, Brain } from 'lucide-react';
 import { isPaidPlan, getPlanLabel, getPlanBadgeClasses } from '@/lib/plan-utils';
 import { RecommendationBanner } from '@/components/recommendation-banner';
 
@@ -417,6 +417,36 @@ export default function DashboardPage() {
                 </div>
               </div>
             )}
+          </div>
+
+          {/* Vocabulary Practice Quick-Start Card */}
+          <div
+            className="glass-card p-5 cursor-pointer group relative overflow-hidden"
+            onClick={() => router.push('/practice/vocabulary')}
+          >
+            <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-violet-500/10 to-blue-500/10 rounded-full blur-3xl -mr-10 -mt-10 pointer-events-none" />
+            <div className="flex items-center justify-between relative">
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-blue-500 text-white shadow-lg shadow-violet-500/20 transition-transform duration-300 group-hover:scale-110">
+                  <Brain className="h-6 w-6" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-semibold text-white">Practice 10 Words</h3>
+                    <span className="inline-flex items-center rounded-full px-1.5 py-0.5 text-[9px] font-semibold tracking-wide uppercase bg-emerald-500/15 text-emerald-400 border border-emerald-400/20">
+                      NEW
+                    </span>
+                  </div>
+                  <p className="text-xs text-white/40 mt-0.5">Fill-in-the-gap vocabulary exercises &mdash; pick your CEFR level and start in seconds</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                <button className="flex items-center gap-1.5 rounded-xl px-5 py-2.5 bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-500 hover:to-blue-500 text-white font-semibold text-sm transition-all duration-300 shadow-lg shadow-violet-500/20 group-hover:shadow-violet-500/30 group-hover:-translate-y-0.5 cursor-pointer">
+                  <Zap className="h-3.5 w-3.5" />
+                  Start Now
+                </button>
+              </div>
+            </div>
           </div>
 
           {/* Course Recommendation */}

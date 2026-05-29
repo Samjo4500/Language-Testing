@@ -1,46 +1,54 @@
 import { MetadataRoute } from 'next';
+import { db } from '@/lib/db';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://testcefr.com';
-  return [
-    // ── Core Pages ──
-    { url: baseUrl, lastModified: new Date(), changeFrequency: 'weekly', priority: 1 },
-    { url: `${baseUrl}/pricing`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
-    { url: `${baseUrl}/courses`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
-    { url: `${baseUrl}/courses/beginner`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${baseUrl}/courses/intermediate`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${baseUrl}/courses/advanced`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
 
-    // ── Skill Assessments ──
-    { url: `${baseUrl}/reading`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${baseUrl}/speaking`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${baseUrl}/writing`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${baseUrl}/listening`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+  const staticPages = [
+    '', '/about', '/pricing', '/blog', '/courses', '/community',
+    '/test', '/login', '/register', '/contact', '/privacy-policy',
+    '/terms', '/cookie-policy',
+  ].map((path) => ({
+    url: `${baseUrl}${path}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: path === '' ? 1.0 : 0.8,
+  }));
 
-    // ── Learning Tools ──
-    { url: `${baseUrl}/vocabulary`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${baseUrl}/ai-tutor`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
-    { url: `${baseUrl}/grammar-check`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+  // Blog posts — graceful fallback if blogPost table doesn't exist yet
+  let blogUrls: MetadataRoute.Sitemap = [];
+  try {
+    const posts = await (db as any).blogPost?.findMany({
+      where: { published: true },
+      select: { slug: true, updatedAt: true },
+    });
+    if (posts) {
+      blogUrls = posts.map((post: { slug: string; updatedAt: Date }) => ({
+        url: `${baseUrl}/blog/${post.slug}`,
+        lastModified: post.updatedAt,
+        changeFrequency: 'monthly' as const,
+        priority: 0.6,
+      }));
+    }
+  } catch {
+    // blogPost table might not exist — skip gracefully
+  }
 
-    // ── Community ──
-    { url: `${baseUrl}/community`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.7 },
-    { url: `${baseUrl}/community/moments`, lastModified: new Date(), changeFrequency: 'daily', priority: 0.6 },
-    { url: `${baseUrl}/community/chatroom`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
+  // Courses
+  let courseUrls: MetadataRoute.Sitemap = [];
+  try {
+    const courses = await db.course.findMany({
+      select: { slug: true, updatedAt: true },
+    });
+    courseUrls = courses.map((course) => ({
+      url: `${baseUrl}/courses/${course.slug}`,
+      lastModified: course.updatedAt,
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    }));
+  } catch {
+    // courses table might not exist — skip gracefully
+  }
 
-    // ── Informational ──
-    { url: `${baseUrl}/about`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${baseUrl}/faq`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${baseUrl}/contact`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.5 },
-    { url: `${baseUrl}/quick-tour`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${baseUrl}/sample-certificate`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${baseUrl}/sample-report`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
-
-    // ── Auth ──
-    { url: `${baseUrl}/register`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.5 },
-    { url: `${baseUrl}/login`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.4 },
-
-    // ── Legal ──
-    { url: `${baseUrl}/privacy`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
-    { url: `${baseUrl}/terms`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
-  ];
+  return [...staticPages, ...blogUrls, ...courseUrls];
 }

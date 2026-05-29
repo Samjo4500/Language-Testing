@@ -7,6 +7,11 @@ import { getAuthUser, requireAdmin } from '@/lib/auth-middleware';
 // Automatically seeds community profiles if the platform has fewer than 10 profiles.
 // Once 10+ profiles exist, requires admin auth to re-seed.
 export async function POST(request: NextRequest) {
+  // Block in production
+  if (process.env.NODE_ENV === 'production') {
+    return NextResponse.json({ error: 'Seed endpoints disabled in production' }, { status: 403 });
+  }
+
   try {
     const existingCount = await db.languageProfile.count();
 

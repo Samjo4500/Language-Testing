@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { hashPassword, generateTokens, getJwtSecret } from '@/lib/auth';
-import { sendWelcomeEmail, sendEmailVerification, sendAdminNewUser } from '@/lib/email';
+import { sendEmailVerification, sendAdminNewUser } from '@/lib/email';
+import { send as sendBrandedWelcome } from '@/lib/email/templates/welcome';
 import { createNotification } from '@/lib/notifications';
 import { authLimiter } from '@/lib/rate-limit';
 import { setAuthCookies } from '@/lib/cookie-auth';
@@ -101,10 +102,9 @@ export async function POST(request: NextRequest) {
       tokenVersion: user.tokenVersion,
     });
 
-    // Send welcome email (fire-and-forget)
-    sendWelcomeEmail(user.name || user.email.split('@')[0], user.email, user.id).catch((err) =>
-      console.error('Welcome email send error:', err)
-    );
+    // Send branded welcome email (fire-and-forget, won't break registration on failure)
+    sendBrandedWelcome(user.email, { firstName: user.name || 'there' })
+      .catch((err) => console.error('Welcome email send error:', err));
 
     // Create in-app welcome notification (fire-and-forget)
     createNotification(

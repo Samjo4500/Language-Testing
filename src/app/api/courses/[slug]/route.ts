@@ -31,6 +31,7 @@ export async function GET(
                   title: true,
                   contentType: true,
                   estimatedMinutes: true,
+                  videoUrl: true,
                 },
               },
             },
