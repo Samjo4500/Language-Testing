@@ -300,12 +300,12 @@ export default function Home() {
       <AnimatedHeroSection />
 
       {/* ===== LIVE VOICE DEMO ===== */}
-      <section className="relative py-20 md:py-28 speaking-bg-5 overflow-hidden">
+      <section className="relative pt-20 md:pt-28 pb-8 md:pb-10 speaking-bg-5 overflow-hidden">
         <LiveVoiceDemo />
       </section>
 
       {/* ===== 6 DIMENSIONS OF ENGLISH PROFICIENCY ===== */}
-      <section className="relative py-20 md:py-28 bg-[#0F0A1E] overflow-hidden">
+      <section className="relative pt-10 md:pt-16 pb-20 md:pb-28 bg-[#0F0A1E] overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="orb orb-blue w-[400px] h-[400px] top-1/4 right-0 animate-float-slow" />
         </div>

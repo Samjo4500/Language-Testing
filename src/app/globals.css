@@ -698,6 +698,17 @@
 }
 .animate-ripple { animation: ripple 1.5s ease-out infinite; }
 
+/* === NEURAL VOICE LAB ANIMATIONS === */
+@keyframes node-float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes audio-bar {
+  0% { height: 3px; }
+  100% { height: 14px; }
+}
+
 .animate-shimmer {
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
   background-size: 200% 100%;
