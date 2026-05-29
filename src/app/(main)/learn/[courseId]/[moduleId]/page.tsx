@@ -250,16 +250,19 @@ function QuizSection({
     if (currentQuestion < totalQuestions - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      // Calculate score
-      let correct = 0;
-      selectedAnswers.forEach((answer, i) => {
-        if (answer === questions[i].correctIndex) correct++;
+      // Calculate score — use a functional update to ensure latest state
+      setSelectedAnswers((currentAnswers) => {
+        let correct = 0;
+        currentAnswers.forEach((answer, i) => {
+          if (answer === questions[i].correctIndex) correct++;
+        });
+        const finalScore = Math.round((correct / totalQuestions) * 100);
+        const passed = finalScore >= 70;
+        setScore(finalScore);
+        setQuizFinished(true);
+        onQuizComplete(finalScore, passed);
+        return currentAnswers; // no mutation
       });
-      const finalScore = Math.round((correct / totalQuestions) * 100);
-      const passed = finalScore >= 70;
-      setScore(finalScore);
-      setQuizFinished(true);
-      onQuizComplete(finalScore, passed);
     }
   };
 
@@ -335,7 +338,7 @@ function QuizSection({
             } else if (idx === selectedAnswer && !isCorrect) {
               optionStyle = 'bg-red-500/10 border-red-500/40 cursor-default';
             } else {
-              optionStyle = 'bg-white/3 border-white/5 cursor-default opacity-50';
+              optionStyle = 'bg-white/[0.03] border-white/5 cursor-default opacity-50';
             }
           }
 

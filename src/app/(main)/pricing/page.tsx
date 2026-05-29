@@ -417,13 +417,13 @@ export default function PricingPage() {
             <AnimatedSection delay={300}>
               <div className="relative animate-pulse-glow rounded-2xl">
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-blue-500/60 via-indigo-500/40 to-blue-500/60 p-[1px]" />
+                <div className="absolute top-3 right-3 z-20">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 px-4 py-1.5 text-xs font-semibold text-white shadow-lg shadow-blue-500/25">
+                    <Star className="h-3 w-3" />
+                    Most Popular
+                  </span>
+                </div>
                 <div className="relative glass-card p-7 h-full flex flex-col border-transparent">
-                  <div className="absolute top-3 right-3 z-10">
-                    <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 px-4 py-1 text-xs font-semibold text-white shadow-lg shadow-blue-500/25">
-                      <Star className="h-3 w-3" />
-                      Most Popular
-                    </span>
-                  </div>
                   <div className="flex items-center gap-3 mb-1">
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-lg shadow-blue-500/25">
                       <Crown className="h-5 w-5" />
@@ -605,13 +605,13 @@ export default function PricingPage() {
             <AnimatedSection delay={200}>
               <div className="relative animate-pulse-glow rounded-2xl">
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-blue-500/50 via-cyan-500/30 to-blue-500/50 p-[1px]" />
+                <div className="absolute top-3 right-3 z-20">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 px-4 py-1.5 text-xs font-semibold text-white shadow-lg shadow-blue-500/25">
+                    <Star className="h-3 w-3" />
+                    Most Popular
+                  </span>
+                </div>
                 <div className="relative glass-card p-7 h-full flex flex-col border-transparent">
-                  <div className="absolute top-3 right-3 z-10">
-                    <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 px-4 py-1 text-xs font-semibold text-white shadow-lg shadow-blue-500/25">
-                      <Star className="h-3 w-3" />
-                      Most Popular
-                    </span>
-                  </div>
                   <div className="flex items-center gap-3 mb-1">
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-400 to-cyan-500 text-white shadow-lg shadow-blue-500/25">
                       <TrendingUp className="h-5 w-5" />

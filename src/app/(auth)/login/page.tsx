@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuthStore } from '@/lib/auth-store';
 import { Navbar } from '@/components/navbar';
+import RegistrationGuide from '@/components/lexi/RegistrationGuide';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -17,6 +18,7 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [emailNotActivated, setEmailNotActivated] = useState(false);
   const router = useRouter();
   const { setAuth, isAuthenticated, isLoading: authIsLoading } = useAuthStore();
 
@@ -59,7 +61,12 @@ export default function LoginPage() {
         if (response.status === 503 || data.code === 'DB_AUTH_ERROR' || data.code === 'DB_CONNECTION_ERROR') {
           setError('Service temporarily unavailable. Our team has been notified. Please try again in a few minutes.');
         } else {
-          setError(data.error || 'Login failed. Please try again.');
+          const errMsg = data.error || 'Login failed. Please try again.';
+          setError(errMsg);
+          // Detect unactivated email
+          if (errMsg.toLowerCase().includes('activ') || errMsg.toLowerCase().includes('not verified') || errMsg.toLowerCase().includes('email not')) {
+            setEmailNotActivated(true);
+          }
         }
         return;
       }
@@ -134,7 +141,22 @@ export default function LoginPage() {
               </p>
             </div>
             <form onSubmit={handleSubmit} className="space-y-4">
-              {error && (
+              {/* Lexi email activation guide for unactivated users */}
+              {emailNotActivated && (
+                <RegistrationGuide
+                  stage="verify-pending"
+                  onResendEmail={async () => {
+                    try {
+                      await fetch('/api/auth/resend-activation', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email }),
+                      });
+                    } catch {}
+                  }}
+                />
+              )}
+              {error && !emailNotActivated && (
                 <div className="rounded-xl bg-red-500/10 border border-red-500/20 p-3">
                   <p className="text-sm text-red-400">{error}</p>
                 </div>

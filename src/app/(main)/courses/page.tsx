@@ -304,17 +304,16 @@ export default function CoursesPage() {
                     <div
                       className={`absolute inset-0 rounded-2xl bg-gradient-to-b ${colors.borderGradient} p-[1px]`}
                     />
+                    {/* Most Popular badge — placed outside glass-card to avoid overflow:hidden clipping */}
+                    {isPopular && (
+                      <div className="absolute top-3 right-3 z-20">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 px-4 py-1.5 text-xs font-semibold text-white shadow-lg shadow-blue-500/25">
+                          <Star className="h-3 w-3" />
+                          Most Popular
+                        </span>
+                      </div>
+                    )}
                     <div className="relative glass-card p-7 h-full flex flex-col border-transparent">
-                      {/* Most Popular badge */}
-                      {isPopular && (
-                        <div className="absolute top-3 right-3 z-10">
-                          <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 px-4 py-1 text-xs font-semibold text-white shadow-lg shadow-blue-500/25">
-                            <Star className="h-3 w-3" />
-                            Most Popular
-                          </span>
-                        </div>
-                      )}
-
                       {/* Icon + Title */}
                       <div className="flex items-center gap-3 mb-1">
                         <div

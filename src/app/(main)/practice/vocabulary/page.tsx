@@ -29,11 +29,33 @@ export default function VocabularyPracticePage() {
         const res = await fetch('/api/vocabulary/progress', { credentials: 'same-origin' });
         if (res.ok) {
           const data = await res.json();
+          const total = data.totalWords || 0;
           setProgress({
             mastered: data.mastered || 0,
             learning: data.learning || 0,
-            total: data.totalWords || 0,
+            total,
           });
+          // Auto-seed if user has no vocabulary words yet
+          if (total === 0) {
+            try {
+              await fetch('/api/vocab/seed', {
+                method: 'POST',
+                credentials: 'same-origin',
+              });
+              // Re-fetch progress after seeding
+              const res2 = await fetch('/api/vocabulary/progress', { credentials: 'same-origin' });
+              if (res2.ok) {
+                const data2 = await res2.json();
+                setProgress({
+                  mastered: data2.mastered || 0,
+                  learning: data2.learning || 0,
+                  total: data2.totalWords || 0,
+                });
+              }
+            } catch {
+              // Seeding failed silently — exercises will still work with API-generated words
+            }
+          }
         }
       } catch {
         // Silently fail

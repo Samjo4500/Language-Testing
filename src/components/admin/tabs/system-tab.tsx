@@ -8,7 +8,7 @@ import {
   Shield, Zap, Users, BookOpen, Award, MessageSquare,
   Mail, Code2, CreditCard, Save, Eye, Plus, Trash2,
   ArrowRight, ExternalLink, Settings, FileText,
-  Monitor, Smartphone, Wifi,
+  Monitor, Smartphone, Wifi, Star,
 } from 'lucide-react';
 import {
   StatCard, Pagination, ConfirmModal, EmptyState, ExportButton,
@@ -681,14 +681,16 @@ export function SystemTab({ onToast }: SystemTabProps) {
               /* Pricing Preview */
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {plans.map(plan => (
-                  <div key={plan.id} className={`glass-card p-5 flex flex-col ${plan.highlighted ? 'ring-2 ring-blue-500/50 relative' : ''}`}>
+                  <div key={plan.id} className="relative">
                     {plan.highlighted && (
-                      <div className="absolute top-3 right-3 z-10">
-                        <span className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                      <div className="absolute top-3 right-3 z-20">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 px-4 py-1.5 text-xs font-semibold text-white shadow-lg shadow-blue-500/25">
+                          <Star className="h-3 w-3" />
                           Most Popular
                         </span>
                       </div>
                     )}
+                    <div className={`glass-card p-5 flex flex-col ${plan.highlighted ? 'ring-2 ring-blue-500/50' : ''}`}>
                     <h4 className="text-lg font-semibold text-white">{plan.name}</h4>
                     <div className="mt-3 mb-4">
                       <span className="text-2xl font-bold text-white">{plan.price}</span>
@@ -705,6 +707,7 @@ export function SystemTab({ onToast }: SystemTabProps) {
                     {plan.trialDays > 0 && (
                       <p className="text-xs text-blue-400 mt-3">{plan.trialDays}-day free trial</p>
                     )}
+                  </div>
                   </div>
                 ))}
               </div>

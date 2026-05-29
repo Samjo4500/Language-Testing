@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { useAuthStore } from '@/lib/auth-store';
 import { Navbar } from '@/components/navbar';
 import { trackAccountCreate } from '@/lib/analytics';
+import RegistrationGuide from '@/components/lexi/RegistrationGuide';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -36,6 +37,7 @@ export default function RegisterPage() {
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
   const router = useRouter();
   const { setAuth, isAuthenticated, isLoading: authIsLoading } = useAuthStore();
 
@@ -113,7 +115,8 @@ export default function RegisterPage() {
       setAuth(data.user, data.accessToken, data.refreshToken);
       // Track account creation
       trackAccountCreate({ account_type: accountType });
-      router.push('/onboarding');
+      // Show post-registration guidance instead of immediate redirect
+      setRegistrationSuccess(true);
     } catch {
       setError('An unexpected error occurred. Please try again.');
     } finally {
@@ -257,6 +260,27 @@ export default function RegisterPage() {
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Lexi Registration Guide — pre-register warning */}
+                <RegistrationGuide stage="pre-register" />
+
+                {/* Post-registration celebration modal */}
+                {registrationSuccess && (
+                  <RegistrationGuide
+                    stage="post-register"
+                    userEmail={email}
+                    onResendEmail={async () => {
+                      try {
+                        await fetch('/api/auth/resend-activation', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ email }),
+                        });
+                      } catch {}
+                    }}
+                    onNavigate={(path) => router.push(path)}
+                  />
+                )}
+
                 {error && (
                   <div className="rounded-xl bg-red-500/10 border border-red-500/20 p-3">
                     <p className="text-sm text-red-400">{error}</p>

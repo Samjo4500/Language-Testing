@@ -17,6 +17,7 @@ import { AnimatedHeroSection } from '@/components/home/animated-hero-section';
 import { FinalCTAButtons } from '@/components/home/final-cta-buttons';
 import { FAQItem } from '@/components/home/faq-item';
 import { PricingTracker } from '@/components/home/pricing-tracker';
+import LexiConcierge from '@/components/lexi/LexiConcierge';
 
 // Client-side dynamic imports (ssr:false requires 'use client' boundary)
 import {
@@ -490,14 +491,16 @@ export default function Home() {
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto">
               {INDIVIDUAL_PLANS.map((plan, index) => (
                 <AnimatedSection key={plan.name} delay={index * 100}>
-                  <div className={`relative glass-card p-6 h-full flex flex-col ${plan.popular ? 'ring-2 ring-blue-500/50' : ''}`}>
+                  <div className="relative">
                     {plan.popular && (
-                      <div className="absolute top-3 right-3 z-10">
-                        <span className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-lg shadow-blue-500/30">
+                      <div className="absolute top-3 right-3 z-20">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 px-4 py-1.5 text-xs font-semibold text-white shadow-lg shadow-blue-500/25">
+                          <Star className="h-3 w-3" />
                           Most Popular
                         </span>
                       </div>
                     )}
+                    <div className={`relative glass-card p-6 h-full flex flex-col ${plan.popular ? 'ring-2 ring-blue-500/50' : ''}`}>
                     <h3 className="text-lg font-semibold text-white pr-24">{plan.name}</h3>
                     <p className="text-xs text-white/40 mt-1">{plan.desc}</p>
                     <div className="mt-4 mb-6">
@@ -522,6 +525,7 @@ export default function Home() {
                         {plan.cta}
                       </button>
                     </Link>
+                  </div>
                   </div>
                 </AnimatedSection>
               ))}
@@ -565,14 +569,16 @@ export default function Home() {
           <div className="grid gap-6 md:grid-cols-3 max-w-5xl mx-auto">
             {ORG_PLANS.map((plan, index) => (
               <AnimatedSection key={plan.tier} delay={index * 150}>
-                <div className={`relative glass-card p-6 h-full flex flex-col ${plan.popular ? 'ring-2 ring-blue-500/50' : ''}`}>
+                <div className="relative">
                   {plan.popular && (
-                    <div className="absolute top-3 right-3 z-10">
-                      <span className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-lg shadow-blue-500/30">
+                    <div className="absolute top-3 right-3 z-20">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 px-4 py-1.5 text-xs font-semibold text-white shadow-lg shadow-blue-500/25">
+                        <Star className="h-3 w-3" />
                         Most Popular
                       </span>
                     </div>
                   )}
+                  <div className={`relative glass-card p-6 h-full flex flex-col ${plan.popular ? 'ring-2 ring-blue-500/50' : ''}`}>
                   <h3 className="text-xl font-bold text-white pr-24">{plan.tier}</h3>
                   <p className="text-xs text-white/40 mt-1">{plan.desc}</p>
                   <p className="text-xs text-white/30 mt-0.5">{plan.subdesc}</p>
@@ -598,6 +604,7 @@ export default function Home() {
                       {plan.cta}
                     </button>
                   </Link>
+                </div>
                 </div>
               </AnimatedSection>
             ))}
@@ -756,6 +763,7 @@ export default function Home() {
       {/* ===== FOOTER ===== */}
       </main>
       <Footer />
+      <LexiConcierge />
     </div>
   );
 }

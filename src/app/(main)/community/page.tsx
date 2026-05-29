@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
+import CommunityTour from '@/components/lexi/CommunityTour';
 import { useAuthStore } from '@/lib/auth-store';
 import { useHydrated } from '@/hooks/use-hydrated';
 import { cn } from '@/lib/utils';
@@ -1040,6 +1041,7 @@ export default function CommunityPage() {
       </section>
 
       <Footer />
+      <CommunityTour />
     </div>
   );
 }
