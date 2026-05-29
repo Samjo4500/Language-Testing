@@ -41,11 +41,94 @@ type Pool = (typeof VALID_POOLS)[number];
 
 /**
  * Generate a gap-fill sentence from an example by replacing the target word with "_____"
+ * Tries exact match first, then falls back to stem-based matching for inflected forms
+ * (e.g., "run" will also match "runs", "running", "ran" in the example sentence).
+ * Only replaces the FIRST occurrence.
  */
 function generateGapSentence(word: string, example: string): string {
-  // Case-insensitive replacement, preserve original casing of first occurrence
-  const regex = new RegExp(`\\b${escapeRegex(word)}\\b`, 'i');
-  return example.replace(regex, '_____');
+  // 1. Try exact match first (case-insensitive, word boundary)
+  const exactRegex = new RegExp(`\\b${escapeRegex(word)}\\b`, 'i');
+  if (exactRegex.test(example)) {
+    return example.replace(exactRegex, '_____');
+  }
+
+  const stem = word.toLowerCase();
+
+  // 2. Try common inflected suffixes for single words
+  if (!word.includes(' ')) {
+    const inflectionSuffixes = ['s', 'es', 'ed', 'ing', 'd', 'er', 'est'];
+    for (const suffix of inflectionSuffixes) {
+      const regex = new RegExp(`\\b${escapeRegex(stem)}${suffix}\\b`, 'i');
+      const match = example.match(regex);
+      if (match) {
+        return example.replace(match[0], '_____');
+      }
+    }
+
+    // Handle -y → -ies (e.g., "carry" → "carries")
+    if (stem.endsWith('y') && stem.length > 1 && !'aeiou'.includes(stem[stem.length - 2])) {
+      const iesStem = stem.slice(0, -1) + 'i';
+      const regex = new RegExp(`\\b${escapeRegex(iesStem)}es\\b`, 'i');
+      const match = example.match(regex);
+      if (match) {
+        return example.replace(match[0], '_____');
+      }
+    }
+
+    // Handle -e drop for -ing/-ed (e.g., "make" → "making", "create" → "creating")
+    if (stem.endsWith('e') && stem.length > 2) {
+      const droppedStem = stem.slice(0, -1);
+      for (const suffix of ['ing', 'ed']) {
+        const regex = new RegExp(`\\b${escapeRegex(droppedStem)}${suffix}\\b`, 'i');
+        const match = example.match(regex);
+        if (match) {
+          return example.replace(match[0], '_____');
+        }
+      }
+    }
+
+    // Handle doubling consonant (e.g., "run" → "running", "stop" → "stopped")
+    if (stem.length >= 2) {
+      const lastChar = stem[stem.length - 1];
+      const secondLast = stem[stem.length - 2];
+      // Only double if last char is consonant and second-last is vowel (CVC pattern)
+      if (!'aeiou'.includes(lastChar) && 'aeiou'.includes(secondLast)) {
+        const doubledStem = stem + lastChar;
+        for (const suffix of ['ing', 'ed', 'er']) {
+          const regex = new RegExp(`\\b${escapeRegex(doubledStem)}${suffix}\\b`, 'i');
+          const match = example.match(regex);
+          if (match) {
+            return example.replace(match[0], '_____');
+          }
+        }
+      }
+    }
+  }
+
+  // 3. For multi-word phrases (phrasal verbs, idioms), try flexible matching
+  //    where each component word can be inflected independently
+  if (word.includes(' ')) {
+    const phraseWords = word.split(' ');
+    // Build a flexible regex where each word allows inflection
+    const flexiblePattern = phraseWords
+      .map((w) => `\\w*${escapeRegex(w.toLowerCase())}\\w*`)
+      .join('\\s+');
+    const regex = new RegExp(flexiblePattern, 'i');
+    const match = example.match(regex);
+    if (match) {
+      return example.replace(match[0], '_____');
+    }
+  }
+
+  // 4. Fallback: try a looser stem match within word boundaries
+  const looseRegex = new RegExp(`\\b\\w*${escapeRegex(stem)}\\w*\\b`, 'i');
+  const looseMatch = example.match(looseRegex);
+  if (looseMatch) {
+    return example.replace(looseMatch[0], '_____');
+  }
+
+  // 5. Last resort: prepend _____ to the sentence
+  return '_____ ' + example;
 }
 
 function escapeRegex(str: string): string {

@@ -1,94 +1,36 @@
-# Worklog: Fix Empty Space + Redesign LiveVoiceDemo
-
-## Date: 2026-03-04
-
-## Task 1: Fix Empty Testimonial Space on Homepage
-
-**File modified**: `/home/z/my-project/src/app/page.tsx`
-
-**Changes**:
-- Line 303: Changed LiveVoiceDemo section padding from `py-20 md:py-28` → `pt-20 md:pt-28 pb-8 md:pb-10`
-- Line 308: Changed 6 Dimensions section padding from `py-20 md:py-28` → `pt-10 md:pt-16 pb-20 md:pb-28`
-
-**Result**: Eliminated the large empty dark gap between the speaking card and dimensions section by reducing combined padding from ~160px to ~72px on desktop.
+# Worklog
 
 ---
+Task ID: 1
+Agent: Main Agent
+Task: Redesign LiveVoiceDemo + Fix empty testimonial space + Audit and fix lesson videos/vocabulary/MCQs
 
-## Task 2: Complete Redesign of LiveVoiceDemo Component
+Work Log:
+- Read and analyzed the full project structure for testcefr.com
+- Redesigned the LiveVoiceDemo component as "Neural Voice Lab" with Canvas-based mic orb, circular waveform, floating dimension nodes, HUD status bar
+- Fixed empty space between LiveVoiceDemo and 6 Dimensions sections on homepage (reduced padding)
+- Added CSS animations (node-float, audio-bar) to globals.css
+- Deployed homepage redesign to production
 
-**File modified**: `/home/z/my-project/src/components/home/live-voice-demo.tsx` (complete rewrite)
+- Conducted comprehensive audit of all lesson content:
+  - Video: ALL 150 lessons had videoUrl: null — zero video content
+  - Listening: No lessons had contentType "listening" — audio scripts unreachable
+  - Fill-gap: Multi-word answers (phrasal verbs/idioms) broke letter-tile UI
+  - Quiz: Only generated for contentType "quiz" (10 of 150 lessons)
+  - Duplicate module/lesson titles in intermediate course
 
-**Design**: "Neural Voice Lab" — Immersive futuristic voice analysis studio
+- Fixed all critical issues:
+  1. Added YouTube video URLs for 10 key lessons + changed contentType to "video"
+  2. Added "Video Coming Soon" placeholder in lesson viewer when no video exists
+  3. Made quizzes available for ALL lesson types (grammar, reading, vocabulary, video, listening)
+  4. Converted 2 lessons to "listening" type + added audio scripts
+  5. Fixed fill-in-the-gap multi-word support (word tiles vs letter tiles)
+  6. Fixed dynamic gap generation for inflected word forms
+  7. Fixed duplicate module/lesson titles in intermediate course
+  8. Deployed all fixes to production
 
-### Key Features Implemented:
-
-1. **Canvas-based Microphone Orb (300x300, high-DPI)**
-   - Idle: Soft blue/purple pulsing glow, gentle rotating dashed ring segments (3 concentric rings at different speeds/directions)
-   - Recording: Transforms to red/amber, audio-reactive with simulated amplitude data
-   - 16 orbiting particle dots that speed up and glow red when recording
-   - Sonar pulse rings that expand outward from center during recording
-   - Inner bright core that pulses with audio amplitude
-   - Stylized mic icon drawn directly on canvas
-
-2. **Circular Waveform (48 bars on canvas)**
-   - Arranged in a circle around the mic at 65px radius
-   - Idle: Subtle blue gradient bars at minimal height (3px)
-   - Recording: Bars grow with simulated audio input (up to 30px), gradient shifts to red/amber
-   - Smooth interpolation via Float32Array with lerped values
-
-3. **Floating Dimension Nodes (6 nodes)**
-   - Each has: SVG circular progress ring, glowing orb with dimension letter, label, score
-   - Subtle float animation (`node-float` keyframe, 6px displacement, staggered delays)
-   - When recording: scores animate with counting effect, progress rings fill, orbs glow
-   - Grid: 3 columns on mobile, 2 columns on desktop sidebar
-
-4. **HUD Status Display**
-   - Pulsing dot + "REC" (red) or "STANDBY" (blue) indicator
-   - Monospace timer with tabular-nums
-   - 8 audio level bars with CSS animation when recording, color-coded green/amber/red
-
-5. **Prompt Card (Glass-morphism)**
-   - Gradient border wrapper (blue→violet→cyan)
-   - Typewriter effect when recording starts (28ms per character)
-   - B2 level badge with glowing border
-   - Target level selector (A2/B1/B2/C1)
-
-6. **CTA Mic Button**
-   - Idle: Blue/cyan gradient with glow animation (`animate-mic-glow`)
-   - Recording: Red gradient with ripple rings (`animate-ripple`, `animate-recording-pulse`)
-   - Smooth state transitions
-
-7. **Background**
-   - Ambient glow orbs (inherited from original)
-   - Subtle CSS tech grid overlay (50px grid, 2.5% opacity)
-
-### Layout:
-- **Mobile**: Stacked — Canvas first, then Prompt Card, then Dimension Nodes (3 cols)
-- **Desktop (lg+)**: 3-column — Left (Prompt), Center (Canvas + Button), Right (Dimensions 2 cols)
-
-### Technical Details:
-- High-DPI canvas with `devicePixelRatio` scaling
-- `requestAnimationFrame` loop with proper cleanup via ref
-- `isRecordingRef` to avoid stale closure in animation loop
-- All existing analytics tracking preserved (`trackSpeakingDemoStart`, `trackSpeakingDemoComplete`)
-- All existing imports maintained (`useHydrated`, `CEFR_DIMENSIONS`)
-- No new dependencies added
-- Simulated scores: `[82, 78, 87, 91, 75, 80]` (same as original)
-
----
-
-## CSS Additions
-
-**File modified**: `/home/z/my-project/src/app/globals.css`
-
-Added two new keyframe animations:
-- `node-float`: 6px vertical oscillation for dimension nodes
-- `audio-bar`: Height animation for HUD audio level bars
-
----
-
-## Verification
-
-- ✅ Build succeeded (`next build` — no errors)
-- ✅ Lint passed (no new lint errors in modified files)
-- ✅ Dev server running on port 3000
+Stage Summary:
+- Homepage: LiveVoiceDemo redesigned, empty space fixed
+- Lessons: 10 videos added, 2 listening lessons created, quizzes for all lesson types
+- Vocabulary: Multi-word fill-gap support, inflected form matching
+- Production deployed at https://testcefr.com

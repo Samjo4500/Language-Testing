@@ -28,6 +28,7 @@ import {
   Zap,
   HelpCircle,
   Trophy,
+  Video,
 } from 'lucide-react';
 import { sanitizeHtml } from '@/lib/sanitize';
 import { VideoEmbed } from '@/components/VideoEmbed';
@@ -1092,7 +1093,7 @@ export default function LessonViewerPage() {
             </div>
 
             {/* Video Player — shown before content if video exists */}
-            {lesson.videoUrl && (
+            {lesson.videoUrl ? (
               <div className="glass-card overflow-hidden mt-6">
                 {/* Video header */}
                 <div className="flex items-center gap-3 p-4 border-b border-white/5">
@@ -1121,6 +1122,14 @@ export default function LessonViewerPage() {
                     Watch the video, then scroll down for the written lesson, vocabulary, and quiz.
                   </p>
                 </div>
+              </div>
+            ) : (
+              <div className="glass-card overflow-hidden mt-6 aspect-video flex flex-col items-center justify-center text-center bg-white/[0.02] border border-white/[0.06]">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/5 text-white/20 mb-4">
+                  <Video className="h-7 w-7" />
+                </div>
+                <p className="text-white/40 font-medium text-sm">Video lesson coming soon</p>
+                <p className="text-white/25 text-xs mt-1">We&apos;re creating video content for this lesson</p>
               </div>
             )}
 

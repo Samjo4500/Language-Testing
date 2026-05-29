@@ -3226,10 +3226,47 @@ Dr. Vasquez: Certainly. We recruited one hundred and twenty participants divided
 Audience Member: Dr. Vasquez, I was wondering whether you controlled for proficiency level in the L2? Transfer patterns might differ significantly depending on how established the second language is.
 Dr. Vasquez: An excellent question, and yes, we did control for L2 proficiency using the DIALANG assessment. In fact, that turned out to be one of our most significant findings — L2 proficiency was a stronger predictor of transfer than typological similarity between the L2 and L3.
 Dr. Yamamoto: That's a striking result. I think this opens up some important avenues for future research. Dr. Vasquez, thank you for a truly stimulating presentation. We'll now have five minutes for additional questions before moving to our next speaker.`,
+
+  // ── Beginner (A1-A2) Listening Scripts ──
+  'Listening Practice — Conversations and Announcements': `Anna: Excuse me, do you know what time the next train to London leaves?
+Station Attendant: The next train to London departs at ten thirty from Platform three.
+Anna: Ten thirty — thank you. Is it running on time?
+Station Attendant: Yes, it's on schedule today. Please make sure you have your ticket ready before boarding.
+Anna: Great, thanks for your help!
+
+Tom: Hey Sarah, did you hear the announcement about the office party?
+Sarah: No, I missed it. What did they say?
+Tom: They said the party is next Friday at seven PM in the main conference room. Everyone should bring a small dish to share.
+Sarah: That sounds fun! I'll make my pasta salad.
+Tom: Perfect! Oh, and they also mentioned that the building will be closed this weekend for maintenance.
+Sarah: Good to know. I was planning to come in on Saturday to finish that report.
+Tom: You'd better do it from home then!
+
+Attention please. This is an important announcement. Due to unforeseen circumstances, the three fifteen train to Manchester has been cancelled. Passengers for Manchester should take the three forty-five train from Platform five. We apologise for any inconvenience. Thank you.
+
+Lisa: Oh no, did you hear that? Our train is cancelled!
+Mark: Don't worry, there's another one in thirty minutes from Platform five.
+Lisa: I hope we're not late for the meeting.
+Mark: We should be fine. The meeting doesn't start until five.
+
+Attention passengers. Would Mr. James Wilson please come to the information desk? Mr. James Wilson to the information desk, please. Thank you.`,
+
+  'A2 Practice Test — Listening and Reading': `Receptionist: Good morning, Riverside Language School. How can I help you?
+Student: Hello, I'd like to enrol in an English course. I saw on your website that you have classes starting next month.
+Receptionist: That's right. We have morning and evening classes. The morning classes run from nine to twelve, and the evening classes are from six to eight thirty. Which would you prefer?
+Student: I work during the day, so the evening classes would be better for me.
+Receptionist: Perfect. The evening course is on Tuesdays and Thursdays. It's twelve weeks long and costs two hundred and fifty pounds. Would you like me to reserve a place for you?
+Student: Yes, please. Do I need to take a test first?
+Receptionist: Yes, we ask all new students to take a short placement test so we can put you in the right level. You can come in any weekday between nine and five. The test takes about thirty minutes.
+Student: I'll come in on Wednesday then. Thank you for your help!
+
+News Announcer: And now for the local news. The city council has announced that the new public library on Green Street will open next Saturday. The building includes a reading room, a children's section, and free computer access for all residents. The mayor will officially open the library at ten AM, and there will be refreshments and a tour of the facilities. Everyone is welcome to attend.
+
+Teacher: Good morning, class. Today I want to talk about how to improve your reading skills in English. First, try to read something in English every day — even if it's just a short article or a few pages of a book. Second, don't look up every new word in the dictionary. Try to guess the meaning from the context first. Third, read things that interest you. If you enjoy cooking, read recipes in English. If you like sports, read match reports. When you enjoy the topic, you'll read more and learn more naturally. Any questions?`,
 };
 
 export function generateQuizData(lesson: StaticLesson, module: StaticModule, course: StaticCourse): string | null {
-  if (lesson.contentType !== 'quiz') return null;
+  // Quizzes are available for all lesson types (grammar, reading, vocabulary, quiz, video, listening)
 
   const topic = lesson.title;
 

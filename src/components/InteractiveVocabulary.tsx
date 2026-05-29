@@ -271,6 +271,18 @@ export default function InteractiveVocabulary({
     };
   }, [screen, currentIndex, answerState, selectedTimeLimit]);
 
+  // ── Whether the current fill-gap answer is a multi-word phrase ──
+  const isMultiWordFillGap = useMemo(() => {
+    if (!currentWord || currentExerciseType !== 'fill_gap') return false;
+    return currentWord.correctAnswer.includes(' ');
+  }, [currentWord, currentExerciseType]);
+
+  // ── For multi-word fill-gap: the list of correct words ──
+  const multiWordCorrectWords = useMemo(() => {
+    if (!currentWord || !isMultiWordFillGap) return [];
+    return currentWord.correctAnswer.split(' ');
+  }, [currentWord, isMultiWordFillGap]);
+
   // ── Initialize question ──
   const initQuestion = useCallback(() => {
     setAnswerState('unanswered');
@@ -283,9 +295,17 @@ export default function InteractiveVocabulary({
 
     if (currentWord) {
       if (currentExerciseType === 'fill_gap') {
-        // Create letter tiles from the correct answer
-        const letters = currentWord.correctAnswer.split('');
-        setAvailableLetters(shuffleArray(letters));
+        // Detect multi-word answers (phrasal verbs, idioms) vs single-word
+        const isMultiWord = currentWord.correctAnswer.includes(' ');
+        if (isMultiWord) {
+          // Split into word tiles for multi-word phrases
+          const words = currentWord.correctAnswer.split(' ');
+          setAvailableLetters(shuffleArray(words));
+        } else {
+          // Split into individual letter tiles (existing behavior)
+          const letters = currentWord.correctAnswer.split('');
+          setAvailableLetters(shuffleArray(letters));
+        }
       } else if (currentExerciseType === 'sentence_builder') {
         const distractorPool = words
           .filter((w) => w.id !== currentWord.id)
@@ -504,7 +524,7 @@ export default function InteractiveVocabulary({
     };
   }, [results, words.length]);
 
-  // ── Fill Gap: Handle letter tap ──
+  // ── Fill Gap: Handle letter/word tap ──
   const handleLetterTap = useCallback(
     (letter: string, index: number) => {
       if (answerState !== 'unanswered') return;
@@ -512,18 +532,33 @@ export default function InteractiveVocabulary({
       const newTyped = [...typedLetters, letter];
       setTypedLetters(newTyped);
 
-      // Remove the used letter from available
+      // Remove the used letter/word from available
       const newAvailable = [...availableLetters];
       newAvailable.splice(index, 1);
       setAvailableLetters(newAvailable);
 
-      // Check if complete
-      if (newTyped.length === currentWord?.correctAnswer.length) {
-        const userAnswer = newTyped.join('');
-        const isCorrect =
-          userAnswer.toLowerCase() === currentWord.correctAnswer.toLowerCase();
-        const score = calculateFillGapScore(isCorrect, hintRevealed);
-        submitAnswer(isCorrect, score, hintRevealed);
+      // Determine if this is a multi-word fill-gap
+      const isMultiWord = currentWord?.correctAnswer.includes(' ') ?? false;
+
+      if (isMultiWord) {
+        // Multi-word: check if all words have been placed
+        const correctWords = currentWord!.correctAnswer.split(' ');
+        if (newTyped.length === correctWords.length) {
+          const userAnswer = newTyped.join(' ');
+          const isCorrect =
+            userAnswer.toLowerCase() === currentWord!.correctAnswer.toLowerCase();
+          const score = calculateFillGapScore(isCorrect, hintRevealed);
+          submitAnswer(isCorrect, score, hintRevealed);
+        }
+      } else {
+        // Single-word: check if all letters have been placed
+        if (newTyped.length === currentWord?.correctAnswer.length) {
+          const userAnswer = newTyped.join('');
+          const isCorrect =
+            userAnswer.toLowerCase() === currentWord.correctAnswer.toLowerCase();
+          const score = calculateFillGapScore(isCorrect, hintRevealed);
+          submitAnswer(isCorrect, score, hintRevealed);
+        }
       }
     },
     [answerState, typedLetters, availableLetters, currentWord, hintRevealed, submitAnswer]
@@ -605,18 +640,32 @@ export default function InteractiveVocabulary({
   const handleHint = useCallback(() => {
     if (currentExerciseType === 'fill_gap' && currentWord) {
       setHintRevealed(true);
-      // Add first letter to typed
       if (typedLetters.length === 0) {
-        const firstLetter = currentWord.correctAnswer[0];
-        setTypedLetters([firstLetter]);
-        // Remove first occurrence from available
-        const idx = availableLetters.findIndex(
-          (l) => l.toLowerCase() === firstLetter.toLowerCase()
-        );
-        if (idx !== -1) {
-          const newAvailable = [...availableLetters];
-          newAvailable.splice(idx, 1);
-          setAvailableLetters(newAvailable);
+        const isMultiWord = currentWord.correctAnswer.includes(' ');
+        if (isMultiWord) {
+          // For multi-word phrases, reveal the first word
+          const firstWord = currentWord.correctAnswer.split(' ')[0];
+          setTypedLetters([firstWord]);
+          const idx = availableLetters.findIndex(
+            (l) => l.toLowerCase() === firstWord.toLowerCase()
+          );
+          if (idx !== -1) {
+            const newAvailable = [...availableLetters];
+            newAvailable.splice(idx, 1);
+            setAvailableLetters(newAvailable);
+          }
+        } else {
+          // For single words, reveal the first letter
+          const firstLetter = currentWord.correctAnswer[0];
+          setTypedLetters([firstLetter]);
+          const idx = availableLetters.findIndex(
+            (l) => l.toLowerCase() === firstLetter.toLowerCase()
+          );
+          if (idx !== -1) {
+            const newAvailable = [...availableLetters];
+            newAvailable.splice(idx, 1);
+            setAvailableLetters(newAvailable);
+          }
         }
       }
     } else {
@@ -1289,13 +1338,14 @@ export default function InteractiveVocabulary({
                   )}
                 </div>
 
-                {/* Typed letters display */}
-                <div className="flex items-center justify-center gap-1.5 min-h-[52px]">
-                  {Array.from({ length: currentWord.correctAnswer.length }).map(
-                    (_, i) => (
+                {/* Answer display area — different UI for single-word vs multi-word */}
+                {isMultiWordFillGap ? (
+                  /* Multi-word: word tile slots */
+                  <div className="flex flex-wrap items-center justify-center gap-2 min-h-[52px]">
+                    {multiWordCorrectWords.map((_, i) => (
                       <div
                         key={i}
-                        className={`w-9 h-11 sm:w-10 sm:h-12 rounded-lg border-2 flex items-center justify-center text-lg font-bold transition-all duration-200 ${
+                        className={`px-4 py-2.5 rounded-lg border-2 flex items-center justify-center text-sm font-bold transition-all duration-200 min-w-[60px] ${
                           i < typedLetters.length
                             ? answerState === 'correct'
                               ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-300'
@@ -1307,9 +1357,31 @@ export default function InteractiveVocabulary({
                       >
                         {i < typedLetters.length ? typedLetters[i] : ''}
                       </div>
-                    )
-                  )}
-                </div>
+                    ))}
+                  </div>
+                ) : (
+                  /* Single-word: individual letter slots */
+                  <div className="flex items-center justify-center gap-1.5 min-h-[52px]">
+                    {Array.from({ length: currentWord.correctAnswer.length }).map(
+                      (_, i) => (
+                        <div
+                          key={i}
+                          className={`w-9 h-11 sm:w-10 sm:h-12 rounded-lg border-2 flex items-center justify-center text-lg font-bold transition-all duration-200 ${
+                            i < typedLetters.length
+                              ? answerState === 'correct'
+                                ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-300'
+                              : answerState === 'wrong'
+                                  ? 'bg-red-500/20 border-red-500/50 text-red-300'
+                                  : 'bg-blue-500/10 border-blue-500/40 text-blue-300'
+                              : 'bg-white/[0.03] border-white/10 text-gray-600'
+                          }`}
+                        >
+                          {i < typedLetters.length ? typedLetters[i] : ''}
+                        </div>
+                      )
+                    )}
+                  </div>
+                )}
 
                 {/* Show correct answer if wrong */}
                 {answerState === 'wrong' && (
@@ -1323,20 +1395,36 @@ export default function InteractiveVocabulary({
                   </div>
                 )}
 
-                {/* Letter tiles (if no options provided) */}
+                {/* Available tiles (if no options provided) */}
                 {(!currentWord.options || currentWord.options.length === 0) &&
                   answerState === 'unanswered' && (
-                    <div className="flex flex-wrap items-center justify-center gap-2">
-                      {availableLetters.map((letter, i) => (
-                        <button
-                          key={`${letter}-${i}`}
-                          onClick={() => handleLetterTap(letter, i)}
-                          className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-[#131328] border border-white/10 hover:border-blue-500/40 hover:bg-blue-500/10 text-white font-bold text-base transition-all duration-200 hover:scale-105 active:scale-95"
-                        >
-                          {letter}
-                        </button>
-                      ))}
-                    </div>
+                    isMultiWordFillGap ? (
+                      /* Multi-word: word tiles */
+                      <div className="flex flex-wrap items-center justify-center gap-2">
+                        {availableLetters.map((word, i) => (
+                          <button
+                            key={`${word}-${i}`}
+                            onClick={() => handleLetterTap(word, i)}
+                            className="px-4 py-2.5 rounded-xl bg-[#131328] border border-white/10 hover:border-blue-500/40 hover:bg-blue-500/10 text-white font-bold text-sm transition-all duration-200 hover:scale-105 active:scale-95"
+                          >
+                            {word}
+                          </button>
+                        ))}
+                      </div>
+                    ) : (
+                      /* Single-word: letter tiles */
+                      <div className="flex flex-wrap items-center justify-center gap-2">
+                        {availableLetters.map((letter, i) => (
+                          <button
+                            key={`${letter}-${i}`}
+                            onClick={() => handleLetterTap(letter, i)}
+                            className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-[#131328] border border-white/10 hover:border-blue-500/40 hover:bg-blue-500/10 text-white font-bold text-base transition-all duration-200 hover:scale-105 active:scale-95"
+                          >
+                            {letter}
+                          </button>
+                        ))}
+                      </div>
+                    )
                   )}
 
                 {/* Multiple choice options (if options provided) */}
@@ -1367,7 +1455,7 @@ export default function InteractiveVocabulary({
                         className="text-gray-400 hover:text-white hover:bg-white/5"
                       >
                         <ChevronLeft className="w-4 h-4 mr-1" />
-                        Backspace
+                        {isMultiWordFillGap ? 'Undo' : 'Backspace'}
                       </Button>
                     )}
                     {hintVisible && !hintRevealed && (
