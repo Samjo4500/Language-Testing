@@ -21,7 +21,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
-import { User, LogOut, CreditCard, Menu, X, ArrowRight, BookOpen, Shield, ChevronDown, Headphones, BookOpenCheck, Mic, PenTool, GraduationCap, Trophy, Languages, MessageSquare, PenLine, Brain, Award, Newspaper } from 'lucide-react';
+import { User, LogOut, CreditCard, Menu, X, ArrowRight, BookOpen, Shield, ChevronDown, Headphones, BookOpenCheck, Mic, PenTool, GraduationCap, Trophy, Languages, MessageSquare, PenLine, Brain, Award, Sparkles, Flame, Zap, Radio } from 'lucide-react';
 // Lazy-load notification bells — they only matter for authenticated users after hydration
 const AdminNotificationBell = dynamic(() => import('@/components/admin-notification-bell').then(mod => ({ default: mod.AdminNotificationBell })), { ssr: false });
 const NotificationBell = dynamic(() => import('@/components/notification-bell').then(mod => ({ default: mod.NotificationBell })), { ssr: false });
@@ -30,27 +30,27 @@ import { isPaidPlan, getPlanLabel, getPlanBadgeClasses } from '@/lib/plan-utils'
 import { useHydrated } from '@/hooks/use-hydrated';
 import { cn } from '@/lib/utils';
 
-// CEFR Test dropdown items
+// CEFR Test dropdown items — each gets a unique gradient
 const CEFR_ITEMS = [
-  { href: '/listening', label: 'Listening', icon: Headphones, description: 'Test your listening comprehension' },
-  { href: '/reading', label: 'Reading', icon: BookOpenCheck, description: 'Assess your reading skills' },
-  { href: '/writing', label: 'Writing', icon: PenTool, description: 'Evaluate your writing ability' },
-  { href: '/speaking', label: 'Speaking', icon: Mic, description: 'Practice your spoken English' },
+  { href: '/listening', label: 'Listening', icon: Headphones, description: 'Test your listening comprehension', gradient: 'from-violet-500/20 to-purple-500/20', iconColor: 'text-violet-400' },
+  { href: '/reading', label: 'Reading', icon: BookOpenCheck, description: 'Assess your reading skills', gradient: 'from-blue-500/20 to-indigo-500/20', iconColor: 'text-blue-400' },
+  { href: '/writing', label: 'Writing', icon: PenTool, description: 'Evaluate your writing ability', gradient: 'from-amber-500/20 to-orange-500/20', iconColor: 'text-amber-400' },
+  { href: '/speaking', label: 'Speaking', icon: Mic, description: 'Practice your spoken English', gradient: 'from-emerald-500/20 to-cyan-500/20', iconColor: 'text-emerald-400' },
 ];
 
 // Courses dropdown items
 const COURSE_ITEMS = [
-  { href: '/courses?level=a1', label: 'Beginners', icon: GraduationCap, description: 'A1 & A2 foundational courses', tag: 'A1-A2' },
-  { href: '/courses?level=b1', label: 'Intermediate', icon: BookOpen, description: 'B1 & B2 proficiency courses', tag: 'B1-B2' },
-  { href: '/courses?level=c1', label: 'Advanced', icon: Trophy, description: 'C1 & C2 mastery courses', tag: 'C1-C2' },
+  { href: '/courses?level=a1', label: 'Beginners', icon: GraduationCap, description: 'A1 & A2 foundational courses', tag: 'A1-A2', gradient: 'from-green-500/20 to-emerald-500/20', iconColor: 'text-green-400' },
+  { href: '/courses?level=b1', label: 'Intermediate', icon: BookOpen, description: 'B1 & B2 proficiency courses', tag: 'B1-B2', gradient: 'from-blue-500/20 to-cyan-500/20', iconColor: 'text-blue-400' },
+  { href: '/courses?level=c1', label: 'Advanced', icon: Trophy, description: 'C1 & C2 mastery courses', tag: 'C1-C2', gradient: 'from-purple-500/20 to-pink-500/20', iconColor: 'text-purple-400' },
 ];
 
 // Learn Tools dropdown items
 const LEARN_ITEMS = [
-  { href: '/ai-tutor', label: 'Lexi AI', icon: MessageSquare, description: 'Practice with AI conversation partner', tag: 'AI' },
-  { href: '/grammar-check', label: 'Grammar Checker', icon: PenLine, description: 'Check your writing for errors', tag: 'AI' },
-  { href: '/vocabulary', label: 'Vocabulary Trainer', icon: Brain, description: 'Learn words with spaced repetition', tag: '' },
-  { href: '/practice/vocabulary', label: 'Vocabulary Practice', icon: GraduationCap, description: 'Fill-in-the-gap exercises by level', tag: 'NEW' },
+  { href: '/ai-tutor', label: 'Lexi AI', icon: MessageSquare, description: 'Practice with AI conversation partner', tag: 'AI', gradient: 'from-cyan-500/20 to-blue-500/20', iconColor: 'text-cyan-400' },
+  { href: '/grammar-check', label: 'Grammar Checker', icon: PenLine, description: 'Check your writing for errors', tag: 'AI', gradient: 'from-rose-500/20 to-pink-500/20', iconColor: 'text-rose-400' },
+  { href: '/vocabulary', label: 'Vocabulary Trainer', icon: Brain, description: 'Learn words with spaced repetition', tag: '', gradient: 'from-violet-500/20 to-indigo-500/20', iconColor: 'text-violet-400' },
+  { href: '/practice/vocabulary', label: 'Vocabulary Practice', icon: Sparkles, description: 'Fill-in-the-gap exercises by level', tag: 'NEW', gradient: 'from-emerald-500/20 to-teal-500/20', iconColor: 'text-emerald-400' },
 ];
 
 export function Navbar() {
@@ -75,7 +75,6 @@ export function Navbar() {
   }, []);
 
   // Fetch community user count to conditionally show Community nav
-  // Delayed with requestIdleCallback to avoid competing with critical FCP resources
   useEffect(() => {
     const doFetch = () => {
       fetch('/api/community/user-count')
@@ -107,7 +106,7 @@ export function Navbar() {
   }, [mobileMenuOpen]);
 
   const handleLogout = async () => {
-    await logout(); // Await server cookie clearing before redirect
+    await logout();
     window.location.href = '/';
   };
 
@@ -120,7 +119,7 @@ export function Navbar() {
     <nav
       className={`sticky top-0 z-50 transition-all duration-500 ${
         scrolled
-          ? 'bg-[#0F0A1E]/80 backdrop-blur-xl border-b border-white/[0.03] py-1 shadow-[0_4px_30px_rgba(0,0,0,0.3)]'
+          ? 'bg-[#0F0A1E]/80 backdrop-blur-2xl border-b border-white/[0.03] py-1 shadow-[0_4px_30px_rgba(0,0,0,0.3),0_0_60px_rgba(59,130,246,0.03)]'
           : 'bg-[#0F0A1E]/40 backdrop-blur-sm border-b border-white/[0.02] py-2'
       }`}
     >
@@ -135,7 +134,7 @@ export function Navbar() {
             <span className="text-white font-bold text-lg sm:text-xl tracking-tight leading-tight group-hover:text-blue-200 transition-colors">
               test<span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">cefr</span><span className="text-blue-300/80">.com</span>
             </span>
-            <span className="text-white/30 text-[10px] sm:text-[11px] uppercase tracking-[0.25em] leading-tight hidden sm:block">
+            <span className="text-white/60 text-[10px] sm:text-[11px] uppercase tracking-[0.25em] leading-tight hidden sm:block group-hover:text-white/80 transition-colors">
               AI Language Assessment
             </span>
           </div>
@@ -148,7 +147,7 @@ export function Navbar() {
               {/* Home */}
               <NavigationMenuItem>
                 <Link href="/" className={navigationMenuTriggerStyle()}>
-                  <span className={`text-sm ${isActive('/') ? 'text-white' : 'text-white/50 hover:text-white'}`}>
+                  <span className={`nav-glow-underline text-sm ${isActive('/') ? 'text-white nav-active-pill rounded-lg px-1' : 'text-white/60 hover:text-white'}`}>
                     Home
                   </span>
                 </Link>
@@ -156,162 +155,178 @@ export function Navbar() {
 
               {/* CEFR Test Dropdown */}
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="bg-transparent hover:bg-white/[0.04] data-[state=open]:bg-white/[0.04] h-9 text-sm text-white/50 hover:text-white px-3">
+                <NavigationMenuTrigger className="bg-transparent hover:bg-white/[0.04] data-[state=open]:bg-white/[0.04] h-9 text-sm text-white/60 hover:text-white px-3 nav-glow-underline">
                   CEFR Test
-                  <ChevronDown className="ml-0.5 h-3 w-3 transition duration-200 group-data-[state=open]:rotate-180" />
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid w-[320px] gap-1 p-1.5 bg-[#0F0A1E]/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-xl shadow-black/60">
-                    {CEFR_ITEMS.map((item) => (
-                      <li key={item.href}>
+                  <div className="w-[340px] bg-[#0F0A1E]/95 backdrop-blur-2xl border border-white/[0.08] rounded-2xl shadow-2xl shadow-black/70 overflow-hidden">
+                    {/* Section Header */}
+                    <div className="px-4 pt-3 pb-1">
+                      <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/25">Test Your Skills</span>
+                    </div>
+                    <ul className="gap-1 p-1.5">
+                      {CEFR_ITEMS.map((item) => (
+                        <li key={item.href}>
+                          <NavigationMenuLink asChild>
+                            <Link
+                              href={item.href}
+                              className={cn(
+                                'nav-dropdown-item flex items-center gap-3 rounded-xl px-3 py-2.5 transition-all duration-200',
+                                isActive(item.href)
+                                  ? 'bg-white/[0.06] text-white'
+                                  : 'text-white/50 hover:text-white hover:bg-white/[0.04]'
+                              )}
+                            >
+                              <div className={cn(
+                                'flex items-center justify-center w-9 h-9 rounded-lg bg-gradient-to-br shadow-lg',
+                                item.gradient,
+                                isActive(item.href) && 'shadow-blue-500/10'
+                              )}>
+                                <item.icon className={cn('h-4 w-4', item.iconColor)} />
+                              </div>
+                              <div>
+                                <div className="text-sm font-medium">{item.label}</div>
+                                <div className="text-xs text-white/30">{item.description}</div>
+                              </div>
+                            </Link>
+                          </NavigationMenuLink>
+                        </li>
+                      ))}
+                      <li className="mt-1 pt-1 border-t border-white/[0.04]">
                         <NavigationMenuLink asChild>
                           <Link
-                            href={item.href}
-                            className={cn(
-                              'flex items-center gap-3 rounded-lg px-3 py-2.5 transition-all duration-200',
-                              isActive(item.href)
-                                ? 'bg-white/[0.06] text-white'
-                                : 'text-white/50 hover:text-white hover:bg-white/[0.04]'
-                            )}
+                            href="/test"
+                            className="nav-dropdown-item flex items-center gap-3 rounded-xl px-3 py-2.5 text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-200"
                           >
-                            <div className={cn(
-                              'flex items-center justify-center w-8 h-8 rounded-lg',
-                              isActive(item.href) ? 'bg-blue-500/20' : 'bg-white/[0.04]'
-                            )}>
-                              <item.icon className={cn(
-                                'h-4 w-4',
-                                isActive(item.href) ? 'text-blue-400' : 'text-white/30'
-                              )} />
+                            <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-gradient-to-br from-blue-500/20 to-cyan-500/20 shadow-lg shadow-cyan-500/10">
+                              <Trophy className="h-4 w-4 text-cyan-400" />
                             </div>
                             <div>
-                              <div className="text-sm font-medium">{item.label}</div>
-                              <div className="text-xs text-white/30">{item.description}</div>
+                              <div className="text-sm font-medium">Take Full Test</div>
+                              <div className="text-xs text-white/30">Complete CEFR assessment</div>
                             </div>
                           </Link>
                         </NavigationMenuLink>
                       </li>
-                    ))}
-                    <li className="mt-1 pt-1 border-t border-white/[0.04]">
-                      <NavigationMenuLink asChild>
-                        <Link
-                          href="/test"
-                          className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-200"
-                        >
-                          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500/20 to-cyan-500/20">
-                            <Trophy className="h-4 w-4 text-cyan-400" />
-                          </div>
-                          <div>
-                            <div className="text-sm font-medium">Take Full Test</div>
-                            <div className="text-xs text-white/30">Complete CEFR assessment</div>
-                          </div>
-                        </Link>
-                      </NavigationMenuLink>
-                    </li>
-                  </ul>
+                    </ul>
+                  </div>
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
               {/* Courses Dropdown */}
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="bg-transparent hover:bg-white/[0.04] data-[state=open]:bg-white/[0.04] h-9 text-sm text-white/50 hover:text-white px-3">
+                <NavigationMenuTrigger className="bg-transparent hover:bg-white/[0.04] data-[state=open]:bg-white/[0.04] h-9 text-sm text-white/60 hover:text-white px-3 nav-glow-underline">
                   Courses
-                  <ChevronDown className="ml-0.5 h-3 w-3 transition duration-200 group-data-[state=open]:rotate-180" />
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid w-[320px] gap-1 p-1.5 bg-[#0F0A1E]/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-xl shadow-black/60">
-                    {COURSE_ITEMS.map((item) => (
-                      <li key={item.href}>
+                  <div className="w-[340px] bg-[#0F0A1E]/95 backdrop-blur-2xl border border-white/[0.08] rounded-2xl shadow-2xl shadow-black/70 overflow-hidden">
+                    {/* Section Header */}
+                    <div className="px-4 pt-3 pb-1">
+                      <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/25">By Level</span>
+                    </div>
+                    <ul className="gap-1 p-1.5">
+                      {COURSE_ITEMS.map((item) => (
+                        <li key={item.href}>
+                          <NavigationMenuLink asChild>
+                            <Link
+                              href={item.href}
+                              className="nav-dropdown-item flex items-center gap-3 rounded-xl px-3 py-2.5 text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-200"
+                            >
+                              <div className={cn(
+                                'flex items-center justify-center w-9 h-9 rounded-lg bg-gradient-to-br shadow-lg',
+                                item.gradient
+                              )}>
+                                <item.icon className={cn('h-4 w-4', item.iconColor)} />
+                              </div>
+                              <div>
+                                <div className="text-sm font-medium">{item.label}</div>
+                                <div className="text-xs text-white/30">{item.description}</div>
+                              </div>
+                              <span className="ml-auto text-[10px] font-semibold tracking-wide uppercase px-1.5 py-0.5 rounded-md border border-blue-500/15 bg-blue-500/10 text-blue-400">
+                                {item.tag}
+                              </span>
+                            </Link>
+                          </NavigationMenuLink>
+                        </li>
+                      ))}
+                      <li className="mt-1 pt-1 border-t border-white/[0.04]">
                         <NavigationMenuLink asChild>
                           <Link
-                            href={item.href}
-                            className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-200"
+                            href="/courses"
+                            className="nav-dropdown-item flex items-center gap-3 rounded-xl px-3 py-2.5 text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-200"
                           >
-                            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/[0.04]">
-                              <item.icon className="h-4 w-4 text-white/30" />
+                            <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-gradient-to-br from-indigo-500/20 to-violet-500/20 shadow-lg">
+                              <BookOpen className="h-4 w-4 text-indigo-400" />
                             </div>
                             <div>
-                              <div className="text-sm font-medium">{item.label}</div>
-                              <div className="text-xs text-white/30">{item.description}</div>
+                              <div className="text-sm font-medium">All Courses</div>
+                              <div className="text-xs text-white/30">Browse the full catalog</div>
                             </div>
-                            <span className="ml-auto text-[10px] font-semibold tracking-wide uppercase px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-400">
-                              {item.tag}
-                            </span>
                           </Link>
                         </NavigationMenuLink>
                       </li>
-                    ))}
-                    <li className="mt-1 pt-1 border-t border-white/[0.04]">
-                      <NavigationMenuLink asChild>
-                        <Link
-                          href="/courses"
-                          className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-200"
-                        >
-                          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-white/[0.04]">
-                            <BookOpen className="h-4 w-4 text-white/30" />
-                          </div>
-                          <div>
-                            <div className="text-sm font-medium">All Courses</div>
-                            <div className="text-xs text-white/30">Browse the full catalog</div>
-                          </div>
-                        </Link>
-                      </NavigationMenuLink>
-                    </li>
-                  </ul>
+                    </ul>
+                  </div>
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
               {/* Learn Tools Dropdown */}
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="bg-transparent hover:bg-white/[0.04] data-[state=open]:bg-white/[0.04] h-9 text-sm text-white/50 hover:text-white px-3">
+                <NavigationMenuTrigger className="bg-transparent hover:bg-white/[0.04] data-[state=open]:bg-white/[0.04] h-9 text-sm text-white/60 hover:text-white px-3 nav-glow-underline">
                   Learn
-                  <ChevronDown className="ml-0.5 h-3 w-3 transition duration-200 group-data-[state=open]:rotate-180" />
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid w-[340px] gap-1 p-1.5 bg-[#0F0A1E]/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-xl shadow-black/60">
-                    {LEARN_ITEMS.map((item) => (
-                      <li key={item.href}>
-                        <NavigationMenuLink asChild>
-                          <Link
-                            href={item.href}
-                            className={cn(
-                              'flex items-center gap-3 rounded-lg px-3 py-2.5 transition-all duration-200',
-                              isActive(item.href)
-                                ? 'bg-white/[0.06] text-white'
-                                : 'text-white/50 hover:text-white hover:bg-white/[0.04]'
-                            )}
-                          >
-                            <div className={cn(
-                              'flex items-center justify-center w-8 h-8 rounded-lg',
-                              isActive(item.href) ? 'bg-gradient-to-br from-cyan-500/20 to-blue-500/20' : 'bg-gradient-to-br from-cyan-500/10 to-blue-500/10'
-                            )}>
-                              <item.icon className={cn(
-                                'h-4 w-4',
-                                isActive(item.href) ? 'text-cyan-400' : 'text-cyan-400/50'
-                              )} />
-                            </div>
-                            <div>
-                              <div className="text-sm font-medium">{item.label}</div>
-                              <div className="text-xs text-white/30">{item.description}</div>
-                            </div>
-                            <span className={cn(
-                              'ml-auto text-[10px] font-semibold tracking-wide uppercase px-1.5 py-0.5 rounded',
-                              item.tag === 'AI' && 'bg-cyan-500/15 text-cyan-400',
-                              item.tag === 'NEW' && 'bg-emerald-500/15 text-emerald-400'
-                            )}>
-                              {item.tag}
-                            </span>
-                          </Link>
-                        </NavigationMenuLink>
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="w-[360px] bg-[#0F0A1E]/95 backdrop-blur-2xl border border-white/[0.08] rounded-2xl shadow-2xl shadow-black/70 overflow-hidden">
+                    {/* Section Header */}
+                    <div className="px-4 pt-3 pb-1">
+                      <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/25">Learning Tools</span>
+                    </div>
+                    <ul className="gap-1 p-1.5">
+                      {LEARN_ITEMS.map((item) => (
+                        <li key={item.href}>
+                          <NavigationMenuLink asChild>
+                            <Link
+                              href={item.href}
+                              className={cn(
+                                'nav-dropdown-item flex items-center gap-3 rounded-xl px-3 py-2.5 transition-all duration-200',
+                                isActive(item.href)
+                                  ? 'bg-white/[0.06] text-white'
+                                  : 'text-white/50 hover:text-white hover:bg-white/[0.04]'
+                              )}
+                            >
+                              <div className={cn(
+                                'flex items-center justify-center w-9 h-9 rounded-lg bg-gradient-to-br shadow-lg',
+                                item.gradient,
+                                isActive(item.href) && 'shadow-cyan-500/10'
+                              )}>
+                                <item.icon className={cn('h-4 w-4', item.iconColor)} />
+                              </div>
+                              <div>
+                                <div className="text-sm font-medium">{item.label}</div>
+                                <div className="text-xs text-white/30">{item.description}</div>
+                              </div>
+                              {item.tag && (
+                                <span className={cn(
+                                  'ml-auto text-[10px] font-semibold tracking-wide uppercase px-1.5 py-0.5 rounded-md border',
+                                  item.tag === 'AI' && 'border-cyan-500/15 bg-cyan-500/10 text-cyan-400',
+                                  item.tag === 'NEW' && 'border-emerald-500/15 bg-emerald-500/10 text-emerald-400'
+                                )}>
+                                  {item.tag}
+                                </span>
+                              )}
+                            </Link>
+                          </NavigationMenuLink>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
               {/* Pricing */}
               <NavigationMenuItem>
                 <Link href="/pricing" className={navigationMenuTriggerStyle()}>
-                  <span className={`text-sm ${isActive('/pricing') ? 'text-white' : 'text-white/50 hover:text-white'}`}>
+                  <span className={`nav-glow-underline text-sm ${isActive('/pricing') ? 'text-white nav-active-pill rounded-lg px-1' : 'text-white/60 hover:text-white'}`}>
                     Pricing
                   </span>
                 </Link>
@@ -321,7 +336,7 @@ export function Navbar() {
               {communityVisible && (
                 <NavigationMenuItem>
                   <Link href="/community" className={navigationMenuTriggerStyle()}>
-                    <span className={`text-sm flex items-center gap-1 ${isActive('/community') ? 'text-white' : 'text-white/50 hover:text-white'}`}>
+                    <span className={`nav-glow-underline text-sm flex items-center gap-1.5 ${isActive('/community') ? 'text-white nav-active-pill rounded-lg px-1' : 'text-white/60 hover:text-white'}`}>
                       <Languages className="h-3.5 w-3.5" />
                       Community
                     </span>
@@ -331,8 +346,8 @@ export function Navbar() {
               {communityVisible && (
                 <NavigationMenuItem>
                   <Link href="/speakspace" className={navigationMenuTriggerStyle()}>
-                    <span className={`text-sm flex items-center gap-1 ${isActive('/speakspace') ? 'text-white' : 'text-white/50 hover:text-white'}`}>
-                      <Mic className="h-3.5 w-3.5" />
+                    <span className={`nav-glow-underline text-sm flex items-center gap-1.5 ${isActive('/speakspace') ? 'text-white nav-active-pill rounded-lg px-1' : 'text-white/60 hover:text-white'}`}>
+                      <Radio className="h-3.5 w-3.5 text-emerald-400 animate-pulse" />
                       SpeakSpace
                     </span>
                   </Link>
@@ -346,9 +361,9 @@ export function Navbar() {
             <div className="flex items-center gap-0.5 ml-1">
               <Link
                 href="/learn"
-                className={`text-sm px-3 py-1.5 rounded-lg transition-all duration-300 flex items-center gap-1 ${
+                className={`nav-glow-underline text-sm px-3 py-1.5 rounded-lg transition-all duration-300 flex items-center gap-1 ${
                   isActive('/learn')
-                    ? 'text-white bg-white/[0.06]'
+                    ? 'text-white nav-active-pill'
                     : 'text-white/50 hover:text-white hover:bg-white/[0.04]'
                 }`}
               >
@@ -357,25 +372,25 @@ export function Navbar() {
               </Link>
               <Link
                 href="/test"
-                className="text-sm px-3 py-1.5 rounded-lg transition-all duration-300 text-white/50 hover:text-white hover:bg-white/[0.04]"
+                className="nav-glow-underline text-sm px-3 py-1.5 rounded-lg transition-all duration-300 text-white/50 hover:text-white hover:bg-white/[0.04]"
               >
                 Take Test
               </Link>
               <Link
                 href="/ai-tutor"
-                className={`text-sm px-3 py-1.5 rounded-lg transition-all duration-300 flex items-center gap-1 ${
+                className={`nav-glow-underline text-sm px-3 py-1.5 rounded-lg transition-all duration-300 flex items-center gap-1 ${
                   isActive('/ai-tutor')
                     ? 'text-cyan-300 bg-cyan-500/10'
                     : 'text-cyan-400/70 hover:text-cyan-300 hover:bg-cyan-500/10'
                 }`}
               >
-                <MessageSquare className="h-3.5 w-3.5" />
+                <Zap className="h-3.5 w-3.5" />
                 Lexi AI
               </Link>
               {user?.role === 'admin' && (
                 <Link
                   href="/admin"
-                  className="text-sm text-blue-400/80 hover:text-blue-300 transition-colors px-3 py-1.5 rounded-lg hover:bg-white/[0.04] flex items-center gap-1"
+                  className="nav-glow-underline text-sm text-blue-400/80 hover:text-blue-300 transition-colors px-3 py-1.5 rounded-lg hover:bg-white/[0.04] flex items-center gap-1"
                 >
                   <Shield className="h-3.5 w-3.5" />
                   Admin
@@ -392,18 +407,18 @@ export function Navbar() {
           {isAuth ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex items-center gap-2 rounded-xl px-2.5 py-1.5 bg-white/[0.04] border border-white/[0.06] text-white text-sm cursor-pointer hover:bg-white/[0.08] hover:border-white/[0.1] transition-all duration-300">
-                  <div className="h-6 w-6 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 flex items-center justify-center text-xs font-bold">
+                <button className="group flex items-center gap-2 rounded-xl px-2.5 py-1.5 bg-white/[0.04] border border-white/[0.06] text-white text-sm cursor-pointer hover:bg-white/[0.08] hover:border-white/[0.12] transition-all duration-300">
+                  <div className="h-6 w-6 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 flex items-center justify-center text-xs font-bold shadow-lg shadow-blue-500/20 group-hover:shadow-blue-500/30 transition-shadow">
                     {(user?.name || user?.email || 'U')[0].toUpperCase()}
                   </div>
-                  <span className="max-w-[100px] truncate text-xs text-white/70">{user?.name || user?.email}</span>
+                  <span className="max-w-[100px] truncate text-xs text-white/70 group-hover:text-white/80 transition-colors">{user?.name || user?.email}</span>
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56 bg-[#0F0A1E]/95 backdrop-blur-xl border-white/[0.08] text-white shadow-xl shadow-black/60">
-                <div className="px-2 py-1.5">
+              <DropdownMenuContent align="end" className="w-56 bg-[#0F0A1E]/95 backdrop-blur-2xl border-white/[0.08] text-white shadow-2xl shadow-black/70 rounded-xl">
+                <div className="px-3 py-2">
                   <p className="text-sm font-medium">{user?.name || 'User'}</p>
                   <p className="text-xs text-white/50">{user?.email}</p>
-                  <div className="mt-1">
+                  <div className="mt-1.5">
                     <span
                       className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${getPlanBadgeClasses(user?.plan)}`}
                     >
@@ -412,40 +427,40 @@ export function Navbar() {
                   </div>
                 </div>
                 <DropdownMenuSeparator className="bg-white/[0.06]" />
-                <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/[0.06] focus:bg-white/[0.06]">
+                <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/[0.06] focus:bg-white/[0.06] rounded-lg mx-1">
                   <Link href="/learn">
-                    <BookOpen className="mr-2 h-4 w-4" />
+                    <BookOpen className="mr-2 h-4 w-4 text-white/40" />
                     My Learning
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/[0.06] focus:bg-white/[0.06]">
+                <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/[0.06] focus:bg-white/[0.06] rounded-lg mx-1">
                   <Link href="/dashboard">
-                    <Award className="mr-2 h-4 w-4" />
+                    <Award className="mr-2 h-4 w-4 text-white/40" />
                     Certificates
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/[0.06] focus:bg-white/[0.06]">
+                <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/[0.06] focus:bg-white/[0.06] rounded-lg mx-1">
                   <Link href="/profile">
-                    <User className="mr-2 h-4 w-4" />
+                    <User className="mr-2 h-4 w-4 text-white/40" />
                     Profile
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/[0.06] focus:bg-white/[0.06]">
+                <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/[0.06] focus:bg-white/[0.06] rounded-lg mx-1">
                   <Link href="/dashboard">
-                    <Shield className="mr-2 h-4 w-4" />
+                    <Shield className="mr-2 h-4 w-4 text-white/40" />
                     Dashboard
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/[0.06] focus:bg-white/[0.06]">
+                <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/[0.06] focus:bg-white/[0.06] rounded-lg mx-1">
                   <Link href="/pricing">
-                    <CreditCard className="mr-2 h-4 w-4" />
+                    <CreditCard className="mr-2 h-4 w-4 text-white/40" />
                     {isPaidPlan(user?.plan) ? 'Manage Plan' : 'Upgrade Plan'}
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator className="bg-white/[0.06]" />
                 <DropdownMenuItem
                   onClick={handleLogout}
-                  className="cursor-pointer text-red-400/80 hover:bg-red-500/10 focus:bg-red-500/10"
+                  className="cursor-pointer text-red-400/80 hover:bg-red-500/10 focus:bg-red-500/10 rounded-lg mx-1"
                 >
                   <LogOut className="mr-2 h-4 w-4" />
                   Log out
@@ -455,14 +470,16 @@ export function Navbar() {
           ) : (
             <>
               <Link href="/login">
-                <button className="text-sm text-white/50 hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-white/[0.04] cursor-pointer">
+                <button className="text-sm text-white/50 hover:text-white transition-all duration-300 px-4 py-2 rounded-xl border border-transparent hover:border-white/[0.06] hover:bg-white/[0.03] cursor-pointer">
                   Sign In
                 </button>
               </Link>
               <Link href="/register">
-                <button className="group flex items-center gap-1.5 rounded-xl px-4 py-1.5 bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white text-sm font-medium transition-all duration-300 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 cursor-pointer">
-                  Get Started
-                  <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                <button className="group cta-shimmer-btn flex items-center gap-1.5 rounded-xl px-5 py-2 text-white text-sm font-medium transition-all duration-300 hover:-translate-y-0.5 cursor-pointer shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40">
+                  <span className="relative z-10 flex items-center gap-1.5">
+                    Get Started
+                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                  </span>
                 </button>
               </Link>
             </>
@@ -471,7 +488,7 @@ export function Navbar() {
 
         {/* Mobile menu button */}
         <button
-          className="lg:hidden text-white hover:bg-white/10 rounded-lg p-1.5 transition-colors"
+          className="lg:hidden text-white hover:bg-white/10 rounded-xl p-2 transition-colors"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={mobileMenuOpen}
@@ -490,11 +507,11 @@ export function Navbar() {
 
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#0F0A1E]/95 backdrop-blur-xl border-t border-white/[0.04] p-3 space-y-0.5 animate-slide-down relative z-50 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+        <div className="lg:hidden bg-[#0F0A1E]/95 backdrop-blur-2xl border-t border-white/[0.04] p-3 space-y-0.5 animate-slide-down relative z-50 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
           <Link
             href="/"
-            className={`block text-sm py-2 px-3 rounded-lg transition-all duration-300 ${
-              isActive('/') ? 'text-white bg-white/[0.06]' : 'text-white/50 hover:text-white hover:bg-white/[0.04]'
+            className={`block text-sm py-2.5 px-3 rounded-xl transition-all duration-300 ${
+              isActive('/') ? 'text-white nav-active-pill' : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
             }`}
             onClick={() => setMobileMenuOpen(false)}
           >
@@ -504,11 +521,14 @@ export function Navbar() {
           {/* Mobile CEFR Test Accordion */}
           <div>
             <button
-              className="w-full flex items-center justify-between text-sm py-2 px-3 rounded-lg text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-300"
+              className="w-full flex items-center justify-between text-sm py-2.5 px-3 rounded-xl text-white/60 hover:text-white hover:bg-white/[0.04] transition-all duration-300"
               onClick={() => setMobileCefrOpen(!mobileCefrOpen)}
               aria-expanded={mobileCefrOpen}
             >
-              CEFR Test
+              <span className="flex items-center gap-2">
+                <Flame className="h-4 w-4 text-orange-400" />
+                CEFR Test
+              </span>
               <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${mobileCefrOpen ? 'rotate-180' : ''}`} />
             </button>
             {mobileCefrOpen && (
@@ -517,22 +537,26 @@ export function Navbar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`flex items-center gap-2 text-sm py-1.5 px-3 rounded-lg transition-all duration-300 ${
-                      isActive(item.href) ? 'text-white bg-white/[0.06]' : 'text-white/50 hover:text-white hover:bg-white/[0.04]'
+                    className={`flex items-center gap-2.5 text-sm py-2 px-3 rounded-xl transition-all duration-300 ${
+                      isActive(item.href) ? 'text-white nav-active-pill' : 'text-white/50 hover:text-white hover:bg-white/[0.04]'
                     }`}
                     onClick={() => { setMobileMenuOpen(false); setMobileCefrOpen(false); }}
                   >
-                    <item.icon className="h-3.5 w-3.5" />
+                    <div className={cn('flex items-center justify-center w-7 h-7 rounded-md bg-gradient-to-br', item.gradient)}>
+                      <item.icon className={cn('h-3.5 w-3.5', item.iconColor)} />
+                    </div>
                     {item.label}
                   </Link>
                 ))}
                 {isAuth && (
                   <Link
                     href="/test"
-                    className="flex items-center gap-2 text-sm py-1.5 px-3 rounded-lg text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-300"
+                    className="flex items-center gap-2.5 text-sm py-2 px-3 rounded-xl text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-300"
                     onClick={() => { setMobileMenuOpen(false); setMobileCefrOpen(false); }}
                   >
-                    <Trophy className="h-3.5 w-3.5" />
+                    <div className="flex items-center justify-center w-7 h-7 rounded-md bg-gradient-to-br from-blue-500/20 to-cyan-500/20">
+                      <Trophy className="h-3.5 w-3.5 text-cyan-400" />
+                    </div>
                     Take Full Test
                   </Link>
                 )}
@@ -543,11 +567,14 @@ export function Navbar() {
           {/* Mobile Courses Accordion */}
           <div>
             <button
-              className="w-full flex items-center justify-between text-sm py-2 px-3 rounded-lg text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-300"
+              className="w-full flex items-center justify-between text-sm py-2.5 px-3 rounded-xl text-white/60 hover:text-white hover:bg-white/[0.04] transition-all duration-300"
               onClick={() => setMobileCoursesOpen(!mobileCoursesOpen)}
               aria-expanded={mobileCoursesOpen}
             >
-              Courses
+              <span className="flex items-center gap-2">
+                <GraduationCap className="h-4 w-4 text-green-400" />
+                Courses
+              </span>
               <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${mobileCoursesOpen ? 'rotate-180' : ''}`} />
             </button>
             {mobileCoursesOpen && (
@@ -556,22 +583,26 @@ export function Navbar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="flex items-center gap-2 text-sm py-1.5 px-3 rounded-lg text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-300"
+                    className="flex items-center gap-2.5 text-sm py-2 px-3 rounded-xl text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-300"
                     onClick={() => { setMobileMenuOpen(false); setMobileCoursesOpen(false); }}
                   >
-                    <item.icon className="h-3.5 w-3.5" />
+                    <div className={cn('flex items-center justify-center w-7 h-7 rounded-md bg-gradient-to-br', item.gradient)}>
+                      <item.icon className={cn('h-3.5 w-3.5', item.iconColor)} />
+                    </div>
                     {item.label}
-                    <span className="ml-auto text-[9px] font-semibold tracking-wide uppercase px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-400">
+                    <span className="ml-auto text-[9px] font-semibold tracking-wide uppercase px-1.5 py-0.5 rounded-md border border-blue-500/15 bg-blue-500/10 text-blue-400">
                       {item.tag}
                     </span>
                   </Link>
                 ))}
                 <Link
                   href="/courses"
-                  className="flex items-center gap-2 text-sm py-1.5 px-3 rounded-lg text-white/50 hover:text-white hover:bg-white/5 transition-all duration-300"
+                  className="flex items-center gap-2.5 text-sm py-2 px-3 rounded-xl text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-300"
                   onClick={() => { setMobileMenuOpen(false); setMobileCoursesOpen(false); }}
                 >
-                  <BookOpen className="h-3.5 w-3.5" />
+                  <div className="flex items-center justify-center w-7 h-7 rounded-md bg-gradient-to-br from-indigo-500/20 to-violet-500/20">
+                    <BookOpen className="h-3.5 w-3.5 text-indigo-400" />
+                  </div>
                   All Courses
                 </Link>
               </div>
@@ -581,11 +612,14 @@ export function Navbar() {
           {/* Mobile Learn Accordion */}
           <div>
             <button
-              className="w-full flex items-center justify-between text-sm py-2 px-3 rounded-lg text-white/50 hover:text-white hover:bg-white/[0.04] transition-all duration-300"
+              className="w-full flex items-center justify-between text-sm py-2.5 px-3 rounded-xl text-white/60 hover:text-white hover:bg-white/[0.04] transition-all duration-300"
               onClick={() => setMobileLearnOpen(!mobileLearnOpen)}
               aria-expanded={mobileLearnOpen}
             >
-              Learn
+              <span className="flex items-center gap-2">
+                <Brain className="h-4 w-4 text-violet-400" />
+                Learn
+              </span>
               <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${mobileLearnOpen ? 'rotate-180' : ''}`} />
             </button>
             {mobileLearnOpen && (
@@ -594,20 +628,24 @@ export function Navbar() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`flex items-center gap-2 text-sm py-1.5 px-3 rounded-lg transition-all duration-300 ${
-                      isActive(item.href) ? 'text-white bg-white/[0.06]' : 'text-white/50 hover:text-white hover:bg-white/[0.04]'
+                    className={`flex items-center gap-2.5 text-sm py-2 px-3 rounded-xl transition-all duration-300 ${
+                      isActive(item.href) ? 'text-white nav-active-pill' : 'text-white/50 hover:text-white hover:bg-white/[0.04]'
                     }`}
                     onClick={() => { setMobileMenuOpen(false); setMobileLearnOpen(false); }}
                   >
-                    <item.icon className="h-3.5 w-3.5" />
+                    <div className={cn('flex items-center justify-center w-7 h-7 rounded-md bg-gradient-to-br', item.gradient)}>
+                      <item.icon className={cn('h-3.5 w-3.5', item.iconColor)} />
+                    </div>
                     {item.label}
-                    <span className={cn(
-                      'ml-auto text-[9px] font-semibold tracking-wide uppercase px-1.5 py-0.5 rounded',
-                      item.tag === 'AI' && 'bg-cyan-500/15 text-cyan-400',
-                      item.tag === 'NEW' && 'bg-emerald-500/15 text-emerald-400'
-                    )}>
-                      {item.tag}
-                    </span>
+                    {item.tag && (
+                      <span className={cn(
+                        'ml-auto text-[9px] font-semibold tracking-wide uppercase px-1.5 py-0.5 rounded-md border',
+                        item.tag === 'AI' && 'border-cyan-500/15 bg-cyan-500/10 text-cyan-400',
+                        item.tag === 'NEW' && 'border-emerald-500/15 bg-emerald-500/10 text-emerald-400'
+                      )}>
+                        {item.tag}
+                      </span>
+                    )}
                   </Link>
                 ))}
               </div>
@@ -616,8 +654,8 @@ export function Navbar() {
 
           <Link
             href="/pricing"
-            className={`block text-sm py-2 px-3 rounded-lg transition-all duration-300 ${
-              isActive('/pricing') ? 'text-white bg-white/[0.06]' : 'text-white/50 hover:text-white hover:bg-white/[0.04]'
+            className={`block text-sm py-2.5 px-3 rounded-xl transition-all duration-300 ${
+              isActive('/pricing') ? 'text-white nav-active-pill' : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
             }`}
             onClick={() => setMobileMenuOpen(false)}
           >
@@ -627,25 +665,26 @@ export function Navbar() {
           {communityVisible && (
             <Link
               href="/community"
-              className={`flex items-center gap-1.5 text-sm py-2 px-3 rounded-lg transition-all duration-300 ${
-                isActive('/community') ? 'text-white bg-white/[0.06]' : 'text-white/50 hover:text-white hover:bg-white/[0.04]'
+              className={`flex items-center gap-2 text-sm py-2.5 px-3 rounded-xl transition-all duration-300 ${
+                isActive('/community') ? 'text-white nav-active-pill' : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
               }`}
               onClick={() => setMobileMenuOpen(false)}
             >
-              <Languages className="h-3.5 w-3.5" />
+              <Languages className="h-4 w-4" />
               Community
             </Link>
           )}
           {communityVisible && (
             <Link
               href="/speakspace"
-              className={`flex items-center gap-1.5 text-sm py-2 px-3 rounded-lg transition-all duration-300 ${
-                isActive('/speakspace') ? 'text-white bg-white/[0.06]' : 'text-white/50 hover:text-white hover:bg-white/[0.04]'
+              className={`flex items-center gap-2 text-sm py-2.5 px-3 rounded-xl transition-all duration-300 ${
+                isActive('/speakspace') ? 'text-white nav-active-pill' : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
               }`}
               onClick={() => setMobileMenuOpen(false)}
             >
-              <Mic className="h-3.5 w-3.5" />
+              <Radio className="h-4 w-4 text-emerald-400" />
               SpeakSpace
+              <span className="ml-1 w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
             </Link>
           )}
 
@@ -654,8 +693,8 @@ export function Navbar() {
             <>
               <Link
                 href="/learn"
-                className={`flex items-center gap-2 text-sm py-2 px-3 rounded-lg transition-all duration-300 ${
-                  isActive('/learn') ? 'text-white bg-white/[0.06]' : 'text-white/50 hover:text-white hover:bg-white/[0.04]'
+                className={`flex items-center gap-2 text-sm py-2.5 px-3 rounded-xl transition-all duration-300 ${
+                  isActive('/learn') ? 'text-white nav-active-pill' : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
                 }`}
                 onClick={() => setMobileMenuOpen(false)}
               >
@@ -664,14 +703,14 @@ export function Navbar() {
               </Link>
               <Link
                 href="/profile"
-                className="block text-sm text-white/50 hover:text-white py-2 px-3 rounded-lg hover:bg-white/[0.04]"
+                className="block text-sm text-white/60 hover:text-white py-2.5 px-3 rounded-xl hover:bg-white/[0.04]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Profile
               </Link>
               <Link
                 href="/dashboard"
-                className="block text-sm text-white/50 hover:text-white py-2 px-3 rounded-lg hover:bg-white/[0.04]"
+                className="block text-sm text-white/60 hover:text-white py-2.5 px-3 rounded-xl hover:bg-white/[0.04]"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Dashboard
@@ -686,7 +725,7 @@ export function Navbar() {
                   </div>
                   <Link
                     href="/admin"
-                    className="block text-sm text-blue-400/80 py-2 px-3 rounded-lg hover:bg-white/[0.04]"
+                    className="block text-sm text-blue-400/80 py-2.5 px-3 rounded-xl hover:bg-white/[0.04]"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     <Shield className="inline h-3.5 w-3.5 mr-1" />
@@ -697,7 +736,7 @@ export function Navbar() {
               <div className="pt-2 mt-1 border-t border-white/[0.06]">
                 <p className="text-sm text-white/40 mb-1 px-3">{user?.email}</p>
                 <button
-                  className="w-full text-left text-sm text-red-400/80 py-2 px-3 rounded-lg hover:bg-red-500/10"
+                  className="w-full text-left text-sm text-red-400/80 py-2.5 px-3 rounded-xl hover:bg-red-500/10"
                   onClick={handleLogout}
                 >
                   Log out
@@ -707,13 +746,13 @@ export function Navbar() {
           ) : (
             <div className="pt-2 mt-1 border-t border-white/[0.06] px-3 space-y-2">
               <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
-                <button className="w-full rounded-xl py-2 bg-white/[0.04] border border-white/[0.06] text-white text-sm font-medium hover:bg-white/[0.08] transition-all duration-300">
+                <button className="w-full rounded-xl py-2.5 bg-white/[0.04] border border-white/[0.06] text-white text-sm font-medium hover:bg-white/[0.08] transition-all duration-300 cursor-pointer">
                   Sign In
                 </button>
               </Link>
               <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
-                <button className="w-full rounded-xl py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-sm font-medium hover:from-blue-500 hover:to-cyan-400 transition-all duration-300">
-                  Get Started
+                <button className="w-full cta-shimmer-btn rounded-xl py-2.5 text-white text-sm font-medium transition-all duration-300 cursor-pointer">
+                  <span className="relative z-10">Get Started Free</span>
                 </button>
               </Link>
             </div>

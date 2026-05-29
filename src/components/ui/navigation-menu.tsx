@@ -59,7 +59,7 @@ function NavigationMenuItem({
 }
 
 const navigationMenuTriggerStyle = cva(
-  "group inline-flex h-9 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-sm font-medium hover:bg-white/[0.04] focus:bg-white/[0.04] disabled:pointer-events-none disabled:opacity-50 data-[state=open]:hover:bg-white/[0.04] data-[state=open]:bg-white/[0.04] focus-visible:ring-ring/50 outline-none transition-[color,box-shadow] focus-visible:ring-[3px] focus-visible:outline-1"
+  "group inline-flex h-9 w-max items-center justify-center rounded-lg bg-transparent px-3.5 py-2 text-sm font-medium hover:bg-white/[0.06] focus:bg-white/[0.06] disabled:pointer-events-none disabled:opacity-50 data-[state=open]:hover:bg-white/[0.06] data-[state=open]:bg-white/[0.06] focus-visible:ring-ring/50 outline-none transition-all duration-300 focus-visible:ring-[3px] focus-visible:outline-1 relative"
 )
 
 function NavigationMenuTrigger({
@@ -75,7 +75,7 @@ function NavigationMenuTrigger({
     >
       {children}{" "}
       <ChevronDownIcon
-        className="relative top-[1px] ml-1 size-3 transition duration-300 group-data-[state=open]:rotate-180"
+        className="relative top-[1px] ml-0.5 size-3 transition-transform duration-300 group-data-[state=open]:rotate-180 text-white/40 group-hover:text-white/70"
         aria-hidden="true"
       />
     </NavigationMenuPrimitive.Trigger>
@@ -112,7 +112,7 @@ function NavigationMenuViewport({
       <NavigationMenuPrimitive.Viewport
         data-slot="navigation-menu-viewport"
         className={cn(
-          "origin-top-center bg-[#0F0A1E]/95 backdrop-blur-xl text-white border-white/[0.08] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90 relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-xl border shadow-xl shadow-black/60 md:w-[var(--radix-navigation-menu-viewport-width)]",
+          "origin-top-center bg-[#0F0A1E]/95 backdrop-blur-2xl text-white border-white/[0.08] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90 relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-2xl border shadow-2xl shadow-black/70 md:w-[var(--radix-navigation-menu-viewport-width)]",
           className
         )}
         {...props}
