@@ -45,6 +45,7 @@ export const TABS = [
   { id: 'governance', label: 'Governance', icon: 'Shield' },
   { id: 'system', label: 'System', icon: 'Server' },
   { id: 'analytics', label: 'Analytics', icon: 'Globe' },
+  { id: 'livekit', label: 'Live Video', icon: 'Video' },
 ] as const;
 
 export type TabId = (typeof TABS)[number]['id'];

@@ -499,3 +499,112 @@ Stage Summary:
 - Build: zero errors, production deployed to testcefr.com
 - NOTE: Prisma schema push to Neon DB failed from sandbox (P1001) — needs to be run from user's machine or Vercel build
 - NOTE: PayPal and Google AI API keys are empty in .env — need to be set on Vercel dashboard
+
+---
+Task ID: LIVEKIT-1
+Agent: Main Agent
+Task: Implement LiveKit Self-Hosted integration for live video classes
+
+Work Log:
+- Installed LiveKit dependencies: livekit-client, @livekit/components-react, @livekit/components-styles, livekit-server-sdk
+- Added LiveClass and LiveClassParticipant models to Prisma schema
+- Added User relations: hostedLiveClasses, liveParticipations
+- Created /src/lib/livekit.ts — Complete LiveKit server utility with:
+  - Token generation (async, role-based grants: host/co_host/participant/admin)
+  - Room management (create, list, get, delete, listParticipants, removeParticipant)
+  - Recording management (start/stop room composite and track composite, list recordings)
+  - Metadata management (update room/participant metadata)
+  - Lazy-initialized RoomServiceClient and EgressClient
+  - S3Upload + EncodedFileOutput for Cloudflare R2 recording storage
+- Created /api/livekit/token/route.ts — Token generation endpoint with:
+  - Auth requirement, room name validation
+  - LiveClass status checking (cancelled/ended rejection)
+  - Max participant enforcement
+  - Auto role detection (host if owner)
+  - Auto-create LiveClass on first join (autoCreate option)
+  - Participant upsert with role tracking
+  - Auto-transition scheduled→live when host joins
+- Created /api/webhooks/livekit/route.ts — Webhook handler for LiveKit events:
+  - JWT signature verification (jose-based)
+  - Handles: room_started, room_finished, participant_joined, participant_left, egress_ended, egress_failed
+  - Updates LiveClass status on room start/finish
+  - Tracks participant join/leave with duration
+  - Saves recording URL and duration from egress events
+- Created /api/livekit/rooms/route.ts — Room management endpoint:
+  - GET: List rooms merged with LiveKit server state (active participant counts, isLiveOnServer)
+  - POST: Create new scheduled live class with auto-generated room name
+  - DELETE: End room (host/admin only), marks all participants as left
+- Created /api/livekit/recordings/route.ts — Recording management endpoint:
+  - GET: List recordings from database + active LiveKit egress (admin only)
+  - POST: Start/stop recording for a room (host/admin only)
+- Created /src/components/livekit/VideoCallRoom.tsx — Main video call component:
+  - LiveKitRoom wrapper with TestCEFR branding
+  - Custom video conference layout with grid/focus views
+  - Screen share detection and focus layout
+  - Chat sidebar toggle
+  - Connection status badge with live duration timer
+  - Participant count indicator
+  - Connection overlay (connecting spinner)
+  - Error overlay with retry
+  - Not-configured fallback
+- Created /src/components/livekit/PreJoinScreen.tsx — Pre-join screen:
+  - Camera/mic toggle buttons
+  - Join/Cancel actions
+  - Privacy notice
+  - Camera preview placeholder
+- Created /community/live/page.tsx — Live rooms listing page:
+  - Search, category, and CEFR level filters
+  - Create Class dialog with title, description, category, level, max participants
+  - Live Now section with red LIVE badges and pulse animation
+  - Upcoming section with calendar badges
+  - Past Classes section with recording indicators
+  - Room cards with participant counts, host info, level badges
+  - Auto-refresh every 15 seconds
+- Created /community/live/[roomName]/page.tsx — Individual room page:
+  - Three-phase flow: loading → prejoin → connected
+  - Token fetching with role detection
+  - Pre-join screen with mic/camera toggles
+  - Full-screen video room with back button
+  - Host badge indicator
+  - Error handling with try-again
+- Added LiveKit admin tab to admin dashboard:
+  - Created /src/components/admin/tabs/livekit-tab.tsx
+  - 4 stat cards: Live Now, Scheduled, Participants Online, Recordings
+  - Rooms sub-tab with room cards (status, participant count, recording, actions)
+  - Recordings sub-tab with active/past recordings
+  - Start/stop recording controls
+  - End room with confirmation modal
+  - Auto-refresh every 30 seconds
+  - Added 'livekit' tab to constants and admin page
+- Updated /src/middleware.ts:
+  - Added wss: to connect-src CSP for LiveKit WebSocket connections
+  - Added https://livekit.testcefr.com to connect-src
+  - Changed camera permission from () to (self) for video calls
+- Updated /community/page.tsx:
+  - Added "Live Video" link with red styling alongside Moments and Global Chatroom
+  - Added Video icon import
+- Updated .env.example with LiveKit configuration variables:
+  - NEXT_PUBLIC_LIVEKIT_URL, LIVEKIT_API_KEY, LIVEKIT_API_SECRET, LIVEKIT_HTTP_URL
+  - R2_BUCKET_NAME, R2_ACCOUNT_ID, R2_ACCESS_KEY, R2_SECRET_KEY
+- Created /api/admin/migrate/route.ts for Prisma schema push from Vercel
+- Fixed multiple TypeScript build errors:
+  - toJwt() is async in newer livekit-server-sdk → made generateToken async
+  - EgressClient API changes → S3Upload + EncodedFileOutput with output: { case: 's3', value }
+  - EncodedFileType.MP4_FILE → EncodedFileType.MP4
+  - StatCard props (title→label, color/bg→gradient)
+  - ConfirmModal props (onCancel→open/onClose)
+  - Room.connectedAt not available → used Date.now() for duration
+  - Removed unused ConnectionQuality import
+- Build passes with zero errors
+- Deployed to Vercel production
+
+Stage Summary:
+- Complete LiveKit self-hosted integration implemented
+- 2 new Prisma models: LiveClass, LiveClassParticipant
+- 5 new API routes: /api/livekit/token, /api/livekit/rooms, /api/livekit/recordings, /api/webhooks/livekit, /api/admin/migrate
+- 2 new React components: VideoCallRoom, PreJoinScreen
+- 2 new pages: /community/live (listing), /community/live/[roomName] (room)
+- 1 new admin tab: Live Video (rooms + recordings management)
+- CSP and Permissions-Policy updated for WebRTC
+- Environment variables documented in .env.example
+- To complete setup: deploy LiveKit server on Hetzner (per user's guide), set DNS for livekit.testcefr.com, add env vars to Vercel, run Prisma schema push via /api/admin/migrate

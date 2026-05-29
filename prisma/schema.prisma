@@ -60,6 +60,8 @@ model User {
   supportTickets    SupportTicket[]      @relation("UserSupportTickets")
   emailQueue        EmailQueue[]         @relation("UserEmailQueue")
   reports           Report[]             @relation("UserReports")
+  hostedLiveClasses LiveClass[]          @relation("HostedLiveClasses")
+  liveParticipations LiveClassParticipant[] @relation("LiveClassParticipations")
 
   @@index([organizationId])
 }
@@ -975,4 +977,55 @@ model SharedMedia {
   @@index([uploaderId])
   @@index([type, status])
   @@index([createdAt])
+}
+
+// ═══════════════════════════════════════════════════════════
+//  LIVE VIDEO — LiveKit integration for live classes & tutoring
+// ═══════════════════════════════════════════════════════════
+
+model LiveClass {
+  id              String    @id @default(cuid())
+  title           String
+  description     String?
+  roomName        String    @unique // LiveKit room name (must be unique)
+  hostId          String // Teacher/host user ID
+  level           String? // "A1" | "A2" | "B1" | "B2" | "C1" | "C2" | "all"
+  category        String    @default("general") // "general" | "grammar" | "conversation" | "pronunciation" | "business" | "exam_prep" | "tutoring"
+  maxParticipants Int       @default(20)
+  status          String    @default("scheduled") // "scheduled" | "live" | "ended" | "cancelled"
+  isRecorded      Boolean   @default(false)
+  recordingUrl    String? // Cloudflare R2 URL after recording
+  recordingDuration Int? // Duration in seconds
+  scheduledAt     DateTime? // When the class is scheduled to start
+  startedAt       DateTime? // When the class actually started
+  endedAt         DateTime? // When the class ended
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  host      User           @relation("HostedLiveClasses", fields: [hostId], references: [id], onDelete: Cascade)
+  participants LiveClassParticipant[]
+
+  @@index([hostId])
+  @@index([status])
+  @@index([category, level])
+  @@index([scheduledAt])
+  @@index([roomName])
+}
+
+model LiveClassParticipant {
+  id        String   @id @default(cuid())
+  classId   String
+  userId    String
+  role      String   @default("participant") // "host" | "co_host" | "participant"
+  joinedAt  DateTime @default(now())
+  leftAt    DateTime?
+  duration  Int? // Seconds spent in the room
+
+  liveClass LiveClass @relation(fields: [classId], references: [id], onDelete: Cascade)
+  user      User      @relation("LiveClassParticipations", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([classId, userId])
+  @@index([classId])
+  @@index([userId])
+  @@index([joinedAt])
 }

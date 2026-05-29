@@ -26,6 +26,7 @@ import {
   Filter,
   Wifi,
   Mail,
+  Video,
 } from 'lucide-react';
 
 // ─── Language data ─────────────────────────────────────────
@@ -567,6 +568,10 @@ export default function CommunityPage() {
               Connect with native speakers, practice together, and join our global chatroom.
             </p>
             <div className="mt-4 flex items-center justify-center gap-3">
+              <a href="/community/live" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-red-500/15 border border-red-500/30 text-red-400 text-sm font-medium hover:bg-red-500/25 transition-all">
+                <Video className="h-4 w-4" />
+                Live Video
+              </a>
               <a href="/community/moments" className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-violet-500/15 border border-violet-500/30 text-violet-400 text-sm font-medium hover:bg-violet-500/25 transition-all">
                 <Sparkles className="h-4 w-4" />
                 Moments

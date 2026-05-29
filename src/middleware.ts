@@ -94,7 +94,7 @@ function addSecurityHeaders(response: NextResponse): NextResponse {
   // geolocation: not needed
   response.headers.set(
     'Permissions-Policy',
-    'camera=(), geolocation=(), microphone=(self), payment=(self)'
+    'camera=(self), geolocation=(), microphone=(self), payment=(self)'
   );
 
   // Content Security Policy — PayPal domains removed for sandbox/preview mode
@@ -108,7 +108,7 @@ function addSecurityHeaders(response: NextResponse): NextResponse {
         "font-src 'self' https://fonts.gstatic.com",
         "img-src 'self' data: blob: https://www.google-analytics.com",
         "frame-src https://www.youtube.com https://www.youtube-nocookie.com https://player.vimeo.com",
-        "connect-src 'self' https://generativelanguage.googleapis.com https://www.google-analytics.com https://analytics.google.com https://us.i.posthog.com",
+        "connect-src 'self' wss: https://generativelanguage.googleapis.com https://www.google-analytics.com https://analytics.google.com https://us.i.posthog.com https://livekit.testcefr.com",
         "worker-src 'self' blob:",
         "report-uri /api/csp-report",
       ].join('; ')

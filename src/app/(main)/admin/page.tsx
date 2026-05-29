@@ -10,7 +10,7 @@ import { useAdminNotificationStore } from '@/lib/admin-notification-store';
 import { Navbar } from '@/components/navbar';
 import {
   BarChart3, Users, CreditCard, Award, Mail, Code2,
-  BookOpen, Shield, Server, Globe, RefreshCw,
+  BookOpen, Shield, Server, Globe, RefreshCw, Video,
 } from 'lucide-react';
 import { TABS, type TabId } from '@/components/admin/shared';
 import { OverviewTab } from '@/components/admin/tabs/overview-tab';
@@ -23,9 +23,10 @@ import { QuestionBankTab } from '@/components/admin/tabs/question-bank-tab';
 import { GovernanceTab } from '@/components/admin/tabs/governance-tab';
 import { SystemTab } from '@/components/admin/tabs/system-tab';
 import { AnalyticsTab } from '@/components/admin/tabs/analytics-tab';
+import { LiveKitTab } from '@/components/admin/tabs/livekit-tab';
 
 const TAB_ICONS: Record<string, React.ElementType> = {
-  BarChart3, Users, CreditCard, Award, Mail, Code2, BookOpen, Shield, Server, Globe,
+  BarChart3, Users, CreditCard, Award, Mail, Code2, BookOpen, Shield, Server, Globe, Video,
 };
 
 // ─── Toast Notification ───────────────────────────────────────────────────
@@ -103,6 +104,8 @@ export default function AdminDashboard() {
         return <SystemTab onToast={onToast} />;
       case 'analytics':
         return <AnalyticsTab onToast={onToast} />;
+      case 'livekit':
+        return <LiveKitTab onToast={onToast} />;
       default:
         return <OverviewTab onSwitchTab={setActiveTab} onToast={onToast} />;
     }
