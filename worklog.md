@@ -714,3 +714,26 @@ Stage Summary:
 - Admin Live Monitor at https://testcefr.com/admin/live-monitor (admin only)
 - Rich Profile at https://testcefr.com/profile
 - New Prisma models added: Badge, ActivityLog, UserFollow
+---
+Task ID: SPEAKING-DEPLOY
+Agent: Main Agent
+Task: Verify and deploy Speaking Assessment page to production
+
+Work Log:
+- Found existing SpeakingAssessmentPage at /src/app/speaking/page.tsx (913 lines)
+- Page already has complete 5-phase flow: INTRO → PREPARE → RECORDING → PROCESSING → RESULTS
+- All 4 visual components implemented: VoiceWaveform (Canvas, 60 bars), AIOrb (3 states), RadarChart (6-axis Canvas), AITypingFeedback (char-by-char)
+- CircularTimer component for recording countdown
+- 6 scoring dimensions with color coding
+- Simulated scores in processing phase
+- Custom CSS classes already in globals.css: cta-shimmer-btn, speaking-bg-1 through 5, float/float-reverse keyframes
+- Verified build succeeds with zero errors
+- Deployed to Vercel production
+- Confirmed /speaking returns HTTP 200
+
+Stage Summary:
+- Speaking Assessment page was already fully implemented from previous session
+- Build passes with zero errors
+- Deployed to production at testcefr.com/speaking
+- All 5 phases functional with Canvas-based visualizations
+- Uses simulated scores (future: wire to real AI via Whisper + /api/assessments/speaking/evaluate)
