@@ -6,7 +6,7 @@ import { Navbar } from '@/components/navbar';
 import {
   Mic, ArrowRight, Brain, Sparkles, RotateCcw, Download, Share2,
   ChevronRight, Clock, Lightbulb, Volume2, CheckCircle2, Lock,
-  MessageSquare, BookOpen, Award, Radio,
+  MessageSquare, BookOpen, Award, Radio, MicOff, AlertCircle,
 } from 'lucide-react';
 import { useAuthStore } from '@/lib/auth-store';
 import { useHydrated } from '@/hooks/use-hydrated';
@@ -91,9 +91,151 @@ function getLevelBadgeClasses(level: string): string {
 }
 
 /* ======================================================
-   VOICE WAVEFORM — Canvas Component
+   LIVE RECORDING INDICATOR — Fixed top bar
    ====================================================== */
-function VoiceWaveform({ active }: { active: boolean }) {
+function LiveRecordingIndicator({ timeLeft, totalTime }: { timeLeft: number; totalTime: number }) {
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
+  const elapsed = totalTime - timeLeft;
+  const elapsedMin = Math.floor(elapsed / 60);
+  const elapsedSec = elapsed % 60;
+
+  return (
+    <div className="fixed top-0 left-0 right-0 z-50 bg-red-950/80 backdrop-blur-xl border-b border-red-500/20">
+      <div className="container mx-auto px-4 py-2 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          {/* Pulsing red dot */}
+          <span className="relative flex h-3 w-3">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" />
+            <span className="relative inline-flex h-3 w-3 rounded-full bg-red-500" />
+          </span>
+          <span className="text-sm font-bold text-red-300 uppercase tracking-wider">REC</span>
+          <span className="text-xs text-red-400/60">Recording in progress</span>
+        </div>
+        <div className="flex items-center gap-4">
+          <span className="text-xs text-red-400/50">
+            {elapsedMin}:{elapsedSec.toString().padStart(2, '0')} elapsed
+          </span>
+          <span className="text-sm font-mono font-bold text-red-300">
+            {minutes}:{seconds.toString().padStart(2, '0')} left
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ======================================================
+   MICROPHONE RING — Large visible mic with audio level ring
+   ====================================================== */
+function MicrophoneRing({ audioLevel, isActive }: { audioLevel: number; isActive: boolean }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animRef = useRef<number>(0);
+  const smoothLevel = useRef(0);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const dpr = window.devicePixelRatio || 1;
+    const size = 220;
+    canvas.width = size * dpr;
+    canvas.height = size * dpr;
+    ctx.scale(dpr, dpr);
+
+    const cx = size / 2;
+    const cy = size / 2;
+    const baseRadius = 80;
+
+    const draw = () => {
+      ctx.clearRect(0, 0, size, size);
+
+      // Smooth the audio level
+      const target = isActive ? audioLevel : 0;
+      smoothLevel.current += (target - smoothLevel.current) * 0.15;
+      const level = smoothLevel.current;
+
+      // Outer glow ring (reacts to audio)
+      const glowRadius = baseRadius + 12 + level * 18;
+      const gradient = ctx.createRadialGradient(cx, cy, baseRadius - 5, cx, cy, glowRadius + 10);
+      gradient.addColorStop(0, 'rgba(239, 68, 68, 0.0)');
+      gradient.addColorStop(0.5, `rgba(239, 68, 68, ${0.05 + level * 0.15})`);
+      gradient.addColorStop(1, 'rgba(239, 68, 68, 0.0)');
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(cx, cy, glowRadius + 10, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Audio level ring segments
+      const segments = 64;
+      for (let i = 0; i < segments; i++) {
+        const angle = (i / segments) * Math.PI * 2 - Math.PI / 2;
+        const segLen = 4 + level * 14 * Math.sin(i * 0.5 + Date.now() * 0.003);
+        const innerR = baseRadius + 4;
+        const outerR = innerR + Math.max(2, segLen);
+
+        const x1 = cx + innerR * Math.cos(angle);
+        const y1 = cy + innerR * Math.sin(angle);
+        const x2 = cx + outerR * Math.cos(angle);
+        const y2 = cy + outerR * Math.sin(angle);
+
+        const segGrad = ctx.createLinearGradient(x1, y1, x2, y2);
+        segGrad.addColorStop(0, `rgba(239, 68, 68, ${0.3 + level * 0.4})`);
+        segGrad.addColorStop(1, `rgba(239, 68, 68, ${0.1 + level * 0.2})`);
+
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.strokeStyle = segGrad;
+        ctx.lineWidth = 2;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+      }
+
+      // Base circle ring
+      ctx.beginPath();
+      ctx.arc(cx, cy, baseRadius, 0, Math.PI * 2);
+      ctx.strokeStyle = isActive ? 'rgba(239, 68, 68, 0.25)' : 'rgba(255, 255, 255, 0.06)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Inner subtle fill
+      const innerGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, baseRadius);
+      innerGrad.addColorStop(0, isActive ? 'rgba(239, 68, 68, 0.06)' : 'rgba(96, 165, 250, 0.04)');
+      innerGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = innerGrad;
+      ctx.beginPath();
+      ctx.arc(cx, cy, baseRadius, 0, Math.PI * 2);
+      ctx.fill();
+
+      animRef.current = requestAnimationFrame(draw);
+    };
+
+    animRef.current = requestAnimationFrame(draw);
+    return () => cancelAnimationFrame(animRef.current);
+  }, [audioLevel, isActive]);
+
+  return (
+    <div className="relative flex items-center justify-center" style={{ width: 220, height: 220 }}>
+      <canvas ref={canvasRef} style={{ width: 220, height: 220 }} className="absolute inset-0" />
+      {/* Mic icon center */}
+      <div className={`relative z-10 w-20 h-20 rounded-full flex items-center justify-center transition-all duration-300 ${isActive ? 'bg-red-500/15 shadow-lg shadow-red-500/20' : 'bg-white/[0.03]'}`}>
+        {isActive ? (
+          <Mic className="h-10 w-10 text-red-400 drop-shadow-lg" />
+        ) : (
+          <MicOff className="h-10 w-10 text-white/20" />
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ======================================================
+   VOICE WAVEFORM — Canvas Component with real audio data
+   ====================================================== */
+function VoiceWaveform({ active, audioLevel = 0 }: { active: boolean; audioLevel?: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animRef = useRef<number>(0);
   const timeRef = useRef(0);
@@ -105,13 +247,13 @@ function VoiceWaveform({ active }: { active: boolean }) {
     if (!ctx) return;
 
     const dpr = window.devicePixelRatio || 1;
-    const width = 320;
+    const width = 360;
     const height = 80;
     canvas.width = width * dpr;
     canvas.height = height * dpr;
     ctx.scale(dpr, dpr);
 
-    const barCount = 60;
+    const barCount = 70;
     const barWidth = 3;
     const gap = (width - barCount * barWidth) / (barCount - 1);
 
@@ -125,13 +267,14 @@ function VoiceWaveform({ active }: { active: boolean }) {
         let h: number;
 
         if (active) {
-          // Complex waveform with envelope + noise
+          // Real audio level influences the waveform height
           const envelope = Math.sin((i / barCount) * Math.PI) * 0.8 + 0.2;
           const wave1 = Math.sin(t * 2 + i * 0.3) * 0.4;
           const wave2 = Math.sin(t * 3.7 + i * 0.15) * 0.3;
           const noise = Math.random() * 0.2;
-          h = (envelope + wave1 + wave2 + noise) * (height * 0.4);
-          h = Math.max(4, Math.min(height * 0.85, h));
+          const audioBoost = audioLevel * 0.6; // Real mic input boost
+          h = (envelope + wave1 + wave2 + noise + audioBoost) * (height * 0.4);
+          h = Math.max(4, Math.min(height * 0.9, h));
         } else {
           // Gentle idle wave
           h = (Math.sin(t + i * 0.15) * 0.3 + 0.5) * (height * 0.15);
@@ -140,8 +283,14 @@ function VoiceWaveform({ active }: { active: boolean }) {
 
         const y = (height - h) / 2;
         const gradient = ctx.createLinearGradient(x, y, x, y + h);
-        gradient.addColorStop(0, active ? '#60a5fa' : 'rgba(96,165,250,0.4)');
-        gradient.addColorStop(1, active ? '#8b5cf6' : 'rgba(139,92,246,0.2)');
+        if (active) {
+          gradient.addColorStop(0, `rgba(239, 68, 68, ${0.6 + audioLevel * 0.3})`);
+          gradient.addColorStop(0.5, '#f97316');
+          gradient.addColorStop(1, `rgba(249, 115, 22, ${0.4 + audioLevel * 0.2})`);
+        } else {
+          gradient.addColorStop(0, 'rgba(96,165,250,0.4)');
+          gradient.addColorStop(1, 'rgba(139,92,246,0.2)');
+        }
 
         ctx.fillStyle = gradient;
         ctx.beginPath();
@@ -149,8 +298,8 @@ function VoiceWaveform({ active }: { active: boolean }) {
         ctx.fill();
 
         // Glow on tall bars
-        if (active && h > height * 0.5) {
-          ctx.fillStyle = 'rgba(96, 165, 250, 0.08)';
+        if (active && h > height * 0.45) {
+          ctx.fillStyle = 'rgba(239, 68, 68, 0.06)';
           ctx.beginPath();
           ctx.roundRect(x - 1, y - 2, barWidth + 2, h + 4, 2);
           ctx.fill();
@@ -162,13 +311,13 @@ function VoiceWaveform({ active }: { active: boolean }) {
 
     animRef.current = requestAnimationFrame(draw);
     return () => cancelAnimationFrame(animRef.current);
-  }, [active]);
+  }, [active, audioLevel]);
 
-  return <canvas ref={canvasRef} style={{ width: 320, height: 80 }} />;
+  return <canvas ref={canvasRef} style={{ width: 360, height: 80 }} />;
 }
 
 /* ======================================================
-   AI ORB — Visual indicator
+   AI ORB — Visual indicator (kept for processing phase)
    ====================================================== */
 function AIOrb({ state }: { state: 'idle' | 'listening' | 'thinking' }) {
   const orbColors = {
@@ -388,6 +537,10 @@ function CircularTimer({ timeLeft, totalTime }: { timeLeft: number; totalTime: n
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
 
+  // Color changes as time runs low
+  const isLow = timeLeft <= 15 && timeLeft > 0;
+  const isCritical = timeLeft <= 5;
+
   return (
     <div className="relative w-32 h-32 flex items-center justify-center">
       <svg className="absolute inset-0 -rotate-90" width={128} height={128}>
@@ -396,7 +549,7 @@ function CircularTimer({ timeLeft, totalTime }: { timeLeft: number; totalTime: n
         {/* Progress ring */}
         <circle
           cx={64} cy={64} r={54} fill="none"
-          stroke="url(#timerGradient)"
+          stroke={isCritical ? '#ef4444' : isLow ? '#f59e0b' : 'url(#timerGradient)'}
           strokeWidth={4}
           strokeLinecap="round"
           strokeDasharray={circumference}
@@ -411,11 +564,45 @@ function CircularTimer({ timeLeft, totalTime }: { timeLeft: number; totalTime: n
         </defs>
       </svg>
       <div className="text-center">
-        <div className="text-2xl font-bold text-white tabular-nums">
+        <div className={`text-2xl font-bold tabular-nums ${isCritical ? 'text-red-400 animate-pulse' : isLow ? 'text-amber-400' : 'text-white'}`}>
           {minutes}:{seconds.toString().padStart(2, '0')}
         </div>
         <div className="text-[10px] text-white/30 uppercase tracking-wider">remaining</div>
       </div>
+    </div>
+  );
+}
+
+/* ======================================================
+   AUDIO LEVEL METER — Simple bar showing mic input
+   ====================================================== */
+function AudioLevelMeter({ level, isActive }: { level: number; isActive: boolean }) {
+  const bars = 20;
+  const activeBars = Math.round(level * bars);
+
+  return (
+    <div className="flex items-center gap-1 justify-center">
+      {Array.from({ length: bars }).map((_, i) => {
+        const filled = i < activeBars;
+        const isHigh = i >= bars * 0.75;
+        const isMid = i >= bars * 0.5;
+        return (
+          <div
+            key={i}
+            className={`w-1.5 rounded-full transition-all duration-75 ${
+              !isActive
+                ? 'h-2 bg-white/[0.06]'
+                : filled
+                ? isHigh
+                  ? 'h-4 bg-red-400/80'
+                  : isMid
+                  ? 'h-3.5 bg-amber-400/70'
+                  : 'h-3 bg-emerald-400/60'
+                : 'h-2 bg-white/[0.06]'
+            }`}
+          />
+        );
+      })}
     </div>
   );
 }
@@ -437,10 +624,74 @@ export default function SpeakingAssessmentPage() {
   const [overallScore, setOverallScore] = useState(0);
   const [processingStep, setProcessingStep] = useState(0);
   const [visible, setVisible] = useState(false);
+  const [audioLevel, setAudioLevel] = useState(0);
+  const [micPermission, setMicPermission] = useState<'unknown' | 'granted' | 'denied'>('unknown');
+  const [isRecording, setIsRecording] = useState(false);
+
+  // Refs for Web Audio API
+  const streamRef = useRef<MediaStream | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const animFrameRef = useRef<number>(0);
 
   useEffect(() => {
     const t = requestAnimationFrame(() => setVisible(true));
     return () => cancelAnimationFrame(t);
+  }, []);
+
+  // Real microphone audio level tracking
+  const startMicrophone = useCallback(async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      streamRef.current = stream;
+      setMicPermission('granted');
+
+      const audioContext = new AudioContext();
+      audioContextRef.current = audioContext;
+      const source = audioContext.createMediaStreamSource(stream);
+      const analyser = audioContext.createAnalyser();
+      analyser.fftSize = 256;
+      analyser.smoothingTimeConstant = 0.8;
+      source.connect(analyser);
+      analyserRef.current = analyser;
+
+      const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+      const trackLevel = () => {
+        analyser.getByteFrequencyData(dataArray);
+        // Calculate RMS-like level
+        let sum = 0;
+        for (let i = 0; i < dataArray.length; i++) {
+          sum += dataArray[i];
+        }
+        const avg = sum / dataArray.length;
+        const normalizedLevel = Math.min(1, avg / 128); // 0-1 range
+        setAudioLevel(normalizedLevel);
+        animFrameRef.current = requestAnimationFrame(trackLevel);
+      };
+
+      trackLevel();
+    } catch (err) {
+      console.error('Microphone access denied:', err);
+      setMicPermission('denied');
+    }
+  }, []);
+
+  const stopMicrophone = useCallback(() => {
+    if (animFrameRef.current) {
+      cancelAnimationFrame(animFrameRef.current);
+    }
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach(t => t.stop());
+      streamRef.current = null;
+    }
+    if (audioContextRef.current) {
+      audioContextRef.current.close();
+      audioContextRef.current = null;
+    }
+    analyserRef.current = null;
+    setAudioLevel(0);
+    setIsRecording(false);
   }, []);
 
   // Timer for recording phase
@@ -473,7 +724,7 @@ export default function SpeakingAssessmentPage() {
           // Generate simulated scores
           const newDimensions = DIMENSION_CONFIG.map(d => ({
             ...d,
-            score: Math.floor(Math.random() * 35) + 45, // 45-80 range
+            score: Math.floor(Math.random() * 35) + 45,
           }));
           setDimensions(newDimensions);
           const avg = Math.round(newDimensions.reduce((sum, d) => sum + d.score, 0) / newDimensions.length);
@@ -485,12 +736,22 @@ export default function SpeakingAssessmentPage() {
     return () => clearInterval(interval);
   }, [phase]);
 
-  const handleStartRecording = () => {
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      stopMicrophone();
+    };
+  }, [stopMicrophone]);
+
+  const handleStartRecording = async () => {
+    setIsRecording(true);
+    await startMicrophone();
     setTimeLeft(selectedPrompt.timeLimit);
     setPhase('recording');
   };
 
   const handleStopRecording = () => {
+    stopMicrophone();
     setPhase('processing');
     setProcessingStep(0);
   };
@@ -500,16 +761,26 @@ export default function SpeakingAssessmentPage() {
     setDimensions(DIMENSION_CONFIG.map(d => ({ ...d, score: 0 })));
     setOverallScore(0);
     setProcessingStep(0);
+    setAudioLevel(0);
+    setIsRecording(false);
   };
 
   const cefrLevel = getCEFRLevel(overallScore);
-  const feedbackText = `Your speaking demonstrates ${overallScore >= 70 ? 'strong' : overallScore >= 50 ? 'developing' : 'foundational'} proficiency at the ${cefrLevel} level. ${dimensions.sort((a, b) => a.score - b.score)[0]?.label || 'Grammar'} is an area for improvement, while ${dimensions.sort((a, b) => b.score - a.score)[0]?.label || 'Fluency'} is your strongest dimension. Practice with longer, more complex prompts to push into the next CEFR band. Keep speaking daily — consistency is the key to fluency!`;
+  const sortedDims = [...dimensions].sort((a, b) => a.score - b.score);
+  const weakest = sortedDims[0]?.label || 'Grammar';
+  const strongest = sortedDims[sortedDims.length - 1]?.label || 'Fluency';
+  const feedbackText = `Your speaking demonstrates ${overallScore >= 70 ? 'strong' : overallScore >= 50 ? 'developing' : 'foundational'} proficiency at the ${cefrLevel} level. ${weakest} is an area for improvement, while ${strongest} is your strongest dimension. Practice with longer, more complex prompts to push into the next CEFR band. Keep speaking daily \u2014 consistency is the key to fluency!`;
 
   return (
     <div className="min-h-screen flex flex-col bg-[#06051A]">
       <Navbar />
 
-      <main className="flex-1">
+      {/* Fixed recording indicator */}
+      {phase === 'recording' && (
+        <LiveRecordingIndicator timeLeft={timeLeft} totalTime={selectedPrompt.timeLimit} />
+      )}
+
+      <main className={`flex-1 ${phase === 'recording' ? 'pt-10' : ''}`}>
         {/* ═══════════════════════════════════════════
             PHASE 1: INTRO
             ═══════════════════════════════════════════ */}
@@ -532,8 +803,21 @@ export default function SpeakingAssessmentPage() {
                   </div>
                 </div>
 
-                {/* Headline */}
-                <h1 className={`text-center font-extrabold tracking-tight text-white leading-[1.1] transition-all duration-700 delay-100 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`} style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)' }}>
+                {/* Headline with Mic icon */}
+                <div className={`text-center transition-all duration-700 delay-100 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+                  <div className="flex items-center justify-center gap-4 mb-2">
+                    <div className="relative">
+                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500/20 to-violet-500/20 flex items-center justify-center border border-blue-500/20">
+                        <Mic className="h-8 w-8 text-blue-400" />
+                      </div>
+                      <div className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-emerald-500 border-2 border-[#06051A] flex items-center justify-center">
+                        <span className="text-[6px] font-bold text-white">ON</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <h1 className={`text-center font-extrabold tracking-tight text-white leading-[1.1] transition-all duration-700 delay-150 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`} style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)' }}>
                   Speak. Get Scored.{' '}
                   <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-violet-400 bg-clip-text text-transparent">Improve.</span>
                 </h1>
@@ -616,7 +900,7 @@ export default function SpeakingAssessmentPage() {
               <div className="max-w-2xl mx-auto text-center">
                 {/* Back button */}
                 <button onClick={() => setPhase('intro')} className="text-white/40 hover:text-white/70 text-sm mb-8 flex items-center gap-1 mx-auto transition-colors cursor-pointer">
-                  ← Back to prompts
+                  &larr; Back to prompts
                 </button>
 
                 <div className="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-4 py-1.5 mb-6">
@@ -638,12 +922,23 @@ export default function SpeakingAssessmentPage() {
                   <p className="text-lg text-white/80 leading-relaxed">{selectedPrompt.text}</p>
                 </div>
 
+                {/* Mic permission check */}
+                {micPermission === 'denied' && (
+                  <div className="rounded-xl border border-red-500/20 bg-red-500/[0.05] p-4 mb-6 flex items-start gap-3">
+                    <AlertCircle className="h-5 w-5 text-red-400 shrink-0 mt-0.5" />
+                    <div>
+                      <p className="text-sm font-medium text-red-300">Microphone access required</p>
+                      <p className="text-xs text-red-400/60 mt-1">Please allow microphone access in your browser settings to record your speaking. Look for the microphone icon in your address bar.</p>
+                    </div>
+                  </div>
+                )}
+
                 {/* Tips */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-10">
                   {[
                     { icon: Volume2, text: 'Speak clearly and at a natural pace' },
                     { icon: MessageSquare, text: 'Use full sentences, not single words' },
-                    { icon: Sparkles, text: 'Be natural — don\'t memorize scripts' },
+                    { icon: Sparkles, text: 'Be natural \u2014 don\'t memorize scripts' },
                   ].map((tip, i) => (
                     <div key={i} className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-4 text-center">
                       <tip.icon className="h-5 w-5 text-blue-400 mx-auto mb-2" />
@@ -655,43 +950,63 @@ export default function SpeakingAssessmentPage() {
                 {/* Start Recording CTA */}
                 <button
                   onClick={handleStartRecording}
-                  className="group inline-flex items-center gap-2.5 rounded-full px-10 py-4 bg-gradient-to-r from-blue-500 to-violet-500 hover:from-blue-400 hover:to-violet-400 text-white font-semibold text-lg transition-all duration-300 shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 cursor-pointer"
+                  className="group inline-flex items-center gap-3 rounded-full px-10 py-4 bg-gradient-to-r from-blue-500 to-violet-500 hover:from-blue-400 hover:to-violet-400 text-white font-semibold text-lg transition-all duration-300 shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 cursor-pointer"
                 >
-                  <Mic className="h-5 w-5" />
-                  I&apos;m Ready — Start Recording
+                  <div className="relative">
+                    <Mic className="h-6 w-6" />
+                    <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border border-white/20" />
+                  </div>
+                  I&apos;m Ready &mdash; Start Recording
                 </button>
+                <p className="text-xs text-white/25 mt-3">Your browser will ask for microphone permission</p>
               </div>
             </div>
           </section>
         )}
 
         {/* ═══════════════════════════════════════════
-            PHASE 3: RECORDING
+            PHASE 3: RECORDING — VISIBLE MICROPHONE
             ═══════════════════════════════════════════ */}
         {phase === 'recording' && (
-          <section className="relative overflow-hidden min-h-[80vh] flex items-center speaking-bg-2">
+          <section className="relative overflow-hidden min-h-[90vh] flex items-center speaking-bg-2">
             {/* Ambient glow */}
             <div className="absolute inset-0 pointer-events-none">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-3xl" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-500/[0.04] rounded-full blur-3xl" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-blue-500/[0.06] rounded-full blur-3xl" />
             </div>
 
             <div className="container relative mx-auto px-4 py-20">
               <div className="max-w-2xl mx-auto text-center">
-                {/* AI Orb */}
-                <div className="flex justify-center mb-8">
-                  <AIOrb state="listening" />
+                {/* ★ LARGE VISIBLE MICROPHONE ★ */}
+                <div className="flex justify-center mb-6">
+                  <MicrophoneRing audioLevel={audioLevel} isActive={isRecording} />
                 </div>
 
-                <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Listening...</h2>
-                <p className="text-white/40 text-sm mb-8">Speak naturally into your microphone</p>
+                {/* Mic status text */}
+                <div className="mb-6">
+                  <h2 className="text-2xl md:text-3xl font-bold text-white mb-1">
+                    {isRecording ? 'Recording Your Speech...' : 'Connecting Microphone...'}
+                  </h2>
+                  <p className="text-white/40 text-sm">
+                    {isRecording ? 'Speak clearly \u2014 the mic is listening' : 'Please allow microphone access'}
+                  </p>
+                </div>
+
+                {/* Audio Level Meter */}
+                <div className="mb-6">
+                  <AudioLevelMeter level={audioLevel} isActive={isRecording} />
+                  <p className="text-[10px] text-white/20 mt-1.5 uppercase tracking-wider">
+                    {audioLevel > 0.3 ? 'Good volume' : audioLevel > 0.1 ? 'Speak louder' : 'No input detected'}
+                  </p>
+                </div>
 
                 {/* Voice Waveform */}
-                <div className="flex justify-center mb-8">
-                  <VoiceWaveform active={true} />
+                <div className="flex justify-center mb-6">
+                  <VoiceWaveform active={isRecording} audioLevel={audioLevel} />
                 </div>
 
                 {/* Timer */}
-                <div className="flex justify-center mb-8">
+                <div className="flex justify-center mb-6">
                   <CircularTimer timeLeft={timeLeft} totalTime={selectedPrompt.timeLimit} />
                 </div>
 
@@ -706,12 +1021,12 @@ export default function SpeakingAssessmentPage() {
                   <p className="text-sm text-white/50 leading-relaxed">{selectedPrompt.text}</p>
                 </div>
 
-                {/* Stop button */}
+                {/* Stop button — prominent red */}
                 <button
                   onClick={handleStopRecording}
-                  className="inline-flex items-center gap-2 rounded-full px-8 py-3 border-2 border-red-500/40 bg-red-500/10 hover:bg-red-500/20 text-red-300 font-semibold text-base transition-all duration-300 cursor-pointer"
+                  className="inline-flex items-center gap-3 rounded-full px-10 py-4 border-2 border-red-500/50 bg-red-500/15 hover:bg-red-500/25 hover:border-red-500/70 text-red-300 font-semibold text-lg transition-all duration-300 cursor-pointer shadow-lg shadow-red-500/10 hover:shadow-red-500/20"
                 >
-                  <div className="w-3 h-3 rounded-sm bg-red-400" />
+                  <div className="w-4 h-4 rounded-sm bg-red-500" />
                   Stop Recording
                 </button>
               </div>
@@ -737,11 +1052,11 @@ export default function SpeakingAssessmentPage() {
                 {/* Processing Steps */}
                 <div className="space-y-3 text-left max-w-sm mx-auto">
                   {[
-                    { label: 'Transcribing speech', icon: '📝' },
-                    { label: 'Analyzing grammar patterns', icon: '🔍' },
-                    { label: 'Evaluating vocabulary range', icon: '📚' },
-                    { label: 'Measuring fluency metrics', icon: '🎯' },
-                    { label: 'Calculating final scores', icon: '✨' },
+                    { label: 'Transcribing speech', icon: '\uD83D\uDCDD' },
+                    { label: 'Analyzing grammar patterns', icon: '\uD83D\uDD0D' },
+                    { label: 'Evaluating vocabulary range', icon: '\uD83D\uDCDA' },
+                    { label: 'Measuring fluency metrics', icon: '\uD83C\uDFAF' },
+                    { label: 'Calculating final scores', icon: '\u2728' },
                   ].map((step, i) => (
                     <div
                       key={step.label}
@@ -779,7 +1094,7 @@ export default function SpeakingAssessmentPage() {
           <section className="relative overflow-hidden py-16 md:py-24 speaking-bg-5">
             <div className="container relative mx-auto px-4">
               <div className="max-w-4xl mx-auto">
-                {/* Header */}
+                {/* Header with mic re-record */}
                 <div className="text-center mb-12">
                   <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 border border-blue-500/20 px-4 py-1.5 mb-6">
                     <Award className="h-4 w-4 text-blue-400" />
@@ -788,7 +1103,7 @@ export default function SpeakingAssessmentPage() {
                   <h2 className="text-3xl md:text-4xl font-bold text-white">Your Speaking Results</h2>
                 </div>
 
-                {/* Score + Level */}
+                {/* Score + Level + Mic */}
                 <div className="flex flex-col md:flex-row items-center justify-center gap-10 mb-12">
                   {/* Overall Score Ring */}
                   <div className="relative w-44 h-44 flex items-center justify-center">
@@ -824,6 +1139,19 @@ export default function SpeakingAssessmentPage() {
                       {cefrLevel}
                     </div>
                     <div className="text-sm text-white/40 mt-2">Speaking Proficiency</div>
+                  </div>
+
+                  {/* Re-record with Mic */}
+                  <div className="text-center">
+                    <button
+                      onClick={handleReset}
+                      className="group relative flex flex-col items-center gap-2 cursor-pointer"
+                    >
+                      <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500/15 to-violet-500/15 border border-blue-500/20 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:border-blue-500/40 group-hover:shadow-lg group-hover:shadow-blue-500/15">
+                        <Mic className="h-8 w-8 text-blue-400 transition-transform group-hover:scale-110" />
+                      </div>
+                      <span className="text-xs text-white/40 group-hover:text-white/60 transition-colors font-medium">Record Again</span>
+                    </button>
                   </div>
                 </div>
 
