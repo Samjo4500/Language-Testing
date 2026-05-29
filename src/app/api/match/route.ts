@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
         roomName,
         token: token2,
         url: livekitUrl,
-        joinUrl: `/community/live/${roomName}`,
+        joinUrl: `/speakspace/${roomName}`,
       });
     }
 
@@ -126,7 +126,7 @@ export async function GET(request: NextRequest) {
       status: match.status,
       match,
       queuePosition,
-      joinUrl: match.status === 'matched' || match.status === 'active' ? `/community/live/${match.roomName}` : null,
+      joinUrl: match.status === 'matched' || match.status === 'active' ? `/speakspace/${match.roomName}` : null,
       url: livekitUrl,
     });
   } catch (error) {

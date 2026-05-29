@@ -387,7 +387,7 @@ export function LiveKitTab({ onToast }: LiveKitTabProps) {
                         </>
                       )}
                       <a
-                        href={`/community/live/${room.roomName}`}
+                        href={`/speakspace/${room.roomName}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-white/40 hover:text-white/60 p-2"

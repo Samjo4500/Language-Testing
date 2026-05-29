@@ -128,7 +128,7 @@ export async function POST(request: NextRequest) {
       });
     } catch { /* room auto-creates on first join */ }
 
-    return NextResponse.json({ room, roomName, joinUrl: `/community/live/${roomName}` }, { status: 201 });
+    return NextResponse.json({ room, roomName, joinUrl: `/speakspace/${roomName}` }, { status: 201 });
   } catch (error) {
     console.error('[LiveRooms POST]', error);
     return NextResponse.json({ error: 'Failed to create room' }, { status: 500 });

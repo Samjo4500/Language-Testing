@@ -679,3 +679,38 @@ Stage Summary:
 - 1-on-1 matching system with auto-pairing
 - Scheduled events with RSVP
 - API endpoints all functional
+---
+Task ID: 1
+Agent: Main Agent
+Task: Implement Admin Controls + User Profile Integration Guide
+
+Work Log:
+- Explored codebase: auth system, roles, LiveRoom models, existing pages
+- Confirmed role-based room creation already implemented (canCreateLiveRoom in auth-middleware.ts)
+- Confirmed room close/end already implemented (DELETE /api/live-rooms/[id], RoomCard End button)
+- Created Admin Live Monitor Dashboard at /admin/live-monitor with two-panel layout
+- Created admin API routes: /api/admin/live-monitor/mute, /remove, /stats
+- Rebranded Community Live → SpeakSpace:
+  - Created /speakspace page (renamed from /community/live)
+  - Created /speakspace/[roomName] page
+  - Created redirect from /community/live → /speakspace
+  - Updated navbar with SpeakSpace link + Mic icon
+  - Updated community hub "Live Video" → "SpeakSpace"
+  - Updated API routes joinUrl from /community/live/ to /speakspace/
+  - Updated admin LiveKit tab links
+- Created Rich User Profile page at /profile with:
+  - Cover image, avatar, CEFR progress, activity heatmap
+  - Tabs: Overview, Activity, Certificates, Badges
+  - Mock data for badges, activity logs, heatmap
+  - Preserved edit mode with all form fields
+- Added Prisma models: Badge, ActivityLog, UserFollow
+- Pushed schema changes (Prisma client generated)
+- Fixed TypeScript build errors in admin monitor API routes
+- Deployed to testcefr.com (production Ready)
+
+Stage Summary:
+- All 3 features from integration guide implemented and deployed
+- SpeakSpace is live at https://testcefr.com/speakspace
+- Admin Live Monitor at https://testcefr.com/admin/live-monitor (admin only)
+- Rich Profile at https://testcefr.com/profile
+- New Prisma models added: Badge, ActivityLog, UserFollow

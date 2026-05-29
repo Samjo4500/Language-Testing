@@ -66,6 +66,10 @@ model User {
   hostedLiveRooms    LiveRoom[]          @relation("HostedLiveRooms")
   liveRoomParticipations LiveRoomParticipant[] @relation("LiveRoomParticipations")
   hostedScheduledEvents ScheduledEvent[] @relation("HostedScheduledEvents")
+  badges              Badge[]
+  activityLogs        ActivityLog[]
+  following           UserFollow[]        @relation("UserFollowing")
+  followers           UserFollow[]        @relation("UserFollowers")
 
   @@index([organizationId])
 }
@@ -1191,5 +1195,51 @@ model LiveClassParticipant {
   @@index([classId])
   @@index([userId])
   @@index([joinedAt])
+}
+
+model Badge {
+  id          String   @id @default(cuid())
+  userId      String
+  badgeType   String   // 'first_steps', 'word_warrior', 'voice_pioneer', 'week_warrior', 'social_butterfly', 'cefr_climber', 'test_master', 'polyglot'
+  name        String
+  description String
+  icon        String   // emoji or icon name
+  rarity      String   @default("common") // 'common' | 'rare' | 'epic' | 'legendary'
+  earnedAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@unique([userId, badgeType])
+}
+
+model ActivityLog {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String   // 'lesson' | 'test' | 'room' | 'match' | 'vocab' | 'streak'
+  title     String
+  detail    String
+  xp        Int      @default(0)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
+  @@index([type])
+}
+
+model UserFollow {
+  id          String   @id @default(cuid())
+  followerId  String   // who is following
+  followingId String   // who is being followed
+  createdAt   DateTime @default(now())
+
+  follower  User @relation("UserFollowing", fields: [followerId], references: [id], onDelete: Cascade)
+  following User @relation("UserFollowers", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followingId])
+  @@index([followerId])
+  @@index([followingId])
 }
 

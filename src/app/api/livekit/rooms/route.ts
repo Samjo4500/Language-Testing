@@ -211,7 +211,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       room: liveClass,
       roomName,
-      joinUrl: `/community/live/${roomName}`,
+      joinUrl: `/speakspace/${roomName}`,
     }, { status: 201 });
   } catch (error) {
     console.error('[LiveKit Rooms POST Error]', error);
