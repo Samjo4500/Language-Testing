@@ -13,7 +13,7 @@ import {
   Circle, CircleDot, Settings
 } from 'lucide-react';
 import { AnimatedSection } from '@/components/home/animated-section';
-import { HeroSection } from '@/components/home/hero-section-new';
+import { AnimatedHeroSection } from '@/components/home/animated-hero-section';
 import { FinalCTAButtons } from '@/components/home/final-cta-buttons';
 import { FAQItem } from '@/components/home/faq-item';
 import { PricingTracker } from '@/components/home/pricing-tracker';
@@ -296,8 +296,8 @@ export default function Home() {
       <Navbar />
 
       <main>
-      {/* ===== HERO SECTION — "YOUR ENGLISH. CERTIFIED." ===== */}
-      <HeroSection />
+      {/* ===== HERO SECTION — Animated AI Hero ===== */}
+      <AnimatedHeroSection />
 
       {/* ===== LIVE VOICE DEMO ===== */}
       <section className="relative py-20 md:py-28 speaking-bg-5 overflow-hidden">
