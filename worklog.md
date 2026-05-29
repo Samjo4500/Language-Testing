@@ -608,3 +608,21 @@ Stage Summary:
 - CSP and Permissions-Policy updated for WebRTC
 - Environment variables documented in .env.example
 - To complete setup: deploy LiveKit server on Hetzner (per user's guide), set DNS for livekit.testcefr.com, add env vars to Vercel, run Prisma schema push via /api/admin/migrate
+---
+Task ID: 1
+Agent: Main Agent
+Task: Configure LiveKit Cloud credentials and deploy to Vercel
+
+Work Log:
+- Saved LiveKit Cloud credentials to .env file (API key, secret, URL)
+- Updated .env.example with LiveKit Cloud documentation
+- Added 4 LiveKit env vars to Vercel production (NEXT_PUBLIC_LIVEKIT_URL, LIVEKIT_API_KEY, LIVEKIT_API_SECRET, LIVEKIT_HTTP_URL)
+- Added 6 core env vars to Vercel production (DATABASE_URL, DATABASE_URL_UNPOOLED, JWT_SECRET, RESEND_API_KEY, NEXT_PUBLIC_APP_URL, PAYPAL_MODE)
+- Deployed to Vercel production successfully
+- Verified testcefr.com returns 200 OK
+
+Stage Summary:
+- LiveKit Cloud credentials: wss://test-cefr-alb0xmva.livekit.cloud
+- All existing LiveKit integration code was already built (token API, rooms API, recordings API, webhook handler, VideoCallRoom component, PreJoinScreen, admin LiveKit tab)
+- No code changes needed — only env var configuration
+- Production deployment: https://testcefr.com → live
