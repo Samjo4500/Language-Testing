@@ -23,12 +23,16 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   if (!post) return { title: 'Post Not Found' };
 
   return {
-    title: post.title,
+    title: `${post.title} | TestCEFR Blog`,
     description: post.excerpt,
+    alternates: {
+      canonical: `https://testcefr.com/blog/${slug}/`,
+    },
     openGraph: {
       title: post.title,
       description: post.excerpt,
       type: 'article',
+      url: `https://testcefr.com/blog/${slug}/`,
       publishedTime: post.publishedAt,
       authors: [post.author],
       tags: post.tags,

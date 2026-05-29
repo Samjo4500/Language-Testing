@@ -263,26 +263,65 @@ export async function GET(request: NextRequest) {
     };
 
     // Get overall assessment info for certificate progress
+    const skillFlow = ['grammar', 'vocabulary', 'reading', 'listening', 'speaking', 'writing'];
+
+    // Pre-fetch MCQ question categories for grammar/vocabulary distinction
+    // Both grammar and vocabulary are stored as questionType='mcq', so we must
+    // look up the question's category to tell them apart.
+    const mcqResponseIds = assessment.responses
+      .filter(r => r.questionType === 'mcq')
+      .map(r => r.questionId);
+
+    const mcqQuestionCategories: Record<string, string> = {};
+    if (mcqResponseIds.length > 0) {
+      const mcqQuestions = await db.question.findMany({
+        where: { id: { in: mcqResponseIds } },
+        select: { id: true, category: true },
+      });
+      for (const q of mcqQuestions) {
+        mcqQuestionCategories[q.id] = q.category;
+      }
+    }
+
+    // Calculate per-skill scores (correctly separating grammar from vocabulary)
     const allSkillScores: Record<string, number> = {};
-    for (const resp of assessment.responses) {
-      const cat = resp.questionType === 'mcq' ? 'mcq' : resp.questionType;
-      const catResponses = assessment.responses.filter((r) =>
-        r.questionType === cat
-      );
-      const correct = catResponses.filter((r) => r.isCorrect).length;
-      const total = catResponses.length;
-      allSkillScores[cat] = total > 0 ? Math.round((correct / total) * 100) : 0;
+    for (const s of skillFlow) {
+      const sResponses = assessment.responses.filter((r) => {
+        if (s === 'grammar') return r.questionType === 'mcq' && mcqQuestionCategories[r.questionId] === 'grammar';
+        if (s === 'vocabulary') return r.questionType === 'mcq' && mcqQuestionCategories[r.questionId] === 'vocabulary';
+        return r.questionType === s;
+      });
+      const correct = sResponses.filter((r) => r.isCorrect).length;
+      const total = sResponses.length;
+      allSkillScores[s] = total > 0 ? Math.round((correct / total) * 100) : 0;
     }
 
     // Completed skills for certificate progress
-    const skillFlow = ['grammar', 'vocabulary', 'reading', 'listening', 'speaking', 'writing'];
     const completedSkills: string[] = [];
     for (const s of skillFlow) {
       const hasResponses = assessment.responses.some((r) => {
-        if (s === 'grammar' || s === 'vocabulary') return r.questionType === 'mcq';
+        if (s === 'grammar') {
+          if (r.questionType !== 'mcq') return false;
+          return mcqQuestionCategories[r.questionId] === 'grammar';
+        }
+        if (s === 'vocabulary') {
+          if (r.questionType !== 'mcq') return false;
+          return mcqQuestionCategories[r.questionId] === 'vocabulary';
+        }
         return r.questionType === s;
       });
       if (hasResponses) completedSkills.push(s);
+    }
+
+    // Calculate next skill: the first incomplete skill after the current one in the flow
+    // This ensures proper sequencing: Grammar → Vocabulary → Reading → Listening → Speaking → Writing
+    let nextSkill: string | null = null;
+    const currentIdx = skillFlow.indexOf(skill);
+    for (let i = currentIdx + 1; i < skillFlow.length; i++) {
+      if (!completedSkills.includes(skillFlow[i])) {
+        nextSkill = skillFlow[i];
+        break;
+      }
     }
 
     return NextResponse.json({
@@ -303,7 +342,7 @@ export async function GET(request: NextRequest) {
         })),
       },
       cefrBadgeColors,
-      nextSkill: skillFlow[skillFlow.indexOf(skill) + 1] || null,
+      nextSkill,
     });
   } catch (error) {
     console.error('Test results API error:', error);

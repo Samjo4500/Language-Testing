@@ -307,7 +307,7 @@ export default function CoursesPage() {
                     <div className="relative glass-card p-7 h-full flex flex-col border-transparent">
                       {/* Most Popular badge */}
                       {isPopular && (
-                        <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                        <div className="absolute top-3 right-3 z-10">
                           <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 px-4 py-1 text-xs font-semibold text-white shadow-lg shadow-blue-500/25">
                             <Star className="h-3 w-3" />
                             Most Popular
@@ -416,7 +416,7 @@ export default function CoursesPage() {
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-blue-600/50 via-cyan-500/30 to-blue-600/50 p-[1px]" />
                 <div className="relative glass-card p-7 h-full flex flex-col border-transparent">
                   {/* Save badge */}
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                  <div className="absolute top-3 right-3 z-10">
                     <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 px-4 py-1 text-xs font-semibold text-white shadow-lg shadow-blue-500/25">
                       <Sparkles className="h-3 w-3" />
                       Save $198

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Headphones, BookOpenCheck, PenTool, Mic, GraduationCap, Trophy, BookOpen, HelpCircle, Mail, MessageCircle, Users, Newspaper } from 'lucide-react';
+import { Headphones, BookOpenCheck, PenTool, Mic, GraduationCap, Trophy, BookOpen, HelpCircle, Mail, MessageCircle, Users, Newspaper, Award, FileText } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -104,6 +104,14 @@ export function Footer() {
                 <Trophy className="h-3.5 w-3.5 text-[#9494a8]" />
                 Take Full Test
               </Link>
+              <Link href="/sample-certificate" className="flex items-center gap-2 text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">
+                <Award className="h-3.5 w-3.5 text-[#9494a8]" />
+                Sample Certificate
+              </Link>
+              <Link href="/sample-report" className="flex items-center gap-2 text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">
+                <FileText className="h-3.5 w-3.5 text-[#9494a8]" />
+                Sample Report
+              </Link>
             </div>
           </div>
 
@@ -170,7 +178,7 @@ export function Footer() {
               <div className="space-y-2.5 pt-1">
                 <Link href="/about" className="block text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">About</Link>
                 <Link href="/privacy" className="block text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">Privacy</Link>
-                <Link href="/cookie-policy" className="block text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">Cookies</Link>
+                <Link href="/cookies" className="block text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">Cookies</Link>
                 <Link href="/terms" className="block text-sm text-[#9494a8] hover:text-[#b4b4c8] transition-colors">Terms</Link>
               </div>
             </div>

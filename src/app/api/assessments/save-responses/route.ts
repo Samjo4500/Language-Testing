@@ -38,7 +38,40 @@ export async function POST(request: NextRequest) {
     }
 
     // Save each response using upsert (idempotent)
+    // For MCQ questions, verify the answer server-side to set isCorrect
     for (const response of responses) {
+      let isCorrect = response.isCorrect ?? null;
+
+      // Server-side verification for MCQ questions
+      if (response.questionType === 'mcq' && isCorrect === null && response.answer) {
+        try {
+          const question = await db.question.findUnique({ where: { id: response.questionId } });
+          if (question) {
+            isCorrect = Number(response.answer) === question.correctIndex;
+          }
+        } catch {}
+      }
+
+      // Server-side verification for reading sub-questions
+      if (response.questionType === 'reading' && isCorrect === null && response.answer) {
+        try {
+          const question = await db.readingQuestion.findUnique({ where: { id: response.questionId } });
+          if (question) {
+            isCorrect = Number(response.answer) === question.correctIndex;
+          }
+        } catch {}
+      }
+
+      // Server-side verification for listening sub-questions
+      if (response.questionType === 'listening' && isCorrect === null && response.answer) {
+        try {
+          const question = await db.listeningQuestion.findUnique({ where: { id: response.questionId } });
+          if (question) {
+            isCorrect = Number(response.answer) === question.correctIndex;
+          }
+        } catch {}
+      }
+
       await db.assessmentResponse.upsert({
         where: { id: `${assessment.id}-${response.questionId}` },
         create: {
@@ -48,13 +81,13 @@ export async function POST(request: NextRequest) {
           questionType: response.questionType || 'mcq',
           parentItemId: response.parentItemId || null,
           answer: response.answer || '',
-          isCorrect: response.isCorrect ?? null,
+          isCorrect,
           aiScore: response.aiScore || null,
           aiFeedback: response.aiFeedback || null,
         },
         update: {
           answer: response.answer || '',
-          isCorrect: response.isCorrect ?? null,
+          isCorrect,
           aiScore: response.aiScore || null,
           aiFeedback: response.aiFeedback || null,
         },

@@ -289,6 +289,841 @@ const TOPIC_CONTENT: Record<string, Record<string, string>> = {
 };
 
 /**
+ * Topic-aware content lookup: matches keywords in the lesson title to produce
+ * specific, educational content instead of generic filler.
+ */
+interface TopicInfo {
+  introduction: string;
+  explanation: string;
+  examples: string;
+  application: string;
+  summary: string;
+}
+
+// Keyword → topic content mapping for generating specific educational material
+const TOPIC_KEYWORDS: Record<string, TopicInfo> = {
+  // ===== BEGINNER TOPICS =====
+  'present simple': {
+    introduction: 'The present simple tense is used for habits, routines, general truths, and permanent situations. It is the most common tense in English and forms the backbone of everyday communication.',
+    explanation: `<p>We form the present simple with the <strong>base form of the verb</strong>. For third-person singular (he, she, it), add <strong>-s</strong> or <strong>-es</strong>:</p>
+<ul><li><strong>I / you / we / they</strong> → work, live, study</li>
+<li><strong>he / she / it</strong> → works, lives, studies</li></ul>
+<p>For negatives, use <strong>do not (don't)</strong> or <strong>does not (doesn't)</strong> + base form. For questions, use <strong>Do / Does</strong> + subject + base form.</p>`,
+    examples: `<ul>
+<li><strong>"She works in a hospital."</strong> — a permanent situation</li>
+<li><strong>"I drink coffee every morning."</strong> — a habit</li>
+<li><strong>"Water boils at 100°C."</strong> — a general truth</li>
+<li><strong>"He doesn't like spicy food."</strong> — a negative statement</li>
+<li><strong>"Do you speak English?"</strong> — a yes/no question</li></ul>`,
+    application: 'Try writing five sentences about your daily routine using the present simple. Use adverbs of frequency (always, usually, sometimes, rarely, never) to make your descriptions more precise.',
+    summary: 'the present simple tense is used for habits, routines, and general truths, formed with the base verb (+ -s for he/she/it), with "do/does" for questions and negatives',
+  },
+
+  'present continuous': {
+    introduction: 'The present continuous tense describes actions happening right now, temporary situations, and planned future arrangements. It brings your English to life by describing what is in progress.',
+    explanation: `<p>Form the present continuous with <strong>am / is / are + verb-ing</strong>:</p>
+<ul><li><strong>I am working</strong> (I'm working)</li>
+<li><strong>She is studying</strong> (She's studying)</li>
+<li><strong>They are eating</strong> (They're eating)</li></ul>
+<p>For negatives, add <strong>not</strong> after the auxiliary: <strong>"I am not (I'm not) working."</strong> For questions, invert: <strong>"Are you working?"</strong></p>`,
+    examples: `<ul>
+<li><strong>"I'm reading a book right now."</strong> — happening at this moment</li>
+<li><strong>"She's staying with friends this week."</strong> — temporary situation</li>
+<li><strong>"We're meeting them tomorrow."</strong> — planned future</li>
+<li><strong>"He isn't watching TV."</strong> — negative</li></ul>`,
+    application: 'Look around you and describe five things that are happening right now using the present continuous. For example: "The sun is shining through the window."',
+    summary: 'the present continuous (am/is/are + verb-ing) describes actions in progress, temporary situations, and future plans',
+  },
+
+  'article': {
+    introduction: 'English articles — <strong>a</strong>, <strong>an</strong>, and <strong>the</strong> — are small words that carry big meaning. They tell the listener whether you are referring to something specific or something general.',
+    explanation: `<p><strong>"A"</strong> and <strong>"an"</strong> are indefinite articles, used for non-specific nouns:</p>
+<ul><li>Use <strong>"a"</strong> before consonant sounds: <em>a book, a university</em></li>
+<li>Use <strong>"an"</strong> before vowel sounds: <em>an apple, an hour</em></li></ul>
+<p><strong>"The"</strong> is the definite article, used when both speaker and listener know which specific thing is meant:</p>
+<ul><li><em>The book on the table</em> (a specific book)</li>
+<li><em>The sun</em> (there is only one)</li></ul>
+<p>No article is used with uncountable nouns in general statements: <em>"Water is essential."</em></p>`,
+    examples: `<ul>
+<li><strong>"I saw a dog."</strong> — some dog, not specific</li>
+<li><strong>"The dog was friendly."</strong> — the same dog just mentioned</li>
+<li><strong>"She is an engineer."</strong> — one of many engineers</li>
+<li><strong>"I love music."</strong> — no article for general concepts</li></ul>`,
+    application: 'Fill in the blanks with a, an, the, or no article: "___ cat sat on ___ mat. ___ cat was black. I like ___ cats." Check your answers: "The cat sat on the mat. The cat was black. I like cats."',
+    summary: '"a/an" introduce non-specific nouns, "the" refers to specific known nouns, and no article is used for general statements with uncountable or plural nouns',
+  },
+
+  'preposition': {
+    introduction: 'Prepositions are short words that show relationships of time, place, and direction between nouns, pronouns, and other words in a sentence. Getting them right is essential for clear English.',
+    explanation: `<p>The most common prepositions of <strong>time</strong>: <em>at</em> (specific times: at 5 PM), <em>on</em> (days/dates: on Monday), <em>in</em> (months/years/seasons: in March).</p>
+<p>The most common prepositions of <strong>place</strong>: <em>at</em> (a point: at the station), <em>on</em> (a surface: on the table), <em>in</em> (enclosed space: in the room).</p>
+<p>The most common prepositions of <strong>movement</strong>: <em>to</em> (direction: go to school), <em>into</em> (entering: walk into the room), <em>through</em> (passing: drive through the tunnel).</p>`,
+    examples: `<ul>
+<li><strong>"The meeting is at 3 PM on Friday in June."</strong> — time prepositions</li>
+<li><strong>"The book is on the shelf in the library."</strong> — place prepositions</li>
+<li><strong>"She walked through the park to the station."</strong> — movement</li></ul>`,
+    application: 'Write five sentences describing where things are in your room, using at, on, in, under, next to, and between. Then describe your route from home to work or school using to, through, past, and across.',
+    summary: 'prepositions of time (at/on/in), place (at/on/in), and movement (to/into/through) follow specific patterns — at for points, on for surfaces and days, in for enclosed spaces and longer periods',
+  },
+
+  'past simple': {
+    introduction: 'The past simple tense describes completed actions in the past. It is essential for telling stories, recounting experiences, and describing historical events.',
+    explanation: `<p>Regular verbs form the past simple by adding <strong>-ed</strong>: <em>walk → walked, play → played</em>. Irregular verbs have unique forms that must be memorized: <em>go → went, see → saw, eat → ate</em>.</p>
+<p>For negatives and questions, use <strong>did</strong> + base form (not the past form):</p>
+<ul><li><strong>"I didn't go"</strong> (not "I didn't went")</li>
+<li><strong>"Did you see it?"</strong> (not "Did you saw it?")</li></ul>`,
+    examples: `<ul>
+<li><strong>"She visited Paris last year."</strong> — regular verb</li>
+<li><strong>"They went to the beach yesterday."</strong> — irregular verb</li>
+<li><strong>"I didn't understand the question."</strong> — negative</li>
+<li><strong>"Did you enjoy the movie?"</strong> — question</li></ul>`,
+    application: 'Write a short paragraph about what you did last weekend using at least five past simple verbs. Include both regular and irregular verbs, at least one negative, and one question.',
+    summary: 'the past simple uses -ed for regular verbs and unique forms for irregular verbs, with "did" for negatives and questions — always use the base form after did',
+  },
+
+  'can / can\'t': {
+    introduction: 'The modal verb <strong>can</strong> expresses ability, possibility, and permission. Its negative <strong>cannot</strong> (contraction: <strong>can&#39;t</strong>) expresses inability or prohibition.',
+    explanation: `<p><strong>Can</strong> is followed by the base form of the verb (no "to", no -s):</p>
+<ul><li><strong>"She can swim."</strong> — ability</li>
+<li><strong>"You can park here."</strong> — permission / possibility</li>
+<li><strong>"I can't hear you."</strong> — inability</li>
+<li><strong>"You can't smoke here."</strong> — prohibition</li></ul>
+<p>For questions, invert the subject and can: <strong>"Can you help me?"</strong></p>`,
+    examples: `<ul>
+<li><strong>"I can speak three languages."</strong> — ability</li>
+<li><strong>"Can I borrow your pen?"</strong> — polite request</li>
+<li><strong>"She can't come to the party."</strong> — inability</li>
+<li><strong>"You can't park here — it's reserved."</strong> — prohibition</li></ul>`,
+    application: 'Write four sentences: one about something you can do well, one about something you can\'t do, one asking permission, and one giving permission. Use "can" or "can\'t" in each.',
+    summary: '"can" expresses ability and permission, followed by the base verb without "to" — in questions it inverts with the subject, and "can\'t" expresses inability or prohibition',
+  },
+
+  'question formation': {
+    introduction: 'In English, forming questions follows specific patterns depending on the tense and the type of information you need. Mastering question formation is essential for conversations, interviews, and daily life.',
+    explanation: `<p><strong>Yes/No questions</strong> use an auxiliary verb before the subject:</p>
+<ul><li>Present simple: <strong>"Do you like coffee?"</strong></li>
+<li>Past simple: <strong>"Did she call you?"</strong></li>
+<li>Present continuous: <strong>"Are they coming?"</strong></li></ul>
+<p><strong>Wh- questions</strong> use a question word + auxiliary + subject:</p>
+<ul><li><strong>"Where do you live?"</strong></li>
+<li><strong>"What are you doing?"</strong></li>
+<li><strong>"Why did she leave?"</strong></li></ul>`,
+    examples: `<ul>
+<li><strong>"What time does the train leave?"</strong> — wh- question, present simple</li>
+<li><strong>"Have you finished your homework?"</strong> — yes/no, present perfect</li>
+<li><strong>"Who told you that?"</strong> — who as subject (no auxiliary needed)</li>
+<li><strong>"You're coming, aren't you?"</strong> — tag question</li></ul>`,
+    application: 'Practise by writing three yes/no questions and three wh- questions you might ask a new colleague at work. Use different tenses in each question.',
+    summary: 'English questions place the auxiliary verb before the subject for yes/no questions, and add a wh- word at the beginning for information questions',
+  },
+
+  'countable': {
+    introduction: 'English nouns are either countable (you can count them: one apple, two apples) or uncountable (you cannot count them individually: water, information). This distinction affects which articles and quantifiers you use.',
+    explanation: `<p><strong>Countable nouns</strong> can be singular or plural: <em>a book / books, an idea / ideas</em>. They use <strong>many, a few, several</strong>.</p>
+<p><strong>Uncountable nouns</strong> have only one form: <em>water, advice, furniture, information, news</em>. They use <strong>much, a little</strong>.</p>
+<p>Some quantifiers work with both: <strong>some, any, a lot of</strong>.</p>`,
+    examples: `<ul>
+<li><strong>"How many students are there?"</strong> — countable, use "many"</li>
+<li><strong>"How much time do we have?"</strong> — uncountable, use "much"</li>
+<li><strong>"I need some information."</strong> — uncountable, no plural</li>
+<li><strong>"She gave me a few tips."</strong> — countable, plural</li></ul>`,
+    application: 'Sort these nouns into countable and uncountable: furniture, chair, advice, suggestion, luggage, suitcase, money, coin, news, newspaper. Then write a sentence using "much" with an uncountable noun and "many" with a countable noun.',
+    summary: 'countable nouns can be pluralized and use many/few, while uncountable nouns stay singular and use much/little — some quantifiers like "some" and "a lot of" work with both',
+  },
+
+  'compar': {
+    introduction: 'Comparatives and superlatives allow you to compare things in English. Whether you are saying something is bigger, more interesting, or the best, these structures are essential for expressing opinions and making choices.',
+    explanation: `<p>For <strong>short adjectives</strong> (one syllable), add <strong>-er</strong> for comparatives and <strong>-est</strong> for superlatives: <em>big → bigger → the biggest</em>.</p>
+<p>For <strong>longer adjectives</strong> (two+ syllables), use <strong>more</strong> and <strong>the most</strong>: <em>interesting → more interesting → the most interesting</em>.</p>
+<p>Irregular forms: <em>good → better → the best</em>, <em>bad → worse → the worst</em>, <em>far → farther → the farthest</em>.</p>`,
+    examples: `<ul>
+<li><strong>"Tokyo is bigger than London."</strong> — comparative</li>
+<li><strong>"She is the most experienced candidate."</strong> — superlative</li>
+<li><strong>"This is better than I expected."</strong> — irregular comparative</li>
+<li><strong>"That was the worst movie I've ever seen."</strong> — irregular superlative</li></ul>`,
+    application: 'Compare three things you know well (e.g., three cities, three restaurants, or three movies). Write two comparative sentences and one superlative sentence.',
+    summary: 'comparatives (-er / more) compare two things, superlatives (-est / the most) identify the extreme in a group, and common adjectives like good/bad have irregular forms',
+  },
+
+  'future': {
+    introduction: 'English has several ways to talk about the future, each with a different nuance. The two most common are <strong>will</strong> (for decisions, predictions, and promises) and <strong>going to</strong> (for plans and evidence-based predictions).',
+    explanation: `<p><strong>Will + base verb</strong> for spontaneous decisions, predictions, and promises:</p>
+<ul><li><strong>"I'll help you with that."</strong> — spontaneous offer</li>
+<li><strong>"It will rain tomorrow."</strong> — prediction</li></ul>
+<p><strong>Be going to + base verb</strong> for plans and predictions based on present evidence:</p>
+<ul><li><strong>"I'm going to study medicine."</strong> — a plan</li>
+<li><strong>"Look at those clouds — it's going to rain."</strong> — evidence</li></ul>
+<p>The <strong>present continuous</strong> can also express future arrangements: <strong>"I'm meeting Sarah at 3 PM."</strong></p>`,
+    examples: `<ul>
+<li><strong>"I'll call you later."</strong> — spontaneous decision (will)</li>
+<li><strong>"We're going to move next month."</strong> — plan (going to)</li>
+<li><strong>"She's flying to Paris on Tuesday."</strong> — arrangement (present continuous)</li>
+<li><strong>"The train leaves at 9 AM."</strong> — timetable (present simple)</li></ul>`,
+    application: 'Write four sentences about your future: one using "will" for a prediction, one using "going to" for a plan, one using the present continuous for an arrangement, and one using the present simple for a scheduled event.',
+    summary: '"will" is for spontaneous decisions and general predictions, "going to" is for plans and evidence-based predictions, and the present continuous is for fixed arrangements',
+  },
+
+  'perfect': {
+    introduction: 'The present perfect tense connects the past to the present. It expresses experiences, recent changes, and situations that started in the past and continue now.',
+    explanation: `<p>Form: <strong>have / has + past participle</strong>:</p>
+<ul><li><strong>"I have visited Tokyo."</strong> — life experience</li>
+<li><strong>"She has just finished."</strong> — recent action</li>
+<li><strong>"They have lived here since 2010."</strong> — duration</li></ul>
+<p>Use <strong>since</strong> for a point in time (since Monday) and <strong>for</strong> for a period (for three years). Do NOT use the present perfect with specific past time expressions — say <strong>"I went to Paris last year"</strong>, not "I have gone to Paris last year".</p>`,
+    examples: `<ul>
+<li><strong>"Have you ever eaten sushi?"</strong> — asking about experience</li>
+<li><strong>"I've already seen that film."</strong> — completed before now</li>
+<li><strong>"She hasn't replied yet."</strong> — still waiting</li>
+<li><strong>"We've been friends for ten years."</strong> — continuing situation</li></ul>`,
+    application: 'Write three sentences about your life experiences using "I have..." and three about things you haven\'t done yet using "I haven\'t..." Try using "ever," "never," "already," and "yet."',
+    summary: 'the present perfect (have/has + past participle) links past actions to the present — for experiences, recent results, and ongoing situations — but cannot be used with specific past time expressions',
+  },
+
+  'conditional': {
+    introduction: 'Conditional sentences express that one thing depends on another. English has three main conditionals, each expressing a different relationship between the condition and the result.',
+    explanation: `<p><strong>First conditional</strong> (real/possible future): <em>If + present simple, will + base verb</em></p>
+<ul><li><strong>"If it rains, I will take an umbrella."</strong></li></ul>
+<p><strong>Second conditional</strong> (unreal/hypothetical present): <em>If + past simple, would + base verb</em></p>
+<ul><li><strong>"If I had more time, I would learn another language."</strong></li></ul>
+<p><strong>Third conditional</strong> (unreal past): <em>If + past perfect, would have + past participle</em></p>
+<ul><li><strong>"If she had studied harder, she would have passed."</strong></li></ul>`,
+    examples: `<ul>
+<li><strong>"If you heat water to 100°C, it boils."</strong> — zero conditional (general truth)</li>
+<li><strong>"If I get the job, I'll move to London."</strong> — first conditional (real possibility)</li>
+<li><strong>"If I were you, I'd accept the offer."</strong> — second conditional (advice)</li>
+<li><strong>"If we had left earlier, we would have caught the flight."</strong> — third conditional (regret)</li></ul>`,
+    application: 'Write one sentence for each type of conditional: a zero conditional (general truth), first conditional (real possibility), second conditional (hypothetical), and third conditional (past regret).',
+    summary: 'conditionals use "if" to connect a condition with a result — the zero and first for real situations, the second for hypothetical present, and the third for unreal past',
+  },
+
+  'passive': {
+    introduction: 'The passive voice shifts the focus from who does an action to who or what is affected by it. It is widely used in formal, academic, and scientific writing.',
+    explanation: `<p>Form: <strong>be + past participle</strong>:</p>
+<ul><li>Present: <strong>"English is spoken worldwide."</strong></li>
+<li>Past: <strong>"The bridge was built in 1890."</strong></li>
+<li>Present perfect: <strong>"The report has been submitted."</strong></li>
+<li>Future: <strong>"The results will be announced tomorrow."</strong></li></ul>
+<p>To mention the agent, use <strong>by</strong>: <strong>"The painting was stolen by a professional thief."</strong></p>`,
+    examples: `<ul>
+<li><strong>"The email was sent yesterday."</strong> — focus on the email, not the sender</li>
+<li><strong>"Mistakes were made."</strong> — the actor is unknown or avoided</li>
+<li><strong>"The experiment was conducted over three weeks."</strong> — scientific style</li>
+<li><strong>"Our house is being painted this week."</strong> — present continuous passive</li></ul>`,
+    application: 'Transform these active sentences into passive: "Shakespeare wrote Hamlet." "They are building a new hospital." "Someone stole my wallet." Think about why the passive might be preferred in each case.',
+    summary: 'the passive (be + past participle) shifts focus to the receiver of the action — use it when the action matters more than the actor, or when the actor is unknown',
+  },
+
+  'reported speech': {
+    introduction: 'Reported speech (also called indirect speech) is how we tell someone what another person said, without quoting them directly. It requires shifting tenses, pronouns, and time expressions.',
+    explanation: `<p>When reporting what someone said, tenses typically shift one step back:</p>
+<ul><li>Present simple → Past simple: <strong>"I like coffee" → She said she liked coffee</strong></li>
+<li>Past simple → Past perfect: <strong>"I went" → He said he had gone</strong></li>
+<li>Will → Would: <strong>"I'll come" → She said she would come</strong></li></ul>
+<p>Time expressions also change: <em>today → that day, tomorrow → the next day, here → there</em>.</p>`,
+    examples: `<ul>
+<li><strong>"I am tired."</strong> → She said she was tired.</li>
+<li><strong>"I have finished."</strong> → He said he had finished.</li>
+<li><strong>"I will call you tomorrow."</strong> → She said she would call me the next day.</li>
+<li><strong>"I can swim."</strong> → He said he could swim.</li></ul>`,
+    application: 'Convert these direct speech sentences into reported speech: "I\'m hungry." "We went to the cinema last night." "I\'ll help you tomorrow." Pay attention to tense shifts and pronoun changes.',
+    summary: 'reported speech shifts tenses one step back (present→past, past→past perfect, will→would), changes pronouns to match the perspective, and adjusts time/place expressions',
+  },
+
+  'relative clause': {
+    introduction: 'Relative clauses give extra information about a noun. They are introduced by relative pronouns like <strong>who</strong> (people), <strong>which</strong> (things), and <strong>that</strong> (people or things).',
+    explanation: `<p><strong>Defining relative clauses</strong> identify which person/thing we mean — no commas:</p>
+<ul><li><strong>"The woman who lives next door is a doctor."</strong> — essential information</li></ul>
+<p><strong>Non-defining relative clauses</strong> add extra information — use commas:</p>
+<ul><li><strong>"My sister, who lives in Paris, is visiting next week."</strong> — extra detail</li></ul>
+<p>Note: <strong>that</strong> cannot be used in non-defining clauses.</p>`,
+    examples: `<ul>
+<li><strong>"The book that I borrowed was excellent."</strong> — defining clause</li>
+<li><strong>"London, which is the capital of the UK, has many museums."</strong> — non-defining</li>
+<li><strong>"The person whose car was stolen called the police."</strong> — whose for possession</li>
+<li><strong>"The restaurant where we had dinner was wonderful."</strong> — where for places</li></ul>`,
+    application: 'Combine these pairs of sentences using relative clauses: "I met a woman. She works at NASA." "The hotel was excellent. We stayed at the hotel." "I have a friend. His father is a famous artist."',
+    summary: 'defining relative clauses (no commas) identify which noun we mean, while non-defining clauses (with commas) add extra information — "who" is for people, "which" for things, and "that" works for both in defining clauses only',
+  },
+
+  'gerund': {
+    introduction: 'Gerunds (verb + -ing used as nouns) and infinitives (to + verb) are two ways to use verbs as the object of another verb. Some verbs take gerunds, some take infinitives, and some can take both with a change in meaning.',
+    explanation: `<p>Verbs that take <strong>gerunds</strong>: enjoy, avoid, suggest, mind, finish, deny, keep</p>
+<ul><li><strong>"I enjoy reading."</strong> (not "I enjoy to read")</li></ul>
+<p>Verbs that take <strong>infinitives</strong>: want, hope, decide, agree, promise, plan, expect</p>
+<ul><li><strong>"She decided to leave."</strong> (not "She decided leaving")</li></ul>
+<p>Verbs that change meaning: <strong>stop, remember, forget, try</strong></p>
+<ul><li><strong>"Stop talking."</strong> (quit) vs. <strong>"Stop to talk."</strong> (pause in order to talk)</li></ul>`,
+    examples: `<ul>
+<li><strong>"I suggested going to the park."</strong> — suggest + gerund</li>
+<li><strong>"He wants to learn guitar."</strong> — want + infinitive</li>
+<li><strong>"Remember to lock the door."</strong> — future action</li>
+<li><strong>"I remember locking the door."</strong> — past memory</li></ul>`,
+    application: 'Complete these sentences with the correct gerund or infinitive: "She enjoys ___ (cook)." "They decided ___ (move) abroad." "I\'ll never forget ___ (meet) her." "Please remember ___ (buy) milk."',
+    summary: 'some verbs require gerunds (enjoy, avoid, suggest), some require infinitives (want, decide, hope), and some (stop, remember, forget) change meaning depending on which form follows',
+  },
+
+  'modal': {
+    introduction: 'Modal verbs express ability, permission, obligation, advice, and possibility. They are essential for nuanced communication and appear in nearly every English conversation.',
+    explanation: `<p><strong>Ability/Permission:</strong> can, could, may</p>
+<p><strong>Obligation:</strong> must (strong), have to (external), should (advice)</p>
+<p><strong>Deduction:</strong> must (certain), might/may/could (possible), can't (impossible)</p>
+<p>Modals are followed by the base form of the verb (no "to", no -s):</p>
+<ul><li><strong>"She must be tired."</strong> (not "She musts be tired")</li>
+<li><strong>"You should go."</strong> (not "You should to go")</li></ul>`,
+    examples: `<ul>
+<li><strong>"You must wear a seatbelt."</strong> — strong obligation</li>
+<li><strong>"You should see a doctor."</strong> — advice</li>
+<li><strong>"That can't be true."</strong> — strong deduction (impossible)</li>
+<li><strong>"She might come later."</strong> — possibility</li>
+<li><strong>"Could I use your phone?"</strong> — polite request</li></ul>`,
+    application: 'Write five sentences using different modal verbs: one for obligation, one for advice, one for possibility, one for deduction, and one for a polite request.',
+    summary: 'modal verbs (can, must, should, might, etc.) are followed by the base verb and express nuances like obligation, advice, possibility, and deduction',
+  },
+
+  'subjunctive': {
+    introduction: 'The subjunctive mood expresses wishes, demands, suggestions, and hypothetical situations. Though less common in modern English, it remains important in formal writing and certain fixed expressions.',
+    explanation: `<p>The <strong>present subjunctive</strong> uses the base form of the verb for all persons (no -s for he/she/it):</p>
+<ul><li><strong>"It is essential that she be present."</strong> (not "is present")</li>
+<li><strong>"I recommend that he study harder."</strong> (not "studies")</li></ul>
+<p>The <strong>past subjunctive</strong> uses "were" for all persons in hypothetical conditions:</p>
+<ul><li><strong>"If I were you, I would accept the offer."</strong> (not "was")</li></ul>
+<p>Common triggers: suggest, recommend, insist, demand, require, essential, important, vital.</p>`,
+    examples: `<ul>
+<li><strong>"The manager insisted that the report be submitted by Friday."</strong></li>
+<li><strong>"It is vital that every student attend the meeting."</strong></li>
+<li><strong>"If I were rich, I would travel the world."</strong></li>
+<li><strong>"Long live the King!"</strong> — fixed expression</li></ul>`,
+    application: 'Rewrite these sentences using the subjunctive: "It is important that she is on time." "The doctor recommended that he takes more exercise." "I wish I was able to help."',
+    summary: 'the subjunctive uses the base verb form after verbs of demand/suggestion and the "were" form in hypothetical conditions — it signals unreality, necessity, or wish',
+  },
+
+  'cleft': {
+    introduction: 'Cleft sentences are a powerful way to add emphasis in English. They split a simple sentence into two clauses, highlighting the information you want to stress.',
+    explanation: `<p><strong>It-clefts</strong> emphasize a particular element:</p>
+<ul><li>Normal: <strong>"John broke the window."</strong></li>
+<li>Cleft: <strong>"It was John who broke the window."</strong></li></ul>
+<p><strong>What-clefts</strong> (pseudo-clefts) emphasize the action or thing:</p>
+<ul><li><strong>"What I need is a good night's sleep."</strong></li>
+<li><strong>"What bothers me is the noise."</strong></li></ul>
+<p><strong>These/those-clefts</strong> and <strong>the-clefts</strong> are also common in advanced writing.</p>`,
+    examples: `<ul>
+<li><strong>"It was the weather that ruined our holiday."</strong> — it-cleft emphasizing cause</li>
+<li><strong>"What she said shocked everyone."</strong> — what-cleft emphasizing content</li>
+<li><strong>"The thing that impresses me most is her dedication."</strong> — the-thing emphasis</li></ul>`,
+    application: 'Transform these sentences using cleft structures for emphasis: "I love the food most about Italy." "Her attitude caused the problem." "I just want some peace and quiet."',
+    summary: 'cleft sentences split a sentence into two clauses to add emphasis — "it was X that..." highlights a specific element, and "what I need is..." highlights an action or thing',
+  },
+
+  'inversion': {
+    introduction: 'Inversion — placing the verb before the subject — is an advanced grammatical device used for emphasis, formality, and rhetorical effect. It is common in formal writing and literature.',
+    explanation: `<p>Inversion after <strong>negative adverbs</strong> (never, rarely, seldom, hardly, not only):</p>
+<ul><li><strong>"Never have I seen such beauty."</strong></li>
+<li><strong>"Not only did she win, but she also broke the record."</strong></li></ul>
+<p>Inversion with <strong>so/such...that</strong>:</p>
+<ul><li><strong>"So impressive was the performance that the audience gave a standing ovation."</strong></li></ul>
+<p>Inversion in <strong>conditional sentences</strong> (without "if"):</p>
+<ul><li><strong>"Had I known, I would have acted differently."</strong></li></ul>`,
+    examples: `<ul>
+<li><strong>"Rarely does one encounter such talent."</strong> — negative adverb fronting</li>
+<li><strong>"Under no circumstances should you share your password."</strong> — prepositional phrase</li>
+<li><strong>"Were she here, she would agree."</strong> — conditional inversion</li></ul>`,
+    application: 'Rewrite these sentences using inversion: "I have never heard such a ridiculous claim." "If she had arrived earlier, she would have seen the show." "The storm was so fierce that the roof collapsed."',
+    summary: 'inversion places the auxiliary verb before the subject for emphasis — triggered by negative adverbs, "so/such," and conditional structures without "if"',
+  },
+
+  'phrasal verb': {
+    introduction: 'Phrasal verbs combine a verb with one or more particles (prepositions or adverbs) to create meanings different from the original verb. They are extremely common in spoken and informal English.',
+    explanation: `<p>Phrasal verbs can be:</p>
+<ul><li><strong>Intransitive</strong> (no object): <em>"The plane took off."</em></li>
+<li><strong>Transitive, separable</strong>: <em>"She looked up the word" / "She looked the word up."</em></li>
+<li><strong>Transitive, inseparable</strong>: <em>"I ran into an old friend."</em> (not "I ran an old friend into")</li></ul>
+<p>The meaning is often idiomatic — you cannot guess it from the individual words.</p>`,
+    examples: `<ul>
+<li><strong>"Give up"</strong> = quit: <em>"Don't give up!"</em></li>
+<li><strong>"Look forward to"</strong> = anticipate with pleasure: <em>"I look forward to meeting you."</em></li>
+<li><strong>"Turn out"</strong> = prove to be: <em>"It turned out to be a great decision."</em></li>
+<li><strong>"Come across"</strong> = find by chance: <em>"I came across an old photo."</em></li></ul>`,
+    application: 'Learn five new phrasal verbs this week. For each one, write an example sentence that is true for your own life. Try using them in conversation.',
+    summary: 'phrasal verbs (verb + particle) have idiomatic meanings that differ from the individual words — they can be separable or inseparable, and are essential for natural-sounding English',
+  },
+
+  'hedging': {
+    introduction: 'Hedging language makes statements less absolute and more cautious. It is essential in academic writing, professional communication, and any context where claims need to be carefully qualified.',
+    explanation: `<p>Common hedging devices:</p>
+<ul><li><strong>Modal verbs</strong>: may, might, could, would</li>
+<li><strong>Adverbs</strong>: possibly, probably, apparently, arguably</li>
+<li><strong>Phrases</strong>: it seems that, it appears that, there is evidence to suggest</li>
+<li><strong>Probability adjectives</strong>: likely, possible, probable, uncertain</li></ul>
+<p>Without hedging: <strong>"This causes cancer."</strong> With hedging: <strong>"This may contribute to an increased risk of cancer."</strong></p>`,
+    examples: `<ul>
+<li><strong>"The results suggest that the treatment is effective."</strong></li>
+<li><strong>"It could be argued that the policy has failed."</strong></li>
+<li><strong>"There appears to be a correlation between diet and health."</strong></li>
+<li><strong>"This is likely due to a combination of factors."</strong></li></ul>`,
+    application: 'Take these absolute statements and add hedging: "Social media causes depression." "The economy will improve next year." "This theory is wrong." Think about how hedging changes the tone.',
+    summary: 'hedging language (may, might, it seems, possibly, suggests) softens claims to reflect uncertainty — it is essential in academic and professional writing where precision matters',
+  },
+
+  'nominalisation': {
+    introduction: 'Nominalisation is the process of turning verbs or adjectives into nouns. It is a key feature of formal, academic, and professional English, making writing more compact and impersonal.',
+    explanation: `<p>Verb → Noun:</p>
+<ul><li><strong>analyse → analysis</strong>: "We analysed the data" → "The analysis of the data revealed..."</li>
+<li><strong>decide → decision</strong>: "They decided quickly" → "Their quick decision enabled..."</li></ul>
+<p>Adjective → Noun:</p>
+<ul><li><strong>important → importance</strong>: "It is important to note" → "The importance of this finding..."</li>
+<li><strong>stable → stability</strong>: "The economy is stable" → "Economic stability allows..."</li></ul>`,
+    examples: `<ul>
+<li>Informal: <strong>"The government investigated the incident, which showed that mistakes were made."</strong></li>
+<li>Academic: <strong>"The government investigation of the incident revealed evidence of procedural failure."</strong></li></ul>`,
+    application: 'Nominalise these sentences: "They agreed quickly, which helped the project." "People are migrating to cities more, which causes problems." "The results were consistent, which supports the theory."',
+    summary: 'nominalisation converts verbs and adjectives into nouns (analyse→analysis, important→importance) to create more formal, compact, and impersonal academic prose',
+  },
+
+  'discourse marker': {
+    introduction: 'Discourse markers and cohesive devices are the "glue" of English text. They connect ideas, signal relationships, and guide the reader through your argument.',
+    explanation: `<p><strong>Addition</strong>: furthermore, moreover, in addition, additionally</p>
+<p><strong>Contrast</strong>: however, nevertheless, on the other hand, in contrast, yet</p>
+<p><strong>Cause/Effect</strong>: therefore, consequently, as a result, thus, hence</p>
+<p><strong>Concession</strong>: although, despite, even though, admittedly</p>
+<p><strong>Exemplification</strong>: for example, for instance, namely, such as</p>
+<p><strong>Sequencing</strong>: firstly, subsequently, meanwhile, finally</p>`,
+    examples: `<ul>
+<li><strong>"The experiment failed. However, the data collected was still valuable."</strong> — contrast</li>
+<li><strong>"Sales have increased; therefore, we can expand the team."</strong> — cause/effect</li>
+<li><strong>"Despite the risks, the team proceeded with the launch."</strong> — concession</li></ul>`,
+    application: 'Write a short paragraph about a topic you know well, using at least five different discourse markers. Focus on making the logical connections between your ideas explicit.',
+    summary: 'discourse markers signal logical relationships between ideas — addition, contrast, cause/effect, concession, exemplification, and sequencing — making writing coherent and arguments transparent',
+  },
+
+  'email': {
+    introduction: 'Professional email writing follows specific conventions for structure, tone, and language. A well-written email gets results; a poorly written one creates confusion.',
+    explanation: `<p><strong>Subject line</strong>: Be specific — "Meeting Reschedule: Q3 Review — Tuesday 2 PM" beats "Meeting"</p>
+<p><strong>Opening</strong>: Match formality to context — "Dear Mr. Smith," (formal) vs. "Hi Sarah," (informal)</p>
+<p><strong>Body</strong>: Be concise and organized. Use short paragraphs and bullet points for multiple items.</p>
+<p><strong>Closing</strong>: "Best regards" (formal), "Kind regards" (semi-formal), "Thanks" (informal)</p>`,
+    examples: `<ul>
+<li><strong>Formal:</strong> "Dear Ms. Johnson, I am writing to inquire about the position advertised on your website..."</li>
+<li><strong>Semi-formal:</strong> "Hi David, Could you send me the report by Friday? Thanks in advance."</li>
+<li><strong>Follow-up:</strong> "I hope this email finds you well. I am following up on our conversation last week regarding..."</li></ul>`,
+    application: 'Write two emails: one formal (applying for a job or making a complaint) and one informal (inviting a colleague to lunch). Pay attention to subject lines, openings, and closings.',
+    summary: 'professional emails need clear subject lines, appropriate formality in openings, concise organized bodies, and suitable closings — always proofread before sending',
+  },
+
+  'presentation': {
+    introduction: 'Giving presentations in English requires specific language for structuring your talk, engaging your audience, and handling questions. The right phrases make you sound confident and professional.',
+    explanation: `<p><strong>Opening</strong>: "Good morning, everyone. Today I'd like to talk about..."</p>
+<p><strong>Signposting</strong>: "First, let's consider..." / "Moving on to..." / "This brings me to..."</p>
+<p><strong>Highlighting</strong>: "The key point here is..." / "What's particularly important is..."</p>
+<p><strong>Closing</strong>: "To sum up..." / "In conclusion..." / "Thank you for your attention."</p>
+<p><strong>Handling questions</strong>: "That's a great question..." / "I'm glad you asked..."</p>`,
+    examples: `<ul>
+<li><strong>"I've divided my presentation into three main parts."</strong> — structure</li>
+<li><strong>"As you can see on this slide..."</strong> — referencing visuals</li>
+<li><strong>"Let me give you an example."</strong> — illustrating</li>
+<li><strong>"Does anyone have any questions?"</strong> — inviting Q&A</li></ul>`,
+    application: 'Prepare a two-minute presentation on any topic. Write out your opening, three signposting phrases, one key point, and your closing. Practise delivering it aloud.',
+    summary: 'presentation language includes openings to set context, signposting to guide the audience, highlighting for emphasis, and closings to summarize — practise these phrases until they feel natural',
+  },
+
+  'essay': {
+    introduction: 'A well-structured essay guides the reader through a clear argument. Understanding essay conventions — from thesis statements to conclusions — is essential for academic and professional writing.',
+    explanation: `<p><strong>Introduction</strong>: Hook the reader, provide context, and state your thesis clearly.</p>
+<p><strong>Body paragraphs</strong>: Each paragraph = one main idea. Start with a topic sentence, provide evidence, explain the connection to your thesis.</p>
+<p><strong>Transitions</strong>: Use words like "furthermore," "however," "similarly," and "in contrast" to connect paragraphs.</p>
+<p><strong>Conclusion</strong>: Synthesize your arguments (do not just repeat them) and suggest broader implications.</p>`,
+    examples: `<ul>
+<li><strong>Thesis:</strong> "While social media offers unprecedented connectivity, its impact on mental health demands urgent regulatory attention."</li>
+<li><strong>Topic sentence:</strong> "The first major concern is the link between social media use and rising anxiety among adolescents."</li>
+<li><strong>Transition:</strong> "Having examined the psychological effects, it is equally important to consider the economic implications."</li></ul>`,
+    application: 'Choose a topic you feel strongly about. Write a thesis statement, three topic sentences for body paragraphs, and a concluding sentence. Focus on making each element specific and debatable.',
+    summary: 'essays follow introduction-body-conclusion structure, with a clear thesis, body paragraphs each containing one main idea supported by evidence, and a conclusion that synthesizes rather than repeats',
+  },
+
+  'writing': {
+    introduction: 'Good writing in English requires clarity, coherence, and appropriate register. Whether you are writing an email, report, or essay, certain principles apply across all formats.',
+    explanation: `<p><strong>Clarity</strong>: Use simple, direct language. Avoid unnecessary jargon or overly complex sentences.</p>
+<p><strong>Coherence</strong>: Connect your ideas logically with transition words and consistent pronoun references.</p>
+<p><strong>Conciseness</strong>: Cut redundant words. "In order to" → "to"; "due to the fact that" → "because."</p>
+<p><strong>Register</strong>: Match your tone to the context — formal for academic/professional, informal for personal communication.</p>`,
+    examples: `<ul>
+<li>Wordy: <strong>"Due to the fact that the meeting was cancelled, we were not able to discuss the matter."</strong></li>
+<li>Concise: <strong>"Because the meeting was cancelled, we could not discuss the matter."</strong></li></ul>`,
+    application: 'Take a paragraph you have written recently and revise it for clarity and conciseness. Remove at least 20% of the words while preserving all the meaning. Count the before and after word counts.',
+    summary: 'effective writing is clear (simple language), coherent (logical connections), concise (no redundancy), and register-appropriate (formal vs. informal matching the context)',
+  },
+
+  'rhetoric': {
+    introduction: 'Rhetoric is the art of persuasive speaking and writing. Mastering rhetorical techniques allows you to present arguments more compellingly and to recognize when others are using these techniques on you.',
+    explanation: `<p><strong>Ethos</strong> — credibility: Establish your authority and trustworthiness.</p>
+<p><strong>Pathos</strong> — emotion: Appeal to the audience's feelings and values.</p>
+<p><strong>Logos</strong> — logic: Present clear reasoning, evidence, and structured arguments.</p>
+<p><strong>Rhetorical devices</strong>: repetition ("We shall fight on the beaches"), triadic structures ("life, liberty, and the pursuit of happiness"), rhetorical questions ("Are we really prepared to accept this?")</p>`,
+    examples: `<ul>
+<li><strong>Ethos:</strong> "As a doctor with twenty years of experience, I can tell you..."</li>
+<li><strong>Pathos:</strong> "Imagine a child going to bed hungry tonight."</li>
+<li><strong>Logos:</strong> "The data clearly shows a 40% reduction in crime rates."</li>
+<li><strong>Repetition:</strong> "We will not give up. We will not back down. We will not surrender."</li></ul>`,
+    application: 'Write a short persuasive paragraph about a topic you care about, using at least one example of ethos, one of pathos, and one of logos. Then identify the rhetorical devices in a famous speech.',
+    summary: 'rhetoric persuades through ethos (credibility), pathos (emotion), and logos (logic) — enhanced by devices like repetition, triadic structures, and rhetorical questions',
+  },
+
+  'idiom': {
+    introduction: 'Idioms are expressions whose meaning cannot be deduced from the individual words. They are a hallmark of natural, fluent English and appear constantly in everyday conversation.',
+    explanation: `<p>Idioms often originate from specific cultural contexts — sailing, farming, sports, or the military. Understanding the origin can help you remember the meaning.</p>
+<p>Some common categories:</p>
+<ul><li><strong>Body parts</strong>: "keep an eye on," "break a leg," "cost an arm and a leg"</li>
+<li><strong>Weather</strong>: "under the weather," "break the ice," "storm in a teacup"</li>
+<li><strong>Animals</strong>: "let the cat out of the bag," "the elephant in the room"</li>
+<li><strong>Colours</strong>: "feeling blue," "green with envy," "see red"</li></ul>`,
+    examples: `<ul>
+<li><strong>"It's raining cats and dogs."</strong> — it's raining heavily</li>
+<li><strong>"She bit off more than she could chew."</strong> — took on too much</li>
+<li><strong>"Let's call it a day."</strong> — stop working</li>
+<li><strong>"He's been pulling my leg."</strong> — joking/teasing</li></ul>`,
+    application: 'Learn five new idioms this week. For each, write its meaning, origin (if you can find it), and a sentence that is true for your own experience. Try using them in conversation.',
+    summary: 'idioms are figurative expressions with meanings beyond their literal words — learning them by category (body, weather, animals, colours) and by origin helps with memorization and natural usage',
+  },
+
+  'collocation': {
+    introduction: 'Collocations are words that naturally go together in English. Using the right collocations makes your English sound natural and fluent; using wrong ones sounds jarring even if grammatically correct.',
+    explanation: `<p>Common collocation types:</p>
+<ul><li><strong>Adjective + Noun</strong>: heavy rain (not "strong rain"), strong coffee (not "powerful coffee")</li>
+<li><strong>Verb + Noun</strong>: make a decision (not "do a decision"), take a shower (not "make a shower")</li>
+<li><strong>Noun + Verb</strong>: prices rise, bombs explode</li>
+<li><strong>Adverb + Adjective</strong>: deeply disappointed, highly recommended</li>
+<li><strong>Verb + Adverb</strong>: whisper softly, run rapidly</li></ul>`,
+    examples: `<ul>
+<li><strong>"Make a mistake"</strong> (not "do a mistake")</li>
+<li><strong>"Fast food"</strong> (not "quick food")</li>
+<li><strong>"Keep a secret"</strong> (not "hold a secret")</li>
+<li><strong>"Heavily dependent"</strong> (not "strongly dependent")</li></ul>`,
+    application: 'For each pair, choose the correct collocation: make/do homework, strong/heavy wind, take/make a photo, deeply/highly educated. Then write a sentence using each correct collocation.',
+    summary: 'collocations are fixed word combinations (make a decision, heavy rain, strongly recommend) — using the right ones sounds natural, while wrong ones sound odd even if grammatically correct',
+  },
+
+  'register': {
+    introduction: 'Register refers to the level of formality in language. Using the appropriate register — formal, semi-formal, or informal — is essential for effective communication in different contexts.',
+    explanation: `<p><strong>Formal register</strong>: Used in academic writing, official documents, and professional settings. Features: no contractions, passive voice, complex sentences, Latinate vocabulary.</p>
+<p><strong>Informal register</strong>: Used with friends and family. Features: contractions, slang, simple sentences, phrasal verbs.</p>
+<p><strong>Key transformations</strong>:</p>
+<ul><li>"assist" (formal) → "help" (informal)</li>
+<li>"I would like to" (formal) → "I want to" (informal)</li>
+<li>"commence" (formal) → "start" (informal)</li>
+<li>"It is recommended that" (formal) → "You should" (informal)</li></ul>`,
+    examples: `<ul>
+<li>Formal: <strong>"I regret to inform you that your application has been unsuccessful."</strong></li>
+<li>Informal: <strong>"Sorry, but you didn't get the job."</strong></li>
+<li>Formal: <strong>"Participants are requested to refrain from smoking."</strong></li>
+<li>Informal: <strong>"Please don't smoke."</strong></li></ul>`,
+    application: 'Transform these informal sentences into formal register: "I want to talk about the problem." "We need to fix this ASAP." "Sorry I\'m late." Then transform these formal sentences into informal: "I would appreciate your assistance." "The meeting has been postponed."',
+    summary: 'register is the formality level — formal (no contractions, Latinate words) for professional/academic contexts, informal (contractions, phrasal verbs) for personal — matching register to context is a mark of communicative competence',
+  },
+
+  'vocabulary': {
+    introduction: 'Building a strong vocabulary is essential for effective English communication. This lesson focuses on expanding your word knowledge through context, collocations, and active practice strategies.',
+    explanation: `<p>Effective vocabulary learning strategies:</p>
+<ul><li><strong>Learn in context</strong>: Always study words in sentences, not isolation</li>
+<li><strong>Study word families</strong>: communicate → communication → communicative → communicatively</li>
+<li><strong>Learn collocations</strong>: Which words naturally go together? (make a decision, not do a decision)</li>
+<li><strong>Use spaced repetition</strong>: Review new words at increasing intervals</li>
+<li><strong>Active use</strong>: Write and speak using new words immediately</li></ul>`,
+    examples: `<ul>
+<li>Word family: <strong>analyse → analysis → analytical → analyst</strong></li>
+<li>Collocations: <strong>conduct research, draw a conclusion, reach a consensus</strong></li>
+<li>Context clue: <strong>"Her erudite comments impressed the professors"</strong> — erudite = scholarly/learned</li></ul>`,
+    application: 'Choose five new words from this lesson. For each word, write: the definition, a collocation, a sentence about your own life, and one word from the same family. Review these words tomorrow, in three days, and in one week.',
+    summary: 'effective vocabulary learning requires context (not lists), word families (extend knowledge), collocations (natural combinations), spaced repetition (timed review), and active use (write and speak)',
+  },
+
+  'pronunciation': {
+    introduction: 'English pronunciation can be challenging because spelling does not always match sound. This lesson covers key pronunciation patterns that will help you sound more natural and be better understood.',
+    explanation: `<p><strong>Word stress</strong>: Every multi-syllable word has one stressed syllable. Wrong stress can make a word incomprehensible: <em>PHO-to-graph</em> vs. <em>pho-TO-graph-ic</em>.</p>
+<p><strong>Sentence stress</strong>: Content words (nouns, verbs, adjectives) are stressed; function words (articles, prepositions, pronouns) are not.</p>
+<p><strong>Connected speech</strong>: Words blend together: "going to" → "gonna," "want to" → "wanna," "did you" → "didja."</p>
+<p><strong>Schwa /ə/</strong>: The most common vowel sound in English, found in unstressed syllables: <em>a</em>bout, doc<em>u</em>ment.</p>`,
+    examples: `<ul>
+<li>Stress shift: <strong>re-CORD</strong> (verb) vs. <strong>RE-cord</strong> (noun)</li>
+<li>Connected speech: <strong>"What are you going to do?"</strong> → "Whatcha gonna do?"</li>
+<li>Schwa: The "a" in <strong>"about"</strong> and the "o" in <strong>"melon"</strong> are both schwas</li></ul>`,
+    application: 'Record yourself reading a short paragraph aloud. Then listen and identify: (1) words you stressed incorrectly, (2) places where your connected speech sounds unnatural, (3) schwa sounds you missed. Practise and re-record.',
+    summary: 'English pronunciation depends on word stress (wrong stress = incomprehensible), sentence stress (content words louder), connected speech (words blend), and the schwa (most common unstressed vowel)',
+  },
+
+  'persuasion': {
+    introduction: 'Persuasive language aims to convince the reader or listener to adopt a particular viewpoint or take a specific action. It combines logical argument, emotional appeal, and credibility to achieve its goal.',
+    explanation: `<p><strong>Key persuasive techniques</strong>:</p>
+<ul><li><strong>Repetition</strong>: Repeat key phrases for emphasis ("We will fight, we will persist, we will prevail")</li>
+<li><strong>Rhetorical questions</strong>: Engage the audience ("Are we really willing to accept this?")</li>
+<li><strong>Emotive language</strong>: Words that trigger feelings ("devastating," "crucial," "unforgivable")</li>
+<li><strong>Social proof</strong>: "Millions of people agree..."</li>
+<li><strong>Anticipating objections</strong>: "Some may argue that..., however..."</li></ul>`,
+    examples: `<ul>
+<li><strong>"Not only is this the right thing to do — it is the smart thing to do."</strong> — double appeal</li>
+<li><strong>"Can we really afford to wait?"</strong> — rhetorical question creating urgency</li>
+<li><strong>"Every major study confirms this."</strong> — social proof</li></ul>`,
+    application: 'Write a short persuasive paragraph on a topic of your choice. Include at least one rhetorical question, one piece of emotive language, and one anticipation of an objection. Read it aloud and notice how the persuasive techniques affect the tone.',
+    summary: 'persuasion uses repetition, rhetorical questions, emotive language, social proof, and anticipation of objections to convince — combining logic, emotion, and credibility is most effective',
+  },
+
+  'negotiation': {
+    introduction: 'Negotiation language in English follows structured patterns for proposing, counter-offering, and reaching agreement. The right language keeps discussions productive and professional.',
+    explanation: `<p><strong>Opening positions</strong>: "Our starting position is..." / "We are looking for..."</p>
+<p><strong>Making conditional offers</strong>: "If you could..., we would be willing to..."</p>
+<p><strong>Hedging</strong>: "We might be able to..." / "That could work, provided that..."</p>
+<p><strong>Summarizing</strong>: "So, if I understand correctly, you are proposing..."</p>
+<p><strong>Closing</strong>: "I think we have an agreement." / "Shall we confirm the details?"</p>`,
+    examples: `<ul>
+<li><strong>"If you can offer a 10% discount, we would be willing to increase our order."</strong></li>
+<li><strong>"We might be able to extend the deadline, provided that the quality standards are met."</strong></li>
+<li><strong>"Let me see if I understand — you're offering X in exchange for Y?"</strong></li></ul>`,
+    application: 'Role-play a negotiation with a partner. One person is buying, the other is selling. Use conditional offers, hedging language, and summarizing phrases. Aim for a win-win outcome.',
+    summary: 'negotiation language uses conditional offers (if you...we would), hedging (might/could/provided that), and summarizing to confirm understanding — the goal is productive dialogue toward agreement',
+  },
+
+  'diplomatic': {
+    introduction: 'Diplomatic language softens messages, avoids confrontation, and maintains positive relationships. It is essential in international relations, business, and any situation requiring tact.',
+    explanation: `<p><strong>Softening techniques</strong>:</p>
+<ul><li><strong>Hedges</strong>: "It seems that..." / "There appears to be..." / "One might suggest..."</li>
+<li><strong>Understatement</strong>: "There is room for improvement" (meaning: this is bad)</li>
+<li><strong>Passive voice</strong>: "Mistakes were made" (avoiding blame)</li>
+<li><strong>Positive framing</strong>: "We have an opportunity to improve" (not "You failed")</li>
+<li><strong>Distant language</strong>: "It is generally felt that..." (not "I think you are wrong")</li></ul>`,
+    examples: `<ul>
+<li>Direct: <strong>"Your proposal is unrealistic."</strong> → Diplomatic: <strong>"There may be some aspects of the proposal that would benefit from further consideration."</strong></li>
+<li>Direct: <strong>"You made a mistake."</strong> → Diplomatic: <strong>"There seems to have been a misunderstanding."</strong></li></ul>`,
+    application: 'Rephrase these direct statements diplomatically: "This plan won&#39;t work." "You&#39;re wrong about that." "We refuse to accept these terms." "Your presentation was boring." Focus on maintaining the relationship while still communicating the message.',
+    summary: 'diplomatic language uses hedging, understatement, passive voice, positive framing, and distancing to deliver difficult messages without confrontation — it preserves relationships while communicating truth',
+  },
+
+  'humour': {
+    introduction: 'Understanding humour in English requires knowledge of cultural references, wordplay, and social norms. Humour is a powerful communication tool — it builds rapport, defuses tension, and makes messages memorable.',
+    explanation: `<p><strong>Types of English humour</strong>:</p>
+<ul><li><strong>Puns/wordplay</strong>: Using words with multiple meanings for comic effect</li>
+<li><strong>Irony</strong>: Saying the opposite of what you mean</li>
+<li><strong>Sarcasm</strong>: Cutting irony, often with a critical edge</li>
+<li><strong>Self-deprecation</strong>: Making fun of yourself (very common in British English)</li>
+<li><strong>Deadpan</strong>: Delivering jokes with no expression</li></ul>
+<p><strong>Warning</strong>: Humour does not always translate across cultures. What is funny in one culture may be offensive in another.</p>`,
+    examples: `<ul>
+<li>Pun: <strong>"I used to be a baker, but I couldn't make enough dough."</strong></li>
+<li>Irony: <strong>"Lovely weather!"</strong> (said during a rainstorm)</li>
+<li>Self-deprecation: <strong>"I'm not saying I'm Wonder Woman, but no one has ever seen us in the same room."</strong></li></ul>`,
+    application: 'Identify the type of humour in these examples: "I&#39;m on a seafood diet — I see food and I eat it." "Oh, brilliant — another Monday." "My cooking is so bad, the smoke alarm cheers me on." Try creating one example of each type.',
+    summary: 'English humour includes puns, irony, sarcasm, self-deprecation, and deadpan — understanding these types helps you appreciate jokes, use humour appropriately, and navigate cultural differences',
+  },
+
+  'narrative': {
+    introduction: 'Narrative techniques are the tools writers and speakers use to tell stories effectively. From pacing to point of view, these techniques make narratives engaging and impactful.',
+    explanation: `<p><strong>Key narrative techniques</strong>:</p>
+<ul><li><strong>Pacing</strong>: Varying sentence length to speed up or slow down the story</li>
+<li><strong>Show, don't tell</strong>: "Her hands trembled" instead of "She was nervous"</li>
+<li><strong>Dialogue</strong>: Brings characters to life and advances the plot</li>
+<li><strong>Point of view</strong>: First person (I), second person (you), third person (he/she)</li>
+<li><strong>Sensory details</strong>: Appeal to sight, sound, touch, taste, and smell</li>
+<li><strong>Flashback</strong>: Jumping back in time to provide context</li></ul>`,
+    examples: `<ul>
+<li>Telling: <strong>"It was a scary night."</strong> → Showing: <strong>"The wind howled through the cracks in the door, and every shadow seemed to move."</strong></li>
+<li>Fast pacing: <strong>"She ran. She stumbled. She got up. She kept running."</strong></li></ul>`,
+    application: 'Write a short story (100-150 words) about a memorable moment. Use at least three narrative techniques: sensory details, dialogue, and varied pacing. Read it aloud to check the rhythm.',
+    summary: 'narrative techniques — pacing, show-don\'t-tell, dialogue, point of view, sensory details, and flashbacks — transform flat descriptions into vivid, engaging stories',
+  },
+
+  'connotation': {
+    introduction: 'Connotation refers to the emotional associations of a word beyond its literal meaning. Choosing words with the right connotation is essential for precise, nuanced communication.',
+    explanation: `<p>Words with similar meanings can have very different connotations:</p>
+<ul><li><strong>slim / thin / skinny</strong>: slim (positive), thin (neutral), skinny (negative)</li>
+<li><strong>confident / assertive / aggressive</strong>: confident (positive), assertive (neutral/positive), aggressive (negative)</li>
+<li><strong>frugal / economical / cheap</strong>: frugal (positive), economical (neutral), cheap (negative)</li></ul>
+<p><strong>Denotation</strong> = literal dictionary meaning. <strong>Connotation</strong> = emotional/cultural associations.</p>`,
+    examples: `<ul>
+<li><strong>"She is strong-willed."</strong> (positive) vs. <strong>"She is stubborn."</strong> (negative) — same denotation, different connotation</li>
+<li><strong>"He is a visionary leader."</strong> vs. <strong>"He is a dreamer."</strong> — connotation shifts meaning</li>
+<li><strong>"The fragrance of flowers"</strong> vs. <strong>"The stench of garbage"</strong> — both mean "smell"</li></ul>`,
+    application: 'For each pair, identify the positive and negative connotation: thrifty/miserly, unique/peculiar, famous/notorious, inquisitive/nosy. Then rewrite a paragraph replacing neutral words with positively or negatively connoted alternatives.',
+    summary: 'connotation is the emotional colouring of words beyond their dictionary meaning — words like slim/thin/skinny share denotation but carry different emotional charges, making word choice a precision tool',
+  },
+
+  'academic': {
+    introduction: 'Academic English follows specific conventions for vocabulary, structure, and argumentation. Mastering these conventions is essential for university study and professional research.',
+    explanation: `<p><strong>Academic vocabulary</strong>: Use formal alternatives — "examine" not "look at," "demonstrate" not "show," "subsequently" not "then."</p>
+<p><strong>Academic structure</strong>: Clear thesis, logical paragraphing, evidence-based argument, proper citation.</p>
+<p><strong>Academic tone</strong>: Objective, hedged, impersonal. Avoid "I think" — use "The evidence suggests" or "It can be argued."</p>
+<p><strong>Critical analysis</strong>: Evaluate, don't just describe. Compare perspectives, assess evidence, identify limitations.</p>`,
+    examples: `<ul>
+<li>Informal: <strong>"I think the results are good."</strong></li>
+<li>Academic: <strong>"The findings indicate a statistically significant improvement."</strong></li>
+<li>Descriptive: <strong>"Smith (2020) says that the policy failed."</strong></li>
+<li>Critical: <strong>"While Smith (2020) argues that the policy failed, this interpretation overlooks the external economic factors that may have contributed to the outcome."</strong></li></ul>`,
+    application: 'Take a paragraph of informal writing and rewrite it in academic register. Focus on: replacing informal vocabulary, adding hedging, using passive constructions, and introducing critical analysis rather than simple description.',
+    summary: 'academic English uses formal vocabulary, objective hedged tone, evidence-based argument, and critical analysis — replacing informal language with academic equivalents transforms writing from casual to scholarly',
+  },
+
+  'conjunction': {
+    introduction: 'Conjunctions and connectors link ideas within and between sentences. Mastering them is essential for building complex sentences and creating coherent, flowing text.',
+    explanation: `<p><strong>Coordinating conjunctions</strong> (FANBOYS): for, and, nor, but, or, yet, so — connect equal elements.</p>
+<p><strong>Subordinating conjunctions</strong>: because, although, while, if, when, since, unless — introduce dependent clauses.</p>
+<p><strong>Correlative conjunctions</strong>: both...and, either...or, neither...nor, not only...but also.</p>
+<p><strong>Conjunctive adverbs</strong>: however, therefore, moreover, nevertheless, consequently — connect independent clauses with a semicolon or period.</p>`,
+    examples: `<ul>
+<li><strong>"She studied hard, but she still found the exam difficult."</strong> — contrasting with "but"</li>
+<li><strong>"Although she studied hard, she found the exam difficult."</strong> — subordinating</li>
+<li><strong>"Not only did she pass, but she also got the highest score."</strong> — correlative + inversion</li>
+<li><strong>"The project was over budget; consequently, it was cancelled."</strong> — conjunctive adverb</li></ul>`,
+    application: 'Write a paragraph about a recent experience using at least one of each: coordinating conjunction, subordinating conjunction, correlative conjunction, and conjunctive adverb. Notice how each creates a different type of connection.',
+    summary: 'conjunctions link ideas in different ways — coordinating (and, but, or) for equal elements, subordinating (because, although) for dependent clauses, correlative (not only...but also) for paired ideas, and conjunctive adverbs (however, therefore) for logical connections',
+  },
+
+  'ellipsis': {
+    introduction: 'Ellipsis and substitution are features of fluent English that avoid unnecessary repetition. They make speech and writing more concise and natural-sounding.',
+    explanation: `<p><strong>Ellipsis</strong> — leaving out words that are understood from context:</p>
+<ul><li><strong>"She can play the piano, and he can [play the piano] too."</strong></li>
+<li><strong>"Are you coming?" "I might [be coming]."</strong></li></ul>
+<p><strong>Substitution</strong> — replacing a word/phrase with another:</p>
+<ul><li><strong>One/ones</strong>: "I'll have the red one." (replaces a noun)</li>
+<li><strong>Do/does/did</strong>: "She likes jazz, and so do I." (replaces a verb phrase)</li>
+<li><strong>So/not</strong>: "Will it rain?" "I think so." / "I hope not."</li></ul>`,
+    examples: `<ul>
+<li><strong>"She ordered coffee and he [ordered] tea."</strong> — ellipsis of verb</li>
+<li><strong>"I liked the first presentation more than the second one."</strong> — substitution with "one"</li>
+<li><strong>"Is the report ready?" "I hope so."</strong> — substitution with "so"</li></ul>`,
+    application: 'Rewrite these sentences using ellipsis or substitution to avoid repetition: "She speaks French and he speaks French too." "I prefer the blue shirt to the blue shirt with stripes." "Will the flight be delayed?" "I think the flight will be delayed."',
+    summary: 'ellipsis omits understood words for conciseness, while substitution (one/ones, do/does/did, so/not) replaces repeated elements — both make English more natural and efficient',
+  },
+
+  'wish': {
+    introduction: 'Expressing wishes and regrets requires specific grammatical structures in English. These forms allow you to talk about desired alternatives to reality — past, present, or future.',
+    explanation: `<p><strong>Wish + past simple</strong> — wish about the present:</p>
+<ul><li><strong>"I wish I had more time."</strong> (I don't have enough time now)</li></ul>
+<p><strong>Wish + past perfect</strong> — regret about the past:</p>
+<ul><li><strong>"I wish I had studied harder."</strong> (I didn't study hard enough)</li></ul>
+<p><strong>Wish + would</strong> — wish about someone else's behaviour:</p>
+<ul><li><strong>"I wish you would stop interrupting."</strong></li></ul>
+<p><strong>If only</strong> is a more emphatic alternative: <strong>"If only I knew the answer!"</strong></p>`,
+    examples: `<ul>
+<li><strong>"I wish I were taller."</strong> — present wish (use "were" for all persons)</li>
+<li><strong>"She wishes she hadn't said that."</strong> — past regret</li>
+<li><strong>"I wish it would stop raining."</strong> — wish about change</li>
+<li><strong>"If only I had known about the sale!"</strong> — emphatic past regret</li></ul>`,
+    application: 'Write three wishes: one about the present (wish + past simple), one about the past (wish + past perfect), and one about someone\'s behaviour (wish + would). Think about real situations in your life.',
+    summary: 'wish + past simple expresses present desires, wish + past perfect expresses past regrets, and wish + would expresses desire for change — "if only" adds emphasis to any of these',
+  },
+
+  'probability': {
+    introduction: 'Expressing degrees of probability and certainty in English requires modal verbs and specific adverbial phrases. This allows you to communicate how sure you are about a statement.',
+    explanation: `<p><strong>Certainty</strong>: must (positive), can't (negative) — based on evidence</p>
+<ul><li><strong>"She must be exhausted — she worked all night."</strong></li>
+<li><strong>"That can't be true — it contradicts all the evidence."</strong></li></ul>
+<p><strong>Probability</strong>: should, ought to, bound to, likely to</p>
+<ul><li><strong>"They should arrive by now."</strong></li></ul>
+<p><strong>Possibility</strong>: may, might, could</p>
+<ul><li><strong>"It might rain later."</strong></li></ul>
+<p><strong>Impossibility</strong>: can't, couldn't</p>`,
+    examples: `<ul>
+<li><strong>"He's not answering — he must be in a meeting."</strong> — strong deduction</li>
+<li><strong>"The package might arrive tomorrow."</strong> — possibility</li>
+<li><strong>"She can't have left already — her coat is still here."</strong> — impossibility</li>
+<li><strong>"The project is bound to succeed with this team."</strong> — near certainty</li></ul>`,
+    application: 'Look at the following scenarios and write sentences expressing different degrees of certainty: a colleague is late (must/might/can&#39;t), the weather tomorrow (should/might), a historical fact (must have/can&#39;t have).',
+    summary: 'modal verbs express certainty (must/can\'t), probability (should/bound to), and possibility (may/might/could) — choosing the right verb reflects how confident you are based on available evidence',
+  },
+
+  'emphasis': {
+    introduction: 'English has several structures for adding emphasis — making certain parts of your sentence stand out. These structures add power and precision to your communication.',
+    explanation: `<p><strong>Cleft sentences</strong>: "It was the manager who made the decision." (emphasize the agent)</p>
+<p><strong>Auxiliary emphasis</strong>: "I DID tell you!" (stress with do/does/did)</p>
+<p><strong>Fronting</strong>: "Crucial to our success is the team's dedication." (move important info first)</p>
+<p><strong>Inversion</strong>: "Never have I witnessed such courage." (negative adverb + auxiliary)</p>
+<p><strong>The ... thing</strong>: "The thing that worries me is the cost."</p>`,
+    examples: `<ul>
+<li>Normal: <strong>"I left my keys at home."</strong> → Emphatic: <strong>"It was my keys that I left at home."</strong></li>
+<li>Normal: <strong>"I called her."</strong> → Emphatic: <strong>"I DID call her!"</strong></li>
+<li>Normal: <strong>"I have never seen such a performance."</strong> → Inverted: <strong>"Never have I seen such a performance."</strong></li></ul>`,
+    application: 'Take three simple sentences and rewrite each using a different emphasis structure: cleft, auxiliary emphasis, and inversion. Think about how each version changes the impact.',
+    summary: 'emphasis structures — cleft sentences, auxiliary do/does/did, fronting, and inversion — draw attention to key information, making communication more forceful and precise',
+  },
+
+  'indirect question': {
+    introduction: 'Indirect questions are a more polite and formal way of asking for information. Instead of a direct question like "Where is the station?", you say "Could you tell me where the station is?"',
+    explanation: `<p><strong>Structure</strong>: Polite opening + question word + subject + verb (no auxiliary inversion!):</p>
+<ul><li><strong>"Could you tell me where the station is?"</strong> (not "where is the station")</li>
+<li><strong>"I'd like to know what time it starts."</strong></li>
+<li><strong>"Do you know if she's coming?"</strong> (use "if" for yes/no questions)</li></ul>
+<p>Common polite openings: "Could you tell me...", "I'd like to know...", "I was wondering...", "Do you happen to know..."</p>`,
+    examples: `<ul>
+<li>Direct: <strong>"Where does she live?"</strong> → Indirect: <strong>"Could you tell me where she lives?"</strong></li>
+<li>Direct: <strong>"Is the museum open?"</strong> → Indirect: <strong>"Do you know if the museum is open?"</strong></li>
+<li>Direct: <strong>"How much does it cost?"</strong> → Indirect: <strong>"I was wondering how much it costs."</strong></li></ul>`,
+    application: 'Transform these direct questions into indirect questions: "What time does the train leave?" "Is there a restaurant nearby?" "How do I get to the hospital?" "Where can I buy tickets?"',
+    summary: 'indirect questions use a polite opening + question word + normal statement word order (no inversion) — they are more formal and diplomatic than direct questions',
+  },
+
+  'false friend': {
+    introduction: 'False friends (or false cognates) are words in two languages that look or sound similar but have different meanings. They are a common source of confusion for language learners and can cause embarrassing mistakes if you assume the meaning is the same.',
+    explanation: `<p>Common English false friends for speakers of other languages:</p>
+<ul><li><strong>Actual / Actually</strong> = real/really (not "current/currently" — Spanish "actual")</li>
+<li><strong>Embarrassed</strong> = ashamed (not "pregnant" — Spanish "embarazada")</li>
+<li><strong>Pretend</strong> = make believe (not "intend/attempt" — French "prétendre")</li>
+<li><strong>Sympathetic</strong> = understanding/compassionate (not "nice/likable" — German "sympathisch")</li>
+<li><strong>Library</strong> = book collection (not "bookshop" — French "librairie")</li></ul>`,
+    examples: `<ul>
+<li>Wrong: <strong>"I am actually tired."</strong> (meaning "currently") → Right: <strong>"I am currently tired."</strong></li>
+<li>Wrong: <strong>"She is very sympathetic."</strong> (meaning "nice") → Right: <strong>"She is very likeable/friendly."</strong></li>
+<li>Wrong: <strong>"I bought this at the library."</strong> → Right: <strong>"I borrowed this from the library."</strong></li></ul>`,
+    application: 'Research five false friends between English and your native language. For each, write: the English word, the similar word in your language, the English meaning, and your language\'s meaning. This awareness will help you avoid these traps.',
+    summary: 'false friends look similar across languages but mean different things — being aware of common ones (actual/actually, embarrassed, sympathetic, library, pretend) prevents miscommunication',
+  },
+
+  'speaking': {
+    introduction: 'Speaking fluently in English requires practise with pronunciation, intonation, and natural expression. This lesson focuses on building your confidence and accuracy in spoken communication.',
+    explanation: `<p><strong>Fluency tips</strong>:</p>
+<ul><li><strong>Think in English</strong>: Avoid translating from your native language</li>
+<li><strong>Use filler phrases</strong>: "Well," "Let me think," "That's a good question" — they buy time naturally</li>
+<li><strong>Practise shadowing</strong>: Repeat after a native speaker, matching rhythm and intonation</li>
+<li><strong>Record yourself</strong>: Listen back to identify areas for improvement</li>
+<li><strong>Learn phrases, not words</strong>: "I disagree because..." is more useful than knowing "disagree" alone</li></ul>`,
+    examples: `<ul>
+<li>Buying time: <strong>"That's an interesting question. Let me think about that for a moment..."</strong></li>
+<li>Disagreeing politely: <strong>"I see your point, but I think there's another way to look at it."</strong></li>
+<li>Clarifying: <strong>"So what you're saying is..."</strong></li></ul>`,
+    application: 'Choose a topic and speak about it for one minute without stopping. Record yourself. Then listen and note: filler words you overused, pauses that felt too long, and ideas you could not express. Try again and compare.',
+    summary: 'speaking fluency comes from thinking in English, using natural filler phrases, shadowing native speakers, recording yourself for feedback, and learning complete phrases rather than isolated words',
+  },
+};
+
+/**
+ * Look up topic-specific content by matching keywords in the lesson title.
+ * Falls back to a sensible default if no keyword matches.
+ */
+function getTopicInfo(title: string, level: string): TopicInfo {
+  const titleLower = title.toLowerCase();
+
+  // Try to find a matching keyword in the title
+  for (const [keyword, info] of Object.entries(TOPIC_KEYWORDS)) {
+    if (titleLower.includes(keyword)) {
+      return info;
+    }
+  }
+
+  // Default fallback — topic-aware based on title keywords and level
+  const levelContext = level.includes('beginner')
+    ? 'Focus on the basic forms and common everyday examples.'
+    : level.includes('intermediate')
+    ? 'Pay attention to nuances, exceptions, and register differences.'
+    : 'Analyse the underlying patterns, rhetorical effects, and academic applications.';
+
+  return {
+    introduction: `This lesson on <strong>${title}</strong> covers essential concepts for ${level} learners. ${levelContext}`,
+    explanation: `<p>The key ideas behind <strong>${title}</strong> involve understanding how English structures work in context and how to use them accurately and appropriately. Study the rules and patterns below carefully, paying special attention to any exceptions or irregular forms.</p>
+<p>As a ${level} learner, you should focus on recognising these patterns in the English you read and hear, then gradually incorporating them into your own writing and speaking.</p>`,
+    examples: `<ul>
+<li>Study the examples provided in the vocabulary section below — they demonstrate how the concepts from this lesson are used in natural English.</li>
+<li>Try to find similar examples in English articles, podcasts, or videos you consume outside of class.</li></ul>`,
+    application: `Practise by writing three original sentences that use the key concepts from this lesson. Then read them aloud to check they sound natural. If possible, share them with a teacher or study partner for feedback.`,
+    summary: `the core principles of ${title.toLowerCase()}, which are essential building blocks for English proficiency at the ${level} level`,
+  };
+}
+
+/**
  * Generate HTML content for a lesson based on its type and metadata.
  */
 export function generateLessonContent(
@@ -338,104 +1173,129 @@ export function generateLessonContent(
 }
 
 function generateReadingContent(title: string, module: string, level: string): string {
+  const topicInfo = getTopicInfo(title, level);
   return `<h2>${title}</h2>
 <p>Welcome to this lesson on <strong>${title}</strong>, part of the <em>${module}</em> module. This lesson is designed for ${level} learners and will help you build essential English skills.</p>
 
 <h3>Key Concepts</h3>
-<p>In this lesson, you will learn the fundamental concepts related to ${title.toLowerCase()}. Understanding these concepts is crucial for developing your English proficiency and communicating effectively in real-world situations.</p>
+<p>${topicInfo.introduction}</p>
 
 <h3>Detailed Explanation</h3>
-<p>Let us explore ${title.toLowerCase()} in depth. This topic covers important vocabulary, grammatical structures, and practical usage that you will encounter in everyday English communication. Pay close attention to the examples provided, as they demonstrate how native speakers use these expressions naturally.</p>
+${topicInfo.explanation}
 
-<p>When studying ${title.toLowerCase()}, it is important to practice regularly. Try to use the new words and phrases in your own sentences. The more you practice, the more natural your English will become. Remember that making mistakes is a normal part of the learning process.</p>
+<h3>Examples in Context</h3>
+${topicInfo.examples}
 
 <h3>Practical Application</h3>
-<p>Consider the following scenarios where you would use what you have learned in this lesson. Practice by role-playing these situations with a study partner or by writing your own dialogues. Real-world application is the key to retention and fluency.</p>
+<p>${topicInfo.application}</p>
 
 <h3>Summary</h3>
-<p>In this lesson, we covered the essential aspects of ${title.toLowerCase()}. Review the key points above and complete the practice exercises to reinforce your understanding. In the next lesson, we will build upon these concepts.</p>`;
+<p>In this lesson, we explored <strong>${title}</strong> — ${topicInfo.summary}. Review the key points above and complete the practice exercises to reinforce your understanding. In the next lesson, we will build upon these concepts.</p>`;
 }
 
 function generateVocabularyContent(title: string, module: string, level: string): string {
+  const topicInfo = getTopicInfo(title, level);
   return `<h2>${title}</h2>
 <p>Welcome to this vocabulary lesson on <strong>${title}</strong>, part of the <em>${module}</em> module. This lesson is designed for ${level} learners and will help you expand your English vocabulary.</p>
 
 <h3>Key Vocabulary</h3>
-<p>In this lesson, you will learn important words and phrases related to ${title.toLowerCase()}. Building a strong vocabulary is essential for effective communication in English. Each word comes with a definition, example sentence, and pronunciation guide.</p>
+<p>${topicInfo.introduction}</p>
 
 <h3>Word Study</h3>
-<p>Study each vocabulary item carefully. Read the definition, then read the example sentence to understand how the word is used in context. Try to create your own sentences using each word. This active practice will help you remember the vocabulary more effectively than passive reading alone.</p>
+${topicInfo.explanation}
 
 <h3>Usage in Context</h3>
-<p>Understanding when and how to use new vocabulary is just as important as knowing the definitions. Pay attention to the register (formal vs. informal), collocations (words that naturally go together), and any cultural nuances associated with these terms.</p>
+${topicInfo.examples}
 
 <h3>Practice Tips</h3>
-<p>To reinforce your learning, try these strategies: write each new word three times, use it in a sentence, teach it to someone else, and review it the next day. Spaced repetition is one of the most effective techniques for long-term vocabulary retention.</p>`;
+<p>${topicInfo.application}</p>
+
+<h3>Summary</h3>
+<p>In this vocabulary lesson on <strong>${title}</strong>, we covered ${topicInfo.summary}. Use the vocabulary flashcards below to test your recall, and try to use these words in your own sentences today.</p>`;
 }
 
 function generateGrammarContent(title: string, module: string, level: string): string {
+  const topicInfo = getTopicInfo(title, level);
   return `<h2>${title}</h2>
 <p>In this grammar lesson, we will explore <strong>${title}</strong>, an important grammatical concept for ${level} learners.</p>
 
-<h3>Formation</h3>
-<p>Understanding how to form this grammatical structure correctly is essential. Pay attention to the patterns and rules described below, and study the examples carefully.</p>
+<h3>What You Will Learn</h3>
+<p>${topicInfo.introduction}</p>
 
-<h3>Rules and Patterns</h3>
-<p>The rules for ${title.toLowerCase()} follow specific patterns that you need to memorize and practice. English grammar can seem complex, but once you understand the underlying patterns, it becomes much more logical and predictable.</p>
+<h3>Formation and Rules</h3>
+${topicInfo.explanation}
+
+<h3>Examples</h3>
+${topicInfo.examples}
 
 <h3>Common Mistakes</h3>
-<p>Many learners make similar errors when using ${title.toLowerCase()}. Being aware of these common mistakes will help you avoid them in your own writing and speaking. Remember that even advanced learners sometimes make these errors, so do not be discouraged if you find them challenging at first.</p>
+<p>${topicInfo.application}</p>
 
-<h3>Practice</h3>
-<p>Complete the exercises below to test your understanding of ${title.toLowerCase()}. Try to identify the correct form in each sentence and explain why it is correct. Regular practice is the key to mastering English grammar.</p>`;
+<h3>Summary</h3>
+<p>In this grammar lesson on <strong>${title}</strong>, we learned that ${topicInfo.summary}. Complete the exercises below to practise using this structure correctly in your own writing and speaking.</p>`;
 }
 
 function generateListeningContent(title: string, module: string, level: string): string {
+  const topicInfo = getTopicInfo(title, level);
   return `<h2>${title}</h2>
-<p>Welcome to this listening lesson on <strong>${title}</strong>, part of the <em>${module}</em> module. This lesson is designed for ${level} learners and will help you improve your English listening skills.</p>
-
-<h3>Listening Exercise</h3>
-<p>In this lesson, you will listen to audio related to ${title.toLowerCase()}. The audio will feature natural English speech at a pace appropriate for your level. Listen carefully and try to understand the main points and specific details.</p>
+<p>Welcome to this listening lesson on <strong>${title}</strong>, part of the <em>${module}</em> module. This lesson is designed for ${level} learners and will help you improve your English listening comprehension.</p>
 
 <h3>Before You Listen</h3>
-<p>Before playing the audio, read through the questions below. This will give you a purpose for listening and help you focus on the key information. Think about what you already know about the topic and predict what you might hear.</p>
+<p>${topicInfo.introduction}</p>
 
-<h3>While You Listen</h3>
-<p>Listen to the audio once all the way through without pausing. Then listen again, pausing when necessary to take notes. Focus on understanding the overall meaning first, then try to catch specific details. Do not worry if you do not understand every word.</p>
+<h3>Listening Focus</h3>
+${topicInfo.explanation}
+
+<h3>Key Phrases to Listen For</h3>
+${topicInfo.examples}
 
 <h3>After Listening</h3>
-<p>After you have listened to the audio, answer the comprehension questions. Check your answers and review any sections you found difficult. Listening is a skill that improves with practice, so try to listen to English audio regularly outside of these lessons.</p>`;
+<p>${topicInfo.application}</p>
+
+<h3>Summary</h3>
+<p>In this listening lesson on <strong>${title}</strong>, we practised understanding ${topicInfo.summary}. Try listening to similar content in English podcasts or videos to continue building your comprehension skills.</p>`;
 }
 
 function generateQuizContent(title: string, module: string, level: string): string {
+  const topicInfo = getTopicInfo(title, level);
   return `<h2>${title}</h2>
 <p>This quiz will test your understanding of <strong>${title}</strong> and the concepts covered in the <em>${module}</em> module. This quiz is designed for ${level} learners.</p>
 
-<h3>Quiz Instructions</h3>
-<p>Read each question carefully and select the best answer from the options provided. Try to answer all questions without looking back at the lesson content. This will help you identify areas where you need more practice.</p>
+<h3>What This Quiz Covers</h3>
+<p>${topicInfo.introduction}</p>
 
-<h3>Review Your Answers</h3>
-<p>After completing the quiz, review any questions you got wrong. Go back to the relevant lesson sections and study the material again. Understanding why an answer is correct is more important than simply getting the right answer.</p>
+<h3>Key Areas</h3>
+${topicInfo.explanation}
+
+<h3>Sample Question Types</h3>
+${topicInfo.examples}
 
 <h3>Tips for Success</h3>
-<p>Take your time with each question. Read all the options before making your choice. If you are unsure, try to eliminate obviously wrong answers first. Remember that quizzes are learning tools, not just tests of knowledge.</p>`;
+<p>${topicInfo.application}</p>
+
+<h3>Good Luck!</h3>
+<p>Take your time with each question. Read all the options before choosing. Remember that quizzes are learning tools — understanding why an answer is correct matters more than just getting it right.</p>`;
 }
 
 function generateSpeakingContent(title: string, module: string, level: string): string {
+  const topicInfo = getTopicInfo(title, level);
   return `<h2>${title}</h2>
-<p>In this speaking lesson, you will practice <strong>${title}</strong>, part of the <em>${module}</em> module. This lesson is designed for ${level} learners and will help you improve your spoken English.</p>
+<p>In this speaking lesson, you will practise <strong>${title}</strong>, part of the <em>${module}</em> module. This lesson is designed for ${level} learners and will help you improve your spoken English.</p>
 
-<h3>Speaking Practice</h3>
-<p>Speaking is one of the most important skills in language learning. In this lesson, you will practice expressing your thoughts and ideas about ${title.toLowerCase()}. Focus on clarity, pronunciation, and natural rhythm.</p>
+<h3>Speaking Goals</h3>
+<p>${topicInfo.introduction}</p>
 
-<h3>Key Phrases</h3>
-<p>Learn and practice the key phrases related to ${title.toLowerCase()}. Try to use these phrases in your own conversations. The more you use new expressions, the more natural they will feel.</p>
+<h3>Key Expressions</h3>
+${topicInfo.explanation}
 
-<h3>Pronunciation Focus</h3>
-<p>Pay special attention to the pronunciation of new words and phrases. Listen carefully to the audio examples and repeat them several times. Record yourself and compare your pronunciation to the model.</p>
+<h3>Model Dialogue</h3>
+${topicInfo.examples}
 
-<h3>Conversation Practice</h3>
-<p>Practice having a conversation about ${title.toLowerCase()} with a partner or by yourself. Try to use the vocabulary and phrases you have learned. Speaking regularly, even for a few minutes a day, will significantly improve your fluency.</p>`;
+<h3>Practice Activities</h3>
+<p>${topicInfo.application}</p>
+
+<h3>Summary</h3>
+<p>In this speaking lesson on <strong>${title}</strong>, we focused on ${topicInfo.summary}. Try to use these expressions in real conversations today — even practising aloud by yourself will help build your confidence and fluency.</p>`;
 }
 
 /**

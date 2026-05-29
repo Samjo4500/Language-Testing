@@ -341,7 +341,15 @@ export default function TestPage() {
         if (state.speakingEvaluations) setSpeakingEvaluations(state.speakingEvaluations);
         if (state.writingEvaluations) setWritingEvaluations(state.writingEvaluations);
         if (state.skillStatuses) setSkillStatuses(state.skillStatuses);
-        if (state.phase && state.phase !== 'select') setPhase(state.phase);
+        // Only restore phase if the skill for that phase is NOT already completed
+        // This prevents the user from being dropped back into a completed skill
+        // when returning from /test/results to /test
+        if (state.phase && state.phase !== 'select' && state.phase !== 'results') {
+          const savedSkillStatus = state.skillStatuses?.[state.phase];
+          if (savedSkillStatus !== 'completed') {
+            setPhase(state.phase);
+          }
+        }
         if (state.grammarIdx) setGrammarIdx(state.grammarIdx);
         if (state.vocabIdx) setVocabIdx(state.vocabIdx);
         if (state.readingIdx) setReadingIdx(state.readingIdx);
@@ -437,7 +445,22 @@ export default function TestPage() {
      COMPLETE SKILL HELPER
      ====================================================== */
   const completeSkill = (skill: string) => {
-    setSkillStatuses(prev => ({ ...prev, [skill]: 'completed' }));
+    setSkillStatuses(prev => {
+      const updated: Record<string, SkillStatus> = { ...prev, [skill]: 'completed' as SkillStatus };
+      // Persist the updated skillStatuses + reset phase to 'select' in sessionStorage
+      // so that when user returns from /test/results, they see the skill selection page
+      // instead of being dropped back into the completed skill.
+      if (SESSION_KEY) {
+        try {
+          const saved = sessionStorage.getItem(SESSION_KEY);
+          const state = saved ? JSON.parse(saved) : {};
+          state.skillStatuses = updated;
+          state.phase = 'select'; // Reset phase so user returns to skill selection
+          sessionStorage.setItem(SESSION_KEY, JSON.stringify(state));
+        } catch {}
+      }
+      return updated;
+    });
   };
 
   /* ======================================================

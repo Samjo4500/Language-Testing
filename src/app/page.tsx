@@ -17,7 +17,6 @@ import { AnimatedHeroSection } from '@/components/home/animated-hero-section';
 import { FinalCTAButtons } from '@/components/home/final-cta-buttons';
 import { FAQItem } from '@/components/home/faq-item';
 import { PricingTracker } from '@/components/home/pricing-tracker';
-import { LazySection } from '@/components/lazy-section';
 
 // Client-side dynamic imports (ssr:false requires 'use client' boundary)
 import {
@@ -470,7 +469,6 @@ export default function Home() {
       </section>
 
       {/* ===== PRICING — Individual ===== */}
-      <LazySection placeholderHeight={200} className="contents">
       <PricingTracker>
         <div className="relative py-20 md:py-28 dark-section-alt hero-pattern noise-overlay" id="pricing">
           <div className="container relative mx-auto px-4">
@@ -494,13 +492,13 @@ export default function Home() {
                 <AnimatedSection key={plan.name} delay={index * 100}>
                   <div className={`relative glass-card p-6 h-full flex flex-col ${plan.popular ? 'ring-2 ring-blue-500/50' : ''}`}>
                     {plan.popular && (
-                      <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                        <span className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                      <div className="absolute top-3 right-3 z-10">
+                        <span className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-lg shadow-blue-500/30">
                           Most Popular
                         </span>
                       </div>
                     )}
-                    <h3 className="text-lg font-semibold text-white">{plan.name}</h3>
+                    <h3 className="text-lg font-semibold text-white pr-24">{plan.name}</h3>
                     <p className="text-xs text-white/40 mt-1">{plan.desc}</p>
                     <div className="mt-4 mb-6">
                       <span className="text-2xl sm:text-3xl font-bold text-white">{plan.price}</span>
@@ -538,10 +536,8 @@ export default function Home() {
           </div>
         </div>
       </PricingTracker>
-      </LazySection>
 
       {/* ===== FOR ORGANIZATIONS ===== */}
-      <LazySection placeholderHeight={200} className="contents">
       <section className="relative py-20 md:py-28 bg-[#0F0A1E] overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="orb orb-blue w-[500px] h-[500px] top-0 right-0 animate-float-slow" />
@@ -571,13 +567,13 @@ export default function Home() {
               <AnimatedSection key={plan.tier} delay={index * 150}>
                 <div className={`relative glass-card p-6 h-full flex flex-col ${plan.popular ? 'ring-2 ring-blue-500/50' : ''}`}>
                   {plan.popular && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                      <span className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                    <div className="absolute top-3 right-3 z-10">
+                      <span className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-lg shadow-blue-500/30">
                         Most Popular
                       </span>
                     </div>
                   )}
-                  <h3 className="text-xl font-bold text-white">{plan.tier}</h3>
+                  <h3 className="text-xl font-bold text-white pr-24">{plan.tier}</h3>
                   <p className="text-xs text-white/40 mt-1">{plan.desc}</p>
                   <p className="text-xs text-white/30 mt-0.5">{plan.subdesc}</p>
                   <div className="mt-4 mb-6">
@@ -707,10 +703,8 @@ export default function Home() {
           </div>
         </div>
       </section>
-      </LazySection>
 
       {/* ===== FAQ SECTION ===== */}
-      <LazySection placeholderHeight={200} className="contents">
       <section className="relative py-20 md:py-28 dark-section-alt overflow-hidden">
         <div className="container relative mx-auto px-4">
           <AnimatedSection>
@@ -758,7 +752,6 @@ export default function Home() {
           </AnimatedSection>
         </div>
       </section>
-      </LazySection>
 
       {/* ===== FOOTER ===== */}
       </main>

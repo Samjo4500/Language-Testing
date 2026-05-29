@@ -12,10 +12,14 @@ export const metadata: Metadata = {
   title: 'Blog - English Learning Tips, CEFR Guides & More',
   description:
     'Expert guides on CEFR levels, English test preparation, learning strategies, career advancement, and AI-powered language assessment. Stay informed with TestCEFR.',
+  alternates: {
+    canonical: 'https://testcefr.com/blog',
+  },
   openGraph: {
     title: 'TestCEFR Blog — English Learning Tips & CEFR Guides',
     description:
       'Expert guides on CEFR levels, English test preparation, learning strategies, and career advancement.',
+    url: 'https://testcefr.com/blog',
   },
 };
 

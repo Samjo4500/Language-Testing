@@ -220,7 +220,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "video",
     estimatedMinutes: 10,
     order: 0,
-    videoUrl: "https://www.youtube.com/watch?v=3SI2sKD5-dU",
+    videoUrl: null,
   },
   {
     id: "static-beg-m1-l2",
@@ -322,7 +322,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "video",
     estimatedMinutes: 12,
     order: 0,
-    videoUrl: "https://www.youtube.com/watch?v=q-GMhSJHkPg",
+    videoUrl: null,
   },
   {
     id: "static-beg-m2-l2",
@@ -424,7 +424,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "video",
     estimatedMinutes: 10,
     order: 0,
-    videoUrl: "https://www.youtube.com/watch?v=M1xR5Xm3B3E",
+    videoUrl: null,
   },
   {
     id: "static-beg-m3-l2",
@@ -526,7 +526,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "video",
     estimatedMinutes: 10,
     order: 0,
-    videoUrl: "https://www.youtube.com/watch?v=WHI6DMeR16I",
+    videoUrl: null,
   },
   {
     id: "static-beg-m4-l2",
@@ -628,7 +628,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "video",
     estimatedMinutes: 10,
     order: 0,
-    videoUrl: "https://www.youtube.com/watch?v=buGFfgCjtAM",
+    videoUrl: null,
   },
   {
     id: "static-beg-m5-l2",
@@ -730,7 +730,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "video",
     estimatedMinutes: 15,
     order: 0,
-    videoUrl: "https://www.youtube.com/watch?v=p5M2schkpA0",
+    videoUrl: null,
   },
   {
     id: "static-int-m1-l2",
@@ -832,7 +832,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "video",
     estimatedMinutes: 18,
     order: 0,
-    videoUrl: "https://www.youtube.com/watch?v=Sk9Q5MXiWLY",
+    videoUrl: null,
   },
   {
     id: "static-int-m2-l2",
@@ -934,7 +934,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "video",
     estimatedMinutes: 15,
     order: 0,
-    videoUrl: "https://www.youtube.com/watch?v=5E7gaF0bMmk",
+    videoUrl: null,
   },
   {
     id: "static-int-m3-l2",
@@ -1240,7 +1240,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "video",
     estimatedMinutes: 20,
     order: 0,
-    videoUrl: "https://www.youtube.com/watch?v=YL7zGFFKpOE",
+    videoUrl: null,
   },
   {
     id: "static-adv-m1-l2",
@@ -1342,7 +1342,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "video",
     estimatedMinutes: 25,
     order: 0,
-    videoUrl: "https://www.youtube.com/watch?v=V8-e-Ffy6b4",
+    videoUrl: null,
   },
   {
     id: "static-adv-m2-l2",

@@ -344,10 +344,10 @@ export default function CommunityLivePage() {
               <Link href="/community" className="w-11 h-11 rounded-xl bg-gray-800/80 hover:bg-gray-700 flex items-center justify-center transition-colors shrink-0" title="Back to Community">
                 <ArrowLeft className="w-5 h-5 text-gray-400" />
               </Link>
-              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center shadow-lg shadow-purple-500/30">
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center shadow-lg shadow-blue-500/30">
                 <RadioLive className="w-5 h-5 text-white" />
               </div>
-              <h1 className="text-3xl sm:text-4xl font-extrabold bg-gradient-to-r from-purple-400 via-pink-400 to-violet-400 bg-clip-text text-transparent">
+              <h1 className="text-3xl sm:text-4xl font-extrabold bg-gradient-to-r from-blue-400 via-cyan-400 to-violet-400 bg-clip-text text-transparent">
                 SpeakSpace
               </h1>
             </div>
@@ -358,7 +358,7 @@ export default function CommunityLivePage() {
           {canCreateRooms ? (
             <Button
               onClick={() => setShowCreateDialog(true)}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-lg shadow-purple-500/20 shrink-0"
+              className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white shadow-lg shadow-blue-500/20 shrink-0"
               size="lg"
             >
               <Plus className="w-4 h-4 mr-2" />
@@ -380,7 +380,7 @@ export default function CommunityLivePage() {
             { icon: RadioLive, label: 'Live Now', value: liveRooms.length, color: 'text-red-400', bg: 'bg-red-500/10', ring: 'ring-red-500/20' },
             { icon: Calendar, label: 'Upcoming', value: events.length, color: 'text-blue-400', bg: 'bg-blue-500/10', ring: 'ring-blue-500/20' },
             { icon: Users, label: 'Active Users', value: liveRooms.reduce((a, r) => a + (r.activeParticipantCount || r.participantCount || 0), 0), color: 'text-green-400', bg: 'bg-green-500/10', ring: 'ring-green-500/20' },
-            { icon: TrendingUp, label: 'Room Types', value: new Set(rooms.map(r => r.type)).size, color: 'text-purple-400', bg: 'bg-purple-500/10', ring: 'ring-purple-500/20' },
+            { icon: TrendingUp, label: 'Room Types', value: new Set(rooms.map(r => r.type)).size, color: 'text-cyan-400', bg: 'bg-cyan-500/10', ring: 'ring-cyan-500/20' },
           ].map((stat, i) => (
             <Card key={i} className="bg-gray-900/50 border-gray-800/50 ring-1 ring-inset ring-gray-800/30">
               <CardContent className="p-3 flex items-center gap-3">
@@ -431,7 +431,7 @@ export default function CommunityLivePage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search rooms..."
-                className="pl-10 bg-gray-900 border-gray-800 text-white placeholder:text-gray-600 h-9 focus-visible:ring-purple-500/40"
+                className="pl-10 bg-gray-900 border-gray-800 text-white placeholder:text-gray-600 h-9 focus-visible:ring-blue-500/40"
               />
             </div>
             <Select value={filterType} onValueChange={setFilterType}>
@@ -559,7 +559,7 @@ export default function CommunityLivePage() {
                     : 'Check back soon or browse upcoming events below.'}
                 </p>
                 {canCreateRooms && (
-                  <Button onClick={() => setShowCreateDialog(true)} size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg shadow-purple-500/20">
+                  <Button onClick={() => setShowCreateDialog(true)} size="lg" className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg shadow-blue-500/20">
                     <Plus className="w-4 h-4 mr-2" /> Create a Room
                   </Button>
                 )}
@@ -612,9 +612,9 @@ export default function CommunityLivePage() {
                     });
                     const isToday = d.toDateString() === new Date().toDateString();
                     return (
-                      <div key={i} className={`p-2 rounded-lg transition-colors ${isToday ? 'bg-purple-500/20 border border-purple-500/30' : 'bg-gray-800/50'}`}>
+                      <div key={i} className={`p-2 rounded-lg transition-colors ${isToday ? 'bg-blue-500/20 border border-blue-500/30' : 'bg-gray-800/50'}`}>
                         <div className="text-xs text-gray-500 mb-1">{d.toLocaleDateString('en', { weekday: 'short' })}</div>
-                        <div className={`text-sm font-medium ${isToday ? 'text-purple-400' : 'text-gray-300'}`}>{d.getDate()}</div>
+                        <div className={`text-sm font-medium ${isToday ? 'text-blue-400' : 'text-gray-300'}`}>{d.getDate()}</div>
                         {dayEvents.length > 0 && (
                           <div className="flex justify-center gap-0.5 mt-1">
                             {dayEvents.slice(0, 3).map((_, ei) => (
@@ -797,7 +797,7 @@ export default function CommunityLivePage() {
         <DialogContent className="bg-gray-900 border-gray-800 text-white max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-xl flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-purple-400" />
+              <Sparkles className="w-5 h-5 text-blue-400" />
               Create a Room
             </DialogTitle>
           </DialogHeader>
@@ -830,7 +830,7 @@ export default function CommunityLivePage() {
                 value={newRoom.name}
                 onChange={(e) => setNewRoom(prev => ({ ...prev, name: e.target.value }))}
                 placeholder="e.g., Intermediate Conversation Practice"
-                className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-600 focus-visible:ring-purple-500/40"
+                className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-600 focus-visible:ring-blue-500/40"
               />
             </div>
 
@@ -840,7 +840,7 @@ export default function CommunityLivePage() {
                 value={newRoom.description}
                 onChange={(e) => setNewRoom(prev => ({ ...prev, description: e.target.value }))}
                 placeholder="What will participants learn or discuss?"
-                className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-600 focus-visible:ring-purple-500/40"
+                className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-600 focus-visible:ring-blue-500/40"
               />
             </div>
 
@@ -882,7 +882,7 @@ export default function CommunityLivePage() {
                   onChange={(e) => setNewRoom(prev => ({ ...prev, maxParticipants: e.target.value }))}
                   min={2}
                   max={200}
-                  className="bg-gray-800 border-gray-700 text-white focus-visible:ring-purple-500/40"
+                  className="bg-gray-800 border-gray-700 text-white focus-visible:ring-blue-500/40"
                 />
               </div>
               <div>
@@ -891,7 +891,7 @@ export default function CommunityLivePage() {
                   type="datetime-local"
                   value={newRoom.scheduledFor}
                   onChange={(e) => setNewRoom(prev => ({ ...prev, scheduledFor: e.target.value }))}
-                  className="bg-gray-800 border-gray-700 text-white focus-visible:ring-purple-500/40"
+                  className="bg-gray-800 border-gray-700 text-white focus-visible:ring-blue-500/40"
                 />
               </div>
             </div>
@@ -921,7 +921,7 @@ export default function CommunityLivePage() {
             <Button
               onClick={handleCreateRoom}
               disabled={!newRoom.name.trim() || creating}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+              className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700"
             >
               {creating ? (
                 <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Creating...</>
