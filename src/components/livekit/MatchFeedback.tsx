@@ -13,6 +13,7 @@ import {
   ThumbsUp,
   MessageSquare,
   Shield,
+  ArrowLeft,
 } from 'lucide-react';
 
 interface MatchFeedbackProps {
@@ -47,7 +48,16 @@ export default function MatchFeedback({
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center p-4">
+        <div className="max-w-md w-full mb-4">
+          <button
+            onClick={onSkip}
+            className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Community Live
+          </button>
+        </div>
         <Card className="bg-gray-900 border-gray-800 max-w-md w-full">
           <CardContent className="py-8 text-center">
             <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-4">
@@ -61,6 +71,7 @@ export default function MatchFeedback({
               onClick={onSkip}
               className="bg-purple-600 hover:bg-purple-700"
             >
+              <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Community Live
             </Button>
           </CardContent>
@@ -70,7 +81,16 @@ export default function MatchFeedback({
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center p-4">
+      <div className="max-w-md w-full mb-4">
+        <button
+          onClick={onSkip}
+          className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to Community Live
+        </button>
+      </div>
       <Card className="bg-gray-900 border-gray-800 max-w-md w-full">
         <CardHeader>
           <CardTitle className="text-xl text-white text-center">

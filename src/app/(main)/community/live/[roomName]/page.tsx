@@ -258,7 +258,15 @@ export default function LiveRoomPage() {
       <div className="min-h-screen bg-gray-950 flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="w-10 h-10 text-purple-500 animate-spin mx-auto mb-4" />
-          <p className="text-gray-400">Loading room...</p>
+          <p className="text-gray-400 mb-6">Loading room...</p>
+          <Button
+            variant="outline"
+            onClick={() => router.push('/community/live')}
+            className="border-gray-700 text-gray-300 hover:bg-gray-800"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Rooms
+          </Button>
         </div>
       </div>
     );

@@ -35,6 +35,7 @@ import {
   Clock,
   Loader2,
   ChevronRight,
+  ArrowLeft,
   Sparkles,
   Zap,
   Volume2,
@@ -316,6 +317,9 @@ export default function CommunityLivePage() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
           <div>
             <div className="flex items-center gap-3 mb-1">
+              <Link href="/community" className="w-11 h-11 rounded-xl bg-gray-800/80 hover:bg-gray-700 flex items-center justify-center transition-colors shrink-0" title="Back to Community">
+                <ArrowLeft className="w-5 h-5 text-gray-400" />
+              </Link>
               <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center shadow-lg shadow-purple-500/30">
                 <RadioLive className="w-5 h-5 text-white" />
               </div>
@@ -323,7 +327,7 @@ export default function CommunityLivePage() {
                 Community Live
               </h1>
             </div>
-            <p className="text-gray-400 mt-1 text-sm sm:text-base ml-14">
+            <p className="text-gray-400 mt-1 text-sm sm:text-base ml-28">
               Join live rooms, practice conversations, and learn together
             </p>
           </div>
