@@ -20,6 +20,7 @@ export async function GET(request: NextRequest) {
         name: true,
         plan: true,
         role: true,
+        isApprovedTutor: true,
         createdAt: true,
       },
     });
@@ -38,6 +39,7 @@ export async function GET(request: NextRequest) {
         name: dbUser.name,
         plan: dbUser.plan,
         role: dbUser.role,
+        isApprovedTutor: dbUser.isApprovedTutor,
       },
     });
   } catch (error) {

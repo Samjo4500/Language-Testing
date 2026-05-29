@@ -10,6 +10,7 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get('search') || '';
     const status = searchParams.get('status') || '';
     const plan = searchParams.get('plan') || '';
+    const role = searchParams.get('role') || '';
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '20');
     const skip = (page - 1) * limit;
@@ -31,6 +32,12 @@ export async function GET(request: NextRequest) {
       where.plan = plan;
     }
 
+    if (role === 'tutor') {
+      where.isApprovedTutor = true;
+    } else if (role && role !== 'all') {
+      where.role = role;
+    }
+
     const [users, total] = await Promise.all([
       db.user.findMany({
         where,
@@ -42,6 +49,7 @@ export async function GET(request: NextRequest) {
           plan: true,
           status: true,
           isSuspended: true,
+          isApprovedTutor: true,
           emailVerified: true,
           englishLevel: true,
           country: true,

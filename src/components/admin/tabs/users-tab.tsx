@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import {
   Search, Users, Filter, MoreHorizontal, Eye, Pencil, CreditCard, Shield,
   ShieldOff, Ban, Trash2, UserPlus, ArrowUpDown, Mail, ArrowUpRight,
-  FileText, MessageSquare, BookOpen, Award, Clock,
+  FileText, MessageSquare, BookOpen, Award, Clock, GraduationCap,
 } from 'lucide-react';
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -39,6 +39,7 @@ interface UserRecord {
   role: string;
   isDemo: boolean;
   isSuspended: boolean;
+  isApprovedTutor: boolean;
   emailVerified: boolean;
   country: string | null;
   testCredits: number;
@@ -316,6 +317,7 @@ export function UsersTab({ onToast }: UsersTabProps) {
               <option value="all" className={selectOptionClass}>All Roles</option>
               <option value="user" className={selectOptionClass}>User</option>
               <option value="admin" className={selectOptionClass}>Admin</option>
+              <option value="tutor" className={selectOptionClass}>Tutor</option>
             </select>
 
             <select
@@ -419,10 +421,18 @@ export function UsersTab({ onToast }: UsersTabProps) {
                     </td>
                     <td className="px-4 py-3">{planBadge(u.plan)}</td>
                     <td className="px-4 py-3">
-                      <span className={`inline-flex items-center gap-1 text-xs ${u.role === 'admin' ? 'text-amber-400' : 'text-white/50'}`}>
-                        {u.role === 'admin' ? <Shield className="h-3 w-3" /> : null}
-                        {u.role}
-                      </span>
+                      <div className="flex items-center gap-1.5">
+                        <span className={`inline-flex items-center gap-1 text-xs ${u.role === 'admin' ? 'text-amber-400' : 'text-white/50'}`}>
+                          {u.role === 'admin' ? <Shield className="h-3 w-3" /> : null}
+                          {u.role}
+                        </span>
+                        {u.isApprovedTutor && (
+                          <span className="inline-flex items-center gap-0.5 text-[10px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded-full border border-emerald-500/20">
+                            <GraduationCap className="h-2.5 w-2.5" />
+                            Tutor
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td className="px-4 py-3">
                       {u.isSuspended
@@ -459,6 +469,31 @@ export function UsersTab({ onToast }: UsersTabProps) {
                           <DropdownMenuItem onClick={() => handleUpdateUser(u.id, { role: u.role === 'admin' ? 'user' : 'admin' })} className="text-white/70 focus:text-white focus:bg-white/10 cursor-pointer">
                             {u.role === 'admin' ? <ShieldOff className="h-4 w-4 mr-2" /> : <Shield className="h-4 w-4 mr-2" />}
                             {u.role === 'admin' ? 'Remove admin' : 'Make admin'}
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={async () => {
+                              try {
+                                const res = await fetch('/api/admin/tutors/approve', {
+                                  method: 'POST',
+                                  headers: { 'Content-Type': 'application/json' },
+                                  credentials: 'same-origin',
+                                  body: JSON.stringify({ userId: u.id, approved: !u.isApprovedTutor }),
+                                });
+                                if (res.ok) {
+                                  onToast(u.isApprovedTutor ? 'Tutor status revoked' : 'Tutor approved — can now create live rooms', 'success');
+                                  fetchUsers();
+                                } else {
+                                  const data = await res.json();
+                                  onToast(data.error || 'Failed to update tutor status', 'error');
+                                }
+                              } catch {
+                                onToast('Failed to update tutor status', 'error');
+                              }
+                            }}
+                            className="text-white/70 focus:text-white focus:bg-white/10 cursor-pointer"
+                          >
+                            <GraduationCap className="h-4 w-4 mr-2" />
+                            {u.isApprovedTutor ? 'Revoke tutor status' : 'Approve as tutor'}
                           </DropdownMenuItem>
                           <DropdownMenuItem onClick={() => handleUpdateUser(u.id, { isSuspended: !u.isSuspended })} className="text-white/70 focus:text-white focus:bg-white/10 cursor-pointer">
                             {u.isSuspended ? <Ban className="h-4 w-4 mr-2" /> : <Ban className="h-4 w-4 mr-2" />}

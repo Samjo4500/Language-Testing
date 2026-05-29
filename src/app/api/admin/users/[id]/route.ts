@@ -21,6 +21,7 @@ export async function GET(
         plan: true,
         status: true,
         isSuspended: true,
+        isApprovedTutor: true,
         accountType: true,
         emailVerified: true,
         englishLevel: true,

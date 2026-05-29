@@ -49,6 +49,8 @@ import {
   UserCheck,
   CheckCircle2,
   XCircle,
+  Power,
+  X,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -159,6 +161,10 @@ export default function CommunityLivePage() {
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [creating, setCreating] = useState(false);
 
+  // Current user info for permission checks
+  const [currentUser, setCurrentUser] = useState<{ userId: string; role: string; isApprovedTutor?: boolean } | null>(null);
+  const canCreateRooms = currentUser?.role === 'admin' || currentUser?.isApprovedTutor === true;
+
   // Match state
   const [matchLevel, setMatchLevel] = useState('B1');
   const [matchTopic, setMatchTopic] = useState('Speaking');
@@ -218,6 +224,24 @@ export default function CommunityLivePage() {
     return () => {
       if (matchPollRef.current) clearInterval(matchPollRef.current);
     };
+  }, []);
+
+  // Fetch current user info for permission checks
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        const res = await fetch('/api/auth/me', { credentials: 'include' });
+        if (res.ok) {
+          const data = await res.json();
+          setCurrentUser({
+            userId: data.user?.userId || data.user?.id,
+            role: data.user?.role || 'user',
+            isApprovedTutor: data.user?.isApprovedTutor || false,
+          });
+        }
+      } catch {}
+    }
+    fetchUser();
   }, []);
 
   const handleCreateRoom = async () => {
@@ -331,14 +355,23 @@ export default function CommunityLivePage() {
               Join live rooms, practice conversations, and learn together
             </p>
           </div>
-          <Button
-            onClick={() => setShowCreateDialog(true)}
-            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-lg shadow-purple-500/20 shrink-0"
-            size="lg"
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            Create Room
-          </Button>
+          {canCreateRooms ? (
+            <Button
+              onClick={() => setShowCreateDialog(true)}
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-lg shadow-purple-500/20 shrink-0"
+              size="lg"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Create Room
+            </Button>
+          ) : currentUser ? (
+            <div className="flex items-center gap-2 shrink-0">
+              <Badge variant="outline" className="border-gray-700 text-gray-400 text-xs py-1.5">
+                <Shield className="w-3 h-3 mr-1" />
+                Tutors &amp; Admins can create rooms
+              </Badge>
+            </div>
+          ) : null}
         </div>
 
         {/* ─── Quick Stats ─── */}
@@ -521,16 +554,20 @@ export default function CommunityLivePage() {
                 </div>
                 <h3 className="text-xl font-semibold text-gray-300 mb-2">No Active Rooms Right Now</h3>
                 <p className="text-gray-500 mb-8 max-w-md mx-auto">
-                  Be the first to start a room! Choose a type and invite others to join your conversation.
+                  {canCreateRooms
+                    ? 'Be the first to start a room! Choose a type and invite others to join your conversation.'
+                    : 'Check back soon or browse upcoming events below.'}
                 </p>
-                <Button onClick={() => setShowCreateDialog(true)} size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg shadow-purple-500/20">
-                  <Plus className="w-4 h-4 mr-2" /> Create a Room
-                </Button>
+                {canCreateRooms && (
+                  <Button onClick={() => setShowCreateDialog(true)} size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shadow-lg shadow-purple-500/20">
+                    <Plus className="w-4 h-4 mr-2" /> Create a Room
+                  </Button>
+                )}
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {liveRooms.map(room => (
-                  <RoomCard key={room.id} room={room} />
+                  <RoomCard key={room.id} room={room} currentUserId={currentUser?.userId} isAdmin={currentUser?.role === 'admin'} />
                 ))}
               </div>
             )}
@@ -547,7 +584,7 @@ export default function CommunityLivePage() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {scheduledRooms.slice(0, 6).map(room => (
-                    <RoomCard key={room.id} room={room} />
+                    <RoomCard key={room.id} room={room} currentUserId={currentUser?.userId} isAdmin={currentUser?.role === 'admin'} />
                   ))}
                 </div>
               </section>
@@ -602,10 +639,12 @@ export default function CommunityLivePage() {
                   <Calendar className="w-10 h-10 text-gray-600" />
                 </div>
                 <h3 className="text-xl font-semibold text-gray-300 mb-2">No Upcoming Events</h3>
-                <p className="text-gray-500 mb-6">Be the first to schedule a live session for the community.</p>
-                <Button variant="outline" size="lg" className="border-gray-700 text-gray-300 hover:bg-gray-800" onClick={() => setShowCreateDialog(true)}>
-                  <Plus className="w-4 h-4 mr-2" /> Schedule an Event
-                </Button>
+                <p className="text-gray-500 mb-6">{canCreateRooms ? 'Be the first to schedule a live session for the community.' : 'Check back soon for scheduled sessions.'}</p>
+                {canCreateRooms && (
+                  <Button variant="outline" size="lg" className="border-gray-700 text-gray-300 hover:bg-gray-800" onClick={() => setShowCreateDialog(true)}>
+                    <Plus className="w-4 h-4 mr-2" /> Schedule an Event
+                  </Button>
+                )}
               </div>
             ) : (
               <div className="space-y-3 max-h-[600px] overflow-y-auto pr-1 custom-scrollbar">
@@ -915,13 +954,39 @@ export default function CommunityLivePage() {
 }
 
 // ─── Room Card ──────────────────────────────────────────
-function RoomCard({ room }: { room: LiveRoom }) {
+function RoomCard({ room, currentUserId, isAdmin }: { room: LiveRoom; currentUserId?: string; isAdmin?: boolean }) {
   const config = getTypeConfig(room.type);
   const Icon = config.icon;
   const isLive = room.status === 'active';
   const isScheduled = room.status === 'scheduled';
   const participants = room.activeParticipantCount ?? room.participantCount ?? 0;
   const spotsLeft = room.maxParticipants - participants;
+  const isHost = currentUserId && room.hostId === currentUserId;
+  const canEndRoom = isHost || isAdmin;
+  const [endingRoom, setEndingRoom] = useState(false);
+
+  const handleEndRoom = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!confirm('End this room? All participants will be disconnected.')) return;
+    setEndingRoom(true);
+    try {
+      const res = await fetch(`/api/live-rooms/${room.id}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+      if (res.ok) {
+        window.location.reload();
+      } else {
+        const err = await res.json();
+        alert(err.error || 'Failed to end room');
+      }
+    } catch {
+      alert('Failed to end room');
+    } finally {
+      setEndingRoom(false);
+    }
+  };
 
   return (
     <Link href={`/community/live/${room.roomName}`} className="block">
@@ -965,7 +1030,25 @@ function RoomCard({ room }: { room: LiveRoom }) {
                 </Badge>
               )}
             </div>
-            <ChevronRight className="w-4 h-4 text-gray-600 group-hover:text-gray-400 transition-colors shrink-0 ml-2" />
+            <div className="flex items-center gap-1.5">
+              {canEndRoom && isLive && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleEndRoom}
+                  disabled={endingRoom}
+                  className="h-7 px-2 text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                  title="End Room"
+                >
+                  {endingRoom ? (
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  ) : (
+                    <Power className="w-3.5 h-3.5" />
+                  )}
+                </Button>
+              )}
+              <ChevronRight className="w-4 h-4 text-gray-600 group-hover:text-gray-400 transition-colors shrink-0" />
+            </div>
           </div>
           <CardTitle className="text-base text-white group-hover:text-gray-200 transition-colors line-clamp-1">
             {room.name}

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { requireAuth } from '@/lib/auth-middleware';
+import { requireAuth, canCreateLiveRoom } from '@/lib/auth-middleware';
 
 // GET /api/events
 export async function GET(request: NextRequest) {
@@ -29,12 +29,16 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/events
+// POST /api/events (admins + approved tutors only)
 export async function POST(request: NextRequest) {
   try {
     const authResult = requireAuth(request);
     if (authResult instanceof NextResponse) return authResult;
     const user = authResult;
+
+    // Check if user is allowed to create events (same permission as rooms)
+    const permissionCheck = await canCreateLiveRoom(user);
+    if (permissionCheck) return permissionCheck;
 
     const body = await request.json();
     const { title, description, type = 'LIVE_CLASS', cefrLevel, topic, scheduledFor, duration = 60, maxParticipants = 50, isRecurring = false, recurrenceRule } = body;

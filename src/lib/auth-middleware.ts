@@ -54,6 +54,55 @@ export function requireAdmin(user: TokenPayload): NextResponse | null {
 }
 
 /**
+ * Check if a user is allowed to create live rooms.
+ * Allowed: admins (role='admin') and approved tutors (isApprovedTutor=true).
+ * This is an async check because isApprovedTutor lives in the DB, not the JWT.
+ */
+export async function canCreateLiveRoom(user: TokenPayload): Promise<NextResponse | null> {
+  // Admins can always create rooms
+  if (user.role === 'admin') return null;
+
+  // Check DB for approved tutor status
+  try {
+    const dbUser = await db.user.findUnique({
+      where: { id: user.userId },
+      select: { isApprovedTutor: true, isSuspended: true, status: true },
+    });
+
+    if (!dbUser) {
+      return NextResponse.json(
+        { error: 'User not found.' },
+        { status: 401 }
+      );
+    }
+
+    if (dbUser.isSuspended || dbUser.status === 'suspended' || dbUser.status === 'banned') {
+      return NextResponse.json(
+        { error: 'Account suspended', message: 'Your account is suspended and cannot create rooms.' },
+        { status: 403 }
+      );
+    }
+
+    if (dbUser.isApprovedTutor) return null;
+
+    return NextResponse.json(
+      {
+        error: 'Cannot create rooms',
+        message: 'Only admins and approved tutors can create live rooms. Apply to become a tutor to unlock this feature.',
+        code: 'ROOM_CREATION_NOT_ALLOWED',
+      },
+      { status: 403 }
+    );
+  } catch {
+    // DB error — fail open for admins (already passed above), fail closed for non-admins
+    return NextResponse.json(
+      { error: 'Unable to verify permissions. Please try again.' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
  * Verify that the token's tokenVersion matches the user's current tokenVersion in the database.
  * If they don't match, the token was issued before a logout/password change and should be rejected.
  *

@@ -35,6 +35,7 @@ model User {
   isProfileComplete Boolean   @default(false) // Whether user has filled in their profile
   interests         String? // JSON array: ["travel","photography","cooking","sports","music","movies","technology","art","reading","gaming"]
   isVerified        Boolean   @default(false) // Email verified + profile complete
+  isApprovedTutor   Boolean   @default(false) // Admin-approved tutor — can create live rooms
   trustScore        Int       @default(0) // 0-100 score based on activity
   tokenVersion      Int       @default(0) // incremented on logout/password change to invalidate old tokens
   planExpiresAt     DateTime? // when the plan expires (for subscriptions)

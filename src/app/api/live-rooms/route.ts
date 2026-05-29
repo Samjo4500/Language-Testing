@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { requireAuth } from '@/lib/auth-middleware';
+import { requireAuth, canCreateLiveRoom } from '@/lib/auth-middleware';
 import { createRoom as createLiveKitRoom, listRooms as listLiveKitRooms } from '@/lib/livekit';
 
 // GET /api/live-rooms — List all rooms with filters
@@ -65,12 +65,16 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/live-rooms — Create a new room
+// POST /api/live-rooms — Create a new room (admins + approved tutors only)
 export async function POST(request: NextRequest) {
   try {
     const authResult = requireAuth(request);
     if (authResult instanceof NextResponse) return authResult;
     const user = authResult;
+
+    // Check if user is allowed to create rooms
+    const permissionCheck = await canCreateLiveRoom(user);
+    if (permissionCheck) return permissionCheck;
 
     const body = await request.json();
     const { name, type = 'LIVE_CLASS', description, cefrLevel, topic, maxParticipants = 20, scheduledFor, isPrivate = false, language } = body;
