@@ -3,7 +3,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   LiveKitRoom,
-  VideoConference,
   RoomAudioRenderer,
   ControlBar,
   GridLayout,
@@ -18,28 +17,21 @@ import '@livekit/components-styles';
 import {
   Track,
   ConnectionState as LiveKitConnectionState,
-  Participant,
   RoomEvent,
-  DataPacket_Kind,
 } from 'livekit-client';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import {
   Mic,
-  MicOff,
-  Video,
-  VideoOff,
-  ScreenShare,
-  ScreenShareOff,
-  PhoneOff,
   MessageSquare,
   Users,
-  Settings,
-  Hand,
   Clock,
   AlertCircle,
   Loader2,
+  Volume2,
+  BookOpen,
+  Timer,
+  List,
 } from 'lucide-react';
 
 interface VideoCallRoomProps {
@@ -48,14 +40,15 @@ interface VideoCallRoomProps {
   roomName: string;
   identity: string;
   role: 'host' | 'co_host' | 'participant' | 'admin';
+  roomType?: string;
   onDisconnected?: () => void;
   className?: string;
 }
 
 /**
- * Custom video conference layout with TestCEFR branding.
+ * Custom video conference layout with room type awareness.
  */
-function CustomVideoConference() {
+function CustomVideoConference({ roomType }: { roomType?: string }) {
   const tracks = useTracks(
     [
       { source: Track.Source.Camera, withPlaceholder: true },
@@ -65,28 +58,82 @@ function CustomVideoConference() {
   );
 
   const [showChat, setShowChat] = useState(false);
-  const [focusedTrack, setFocusedTrack] = useState<any>(null);
+  const [showSpeakerQueue, setShowSpeakerQueue] = useState(false);
 
-  // If there's a screen share, focus on it
   const screenShareTrack = tracks.find(
     (t) => t.source === Track.Source.ScreenShare && t.participant.isScreenShareEnabled,
   );
 
-  const displayTracks = screenShareTrack
-    ? [screenShareTrack, ...tracks.filter((t) => t !== screenShareTrack)]
-    : tracks;
+  // Voice-only mode for VOICE_HANGOUT
+  const isVoiceOnly = roomType === 'VOICE_HANGOUT';
+  // Lecture mode — spotlight layout
+  const isLecture = roomType === 'LECTURE';
+  // Open Mic — show speaker queue
+  const isOpenMic = roomType === 'OPEN_MIC';
+  // 1-on-1
+  const isOneOnOne = roomType === 'ONE_ON_ONE';
+  // Study group
+  const isStudyGroup = roomType === 'STUDY_GROUP';
 
   return (
     <div className="flex flex-col h-full bg-gray-950">
+      {/* Room type banner */}
+      {isVoiceOnly && (
+        <div className="bg-purple-500/10 border-b border-purple-500/20 px-4 py-1.5 flex items-center gap-2">
+          <Volume2 className="w-3.5 h-3.5 text-purple-400" />
+          <span className="text-xs text-purple-300 font-medium">Voice Only Mode</span>
+          <span className="text-[10px] text-purple-400/60">— Camera is disabled for this room type</span>
+        </div>
+      )}
+      {isOneOnOne && (
+        <div className="bg-green-500/10 border-b border-green-500/20 px-4 py-1.5 flex items-center gap-2">
+          <Timer className="w-3.5 h-3.5 text-green-400" />
+          <span className="text-xs text-green-300 font-medium">1-on-1 Conversation</span>
+          <OneOnOneTimer />
+        </div>
+      )}
+      {isLecture && (
+        <div className="bg-red-500/10 border-b border-red-500/20 px-4 py-1.5 flex items-center gap-2">
+          <MessageSquare className="w-3.5 h-3.5 text-red-400" />
+          <span className="text-xs text-red-300 font-medium">Lecture Mode</span>
+          <span className="text-[10px] text-red-400/60">— Use chat for questions</span>
+        </div>
+      )}
+      {isStudyGroup && (
+        <div className="bg-teal-500/10 border-b border-teal-500/20 px-4 py-1.5 flex items-center gap-2">
+          <BookOpen className="w-3.5 h-3.5 text-teal-400" />
+          <span className="text-xs text-teal-300 font-medium">Study Group</span>
+          <span className="text-[10px] text-teal-400/60">— Collaborate and learn together</span>
+        </div>
+      )}
+
       {/* Main video area */}
       <div className="flex-1 flex">
         <div className="flex-1 p-2">
-          {screenShareTrack ? (
+          {isLecture || screenShareTrack ? (
             <FocusLayoutContainer>
-              <FocusLayout trackRef={screenShareTrack} />
+              {screenShareTrack && <FocusLayout trackRef={screenShareTrack} />}
             </FocusLayoutContainer>
+          ) : isVoiceOnly ? (
+            /* Voice-only: show audio tiles only, hide video */
+            <div className="flex items-center justify-center h-full gap-4 flex-wrap">
+              {tracks.map((track, i) => (
+                <div key={i} className="flex flex-col items-center gap-2 p-4 rounded-xl bg-gray-900/50 border border-gray-800">
+                  <div className="w-16 h-16 rounded-full bg-purple-500/20 flex items-center justify-center">
+                    <Mic className="w-6 h-6 text-purple-400" />
+                  </div>
+                  <span className="text-sm text-gray-300">
+                    {track.participant.name || track.participant.identity}
+                  </span>
+                  <Badge variant="secondary" className="bg-green-600/20 text-green-400 text-[10px]">
+                    <div className="w-1.5 h-1.5 rounded-full bg-green-400 mr-1 animate-pulse" />
+                    Speaking
+                  </Badge>
+                </div>
+              ))}
+            </div>
           ) : (
-            <GridLayout tracks={displayTracks} style={{ height: '100%' }}>
+            <GridLayout tracks={tracks} style={{ height: '100%' }}>
               <ParticipantTile />
             </GridLayout>
           )}
@@ -96,6 +143,23 @@ function CustomVideoConference() {
         {showChat && (
           <div className="w-80 border-l border-gray-800 bg-gray-900">
             <Chat />
+          </div>
+        )}
+
+        {/* Speaker queue for Open Mic */}
+        {isOpenMic && showSpeakerQueue && (
+          <div className="w-64 border-l border-gray-800 bg-gray-900 p-4">
+            <h3 className="text-sm font-medium text-orange-400 flex items-center gap-2 mb-3">
+              <List className="w-4 h-4" />
+              Speaker Queue
+            </h3>
+            <div className="space-y-2">
+              <div className="p-2 rounded-lg bg-orange-500/10 border border-orange-500/20">
+                <p className="text-xs text-orange-300 font-medium">Current Speaker</p>
+                <p className="text-sm text-white">Waiting for speaker...</p>
+              </div>
+              <p className="text-xs text-gray-500 text-center">Raise hand to join the queue</p>
+            </div>
           </div>
         )}
       </div>
@@ -110,29 +174,68 @@ function CustomVideoConference() {
             variation="minimal"
             controls={{
               microphone: true,
-              camera: true,
-              screenShare: true,
+              camera: !isVoiceOnly,
+              screenShare: !isVoiceOnly,
               leave: true,
             }}
           />
           <Button
             variant={showChat ? 'default' : 'ghost'}
             size="sm"
-            onClick={() => setShowChat(!showChat)}
+            onClick={() => { setShowChat(!showChat); setShowSpeakerQueue(false); }}
             className="text-white hover:bg-gray-800"
           >
             <MessageSquare className="w-4 h-4 mr-1" />
             Chat
           </Button>
+          {isOpenMic && (
+            <Button
+              variant={showSpeakerQueue ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => { setShowSpeakerQueue(!showSpeakerQueue); setShowChat(false); }}
+              className="text-white hover:bg-gray-800"
+            >
+              <List className="w-4 h-4 mr-1" />
+              Queue
+            </Button>
+          )}
         </div>
         <div className="flex items-center gap-2">
           <ParticipantCount />
         </div>
       </div>
 
-      {/* Audio renderer for remote participants */}
       <RoomAudioRenderer />
     </div>
+  );
+}
+
+/**
+ * Timer for 1-on-1 conversations (15 min default).
+ */
+function OneOnOneTimer() {
+  const [elapsed, setElapsed] = useState(0);
+  const maxMinutes = 15;
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setElapsed(prev => prev + 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const mins = Math.floor(elapsed / 60);
+  const secs = elapsed % 60;
+  const remaining = maxMinutes * 60 - elapsed;
+  const isWarning = remaining < 120 && remaining > 0;
+
+  return (
+    <span className={`text-xs ${isWarning ? 'text-yellow-400' : 'text-green-400/60'}`}>
+      {mins.toString().padStart(2, '0')}:{secs.toString().padStart(2, '0')}
+      {remaining > 0 && (
+        <span className="ml-1">({Math.floor(remaining / 60)}:{(remaining % 60).toString().padStart(2, '0')} left)</span>
+      )}
+    </span>
   );
 }
 
@@ -193,7 +296,7 @@ function ParticipantCount() {
 
   useEffect(() => {
     const updateCount = () => {
-      setCount(room.remoteParticipants.size + 1); // +1 for local participant
+      setCount(room.remoteParticipants.size + 1);
     };
 
     updateCount();
@@ -225,6 +328,7 @@ export default function VideoCallRoom({
   roomName,
   identity,
   role,
+  roomType,
   onDisconnected,
   className,
 }: VideoCallRoomProps) {
@@ -251,21 +355,15 @@ export default function VideoCallRoom({
     console.error(`[LiveKit] Connection error:`, err);
   }, []);
 
-  // If no token or URL, show error
   if (!token || !serverUrl) {
     return (
-      <Card className={`border-red-200 ${className}`}>
-        <CardContent className="flex flex-col items-center justify-center py-12">
-          <AlertCircle className="w-12 h-12 text-red-400 mb-4" />
-          <h3 className="text-lg font-semibold text-red-600 mb-2">
-            LiveKit Not Configured
-          </h3>
-          <p className="text-sm text-gray-500 text-center max-w-md">
-            The video call feature requires LiveKit to be configured.
-            Please set the NEXT_PUBLIC_LIVEKIT_URL and LIVEKIT_API_KEY environment variables.
-          </p>
-        </CardContent>
-      </Card>
+      <div className={`flex flex-col items-center justify-center py-12 ${className}`}>
+        <AlertCircle className="w-12 h-12 text-red-400 mb-4" />
+        <h3 className="text-lg font-semibold text-red-600 mb-2">LiveKit Not Configured</h3>
+        <p className="text-sm text-gray-500 text-center max-w-md">
+          The video call feature requires LiveKit to be configured.
+        </p>
+      </div>
     );
   }
 
@@ -276,14 +374,14 @@ export default function VideoCallRoom({
         token={token}
         connect={true}
         audio={true}
-        video={true}
+        video={roomType !== 'VOICE_HANGOUT'}
         onConnected={handleConnected}
         onDisconnected={handleDisconnected}
         onError={handleConnectionError}
         data-lk-theme="default"
         style={{ height: '100%' }}
       >
-        <CustomVideoConference />
+        <CustomVideoConference roomType={roomType} />
       </LiveKitRoom>
 
       {/* Connection overlay */}
@@ -305,10 +403,7 @@ export default function VideoCallRoom({
             <p className="text-white text-lg font-medium mb-2">Connection Failed</p>
             <p className="text-gray-400 text-sm mb-4">{error}</p>
             <Button
-              onClick={() => {
-                setError(null);
-                window.location.reload();
-              }}
+              onClick={() => { setError(null); window.location.reload(); }}
               variant="outline"
             >
               Try Again

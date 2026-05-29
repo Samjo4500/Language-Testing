@@ -62,6 +62,9 @@ model User {
   reports           Report[]             @relation("UserReports")
   hostedLiveClasses LiveClass[]          @relation("HostedLiveClasses")
   liveParticipations LiveClassParticipant[] @relation("LiveClassParticipations")
+  hostedLiveRooms    LiveRoom[]          @relation("HostedLiveRooms")
+  liveRoomParticipations LiveRoomParticipant[] @relation("LiveRoomParticipations")
+  hostedScheduledEvents ScheduledEvent[] @relation("HostedScheduledEvents")
 
   @@index([organizationId])
 }
@@ -980,6 +983,165 @@ model SharedMedia {
 }
 
 // ═══════════════════════════════════════════════════════════
+//  ROOM TYPES — Community Live Platform
+// ═══════════════════════════════════════════════════════════
+
+// RoomType enum values: VOICE_HANGOUT, LIVE_CLASS, ONE_ON_ONE, LECTURE, OPEN_MIC, STUDY_GROUP, WATCH_PARTY
+// Stored as String for SQLite compatibility
+
+model LiveRoom {
+  id              String    @id @default(cuid())
+  name            String
+  description     String?
+  type            String    @default("LIVE_CLASS") // RoomType: VOICE_HANGOUT, LIVE_CLASS, ONE_ON_ONE, LECTURE, OPEN_MIC, STUDY_GROUP, WATCH_PARTY
+  status          String    @default("active") // active, scheduled, ended, recording
+
+  maxParticipants Int       @default(20)
+  isPrivate       Boolean   @default(false)
+  password        String?
+  isLocked        Boolean   @default(false)
+
+  cefrLevel       String?
+  topic           String?
+  language        String    @default("English")
+
+  hostId          String
+  hostName        String
+  hostAvatar      String?
+
+  roomName        String    @unique
+
+  scheduledFor    DateTime?
+  endedAt         DateTime?
+
+  isRecording     Boolean   @default(false)
+  recordingUrl    String?
+
+  participantCount Int      @default(0)
+  maxConcurrent   Int       @default(0)
+  totalJoins      Int       @default(0)
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  host            User      @relation("HostedLiveRooms", fields: [hostId], references: [id], onDelete: Cascade)
+  participants    LiveRoomParticipant[]
+
+  @@index([status])
+  @@index([type])
+  @@index([cefrLevel])
+  @@index([scheduledFor])
+  @@index([createdAt])
+}
+
+model LiveRoomParticipant {
+  id        String   @id @default(cuid())
+  roomId    String
+  userId    String
+  role      String   @default("participant") // host, co_host, participant, speaker
+  joinedAt  DateTime @default(now())
+  leftAt    DateTime?
+  duration  Int?
+
+  room LiveRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user User     @relation("LiveRoomParticipations", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([roomId, userId])
+  @@index([roomId])
+  @@index([userId])
+}
+
+model ScheduledEvent {
+  id            String   @id @default(cuid())
+  title         String
+  description   String?
+  type          String // RoomType: VOICE_HANGOUT, LIVE_CLASS, ONE_ON_ONE, LECTURE, OPEN_MIC, STUDY_GROUP, WATCH_PARTY
+
+  hostId        String
+  hostName      String
+  hostAvatar    String?
+
+  cefrLevel     String?
+  topic         String?
+
+  scheduledFor  DateTime
+  duration      Int      @default(60)
+
+  maxParticipants Int    @default(50)
+
+  isRecurring   Boolean  @default(false)
+  recurrenceRule String?
+
+  rsvpCount     Int      @default(0)
+
+  roomId        String?
+
+  createdAt     DateTime @default(now())
+
+  host          User      @relation("HostedScheduledEvents", fields: [hostId], references: [id], onDelete: Cascade)
+  rsvps         EventRSVP[]
+
+  @@index([scheduledFor])
+  @@index([hostId])
+  @@index([type])
+}
+
+model EventRSVP {
+  id        String   @id @default(cuid())
+  eventId   String
+  userId    String
+  createdAt DateTime @default(now())
+
+  event ScheduledEvent @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@unique([eventId, userId])
+  @@index([eventId])
+  @@index([userId])
+}
+
+model OneOnOneMatch {
+  id          String   @id @default(cuid())
+  user1Id     String
+  user2Id     String?
+  roomName    String   @unique
+
+  level       String?
+  topic       String?
+
+  status      String   @default("waiting") // waiting, matched, active, ended, reported
+
+  startedAt   DateTime @default(now())
+  endedAt     DateTime?
+
+  user1Rating   Int?
+  user2Rating   Int?
+  user1Feedback String?
+  user2Feedback String?
+
+  @@index([user1Id])
+  @@index([user2Id])
+  @@index([status])
+}
+
+model UserLiveStats {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+
+  totalHours      Float    @default(0)
+  roomsJoined     Int      @default(0)
+  oneOnOneCount   Int      @default(0)
+  classesAttended Int      @default(0)
+  eventsHosted    Int      @default(0)
+
+  weeklyHours     Float    @default(0)
+  weeklyRooms     Int      @default(0)
+
+  updatedAt       DateTime @updatedAt
+
+  @@index([userId])
+}
+
+// ═══════════════════════════════════════════════════════════
 //  LIVE VIDEO — LiveKit integration for live classes & tutoring
 // ═══════════════════════════════════════════════════════════
 
@@ -1029,3 +1191,4 @@ model LiveClassParticipant {
   @@index([userId])
   @@index([joinedAt])
 }
+
