@@ -626,3 +626,21 @@ Stage Summary:
 - All existing LiveKit integration code was already built (token API, rooms API, recordings API, webhook handler, VideoCallRoom component, PreJoinScreen, admin LiveKit tab)
 - No code changes needed — only env var configuration
 - Production deployment: https://testcefr.com → live
+---
+Task ID: 2
+Agent: Main Agent
+Task: Fix 404 on /community/live page - deploy to correct Vercel project
+
+Work Log:
+- Diagnosed 404: testcefr.com domain was pointing to a different Vercel project (testcefr-source / prj_woXLtKPdM5OBOrUEI0eJCo36DybF), NOT the project we were deploying to (my-project / prj_Hswgn97AhJIGqWJBB4U9TTrYEj7A)
+- Updated .vercel/project.json to point to correct project (prj_woXLtKPdM5OBOrUEI0eJCo36DybF)
+- Added LiveKit env vars to the correct project (NEXT_PUBLIC_LIVEKIT_URL, LIVEKIT_API_KEY, LIVEKIT_API_SECRET, LIVEKIT_HTTP_URL)
+- Deployed to testcefr-source project successfully
+- Verified /community/live/ returns 200 OK
+- Verified /api/livekit/token returns 401 (correct - requires auth)
+
+Stage Summary:
+- Root cause: Deploying to wrong Vercel project
+- Fix: Re-linked to testcefr-source project and redeployed
+- testcefr.com/community/live is now live and working
+- LiveKit Cloud integration fully operational
