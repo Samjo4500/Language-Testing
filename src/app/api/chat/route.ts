@@ -104,7 +104,8 @@ async function tryZaiSDK(messages: { role: string; content: string }[]): Promise
       max_tokens: 500,
     });
     return completion.choices?.[0]?.message?.content || null;
-  } catch {
+  } catch (error) {
+    console.error('[chat] z-ai-web-dev-sdk failed:', error instanceof Error ? error.message : error);
     return null;
   }
 }
@@ -132,7 +133,8 @@ async function tryGoogleAI(messages: { role: string; content: string }[]): Promi
     const lastUserMsg = messages.filter(m => m.role === 'user').pop()?.content || '';
     const result = await chat.sendMessage(lastUserMsg);
     return result.response.text() || null;
-  } catch {
+  } catch (error) {
+    console.error('[chat] Google AI failed:', error instanceof Error ? error.message : error);
     return null;
   }
 }

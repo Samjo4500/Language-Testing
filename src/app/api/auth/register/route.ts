@@ -7,6 +7,7 @@ import { createNotification } from '@/lib/notifications';
 import { authLimiter } from '@/lib/rate-limit';
 import { setAuthCookies } from '@/lib/cookie-auth';
 import { classifyDBError } from '@/lib/db-health';
+import { escapeHtml } from '@/lib/sanitize';
 import jwt from 'jsonwebtoken';
 
 export async function POST(request: NextRequest) {
@@ -25,13 +26,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate name if provided
+    // Validate and sanitize name if provided (strip HTML/scripts to prevent XSS)
     if (name && name.trim().length < 2) {
       return NextResponse.json(
         { error: 'Name must be at least 2 characters long.' },
         { status: 400 }
       );
     }
+    // Sanitize name — strip all HTML tags and script content to prevent stored XSS
+    const sanitizedName = name ? escapeHtml(name.trim()).slice(0, 100) : null;
+    // Reject names that contain suspicious patterns even after escaping
+    if (sanitizedName && /<script|javascript:|on\w+=/i.test(name)) {
+      return NextResponse.json(
+        { error: 'Name contains invalid characters.' },
+        { status: 400 }
+      );
+    }
+    const sanitizedOrgName = organizationName ? escapeHtml(organizationName.trim()).slice(0, 200) : null;
 
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -85,12 +96,12 @@ export async function POST(request: NextRequest) {
     const user = await db.user.create({
       data: {
         email,
-        name: name || null,
+        name: sanitizedName,
         passwordHash,
         plan: 'free',
         role,
         accountType: sanitizedAccountType,
-        organizationName: isB2B ? (organizationName || null) : null,
+        organizationName: isB2B ? sanitizedOrgName : null,
       },
     });
 

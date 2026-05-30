@@ -1352,6 +1352,11 @@ html {
     right: 16px;
     border-radius: 14px;
   }
+
+  /* Hide the bubble when the panel is open on mobile to prevent overlap */
+  .chat-widget-bubble-open {
+    display: none;
+  }
 }
 
 @media (min-width: 481px) and (max-width: 768px) {

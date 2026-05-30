@@ -70,6 +70,14 @@ async function verifyTokenSafely(token: string): Promise<TokenPayload | null> {
  * - Feature access via Permissions-Policy
  */
 function addSecurityHeaders(response: NextResponse): NextResponse {
+  // ─── CORS: Restrict to our own domains ONLY ───
+  // Prevents any website (evil.com, phishing pages) from calling our API
+  response.headers.set('Access-Control-Allow-Origin', 'https://testcefr.com');
+  response.headers.set('Access-Control-Allow-Credentials', 'true');
+  response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+  response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  response.headers.set('Access-Control-Max-Age', '86400'); // 24h preflight cache
+
   // Prevent clickjacking — only allow framing from same origin
   response.headers.set('X-Frame-Options', 'SAMEORIGIN');
 
@@ -126,6 +134,13 @@ function addSecurityHeaders(response: NextResponse): NextResponse {
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // Handle CORS preflight (OPTIONS) requests for API routes
+  if (pathname.startsWith('/api/') && request.method === 'OPTIONS') {
+    const response = new NextResponse(null, { status: 204 });
+    addSecurityHeaders(response);
+    return response;
+  }
 
   // Skip API routes (except admin API) and static files
   if (pathname.startsWith('/api/')) {

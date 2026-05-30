@@ -65,16 +65,26 @@ export function ChatWidget() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const pathname = usePathname();
-  const { user } = useAuthStore();
+  const { user, isAuthenticated } = useAuthStore();
+
+  // Don't render the floating chat widget on the AI Tutor page (full-page Lexi already there)
+  if (pathname === '/ai-tutor') return null;
 
   // Auto-greeting when chat opens for the first time
   useEffect(() => {
     if (isOpen && !hasGreeted) {
       setHasGreeted(true);
-      const greeting = getPageGreeting(pathname, user?.name || undefined);
-      setMessages([{ role: 'assistant', content: greeting }]);
+      if (isAuthenticated) {
+        const greeting = getPageGreeting(pathname, user?.name || undefined);
+        setMessages([{ role: 'assistant', content: greeting }]);
+      } else {
+        setMessages([{
+          role: 'assistant',
+          content: '👋 Welcome to TestCEFR! I\'m your AI assistant. Please **sign in** to chat with me — I can help you with CEFR levels, assessments, and certificates! [Sign in →](/login)',
+        }]);
+      }
     }
-  }, [isOpen, hasGreeted, pathname, user?.name]);
+  }, [isOpen, hasGreeted, pathname, user?.name, isAuthenticated]);
 
   // Update greeting when pathname changes (if no user messages yet)
   useEffect(() => {
@@ -107,6 +117,17 @@ export function ChatWidget() {
     setIsTyping(true);
 
     try {
+      // If not authenticated, show a sign-in prompt instead of hitting the API
+      if (!isAuthenticated) {
+        const signInMessage: Message = {
+          role: 'assistant',
+          content: 'Please **sign in** to chat with me! I can help you with CEFR levels, assessments, and certificates. [Sign in →](/login)',
+        };
+        setMessages((prev) => [...prev, signInMessage]);
+        setIsTyping(false);
+        return;
+      }
+
       const response = await fetch('/api/chat/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -119,6 +140,15 @@ export function ChatWidget() {
       });
 
       if (!response.ok) {
+        if (response.status === 401) {
+          const authMessage: Message = {
+            role: 'assistant',
+            content: 'Your session has expired. Please [sign in again](/login) to continue chatting.',
+          };
+          setMessages((prev) => [...prev, authMessage]);
+          setIsTyping(false);
+          return;
+        }
         throw new Error('Chat request failed');
       }
 
