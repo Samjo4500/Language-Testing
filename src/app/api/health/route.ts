@@ -20,7 +20,6 @@ export async function GET() {
         latencyMs: dbHealth.latencyMs,
         error: dbHealth.error || undefined,
         errorType: dbHealth.errorType || undefined,
-        url: dbHealth.url,
       },
       timestamp: new Date().toISOString(),
     },

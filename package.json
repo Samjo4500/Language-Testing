@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3000 2>&1 | tee dev.log",
-    "build": "prisma generate && (prisma db push 2>&1 || echo '[build] prisma db push failed, continuing build...') && node -e \"const fs=require('fs'),p='.z-ai-config';if(process.env.ZAI_BASE_URL){const c={baseUrl:process.env.ZAI_BASE_URL,apiKey:process.env.ZAI_API_KEY||'Z.ai'};if(process.env.ZAI_TOKEN)c.token=process.env.ZAI_TOKEN;if(process.env.ZAI_USER_ID)c.userId=process.env.ZAI_USER_ID;fs.writeFileSync(p,JSON.stringify(c));console.log('[build] .z-ai-config created')}else{console.log('[build] ZAI_BASE_URL not set, skipping .z-ai-config')}\" && next build",
+    "build": "prisma generate && (prisma db push 2>&1 || echo '[build] prisma db push failed, continuing build...') && next build",
     "start": "next start",
     "lint": "eslint .",
     "postinstall": "prisma generate",

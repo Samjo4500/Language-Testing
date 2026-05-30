@@ -112,7 +112,7 @@ export default function RegisterPage() {
         return;
       }
 
-      setAuth(data.user, data.accessToken, data.refreshToken);
+      setAuth(data.user, data.accessToken || '');
       // Track account creation
       trackAccountCreate({ account_type: accountType });
       // Show post-registration guidance instead of immediate redirect

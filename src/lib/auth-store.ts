@@ -16,13 +16,12 @@ interface User {
 interface AuthState {
   user: User | null;
   accessToken: string | null;
-  refreshToken: string | null;
   isLoading: boolean;
   isAuthenticated: boolean;
   isRefreshing: boolean;
 
   // Actions
-  setAuth: (user: User, accessToken: string, refreshToken: string) => void;
+  setAuth: (user: User, accessToken: string) => void;
   setUser: (user: User) => void;
   setLoading: (loading: boolean) => void;
   logout: () => Promise<void>;
@@ -33,20 +32,19 @@ interface AuthState {
 export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   accessToken: null,
-  refreshToken: null,
   isLoading: true, // Start as true to handle initial hydration
   isAuthenticated: false,
   isRefreshing: false,
 
-  setAuth: (user, accessToken, refreshToken) => {
-    // Persist user data to localStorage for UI hydration (tokens come from HttpOnly cookies)
+  setAuth: (user, accessToken) => {
+    // Persist user data to localStorage for UI hydration
+    // Tokens are stored in HttpOnly cookies — never in client-side JS
     if (typeof window !== 'undefined') {
       localStorage.setItem('user', JSON.stringify(user));
     }
     set({
       user,
       accessToken,
-      refreshToken,
       isLoading: false,
       isAuthenticated: true,
       isRefreshing: false,
@@ -80,7 +78,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     set({
       user: null,
       accessToken: null,
-      refreshToken: null,
       isLoading: false,
       isAuthenticated: false,
       isRefreshing: false,
@@ -139,8 +136,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       }
 
       const data = await response.json();
+      // Access token is returned for client-side state (e.g. API calls)
+      // Refresh token is NOT returned — it lives only in HttpOnly cookies
       const newAccessToken = data.accessToken;
-      const newRefreshToken = data.refreshToken;
 
       // If the refresh endpoint returns updated user data (plan/role), sync it
       if (data.user) {
@@ -152,9 +150,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         if (typeof window !== 'undefined') {
           localStorage.setItem('user', JSON.stringify(mergedUser));
         }
-        set({ accessToken: newAccessToken, refreshToken: newRefreshToken, user: mergedUser, isRefreshing: false });
+        set({ accessToken: newAccessToken, user: mergedUser, isRefreshing: false });
       } else {
-        set({ accessToken: newAccessToken, refreshToken: newRefreshToken, isRefreshing: false });
+        set({ accessToken: newAccessToken, isRefreshing: false });
       }
 
       return newAccessToken;

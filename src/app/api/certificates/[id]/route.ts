@@ -68,7 +68,6 @@ export async function GET(
       certificate: {
         certificateId: certificate.verificationId,
         userName: certificate.userName,
-        userId: certificate.user.id,
         courseName: certificate.courseName || `${certificate.cefrLevel} English Assessment`,
         courseLevel: certificate.cefrLevel,
         cefrLevel: certificate.cefrLevel,

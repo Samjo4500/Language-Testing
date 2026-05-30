@@ -15,10 +15,14 @@ export async function GET(request: NextRequest) {
   const authHeader = request.headers.get('authorization');
   const cronSecret = process.env.CRON_SECRET;
 
-  // In production, require CRON_SECRET
-  // In development, allow without secret for easier testing
-  if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  // Fail-closed: if CRON_SECRET is set, it MUST match
+  // If CRON_SECRET is not set, only allow in development mode
+  if (cronSecret) {
+    if (authHeader !== `Bearer ${cronSecret}`) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+  } else if (process.env.NODE_ENV === 'production') {
+    return NextResponse.json({ error: 'Cron not configured' }, { status: 503 });
   }
 
   try {

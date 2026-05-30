@@ -71,7 +71,7 @@ export default function LoginPage() {
         return;
       }
 
-      setAuth(data.user, data.accessToken, data.refreshToken);
+      setAuth(data.user, data.accessToken || '');
 
       // Redirect to onboarding if profile is incomplete
       if (data.user.isProfileComplete === false) {

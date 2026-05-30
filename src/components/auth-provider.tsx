@@ -20,7 +20,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (userStr) {
           try {
             const user = JSON.parse(userStr);
-            setAuth(user, '', ''); // Set user data immediately (tokens come from cookies)
+            setAuth(user, ''); // Set user data immediately (tokens come from HttpOnly cookies)
           } catch {
             localStorage.removeItem('user');
           }
@@ -33,7 +33,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           const response = await fetch('/api/auth/me/', { credentials: 'same-origin' });
           if (response.ok) {
             const data = await response.json();
-            setAuth(data.user, '', '');
+            setAuth(data.user, '');
             if (typeof window !== 'undefined') {
               localStorage.setItem('user', JSON.stringify(data.user));
             }
@@ -45,7 +45,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 const refreshData = await refreshResponse.json();
                 const user = refreshData.user || (userStr ? JSON.parse(userStr) : null);
                 if (user) {
-                  setAuth(user, '', '');
+                  setAuth(user, '');
                   if (refreshData.user && typeof window !== 'undefined') {
                     localStorage.setItem('user', JSON.stringify(refreshData.user));
                   }

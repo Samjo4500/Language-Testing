@@ -82,9 +82,9 @@ export async function POST(request: NextRequest) {
     });
 
     const response = NextResponse.json({
-      accessToken: tokens.accessToken,
-      refreshToken: tokens.refreshToken,
-      // Also return updated user data so the client can sync its state
+      // Access token is returned for client-side state only
+      // (the real auth happens via HttpOnly cookies set below)
+      // Refresh token is NOT returned in the body — it's only set via HttpOnly cookie
       user: {
         userId: dbUser.id,
         email: dbUser.email,
