@@ -41,9 +41,10 @@ export async function GET(request: NextRequest) {
     ]);
 
     // Stats
-    const [totalSent, totalFailed, todayCount, todayFailed] = await Promise.all([
+    const [totalSent, totalFailed, totalSkipped, todayCount, todayFailed] = await Promise.all([
       db.emailLog.count({ where: { status: 'sent' } }),
       db.emailLog.count({ where: { status: 'failed' } }),
+      db.emailLog.count({ where: { status: 'skipped' } }),
       db.emailLog.count({
         where: {
           createdAt: {
@@ -106,10 +107,11 @@ export async function GET(request: NextRequest) {
       stats: {
         totalSent,
         totalFailed,
+        totalSkipped,
         todayCount,
         todayFailed,
-        successRate: (totalSent + totalFailed) > 0
-          ? Math.round((totalSent / (totalSent + totalFailed)) * 100)
+        successRate: (totalSent + totalFailed + totalSkipped) > 0
+          ? Math.round((totalSent / (totalSent + totalFailed + totalSkipped)) * 100)
           : 0,
         unreadCount,
       },

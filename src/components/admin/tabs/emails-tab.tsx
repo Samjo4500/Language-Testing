@@ -193,7 +193,7 @@ export function EmailsTab({ onToast, notifUnread = 0, onSwitchTab }: EmailsTabPr
   const [logsPage, setLogsPage] = useState(1);
   const [logsTotalPages, setLogsTotalPages] = useState(1);
   const [logsTotal, setLogsTotal] = useState(0);
-  const [logStats, setLogStats] = useState({ totalSent: 0, totalFailed: 0, todayCount: 0, todayFailed: 0, successRate: 0 });
+  const [logStats, setLogStats] = useState({ totalSent: 0, totalFailed: 0, totalSkipped: 0, todayCount: 0, todayFailed: 0, successRate: 0 });
 
   /* ── Templates state ────────────────────────────────────────────────── */
   const [templates, setTemplates] = useState<EmailTemplate[]>(initialTemplates);
@@ -279,7 +279,7 @@ export function EmailsTab({ onToast, notifUnread = 0, onSwitchTab }: EmailsTabPr
   const sentToday = logStats.todayCount;
   const openRate = campaigns.filter((c) => c.status === 'sent').reduce((sum, c) => sum + (c.sentCount > 0 ? Math.round((c.opens / c.sentCount) * 100) : 0), 0) / Math.max(campaigns.filter((c) => c.status === 'sent').length, 1);
   const clickRate = campaigns.filter((c) => c.status === 'sent').reduce((sum, c) => sum + (c.sentCount > 0 ? Math.round((c.clicks / c.sentCount) * 100) : 0), 0) / Math.max(campaigns.filter((c) => c.status === 'sent').length, 1);
-  const bounceRate = logStats.totalSent + logStats.totalFailed > 0 ? Math.round((logStats.totalFailed / (logStats.totalSent + logStats.totalFailed)) * 100) : 0;
+  const bounceRate = logStats.totalSent + logStats.totalFailed + logStats.totalSkipped > 0 ? Math.round((logStats.totalFailed / (logStats.totalSent + logStats.totalFailed + logStats.totalSkipped)) * 100) : 0;
 
   /* ── Handlers ───────────────────────────────────────────────────────── */
 
@@ -878,8 +878,9 @@ export function EmailsTab({ onToast, notifUnread = 0, onSwitchTab }: EmailsTabPr
                         <td className="px-4 py-3">
                           {log.status === 'sent' && <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 text-xs">Delivered</span>}
                           {log.status === 'failed' && <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-red-500/20 text-red-400 text-xs">Failed</span>}
+                          {log.status === 'skipped' && <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 text-xs">Skipped</span>}
                           {log.status === 'pending' && <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-yellow-500/20 text-yellow-400 text-xs">Pending</span>}
-                          {!['sent', 'failed', 'pending'].includes(log.status) && <span className="text-white/40 text-xs">{log.status}</span>}
+                          {!['sent', 'failed', 'skipped', 'pending'].includes(log.status) && <span className="text-white/40 text-xs">{log.status}</span>}
                         </td>
                       </tr>
                     ))}

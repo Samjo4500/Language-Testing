@@ -33,6 +33,20 @@ async function sendEmail(to: string, subject: string, html: string, type?: strin
   const resend = getResend();
   if (!resend) {
     console.warn(`Resend not configured — skipping email to ${to}: ${subject}`);
+    // Still log to database so emails appear in the dashboard even when not sent
+    if (type) {
+      await db.emailLog.create({
+        data: {
+          to,
+          from: FROM_EMAIL,
+          subject,
+          type,
+          status: 'skipped',
+          userId: userId || null,
+          error: 'RESEND_API_KEY not configured',
+        },
+      }).catch(() => {});
+    }
     return;
   }
   try {
@@ -486,19 +500,6 @@ function cefrLevelDescription(level: string): string {
 }
 
 export async function sendAdminEmail(subject: string, html: string, type: string): Promise<void> {
-  await sendEmail(ADMIN_EMAIL, subject, html);
-  // Log to database
-  try {
-    await db.emailLog.create({
-      data: {
-        to: ADMIN_EMAIL,
-        from: FROM_EMAIL,
-        subject,
-        type,
-        status: 'sent',
-      },
-    });
-  } catch (err) {
-    console.error('Failed to log admin email:', err);
-  }
+  await sendEmail(ADMIN_EMAIL, subject, html, type);
+  // Note: sendEmail() now handles logging internally with correct status
 }
