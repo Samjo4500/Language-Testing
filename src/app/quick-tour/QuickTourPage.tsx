@@ -58,7 +58,7 @@ const TOUR_STEPS: TourStep[] = [
     features: ["6-skill comprehensive test", "AI-scored instantly", "Adaptive difficulty", "Detailed skill breakdown"],
     cta: "Start Free Test",
     link: "/test",
-    color: "from-purple-500 to-pink-600",
+    color: "from-purple-500 to-indigo-600",
     colorHex: "#a855f7",
     lexiScript: "This is where the magic begins! Our CEFR test covers all six skills — grammar, vocabulary, reading, listening, speaking, and writing. The AI adapts to your level as you go, so don't worry if you're a beginner or advanced. You'll get instant results with a detailed breakdown of your strengths and areas to improve.",
     duration: "15-20 minutes",
@@ -106,8 +106,8 @@ const TOUR_STEPS: TourStep[] = [
     features: ["Find language partners", "Live voice rooms", "Global chatrooms", "Study groups & moments"],
     cta: "Join Community",
     link: "/community",
-    color: "from-rose-500 to-red-600",
-    colorHex: "#f43f5e",
+    color: "from-blue-500 to-indigo-600",
+    colorHex: "#3b82f6",
     lexiScript: "You're not alone in this journey! Our community has thousands of learners from around the world. Find a study partner at your level, join live voice rooms to practice speaking, or jump into the global chatroom. You can even share your learning moments and celebrate achievements together.",
     duration: "Anytime",
   },
@@ -134,7 +134,7 @@ const FEATURE_HIGHLIGHTS = [
   { icon: <Brain size={20} />, title: "AI-Powered Assessment", desc: "Adaptive testing across 6 CEFR skills with instant results", color: "text-purple-400", glow: "rgba(168,85,247,0.15)" },
   { icon: <Mic size={20} />, title: "Voice-First Practice", desc: "Speak with Lexi — get real-time pronunciation & grammar feedback", color: "text-cyan-400", glow: "rgba(6,182,212,0.15)" },
   { icon: <BookOpen size={20} />, title: "150+ Structured Lessons", desc: "Video lessons, vocabulary, quizzes — Beginner to Advanced", color: "text-emerald-400", glow: "rgba(16,185,129,0.15)" },
-  { icon: <Users size={20} />, title: "Global Community", desc: "Language partners, live voice rooms, study groups, chatrooms", color: "text-rose-400", glow: "rgba(244,63,94,0.15)" },
+  { icon: <Users size={20} />, title: "Global Community", desc: "Language partners, live voice rooms, study groups, chatrooms", color: "text-blue-400", glow: "rgba(59,130,246,0.15)" },
   { icon: <Award size={20} />, title: "Verified Certificates", desc: "QR-verified PDF certificates recognized by employers worldwide", color: "text-amber-400", glow: "rgba(245,158,11,0.15)" },
   { icon: <Shield size={20} />, title: "CEFR Aligned", desc: "All content follows the Common European Framework A1-C2", color: "text-indigo-400", glow: "rgba(99,102,241,0.15)" },
 ];
@@ -509,7 +509,7 @@ export default function QuickTourPage() {
           className="h-full transition-all duration-150 ease-out"
           style={{
             width: `${scrollProgress * 100}%`,
-            background: "linear-gradient(90deg, #06b6d4, #8b5cf6, #ec4899, #06b6d4)",
+            background: "linear-gradient(90deg, #06b6d4, #8b5cf6, #3b82f6, #06b6d4)",
             backgroundSize: "200% 100%",
             animation: "shimmerBar 3s linear infinite",
           }}
@@ -934,7 +934,7 @@ export default function QuickTourPage() {
       <style>{`
         /* Gradient text animation */
         .animated-gradient-text {
-          background: linear-gradient(90deg, #06b6d4, #8b5cf6, #ec4899, #06b6d4);
+          background: linear-gradient(90deg, #06b6d4, #8b5cf6, #3b82f6, #06b6d4);
           background-size: 300% 100%;
           -webkit-background-clip: text;
           background-clip: text;
