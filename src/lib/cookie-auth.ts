@@ -7,6 +7,7 @@ const REFRESH_TOKEN_COOKIE = 'refresh_token';
 // Vercel always terminates TLS, so NODE_ENV=production implies HTTPS.
 // For non-Vercel deployments behind a reverse proxy, set COOKIE_SECURE=true.
 // In local development (HTTP), Secure cookies would never be sent by the browser.
+// COOKIE_SECURE is now set in the Vercel Dashboard for redundancy.
 const IS_HTTPS = process.env.COOKIE_SECURE === 'true' || process.env.NODE_ENV === 'production';
 
 const ACCESS_COOKIE_OPTIONS = {
