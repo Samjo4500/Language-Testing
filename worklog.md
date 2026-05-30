@@ -62,3 +62,26 @@ Stage Summary:
 - 4 pages modified for integration (homepage, register, login, community)
 - All voice features use free browser Web Speech API (no costs)
 - Avatar image placed at /public/lexi-avatar.png
+
+---
+Task ID: 4
+Agent: Main Agent
+Task: Add YouTube videos for ALL 150 lessons — eliminate all Lexi audio fallbacks
+
+Work Log:
+- Recovered 150 YouTube video URLs from old git commit (ca77143)
+- Verified all 150 via YouTube oEmbed API: 142 working, 8 broken (404/401)
+- Found 8 replacement verified videos from BBC Learning English, Oxford Online English, mmmEnglish, English with Lucy
+- Replaced 8 broken URLs with verified replacements
+- Converted all 142 youtube.com/watch?v= URLs to /embed/ format
+- Result: 150 lessons with video URLs, 0 null — EVERY lesson now has a YouTube video
+- Recreated AudioLessonPlayer.tsx component (was missing from current file tree)
+- Updated VideoEmbed.tsx with oEmbed auto-detection + backward-compatible props
+- Build succeeded, deployed to testcefr.com (Production: READY)
+
+Stage Summary:
+- ALL 150 lessons now have verified YouTube video embeds (was 24 before, now 150)
+- 0 lessons with null videoUrl — complete coverage
+- oEmbed pre-check auto-detects any future broken videos and falls back to Lexi audio
+- AudioLessonPlayer.tsx recreated as fallback component
+- Live at testcefr.com
