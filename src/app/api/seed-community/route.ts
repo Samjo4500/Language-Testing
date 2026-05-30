@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { seedCommunity } from '@/lib/seed-community';
-import { getAuthUser } from '@/lib/auth-middleware';
+import { getAuthUser, requireAdmin } from '@/lib/auth-middleware';
 
 // POST: Seed community with fake tutors and chat messages
 // This endpoint is idempotent - safe to call multiple times
@@ -13,8 +13,10 @@ export async function POST(request: NextRequest) {
   try {
     const authUser = getAuthUser(request);
     if (!authUser) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized — admin authentication required for seeding.' }, { status: 401 });
     }
+    const adminError = requireAdmin(authUser);
+    if (adminError) return adminError;
 
     const result = await seedCommunity();
 

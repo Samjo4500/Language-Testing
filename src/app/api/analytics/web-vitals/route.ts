@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { webVitalsLimiter } from '@/lib/rate-limit';
 
 /**
  * POST /api/analytics/web-vitals
@@ -10,6 +11,10 @@ import { NextRequest, NextResponse } from 'next/server';
  * (e.g., Vercel Analytics, PostHog, Datadog).
  */
 export async function POST(request: NextRequest) {
+  // Rate limit to prevent spam
+  const limitError = webVitalsLimiter(request);
+  if (limitError) return limitError;
+
   try {
     const metric = await request.json();
 

@@ -107,13 +107,10 @@ export async function POST(request: NextRequest) {
     const isValid = await verifyWebhookToken(body, authHeader);
 
     if (!isValid) {
-      // In development, allow unverified webhooks for testing
-      if (process.env.NODE_ENV === 'development') {
-        console.warn('[LiveKit Webhook] Skipping signature verification in development mode');
-      } else {
-        console.error('[LiveKit Webhook] Invalid signature — rejecting webhook');
-        return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
-      }
+      // NEVER skip signature verification — even in development.
+      // Without verification, anyone could send fake room events to manipulate data.
+      console.error('[LiveKit Webhook] Invalid signature — rejecting webhook. Ensure LIVEKIT_API_KEY and LIVEKIT_API_SECRET are set.');
+      return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
     }
 
     // Parse the webhook body

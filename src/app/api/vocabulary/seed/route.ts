@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { getAuthUser } from '@/lib/auth-middleware';
+import { getAuthUser, requireAdmin } from '@/lib/auth-middleware';
 
 // ═══════════════════════════════════════════════════════════════
 // COMPREHENSIVE VOCABULARY SEED DATA
@@ -263,27 +263,16 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    // ── Auth check ──
+    // ── Auth check — always require admin ──
     const user = getAuthUser(request);
-
-    // Only allow in development or with admin auth
-    const isDev = process.env.NODE_ENV === 'development';
-    const isAdmin = user?.role === 'admin';
-    const isAuthed = !!user;
-
-    if (!isDev && !isAdmin) {
+    if (!user) {
       return NextResponse.json(
-        { error: 'Forbidden. This endpoint is only available in development or for admin users.' },
-        { status: 403 }
-      );
-    }
-
-    if (!isAuthed && !isDev) {
-      return NextResponse.json(
-        { error: 'Unauthorized. Please sign in to use this endpoint.' },
+        { error: 'Unauthorized — admin authentication required for seeding.' },
         { status: 401 }
       );
     }
+    const adminError = requireAdmin(user);
+    if (adminError) return adminError;
 
     let created = 0;
     let skipped = 0;

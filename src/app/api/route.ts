@@ -1,5 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
 
 export async function GET() {
-  return NextResponse.json({ message: "Hello, world!" });
+  // Intentionally returns minimal info — do not expose stack, version, or env details.
+  return NextResponse.json({ status: 'ok' });
 }

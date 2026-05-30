@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verifyToken, generateTokens } from '@/lib/auth';
 import { db } from '@/lib/db';
 import { setAuthCookies } from '@/lib/cookie-auth';
+import { tokenRefreshLimiter } from '@/lib/rate-limit';
 
 /**
  * POST /api/auth/refresh
@@ -16,6 +17,10 @@ import { setAuthCookies } from '@/lib/cookie-auth';
  *    limiting the window of exploitation if a refresh token is compromised.
  */
 export async function POST(request: NextRequest) {
+  // Rate limit token refresh to prevent abuse
+  const limitError = tokenRefreshLimiter(request);
+  if (limitError) return limitError;
+
   try {
     // Priority 1: Read refresh token from HttpOnly cookie
     // Priority 2: Fall back to Authorization header (backward compatibility)

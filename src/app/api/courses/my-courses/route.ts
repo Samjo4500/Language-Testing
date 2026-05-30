@@ -3,7 +3,11 @@ import { getAuthUser } from '@/lib/auth-middleware';
 import { db } from '@/lib/db';
 import { STATIC_COURSES, STATIC_MODULES_BY_COURSE_ID, STATIC_LESSONS_BY_MODULE_ID } from '@/lib/static-course-data';
 
-const SANDBOX_MODE = process.env.NEXT_PUBLIC_SANDBOX_MODE === 'true';
+// Sandbox mode: allows unauthenticated course access for preview/demo.
+// Uses SANDBOX_MODE (server-only env var) — NOT NEXT_PUBLIC_SANDBOX_MODE.
+// The NEXT_PUBLIC_ prefix would expose this security-sensitive flag to the client bundle.
+// In production, sandbox mode is ALWAYS disabled regardless of env var value.
+const SANDBOX_MODE = process.env.NODE_ENV !== 'production' && process.env.SANDBOX_MODE === 'true';
 
 // Static fallback course data for when database is unavailable (e.g. Vercel without DB)
 function getStaticCourseEnrollments() {
@@ -142,7 +146,14 @@ export async function GET(request: NextRequest) {
     }
 
     if (!user) {
-      // No auth token — try DB first; if DB fails, return static fallback
+      // Not authenticated and not in sandbox mode → require auth
+      if (!SANDBOX_MODE) {
+        return NextResponse.json(
+          { error: 'Authentication required. Please log in to view your courses.' },
+          { status: 401 }
+        );
+      }
+      // Sandbox mode — try DB first; if DB fails, return static fallback
       try {
         const courses = await db.course.findMany({
           where: { isPublished: true },

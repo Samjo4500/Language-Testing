@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
-import { getAuthUser } from '@/lib/auth-middleware';
+import { getAuthUser, requireAdmin } from '@/lib/auth-middleware';
 
 const VOCAB_DATA = [
   // ═══════════════════════════════════════════
@@ -197,8 +197,10 @@ export async function POST(request: NextRequest) {
   try {
     const user = getAuthUser(request);
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized — admin authentication required for seeding.' }, { status: 401 });
     }
+    const adminError = requireAdmin(user);
+    if (adminError) return adminError;
 
     let created = 0;
     let skipped = 0;

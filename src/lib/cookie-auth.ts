@@ -3,8 +3,10 @@ import { NextResponse } from 'next/server';
 const ACCESS_TOKEN_COOKIE = 'access_token';
 const REFRESH_TOKEN_COOKIE = 'refresh_token';
 
-// Use secure cookies in production (HTTPS) or when explicitly opted in.
-// In development (HTTP), secure cookies would never be sent by the browser.
+// Force Secure flag in production (HTTPS) or when explicitly opted in via COOKIE_SECURE.
+// Vercel always terminates TLS, so NODE_ENV=production implies HTTPS.
+// For non-Vercel deployments behind a reverse proxy, set COOKIE_SECURE=true.
+// In local development (HTTP), Secure cookies would never be sent by the browser.
 const IS_HTTPS = process.env.COOKIE_SECURE === 'true' || process.env.NODE_ENV === 'production';
 
 const ACCESS_COOKIE_OPTIONS = {
@@ -18,7 +20,7 @@ const ACCESS_COOKIE_OPTIONS = {
 const REFRESH_COOKIE_OPTIONS = {
   httpOnly: true,
   secure: IS_HTTPS,
-  sameSite: 'lax' as const,
+  sameSite: 'strict' as const, // Stricter than access cookie — refresh only sent on same-site requests
   path: '/',
   maxAge: 60 * 60 * 24 * 30, // 30 days
 };

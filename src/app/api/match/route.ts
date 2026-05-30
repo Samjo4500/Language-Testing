@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
       // Generate tokens for both users
       const token2 = await generateToken(user.userId, '', roomName, 'participant', JSON.stringify({ matchId: waitingMatch.id }));
 
-      const livekitUrl = process.env.NEXT_PUBLIC_LIVEKIT_URL || '';
+      const livekitUrl = process.env.LIVEKIT_URL || process.env.NEXT_PUBLIC_LIVEKIT_URL || '';
 
       return NextResponse.json({
         status: 'matched',
@@ -120,7 +120,7 @@ export async function GET(request: NextRequest) {
       ? await db.oneOnOneMatch.count({ where: { status: 'waiting', startedAt: { lte: match.startedAt } } })
       : 0;
 
-    const livekitUrl = process.env.NEXT_PUBLIC_LIVEKIT_URL || '';
+    const livekitUrl = process.env.LIVEKIT_URL || process.env.NEXT_PUBLIC_LIVEKIT_URL || '';
 
     return NextResponse.json({
       status: match.status,

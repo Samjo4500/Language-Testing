@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { getAuthUser, requireAdmin } from '@/lib/auth-middleware';
 import { hashPassword } from '@/lib/auth';
+import crypto from 'crypto';
 
 // ─── Profile Data ─────────────────────────────────────────
 
@@ -184,22 +185,18 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    // Allow seeding without admin auth for initial setup (if < 10 profiles exist)
-    // This ensures the Community feature is populated on first deployment
-    const existingProfileCount = await db.languageProfile.count();
-    const isInitialSetup = existingProfileCount < 10;
-
-    if (!isInitialSetup) {
-      // Require admin auth for re-seeding
-      const authUser = getAuthUser(request);
-      if (!authUser) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-      }
-      const adminError = requireAdmin(authUser);
-      if (adminError) return adminError;
+    // ALWAYS require admin auth — even for initial setup.
+    // This prevents unauthenticated users from creating accounts with known passwords.
+    const authUser = getAuthUser(request);
+    if (!authUser) {
+      return NextResponse.json({ error: 'Unauthorized — admin authentication required for seeding.' }, { status: 401 });
     }
+    const adminError = requireAdmin(authUser);
+    if (adminError) return adminError;
 
-    const passwordHash = await hashPassword('Community123!');
+    // Generate a unique random password for seed users — never use hardcoded passwords
+    const seedPassword = crypto.randomBytes(16).toString('base64url');
+    const passwordHash = await hashPassword(seedPassword);
 
     let usersCreated = 0;
     let profilesCreated = 0;

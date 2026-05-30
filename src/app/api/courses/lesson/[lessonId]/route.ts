@@ -3,7 +3,11 @@ import { getAuthUser } from '@/lib/auth-middleware';
 import { db } from '@/lib/db';
 import { buildStaticLessonDetail } from '@/lib/generate-lesson-content';
 
-const SANDBOX_MODE = process.env.NEXT_PUBLIC_SANDBOX_MODE === 'true';
+// Sandbox mode: allows unauthenticated lesson access for preview/demo.
+// Uses SANDBOX_MODE (server-only env var) — NOT NEXT_PUBLIC_SANDBOX_MODE.
+// The NEXT_PUBLIC_ prefix would expose this security-sensitive flag to the client bundle.
+// In production, sandbox mode is ALWAYS disabled regardless of env var value.
+const SANDBOX_MODE = process.env.NODE_ENV !== 'production' && process.env.SANDBOX_MODE === 'true';
 
 // GET /api/courses/lesson/[lessonId]/ — Get lesson content
 // In SANDBOX_MODE: accessible without auth (read-only preview)

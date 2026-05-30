@@ -36,7 +36,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       JSON.stringify({ role, roomId: id, roomType: room.type }),
     );
 
-    const livekitUrl = process.env.NEXT_PUBLIC_LIVEKIT_URL || '';
+    const livekitUrl = process.env.LIVEKIT_URL || process.env.NEXT_PUBLIC_LIVEKIT_URL || '';
 
     return NextResponse.json({
       token,

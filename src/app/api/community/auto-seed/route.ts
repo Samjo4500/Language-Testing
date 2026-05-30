@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { hashPassword } from '@/lib/auth';
 import { getAuthUser, requireAdmin } from '@/lib/auth-middleware';
+import crypto from 'crypto';
 
 // POST /api/community/auto-seed
 // Automatically seeds community profiles if the platform has fewer than 10 profiles.
@@ -13,16 +14,17 @@ export async function POST(request: NextRequest) {
   }
 
   try {
+    // ALWAYS require admin auth — prevent unauthenticated seeding.
+    const authUser = getAuthUser(request);
+    if (!authUser) {
+      return NextResponse.json({ error: 'Unauthorized — admin authentication required for seeding.' }, { status: 401 });
+    }
+    const adminError = requireAdmin(authUser);
+    if (adminError) return adminError;
+
     const existingCount = await db.languageProfile.count();
 
     if (existingCount >= 10) {
-      // Require admin auth for re-seeding
-      const authUser = getAuthUser(request);
-      if (!authUser) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-      }
-      const adminError = requireAdmin(authUser);
-      if (adminError) return adminError;
 
       return NextResponse.json({
         seeded: false,
@@ -31,8 +33,9 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Seed 50 community profiles
-    const passwordHash = await hashPassword('Community123!');
+    // Generate a unique random password for seed users — never use hardcoded passwords
+    const seedPassword = crypto.randomBytes(16).toString('base64url');
+    const passwordHash = await hashPassword(seedPassword);
 
     const names = ['Sofia', 'Lucas', 'Emma', 'Kenji', 'Aisha', 'Omar', 'Maria', 'Hugo', 'Yuki', 'Min-jae',
       'Wei', 'Chen', 'Isabella', 'Mateo', 'Priya', 'Raj', 'Elena', 'Ivan', 'Fatima', 'Ali',

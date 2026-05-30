@@ -1,5 +1,6 @@
 import { db } from '@/lib/db';
 import { hashPassword } from '@/lib/auth';
+import crypto from 'crypto';
 
 // ─── Tutor definitions ─────────────────────────────────────
 const TUTOR_DEFINITIONS = [
@@ -343,7 +344,9 @@ export async function seedCommunity(): Promise<SeedResult> {
   }
 
   // 2. Create tutor users (idempotent - check by email)
-  const passwordHash = await hashPassword('Tutor123!');
+  // Generate a unique random password for seed tutors — never use hardcoded passwords
+  const tutorPassword = crypto.randomBytes(16).toString('base64url');
+  const passwordHash = await hashPassword(tutorPassword);
   const tutorUsers: Array<{ id: string; name: string; avatarUrl: string | null }> = [];
 
   for (const tutor of TUTOR_DEFINITIONS) {

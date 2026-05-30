@@ -65,3 +65,7 @@ export const aiEvalLimiter = rateLimit({ windowMs: 60 * 1000, maxRequests: 10 })
 export const assessmentLimiter = rateLimit({ windowMs: 60 * 1000, maxRequests: 5 });   // 5 assessment starts per min
 export const adminLimiter = rateLimit({ windowMs: 60 * 1000, maxRequests: 60 });       // 60 admin API calls per min
 export const paymentLimiter = rateLimit({ windowMs: 60 * 1000, maxRequests: 5 });       // 5 payment requests per min
+export const tokenRefreshLimiter = rateLimit({ windowMs: 60 * 1000, maxRequests: 30 }); // 30 refreshes per min
+export const certificateLimiter = rateLimit({ windowMs: 60 * 1000, maxRequests: 10 });  // 10 cert downloads per min
+export const webVitalsLimiter = rateLimit({ windowMs: 60 * 1000, maxRequests: 30 });    // 30 web vitals per min
+export const ttsLimiter = rateLimit({ windowMs: 60 * 1000, maxRequests: 10 });         // 10 TTS requests per min

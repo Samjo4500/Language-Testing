@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateCertificatePDF, generateCourseCertificatePDF } from '@/lib/certificate/pdf-generator';
 import { db } from '@/lib/db';
+import { certificateLimiter } from '@/lib/rate-limit';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,6 +10,10 @@ export async function GET(
   { params }: { params: Promise<{ verificationId: string }> }
 ) {
   try {
+    // Rate limit certificate downloads to prevent abuse/scraping
+    const limitError = certificateLimiter(request);
+    if (limitError) return limitError;
+
     const { verificationId } = await params;
 
     // Find the certificate
