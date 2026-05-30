@@ -21,3 +21,17 @@ export function sanitizeHtml(dirty: string): string {
     ALLOW_DATA_ATTR: false,
   });
 }
+
+/**
+ * Escape HTML entities in a string — strips all HTML capability.
+ * Use for plain-text user input (moments, comments, bios, names)
+ * to prevent XSS when content is rendered in the browser.
+ */
+export function escapeHtml(unsafe: string): string {
+  return unsafe
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}

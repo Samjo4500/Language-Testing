@@ -3,10 +3,9 @@ import { NextResponse } from 'next/server';
 const ACCESS_TOKEN_COOKIE = 'access_token';
 const REFRESH_TOKEN_COOKIE = 'refresh_token';
 
-// Use secure cookies only when the site is served over HTTPS.
-// When behind an HTTP proxy (e.g. Caddy on port 81 without TLS),
-// secure cookies will NEVER be sent by the browser, breaking auth entirely.
-const IS_HTTPS = process.env.COOKIE_SECURE === 'true';
+// Use secure cookies in production (HTTPS) or when explicitly opted in.
+// In development (HTTP), secure cookies would never be sent by the browser.
+const IS_HTTPS = process.env.COOKIE_SECURE === 'true' || process.env.NODE_ENV === 'production';
 
 const ACCESS_COOKIE_OPTIONS = {
   httpOnly: true,

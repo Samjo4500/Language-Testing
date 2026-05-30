@@ -199,7 +199,11 @@ export function NotificationBell() {
       if (!notif.isRead) handleMarkOneRead(notif.id);
       setIsOpen(false);
       if (notif.actionUrl) {
-        router.push(notif.actionUrl);
+        // Prevent open redirect — only allow internal paths
+        const url = notif.actionUrl;
+        if (url.startsWith('/') && !url.startsWith('//')) {
+          router.push(url);
+        }
       }
     },
     [handleMarkOneRead, router]

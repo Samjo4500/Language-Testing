@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { getAuthUser } from '@/lib/auth-middleware';
+import { escapeHtml } from '@/lib/sanitize';
 
 export async function GET(request: NextRequest) {
   try {
@@ -110,14 +111,23 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'Avatar image is too large. Maximum size is 2MB.' }, { status: 400 });
     }
 
+    // Validate avatar MIME type (prevent SVG/XSS uploads)
+    if (avatarUrl && avatarUrl.startsWith('data:')) {
+      const allowedMimes = ['data:image/jpeg', 'data:image/png', 'data:image/gif', 'data:image/webp'];
+      const mimeMatch = avatarUrl.substring(0, avatarUrl.indexOf(';'));
+      if (!allowedMimes.some((m) => mimeMatch.startsWith(m))) {
+        return NextResponse.json({ error: 'Invalid image format. Allowed: JPEG, PNG, GIF, WebP.' }, { status: 400 });
+      }
+    }
+
     // Build update data
     const updateData: Record<string, unknown> = {};
-    if (name !== undefined) updateData.name = name || null;
+    if (name !== undefined) updateData.name = name ? escapeHtml(name.trim()) : null;
     if (avatarUrl !== undefined) updateData.avatarUrl = avatarUrl || null;
     if (phone !== undefined) updateData.phone = phone || null;
     if (gender !== undefined) updateData.gender = gender || null;
     if (dateOfBirth !== undefined) updateData.dateOfBirth = dateOfBirth ? new Date(dateOfBirth) : null;
-    if (bio !== undefined) updateData.bio = bio || null;
+    if (bio !== undefined) updateData.bio = bio ? escapeHtml(bio.trim()) : null;
     if (englishLevel !== undefined) updateData.englishLevel = englishLevel || null;
     if (occupation !== undefined) updateData.occupation = occupation || null;
     if (country !== undefined) updateData.country = country || null;

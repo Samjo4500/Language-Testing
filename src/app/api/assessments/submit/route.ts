@@ -4,9 +4,14 @@ import { getAuthUser, verifyTokenVersion } from '@/lib/auth-middleware';
 import { send as sendBrandedTestResults } from '@/lib/email/templates/test-results';
 import { enqueueNurtureSequence } from '@/lib/email-queue';
 import type { NurturePayload } from '@/lib/email-queue';
+import { assessmentLimiter } from '@/lib/rate-limit';
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limit: max 5 assessment submissions per minute
+    const rateLimitError = assessmentLimiter(request);
+    if (rateLimitError) return rateLimitError;
+
     const authResult = getAuthUser(request);
     if (!authResult) {
       return NextResponse.json(

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { getAuthUser } from '@/lib/auth-middleware';
+import { escapeHtml } from '@/lib/sanitize';
 
 // GET: List comments for a moment
 export async function GET(
@@ -85,9 +86,9 @@ export async function POST(
       data: {
         momentId,
         userId: user.userId,
-        content: content.trim(),
+        content: escapeHtml(content.trim()),
         isCorrection: isCorrection || false,
-        correctedText: correctedText || null,
+        correctedText: correctedText ? escapeHtml(correctedText.trim()) : null,
       },
       include: {
         user: {

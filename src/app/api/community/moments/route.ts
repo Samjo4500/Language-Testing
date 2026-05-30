@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { getAuthUser } from '@/lib/auth-middleware';
+import { escapeHtml } from '@/lib/sanitize';
 
 // GET: List moments (paginated, newest first)
 export async function GET(request: NextRequest) {
@@ -115,7 +116,7 @@ export async function POST(request: NextRequest) {
     const moment = await db.moment.create({
       data: {
         userId: user.userId,
-        content: content.trim(),
+        content: escapeHtml(content.trim()),
         imageUrl: imageUrl || null,
         audioUrl: audioUrl || null,
         language: language || null,

@@ -27,7 +27,13 @@ if (!JWT_SECRET_STRING && process.env.NODE_ENV === 'production') {
 const JWT_SECRET = new TextEncoder().encode(JWT_SECRET_STRING);
 
 // Routes that require authentication
-const PROTECTED_ROUTES = ['/dashboard', '/test', '/payment-success'];
+const PROTECTED_ROUTES = [
+  '/dashboard', '/test', '/payment-success',
+  '/community', '/speakspace', '/practice', '/challenges',
+  '/settings', '/profile', '/vocabulary', '/progress',
+  '/learn', '/ai-tutor', '/courses', '/path',
+  '/speaking', '/writing', '/offline',
+];
 
 // Routes that require admin role
 const ADMIN_ROUTES = ['/admin'];

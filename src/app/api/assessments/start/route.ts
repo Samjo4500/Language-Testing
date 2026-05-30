@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { getAuthUser, verifyTokenVersion } from '@/lib/auth-middleware';
 import { selectQuestions } from '@/lib/question-selection';
+import { assessmentLimiter } from '@/lib/rate-limit';
 
 /**
  * GET /api/assessments/start
@@ -30,6 +31,10 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limit: max 5 assessment starts per minute
+    const rateLimitError = assessmentLimiter(request);
+    if (rateLimitError) return rateLimitError;
+
     const authResult = getAuthUser(request);
     if (!authResult) {
       return NextResponse.json(
