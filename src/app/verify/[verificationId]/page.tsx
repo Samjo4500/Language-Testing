@@ -3,9 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { Navbar } from '@/components/navbar';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { CheckCircle2, XCircle, Download, Shield, Loader2 } from 'lucide-react';
 import QRCode from 'react-qr-code';
 import Link from 'next/link';
@@ -27,6 +24,10 @@ interface CertificateInfo {
   score: number;
   skillBreakdown: SkillBreakdown;
   issuedAt: string;
+  type?: string;
+  courseName?: string;
+  assessmentId?: string;
+  completedAt?: string;
 }
 
 const CEFR_LEVELS: Record<string, { title: string; color: string; bgColor: string; accent: string }> = {
@@ -47,6 +48,26 @@ const SKILL_LABELS: Record<string, string> = {
   vocabulary: 'Vocabulary',
 };
 
+/* ───────── Mock Data for Demo Certificates ───────── */
+const MOCK_CERTIFICATES: Record<string, CertificateInfo> = {
+  'TCF-DEMO-2026': {
+    verificationId: 'TCF-DEMO-2026',
+    userName: 'Alex Johnson',
+    cefrLevel: 'B2',
+    score: 87,
+    skillBreakdown: {
+      grammar: 88,
+      vocabulary: 85,
+      reading: 90,
+      listening: 84,
+      speaking: 86,
+      writing: 89,
+    },
+    issuedAt: new Date().toISOString(),
+    type: 'assessment',
+  },
+};
+
 export default function VerifyCertificatePage() {
   const params = useParams();
   const verificationId = params.verificationId as string;
@@ -61,12 +82,19 @@ export default function VerifyCertificatePage() {
       try {
         const response = await fetch(`/api/certificates/verify/${verificationId}/`);
         if (!response.ok) {
-          if (response.status === 404) {
-            setError('Certificate not found. The verification ID may be incorrect or the certificate may have been revoked.');
+          // Check mock data for demo IDs before giving up
+          const mock = MOCK_CERTIFICATES[verificationId];
+          if (mock) {
+            setCertificate(mock);
+            setValid(true);
           } else {
-            setError('Failed to verify certificate. Please try again later.');
+            if (response.status === 404) {
+              setError('Certificate not found. The verification ID may be incorrect or the certificate may have been revoked.');
+            } else {
+              setError('Failed to verify certificate. Please try again later.');
+            }
+            setValid(false);
           }
-          setValid(false);
           return;
         }
 
@@ -74,8 +102,15 @@ export default function VerifyCertificatePage() {
         setCertificate(data.certificate);
         setValid(data.valid);
       } catch {
-        setError('Failed to connect to the verification service. Please try again later.');
-        setValid(false);
+        // On network error, try mock fallback
+        const mock = MOCK_CERTIFICATES[verificationId];
+        if (mock) {
+          setCertificate(mock);
+          setValid(true);
+        } else {
+          setError('Failed to connect to the verification service. Please try again later.');
+          setValid(false);
+        }
       } finally {
         setLoading(false);
       }

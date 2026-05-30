@@ -59,7 +59,7 @@ export default function RegistrationGuide({
         id: i,
         x: Math.random() * 100,
         delay: Math.random() * 2,
-        color: ["#06b6d4", "#3b82f6", "#8b5cf6", "#22c55e", "#f59e0b", "#ec4899"][Math.floor(Math.random() * 6)],
+        color: ["#06b6d4", "#3b82f6", "#8b5cf6", "#22c55e", "#f59e0b", "#6366f1"][Math.floor(Math.random() * 6)],
       }));
       setConfetti(pieces);
     }

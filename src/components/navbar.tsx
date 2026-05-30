@@ -42,13 +42,13 @@ const CEFR_ITEMS = [
 const COURSE_ITEMS = [
   { href: '/courses?level=a1', label: 'Beginners', icon: GraduationCap, description: 'A1 & A2 foundational courses', tag: 'A1-A2', gradient: 'from-green-500/20 to-emerald-500/20', iconColor: 'text-green-400' },
   { href: '/courses?level=b1', label: 'Intermediate', icon: BookOpen, description: 'B1 & B2 proficiency courses', tag: 'B1-B2', gradient: 'from-blue-500/20 to-cyan-500/20', iconColor: 'text-blue-400' },
-  { href: '/courses?level=c1', label: 'Advanced', icon: Trophy, description: 'C1 & C2 mastery courses', tag: 'C1-C2', gradient: 'from-purple-500/20 to-pink-500/20', iconColor: 'text-purple-400' },
+  { href: '/courses?level=c1', label: 'Advanced', icon: Trophy, description: 'C1 & C2 mastery courses', tag: 'C1-C2', gradient: 'from-indigo-500/20 to-violet-500/20', iconColor: 'text-indigo-400' },
 ];
 
 // Learn Tools dropdown items
 const LEARN_ITEMS = [
   { href: '/ai-tutor', label: 'Lexi AI', icon: MessageSquare, description: 'Practice with AI conversation partner', tag: 'AI', gradient: 'from-cyan-500/20 to-blue-500/20', iconColor: 'text-cyan-400' },
-  { href: '/grammar-check', label: 'Grammar Checker', icon: PenLine, description: 'Check your writing for errors', tag: 'AI', gradient: 'from-rose-500/20 to-pink-500/20', iconColor: 'text-rose-400' },
+  { href: '/grammar-check', label: 'Grammar Checker', icon: PenLine, description: 'Check your writing for errors', tag: 'AI', gradient: 'from-blue-500/20 to-indigo-500/20', iconColor: 'text-blue-400' },
   { href: '/vocabulary', label: 'Vocabulary Trainer', icon: Brain, description: 'Learn words with spaced repetition', tag: '', gradient: 'from-violet-500/20 to-indigo-500/20', iconColor: 'text-violet-400' },
   { href: '/practice/vocabulary', label: 'Vocabulary Practice', icon: Sparkles, description: 'Fill-in-the-gap exercises by level', tag: 'NEW', gradient: 'from-emerald-500/20 to-teal-500/20', iconColor: 'text-emerald-400' },
 ];
