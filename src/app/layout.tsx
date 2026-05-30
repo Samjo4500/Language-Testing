@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'TestCEFR', url: siteUrl }],
   creator: 'TestCEFR',
-  publisher: 'TestCEFR',
+  publisher: "TestCEFR",
   robots: {
     index: true,
     follow: true,
