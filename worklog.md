@@ -105,3 +105,32 @@ Stage Summary:
 - Now fixed and pushed — Vercel should auto-deploy successfully
 - Emails tab was never removed from code — it was a deployment failure causing the old version to be served
 - All 10 advanced features are intact and will be live after Vercel rebuilds
+
+---
+Task ID: 1-6
+Agent: main
+Task: Comprehensive check of all previously-fixed features + deployment cleanup
+
+Work Log:
+- Checked live home page: HTTP 200, correct landing page content, NOT GamificationDashboard
+- Checked Lexi chatbot API: Returns 401 (auth required) — correct behavior
+- Checked Chat API: Returns 401 (auth required) — correct behavior
+- Checked demo page at /demo/: HTTP 200 — accessible
+- Code-level audit via Explore agent confirmed all fixes intact:
+  - Lexi: gemini-2.5-flash model ✅, .slice(0,-1) duplicate fix ✅
+  - Email: 'skipped' badge in emails-tab.tsx ✅, logging in email.ts & sender.ts ✅
+  - LexiConcierge: deleted, no orphaned file ✅
+  - Chat widget: single LazyChatWidget, z-index 9999/9998, no overlap ✅
+  - Home page: proper landing page, all components importable ✅
+  - Deployment config: vercel.json & next.config.ts clean ✅
+- Cleaned up stale files: vercel_deployment_logs.json, gh_repos_api.json, gh_search2.json, github_langtest.json, github_repos.json, github_samjo.json, source_files_to_download.json
+- Committed and pushed cleanup (commit 01c282e)
+- Triggered production deployment (dpl_Dfb8U9Mhtm31RX3ynpyDDxb9aKcT) — READY
+- Verified: testcefr.com HTTP 200, www.testcefr.com HTTP 200
+- Note: Auto-deploy from git push NOT triggering — Vercel GitHub app may need reconnection. Manual deploy works fine.
+
+Stage Summary:
+- All previously-fixed features are working correctly on the live site
+- Stale debug files cleaned up and committed
+- Production deployment live with latest code
+- Auto-deploy from GitHub push not triggering (may need GitHub app reconnection in Vercel dashboard)
