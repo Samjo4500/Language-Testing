@@ -148,8 +148,8 @@ export const STATIC_MODULES: StaticModule[] = [
     id: "static-int-m4",
     courseId: "static-intermediate",
     moduleNumber: 4,
-    title: "Professional Communication",
-    description: "Develop professional communication skills for writing, presentations, and workplace interactions.",
+    title: "Professional & Academic",
+    description: "Develop professional and academic English skills for writing, presentations, and communication.",
     icon: "Briefcase",
     order: 3,
   },
@@ -217,10 +217,10 @@ export const STATIC_LESSONS: StaticLesson[] = [
     moduleId: "static-beg-m1",
     lessonNumber: 1,
     title: "Present Simple Tense",
-    contentType: "video",
+    contentType: "grammar",
     estimatedMinutes: 10,
     order: 0,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/nvVdIJ0las0",
   },
   {
     id: "static-beg-m1-l2",
@@ -230,7 +230,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 1,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/HrG3WXJheyQ",
   },
   {
     id: "static-beg-m1-l3",
@@ -240,7 +240,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 2,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/RDkx4J__-QY",
   },
   {
     id: "static-beg-m1-l4",
@@ -250,7 +250,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 3,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/RQ0Qqarel-U",
   },
   {
     id: "static-beg-m1-l5",
@@ -260,7 +260,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 10,
     order: 4,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/AKXDr2uoYfg",
   },
   {
     id: "static-beg-m1-l6",
@@ -270,7 +270,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 5,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/24GWC1dDyUM",
   },
   {
     id: "static-beg-m1-l7",
@@ -280,7 +280,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 6,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/jkNt2LT2s-o",
   },
   {
     id: "static-beg-m1-l8",
@@ -290,7 +290,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 7,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/nsBneISa-Y0",
   },
   {
     id: "static-beg-m1-l9",
@@ -300,7 +300,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 8,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/KJCKugsb9jw",
   },
   {
     id: "static-beg-m1-l10",
@@ -310,7 +310,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 10,
     order: 9,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/UnEmEbWytI8",
   },
 
   // ===== BEGINNER M2: Everyday Communication =====
@@ -319,10 +319,10 @@ export const STATIC_LESSONS: StaticLesson[] = [
     moduleId: "static-beg-m2",
     lessonNumber: 1,
     title: "Ordering Food and Drinks",
-    contentType: "video",
+    contentType: "grammar",
     estimatedMinutes: 12,
     order: 0,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/gEdPVA-6rVs",
   },
   {
     id: "static-beg-m2-l2",
@@ -332,7 +332,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 12,
     order: 1,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/hKLhepR2KY4",
   },
   {
     id: "static-beg-m2-l3",
@@ -342,7 +342,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 12,
     order: 2,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/waN0cJ2S2Xk",
   },
   {
     id: "static-beg-m2-l4",
@@ -352,7 +352,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 12,
     order: 3,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/TXbYTtHAFlo",
   },
   {
     id: "static-beg-m2-l5",
@@ -362,7 +362,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 12,
     order: 4,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/7bdRcIpN1jU",
   },
   {
     id: "static-beg-m2-l6",
@@ -372,7 +372,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 5,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/HBhftNOBxS4",
   },
   {
     id: "static-beg-m2-l7",
@@ -382,7 +382,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 6,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/9SKYec6UlnI",
   },
   {
     id: "static-beg-m2-l8",
@@ -392,7 +392,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 7,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/dH7LF_bbHu0",
   },
   {
     id: "static-beg-m2-l9",
@@ -402,7 +402,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 12,
     order: 8,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/3MUWJ7JbNtw",
   },
   {
     id: "static-beg-m2-l10",
@@ -412,7 +412,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 12,
     order: 9,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/m85MeUJCYac",
   },
 
   // ===== BEGINNER M3: Expanding Skills =====
@@ -421,10 +421,10 @@ export const STATIC_LESSONS: StaticLesson[] = [
     moduleId: "static-beg-m3",
     lessonNumber: 1,
     title: "Connecting Sentences with And, But, So, Because",
-    contentType: "video",
+    contentType: "grammar",
     estimatedMinutes: 10,
     order: 0,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/3qbfcHiUrcI",
   },
   {
     id: "static-beg-m3-l2",
@@ -434,7 +434,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 1,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/rZS5qlCGCIY",
   },
   {
     id: "static-beg-m3-l3",
@@ -444,7 +444,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 2,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/wXiD0FdON7k",
   },
   {
     id: "static-beg-m3-l4",
@@ -454,7 +454,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 3,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/n14zCZAvSjI",
   },
   {
     id: "static-beg-m3-l5",
@@ -464,7 +464,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 10,
     order: 4,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/9SKYec6UlnI",
   },
   {
     id: "static-beg-m3-l6",
@@ -474,7 +474,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 5,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/-_M9ztaZH1k",
   },
   {
     id: "static-beg-m3-l7",
@@ -484,7 +484,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 6,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/7uY2HrQ9qQ8",
   },
   {
     id: "static-beg-m3-l8",
@@ -494,7 +494,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 7,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/T_qLKu0rFlU",
   },
   {
     id: "static-beg-m3-l9",
@@ -504,7 +504,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 8,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/adZ-LYWx95Q",
   },
   {
     id: "static-beg-m3-l10",
@@ -514,7 +514,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 10,
     order: 9,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/4Gwgls50J30",
   },
 
   // ===== BEGINNER M4: Practical Communication =====
@@ -523,10 +523,10 @@ export const STATIC_LESSONS: StaticLesson[] = [
     moduleId: "static-beg-m4",
     lessonNumber: 1,
     title: "All Tenses Review — Present, Past, and Future",
-    contentType: "video",
+    contentType: "reading",
     estimatedMinutes: 10,
     order: 0,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/ld7RqdoRAM0",
   },
   {
     id: "static-beg-m4-l2",
@@ -536,7 +536,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 1,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/XxGzMZZ_Hjc",
   },
   {
     id: "static-beg-m4-l3",
@@ -546,7 +546,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 2,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/p_lgP_XwDig",
   },
   {
     id: "static-beg-m4-l4",
@@ -556,7 +556,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 3,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/YTbGMGcyLPo",
   },
   {
     id: "static-beg-m4-l5",
@@ -566,7 +566,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 10,
     order: 4,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/36wG9pSYu7Q",
   },
   {
     id: "static-beg-m4-l6",
@@ -576,7 +576,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 5,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/RfVQxUF6yTA",
   },
   {
     id: "static-beg-m4-l7",
@@ -586,7 +586,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 6,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/CYGy_nRzdxU",
   },
   {
     id: "static-beg-m4-l8",
@@ -596,7 +596,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 7,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/GPCHtLsh73k",
   },
   {
     id: "static-beg-m4-l9",
@@ -606,17 +606,17 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 8,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/fz6jU0hZSL8",
   },
   {
     id: "static-beg-m4-l10",
     moduleId: "static-beg-m4",
     lessonNumber: 10,
     title: "Listening Practice — Conversations and Announcements",
-    contentType: "listening",
+    contentType: "quiz",
     estimatedMinutes: 10,
     order: 9,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/UnEmEbWytI8",
   },
 
   // ===== BEGINNER M5: Consolidation =====
@@ -625,10 +625,10 @@ export const STATIC_LESSONS: StaticLesson[] = [
     moduleId: "static-beg-m5",
     lessonNumber: 1,
     title: "Reading Practice — Signs, Menus, and Short Texts",
-    contentType: "video",
+    contentType: "reading",
     estimatedMinutes: 10,
     order: 0,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/U3CJv7mt-dw",
   },
   {
     id: "static-beg-m5-l2",
@@ -638,7 +638,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 1,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/moIucWGgvMc",
   },
   {
     id: "static-beg-m5-l3",
@@ -648,7 +648,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 2,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/tnHANfZHKqQ",
   },
   {
     id: "static-beg-m5-l4",
@@ -658,7 +658,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 10,
     order: 3,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/5ESnb5R1SBA",
   },
   {
     id: "static-beg-m5-l5",
@@ -668,7 +668,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 10,
     order: 4,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/5ESnb5R1SBA",
   },
   {
     id: "static-beg-m5-l6",
@@ -678,7 +678,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 10,
     order: 5,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/5qiYEKVZAIM",
   },
   {
     id: "static-beg-m5-l7",
@@ -688,7 +688,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 10,
     order: 6,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/zfJAxhbz6PE",
   },
   {
     id: "static-beg-m5-l8",
@@ -698,17 +698,17 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 10,
     order: 7,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/5ESnb5R1SBA",
   },
   {
     id: "static-beg-m5-l9",
     moduleId: "static-beg-m5",
     lessonNumber: 9,
     title: "A2 Practice Test — Listening and Reading",
-    contentType: "listening",
+    contentType: "quiz",
     estimatedMinutes: 10,
     order: 8,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/X81KzkV2nRc",
   },
   {
     id: "static-beg-m5-l10",
@@ -718,7 +718,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 10,
     order: 9,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/2KWNUH49BHY",
   },
 
   // ===== INTERMEDIATE M1: Tense Mastery =====
@@ -727,10 +727,10 @@ export const STATIC_LESSONS: StaticLesson[] = [
     moduleId: "static-int-m1",
     lessonNumber: 1,
     title: "Present Perfect Continuous",
-    contentType: "video",
+    contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/6hNWFy_ujAg",
   },
   {
     id: "static-int-m1-l2",
@@ -740,7 +740,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 1,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/jz8Fy5qQXu8",
   },
   {
     id: "static-int-m1-l3",
@@ -750,7 +750,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/mJS9Dh5hPNg",
   },
   {
     id: "static-int-m1-l4",
@@ -760,7 +760,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 3,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/K_XikoZwM3M",
   },
   {
     id: "static-int-m1-l5",
@@ -770,7 +770,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 4,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/CmqOXaSUpFo",
   },
   {
     id: "static-int-m1-l6",
@@ -780,7 +780,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 5,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/Mi9UPE2C91I",
   },
   {
     id: "static-int-m1-l7",
@@ -790,7 +790,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 6,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/7zbkqNPUQLA",
   },
   {
     id: "static-int-m1-l8",
@@ -800,7 +800,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 7,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/MirQVuZsWEo",
   },
   {
     id: "static-int-m1-l9",
@@ -810,7 +810,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 8,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/n14zCZAvSjI",
   },
   {
     id: "static-int-m1-l10",
@@ -820,7 +820,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 9,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/t6wqfizHP00",
   },
 
   // ===== INTERMEDIATE M2: Professional and Academic English =====
@@ -829,10 +829,10 @@ export const STATIC_LESSONS: StaticLesson[] = [
     moduleId: "static-int-m2",
     lessonNumber: 1,
     title: "Writing Professional Emails",
-    contentType: "video",
+    contentType: "grammar",
     estimatedMinutes: 18,
     order: 0,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/moIucWGgvMc",
   },
   {
     id: "static-int-m2-l2",
@@ -842,7 +842,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 18,
     order: 1,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/O3kg_dWkmCA",
   },
   {
     id: "static-int-m2-l3",
@@ -852,7 +852,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 2,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/fzIxD1jXn44",
   },
   {
     id: "static-int-m2-l4",
@@ -862,7 +862,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 3,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/GNL1_tNTqpw",
   },
   {
     id: "static-int-m2-l5",
@@ -872,7 +872,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 18,
     order: 4,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/gFXE9n7hrOI",
   },
   {
     id: "static-int-m2-l6",
@@ -882,7 +882,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 18,
     order: 5,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/X5n25N-GDlI",
   },
   {
     id: "static-int-m2-l7",
@@ -892,7 +892,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 6,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/H9jUV2AQphY",
   },
   {
     id: "static-int-m2-l8",
@@ -902,7 +902,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 7,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/UcVNwvpQm8A",
   },
   {
     id: "static-int-m2-l9",
@@ -912,7 +912,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 18,
     order: 8,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/BMU4NnG_zNk",
   },
   {
     id: "static-int-m2-l10",
@@ -922,7 +922,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 20,
     order: 9,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/3etzKSdtvxE",
   },
 
   // ===== INTERMEDIATE M3: Advanced Structures =====
@@ -931,10 +931,10 @@ export const STATIC_LESSONS: StaticLesson[] = [
     moduleId: "static-int-m3",
     lessonNumber: 1,
     title: "Relative Clauses — Defining and Non-Defining",
-    contentType: "video",
+    contentType: "grammar",
     estimatedMinutes: 15,
     order: 0,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/eFmfoeTkhH0",
   },
   {
     id: "static-int-m3-l2",
@@ -944,7 +944,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 1,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/-s1gu725tA4",
   },
   {
     id: "static-int-m3-l3",
@@ -954,7 +954,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/wxi3cKICpK8",
   },
   {
     id: "static-int-m3-l4",
@@ -964,7 +964,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 3,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/Q2nEU8YaJso",
   },
   {
     id: "static-int-m3-l5",
@@ -974,7 +974,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 4,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/ZYd3whIRpik",
   },
   {
     id: "static-int-m3-l6",
@@ -984,7 +984,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 5,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/mYL4IwzUlCY",
   },
   {
     id: "static-int-m3-l7",
@@ -994,7 +994,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 6,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/skqj4jOSQU4",
   },
   {
     id: "static-int-m3-l8",
@@ -1004,7 +1004,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 7,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/VvbzG5fXV94",
   },
   {
     id: "static-int-m3-l9",
@@ -1014,7 +1014,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 8,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/6muaUJHMnFg",
   },
   {
     id: "static-int-m3-l10",
@@ -1024,7 +1024,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 9,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/nR7DbC_fSJU",
   },
 
   // ===== INTERMEDIATE M4: Professional & Academic =====
@@ -1036,7 +1036,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 0,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/I60ojooYqAA",
   },
   {
     id: "static-int-m4-l2",
@@ -1046,7 +1046,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 1,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/moIucWGgvMc",
   },
   {
     id: "static-int-m4-l3",
@@ -1056,7 +1056,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 2,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/TotaRoYh60Y",
   },
   {
     id: "static-int-m4-l4",
@@ -1066,7 +1066,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 3,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/loeO5uD0cm4",
   },
   {
     id: "static-int-m4-l5",
@@ -1076,17 +1076,17 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 15,
     order: 4,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/fzIxD1jXn44",
   },
   {
     id: "static-int-m4-l6",
     moduleId: "static-int-m4",
     lessonNumber: 6,
-    title: "Persuasive Writing and Proposals",
+    title: "Negotiating and Persuading",
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 5,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/X5n25N-GDlI",
   },
   {
     id: "static-int-m4-l7",
@@ -1096,7 +1096,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 6,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/CLdbTlgRB1M",
   },
   {
     id: "static-int-m4-l8",
@@ -1106,7 +1106,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 7,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/1Hqc9Q2ok-k",
   },
   {
     id: "static-int-m4-l9",
@@ -1116,7 +1116,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 8,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/33uDJ33qt9U",
   },
   {
     id: "static-int-m4-l10",
@@ -1126,7 +1126,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 9,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/9Nx5Y_Hp56U",
   },
 
   // ===== INTERMEDIATE M5: Fluency & Exam Prep =====
@@ -1138,7 +1138,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 0,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/Emdc5LIhHa4",
   },
   {
     id: "static-int-m5-l2",
@@ -1148,7 +1148,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 15,
     order: 1,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/1Hqc9Q2ok-k",
   },
   {
     id: "static-int-m5-l3",
@@ -1158,7 +1158,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 2,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/5ESnb5R1SBA",
   },
   {
     id: "static-int-m5-l4",
@@ -1168,7 +1168,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 3,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/mQbYZ8_ZRHg",
   },
   {
     id: "static-int-m5-l5",
@@ -1178,7 +1178,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 4,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/mQbYZ8_ZRHg",
   },
   {
     id: "static-int-m5-l6",
@@ -1188,7 +1188,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 5,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/EGBPLDP_qp8",
   },
   {
     id: "static-int-m5-l7",
@@ -1198,7 +1198,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 15,
     order: 6,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/EdeZp0n0JHw",
   },
   {
     id: "static-int-m5-l8",
@@ -1208,7 +1208,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 7,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/X81KzkV2nRc",
   },
   {
     id: "static-int-m5-l9",
@@ -1218,7 +1218,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 8,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/2KWNUH49BHY",
   },
   {
     id: "static-int-m5-l10",
@@ -1228,7 +1228,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 15,
     order: 9,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/-2HgLNxqNIY",
   },
 
   // ===== ADVANCED M1: Sophisticated Grammar =====
@@ -1237,10 +1237,10 @@ export const STATIC_LESSONS: StaticLesson[] = [
     moduleId: "static-adv-m1",
     lessonNumber: 1,
     title: "The Subjunctive Mood",
-    contentType: "video",
+    contentType: "grammar",
     estimatedMinutes: 20,
     order: 0,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/q-FOsRON-7A",
   },
   {
     id: "static-adv-m1-l2",
@@ -1250,7 +1250,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 1,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/Dj0ePce_xmE",
   },
   {
     id: "static-adv-m1-l3",
@@ -1260,7 +1260,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 2,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/kajoEOfT8w4",
   },
   {
     id: "static-adv-m1-l4",
@@ -1270,7 +1270,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 3,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/32e3QlxHq7k",
   },
   {
     id: "static-adv-m1-l5",
@@ -1280,7 +1280,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 20,
     order: 4,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/cc5PVfbP4is",
   },
   {
     id: "static-adv-m1-l6",
@@ -1290,7 +1290,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 5,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/ivrER84mTOc",
   },
   {
     id: "static-adv-m1-l7",
@@ -1300,7 +1300,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 6,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/ZE4yH4wxpj4",
   },
   {
     id: "static-adv-m1-l8",
@@ -1310,7 +1310,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 7,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/z6Q9Cdwj0OY",
   },
   {
     id: "static-adv-m1-l9",
@@ -1320,7 +1320,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 8,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/7PEu8vVQl4o",
   },
   {
     id: "static-adv-m1-l10",
@@ -1330,7 +1330,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 9,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/ewBMBu2Apsw",
   },
 
   // ===== ADVANCED M2: Sophisticated Expression =====
@@ -1339,10 +1339,10 @@ export const STATIC_LESSONS: StaticLesson[] = [
     moduleId: "static-adv-m2",
     lessonNumber: 1,
     title: "Diplomatic Language and Softening",
-    contentType: "video",
+    contentType: "grammar",
     estimatedMinutes: 25,
     order: 0,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/ruPxnIAjgyg",
   },
   {
     id: "static-adv-m2-l2",
@@ -1352,7 +1352,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 25,
     order: 1,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/_frEE75cpCk",
   },
   {
     id: "static-adv-m2-l3",
@@ -1362,7 +1362,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 25,
     order: 2,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/hNuAv-42jzY",
   },
   {
     id: "static-adv-m2-l4",
@@ -1372,7 +1372,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 25,
     order: 3,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/yrUipfy1pLs",
   },
   {
     id: "static-adv-m2-l5",
@@ -1382,7 +1382,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 25,
     order: 4,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/t4ODg51XNYk",
   },
   {
     id: "static-adv-m2-l6",
@@ -1392,7 +1392,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 5,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/3j0O68chjnY",
   },
   {
     id: "static-adv-m2-l7",
@@ -1402,7 +1402,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 25,
     order: 6,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/4Eek-X6MoN0",
   },
   {
     id: "static-adv-m2-l8",
@@ -1412,7 +1412,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 7,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/cc5PVfbP4is",
   },
   {
     id: "static-adv-m2-l9",
@@ -1422,7 +1422,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 25,
     order: 8,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/yTylIzF0OXg",
   },
   {
     id: "static-adv-m2-l10",
@@ -1432,7 +1432,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 25,
     order: 9,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/oTPZWpQ9pbA",
   },
 
   // ===== ADVANCED M3: Academic and Professional Mastery =====
@@ -1444,7 +1444,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 0,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/08TmrSpSi7Q",
   },
   {
     id: "static-adv-m3-l2",
@@ -1454,7 +1454,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 1,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/TotaRoYh60Y",
   },
   {
     id: "static-adv-m3-l3",
@@ -1464,7 +1464,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 2,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/iRKGHkY-u50",
   },
   {
     id: "static-adv-m3-l4",
@@ -1474,7 +1474,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 3,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/Ajpp2dXBn58",
   },
   {
     id: "static-adv-m3-l5",
@@ -1484,7 +1484,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 20,
     order: 4,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/MBRrCwOuM00",
   },
   {
     id: "static-adv-m3-l6",
@@ -1494,7 +1494,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 5,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/a1PJRIQrqTo",
   },
   {
     id: "static-adv-m3-l7",
@@ -1504,7 +1504,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 6,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/eVaCpAKdtag",
   },
   {
     id: "static-adv-m3-l8",
@@ -1514,7 +1514,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 7,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/joABxlByaoU",
   },
   {
     id: "static-adv-m3-l9",
@@ -1524,7 +1524,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 8,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/lC80UuSkwCQ",
   },
   {
     id: "static-adv-m3-l10",
@@ -1534,7 +1534,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 20,
     order: 9,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/gFXE9n7hrOI",
   },
 
   // ===== ADVANCED M4: Nuanced Communication =====
@@ -1546,7 +1546,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 20,
     order: 0,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/SNCAWQL54PM",
   },
   {
     id: "static-adv-m4-l2",
@@ -1556,7 +1556,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 1,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/AKjQHyN_fEQ",
   },
   {
     id: "static-adv-m4-l3",
@@ -1566,7 +1566,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 20,
     order: 2,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/Tn5XiN-GAuE",
   },
   {
     id: "static-adv-m4-l4",
@@ -1576,7 +1576,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 3,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/X5n25N-GDlI",
   },
   {
     id: "static-adv-m4-l5",
@@ -1586,7 +1586,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "reading",
     estimatedMinutes: 20,
     order: 4,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/lC80UuSkwCQ",
   },
   {
     id: "static-adv-m4-l6",
@@ -1596,7 +1596,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 5,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/7AqAtewWBQo",
   },
   {
     id: "static-adv-m4-l7",
@@ -1606,7 +1606,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 6,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/PNJR9TG6zw8",
   },
   {
     id: "static-adv-m4-l8",
@@ -1616,7 +1616,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 7,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/JRvhEttaebk",
   },
   {
     id: "static-adv-m4-l9",
@@ -1626,7 +1626,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 8,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/iRKGHkY-u50",
   },
   {
     id: "static-adv-m4-l10",
@@ -1636,7 +1636,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 20,
     order: 9,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/2JecKsbsswE",
   },
 
   // ===== ADVANCED M5: Native-Like Fluency =====
@@ -1648,7 +1648,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 0,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/hNCQJHrBR84",
   },
   {
     id: "static-adv-m5-l2",
@@ -1658,7 +1658,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 1,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/YvbEODnJVTc",
   },
   {
     id: "static-adv-m5-l3",
@@ -1668,7 +1668,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 2,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/SNCAWQL54PM",
   },
   {
     id: "static-adv-m5-l4",
@@ -1678,7 +1678,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 3,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/gFXE9n7hrOI",
   },
   {
     id: "static-adv-m5-l5",
@@ -1688,7 +1688,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 20,
     order: 4,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/joABxlByaoU",
   },
   {
     id: "static-adv-m5-l6",
@@ -1698,7 +1698,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "vocabulary",
     estimatedMinutes: 20,
     order: 5,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/7Z_FJok8oAw",
   },
   {
     id: "static-adv-m5-l7",
@@ -1708,7 +1708,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 6,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/eVaCpAKdtag",
   },
   {
     id: "static-adv-m5-l8",
@@ -1718,7 +1718,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 7,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/yp6Dn4sa27Y",
   },
   {
     id: "static-adv-m5-l9",
@@ -1728,7 +1728,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "grammar",
     estimatedMinutes: 20,
     order: 8,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/yp6Dn4sa27Y",
   },
   {
     id: "static-adv-m5-l10",
@@ -1738,7 +1738,7 @@ export const STATIC_LESSONS: StaticLesson[] = [
     contentType: "quiz",
     estimatedMinutes: 20,
     order: 9,
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/yp6Dn4sa27Y",
   },
 ];
 
