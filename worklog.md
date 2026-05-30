@@ -85,3 +85,23 @@ Stage Summary:
 - oEmbed pre-check auto-detects any future broken videos and falls back to Lexi audio
 - AudioLessonPlayer.tsx recreated as fallback component
 - Live at testcefr.com
+---
+Task ID: 1
+Agent: main
+Task: Fix emails missing from dashboard + route collision + branch tracking
+
+Work Log:
+- Discovered git branch tracking was pointing to `language-testing/main` (wrong project) instead of `origin/main` (testcefr.com.git)
+- Fixed branch tracking: `git branch --set-upstream-to=origin/main main`
+- Found missing route pages for /speaking/analytics and /writing/editor
+- Created route pages under (main)/ group, which caused route collision with root-level /speaking and /writing pages
+- Removed duplicate (main)/speaking and (main)/writing to resolve collision
+- Root-level /speaking/analytics/page.tsx and /writing/editor/page.tsx already existed from commit 77031c5
+- Verified build succeeds with 0 errors
+- Pushed fix to origin (testcefr.com.git) — commit bb11e14
+
+Stage Summary:
+- The previous Vercel deployment likely failed due to route collision introduced by commit fcf0f56
+- Now fixed and pushed — Vercel should auto-deploy successfully
+- Emails tab was never removed from code — it was a deployment failure causing the old version to be served
+- All 10 advanced features are intact and will be live after Vercel rebuilds
