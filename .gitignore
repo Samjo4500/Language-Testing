@@ -63,3 +63,11 @@ agent-ctx/
 .zscripts/
 examples/
 db/*.db
+
+# Prevent tokens/secrets from ever being committed
+*.bak
+**/secrets*
+**/*token*
+**/*credential*
+**/*api-key*
+.vercel-project.json.bak
