@@ -49,6 +49,7 @@ const COURSE_ITEMS = [
 const LEARN_ITEMS = [
   { href: '/ai-tutor', label: 'Lexi AI', icon: MessageSquare, description: 'Practice with AI conversation partner', tag: 'AI', gradient: 'from-cyan-500/20 to-blue-500/20', iconColor: 'text-cyan-400' },
   { href: '/grammar-check', label: 'Grammar Checker', icon: PenLine, description: 'Check your writing for errors', tag: 'AI', gradient: 'from-blue-500/20 to-indigo-500/20', iconColor: 'text-blue-400' },
+  { href: '/progress', label: 'My Progress', icon: Trophy, description: 'Track XP, streaks, and badges', tag: 'NEW', gradient: 'from-cyan-500/20 to-indigo-500/20', iconColor: 'text-cyan-400' },
   { href: '/vocabulary', label: 'Vocabulary Trainer', icon: Brain, description: 'Learn words with spaced repetition', tag: '', gradient: 'from-violet-500/20 to-indigo-500/20', iconColor: 'text-violet-400' },
   { href: '/practice/vocabulary', label: 'Vocabulary Practice', icon: Sparkles, description: 'Fill-in-the-gap exercises by level', tag: 'NEW', gradient: 'from-emerald-500/20 to-teal-500/20', iconColor: 'text-emerald-400' },
 ];
@@ -343,6 +344,15 @@ export function Navbar() {
                   </Link>
                 </NavigationMenuItem>
               )}
+              {/* Challenges */}
+              <NavigationMenuItem>
+                <Link href="/challenges" className={navigationMenuTriggerStyle()}>
+                  <span className={`nav-glow-underline text-sm flex items-center gap-1.5 ${isActive('/challenges') ? 'text-white nav-active-pill rounded-lg px-1' : 'text-white/60 hover:text-white'}`}>
+                    <Flame className="h-3.5 w-3.5 text-orange-400" />
+                    Challenges
+                  </span>
+                </Link>
+              </NavigationMenuItem>
               {communityVisible && (
                 <NavigationMenuItem>
                   <Link href="/speakspace" className={navigationMenuTriggerStyle()}>
@@ -687,6 +697,31 @@ export function Navbar() {
               <span className="ml-1 w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
             </Link>
           )}
+
+          {/* Mobile My Progress */}
+          <Link
+            href="/progress"
+            className={`flex items-center gap-2 text-sm py-2.5 px-3 rounded-xl transition-all duration-300 ${
+              isActive('/progress') ? 'text-white nav-active-pill' : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+            }`}
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <Trophy className="h-4 w-4 text-cyan-400" />
+            My Progress
+            <span className="ml-auto text-[9px] font-semibold tracking-wide uppercase px-1.5 py-0.5 rounded-md border border-emerald-500/15 bg-emerald-500/10 text-emerald-400">NEW</span>
+          </Link>
+
+          {/* Mobile Challenges */}
+          <Link
+            href="/challenges"
+            className={`flex items-center gap-2 text-sm py-2.5 px-3 rounded-xl transition-all duration-300 ${
+              isActive('/challenges') ? 'text-white nav-active-pill' : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+            }`}
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <Flame className="h-4 w-4 text-orange-400" />
+            Challenges
+          </Link>
 
           {/* Mobile Auth Section */}
           {isAuth ? (

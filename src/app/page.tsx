@@ -1,769 +1,283 @@
-import Link from 'next/link';
-import dynamic from 'next/dynamic';
+'use client';
+
+import React from 'react';
 import { Navbar } from '@/components/navbar';
+import GamificationDashboard from '@/components/GamificationDashboard';
+import { LexiMemoryProvider, useLexiMemory } from '@/components/LexiMemoryProvider';
+import SRSVocabularyReview, { DEMO_SRS_CARDS } from '@/components/SRSVocabularyReview';
+import type { ReviewResult } from '@/components/SRSVocabularyReview';
+import Phase3Page from '@/components/Phase3Page';
+import Phase2Showcase from '@/components/Phase2Showcase';
 import {
-  Sparkles, Award, Clock, BarChart3, Shield, Globe, Lock,
-  CheckCircle2, QrCode, Headphones, Mic, PenTool,
-  ArrowRight, Zap, Star, BookOpen, Users, TrendingUp,
-  FileCheck, AudioWaveform, Activity, Brain,
-  MessageSquareText, Cpu, ClipboardCheck,
-  Play, Volume2, ChevronDown, ChevronRight,
-  Building2, CreditCard, Mail, Phone, MapPin,
-  Twitter, Linkedin, Github, HelpCircle,
-  Circle, CircleDot, Settings
+  Sparkles, Brain, BookOpen, Target,
+  ChevronRight, MessageSquare, BarChart3, Zap,
+  Volume2
 } from 'lucide-react';
-import { AnimatedSection } from '@/components/home/animated-section';
-import { AnimatedHeroSection } from '@/components/home/animated-hero-section';
-import { FinalCTAButtons } from '@/components/home/final-cta-buttons';
-import { FAQItem } from '@/components/home/faq-item';
-import { PricingTracker } from '@/components/home/pricing-tracker';
-import LexiConcierge from '@/components/lexi/LexiConcierge';
 
-// Client-side dynamic imports (ssr:false requires 'use client' boundary)
-import {
-  AnimatedCEFRBadge,
-  AnimatedPillars,
-  TypewriterBadge,
-  BackgroundOrbsDynamic,
-  LiveVoiceDemo,
-  InteractiveCEFRLevels,
-} from '@/components/home/dynamic-imports';
+/* ============================================================
+   LEXI MEMORY DEMO SECTION — must be inside provider
+   ============================================================ */
+function LexiMemoryDemo() {
+  const {
+    addConversation,
+    updateWeakArea,
+    getPersonalizedGreeting,
+    getSuggestedPractice,
+    getConversationContext,
+    conversations,
+    weakAreas,
+    preferences,
+  } = useLexiMemory();
 
-// Lazy-load footer — below the fold, no ssr:false needed
-const Footer = dynamic(
-  () => import('@/components/footer').then(mod => ({ default: mod.Footer })),
-  { loading: () => <div className="h-40" /> }
-);
+  const greeting = getPersonalizedGreeting();
+  const suggestions = getSuggestedPractice();
+  const contextPreview = getConversationContext().split('\n').slice(0, 3).join('\n');
 
-/* ======================================================
-   6 DIMENSIONS OF ENGLISH PROFICIENCY SECTION
-   ====================================================== */
-const DIMENSIONS_DATA = [
-  {
-    icon: <BookOpen className="h-6 w-6" />,
-    title: 'Reading',
-    level: 'A1–C2',
-    gradient: 'from-blue-500 to-blue-400',
-    items: ['Main ideas and detailed comprehension', 'Understanding implicit meaning', 'Analyzing text structure', 'Vocabulary inference', 'Reading speed and accuracy'],
-  },
-  {
-    icon: <PenTool className="h-6 w-6" />,
-    title: 'Writing',
-    level: 'A1–C2',
-    gradient: 'from-blue-500 to-blue-600',
-    items: ['Cohesion and coherence', 'Grammatical accuracy', 'Lexical resource', 'Task achievement', 'Writing mechanics'],
-  },
-  {
-    icon: <Headphones className="h-6 w-6" />,
-    title: 'Listening',
-    level: 'A1–C2',
-    gradient: 'from-amber-500 to-amber-400',
-    items: ['Main ideas and details', 'Understanding speakers\' attitude', 'Following complex arguments', 'Multiple speaker comprehension', 'Accent familiarity'],
-  },
-  {
-    icon: <Mic className="h-6 w-6" />,
-    title: 'Speaking',
-    level: 'A1–C2',
-    gradient: 'from-amber-500 to-amber-400',
-    items: ['Fluency and coherence', 'Lexical resource', 'Grammatical range', 'Pronunciation clarity', 'Interactive communication'],
-  },
-  {
-    icon: <BarChart3 className="h-6 w-6" />,
-    title: 'Grammar',
-    level: 'A1–C2',
-    gradient: 'from-blue-500 to-blue-400',
-    items: ['Sentence formation', 'Tense accuracy', 'Complex structures', 'Error patterns', 'Grammar application'],
-  },
-  {
-    icon: <Award className="h-6 w-6" />,
-    title: 'Vocabulary',
-    level: 'A1–C2',
-    gradient: 'from-blue-500 to-blue-600',
-    items: ['Word range', 'Precision', 'Collocations', 'Register awareness', 'Topic-specific vocabulary'],
-  },
-];
+  const handleDemoConversation = () => {
+    const topics = ['Grammar', 'Vocabulary', 'Pronunciation', 'Reading', 'Writing'];
+    const sentiments: Array<'positive' | 'neutral' | 'negative' | 'frustrated'> = ['positive', 'neutral', 'negative', 'frustrated'];
+    const topic = topics[Math.floor(Math.random() * topics.length)];
+    const sentiment = sentiments[Math.floor(Math.random() * sentiments.length)];
 
-/* ======================================================
-   HOW IT WORKS SECTION
-   ====================================================== */
-const STEPS = [
-  { number: '1', title: 'Create Account', desc: 'Sign up in seconds with just your email. No lengthy registration required.', icon: <Users className="h-6 w-6" /> },
-  { number: '2', title: 'Take Assessment', desc: 'Complete the 6-skill test at your own pace. Each section takes about 10 minutes.', icon: <ClipboardCheck className="h-6 w-6" /> },
-  { number: '3', title: 'Get AI Results', desc: 'Receive instant CEFR scores with detailed AI feedback on all 6 core skills.', icon: <Brain className="h-6 w-6" /> },
-  { number: '4', title: 'Download Certificate', desc: 'Get your official CEFR certificate and detailed improvement report instantly.', icon: <FileCheck className="h-6 w-6" /> },
-];
+    const userMessages: Record<string, string> = {
+      Grammar: 'I keep mixing up past simple and present perfect',
+      Vocabulary: 'Can you help me learn more academic words?',
+      Pronunciation: 'How do I pronounce "thorough" correctly?',
+      Reading: 'I struggle with long texts in English',
+      Writing: 'My essays always feel disorganized',
+    };
 
-/* ======================================================
-   PRICING SECTION — Individual Plans
-   ====================================================== */
-const INDIVIDUAL_PLANS = [
-  {
-    name: 'Free',
-    desc: 'Perfect for getting started',
-    price: '$0',
-    priceNum: 0,
-    features: ['1 comprehensive assessment', 'Basic CEFR level result', 'Skill breakdown scores', 'Watermarked certificate'],
-    cta: 'Start Free',
-    ctaLink: '/register',
-    popular: false,
-  },
-  {
-    name: 'Single Test',
-    desc: 'Full assessment with detailed report',
-    price: '$12.99',
-    priceNum: 12.99,
-    features: ['Complete 6-skill assessment', 'Detailed CEFR score', 'AI-powered feedback', 'Downloadable PDF certificate'],
-    cta: 'Buy Test',
-    ctaLink: '/courses',
-    popular: false,
-  },
-  {
-    name: 'Premium Pack',
-    desc: '3 tests — best value for learners',
-    price: '$29.99',
-    priceNum: 29.99,
-    features: ['3 full assessments', 'Progress tracking dashboard', 'Priority AI analysis', 'Unlimited certificate downloads', 'Email support'],
-    cta: 'Get Premium',
-    ctaLink: '/courses',
-    popular: true,
-  },
-  {
-    name: 'Pro Pack',
-    desc: '6 tests — complete learning solution',
-    price: '$49.99',
-    priceNum: 49.99,
-    features: ['6 assessments', 'Full analytics suite', 'Detailed skill improvement tips', 'Comparison with peers', 'Priority support'],
-    cta: 'Go Pro',
-    ctaLink: '/courses',
-    popular: false,
-  },
-];
+    const lexiResponses: Record<string, string> = {
+      Grammar: "Let's work on that! Past simple is for completed actions, while present perfect connects past to present. Try: 'I went to Paris' vs 'I have been to Paris'.",
+      Vocabulary: "Great goal! Let's start with academic vocabulary groups. I'll introduce words in context so they stick better.",
+      Pronunciation: "'Thorough' is pronounced /ˈθʌr.ə/ — think 'thur-uh'. The key is the 'th' sound with your tongue between your teeth.",
+      Reading: "Let's try skimming techniques. First read the first and last sentence of each paragraph — they usually contain the main idea.",
+      Writing: "A strong essay needs a clear structure: intro with thesis, 2-3 body paragraphs with topic sentences, and a conclusion. Let me show you a template.",
+    };
 
-/* ======================================================
-   ORGANIZATION PLANS
-   ====================================================== */
-const ORG_PLANS = [
-  {
-    tier: 'Team',
-    desc: 'Up to 5 users',
-    subdesc: 'Perfect for small schools & tutors',
-    price: '$49',
-    period: '/month',
-    features: ['Up to 5 team members', 'Group dashboard & analytics', 'Export results as CSV', 'Shared question bank access', 'Email support'],
-    bestFor: 'Small schools, tutors, study groups',
-    cta: 'Start Team Trial',
-    ctaLink: '/contact',
-  },
-  {
-    tier: 'Business',
-    desc: 'Up to 25 users',
-    subdesc: 'For language schools & test centers',
-    price: '$199',
-    period: '/month',
-    features: ['Up to 25 team members', 'White-label certificates', 'API access for results', 'Bulk user import via CSV', 'Priority support'],
-    bestFor: 'Language schools, test prep centers',
-    cta: 'Start Business Trial',
-    ctaLink: '/contact',
-    popular: true,
-  },
-  {
-    tier: 'Enterprise',
-    desc: 'Unlimited users',
-    subdesc: 'For universities, corporations & government',
-    price: 'Custom',
-    period: '',
-    features: ['Unlimited users & assessments', 'SSO (Google, Microsoft, Okta)', 'Dedicated account manager', 'SLA guarantee', 'On-premise or dedicated cloud'],
-    bestFor: 'Universities, corporations, government',
-    cta: 'Contact Sales',
-    ctaLink: '/contact',
-  },
-];
+    addConversation(
+      userMessages[topic],
+      lexiResponses[topic],
+      topic,
+      sentiment
+    );
+  };
 
-/* ======================================================
-   TESTIMONIALS
-   ====================================================== */
-const TESTIMONIALS = [
-  {
-    quote: 'CEFR Test helped me prepare for my university applications. The detailed feedback showed me exactly where to improve, and I jumped from A1 to B2 in just 3 months!',
-    name: 'Sarah Chen',
-    role: 'University Student',
-    location: 'Hanoi',
-    progress: 'A1 → B2',
-    initials: 'S',
-    color: 'from-blue-500 to-cyan-500',
-  },
-  {
-    quote: 'As a business professional, I needed to improve my English for presentations. The AI analysis identified my speaking patterns and gave me actionable tips that actually worked.',
-    name: 'Marcus Rodriguez',
-    role: 'Business Professional',
-    location: 'Mexico City',
-    progress: 'B1 → C1',
-    initials: 'M',
-    color: 'from-blue-500 to-cyan-500',
-  },
-  {
-    quote: 'I use CEFR Test with my students to track their progress. The CEFR alignment is accurate, and the comprehensive reports help me tailor my lessons effectively.',
-    name: 'Yuki Tanaka',
-    role: 'English Teacher',
-    location: 'Tokyo',
-    progress: 'B2 → C2',
-    initials: 'Y',
-    color: 'from-sky-500 to-blue-500',
-  },
-  {
-    quote: 'We assessed over 800 students in a single semester. The bulk import and CSV export saved our department dozens of hours.',
-    name: 'Dr. Laura Pham',
-    role: 'Head of Language Dept, Hanoi University',
-    location: 'Hanoi',
-    progress: 'B2 → C1',
-    initials: 'L',
-    color: 'from-blue-500 to-indigo-500',
-  },
-];
+  const handleDemoWeakArea = () => {
+    const skills = ['Reading', 'Writing', 'Listening', 'Speaking', 'Grammar', 'Vocabulary'];
+    const topics: Record<string, string[]> = {
+      Reading: ['Inference', 'Skimming', 'Detail comprehension'],
+      Writing: ['Coherence', 'Lexical resource', 'Task achievement'],
+      Listening: ['Note completion', 'Multiple choice', 'Short answers'],
+      Speaking: ['Fluency', 'Pronunciation', 'Interactive communication'],
+      Grammar: ['Tenses', 'Conditionals', 'Articles'],
+      Vocabulary: ['Collocations', 'Phrasal verbs', 'Academic words'],
+    };
 
-/* ======================================================
-   ENTERPRISE SECTION
-   ====================================================== */
-const ENTERPRISE_STATS = [
-  { label: 'Most Common Level', value: 'B2+', icon: <BarChart3 className="h-5 w-5" /> },
-  { label: 'Avg. Test Time', value: '30m', icon: <Clock className="h-5 w-5" /> },
-  { label: 'Skills Assessed', value: '6', icon: <Brain className="h-5 w-5" /> },
-  { label: 'Certificate Format', value: 'PDF', icon: <FileCheck className="h-5 w-5" /> },
-  { label: 'Verification Code', value: 'QR', icon: <QrCode className="h-5 w-5" /> },
-  { label: 'Scoring Engine', value: 'AI', icon: <Cpu className="h-5 w-5" /> },
-];
+    const skill = skills[Math.floor(Math.random() * skills.length)];
+    const topicList = topics[skill];
+    const topic = topicList[Math.floor(Math.random() * topicList.length)];
+    const score = Math.round((Math.random() * 0.5 + 0.2) * 100) / 100;
 
-const ENTERPRISE_TESTIMONIALS = [
-  {
-    quote: 'We assessed over 800 students in a single semester. The bulk import and CSV export saved our department dozens of hours.',
-    name: 'Dr. Laura Pham',
-    role: 'Head of Language Dept, Hanoi University',
-    initials: 'DL',
-    color: 'from-sky-500 to-blue-500',
-  },
-  {
-    quote: 'White-label certificates with our academy logo made a huge difference. Our students trust the result because it feels professional.',
-    name: 'Ahmed Malik',
-    role: 'CEO, ProEnglish Academy',
-    initials: 'AM',
-    color: 'from-blue-500 to-cyan-500',
-  },
-  {
-    quote: 'The API integration let us automatically sync scores into our HR system. The Enterprise tier paid for itself in the first month.',
-    name: 'Sofia Tanner',
-    role: 'L&D Manager, Nexura Corp',
-    initials: 'ST',
-    color: 'from-indigo-500 to-blue-600',
-  },
-];
+    updateWeakArea(skill, topic, score);
+  };
 
-/* ======================================================
-   FAQ SECTION
-   ====================================================== */
-const FAQ_DATA = [
-  {
-    question: 'How does the AI scoring work?',
-    answer: 'Our AI scoring engine uses advanced natural language processing and machine learning models trained on thousands of CEFR-graded responses. For speaking assessments, it analyzes pronunciation, fluency, vocabulary range, and grammatical accuracy in real-time. For writing, it evaluates coherence, lexical resource, and task achievement. The system provides consistent, objective scoring aligned with CEFR descriptors.',
-  },
-  {
-    question: 'Is the certificate officially recognized?',
-    answer: 'Our certificates are aligned with the Common European Framework of Reference (CEFR), which is the international standard for language proficiency. While not issued by a government body, our certificates include QR verification codes that allow employers and institutions to validate results online. Many universities, employers, and immigration authorities accept CEFR-aligned assessments as evidence of language proficiency.',
-  },
-  {
-    question: 'How long does the assessment take?',
-    answer: 'The full assessment typically takes 30–45 minutes to complete. Each of the 6 skill sections takes approximately 5–10 minutes. You can pause and resume the test at any time — your progress is saved automatically. The speaking and listening sections require a microphone and speakers or headphones.',
-  },
-  {
-    question: 'Can I retake the test?',
-    answer: 'Yes! Free users get 1 assessment, Single Test purchasers get 1, Premium Pack users get 3, and Pro Pack users get 6 assessments. You can retake the test at any time if you have remaining credits. Additional credits can be purchased from your dashboard at any time.',
-  },
-  {
-    question: 'What payment methods do you accept?',
-    answer: 'During our preview period, all features and assessments are completely free. No payment information is required — just sign up and start learning!',
-  },
-  {
-    question: 'Is my data secure?',
-    answer: 'Absolutely. We use industry-standard encryption (TLS 1.3) for all data in transit and AES-256 encryption for data at rest. Your audio recordings are processed in real-time and deleted after scoring — we never store your voice data. Personal information is handled in compliance with GDPR and other privacy regulations. You can request data deletion at any time.',
-  },
-];
-
-/* ======================================================
-   MAIN PAGE — Server Component
-   ====================================================== */
-export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
-      <Navbar />
-
-      <main>
-      {/* ===== HERO SECTION — Animated AI Hero ===== */}
-      <AnimatedHeroSection />
-
-      {/* ===== LIVE VOICE DEMO ===== */}
-      <section className="relative pt-20 md:pt-28 pb-8 md:pb-10 speaking-bg-5 overflow-hidden">
-        <LiveVoiceDemo />
-      </section>
-
-      {/* ===== 6 DIMENSIONS OF ENGLISH PROFICIENCY ===== */}
-      <section className="relative pt-10 md:pt-16 pb-20 md:pb-28 bg-[#0F0A1E] overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="orb orb-blue w-[400px] h-[400px] top-1/4 right-0 animate-float-slow" />
-        </div>
-
-        <div className="container relative mx-auto px-4">
-          <AnimatedSection>
-            <div className="text-center mb-14">
-              <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20 px-4 py-1.5 mb-4">
-                <BookOpen className="h-3.5 w-3.5 text-blue-400" />
-                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Comprehensive Coverage</span>
-              </div>
-              <h2 className="text-3xl md:text-5xl font-bold text-white">
-                6 Dimensions of English Proficiency
-              </h2>
-              <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
-                Our AI evaluates every aspect of your English proficiency with granular precision.
-              </p>
-            </div>
-          </AnimatedSection>
-
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto">
-            {DIMENSIONS_DATA.map((skill, index) => (
-              <AnimatedSection key={skill.title} delay={index * 100}>
-                <div className="glass-card p-6 h-full group">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${skill.gradient} text-white shadow-lg shadow-black/20 transition-transform duration-300 group-hover:scale-110`}>
-                      {skill.icon}
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-white">{skill.title}</h3>
-                      <span className="text-xs text-white/40">{skill.level}</span>
-                    </div>
-                  </div>
-                  <ul className="space-y-2">
-                    {skill.items.map((item) => (
-                      <li key={item} className="flex items-center gap-2">
-                        <CheckCircle2 className={`h-3.5 w-3.5 shrink-0`} style={{color: skill.title === 'Grammar' ? '#3b82f6' : skill.title === 'Vocabulary' ? '#7c5cff' : skill.title === 'Reading' ? '#3b82f6' : skill.title === 'Listening' ? '#f59e0b' : skill.title === 'Speaking' ? '#f59e0b' : '#8b5cf6'}} />
-                        <span className="text-sm text-white/60">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </AnimatedSection>
-            ))}
+    <div className="space-y-4">
+      {/* Greeting */}
+      <div className="glass-card p-5">
+        <div className="flex items-start gap-3">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-lg shadow-indigo-500/20">
+            <Brain className="h-5 w-5" />
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-white">Lexi says:</p>
+            <p className="text-sm text-white/60 mt-1 leading-relaxed">{greeting}</p>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* ===== INTERACTIVE CEFR LEVELS ===== */}
-      <section id="cefr-levels" className="relative py-20 md:py-28 dark-section-alt hero-pattern noise-overlay">
-        <InteractiveCEFRLevels />
-      </section>
-
-      {/* ===== HOW IT WORKS ===== */}
-      <section className="relative py-20 md:py-28 bg-[#0F0A1E] overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="orb orb-cyan w-[400px] h-[400px] bottom-0 left-0 animate-float-slow" />
+      {/* Suggested Practice */}
+      <div className="glass-card p-5">
+        <div className="flex items-center gap-2 mb-3">
+          <Target className="h-4 w-4 text-purple-400" />
+          <h3 className="text-sm font-semibold text-white">Suggested Practice</h3>
         </div>
-
-        <div className="container relative mx-auto px-4">
-          <AnimatedSection>
-            <div className="text-center mb-14">
-              <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20 px-4 py-1.5 mb-4">
-                <ClipboardCheck className="h-3.5 w-3.5 text-blue-400" />
-                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Simple Process</span>
+        <div className="space-y-2">
+          {suggestions.slice(0, 4).map((s, i) => (
+            <div key={i} className="flex items-center gap-3 p-2 rounded-lg bg-white/[0.02] border border-white/[0.04]">
+              <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-indigo-400 text-[10px] font-bold">
+                {s.skill.slice(0, 2).toUpperCase()}
               </div>
-              <h2 className="text-3xl md:text-5xl font-bold text-white">
-                How It Works
-              </h2>
-              <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
-                Get your CEFR score in just 4 simple steps.
-              </p>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-medium text-white/70">{s.skill} — {s.topic}</p>
+                <p className="text-[10px] text-white/30 truncate">{s.reason}</p>
+              </div>
+              <ChevronRight className="h-3 w-3 text-white/20 shrink-0" />
             </div>
-          </AnimatedSection>
+          ))}
+        </div>
+      </div>
 
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 max-w-5xl mx-auto">
-            {STEPS.map((step, index) => (
-              <AnimatedSection key={step.number} delay={index * 150}>
-                <div className="glass-card p-6 text-center h-full group">
-                  <div className="flex justify-center mb-4">
-                    <div className="relative">
-                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border border-blue-500/20 text-blue-400 group-hover:border-blue-500/40 transition-all duration-300">
-                        {step.icon}
-                      </div>
-                      <div className="absolute -top-2 -right-2 flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-cyan-500 text-white text-xs font-bold shadow-lg">
-                        {step.number}
-                      </div>
-                    </div>
-                  </div>
-                  <h3 className="text-lg font-semibold text-white mb-2">{step.title}</h3>
-                  <p className="text-sm text-white/50 leading-relaxed">{step.desc}</p>
-                </div>
-              </AnimatedSection>
-            ))}
+      {/* Stats Row */}
+      <div className="grid grid-cols-3 gap-3">
+        <div className="glass-card p-4 text-center">
+          <MessageSquare className="h-4 w-4 text-blue-400 mx-auto mb-1" />
+          <p className="text-lg font-bold text-white">{conversations.length}</p>
+          <p className="text-[10px] text-white/30">Conversations</p>
+        </div>
+        <div className="glass-card p-4 text-center">
+          <BarChart3 className="h-4 w-4 text-purple-400 mx-auto mb-1" />
+          <p className="text-lg font-bold text-white">{weakAreas.length}</p>
+          <p className="text-[10px] text-white/30">Weak Areas</p>
+        </div>
+        <div className="glass-card p-4 text-center">
+          <Sparkles className="h-4 w-4 text-cyan-400 mx-auto mb-1" />
+          <p className="text-lg font-bold text-white">{preferences.cefrLevel}</p>
+          <p className="text-[10px] text-white/30">CEFR Level</p>
+        </div>
+      </div>
+
+      {/* Demo Actions */}
+      <div className="glass-card p-4">
+        <div className="flex items-center gap-2 mb-3">
+          <Zap className="h-3.5 w-3.5 text-violet-400" />
+          <h3 className="text-xs font-semibold text-white">Demo Actions</h3>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={handleDemoConversation}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium text-white/70 bg-white/[0.04] border border-white/[0.06] hover:bg-white/[0.08] hover:text-white transition-all duration-200 cursor-pointer"
+          >
+            <MessageSquare className="h-3 w-3" />
+            Add Conversation
+          </button>
+          <button
+            onClick={handleDemoWeakArea}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-medium text-white/70 bg-white/[0.04] border border-white/[0.06] hover:bg-white/[0.08] hover:text-white transition-all duration-200 cursor-pointer"
+          >
+            <BarChart3 className="h-3 w-3" />
+            Add Weak Area
+          </button>
+        </div>
+      </div>
+
+      {/* Context Preview */}
+      {contextPreview && contextPreview !== 'No previous conversation history.' && (
+        <div className="glass-card p-4">
+          <div className="flex items-center gap-2 mb-2">
+            <Volume2 className="h-3.5 w-3.5 text-blue-400" />
+            <h3 className="text-xs font-semibold text-white">Recent Context</h3>
           </div>
+          <pre className="text-[10px] text-white/30 whitespace-pre-wrap leading-relaxed font-mono max-h-24 overflow-y-auto custom-scrollbar">
+            {contextPreview}
+          </pre>
         </div>
-      </section>
-
-      {/* ===== SOCIAL PROOF / TRUST ===== */}
-      <section className="relative py-16 md:py-20 dark-section-alt hero-pattern noise-overlay overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="orb orb-blue w-[300px] h-[300px] top-0 right-0 animate-float-slow" />
-        </div>
-        <div className="container relative mx-auto px-4">
-          <AnimatedSection>
-            <div className="text-center max-w-3xl mx-auto mb-10">
-              <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20 px-4 py-1.5 mb-4">
-                <Star className="h-3.5 w-3.5 text-blue-400" />
-                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Trusted Worldwide</span>
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-white">
-                Join Thousands of English Learners
-              </h2>
-              <p className="mt-3 text-white/50 max-w-xl mx-auto text-base">
-                People in over 80 countries trust TestCEFR for accurate, AI-powered English assessment.
-              </p>
-            </div>
-          </AnimatedSection>
-
-          {/* Stats Row */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mb-10">
-            {[
-              { value: '50,000+', label: 'Tests Taken', icon: <FileCheck className="h-5 w-5" /> },
-              { value: '80+', label: 'Countries', icon: <Globe className="h-5 w-5" /> },
-              { value: '98%', label: 'Satisfaction Rate', icon: <Star className="h-5 w-5" /> },
-              { value: '4.9/5', label: 'Average Rating', icon: <Award className="h-5 w-5" /> },
-            ].map((stat, i) => (
-              <AnimatedSection key={stat.label} delay={i * 80}>
-                <div className="glass-card p-5 text-center group">
-                  <div className="flex justify-center mb-2 text-blue-400 group-hover:text-blue-300 transition-colors">
-                    {stat.icon}
-                  </div>
-                  <div className="text-2xl font-bold text-white">{stat.value}</div>
-                  <div className="text-xs text-white/40 mt-0.5">{stat.label}</div>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-
-          {/* Trust Badges */}
-          <AnimatedSection delay={200}>
-            <div className="flex flex-wrap items-center justify-center gap-4">
-              <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.06]">
-                <Shield className="h-4 w-4 text-blue-400" />
-                <span className="text-xs text-white/50 font-medium">GDPR Compliant</span>
-              </div>
-              <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.06]">
-                <Lock className="h-4 w-4 text-blue-400" />
-                <span className="text-xs text-white/50 font-medium">SSL Encrypted</span>
-              </div>
-              <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.06]">
-                <QrCode className="h-4 w-4 text-blue-400" />
-                <span className="text-xs text-white/50 font-medium">QR-Verified Certificates</span>
-              </div>
-              <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.06]">
-                <Brain className="h-4 w-4 text-blue-400" />
-                <span className="text-xs text-white/50 font-medium">AI-Powered Scoring</span>
-              </div>
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* ===== PRICING — Individual ===== */}
-      <PricingTracker>
-        <div className="relative py-20 md:py-28 dark-section-alt hero-pattern noise-overlay" id="pricing">
-          <div className="container relative mx-auto px-4">
-            <AnimatedSection>
-              <div className="text-center mb-14">
-                <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20 px-4 py-1.5 mb-4">
-                  <CreditCard className="h-3.5 w-3.5 text-blue-400" />
-                  <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Get Started</span>
-                </div>
-                <h2 className="text-3xl md:text-5xl font-bold text-white">
-                  Start Learning Today
-                </h2>
-                <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
-                  Start free and upgrade as you grow. All plans include our AI-powered scoring engine.
-                </p>
-              </div>
-            </AnimatedSection>
-
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 max-w-6xl mx-auto">
-              {INDIVIDUAL_PLANS.map((plan, index) => (
-                <AnimatedSection key={plan.name} delay={index * 100}>
-                  <div className="relative">
-                    {plan.popular && (
-                      <div className="absolute top-3 right-3 z-20">
-                        <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 px-4 py-1.5 text-xs font-semibold text-white shadow-lg shadow-blue-500/25">
-                          <Star className="h-3 w-3" />
-                          Most Popular
-                        </span>
-                      </div>
-                    )}
-                    <div className={`relative glass-card p-6 h-full flex flex-col ${plan.popular ? 'ring-2 ring-blue-500/50' : ''}`}>
-                    <h3 className="text-lg font-semibold text-white pr-24">{plan.name}</h3>
-                    <p className="text-xs text-white/40 mt-1">{plan.desc}</p>
-                    <div className="mt-4 mb-6">
-                      <span className="text-2xl sm:text-3xl font-bold text-white">{plan.price}</span>
-                    </div>
-                    <ul className="space-y-2.5 flex-1">
-                      {plan.features.map((feature) => (
-                        <li key={feature} className="flex items-start gap-2">
-                          <CheckCircle2 className="h-4 w-4 text-blue-400 shrink-0 mt-0.5" />
-                          <span className="text-sm text-white/60">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <Link href={plan.ctaLink} className="mt-6 block">
-                      <button className={`w-full py-2.5 rounded-xl font-medium text-sm transition-all duration-300 cursor-pointer ${
-                        plan.popular
-                          ? 'bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white shadow-lg shadow-blue-500/25 hover:-translate-y-0.5'
-                          : plan.price === '$0'
-                            ? 'glass-button text-white'
-                            : 'glass-button text-white hover:bg-blue-500/20'
-                        }`}>
-                        {plan.cta}
-                      </button>
-                    </Link>
-                  </div>
-                  </div>
-                </AnimatedSection>
-              ))}
-            </div>
-
-            <div className="text-center mt-8">
-              <Link href="/courses" className="group inline-flex items-center gap-1 text-sm text-blue-400 hover:text-blue-300 transition-colors">
-                Browse Courses
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </PricingTracker>
-
-      {/* ===== FOR ORGANIZATIONS ===== */}
-      <section className="relative py-20 md:py-28 bg-[#0F0A1E] overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="orb orb-blue w-[500px] h-[500px] top-0 right-0 animate-float-slow" />
-          <div className="orb orb-cyan w-[300px] h-[300px] bottom-0 left-1/4 animate-float-reverse" />
-        </div>
-
-        <div className="container relative mx-auto px-4">
-          <AnimatedSection>
-            <div className="text-center mb-14">
-              <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20 px-4 py-1.5 mb-4">
-                <Building2 className="h-3.5 w-3.5 text-blue-400" />
-                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">For Organizations</span>
-              </div>
-              <h2 className="text-3xl md:text-5xl font-bold text-white">
-                Scale English Testing
-                <br />
-                Across Your Team
-              </h2>
-              <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
-                Purpose-built plans for schools, businesses, and institutions — with the tools your team actually needs.
-              </p>
-            </div>
-          </AnimatedSection>
-
-          <div className="grid gap-6 md:grid-cols-3 max-w-5xl mx-auto">
-            {ORG_PLANS.map((plan, index) => (
-              <AnimatedSection key={plan.tier} delay={index * 150}>
-                <div className="relative">
-                  {plan.popular && (
-                    <div className="absolute top-3 right-3 z-20">
-                      <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 px-4 py-1.5 text-xs font-semibold text-white shadow-lg shadow-blue-500/25">
-                        <Star className="h-3 w-3" />
-                        Most Popular
-                      </span>
-                    </div>
-                  )}
-                  <div className={`relative glass-card p-6 h-full flex flex-col ${plan.popular ? 'ring-2 ring-blue-500/50' : ''}`}>
-                  <h3 className="text-xl font-bold text-white pr-24">{plan.tier}</h3>
-                  <p className="text-xs text-white/40 mt-1">{plan.desc}</p>
-                  <p className="text-xs text-white/30 mt-0.5">{plan.subdesc}</p>
-                  <div className="mt-4 mb-6">
-                    <span className="text-2xl sm:text-3xl font-bold text-white">{plan.price}</span>
-                    {plan.period && <span className="text-sm text-white/40">{plan.period}</span>}
-                  </div>
-                  <ul className="space-y-2.5 flex-1">
-                    {plan.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-2">
-                        <CheckCircle2 className="h-4 w-4 text-blue-400 shrink-0 mt-0.5" />
-                        <span className="text-sm text-white/60">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="text-xs text-white/30 mt-4">Best for: {plan.bestFor}</p>
-                  <Link href={plan.ctaLink} className="mt-4 block">
-                    <button className={`w-full py-2.5 rounded-xl font-medium text-sm transition-all duration-300 cursor-pointer ${
-                      plan.popular
-                        ? 'bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white shadow-lg shadow-blue-500/25 hover:-translate-y-0.5'
-                        : 'glass-button text-white'
-                    }`}>
-                      {plan.cta}
-                    </button>
-                  </Link>
-                </div>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== TESTIMONIALS ===== */}
-      <section className="relative py-20 md:py-28 dark-section-alt overflow-hidden">
-        <div className="container relative mx-auto px-4">
-          <AnimatedSection>
-            <div className="text-center mb-14">
-              <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20 px-4 py-1.5 mb-4">
-                <Star className="h-3.5 w-3.5 text-blue-400" />
-                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Success Stories</span>
-              </div>
-              <h2 className="text-3xl md:text-5xl font-bold text-white">
-                Trusted by Thousands of Learners
-              </h2>
-            </div>
-          </AnimatedSection>
-
-          <div className="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto">
-            {TESTIMONIALS.map((testimonial, index) => (
-              <AnimatedSection key={testimonial.name} delay={index * 100}>
-                <div className="glass-card p-6 h-full">
-                  <p className="text-sm text-white/70 leading-relaxed mb-4 italic">&ldquo;{testimonial.quote}&rdquo;</p>
-                  <div className="flex items-center gap-3">
-                    <div className={`flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br ${testimonial.color} text-white font-bold text-sm shadow-lg`}>
-                      {testimonial.initials}
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-sm font-semibold text-white">{testimonial.name}</p>
-                      <p className="text-xs text-white/40">{testimonial.role}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-xs text-white/30">{testimonial.location}</p>
-                      <span className="text-xs font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">{testimonial.progress}</span>
-                    </div>
-                  </div>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== ENTERPRISE SECTION ===== */}
-      <section className="relative py-20 md:py-28 bg-[#0F0A1E] overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="orb orb-blue w-[500px] h-[500px] top-0 -left-24 animate-float-slow" />
-        </div>
-
-        <div className="container relative mx-auto px-4">
-          <AnimatedSection>
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20 px-4 py-1.5 mb-4">
-                <Building2 className="h-3.5 w-3.5 text-blue-400" />
-                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">Enterprise</span>
-              </div>
-              <h2 className="text-3xl md:text-5xl font-bold text-white">
-                Built for Teams and Organisations
-              </h2>
-              <p className="mt-4 text-white/50 max-w-2xl mx-auto text-base">
-                From universities to corporate training — CEFR Test scales to meet your team&apos;s English assessment needs.
-              </p>
-            </div>
-          </AnimatedSection>
-
-          {/* Stats grid */}
-          <AnimatedSection delay={100}>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-5xl mx-auto mb-14">
-              {ENTERPRISE_STATS.map((stat, i) => (
-                <div key={stat.label} className="glass-card p-4 text-center">
-                  <div className="flex justify-center mb-2 text-blue-400">{stat.icon}</div>
-                  <div className="text-lg font-bold text-white">{stat.value}</div>
-                  <div className="text-[10px] text-white/40">{stat.label}</div>
-                </div>
-              ))}
-            </div>
-          </AnimatedSection>
-
-          {/* Enterprise testimonials */}
-          <div className="max-w-4xl mx-auto space-y-6">
-            {ENTERPRISE_TESTIMONIALS.map((testimonial, index) => (
-              <AnimatedSection key={testimonial.name} delay={index * 100}>
-                <div className="glass-card p-6">
-                  <div className="flex items-start gap-4">
-                    <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${testimonial.color} text-white font-bold text-sm shadow-lg`}>
-                      {testimonial.initials}
-                    </div>
-                    <div>
-                      <p className="text-sm text-white/70 leading-relaxed italic mb-3">&ldquo;{testimonial.quote}&rdquo;</p>
-                      <div>
-                        <p className="text-sm font-semibold text-white">{testimonial.name}</p>
-                        <p className="text-xs text-white/40">{testimonial.role}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== FAQ SECTION ===== */}
-      <section className="relative py-20 md:py-28 dark-section-alt overflow-hidden">
-        <div className="container relative mx-auto px-4">
-          <AnimatedSection>
-            <div className="text-center mb-14">
-              <div className="inline-flex items-center gap-2 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/20 px-4 py-1.5 mb-4">
-                <HelpCircle className="h-3.5 w-3.5 text-blue-400" />
-                <span className="text-xs text-blue-300 font-medium uppercase tracking-wider">FAQ</span>
-              </div>
-              <h2 className="text-3xl md:text-5xl font-bold text-white">
-                Frequently Asked Questions
-              </h2>
-            </div>
-          </AnimatedSection>
-
-          <div className="max-w-3xl mx-auto space-y-4">
-            {FAQ_DATA.map((faq, index) => (
-              <AnimatedSection key={faq.question} delay={index * 50}>
-                <FAQItem question={faq.question} answer={faq.answer} />
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== FINAL CTA SECTION ===== */}
-      <section className="relative py-20 md:py-28 bg-[#0F0A1E] overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="orb orb-blue w-[600px] h-[600px] top-1/4 left-1/4 animate-float-slow" />
-          <div className="orb orb-cyan w-[400px] h-[400px] bottom-1/4 right-1/4 animate-float-reverse" />
-        </div>
-
-        <div className="container relative mx-auto px-4">
-          <AnimatedSection>
-            <div className="text-center max-w-3xl mx-auto">
-              <h2 className="text-3xl md:text-5xl font-bold text-white leading-tight">
-                Ready to Transform
-                <br />
-                <span className="text-blue-400">Your English?</span>
-              </h2>
-              <p className="mt-6 text-lg text-white/50 leading-relaxed">
-                Get your official CEFR level in minutes — free to start, with detailed AI feedback on all 6 core skills.
-              </p>
-              <FinalCTAButtons />
-            </div>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* ===== FOOTER ===== */}
-      </main>
-      <Footer />
-      <LexiConcierge />
+      )}
     </div>
+  );
+}
+
+/* ============================================================
+   MAIN PAGE
+   ============================================================ */
+export default function Home() {
+  const handleReviewComplete = (results: ReviewResult[]) => {
+    console.log('SRS Review complete:', results);
+  };
+
+  return (
+    <LexiMemoryProvider userId="demo-user">
+      <div className="min-h-screen flex flex-col bg-[#0F0A1E]">
+        <Navbar />
+
+        <main className="flex-1 pt-24 pb-16">
+          {/* ===== HERO ===== */}
+          <section className="relative py-12 md:py-20 overflow-hidden">
+            <div className="absolute inset-0 pointer-events-none">
+              <div className="orb orb-cyan w-[400px] h-[400px] top-0 left-0 animate-float-slow" />
+              <div className="orb orb-blue w-[300px] h-[300px] bottom-0 right-0 animate-float-reverse" />
+            </div>
+
+            <div className="container relative mx-auto px-4 text-center">
+              <div className="inline-flex items-center gap-2 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 px-4 py-1.5 mb-6">
+                <Sparkles className="h-3.5 w-3.5 text-cyan-400" />
+                <span className="text-xs font-medium uppercase tracking-wider">Phase 1 Components</span>
+              </div>
+              <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight">
+                Your English
+                <br />
+                <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent">
+                  Learning Dashboard
+                </span>
+              </h1>
+              <p className="mt-4 text-white/40 max-w-xl mx-auto text-base leading-relaxed">
+                Gamification, AI-powered memory, and spaced repetition — all in one platform to accelerate your English proficiency.
+              </p>
+            </div>
+          </section>
+
+          {/* ===== GAMIFICATION DASHBOARD ===== */}
+          <section className="relative py-8 md:py-12">
+            <div className="container mx-auto px-4">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-500 to-blue-600 text-white">
+                  <Zap className="h-4 w-4" />
+                </div>
+                <h2 className="text-xl font-bold text-white">Gamification Dashboard</h2>
+                <div className="h-px flex-1 bg-gradient-to-r from-white/[0.06] to-transparent" />
+              </div>
+              <GamificationDashboard />
+            </div>
+          </section>
+
+          {/* ===== TWO-COLUMN: Lexi Memory + SRS Review ===== */}
+          <section className="relative py-8 md:py-12 dark-section-alt hero-pattern noise-overlay">
+            <div className="container mx-auto px-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+                {/* Lexi Memory */}
+                <div>
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 text-white">
+                      <Brain className="h-4 w-4" />
+                    </div>
+                    <h2 className="text-xl font-bold text-white">Lexi&apos;s Memory</h2>
+                    <div className="h-px flex-1 bg-gradient-to-r from-white/[0.06] to-transparent" />
+                  </div>
+                  <LexiMemoryDemo />
+                </div>
+
+                {/* SRS Vocabulary Review */}
+                <div>
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-violet-600 text-white">
+                      <BookOpen className="h-4 w-4" />
+                    </div>
+                    <h2 className="text-xl font-bold text-white">SRS Vocabulary Review</h2>
+                    <div className="h-px flex-1 bg-gradient-to-r from-white/[0.06] to-transparent" />
+                  </div>
+                  <SRSVocabularyReview cards={DEMO_SRS_CARDS} onComplete={handleReviewComplete} />
+                </div>
+              </div>
+            </div>
+          </section>
+          {/* ===== PHASE 3 & 4: Advanced Features ===== */}
+          <Phase3Page />
+
+          {/* ===== PHASE 2: Adaptive Learning, Speech Analytics, AI Writing ===== */}
+          <Phase2Showcase />
+        </main>
+
+        {/* Footer */}
+        <footer className="mt-auto border-t border-white/[0.04] py-8">
+          <div className="container mx-auto px-4 text-center">
+            <p className="text-xs text-white/20">
+              © {new Date().getFullYear()} TestCEFR — AI-Powered English Assessment
+            </p>
+          </div>
+        </footer>
+      </div>
+    </LexiMemoryProvider>
   );
 }

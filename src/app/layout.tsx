@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/components/auth-provider";
+import { LexiMemoryProvider } from "@/components/LexiMemoryProvider";
 import { AnalyticsProvider } from "@/components/analytics-provider";
 import { LazyChatWidget } from "@/components/lazy-chat-widget";
 import { PerformanceMonitor } from "@/components/performance-monitor";
@@ -127,23 +128,34 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://vercel.live" />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#22d3ee" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
         <AuthProvider>
-          <AnalyticsProvider>
-            <script
-              type="application/ld+json"
-              dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-            />
-            {children}
-            <LazyChatWidget />
-            <PerformanceMonitor />
-            <CookieConsentBanner />
-          </AnalyticsProvider>
+          <LexiMemoryProvider>
+            <AnalyticsProvider>
+              <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+              />
+              {children}
+              <LazyChatWidget />
+              <PerformanceMonitor />
+              <CookieConsentBanner />
+            </AnalyticsProvider>
+          </LexiMemoryProvider>
         </AuthProvider>
         <Toaster />
+        <script dangerouslySetInnerHTML={{ __html: `
+          if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+              navigator.serviceWorker.register('/sw.js').catch(() => {});
+            });
+          }
+        `}} />
       </body>
     </html>
   );
